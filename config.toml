@@ -2,7 +2,7 @@ baseURL = "https://realjf.io/"
 languageCode = "en-us"
 title = "Real_JF's blog"
 theme = "m10c"
-paginate = "20"
+paginate = "10"
 
 [params]
   author = "realjf"
