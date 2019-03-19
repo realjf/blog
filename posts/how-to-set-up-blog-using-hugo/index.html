@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>什么是docker？ // Real_JF&#39;s blog</title>
+    <title>How to Set Up Blog Using Hugo // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,7 +35,7 @@
       
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">什么是docker？</h1>
+      <h1 class ="post-title">How to Set Up Blog Using Hugo</h1>
       <div class="post-meta">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -47,71 +47,172 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
+          2 min read
         </div></div>
     </header>
     <div class="post-content">
       
 
-<p><img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/crop%3D0%2C156%2C1354%2C894%3Bc0%3Dbaike180%2C5%2C5%2C180%2C60/sign=c97c7c9b9b13b07ea9f20a4831e7bd12/f703738da977391281957edbf0198618377ae2dd.jpg" alt="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/crop%3D0%2C156%2C1354%2C894%3Bc0%3Dbaike180%2C5%2C5%2C180%2C60/sign=c97c7c9b9b13b07ea9f20a4831e7bd12/f703738da977391281957edbf0198618377ae2dd.jpg" /></p>
+<h3 id="github-pages有两种方式">github pages有两种方式：</h3>
 
-<h4 id="官方定义">官方定义</h4>
+<ul>
+<li>一种是{USERNAME}.github.io/</li>
+<li>另一种是{USERNAME}.github.io/{PROJECT}</li>
+</ul>
 
-<pre><code>Develop, Ship and Run Any Application, Anywhere
-Docker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.
+<p>我们这里使用第二种方法创建</p>
+
+<h4 id="前期准备">前期准备</h4>
+
+<ul>
+<li>有一个github账号</li>
+</ul>
+
+<h4 id="创建一个公开的repo">创建一个公开的repo</h4>
+
+<p>例如：blog</p>
+
+<h4 id="开通github-pages">开通github pages</h4>
+
+<p>找到新创建的repo中的settings，往下找到github pages，
+如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。</p>
+
+<p><strong>注意</strong>
+如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：<a href="https://realjf.github.io/blog/">https://realjf.github.io/blog/</a></p>
+
+<h4 id="配置好后-开始使用hugo构建博客">配置好后，开始使用hugo构建博客</h4>
+
+<p>首先，clone下刚才创建的repo</p>
+
+<pre><code class="language-sh">git clone git@github.com:{USERNAME}/blog
+
 </code></pre>
 
-<p>Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。</p>
+<h4 id="安装hugo-确保repo目录下可以使用hugo命令">安装hugo，确保repo目录下可以使用hugo命令</h4>
 
-<blockquote>
-<p>LXC linux container容器是一种内核虚拟化技术，可以提供轻量级的虚拟化，以便隔离进程和资源。与kvm之类最明显的区别在于启动快，资源占用小。</p>
-</blockquote>
+<p>请参考官网<a href="https://gohugo.io/">https://gohugo.io/</a></p>
 
-<h4 id="一个完整的docker有以下几部分">一个完整的docker有以下几部分</h4>
+<pre><code class="language-sh"># 检查安装是否成功
+hugo version
+</code></pre>
 
-<ul>
-<li>docker Client客户端</li>
-</ul>
+<h4 id="利用hugo构建博客目录结构">利用hugo构建博客目录结构</h4>
 
-<p>用来向指定的docker daemon发起请求，执行相应的容器管理操作。
-- docker daemon守护进程</p>
+<pre><code class="language-sh">cd blog &amp;&amp; hugo new site . --force
+</code></pre>
 
-<p>核心后台进程，负责响应来自docker client的请求，然后翻译成系统调用完成容器操作。
-- docker image镜像</p>
+<p>这里使用了&ndash;force是因为当前目录已存在，只是需要初始化而已</p>
 
-<ul>
-<li>docker container 容器</li>
-</ul>
+<h4 id="添加自己需要的主题">添加自己需要的主题</h4>
 
-<p><img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=9f1b2701eddde711f3df4ba4c686a57e/a50f4bfbfbedab644936dac4ff36afc379311e69.jpg" alt="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=9f1b2701eddde711f3df4ba4c686a57e/a50f4bfbfbedab644936dac4ff36afc379311e69.jpg" /></p>
+<pre><code class="language-sh">cd blog
+git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c
+</code></pre>
 
-<h4 id="docker典型应用场景和应用价值">docker典型应用场景和应用价值</h4>
+<p>上述的m10c可以换成你想要的主题名字即可</p>
 
-<p>在docker的网站上提到了docker的典型场景：
-- Automating the packaging and deployment of applications（使应用的打包与部署自动化）
-- Creation of lightweight, private PAAS environments（创建轻量、私密的PAAS环境）
-- Automated testing and continuous integration/deployment（实现自动化测试和持续的集成/部署）
-- Deploying and scaling web apps, databases and backend services（部署与扩展webapp、数据库和后台服务）</p>
+<p>更多的主题请参考：<a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a></p>
 
-<h4 id="特性">特性</h4>
+<pre><code class="language-sh"># 修改根目录下的 .toml文件
+theme = &quot;{THEME}&quot;
+baseUrl = &quot;https://realjf.github.io/blog/&quot;
+</code></pre>
 
-<ul>
-<li>持续的集成和交付</li>
-<li>因为LXC轻量级的特点，其启动快，而且docker能够只加载每个container变化的部分，这样资源占用小，能够在单机环境下与KVM之类的虚拟化方案相比能够更加快速和占用更少资源</li>
-</ul>
+<p>{THEME}请修改为你的主题名即可</p>
 
-<h4 id="局限性">局限性</h4>
+<h4 id="本地测试博客">本地测试博客</h4>
 
-<ul>
-<li>docker无法再32bit的linux/windows/unix环境下运行</li>
-<li>LXC是基于cgroup等linux内核功能的，因此container的guest系统只能是linux base的</li>
-<li>隔离性相比kvm有所欠缺，所有container共用一部分运行库</li>
-<li>网络隔离基于namespace隔离</li>
-<li>cgroup的cpu和cpuset提供的cpu相比kvm等虚拟化方案比较难以衡量</li>
-<li>docker对disk的管理比较有限</li>
-<li>container随着用户进程的停止而销毁，container中的log等用户数据不变收集</li>
-<li>上面几个决定了docker不适用与IaaS。</li>
-</ul>
+<pre><code class="language-sh">hugo server -t {THEME}
+</code></pre>
+
+<h4 id="到这里-基本的博客搭建完成-先保存到github">到这里，基本的博客搭建完成，先保存到github</h4>
+
+<pre><code class="language-sh">git add -A &amp;&amp; git commit -m &quot;Initializing&quot;
+git push origin master
+</code></pre>
+
+<h4 id="本地测试成功后-我们利用gh-pages分支作为新的发布分支">本地测试成功后，我们利用gh-pages分支作为新的发布分支</h4>
+
+<p>gh-pages分支保存的是hugo生成的html静态文件</p>
+
+<p>先把public发布目录添加到.gitignore文件里</p>
+
+<pre><code class="language-sh">echo &quot;public&quot; &gt;&gt; .gitignore
+</code></pre>
+
+<h4 id="保存到远程repo">保存到远程repo</h4>
+
+<pre><code class="language-sh">git add -A &amp;&amp; git commit -m &quot;add ignore file&quot;
+git push origin master
+</code></pre>
+
+<h4 id="初始化gh-pages分支">初始化gh-pages分支</h4>
+
+<pre><code class="language-sh">git checkout --orphan gh-pages
+git reset --hard
+git commit --allow-empty -m &quot;Initializing gh-pages branch&quot;
+git push origin gh-pages
+git checkout master
+</code></pre>
+
+<h4 id="构建和发布">构建和发布</h4>
+
+<p>先删除public目录</p>
+
+<pre><code class="language-sh">rm -rf public
+git worktree add -B gh-pages public origin/gh-pages
+
+# 在根目录下构建
+hugo -t &lt;THEME&gt;
+
+cd public &amp;&amp; git add --all &amp;&amp; git commit -m &quot;Publishing to gh-pages&quot;
+cd ..
+git push origin gh-pages
+</code></pre>
+
+<h4 id="设置gh-pages作为你的发布分支">设置gh-pages作为你的发布分支</h4>
+
+<p>回到settings里的github pages选项，将source设置为gh-pages分支，等待几分钟后，重新访问博客地址，查看效果是否正常</p>
+
+<h4 id="每次发布hugo的时候-都需要运行以下脚本-以便更新发布">每次发布hugo的时候，都需要运行以下脚本，以便更新发布</h4>
+
+<pre><code class="language-sh">
+#!/bin/sh
+
+DIR=$(dirname &quot;$0&quot;)
+
+cd $DIR/..
+
+if [[ $(git status -s) ]]
+then
+    echo &quot;The working directory is dirty. Please commit any pending changes.&quot;
+    exit 1;
+fi
+
+echo &quot;Deleting old publication&quot;
+rm -rf public
+mkdir public
+git worktree prune
+rm -rf .git/worktrees/public/
+
+echo &quot;Checking out gh-pages branch into public&quot;
+git worktree add -B gh-pages public upstream/gh-pages
+
+echo &quot;Removing existing files&quot;
+rm -rf public/*
+
+echo &quot;Generating site&quot;
+hugo
+
+echo &quot;Updating gh-pages branch&quot;
+cd public &amp;&amp; git add --all &amp;&amp; git commit -m &quot;Publishing to gh-pages (publish.sh)&quot;
+
+</code></pre>
+
+<p>最后发布</p>
+
+<pre><code class="language-sh">git push origin gh-pages
+</code></pre>
 
     </div>
   </article>
