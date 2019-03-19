@@ -34,7 +34,7 @@
 
 .aside-menu {
     position: fixed;
-    left: 0;
+    right: 0;
     width: 10em;
     background: #000;
 }
@@ -59,5 +59,13 @@
   .app-container {
     max-width: 65rem;
     margin-left: 20rem;
+  }
+
+  .aside-menu ul {
+     display: block;
+  }
+
+  .aside-menu {
+
   }
 }
