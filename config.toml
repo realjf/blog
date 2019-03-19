@@ -11,8 +11,22 @@ paginate = "20"
     name = "github"
     url = "https://github.com/realjf"
   [[params.social]]
-      name = "twitter"
-      url = "https://twitter.com/realjf2"
+    name = "twitter"
+    url = "https://twitter.com/realjf2"
   [[params.social]]
     name = "blog"
     url = "http://realjf.com"
+
+[menu]
+  [[menu.main]]
+    identifier = "golang"
+    name = "golang language"
+    title = "golang language"
+    url = "/golang/"
+    weight = -110
+  [[menu.main]]
+    identifier = "kubernetes"
+    name = "kubernetes"
+    title = "kubernetes"
+    url = "kubernetes"
+    weight = 100
