@@ -30,5 +30,14 @@ git clone git@github.com:{USERNAME}/blog  安装hugo，确保repo目录下可以
 本地测试博客 hugo server -t {THEME}  到这里，基本的博客搭建完成，先保存到github git add -A &amp;amp;&amp;amp; git commit -m &amp;quot;Initializing&amp;quot; git push origin master  本地测试成功后，我们利用gh-pages分支作为新的发布分支 gh-pages分支保存的是hugo生成的html静态文件</description>
     </item>
     
+    <item>
+      <title>Golang Memory Allocation Mechanism</title>
+      <link>https://realjf.io/golang/golang-memory-allocation-mechanism/</link>
+      <pubDate>Mon, 18 Mar 2019 11:40:54 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/golang-memory-allocation-mechanism/</guid>
+      <description>golang</description>
+    </item>
+    
   </channel>
 </rss>

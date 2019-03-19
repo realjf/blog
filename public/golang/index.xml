@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golangs on Real_JF&#39;s blog</title>
+    <link>https://realjf.io/golang/</link>
+    <description>Recent content in Golangs on Real_JF&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 18 Mar 2019 11:40:54 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Golang Memory Allocation Mechanism</title>
+      <link>https://realjf.io/golang/golang-memory-allocation-mechanism/</link>
+      <pubDate>Mon, 18 Mar 2019 11:40:54 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/golang-memory-allocation-mechanism/</guid>
+      <description>golang</description>
+    </item>
+    
+  </channel>
+</rss>
