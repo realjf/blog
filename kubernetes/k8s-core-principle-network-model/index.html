@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Golangs // Real_JF&#39;s blog</title>
+    <title>kubernetes 核心原理之 网络模型 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,26 +33,98 @@
     </header>
     <main class="app-container">
       
-  <article>
-    <h1>Golangs</h1>
-    <ul class="posts-list">
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/golang/goroutine-principle/">Goroutine 运行原理</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">kubernetes 核心原理之 网络模型</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 19, 2019
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 8 min read -
-            Mar 19, 2019
-          </span>
-        </li>
+</svg>
+          1 min read
+        </div></div>
+    </header>
+    <div class="post-content">
       
-    </ul>
-    
 
+<p>主要解决以下问题：
+- 容器与容器之间的直接通信
+- pod与pod之间的通信
+- pod到service之间的通信
+- 集群外部与集群内部组件之间的通信</p>
 
+<h4 id="容器与容器之间的通信">容器与容器之间的通信</h4>
 
+<p>同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口
+kubernetes利用docker的网桥与容器内的映射eth0设备进行通信</p>
+
+<h4 id="pod之间的通信">pod之间的通信</h4>
+
+<p>每个pod都拥有一个真实的全局ip地址
+- 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段）
+- 不同node上的pod之间</p>
+
+    </div>
   </article>
+  
+<aside class="aside-menu">
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/golang/">
+                        
+                        <span>golang</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/">
+                        
+                        <span>posts</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/ceph/">
+                        
+                        <span>ceph</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/docker/">
+                        
+                        <span>docker</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/kubernetes/">
+                        
+                        <span>kubernetes</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
 
     </main>
     

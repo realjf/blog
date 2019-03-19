@@ -1,0 +1,404 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Ceph 集群搭建一 之 集群搭建 // Real_JF&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.90d7919988c708e571ff3da001a194bb87b7aee8239d124869977874879223c9.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+      <h1>Real_JF&#39;s blog</h1>
+      <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="http://realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-activity">
+  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Ceph 集群搭建一 之 集群搭建</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 19, 2019
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      
+
+<p>第一次练习时，我们创建一个 Ceph 存储集群，它有一个 Monitor 和两个 OSD 守护进程。一旦集群达到 active + clean 状态，再扩展它：增加第三个 OSD 、增加元数据服务器和两个 Ceph Monitors。为获得最佳体验，先在管理节点上创建一个目录，用于保存 ceph-deploy 生成的配置文件和密钥对。</p>
+
+<blockquote>
+<p>如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。</p>
+</blockquote>
+
+<pre><code>mkdir my-cluster
+cd my-cluster
+</code></pre>
+
+<blockquote>
+<p><strong>禁用 requiretty</strong>
+ 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。</p>
+</blockquote>
+
+<h4 id="创建集群">创建集群</h4>
+
+<p>如果在某些地方碰到麻烦，想从头再来，可以用下列命令配置：</p>
+
+<pre><code>ceph-deploy purgedata {ceph-node} [{ceph-node}]
+ceph-deploy forgetkeys
+</code></pre>
+
+<p>用下列命令可以连ceph安装包一起清除：</p>
+
+<pre><code>ceph-deploy purge {ceph-node} [{ceph-node}]
+</code></pre>
+
+<p>如果执行了purge，你必须重新安装ceph</p>
+
+<h5 id="开始创建集群">开始创建集群</h5>
+
+<p>在管理节点上，进入刚创建的放置配置文件的目录，用 ceph-deploy 执行如下步骤。
+1. 创建集群</p>
+
+<pre><code>ceph-deploy new node1 node2 node3
+</code></pre>
+
+<ol>
+<li><p>把 Ceph 配置文件里的默认副本数从 3 改成 2 ，这样只有两个 OSD 也可以达到 active + clean 状态。把下面这行加入 [global] 段：</p>
+
+<pre><code>osd_pool_default_size = 2
+</code></pre></li>
+
+<li><p>如果你有多个网卡，可以把 public network 写入 Ceph 配置文件ceph.conf的 [global] 段下。</p>
+
+<pre><code>public_network = {ip-address}/{netmask}
+</code></pre></li>
+
+<li><p>安装ceph</p></li>
+</ol>
+
+<pre><code>ceph-deploy install node1 node2 node3
+</code></pre>
+
+<ol>
+<li>配置初始monitor(s)，并收集所有密钥
+<code>
+ceph-deploy mon create-initial
+</code></li>
+</ol>
+
+<p>完成上述操作后，当前目录里应该会出现这些密钥环：</p>
+
+<pre><code>{cluster-name}.client.admin.keyring
+{cluster-name}.bootstrap-osd.keyring
+{cluster-name}.bootstrap-mds.keyring
+{cluster-name}.bootstrap-rgw.keyring
+</code></pre>
+
+<blockquote>
+<p>只有在安装 Hammer 或更高版时才会创建 bootstrap-rgw 密钥环。
+ 如果此步失败并输出类似于如下信息 “Unable to find /etc/ceph/ceph.client.admin.keyring”，请确认 ceph.conf 中为 monitor 指定的 IP 是 Public IP，而不是 Private IP。</p>
+</blockquote>
+
+<h4 id="开始创建osd">开始创建osd</h4>
+
+<ol>
+<li>添加两个osd。为了快速地安装，这篇快速入门把目录而整个硬盘用于osd守护进程。登录到ceph节点、并给osd守护进程创建一个目录。
+```
+ssh node2
+sudo mkdir /var/local/osd0
+exit</li>
+</ol>
+
+<p>ssh node3
+sudo mkdir /var/local/osd1
+exit</p>
+
+<pre><code>
+然后，从管理节点执行ceph-deploy来准备osd。
+
+</code></pre>
+
+<p>ceph-deploy osd prepare {ceph-node}:/path/to/directory</p>
+
+<pre><code>
+最后，激活osd
+</code></pre>
+
+<p>ceph-deploy osd activate {ceph-node}:/path/to/directory</p>
+
+<pre><code>
+2. 用ceph-deploy把配置文件和admin密钥拷贝到管理节点和ceph节点，这样你每次执行ceph命令行时就无需指定monitor地址和ceph.client.admin.keyring了。
+</code></pre>
+
+<p>ceph-deploy admin {admin-node} {ceph-node}</p>
+
+<pre><code>如：
+</code></pre>
+
+<p>ceph-deploy admin admin-node node1 node2 node3</p>
+
+<pre><code>
+ceph-deploy和本地管理主机(admin-node)通信时，必须通过主机名可达。必要时可修改/etc/hosts，加入管理主机的名字。
+
+3. 确保你对ceph.client.admin.keyring有正确的操作权限。
+</code></pre>
+
+<p>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
+
+<pre><code>
+4. 检查集群的健康状况
+</code></pre>
+
+<p>ceph health</p>
+
+<pre><code>
+等peering完成后，集群应该达到active+clean状态
+
+
+#### 扩容集群
+##### 添加osd
+你运行的这个三节点集群只是用于演示的，把osd添加到monitor节点就行
+</code></pre>
+
+<p>ssh node1
+sudo mkdir /var/local/osd2
+exit</p>
+
+<pre><code>然后，从ceph-deploy节点准备osd
+</code></pre>
+
+<p>ceph-deploy osd prepare {ceph-node}:/path/to/directory</p>
+
+<pre><code>如：
+</code></pre>
+
+<p>ceph-deploy osd prepare node1:/var/local/osd2</p>
+
+<pre><code>
+最后，激活osd
+</code></pre>
+
+<p>ceph-deploy osd activate {ceph-node}:/path/to/directory</p>
+
+<pre><code>
+
+一旦新增osd，ceph集群会重新均衡，把归置组迁到新osd。可以用下面的ceph命令观察此过程：
+</code></pre>
+
+<p>ceph -w</p>
+
+<pre><code>
+
+
+
+
+## 问题
+#### 安装ceph报错：No section: 'ceph'
+版本冲突，移除旧版本
+</code></pre>
+
+<p>yum remove ceph-release</p>
+
+<pre><code>然后重新运行安装命令
+
+#### 初始化mon出错
+![http://blog.realjf.com/wp-content/uploads/2018/12/ceph-mon-initial-error.png](http://blog.realjf.com/wp-content/uploads/2018/12/ceph-mon-initial-error.png)
+
+主要是报错：admin_socket: exception getting command descriptions: [Errno 2] No such file or directory
+
+**解决方法**
+
+1. 报错信息是“没有文件或者文件夹”。应该是创建的文件夹出错。
+
+2. 切换到对应的 /var/run/ceph/ 目录下，发现确实没有这个文件。
+
+3. 经过调研分析，创立的文件是 “ceph-mon.locahost.asok” , 通过观察admin的节点的ceph 日志发现，其中有一步骤需要获取node1的hostname， 而node1电脑的hostname是localhost. 因此只需要改hostname就可以。
+
+#### 执行ceph-deploy报错
+```sh
+Traceback (most recent call last):
+  File &quot;/bin/ceph-deploy&quot;, line 18, in &lt;module&gt;
+    from ceph_deploy.cli import main
+  File &quot;/usr/lib/python2.7/site-packages/ceph_deploy/cli.py&quot;, line 1, in &lt;module&gt;
+    import pkg_resources
+ImportError: No module named pkg_resources
+</code></pre>
+
+<p><strong>解决方法</strong>
+原因是缺python-setuptools</p>
+
+<pre><code class="language-sh">yum install python-setuptools
+</code></pre>
+
+<h4 id="some-monitors-have-still-not-reached-quorum">Some monitors have still not reached quorum</h4>
+
+<pre><code class="language-sh">[ceph_deploy.mon][WARNIN] waiting 5 seconds before retrying
+[ceph-node2][INFO  ] Running command: sudo ceph --cluster=ceph --admin-daemon /var/run/ceph/ceph-mon.ceph-node2.asok mon_status
+[ceph_deploy.mon][WARNIN] mon.ceph-node2 monitor is not yet in quorum, tries left: 4
+[ceph_deploy.mon][WARNIN] waiting 10 seconds before retrying
+[ceph-node2][INFO  ] Running command: sudo ceph --cluster=ceph --admin-daemon /var/run/ceph/ceph-mon.ceph-node2.asok mon_status
+[ceph_deploy.mon][WARNIN] mon.ceph-node2 monitor is not yet in quorum, tries left: 3
+[ceph_deploy.mon][WARNIN] waiting 10 seconds before retrying
+[ceph-node2][INFO  ] Running command: sudo ceph --cluster=ceph --admin-daemon /var/run/ceph/ceph-mon.ceph-node2.asok mon_status
+[ceph_deploy.mon][WARNIN] mon.ceph-node2 monitor is not yet in quorum, tries left: 2
+[ceph_deploy.mon][WARNIN] waiting 15 seconds before retrying
+[ceph-node2][INFO  ] Running command: sudo ceph --cluster=ceph --admin-daemon /var/run/ceph/ceph-mon.ceph-node2.asok mon_status
+[ceph_deploy.mon][WARNIN] mon.ceph-node2 monitor is not yet in quorum, tries left: 1
+[ceph_deploy.mon][WARNIN] waiting 20 seconds before retrying
+[ceph_deploy.mon][ERROR ] Some monitors have still not reached quorum:
+[ceph_deploy.mon][ERROR ] ceph-node1
+[ceph_deploy.mon][ERROR ] ceph-node2
+</code></pre>
+
+<p><strong>解决方法</strong></p>
+
+<p>清理重装ceph</p>
+
+    </div>
+  </article>
+  
+<aside class="aside-menu">
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/golang/">
+                        
+                        <span>golang</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/">
+                        
+                        <span>posts</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/ceph/">
+                        
+                        <span>ceph</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/docker/">
+                        
+                        <span>docker</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/kubernetes/">
+                        
+                        <span>kubernetes</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+
+    </main>
+    
+<aside class="aside-menu">
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/golang/">
+                        
+                        <span>golang</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/">
+                        
+                        <span>posts</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/ceph/">
+                        
+                        <span>ceph</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/docker/">
+                        
+                        <span>docker</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/kubernetes/">
+                        
+                        <span>kubernetes</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    <div class="app-footer">
+      <span>
+  power by hugo &nbsp;&nbsp;&nbsp;
+  copyright &copy; <a href="https://realjf.io">realjf.io</a>
+</span>
+
+    </div>
+  </body>
+</html>

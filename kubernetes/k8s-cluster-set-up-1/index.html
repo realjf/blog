@@ -1,0 +1,732 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Kubernetes集群搭建一 之 etcd集群 // Real_JF&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.90d7919988c708e571ff3da001a194bb87b7aee8239d124869977874879223c9.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+      <h1>Real_JF&#39;s blog</h1>
+      <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="http://realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-activity">
+  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Kubernetes集群搭建一 之 etcd集群</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 19, 2019
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          4 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      
+
+<h4 id="系统要求">系统要求</h4>
+
+<table>
+<thead>
+<tr>
+<th>软硬件</th>
+<th>最低配置</th>
+<th>推荐配置</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>cpu和内存</td>
+<td>master:至少2core和4GB内存 Node：至少4core和16GB</td>
+<td>Master:4core和16GB Node: 应根据需要运行的容器数量进行配置</td>
+</tr>
+
+<tr>
+<td>linux操作系统</td>
+<td>基于x86_64架构的各种linux发行版本</td>
+<td>Red Hat Linux 7 CentOS 7</td>
+</tr>
+
+<tr>
+<td>Docker</td>
+<td>1.9版本以上</td>
+<td>1.12版本</td>
+</tr>
+
+<tr>
+<td>etcd</td>
+<td>2.0版本及以上</td>
+<td>3.0版本</td>
+</tr>
+</tbody>
+</table>
+
+<p>本次实验选用的是centos7 1804版本</p>
+
+<blockquote>
+<p>需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务</p>
+
+<pre><code class="language-sh">#关闭防火墙
+systemctl disable firewalld
+systemctl stop firewalld
+# 禁用SELinux
+setenforce 0
+# 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled
+</code></pre>
+</blockquote>
+
+<h4 id="这里将搭建一个master节点和一个node节点的k8s集群">这里将搭建一个master节点和一个node节点的k8s集群</h4>
+
+<blockquote>
+<p>由于 raft 算法的特性，集群的节点数必须是奇数</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>ip</th>
+<th>etcd节点名称</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>master节点</td>
+<td>192.168.37.150</td>
+<td>etcd1</td>
+</tr>
+
+<tr>
+<td>node1节点</td>
+<td>192.168.37.152</td>
+<td>etcd2</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>请确保节点直接可以互相ping通</p>
+</blockquote>
+
+<h4 id="1-安装docker">1. 安装docker</h4>
+
+<ul>
+<li>docker版本为1.13.1
+```sh
+yum install docker -y</li>
+</ul>
+
+<h1 id="由于后面都采用服务方式启动-所以docker启动参数需要加上-exec-opt-native-cgroupdriver-systemd">由于后面都采用服务方式启动，所以docker启动参数需要加上&ndash;exec-opt native.cgroupdriver=systemd</h1>
+
+<p>vim /usr/lib/systemd/system/docker.service</p>
+
+<h1 id="在启动项上加上这行就可以">在启动项上加上这行就可以</h1>
+
+<p>systemctl start docker</p>
+
+<pre><code>
+##### 创建安装目录
+```sh
+mkdir -p /opt/kubernetes/bin
+</code></pre>
+
+<h4 id="2-安装etcd">2.安装etcd</h4>
+
+<p>下载地址：<a href="https://github.com/coreos/etcd/releases/">https://github.com/coreos/etcd/releases/</a></p>
+
+<pre><code class="language-sh">wget https://github.com/coreos/etcd/releases/download/v3.3.5/etcd-v3.3.5-linux-amd64.tar.gz
+tar zxvf etcd-v3.3.5-linux-amd64.tar.gz
+
+# 复制etcd和etcdctl到/usr/bin
+cd etcd-v3.3.5-linux-amd64
+cp etcd /usr/bin/
+cp etcdctl /usr/bin/
+</code></pre>
+
+<h5 id="配置节点1">配置节点1</h5>
+
+<p>创建工作目录</p>
+
+<pre><code>mkdir /var/lib/etcd/etcd1 -p
+</code></pre>
+
+<p>设置systemd服务文件/usr/lib/systemd/system/etcd.service</p>
+
+<pre><code>[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+Documentation=https://github.com/coreos
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/etcd1
+EnvironmentFile=-/etc/etcd/etcd.conf
+ExecStart=/bin/bash -c &quot;GOMAXPROCS=$(nproc) /usr/bin/etcd \
+  --name ${ETCD_NAME} \
+  --initial-advertise-peer-urls ${ETCD_INITIAL_ADVERTISE_PEER_URLS} \
+  --listen-peer-urls ${ETCD_LISTEN_PEER_URLS} \
+  --listen-client-urls ${ETCD_LISTEN_CLIENT_URLS} \
+  --advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS} \
+  --initial-cluster-token ${ETCD_INITIAL_CLUSTER_TOKEN} \
+  --initial-cluster ${ETCD_INITIAL_CLUSTER} \
+  --initial-cluster-state ${ETCD_INITIAL_CLUSTER_STATE} \
+  --data-dir=${ETCD_DATA_DIR}&quot;
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+
+</code></pre>
+
+<ul>
+<li>WorkingDirectory表示etcd数据保存的目录，需要在启动etcd服务之前创建</li>
+<li>/etc/etcd/etcd.conf通常不需要特别设置（详见官方文档），etcd默认监听在：<a href="http://127.0.0.1:2379供客户端连接">http://127.0.0.1:2379供客户端连接</a></li>
+</ul>
+
+<p>创建配置文件etcd.conf</p>
+
+<pre><code># [member]
+ETCD_NAME=etcd1
+ETCD_DATA_DIR=&quot;/var/lib/etcd/etcd1&quot;
+ETCD_LISTEN_PEER_URLS=&quot;http://192.168.37.150:2380&quot;
+ETCD_LISTEN_CLIENT_URLS=&quot;http://192.168.37.150:2379,http://127.0.0.1:2379&quot;
+
+#[cluster]
+ETCD_INITIAL_ADVERTISE_PEER_URLS=&quot;http://192.168.37.150:2380&quot;
+ETCD_INITIAL_CLUSTER=&quot;etcd1=http://192.168.37.150:2380,etcd2=http://192.168.37.152:2380&quot;
+ETCD_INITIAL_CLUSTER_STATE=&quot;new&quot;
+ETCD_INITIAL_CLUSTER_TOKEN=&quot;etcd-cluster&quot;
+ETCD_ADVERTISE_CLIENT_URLS=&quot;http://192.168.37.150:2379&quot;
+
+</code></pre>
+
+<ul>
+<li>name
+etcd集群中的节点名，这里可以随意，可区分且不重复就行<br /></li>
+<li>listen-peer-urls
+监听的用于节点之间通信的url，可监听多个，集群内部将通过这些url进行数据交互(如选举，数据同步等)</li>
+<li>initial-advertise-peer-urls
+建议用于节点之间通信的url，节点间将以该值进行通信。</li>
+<li>listen-client-urls
+监听的用于客户端通信的url,同样可以监听多个。</li>
+<li>advertise-client-urls
+建议使用的客户端通信url,该值用于etcd代理或etcd成员与etcd节点通信。</li>
+<li>initial-cluster-token etcd-cluster-1
+节点的token值，设置该值后集群将生成唯一id,并为每个节点也生成唯一id,当使用相同配置文件再启动一个集群时，只要该token值不一样，etcd集群就不会相互影响。</li>
+<li>initial-cluster
+也就是集群中所有的initial-advertise-peer-urls 的合集</li>
+<li>initial-cluster-state new
+新建集群的标志</li>
+</ul>
+
+<h5 id="配置节点2">配置节点2</h5>
+
+<p>创建工作目录</p>
+
+<pre><code>mkdir /var/lib/etcd/etcd2 -p
+</code></pre>
+
+<p>设置systemd服务文件/usr/lib/systemd/system/etcd.service</p>
+
+<pre><code>[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+Documentation=https://github.com/coreos
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/etcd2
+EnvironmentFile=-/etc/etcd/etcd.conf
+ExecStart=/bin/bash -c &quot;GOMAXPROCS=$(nproc) /usr/bin/etcd \
+  --name ${ETCD_NAME} \
+  --initial-advertise-peer-urls ${ETCD_INITIAL_ADVERTISE_PEER_URLS} \
+  --listen-peer-urls ${ETCD_LISTEN_PEER_URLS} \
+  --listen-client-urls ${ETCD_LISTEN_CLIENT_URLS} \
+  --advertise-client-urls ${ETCD_ADVERTISE_CLIENT_URLS} \
+  --initial-cluster-token ${ETCD_INITIAL_CLUSTER_TOKEN} \
+  --initial-cluster ${ETCD_INITIAL_CLUSTER} \
+  --initial-cluster-state ${ETCD_INITIAL_CLUSTER_STATE} \
+  --data-dir=${ETCD_DATA_DIR}&quot;
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>创建配置文件etcd.conf</p>
+
+<pre><code># [member]
+ETCD_NAME=etcd2
+ETCD_DATA_DIR=&quot;/var/lib/etcd/etcd2&quot;
+ETCD_LISTEN_PEER_URLS=&quot;http://192.168.37.152:2380&quot;
+ETCD_LISTEN_CLIENT_URLS=&quot;http://192.168.37.152:2379,http://127.0.0.1:2379&quot;
+
+#[cluster]
+ETCD_INITIAL_ADVERTISE_PEER_URLS=&quot;http://192.168.37.152:2380&quot;
+ETCD_INITIAL_CLUSTER_STATE=&quot;new&quot;
+ETCD_INITIAL_CLUSTER=&quot;etcd1=http://192.168.37.150:2380,etcd2=http://192.168.37.152:2380&quot;
+ETCD_INITIAL_CLUSTER_TOKEN=&quot;etcd-cluster&quot;
+ETCD_ADVERTISE_CLIENT_URLS=&quot;http://192.168.37.152:2379&quot;
+
+</code></pre>
+
+<h5 id="节点配置完毕后-在各节点上运行以下命令-开启etcd服务即可">节点配置完毕后，在各节点上运行以下命令，开启etcd服务即可</h5>
+
+<pre><code># 将服务加入开机启动列表
+systemctl daemon-reload
+systemctl enable etcd.service
+systemctl start etcd.service
+</code></pre>
+
+<h5 id="最后检查集群是否启动">最后检查集群是否启动</h5>
+
+<pre><code># 通过执行etcdctl cluster-health，可以验证etcd是否正确启动
+etcdctl cluster-health
+
+# 运行结果如下：
+member 454b8832d6d4269d is healthy: got healthy result from http://192.168.37.150:2379
+member 60024e9df3f177a4 is healthy: got healthy result from http://192.168.37.152:2379
+cluster is healthy
+</code></pre>
+
+<h5 id="遇到的问题">遇到的问题</h5>
+
+<p>问题1：配置好启动后报错：Failed at step CHDIR spawning /bin/bash: No such file or directory</p>
+
+<pre><code># 1. 先检查配置，如有问题及时修改，如还是报错
+# 2. 可能是没有创建工作目录，创建工作目录即可
+mkdir -p /var/lib/etcd/etcd1
+</code></pre>
+
+<p>到此，etcd集群搭建完毕，接下来在节点上安装k8s</p>
+
+<h4 id="3-安装kubernetes">3. 安装kubernetes</h4>
+
+<h4 id="master节点配置">master节点配置</h4>
+
+<ul>
+<li>官网下载地址：<a href="https://kubernetes.io/docs/imported/release/notes/#downloads-for-v1-10-0">https://kubernetes.io/docs/imported/release/notes/#downloads-for-v1-10-0</a></li>
+<li>github下载地址：<a href="https://github.com/kubernetes/kubernetes/releases">https://github.com/kubernetes/kubernetes/releases</a></li>
+<li>github二进制包下载地址：<a href="https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz">https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz</a>
+```sh
+wget <a href="https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz">https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz</a>
+tar zxvf kubernetes-server-linux-amd64.tar.gz
+cd kubernetes-server-linux-amd64/server/bin
+cp kube-apiserver /usr/bin/
+cp kube-controller-manager /usr/bin/
+cp kube-scheduler /usr/bin/</li>
+</ul>
+
+<h1 id="如果复制到其他目录-则相应的将systemd服务文件中的文件路径修改正确即可">如果复制到其他目录，则相应的将systemd服务文件中的文件路径修改正确即可</h1>
+
+<pre><code>##### kube-apiserver服务安装
+编辑systemd服务文件/usr/lib/systemd/system/kube-apiserver.service，内容如下：
+</code></pre>
+
+<p>[Uint]
+Description=Kubernetes API Server
+Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes">https://github.com/GoogleCloudPlatform/kubernetes</a>
+After=etcd.service
+Wants=etcd.service</p>
+
+<p>[Service]
+EnvironmentFile=/etc/kubernetes/apiserver
+ExecStart=/usr/bin/kube-apiserver $KUBE_API_ARGS
+Restart=on-failure
+Type=notify
+LimitNOFILE=65536</p>
+
+<p>[Install]
+WantedBy=multi-user.target</p>
+
+<pre><code>配置文件/etc/kubernetes/apiserver的内容包含了kube-apiserver的全部启动参数，主要的配置参数变量KUBE_API_ARGS中指定。
+具体内容如下：
+</code></pre>
+
+<p>###</p>
+
+<h1 id="kubernetes-system-config">kubernetes system config</h1>
+
+<p>#</p>
+
+<h1 id="the-following-values-are-used-to-configure-the-kube-apiserver">The following values are used to configure the kube-apiserver</h1>
+
+<p>#</p>
+
+<h1 id="the-address-on-the-local-server-to-listen-to">The address on the local server to listen to.</h1>
+
+<p>#aipServer的监听地址，默认为127.0.0.1，若要配置集群，则要设置为0.0.0.0才能被其他主机找到
+KUBE_API_ADDRESS=&ldquo;&ndash;insecure-bind-address=0.0.0.0&rdquo;</p>
+
+<p>#apiserver的监听端口</p>
+
+<h1 id="the-port-on-the-local-server-to-listen-on">The port on the local server to listen on.</h1>
+
+<p>KUBE_API_PORT=&ldquo;&ndash;port=8080&rdquo;</p>
+
+<h1 id="kubelet的监听端口-若只作为master节点则可以不配置">kubelet的监听端口，若只作为Master节点则可以不配置</h1>
+
+<h1 id="port-minions-listen-on">Port minions listen on</h1>
+
+<p>KUBELET_PORT=&ldquo;&ndash;kubelet-port=10250&rdquo;</p>
+
+<p>#etcd的地址，若etcd是集群，则配置集群所有地址，用逗号隔开</p>
+
+<h1 id="comma-separated-list-of-nodes-in-the-etcd-cluster">Comma separated list of nodes in the etcd cluster</h1>
+
+<p>KUBE_ETCD_SERVERS=&ldquo;&ndash;etcd-servers=<a href="http://demo.etcd.server:2379&quot;">http://demo.etcd.server:2379&quot;</a></p>
+
+<h1 id="service的地址范围-用于创建service的时候自动生成或指定serviceip使用">service的地址范围，用于创建service的时候自动生成或指定serviceIP使用</h1>
+
+<h1 id="address-range-to-use-for-services">Address range to use for services</h1>
+
+<p>KUBE_SERVICE_ADDRESSES=&ldquo;&ndash;service-cluster-ip-range=10.254.0.0/16&rdquo;</p>
+
+<p>#使用的系统组件，具体组件的作用参考下文以及官网</p>
+
+<h1 id="default-admission-control-policies">default admission control policies</h1>
+
+<p>KUBE_ADMISSION_CONTROL=&ldquo;&ndash;admission_control=NamespaceLifecycle,NamespaceExists,NamespaceAutoProvision,LimitRanger,ResourceQuota&rdquo;</p>
+
+<p>#此处可以添加其他配置，具体配置待笔者完善</p>
+
+<h1 id="add-your-own">Add your own!</h1>
+
+<p>KUBE_API_ARGS=&ldquo;&ndash;storage-backend=etcd3 &ndash;etcd-servers=<a href="http://127.0.0.1:2379">http://127.0.0.1:2379</a> &ndash;insecure-bind-address=0.0.0.0 &ndash;insecure-port=8080 &ndash;service-cluster-ip-range=169.169.0.0/16 &ndash;service-node-port-range=1-65535 &ndash;admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds &ndash;logtostderr=false &ndash;log-dir=/var/log/kubernetes &ndash;v=2&rdquo;</p>
+
+<pre><code>
+###### 这里有个准入控制推荐可供参考
+```sh
+# 对于 Kubernetes &gt;= 1.6.0 版本，我们强烈建议运行以下一系列准入控制插件（顺序也很重要）
+
+--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
+
+# 对于 Kubernetes &gt;= 1.4.0 版本，我们强烈建议运行以下一系列准入控制插件（顺序也很重要）
+
+--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
+
+# 对于 Kubernetes &gt;= 1.2.0 版本，我们强烈建议运行以下一系列准入控制插件（顺序也很重要）
+
+--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota
+
+# 对于 Kubernetes &gt;= 1.0.0 版本，我们强烈建议运行以下一系列准入控制插件（顺序也很重要）
+
+--admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,PersistentVolumeLabel,ResourceQuota
+</code></pre>
+
+<h5 id="kube-controller-manager服务">kube-controller-manager服务</h5>
+
+<p>kube-controller-manager服务依赖于kube-apiserver服务：</p>
+
+<pre><code>[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/googleCloudPlatform/kubernetes
+After=kube-apiserver.service
+Requires=kube-apiserver.service
+
+[Service]
+EnvironmentFile=/etc/kubernetes/controller-manager
+ExecStart=/usr/bin/kube-controller-manager $KUBE_CONTROLLER_MANAGER_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+
+</code></pre>
+
+<p>配置文件etc/kubernets/controller-manager</p>
+
+<pre><code>###
+# kubernetes system config
+#
+# The following values are used to configure various aspects of all
+# kubernetes services, including
+#
+#   kube-apiserver.service
+#   kube-controller-manager.service
+#   kube-scheduler.service
+#   kubelet.service
+#   kube-proxy.service
+#日志默认存储方式，默认存储在系统的journal服务中
+# logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR=&quot;--logtostderr=true&quot;
+
+#日志等级
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL=&quot;--v=0&quot;
+
+#
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV=&quot;--allow-privileged=false&quot;
+
+#kubernetes Master 的apiserver地址和端口
+# How the controller-manager, scheduler, and proxy find the apiserver
+KUBE_MASTER=&quot;--master=http://192.168.37.150:8080&quot;
+
+#etcd地址
+KUBE_ETCD_SERVERS=&quot;--etcd_servers=http://demo.etcd.server:2379&quot;
+
+KUBE_CONTROLLER_MANAGER_ARGS=&quot;--master=http://192.168.37.150:8080 --logtostderr=false --log-dir=/var/log/kubernetes --v=2&quot;
+</code></pre>
+
+<h5 id="kube-scheduler服务">kube-scheduler服务</h5>
+
+<pre><code>[Unit]
+Description=Kubernetes Scheduler
+Documentation=https://github.com/googleCloudPlatform/kubernetes
+After=kube-apiserver.service
+Requires=kube-apiserver.service
+
+[Service]
+EnvironmentFile=/etc/kubernetes/scheduler
+ExecStart=/usr/bin/kube-scheduler $KUBE_SCHEDULER_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>配置文件/etc/kubernetes/scheduler</p>
+
+<pre><code>KUBE_SCHEDULER_ARGS=&quot;--master=http://192.168.37.150:8080 --logtostderr=false --log-dir=/var/log/kubernetes --v=2&quot;
+</code></pre>
+
+<h4 id="node节点配置">node节点配置</h4>
+
+<h5 id="kubelet服务">kubelet服务</h5>
+
+<pre><code># 创建工作目录
+mkdir /var/lib/kubelet
+</code></pre>
+
+<p>启动服务文件/usr/lib/systemd/system/kubelet.service</p>
+
+<pre><code>[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/googleCloudPlatform/kubernetes
+After=docker.service
+Requires=docker.service
+
+[Service]
+WorkingDirectory=/var/lib/kubelet
+EnvironmentFile=/etc/kubernetes/kubelet
+ExecStart=/usr/bin/kubelet $KUBELET_ARGS
+Restart=on-failure
+
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>配置文件</p>
+
+<pre><code>KUBELET_ARGS=&quot;--kubeconfig=/var/lib/kubelet/kubeconfig --hostname-override=192.168.37.152 --fail-swap-on=false  --cgroup-driver=systemd --logtostderr=false --log-dir=/var/log/kubernetes --v=2&quot;
+</code></pre>
+
+<blockquote>
+<p>如果设置了 &ndash;hostname-override 选项，则 kube-proxy 也需要设置该选项，否则会出现找不到 Node 的情况；</p>
+</blockquote>
+
+<p><strong>注意</strong>： 1.10版本的&ndash;api-servers已经被&ndash;kubeconfig标签替代，具体的配置请参照本章的 2. kubernetes 集群安全设置</p>
+
+<blockquote>
+<p>注意，一定要用&ndash;fail-swap-on=false标记关闭swap on</p>
+</blockquote>
+
+<p>由于docker采用systemd启动，所以需要再加上&ndash;cgroup-driver=systemd标记才能正常启动，如果不加上，可能出现如下报错：</p>
+
+<pre><code class="language-sh">failed to run Kubelet: failed to create kubelet: misconfiguration: kubelet cgroup driver: &quot;cgroupfs&quot; is different from docker cgroup driver: &quot;systemd&quot;
+</code></pre>
+
+<h5 id="kube-proxy服务">kube-proxy服务</h5>
+
+<pre><code>[Unit]
+Description=Kubernetes Kube-Proxy Server
+Documentation=https://github.com/googleCloudPlatform/kubernetes
+After=network.service
+Requires=network.service
+
+[Service]
+EnvironmentFile=/etc/kubernetes/proxy
+ExecStart=/usr/bin/kube-proxy $KUBE_PROXY_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>配置文件</p>
+
+<pre><code>KUBE_PROXY_ARGS=&quot;--master=http://192.168.37.150:8080 --hostname-override=192.168.37.152 --logtostderr=false --log-dir=/var/log/kubernetes --v=2&quot;
+</code></pre>
+
+<h5 id="遇到的问题-1">遇到的问题</h5>
+
+<p>运行kubectl get nodes报错：The connection to the server localhost:8080 was refused - did you specify the right host or port?</p>
+
+<pre><code>检查配置文件，或者运行
+kubectl --server=192.168.37.150:8080 get nodes
+</code></pre>
+
+    </div>
+  </article>
+  
+<aside class="aside-menu">
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/golang/">
+                        
+                        <span>golang</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/">
+                        
+                        <span>posts</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/ceph/">
+                        
+                        <span>ceph</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/docker/">
+                        
+                        <span>docker</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/kubernetes/">
+                        
+                        <span>kubernetes</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+
+    </main>
+    
+<aside class="aside-menu">
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/golang/">
+                        
+                        <span>golang</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/">
+                        
+                        <span>posts</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/ceph/">
+                        
+                        <span>ceph</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/docker/">
+                        
+                        <span>docker</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/kubernetes/">
+                        
+                        <span>kubernetes</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    <div class="app-footer">
+      <span>
+  power by hugo &nbsp;&nbsp;&nbsp;
+  copyright &copy; <a href="https://realjf.io">realjf.io</a>
+</span>
+
+    </div>
+  </body>
+</html>

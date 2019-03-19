@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Real_JF&#39;s blog</title>
+    <link>https://realjf.io/</link>
+    <description>Recent content on Real_JF&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 19 Mar 2019 14:57:12 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ceph 集群搭建一 之 集群搭建</title>
+      <link>https://realjf.io/ceph/setup-ceph-cluster-3/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
+      
+      <guid>https://realjf.io/ceph/setup-ceph-cluster-3/</guid>
+      <description>第一次练习时，我们创建一个 Ceph 存储集群，它有一个 Monitor 和两个 OSD 守护进程。一旦集群达到 active + clean 状态，再扩展它：增加第三个 OSD 、增加元数据服务器和两个 Ceph Monitors。为获得最佳体验，先在管理节点上创建一个目录，用于保存 ceph-deploy 生成的配置文件和密钥对。
+ 如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。
+ mkdir my-cluster cd my-cluster   禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
+ 创建集群 如果在某些地方碰到麻烦，想从头再来，可以用下列命令配置：
+ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下列命令可以连ceph安装包一起清除：</description>
+    </item>
+    
+    <item>
+      <title>Ceph 集群搭建二 之 预检</title>
+      <link>https://realjf.io/ceph/setup-ceph-cluster-2/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/ceph/setup-ceph-cluster-2/</guid>
+      <description>集群部署如下： 预检 安装ceph部署工具 在 Red Hat （rhel6、rhel7）、CentOS （el6、el7）和 Fedora 19-20 （f19 - f20） 上执行下列步骤：
+用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如： sudo subscription-manager repos --enable=el-7-server-extras-rpms  在centos上执行以下命令 sudo yum install -y yum-utils &amp;amp;&amp;amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;amp;&amp;amp; sudo yum install --nogpgcheck -y epel-release &amp;amp;&amp;amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;amp;&amp;amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*  把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo sudo vim /etc/yum.repos.d/ceph.repo  把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.</description>
+    </item>
+    
+    <item>
+      <title>Ceph 集群搭建一 之 准备</title>
+      <link>https://realjf.io/ceph/setup-ceph-cluster-1/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:05 +0800</pubDate>
+      
+      <guid>https://realjf.io/ceph/setup-ceph-cluster-1/</guid>
+      <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc  ceph release http://docs.ceph.com/docs/master/releases/
+2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y  3. 配置各节点hosts文件 cat /etc/hosts
+192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3  4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen  5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3  6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster  7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1  8. 配置ceph.</description>
+    </item>
+    
+    <item>
+      <title>Goroutine 运行原理</title>
+      <link>https://realjf.io/golang/goroutine-principle/</link>
+      <pubDate>Tue, 19 Mar 2019 14:45:21 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/goroutine-principle/</guid>
+      <description>Golang最大的特色可以说是协程(goroutine)了, 协程让本来很复杂的异步编程变得简单, 让程序员不再需要面对回调地狱, 虽然现在引入了协程的语言越来越多, 但go中的协程仍然是实现的是最彻底的.
+核心概念 要理解协程的实现，需要理解三个重要概念，P、G和M。
+G（goroutine） G是goroutine的简写，goroutine可以解释为受管理的轻量级线程，goroutine使用go关键字创建。
+main函数是一个主线程，也是一个goroutine。
+ goroutine的新建、休眠、回复、停止都受到go运行时的管理 goroutine执行异步操作时会进入休眠状态，待操作完成后在恢复，无需占用系统线程。 goroutine新建或恢复时会添加到运行队列，等待M取出并运行。  M（machine） M是machine的简写，表示系统线程
+M可以运行两种代码： - go代码，即goroutine，M运行go代码需要一个P - 原生代码，例如阻塞的syscall，M运行原生代码不需要P
+ M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。 有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。  go需要保证有足够的M可以运行G，不让CPU闲着，也需要保证M的数量不过多。
+P（process） P是process的简写，代表M运行G所需要的资源。
+ 虽然P的数量默认等于cpu的核心数，但可以通过环境变量 GOMAXPROC 修改，在实际运行时P跟cpu核心并无任何关联。
+ P也可以理解为控制go代码的并行度的机制 - 如果P的数量等于1，代表当前最多只能有一个线程M执行go代码。 - 如果P的数量等于2，代表当前最多只能有两个线程M执行go代码。
+执行原生代码的线程数不受P控制。
+因为同一时间只有一个线程M可以拥有P，P中的数据都是锁自由的，读写这些数据的效率会非常的高。
+数据结构 G的状态  空闲中(_Gidle)：表示G刚刚新建，仍未初始化 待运行(_Grunnable)：表示G在运行队列中，等待M取出并运行 运行中(_Grunning)：表示M正在运行这个G，这时候M会拥有一个P 系统调用中(_Gsyscall)：表示M正在运行这个G发起的系统调用，这时候M并不拥有P 等待中(_Gwaiting)：表示G在等待某些条件完成，这时候G不在运行也不在运行队列中（可能在channel的等待队列中） 已终止(_Gdead)：表示G未被使用，可能已执行完毕（并在freelist中等待下次复用） 栈复制中(_Gcopystack)：表示G正在获取一个新的栈空间并把原来的内容复制过去（用于防止GC扫描）  M的状态 M并没有像G和P一样的状态标记，但可以认为一个M有以下的状态： - 自旋中(spinning)：M正在从运行队列获取G，这时候M会拥有一个P - 执行go代码中：M正在执行go代码，这时候M会拥有一个P - 执行原生代码中：M正在执行原生代码或者阻塞的syscall，这时M并不拥有P - 休眠中：M发现没有待运行的G时会进入休眠，并添加到空闲M链表中，这时M并不拥有P
+自旋中这个状态非常重要，是否需要唤醒或者创建新的M取决于当前自旋中的M的数量。
+P的状态  空闲中(_Pidle)：当M发现无待运行的G时会进入休眠，这时M拥有的P会变成空闲并加到空闲P链表中 运行中(_Prunning)：当M拥有了一个P后，这个P的状态就会变为运行中，M运行G会使用这个P中的资源。 系统调用中(_Psyscall)：当go调用原生代码，原生代码又反过来调用go代码时，使用的P会变成此状态 GC停止中(_Pgcstop)：当gc停止整个世界(STW)时，P会变为此状态。 已终止(_Pdead)：当P的数量在运行时改变，且数量减少时多余的P会变为此状态。  本地可运行队列G 在go中有多个运行队列可以保存待运行(_Grunnable)的G，他们分别是各个P中的本地运行队列和全局运行队列。</description>
+    </item>
+    
+    <item>
+      <title>什么是docker？</title>
+      <link>https://realjf.io/docker/what-docker-is/</link>
+      <pubDate>Tue, 19 Mar 2019 14:40:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/docker/what-docker-is/</guid>
+      <description>官方定义 Develop, Ship and Run Any Application, Anywhere Docker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.  Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
+ LXC linux container容器是一种内核虚拟化技术，可以提供轻量级的虚拟化，以便隔离进程和资源。与kvm之类最明显的区别在于启动快，资源占用小。</description>
+    </item>
+    
+    <item>
+      <title>Namespace 资源隔离</title>
+      <link>https://realjf.io/docker/namespace/</link>
+      <pubDate>Tue, 19 Mar 2019 14:38:54 +0800</pubDate>
+      
+      <guid>https://realjf.io/docker/namespace/</guid>
+      <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
+ 1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
+通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
+int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);  查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes集群下 Traefik安装和使用</title>
+      <link>https://realjf.io/kubernetes/k8s-plugins-traefik/</link>
+      <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-plugins-traefik/</guid>
+      <description>前提：安装好kubernetes集群情况下
+  run traefik and let it do the work for you!
+ traefik官方地址：http://traefik.cn/
+方法一：使用k8s安装 准备 # 创建目录 mkdir traefik cd traefik # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git # 检查traefik配置 ll traefik/example/k8s/ -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.yaml -rw-r--r-- 1 root root 509 Sep 11 16:53 cheese-services.</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 核心原理之 网络模型</title>
+      <link>https://realjf.io/kubernetes/k8s-core-principle-network-model/</link>
+      <pubDate>Tue, 19 Mar 2019 14:30:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-core-principle-network-model/</guid>
+      <description>主要解决以下问题： - 容器与容器之间的直接通信 - pod与pod之间的通信 - pod到service之间的通信 - 集群外部与集群内部组件之间的通信
+容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
+pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） - 不同node上的pod之间</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 核心原理之 集群安全机制</title>
+      <link>https://realjf.io/kubernetes/k8s-core-principle-security/</link>
+      <pubDate>Tue, 19 Mar 2019 14:29:44 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-core-principle-security/</guid>
+      <description> 安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
+k8s提供3种级别的客户端身份认证方式： - 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 - http token认证：通过一个token来识别合法用户
+ http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
+  http base认证：通过用户名+密码的方式   http base是指把“用户名+冒号+密码”用base64算法进行编码后的字符串放在http request中的header authorization域里发送到服务端，服务端接受后进行解码，获取用户名及密码，然后进行用户身份鉴权过程
+ 2. API Server授权管理（Authorization） 通过授权策略来决定一个api调用是否合法。对合法用户进行授权并且随后在用户访问时进行鉴权，是权限与安全系统的重要一环。
+目前支持的授权策略： - AlwaysDeny：表示拒绝所有的请求，一般用于测试 - AlwaysAllow：允许接受所有请求，如果集群不需要授权，则可以采用这个策略，这也是默认配置 - ABAC：基于属性的访问控制，表示使用用户配置的授权规则对用户请求进行匹配和控制。 - Webhook：通过调用外部rest服务对用户进行授权 - RBAC：基于角色的访问控制
+ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访问控制： - 对集群中的资源和非资源权限均有完整的覆盖 - 整个RBAC完全由几个api对象完成，同其他api对象一样，可以用kubectl或api进行操作 - 可以在运行时进行调整，无需重新启动api server
+ 要使用RBAC授权模式，需要在api server的启动参数中加上 &amp;ndash;authorization-mode=RBAC
+ 3. Admission Control（准入控制） </description>
+    </item>
+    
+    <item>
+      <title>kubernetes 核心原理之 Kube-Proxy</title>
+      <link>https://realjf.io/kubernetes/k8s-core-principle-kube-proxy/</link>
+      <pubDate>Tue, 19 Mar 2019 14:26:43 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-core-principle-kube-proxy/</guid>
+      <description>service是一个抽象的概念，类似一个反向代理，将请求转发到后端的pod上。真正实现service作用的是kube-proxy服务进程。
+在每个node上都会运行一个kube-proxy的服务进程，这个进程可以看做service的透明代理兼负载均衡器，其核心功能是将到某个service的访问请求转发到后端的多个pod实例上。
+kube-proxy会在本地node上简历一个socketserver来负责接收请求，然后均匀发送到后端某个pod端口上，这个过程默认采用round robin负载均衡算法。
+k8s也提供了通过修改service的service.spec.sessionAffinity参数的值来实现会话保持特性的定向转发，如果设置的值为“clientIp”，则将来自同一个clientip的请求都转发到同一个后端pod上。
+ service的clusterIP与nodeport等概念是kube-proxy服务通过iptables的NAT转换实现的，kube-proxy在运行过程中动态创建与service相关的iptables规则
+ 访问service的请求，不论是用cluster ip+target port的方式，还是用节点机ip+node port的方式，都被节点机的iptables规则重定向到kube-proxy监听的service服务代理端口。
+ kube-proxy的负载均衡器只支持round robin算法。同时在此基础上还支持session保持。
+ kube-proxy内部创建了一个负载均衡器——loadbalancer，loadbalancer上保存了service到对应的后端endpoint列表的动态转发路由表，而具体的路由选择取决于round robin负载均衡算法及service的session会话保持（SessionAffinity）这两个特性
+kube-porxy针对变化的service列表，处理流程  如果service没有设置集群ip（ClusterIP），则不做处理，否则，获取该service的所有端口定义列表（spec.ports域） 逐个读取服务端口定义列表中的端口信息，根据端口名称，service名称和namespace判断本地是否已经存在对应的服务代理对象，如不存在则新建，如存在且service端口被修改过，则先删除iptables中和srevice端口相关的规则，关闭服务代理对象，然后走新建流程。 更新负载均衡器组件中对应service的转发地址列表，对于新建的service，确定转发时的会话保持策略。 对于已经删除的service则进行清理   针对Endpoint的变化，kube-proxy会自动更新负载均衡器中对应service的转发地址列表。
+ 针对iptables所做的一些细节操作  KUBE-PORTALS-CONTAINER：从容器中通过service cluster ip和端口号访问service的请求。（容器） KUBE-PORTALS-HOST：从主机中通过service cluster ip和端口号访问service的请求（主机） KUBE-NODEPORT-CONTAINER：从容器中通过service的nodeport端口号访问service的请求。（容器） KUBE-NODEPORT-HOST：从主机中通过service的nodeport端口号访问service请求（主机）  此外，kube-proxy在iptables中为每个service创建由cluster ip+service端口号到kube-proxy所在主机ip+service代理服务所监听的端口的转发规则。
+service类型为NodePort kube-proxy在iptables中除了添加上面提及的规则，还会为每个service创建由nodeport端口到kube-proxy所在主机ip+service代理服务所监听的端口的转发规则。</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 核心原理之 Kubelet</title>
+      <link>https://realjf.io/kubernetes/k8s-core-principle-kubelet/</link>
+      <pubDate>Tue, 19 Mar 2019 14:26:28 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-core-principle-kubelet/</guid>
+      <description>在每个Node节点上都会启动一个kubelet服务进程，该进程负责处理master节点下发到本节点的任务，管理Pod和pod中的容器。
+每个kubelet进程会在api server上注册节点自身信息，定期向master节点汇报节点资源的使用情况，并通过cAdvisor监控容器和节点资源。
+节点管理 节点通过设置kubelet的启动参数“&amp;ndash;register-node”，来决定是否向api server注册自己，如果该参数为true，则会向api server注册自己。
+其他参数包括： - &amp;ndash;api-servers：api server的位置 - &amp;ndash;kubeconfig：kubeconfig文件，用于访问api server的安全配置文件 - &amp;ndash;cloud-provider：云服务商地址，仅用于公有云环境
+通过kubelet的启动参数“&amp;ndash;node-status-update-frequency”设置kubelet每隔多长时间想api server报告节点状态，默认是10s。
+Pod管理 kubelet通过以下几种方式获取自身node上所要运行的pod清单： - 文件：同过启动参数“&amp;ndash;config”指定的配置文件目录下的文件（默认/etc/kubernetes/manifests/） - http断电：通过“&amp;ndash;manifest-url”参数设置 - api server：通过api server监听etcd目录，同步pod列表
+kubelet去读监听到的信息，如果是创建和修改pod任务，则  为该pod创建一个数据目录 从api server读取该pod清单 为该pod挂载外部卷 下载pod用到的secret 检查已经运行在节点中的pod，如果该pod没有容器或pause容器（kubernetes/pause镜像创建的容器）没有启动，则先停止pod里所有容器的进程。如果在pod中有需要删除的容器，则删除这些容器。 用&amp;rdquo;kubernetes/pause&amp;rdquo;镜像为每个pod创建一个容器，该pause容器用于接管pod中所有其他容器的网络。每创建一个新的pod，kubelet都会先创建一个pause容器，然后创建其他容器。 为pod中的每个容器做如下处理： 为容器计算一个hash值，然后用容器的名字去查询对应docker容器的hash值。若找到容器，且两者的hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两者相同，则不做任何处理。 如果容器被终止了，且容器没有指定的restartPolicy（重启策略），则不做任何处理。 调用docker client下载容器镜像，调用docker client运行容器。  容器健康检查 检查容器健康状态的两种探针 - LivenessProbe探针：判断容器是否健康，如果不健康，则删除Pod，根据其重启策略做相应处理。 - ReadinessProbe探针：判断容器是否完成启动，且准备接受请求。如果失败，pod的状态将被修改，Endpoint Controller将从Service的Endpoint中删除包含该容器所在pod的ip地址的endpoint条目。
+LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康 TCPSocketAction：通过容器的ip地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康 HTTPGetAction：通过容器的ip地址和端口号即路径调用http get方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康  LivenessProbe探针包含在pod定义的spec.containers.{某个容器}中
+# 容器命令检查 livenessProbe: exec: command: - cat - /tmp/health initialDelaySeconds: 15 timeoutSeconds: 1  # http检查 livenessProbe: httpGet: path: /healthz port: 8080 initialDelaySeconds: 15 timeoutSeconds: 1  cAdvisor资源监控 监控级别包括：容器、pod、service和整个集群</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 核心原理之 Sheduler</title>
+      <link>https://realjf.io/kubernetes/k8s-core-principle-sheduler/</link>
+      <pubDate>Tue, 19 Mar 2019 14:26:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-core-principle-sheduler/</guid>
+      <description>作用是将待调度的pod按照特定的调度算法和调度策略绑定到集群中的某个合适的Node上，并将绑定信息写入etcd中。
+目标节点上的kubelet通过api server监听到schduler产生的pod绑定事件，然后获取对应的pod清单，下载image镜像，并启动容器。
+Scheduler默认调度流程分为以下两步  预调度过程，即遍历所有目标node，筛选出符合要求的候选节点 确定最优节点，在上一步基础上，采用优选策略计算出每个候选节点的积分，积分高者胜出。  Scheduler调度流程是通过插件方式加载的“调度算法提供者”（AlgorithmProvider）具体实现的。一个AlgorithmProvider其实是一组预选策略与一组优先选择策略的结构体。
+Scheduler中可选的预选策略  NoDiskConflict PodFitsResources PodSelectorMatches PodFitsHost CheckNodeLabelPresence CheckServiceAffinity PodFitsPorts  Scheduler优选策略  LeastRequestedPriority（资源消耗最小） CalculateNodeLabelPriority BalancedResourceAllocation（各项资源使用率最均衡的节点）  每个节点通过优选策略算出一个得分，最终选出分值最大的节点作为优选的结果。</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 核心原理之 Controller Manager</title>
+      <link>https://realjf.io/kubernetes/k8s-core-principle-controller-manager/</link>
+      <pubDate>Tue, 19 Mar 2019 14:26:00 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-core-principle-controller-manager/</guid>
+      <description>controller manager作为集群内部的管理控制中心，负责集群内的Node、pod副本、服务端（Endpoint）、命名空间（Namespace）、服务账号（ServiceAccount）、资源定额（ResourceQuota）等的管理。
+controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。 &amp;gt; 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
+RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
+此外，可以通过修改Pod的标签来实现脱离RC的管控。该方法可以用于将pod从集群中迁移、数据修复等调试。
+Replication Controller职责  确保当前集群中有且仅有N个pod实例，N是RC中定义的pod副本数量 通过调整RC的spec.replicas属性值来实现系统扩容或者缩容 通过改变RC中的pod模板（主要是镜像版本）来实现系统的滚动升级  Replication Controller典型使用场景  重新调度（Rescheduling） 弹性伸缩（Scaling） 滚动更新（Rolling Updates）  2. Node Controller Node Controller通过API Server实时获取Node的相关信息：节点健康状况、节点资源、节点名称、节点地址信息、操作系统版本、Docker版本、kubelet版本等。
+node controller节点信息更新机制 比较节点信息和node controller的nodeStatusMap中保存的节点信息 - 如果没有收到kubelet发送的节点信息、第一次收到节点kubelet发送的节点信息，或处理过程中节点状态变成非健康状态，则在nodeStatusMap中保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间和节点状态变化时间。 - 如果指定时间内收到新的节点信息，且节点状态发生变化，则在nodeStatusMap保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间，用上次节点信息中的节点状态变化时间作为该节点的状态变化时间 - 如果某一段时间内没有收到该节点状态信息，则设置节点状态为未知，并通过api server保存节点状态
+3. ResourceQuota Controller（资源配额管理） 资源配额管理确保了指定的资源对象在任何时候都不会超量占用系统物理资源，避免由于某些业务进程的设计或实现的缺陷导致整个系统运行紊乱甚至意外宕机</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 核心原理之 Apiserver</title>
+      <link>https://realjf.io/kubernetes/k8s-core-principle-apiserver/</link>
+      <pubDate>Tue, 19 Mar 2019 14:25:43 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-core-principle-apiserver/</guid>
+      <description>API Server的核心功能提供了kubernetes各类资源对象（如pod、rc、service等）的增删改查以及watch等http rest接口，是集群内各个功能模块之间数据交互和通信的中心枢纽，是整个系统的数据总线和数据中心。
+ 是集群管理的api入口 是资源配额控制的入口 提供了完备的集群安全机制  </description>
+    </item>
+    
+    <item>
+      <title>kubernetes 基本概念和术语</title>
+      <link>https://realjf.io/kubernetes/k8s-basic-concepts-and-terminology/</link>
+      <pubDate>Tue, 19 Mar 2019 14:21:00 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-basic-concepts-and-terminology/</guid>
+      <description>kubernetes中大部分概念，如node、pod、replication、controller、service等都可以看作是一种“资源对象”，几乎所有的资源对象都可以通过kubernetes提供的kubectl工具执行增、删、改、查等操作并保存在etcd中持久化存储。
+k8s里所有资源对象都可以采用yaml或者json格式的文件来定义或描述
+ 1. Master（主节点、集群控制节点）  每个kubernets集群里需要有一个master节点来负责整个集群管理和控制 所有控制命令都发给它 占据一个独立的服务器 如果宕机或不可用，整个集群内容器应用的管理都将失效  master节点运行一组以下关键进程  kubernetes api server(kube-apiserver)：提供http rest接口，是k8s所有资源增删改查等操作的唯一入口，也是集群控制入口进程 kubernetes controller manager(kube-controller-manager)：k8s所有资源对象的自动化控制中心 kubernetes scheduler(kube-scheduler)：负责资源调度（pod调度）的进程 etcd服务：保存k8s所有资源对象的数据  相关命令  kubectl get nodes：查看集群有多少个node kubectl describe node ：查看某个node详细信息  2. Node（较早版本也叫minion）  节点既可以是物理机，也可以是私有云或者公有云中的一个虚拟机，通常在一个节点上运行几百个pod kubernetes集群中的工作负载节点，当某个node宕机，其上的工作负载会被master自动转移到其他节点上  每个node节点运行一组以下关键进程  kubelet：负责pod对应的容器的创建、启停等，同时与master节点密切协作，实现集群管理的基本功能 kube-proxy：实现kubernetes service的通信与负载均衡机制 docker engine：docker引擎，负责本机的容器创建和管理工作  3. Pod 是k8s最重要也是最基本概念 - 每个Pod都有一个特殊的被称为“根容器”的Pause容器，Pause容器对应的镜像属于k8s平台的一部分（gcr.io/google_containers/pause-amd64） - pod对象将每个服务进程包装到相应的pod中，使其成为pod中运行的一个容器 - 根容器不易死亡 - pod里的多个业务容器共享pause容器的ip，共享pause容器挂接的volume（解决Pod直接拿文件共享问题） - k8s为每个pod都分配唯一的ip地址，称之为pod ip，一个Pod里的多个容器共享pod ip地址 - 集群内任意两个pod之间的tcp/ip可以直接通信，通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等。
+pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放在某个具体的node上的一个具体文件中，且只在此Node上启动运行）   默认情况下：当pod里的某个容器停止时，k8s会自动检测到这个问题并重新启动这个pod（重启pod里的所有容器），如果pod所在node宕机，则会将这个Node上的所有pod重新调度到其他节点上。</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes集群搭建三 之 docker镜像配置</title>
+      <link>https://realjf.io/kubernetes/k8s-cluster-set-up-3/</link>
+      <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-cluster-set-up-3/</guid>
+      <description> 1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
+运行以下命令，启动一个本地镜像仓库 docker 1.6以上版本可以直接运行以下命令
+docker run -d -p 5000:5000 --restart=always --name registry registry:2  停止本地仓库
+docker container stop registry &amp;amp;&amp;amp; docker container rm -v registry  镜像仓库操作
+docker pull ubuntu docker image tag ubuntu localhost:5000/myfirstimage docker push localhost:5000/myfirstimage docker pull localhost:5000/myfirstimage  2. kubelet配置 k8s中docker以pod启动，在kubelet创建pod时，还通过启动一个名为gcr.io/google_containers/pause的镜像来实现pod的概念。
+需要从gcr.io中将该镜像下载，导出文件，再push到私有docker registry中。之后，可以给每台node的kubelet服务加上启动参数&amp;ndash;pod-infra-container-image，指定为私有仓库中pause镜像的地址。
+--pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0  如果镜像无法下载，可以从docker hub上进行下载：
+docker pull kubeguide/pause-amd64:3.0  然后在kubelet启动参数加上该配置，重启kubelet服务即可
+systemctl restart kubelet  </description>
+    </item>
+    
+    <item>
+      <title>Kubernetes集群搭建二 之 k8s集群</title>
+      <link>https://realjf.io/kubernetes/k8s-cluster-set-up-2/</link>
+      <pubDate>Tue, 19 Mar 2019 14:13:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-cluster-set-up-2/</guid>
+      <description>方式1：基于CA签名的双向数字证书认证方式 过程如下： - 为kube-apiserver生成一个数字证书，并用CA证书进行签名 - 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 - 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数
+1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
+openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crt openssl genrsa -out server.key 2048  注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
+ 509是一种通用的证书格式
+ 准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：
+[ req ] req_extensions = v3_req distinguished_name = req_distinguished_name [ req_distinguished_name ] [ v3_req ] basicConstraints = CA:FALSE keyUsage = nonRepudiation, digitalSignature, keyEncipherment subjectAltName = @alt_names [alt_names] DNS.</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes集群搭建一 之 etcd集群</title>
+      <link>https://realjf.io/kubernetes/k8s-cluster-set-up-1/</link>
+      <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubernetes/k8s-cluster-set-up-1/</guid>
+      <description>系统要求    软硬件 最低配置 推荐配置     cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置   linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7   Docker 1.9版本以上 1.12版本   etcd 2.0版本及以上 3.0版本    本次实验选用的是centos7 1804版本
+ 需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
+#关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled   这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数
+    - ip etcd节点名称     master节点 192.</description>
+    </item>
+    
+    <item>
+      <title>How to Set Up Blog Using Hugo</title>
+      <link>https://realjf.io/posts/how-to-set-up-blog-using-hugo/</link>
+      <pubDate>Tue, 19 Mar 2019 09:43:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/how-to-set-up-blog-using-hugo/</guid>
+      <description>github pages有两种方式：  一种是{USERNAME}.github.io/ 另一种是{USERNAME}.github.io/{PROJECT}  我们这里使用第二种方法创建
+前期准备  有一个github账号  创建一个公开的repo 例如：blog
+开通github pages 找到新创建的repo中的settings，往下找到github pages， 如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。
+注意 如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：https://realjf.github.io/blog/
+配置好后，开始使用hugo构建博客 首先，clone下刚才创建的repo
+git clone git@github.com:{USERNAME}/blog  安装hugo，确保repo目录下可以使用hugo命令 请参考官网https://gohugo.io/
+# 检查安装是否成功 hugo version  利用hugo构建博客目录结构 cd blog &amp;amp;&amp;amp; hugo new site . --force  这里使用了&amp;ndash;force是因为当前目录已存在，只是需要初始化而已
+添加自己需要的主题 cd blog git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c  上述的m10c可以换成你想要的主题名字即可
+更多的主题请参考：https://themes.gohugo.io/
+# 修改根目录下的 .toml文件 theme = &amp;quot;{THEME}&amp;quot; baseUrl = &amp;quot;https://realjf.github.io/blog/&amp;quot;  {THEME}请修改为你的主题名即可
+本地测试博客 hugo server -t {THEME}  到这里，基本的博客搭建完成，先保存到github git add -A &amp;amp;&amp;amp; git commit -m &amp;quot;Initializing&amp;quot; git push origin master  本地测试成功后，我们利用gh-pages分支作为新的发布分支 gh-pages分支保存的是hugo生成的html静态文件</description>
+    </item>
+    
+  </channel>
+</rss>
