@@ -5,8 +5,8 @@ draft: false
 ---
 
 ### github pages有两种方式：
-- 一种是<USERNAME>.github.io/
-- 另一种是<USERNAME>.github.io/<PROJECT>
+- 一种是{USERNAME}.github.io/
+- 另一种是{USERNAME}.github.io/{PROJECT}
 
 我们这里使用第二种方法创建
 
@@ -28,7 +28,7 @@ draft: false
 #### 配置好后，开始使用hugo构建博客
 首先，clone下刚才创建的repo
 ```sh
-git clone git@github.com:<USERNAME>/blog
+git clone git@github.com:{USERNAME}/blog
 
 ```
 
@@ -55,15 +55,15 @@ git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c
 更多的主题请参考：[https://themes.gohugo.io/](https://themes.gohugo.io/)
 ```sh
 # 修改根目录下的 .toml文件
-theme = "<THEME>"
+theme = "{THEME}"
 baseUrl = "https://realjf.github.io/blog/"
 ```
-<THEME>请修改为你的主题名即可
+{THEME}请修改为你的主题名即可
 
 
 #### 本地测试博客
 ```sh
-hugo server -t <THEME>
+hugo server -t {THEME}
 ```
 
 #### 到这里，基本的博客搭建完成，先保存到github
