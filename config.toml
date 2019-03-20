@@ -46,3 +46,8 @@ paginate = "10"
       name = "ceph"
       title = "ceph"
       url = "/ceph/"
+  [[menu.main]]
+      identifier = "linux"
+      name = "linux"
+      title = "linux"
+      url = "/linux/"
