@@ -46,7 +46,51 @@ cgroup是对进程分组管理的一种机制，一个cgroup包含一组进程�
 - 一个进程可以作为多个cgroup的成员，但是这些cgroup必须在不同的hierarchy中。
 - 一个进程fork出子进程时，子进程是和父进程在同一个cgroup中的，也可以根据需要将其移动到其他cgroup中。
 
+#### kernel加载Cgroups
+kernel通过虚拟树状文件系统配置cgroups，通过层级的目录虚拟出cgroup树。
 
+##### 1. 首先，要创建并挂载一个hierarchy
+```bash
+mkdir cgroup-test
+mount -t cgroup -o none,name=cgroup-test cgroup-test ./cgroup-test # 挂载一个hierarchy
+ls ./cgroup-test
+
+```
+- cgroup.clone_children cpuset的subsystem会读取这个配置文件。如果是1，子cgroup才会继承父cgroup的cpuset的配置
+- cgroup.procs 是树中当前节点cgroup中的进程组id
+- notify_on_release和release_agent 会一起使用
+- tasks 标识该cgroup下面的进程id,如果一个进程id写到tasks文件中，便会将相应的进程加入到这个cgroup中。
+
+##### 2. 在刚创建好的hierarchy 上的cgroup根节点中扩展出的两个子cgroup
+```bash
+cd cgroup-test
+mkdir cgroup-1
+mkdir cgroup-2
+tree
+
+```
+可以看到，在一个cgroup的目录下创建文件夹时，kernel会把文件夹标记为这个cgroup的子cgroup，他们会继承父cgroup的属性
+
+##### 3. 在cgroup中添加和移动进程
+一个进程在一个cgroups的hierarchy中，只能在一个cgroup节点上存在，系统的所有进程都会默认在根节点上存在，可以将进程移动到其他cgroup节点。
+只需要将进程id写到移动到的cgroup节点的tasks文件中即可。
+```bash
+[cgroup-1] sh -c "echo $$ >> tasks" #将我所在的终端进程移动到cgroup-1中
+
+```
+
+##### 4. 通过subsystem限制cgroup中进程的资源
+在hierarchy中创建cgroup，限制如下进程占用的内存
+```bash
+[memory] stress --vm-bytes 200m --vm-keep -m 1
+[memory] # 创建一个cgroup
+[memory] mkdir test-limit-memory && cd test-limit-memory
+[test-limit-memory] # 设置最大cgroup的最大内存占用为100MB
+[test-limit-memory] sh -c "echo "100m" > memory.limit_in_bytes"
+[test-limit-memory] sh - c "echo $$ > tasks" # 将当前进程移动到这个cgroup中
+[test-limit-memory] stress --vm-bytes 200m --vm-keep -m 1 # 再次运行占用内存200MB的stress进程
+
+```
 
 
 
