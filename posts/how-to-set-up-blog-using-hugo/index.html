@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>kubernetes 核心原理之 Kubelet // Real_JF&#39;s blog</title>
+    <title>How to Set Up Blog Using Hugo // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,7 +37,7 @@
     
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">kubernetes 核心原理之 Kubelet</h1>
+      <h1 class ="post-title">How to Set Up Blog Using Hugo</h1>
       <div class="post-meta">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -49,91 +49,172 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
+          2 min read
         </div></div>
     </header>
     <div class="post-content">
       
 
-<p>在每个Node节点上都会启动一个kubelet服务进程，该进程负责处理master节点下发到本节点的任务，管理Pod和pod中的容器。</p>
-
-<p>每个kubelet进程会在api server上注册节点自身信息，定期向master节点汇报节点资源的使用情况，并通过cAdvisor监控容器和节点资源。</p>
-
-<h4 id="节点管理">节点管理</h4>
-
-<p>节点通过设置kubelet的启动参数“&ndash;register-node”，来决定是否向api server注册自己，如果该参数为true，则会向api server注册自己。</p>
-
-<p>其他参数包括：
-- &ndash;api-servers：api server的位置
-- &ndash;kubeconfig：kubeconfig文件，用于访问api server的安全配置文件
-- &ndash;cloud-provider：云服务商地址，仅用于公有云环境</p>
-
-<p>通过kubelet的启动参数“&ndash;node-status-update-frequency”设置kubelet每隔多长时间想api server报告节点状态，默认是10s。</p>
-
-<h4 id="pod管理">Pod管理</h4>
-
-<p>kubelet通过以下几种方式获取自身node上所要运行的pod清单：
-- 文件：同过启动参数“&ndash;config”指定的配置文件目录下的文件（默认/etc/kubernetes/manifests/）
-- http断电：通过“&ndash;manifest-url”参数设置
-- api server：通过api server监听etcd目录，同步pod列表</p>
-
-<h5 id="kubelet去读监听到的信息-如果是创建和修改pod任务-则">kubelet去读监听到的信息，如果是创建和修改pod任务，则</h5>
-
-<ol>
-<li>为该pod创建一个数据目录</li>
-<li>从api server读取该pod清单</li>
-<li>为该pod挂载外部卷</li>
-<li>下载pod用到的secret</li>
-<li>检查已经运行在节点中的pod，如果该pod没有容器或pause容器（kubernetes/pause镜像创建的容器）没有启动，则先停止pod里所有容器的进程。如果在pod中有需要删除的容器，则删除这些容器。</li>
-<li>用&rdquo;kubernetes/pause&rdquo;镜像为每个pod创建一个容器，该pause容器用于接管pod中所有其他容器的网络。每创建一个新的pod，kubelet都会先创建一个pause容器，然后创建其他容器。</li>
-<li>为pod中的每个容器做如下处理：</li>
-<li>为容器计算一个hash值，然后用容器的名字去查询对应docker容器的hash值。若找到容器，且两者的hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两者相同，则不做任何处理。</li>
-<li>如果容器被终止了，且容器没有指定的restartPolicy（重启策略），则不做任何处理。</li>
-<li>调用docker client下载容器镜像，调用docker client运行容器。</li>
-</ol>
-
-<h5 id="容器健康检查">容器健康检查</h5>
-
-<p>检查容器健康状态的两种探针
-- LivenessProbe探针：判断容器是否健康，如果不健康，则删除Pod，根据其重启策略做相应处理。
-- ReadinessProbe探针：判断容器是否完成启动，且准备接受请求。如果失败，pod的状态将被修改，Endpoint Controller将从Service的Endpoint中删除包含该容器所在pod的ip地址的endpoint条目。</p>
-
-<h5 id="livenessprobe实现方式">LivenessProbe实现方式</h5>
+<h3 id="github-pages有两种方式">github pages有两种方式：</h3>
 
 <ul>
-<li>ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康</li>
-<li>TCPSocketAction：通过容器的ip地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康</li>
-<li>HTTPGetAction：通过容器的ip地址和端口号即路径调用http get方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康</li>
+<li>一种是{USERNAME}.github.io/</li>
+<li>另一种是{USERNAME}.github.io/{PROJECT}</li>
 </ul>
 
-<p>LivenessProbe探针包含在pod定义的spec.containers.{某个容器}中</p>
+<p>我们这里使用第二种方法创建</p>
 
-<pre><code class="language-yaml"># 容器命令检查
-livenessProbe:
-  exec:
-    command:
-    - cat
-    - /tmp/health
-  initialDelaySeconds: 15
-  timeoutSeconds: 1
+<h4 id="前期准备">前期准备</h4>
+
+<ul>
+<li>有一个github账号</li>
+</ul>
+
+<h4 id="创建一个公开的repo">创建一个公开的repo</h4>
+
+<p>例如：blog</p>
+
+<h4 id="开通github-pages">开通github pages</h4>
+
+<p>找到新创建的repo中的settings，往下找到github pages，
+如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。</p>
+
+<p><strong>注意</strong>
+如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：<a href="https://realjf.github.io/blog/">https://realjf.github.io/blog/</a></p>
+
+<h4 id="配置好后-开始使用hugo构建博客">配置好后，开始使用hugo构建博客</h4>
+
+<p>首先，clone下刚才创建的repo</p>
+
+<pre><code class="language-sh">git clone git@github.com:{USERNAME}/blog
+
 </code></pre>
 
-<pre><code class="language-yaml"># http检查
-livenessProbe:
-  httpGet:
-    path: /healthz
-    port: 8080
-  initialDelaySeconds: 15
-  timeoutSeconds: 1
+<h4 id="安装hugo-确保repo目录下可以使用hugo命令">安装hugo，确保repo目录下可以使用hugo命令</h4>
+
+<p>请参考官网<a href="https://gohugo.io/">https://gohugo.io/</a></p>
+
+<pre><code class="language-sh"># 检查安装是否成功
+hugo version
 </code></pre>
 
-<h5 id="cadvisor资源监控">cAdvisor资源监控</h5>
+<h4 id="利用hugo构建博客目录结构">利用hugo构建博客目录结构</h4>
 
-<p>监控级别包括：容器、pod、service和整个集群</p>
+<pre><code class="language-sh">cd blog &amp;&amp; hugo new site . --force
+</code></pre>
 
-<p>当前支持的后端包括InfluxDB（with Grafana for Visualization）和Google Cloud Monitoring</p>
+<p>这里使用了&ndash;force是因为当前目录已存在，只是需要初始化而已</p>
 
-<p>在大部分kubernetes集群中，cAdvisor通过他所在节点机的4194端口暴露一个简单的ui。</p>
+<h4 id="添加自己需要的主题">添加自己需要的主题</h4>
+
+<pre><code class="language-sh">cd blog
+git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c
+</code></pre>
+
+<p>上述的m10c可以换成你想要的主题名字即可</p>
+
+<p>更多的主题请参考：<a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a></p>
+
+<pre><code class="language-sh"># 修改根目录下的 .toml文件
+theme = &quot;{THEME}&quot;
+baseUrl = &quot;https://realjf.github.io/blog/&quot;
+</code></pre>
+
+<p>{THEME}请修改为你的主题名即可</p>
+
+<h4 id="本地测试博客">本地测试博客</h4>
+
+<pre><code class="language-sh">hugo server -t {THEME}
+</code></pre>
+
+<h4 id="到这里-基本的博客搭建完成-先保存到github">到这里，基本的博客搭建完成，先保存到github</h4>
+
+<pre><code class="language-sh">git add -A &amp;&amp; git commit -m &quot;Initializing&quot;
+git push origin master
+</code></pre>
+
+<h4 id="本地测试成功后-我们利用gh-pages分支作为新的发布分支">本地测试成功后，我们利用gh-pages分支作为新的发布分支</h4>
+
+<p>gh-pages分支保存的是hugo生成的html静态文件</p>
+
+<p>先把public发布目录添加到.gitignore文件里</p>
+
+<pre><code class="language-sh">echo &quot;public&quot; &gt;&gt; .gitignore
+</code></pre>
+
+<h4 id="保存到远程repo">保存到远程repo</h4>
+
+<pre><code class="language-sh">git add -A &amp;&amp; git commit -m &quot;add ignore file&quot;
+git push origin master
+</code></pre>
+
+<h4 id="初始化gh-pages分支">初始化gh-pages分支</h4>
+
+<pre><code class="language-sh">git checkout --orphan gh-pages
+git reset --hard
+git commit --allow-empty -m &quot;Initializing gh-pages branch&quot;
+git push origin gh-pages
+git checkout master
+</code></pre>
+
+<h4 id="构建和发布">构建和发布</h4>
+
+<p>先删除public目录</p>
+
+<pre><code class="language-sh">rm -rf public
+git worktree add -B gh-pages public origin/gh-pages
+
+# 在根目录下构建
+hugo -t &lt;THEME&gt;
+
+cd public &amp;&amp; git add --all &amp;&amp; git commit -m &quot;Publishing to gh-pages&quot;
+cd ..
+git push origin gh-pages
+</code></pre>
+
+<h4 id="设置gh-pages作为你的发布分支">设置gh-pages作为你的发布分支</h4>
+
+<p>回到settings里的github pages选项，将source设置为gh-pages分支，等待几分钟后，重新访问博客地址，查看效果是否正常</p>
+
+<h4 id="每次发布hugo的时候-都需要运行以下脚本-以便更新发布">每次发布hugo的时候，都需要运行以下脚本，以便更新发布</h4>
+
+<pre><code class="language-sh">
+#!/bin/sh
+
+DIR=$(dirname &quot;$0&quot;)
+
+cd $DIR/..
+
+if [[ $(git status -s) ]]
+then
+    echo &quot;The working directory is dirty. Please commit any pending changes.&quot;
+    exit 1;
+fi
+
+echo &quot;Deleting old publication&quot;
+rm -rf public
+mkdir public
+git worktree prune
+rm -rf .git/worktrees/public/
+
+echo &quot;Checking out gh-pages branch into public&quot;
+git worktree add -B gh-pages public upstream/gh-pages
+
+echo &quot;Removing existing files&quot;
+rm -rf public/*
+
+echo &quot;Generating site&quot;
+hugo
+
+echo &quot;Updating gh-pages branch&quot;
+cd public &amp;&amp; git add --all &amp;&amp; git commit -m &quot;Publishing to gh-pages (publish.sh)&quot;
+
+</code></pre>
+
+<p>最后发布</p>
+
+<pre><code class="language-sh">git push origin gh-pages
+</code></pre>
 
     </div>
   </article>
