@@ -51,3 +51,8 @@ paginate = "10"
       name = "linux"
       title = "linux"
       url = "/linux/"
+  [[menu.main]]
+        identifier = "distributed system"
+        name = "distributed system"
+        title = "distributed system"
+        url = "/distributed-system/"
