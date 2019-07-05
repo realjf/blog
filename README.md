@@ -24,3 +24,26 @@ static/ #存放js/css/img等静态资源
 config.toml #网站的配置文件
 ```
 
+
+## gitpages构建和部署
+```bash
+cd blog
+
+# delete old publication
+rm -rf public
+mkdir public
+git worktree prune
+
+# checking out gh-pages branch into public
+git worktree add -B gh-pages public upstream/gh-pages
+# 利用hugo生成静态文件
+hugo
+# 提交更新gh-pages branch
+cd public
+git add --all
+git commit -m "update"
+cd ..
+# 推送到仓库
+git push origin gh-pages
+
+```
