@@ -36,7 +36,7 @@ mkdir public
 git worktree prune
 
 # checking out gh-pages branch into public
-git worktree add -B gh-pages public upstream/gh-pages
+git worktree add -B gh-pages public origin/gh-pages
 # 利用hugo生成静态文件
 hugo -t m10c
 # 提交更新gh-pages branch
