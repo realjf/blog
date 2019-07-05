@@ -3,7 +3,7 @@
 <head>
     <title>Ceph 集群搭建一 之 集群搭建 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -49,7 +49,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          3 min read
+          2 min read
         </div></div>
     </header>
     <div class="post-content">
@@ -104,17 +104,15 @@ ceph-deploy forgetkeys
 <pre><code>public_network = {ip-address}/{netmask}
 </code></pre></li>
 
-<li><p>安装ceph</p></li>
-</ol>
+<li><p>安装ceph</p>
 
 <pre><code>ceph-deploy install node1 node2 node3
-</code></pre>
+</code></pre></li>
 
-<ol>
-<li>配置初始monitor(s)，并收集所有密钥
-<code>
-ceph-deploy mon create-initial
-</code></li>
+<li><p>配置初始monitor(s)，并收集所有密钥</p>
+
+<pre><code>ceph-deploy mon create-initial
+</code></pre></li>
 </ol>
 
 <p>完成上述操作后，当前目录里应该会出现这些密钥环：</p>
@@ -133,121 +131,117 @@ ceph-deploy mon create-initial
 <h4 id="开始创建osd">开始创建osd</h4>
 
 <ol>
-<li>添加两个osd。为了快速地安装，这篇快速入门把目录而整个硬盘用于osd守护进程。登录到ceph节点、并给osd守护进程创建一个目录。
-```
-ssh node2
+<li><p>添加两个osd。为了快速地安装，这篇快速入门把目录而整个硬盘用于osd守护进程。登录到ceph节点、并给osd守护进程创建一个目录。</p>
+
+<pre><code>ssh node2
 sudo mkdir /var/local/osd0
-exit</li>
+exit
+
+ssh node3
+sudo mkdir /var/local/osd1
+exit
+</code></pre></li>
 </ol>
 
-<p>ssh node3
-sudo mkdir /var/local/osd1
-exit</p>
+<p>然后，从管理节点执行ceph-deploy来准备osd。</p>
 
-<pre><code>
-然后，从管理节点执行ceph-deploy来准备osd。
-
+<pre><code>ceph-deploy osd prepare {ceph-node}:/path/to/directory
 </code></pre>
 
-<p>ceph-deploy osd prepare {ceph-node}:/path/to/directory</p>
+<p>最后，激活osd</p>
 
-<pre><code>
-最后，激活osd
+<pre><code>ceph-deploy osd activate {ceph-node}:/path/to/directory
 </code></pre>
 
-<p>ceph-deploy osd activate {ceph-node}:/path/to/directory</p>
+<ol>
+<li><p>用ceph-deploy把配置文件和admin密钥拷贝到管理节点和ceph节点，这样你每次执行ceph命令行时就无需指定monitor地址和ceph.client.admin.keyring了。</p>
 
-<pre><code>
-2. 用ceph-deploy把配置文件和admin密钥拷贝到管理节点和ceph节点，这样你每次执行ceph命令行时就无需指定monitor地址和ceph.client.admin.keyring了。
+<pre><code>ceph-deploy admin {admin-node} {ceph-node}
 </code></pre>
 
-<p>ceph-deploy admin {admin-node} {ceph-node}</p>
+<p>如：</p>
 
-<pre><code>如：
-</code></pre>
+<pre><code>ceph-deploy admin admin-node node1 node2 node3
+</code></pre></li>
+</ol>
 
-<p>ceph-deploy admin admin-node node1 node2 node3</p>
+<p>ceph-deploy和本地管理主机(admin-node)通信时，必须通过主机名可达。必要时可修改/etc/hosts，加入管理主机的名字。</p>
 
-<pre><code>
-ceph-deploy和本地管理主机(admin-node)通信时，必须通过主机名可达。必要时可修改/etc/hosts，加入管理主机的名字。
+<ol>
+<li><p>确保你对ceph.client.admin.keyring有正确的操作权限。</p>
 
-3. 确保你对ceph.client.admin.keyring有正确的操作权限。
-</code></pre>
+<pre><code>chmod +r /etc/ceph/ceph.client.admin.keyring
+</code></pre></li>
 
-<p>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
+<li><p>检查集群的健康状况</p>
 
-<pre><code>
-4. 检查集群的健康状况
-</code></pre>
+<pre><code>ceph health
+</code></pre></li>
+</ol>
 
-<p>ceph health</p>
+<p>等peering完成后，集群应该达到active+clean状态</p>
 
-<pre><code>
-等peering完成后，集群应该达到active+clean状态
+<h4 id="扩容集群">扩容集群</h4>
 
+<h5 id="添加osd">添加osd</h5>
 
-#### 扩容集群
-##### 添加osd
-你运行的这个三节点集群只是用于演示的，把osd添加到monitor节点就行
-</code></pre>
+<p>你运行的这个三节点集群只是用于演示的，把osd添加到monitor节点就行</p>
 
-<p>ssh node1
+<pre><code>ssh node1
 sudo mkdir /var/local/osd2
-exit</p>
-
-<pre><code>然后，从ceph-deploy节点准备osd
+exit
 </code></pre>
 
-<p>ceph-deploy osd prepare {ceph-node}:/path/to/directory</p>
+<p>然后，从ceph-deploy节点准备osd</p>
 
-<pre><code>如：
+<pre><code>ceph-deploy osd prepare {ceph-node}:/path/to/directory
 </code></pre>
 
-<p>ceph-deploy osd prepare node1:/var/local/osd2</p>
+<p>如：</p>
 
-<pre><code>
-最后，激活osd
+<pre><code>ceph-deploy osd prepare node1:/var/local/osd2
 </code></pre>
 
-<p>ceph-deploy osd activate {ceph-node}:/path/to/directory</p>
+<p>最后，激活osd</p>
 
-<pre><code>
-
-一旦新增osd，ceph集群会重新均衡，把归置组迁到新osd。可以用下面的ceph命令观察此过程：
+<pre><code>ceph-deploy osd activate {ceph-node}:/path/to/directory
 </code></pre>
 
-<p>ceph -w</p>
+<p>一旦新增osd，ceph集群会重新均衡，把归置组迁到新osd。可以用下面的ceph命令观察此过程：</p>
 
-<pre><code>
-
-
-
-
-## 问题
-#### 安装ceph报错：No section: 'ceph'
-版本冲突，移除旧版本
+<pre><code>ceph -w
 </code></pre>
 
-<p>yum remove ceph-release</p>
+<h2 id="问题">问题</h2>
 
-<pre><code>然后重新运行安装命令
+<h4 id="安装ceph报错-no-section-ceph">安装ceph报错：No section: &lsquo;ceph&rsquo;</h4>
 
-#### 初始化mon出错
-![http://blog.realjf.com/wp-content/uploads/2018/12/ceph-mon-initial-error.png](http://blog.realjf.com/wp-content/uploads/2018/12/ceph-mon-initial-error.png)
+<p>版本冲突，移除旧版本</p>
 
-主要是报错：admin_socket: exception getting command descriptions: [Errno 2] No such file or directory
+<pre><code>yum remove ceph-release
+</code></pre>
 
-**解决方法**
+<p>然后重新运行安装命令</p>
 
-1. 报错信息是“没有文件或者文件夹”。应该是创建的文件夹出错。
+<h4 id="初始化mon出错">初始化mon出错</h4>
 
-2. 切换到对应的 /var/run/ceph/ 目录下，发现确实没有这个文件。
+<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/ceph-mon-initial-error.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/ceph-mon-initial-error.png" /></p>
 
-3. 经过调研分析，创立的文件是 “ceph-mon.locahost.asok” , 通过观察admin的节点的ceph 日志发现，其中有一步骤需要获取node1的hostname， 而node1电脑的hostname是localhost. 因此只需要改hostname就可以。
+<p>主要是报错：admin_socket: exception getting command descriptions: [Errno 2] No such file or directory</p>
 
-#### 执行ceph-deploy报错
-```sh
-Traceback (most recent call last):
+<p><strong>解决方法</strong></p>
+
+<ol>
+<li><p>报错信息是“没有文件或者文件夹”。应该是创建的文件夹出错。</p></li>
+
+<li><p>切换到对应的 /var/run/ceph/ 目录下，发现确实没有这个文件。</p></li>
+
+<li><p>经过调研分析，创立的文件是 “ceph-mon.locahost.asok” , 通过观察admin的节点的ceph 日志发现，其中有一步骤需要获取node1的hostname， 而node1电脑的hostname是localhost. 因此只需要改hostname就可以。</p></li>
+</ol>
+
+<h4 id="执行ceph-deploy报错">执行ceph-deploy报错</h4>
+
+<pre><code class="language-sh">Traceback (most recent call last):
   File &quot;/bin/ceph-deploy&quot;, line 18, in &lt;module&gt;
     from ceph_deploy.cli import main
   File &quot;/usr/lib/python2.7/site-packages/ceph_deploy/cli.py&quot;, line 1, in &lt;module&gt;
@@ -295,7 +289,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/golang/">
+                    <a href="/golang/" title="golang">
                         
                         <span>golang</span>
                     </a>
@@ -304,7 +298,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/posts/">
+                    <a href="/posts/" title="posts">
                         
                         <span>posts</span>
                     </a>
@@ -313,7 +307,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/ceph/">
+                    <a href="/ceph/" title="ceph">
                         
                         <span>ceph</span>
                     </a>
@@ -322,16 +316,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/distributedsystem/">
-                        
-                        <span>distributed system</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/docker/">
+                    <a href="/docker/" title="docker">
                         
                         <span>docker</span>
                     </a>
@@ -340,7 +325,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/kubernetes/">
+                    <a href="/kubernetes/" title="kubernetes">
                         
                         <span>kubernetes</span>
                     </a>
@@ -349,9 +334,27 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/linux/">
+                    <a href="/linux/" title="linux">
                         
                         <span>linux</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tools/" title="工具">
+                        
+                        <span>tools</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/distributedsystem/" title="分布式">
+                        
+                        <span>分布式</span>
                     </a>
                 </li>
             
@@ -369,7 +372,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/golang/">
+                    <a href="/golang/" title="golang">
                         
                         <span>golang</span>
                     </a>
@@ -378,7 +381,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/posts/">
+                    <a href="/posts/" title="posts">
                         
                         <span>posts</span>
                     </a>
@@ -387,7 +390,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/ceph/">
+                    <a href="/ceph/" title="ceph">
                         
                         <span>ceph</span>
                     </a>
@@ -396,16 +399,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/distributedsystem/">
-                        
-                        <span>distributed system</span>
-                    </a>
-                </li>
-            
-        
-            
-                <li>
-                    <a href="/docker/">
+                    <a href="/docker/" title="docker">
                         
                         <span>docker</span>
                     </a>
@@ -414,7 +408,7 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/kubernetes/">
+                    <a href="/kubernetes/" title="kubernetes">
                         
                         <span>kubernetes</span>
                     </a>
@@ -423,9 +417,27 @@ ImportError: No module named pkg_resources
         
             
                 <li>
-                    <a href="/linux/">
+                    <a href="/linux/" title="linux">
                         
                         <span>linux</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tools/" title="工具">
+                        
+                        <span>tools</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/distributedsystem/" title="分布式">
+                        
+                        <span>分布式</span>
                     </a>
                 </li>
             
