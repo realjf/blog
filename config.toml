@@ -53,6 +53,11 @@ paginate = "10"
       url = "/linux/"
   [[menu.main]]
         identifier = "distributed system"
-        name = "distributed system"
-        title = "distributed system"
+        name = "分布式"
+        title = "分布式"
         url = "/distributedsystem/"
+  [[menu.main]]
+        identifier = "tools"
+        name = "tools"
+        title = "工具"
+        url = "/tools/"

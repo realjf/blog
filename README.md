@@ -21,6 +21,7 @@ archetypes/ #存放default.md，头文件格式
 content/ #content目录存放博客文章（.markdown/.md文件）
 layouts/ #layouts目录存放的是网站的模板文件
 static/ #存放js/css/img等静态资源
+content # 存放 markdown 文件
 config.toml #网站的配置文件
 ```
 
@@ -37,7 +38,7 @@ git worktree prune
 # checking out gh-pages branch into public
 git worktree add -B gh-pages public upstream/gh-pages
 # 利用hugo生成静态文件
-hugo
+hugo -t m10c
 # 提交更新gh-pages branch
 cd public
 git add --all
