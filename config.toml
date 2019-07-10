@@ -61,3 +61,8 @@ paginate = "10"
         name = "tools"
         title = "工具"
         url = "/tools/"
+  [[menu.main]]
+          identifier = "streaming"
+          name = "streaming"
+          title = "直播"
+          url = "/streaming/"
