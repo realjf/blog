@@ -66,3 +66,8 @@ paginate = "10"
           name = "streaming"
           title = "直播"
           url = "/streaming/"
+  [[menu.main]]
+            identifier = "GC"
+            name = "garbagecollection"
+            title = "垃圾回收(garbage collection)"
+            url = "/gc/"
