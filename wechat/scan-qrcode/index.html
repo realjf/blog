@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>kubernetes 核心原理之 网络模型 // Real_JF&#39;s blog</title>
+    <title>Scan Qrcode // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,40 +37,270 @@
     
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">kubernetes 核心原理之 网络模型</h1>
+      <h1 class ="post-title">Scan Qrcode</h1>
       <div class="post-meta">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 19, 2019
+          Sep 4, 2019
         </div>
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
+          3 min read
         </div></div>
     </header>
     <div class="post-content">
       
 
-<p>主要解决以下问题：
-- 容器与容器之间的直接通信
-- pod与pod之间的通信
-- pod到service之间的通信
-- 集群外部与集群内部组件之间的通信</p>
+<h2 id="网页调用微信jssdk实现扫一扫功能">网页调用微信JSSDK实现扫一扫功能</h2>
 
-<h4 id="容器与容器之间的通信">容器与容器之间的通信</h4>
+<h3 id="设置公众号js接口安全域">设置公众号js接口安全域</h3>
 
-<p>同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口
-kubernetes利用docker的网桥与容器内的映射eth0设备进行通信</p>
+<p>在公众号后台的，公众号设置，功能设置里</p>
 
-<h4 id="pod之间的通信">pod之间的通信</h4>
+<h3 id="配置ip白名单">配置ip白名单</h3>
 
-<p>每个pod都拥有一个真实的全局ip地址
-- 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段）
-- 不同node上的pod之间</p>
+<p>在公众号后台基本配置里</p>
+
+<h3 id="页面引入微信sdkjs代码">页面引入微信sdkjs代码</h3>
+
+<p><a href="http://res.wx.qq.com/open/js/jweixin-1.2.0.js">http://res.wx.qq.com/open/js/jweixin-1.2.0.js</a></p>
+
+<h3 id="页面js代码">页面js代码</h3>
+
+<pre><code class="language-js">    // 点击扫一扫按钮事件
+    $(&quot;#btn-scan&quot;).on(&quot;click&quot;, function () {
+        //微信扫一扫 设置
+        var _queryString = window.location.search;
+        $.ajax({
+            type: &quot;post&quot;,
+            url: &quot;/mobile/user/scanSign&quot;,
+            data: {query: _queryString},
+            success: function (data) {
+                var result = data.result;
+                wx.config({
+                    debug: false, // 调试接口用
+                    appId: result.appId,                           //公众号的唯一标识
+                    timestamp: &quot;&quot; + result.timestamp,    //生成签名的时间戳
+                    nonceStr: result.nonceStr,                  //生成签名的随机串
+                    signature: result.signature,              //签名
+                    jsApiList: ['scanQRCode']   //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)
+                });
+            }
+        });
+    });
+
+    //微信扫一扫处理代码
+    wx.ready(function () {
+        $(&quot;body&quot;).off(&quot;click&quot;, &quot;.j-btn_chat&quot;).on(&quot;click&quot;, &quot;.j-btn_chat&quot;, function (e) {
+
+            wx.scanQRCode({
+                needResult: 0,   // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: [&quot;qrCode&quot;, &quot;barCode&quot;], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    alert(&quot;扫描成功：&quot;);
+                    // alert(res.resultStr);
+                    // window.location.href = res.resultStr;
+                    //res.resultStr可以获得扫描结果。这里写自己的业务操作代码}
+
+                }
+            });
+
+        });
+    });
+
+    // 错误处理
+    wx.error(function (res) {
+        alert(&quot;出错了：&quot; + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+    });
+
+</code></pre>
+
+<h3 id="后端生成签名信息接口实现">后端生成签名信息接口实现</h3>
+
+<pre><code class="language-php">$url = $_REQUEST[''];
+$signPackage = (new JSSDK())-&gt;getSignPackage($url);
+
+</code></pre>
+
+<p>JSSDK实现</p>
+
+<pre><code class="language-php">class JSSDK
+{
+    /**
+     * 公众号 appid
+     * @var string
+     */
+    private $_appId = &quot;&quot;;
+    /**
+     * 公众号秘钥
+     * @var string
+     */
+    private $_appSecret = &quot;&quot;;
+
+    /**
+     * accessToken获取地址
+     * @var string
+     */
+    private $_access_token_url = &quot;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=%s&amp;secret=%s&quot;;
+
+    /**
+     * 获取ticket
+     * @var string
+     */
+    private $_api_ticket_url = &quot;https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&amp;access_token=%s&quot;;
+
+    /**
+     * JSSDK constructor.
+     */
+    public function __construct()
+    {
+
+    }
+
+    /**
+     * @param $queryString
+     * @return array
+     */
+    public function getSignPackage($url = &quot;&quot;)
+    {
+        $jsapiTicket = $this-&gt;_getJsApiTicket();
+
+        // 注意 URL 一定要动态获取，不能 hardcode.
+        $protocol = (!empty($_SERVER['HTTPS']) &amp;&amp; $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? &quot;https://&quot; : &quot;http://&quot;;
+//        $url = &quot;$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]&quot;;
+        $_url = $protocol . $_SERVER['HTTP_HOST'] . &quot;your url path ...&quot;;
+        if(!$url){
+            $url = $_url;
+        }
+
+        $timestamp = time();
+        $nonceStr = $this-&gt;_createNonceStr();
+
+        // 这里参数的顺序要按照 key 值ASCII 码升序排序
+        $string = sprintf(&quot;jsapi_ticket=%s&amp;noncestr=%s&amp;timestamp=%s&amp;url=%s&quot;, $jsapiTicket, $nonceStr, $timestamp, $url);
+
+        $signature = sha1($string);
+
+        $signPackage = array(
+            &quot;appId&quot; =&gt; $this-&gt;_appId,
+            &quot;nonceStr&quot; =&gt; $nonceStr,
+            &quot;timestamp&quot; =&gt; $timestamp,
+            &quot;url&quot; =&gt; $url,
+            &quot;signature&quot; =&gt; $signature,
+            &quot;rawString&quot; =&gt; $string,
+        );
+
+        return $signPackage;
+    }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    private function _createNonceStr($length = 16)
+    {
+        $chars = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
+        $str = &quot;&quot;;
+        for ($i = 0; $i &lt; $length; $i++) {
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+        return $str;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function _getJsApiTicket()
+    {
+        $data = json_decode($this-&gt;_get_php_file(&quot;jsapi_ticket.php&quot;));
+        if($data-&gt;expire_time &lt; time()){
+            $accessToken = $this-&gt;_getAccessToken();
+            $ticket = $this-&gt;_getTicket($accessToken);
+            if($ticket){
+                $data-&gt;expire_time = time() + 7000;
+                $data-&gt;jsapi_ticket = $ticket;
+                $this-&gt;_setRedisToken(&quot;jsapi_ticket.php&quot;, json_encode($data));
+            }
+        }else{
+            $ticket = $data-&gt;jsapi_ticket;
+        }
+
+        return $ticket;
+    }
+
+    /**
+     * @param $accessToken
+     * @return mixed
+     */
+    private function _getTicket($accessToken)
+    {
+        $url = sprintf($this-&gt;_api_ticket_url, $accessToken);
+        $res = \clsCurl::get($url, \clsCurl::RES_TYPE_JSON);
+        $ticket = $res[&quot;ticket&quot;];
+        return $ticket;
+    }
+
+    private function _getAccessToken()
+    {
+        $data = json_decode($this-&gt;_getRedisToken(&quot;access_token.php&quot;));
+        if($data-&gt;expire_time &lt; time()){
+            $url = sprintf($this-&gt;_access_token_url, $this-&gt;_appId, $this-&gt;_appSecret);
+            $res = \clsCurl::get($url, \clsCurl::RES_TYPE_JSON);
+            $accessToken = $res[&quot;access_token&quot;];
+            if($accessToken){
+                $data-&gt;expire_time = time() + 7000;
+                $data-&gt;access_token = $accessToken;
+                $this-&gt;_setRedisToken(&quot;access_token.php&quot;, json_encode($data));
+            }
+        }else{
+            $accessToken = $data-&gt;access_token;
+        }
+
+        return $accessToken;
+    }
+
+    /**
+     * 获取文件
+     * @param $filename
+     * @return string
+     */
+    private function _getRedisToken($filename)
+    {
+        return \Model\mdlBase::instance()-&gt;redis(&quot;online&quot;)-&gt;get($filename);
+    }
+
+    /**
+     * @param $filename
+     * @param $content
+     */
+    private function _setRedisToken($filename, $content)
+    {
+        return \Model\mdlBase::instance()-&gt;redis(&quot;online&quot;)-&gt;set($filename, $content);
+    }
+
+    private function _httpGet($url) {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+        // 为保证第三方服务器与微信服务器之间数据传输的安全性，所有微信接口采用https方式调用，必须使用下面2行代码打开ssl安全校验。
+        // 如果在部署过程中代码在此处验证失败，请到 http://curl.haxx.se/ca/cacert.pem 下载新的证书判别文件。
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, true);
+        curl_setopt($curl, CURLOPT_URL, $url);
+
+        $res = curl_exec($curl);
+        curl_close($curl);
+
+        return $res;
+    }
+}
+</code></pre>
+
+<p>以上代码可根据自己实际情况进行调整</p>
 
     </div>
   </article>
