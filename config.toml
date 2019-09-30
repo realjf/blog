@@ -81,3 +81,8 @@ paginate = "10"
     name = "微信"
     title = "微信"
     url = "/wechat/"
+  [[menu.main]]
+    identifier = "nginx"
+    name = "nginx"
+    title = "nginx"
+    url = "/nginx/"
