@@ -32,6 +32,7 @@ net.ipv4.tcp_max_syn.backlog = 1024
 
 ```
 参数说明
+
 - file-max: 这个参数表示进程可以同时打开的最大句柄数，这个参数直接限制最大并发连接数，需要根据实际情况配置
 - tcp_tw_reuse: 这个参数设置为1，表示允许将TIME_WAIT状态的socket重新用于新的tcp连接，这对于服务器来说很有意义，因为服务器上总会有大量TIME-WAIT状态的连接
 - tcp_keepalive_time: 这个参数表示当keepalive启用时，tcp发送keepalive消息的频度。默认是2小时，若将其设置的小一些，可以更快地清理无效的连接
