@@ -76,7 +76,7 @@ mysql社区版本下载地址
 - [https://downloads.mysql.com/archives/community/](https://downloads.mysql.com/archives/community/)
 
 1. 安装mysql server
-详细安装见[../mysql/mysql-community-sever-installation.md](../mysql/mysql-community-sever-installation.md)
+详细安装见[/mysql/mysql-community-server-installation](/mysql/mysql-community-server-installation)
 
 2. 在安装完mysql后，安装相应的驱动mysqlclient
 ```bash
