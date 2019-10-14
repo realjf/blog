@@ -91,3 +91,8 @@ paginate = "10"
     name = "python"
     title = "python"
     url = "/python/"
+  [[menu.main]]
+    identifier = "mysql"
+    name = "mysql"
+    title = "mysql"
+    url = "/mysql/"
