@@ -86,3 +86,8 @@ paginate = "10"
     name = "nginx"
     title = "nginx"
     url = "/nginx/"
+  [[menu.main]]
+    identifier = "python"
+    name = "python"
+    title = "python"
+    url = "/python/"
