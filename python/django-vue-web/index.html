@@ -49,7 +49,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          2 min read
+          4 min read
         </div></div>
     </header>
     <div class="post-content">
@@ -153,44 +153,146 @@ vue --version
 
 <h3 id="1-构建python后端框架">1. 构建python后端框架</h3>
 
-<pre><code class="language-bash"># 1. 使用如下命令构建项目
-django-admin startproject myproject
+<h4 id="1-使用如下命令构建项目">1. 使用如下命令构建项目</h4>
 
-# 2. 进入项目根目录，创建app，这里app名称叫backend，意思是后端
-python3 manage.py startapp backend
+<pre><code class="language-bash">django-admin startproject myproject
+</code></pre></li>
+</ol>
 
-# 3. 在myproject下的settings.py中，将sqlite3数据库配置替换成我们的mysql配置
-# 相关配置可以参考地址[https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES](https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES)
-DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'mydatabase',
-    'USER': 'mydatabaseuser',
-    'PASSWORD': 'mypassword',
-    'HOST': '127.0.0.1',
-    'PORT': '5432',
-}
+<h4 id="2-进入项目根目录-创建app-这里app名称叫backend-意思是后端">2. 进入项目根目录，创建app，这里app名称叫backend，意思是后端</h4>
+
+<pre><code class="language-bash">python3 manage.py startapp backend
+</code></pre>
+
+<h4 id="3-在myproject下的settings-py中-将sqlite3数据库配置替换成我们的mysql配置">3. 在myproject下的settings.py中，将sqlite3数据库配置替换成我们的mysql配置</h4>
+
+<h1 id="相关配置可以参考地址-https-docs-djangoproject-com-en-2-2-ref-settings-std-setting-databases-https-docs-djangoproject-com-en-2-2-ref-settings-std-setting-databases">相关配置可以参考地址<a href="https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES">https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES</a></h1>
+
+<pre><code class="language-python">DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 
 # 并将我们的app，即backend加入到installed_apps列表中
 INSTALLED_APPS = [
-'django.contrib.admin',
-'django.contrib.auth',
-'django.contrib.contenttypes',
-'django.contrib.sessions',
-'django.contrib.messages',
-'django.contrib.staticfiles',
- 'backend',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+     'backend',
 ]
 
 # 将时区修改为你需要的时区，默认是UTC
 TIME_ZONE = 'Asia/Shanghai'
 
-# 4. 在app目录下的models.py里我们简单写一个model，作为测试:
+</code></pre>
 
+<h4 id="4-在backend目录下的models-py里我们简单写一个model-作为测试">4. 在backend目录下的models.py里我们简单写一个model，作为测试:</h4>
 
-</code></pre></li>
-</ol>
+<pre><code class="language-python"># -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.db import models
+
+# Create your models here.
+class ChinaCities(models.Model):
+    city_name = models.CharField(max_length=255)
+    city_code = models.IntegerField(default=0)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.city_name
+</code></pre>
+
+<p>有三个字段，城市名称、城市代码和添加时间，如果没有指定主键的话django会自动新增id作为主键。</p>
+
+<h4 id="5-接口">5. 接口</h4>
+
+<p>在backend目录下的views里我们新增两个接口，
+一个是city_list返回所有城市列表（通过jsonResponse返回能被前端标识的json格式数据），
+二是add_city，接收一个get请求，往数据库里添加一条city数据：</p>
+
+<pre><code class="language-python">from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
+from django.core import serializers
+from django.http import JsonResponse
+import json
+
+from .models import ChinaCities
+# Create your views here.
+
+@require_http_methods([&quot;GET&quot;])
+def add_city(request):
+    response = {}
+    try:
+        city = ChinaCities(city_name=request.GET.get('city_name'), city_code=request.GET.get('city_code'))
+        city.save()
+        response['message'] = 'success'
+        response['code'] = 100
+    except Exception as e:
+        response['message'] = str(e)
+        response['code'] = 99
+
+    return JsonResponse(response) # 注意这里要对齐
+
+@require_http_methods([&quot;GET&quot;])
+def city_list(request):
+    response = {}
+    try:
+        cities = ChinaCities.objects.filter()
+        response['data'] = json.loads(serializers.serialize(&quot;json&quot;, cities))
+        response['message'] = 'success'
+        response['code'] = 100
+
+    except Exception as e:
+        response['message'] = str(e)
+        response['code'] = 99
+
+    return JsonResponse(response) # 注意这里要对齐
+
+</code></pre>
+
+<p>以上是ORM的使用</p>
+
+<h4 id="6-在backend目录下-新增一个urls-py文件-用于添加路由">6. 在backend目录下，新增一个urls.py文件，用于添加路由：</h4>
+
+<pre><code class="language-python">from django.conf.urls import url, include
+from . import views
+
+urlpatterns = [
+    url(r'add_city$', views.add_city, ),
+    url(r'city_list$', views.city_list, ),
+]
+</code></pre>
+
+<p>最后将上面的路由添加到myproject项目下的urls中</p>
+
+<pre><code class="language-python">import backend.urls # 导入
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'api/', include(backend.urls)), # 添加路由
+    url(r'', TemplateView.as_view(template_name=&quot;index.html&quot;)),
+]
+
+</code></pre>
+
+<p>到此路由配置完毕，运行如下初始化数据库命令</p>
+
+<pre><code class="language-bash">python3 manage.py makemigrations backend
+
+python3 manage.py migrate
+
+</code></pre>
+
+<p>查询数据库，发现已经初始化好了数据表</p>
 
 <h3 id="2-构建vue-js前端框架">2. 构建vue.js前端框架</h3>
 
@@ -204,7 +306,7 @@ TIME_ZONE = 'Asia/Shanghai'
 <pre><code class="language-bash">npm install -g @vue/cli
 </code></pre>
 
-<h4 id="首先在整个项目根目录-及backend同级目录下-新建一个vue项目">首先在整个项目根目录，及backend同级目录下，新建一个vue项目</h4>
+<h4 id="首先在整个项目根目录-即backend同级目录下-新建一个vue项目叫frontend">首先在整个项目根目录，即backend同级目录下，新建一个vue项目叫frontend</h4>
 
 <pre><code class="language-bash"># vue-cli 2.x的使用如下命令创建项目
 vue-init webpack frontend # 安装过程中，可选手动选择安装组件，有些可选组件如vue-router，vuex等可以根据自己需要确定是否安装
@@ -227,6 +329,133 @@ npm install vue-resource
 
 </code></pre>
 
+<h4 id="在src-main-js下配置vue加载组件">在src/main.js下配置vue加载组件</h4>
+
+<pre><code class="language-js">import VueResource from &quot;vue-resource&quot;
+import ElementUI from &quot;element-ui&quot;
+import &quot;element-ui/lib/theme-chalk/index.css&quot;
+
+Vue.use(VueResource);
+Vue.use(ElementUI);
+
+</code></pre>
+
+<h4 id="在src-component文件夹下新建一个组件叫home-vue-然后写上用于添加城市信息的代码">在src/component文件夹下新建一个组件叫Home.vue，然后写上用于添加城市信息的代码</h4>
+
+<pre><code class="language-html">&lt;template&gt;
+  &lt;div class=&quot;home&quot;&gt;
+    &lt;el-row display=&quot;margin-top:10px&quot;&gt;
+      &lt;el-col :span=&quot;4&quot;&gt;&lt;el-input v-model=&quot;name&quot; placeholder=&quot;请输入城市名称&quot;&gt;&lt;/el-input&gt;&lt;/el-col&gt;
+      &lt;el-col :span=&quot;4&quot;&gt;&lt;el-input v-model=&quot;code&quot; placeholder=&quot;请输入城市代码&quot;&gt;&lt;/el-input&gt;&lt;/el-col&gt;
+      &lt;el-button type=&quot;primary&quot; @click=&quot;addCity(name, code)&quot;&gt;新增城市&lt;/el-button&gt;
+    &lt;/el-row&gt;
+    &lt;el-row&gt;
+      &lt;el-table :data=&quot;cityList&quot; style=&quot;width: 100%&quot; border&gt;
+        &lt;el-table-column prop=&quot;id&quot; label=&quot;编号&quot; min-width=&quot;100&quot;&gt;
+          &lt;template scope=&quot;scope&quot;&gt;{{ scope.row.pk }}&lt;/template&gt;
+        &lt;/el-table-column&gt;
+        &lt;el-table-column prop=&quot;city_name&quot; label=&quot;城市名称&quot; min-width=&quot;100&quot;&gt;
+          &lt;template scope=&quot;scope&quot;&gt;{{ scope.row.fields.city_name }}&lt;/template&gt;
+        &lt;/el-table-column&gt;
+         &lt;el-table-column prop=&quot;city_code&quot; label=&quot;城市代码&quot; min-width=&quot;100&quot;&gt;
+          &lt;template scope=&quot;scope&quot;&gt;{{ scope.row.fields.city_code }}&lt;/template&gt;
+        &lt;/el-table-column&gt;
+         &lt;el-table-column prop=&quot;create_time&quot; label=&quot;创建时间&quot; min-width=&quot;100&quot;&gt;
+          &lt;template scope=&quot;scope&quot;&gt;{{ scope.row.fields.create_time }}&lt;/template&gt;
+        &lt;/el-table-column&gt;
+      &lt;/el-table&gt;
+    &lt;/el-row&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+// @ is an alias to /src
+
+export default {
+  name: 'home',
+  data(){
+    return {
+      name: &quot;&quot;,
+      code: 0,
+      cityList: [],
+    }
+  },
+  methods:{
+    fetchList(){
+      this.$http.get(&quot;/api/city_list&quot;).then(res =&gt; {
+        console.log(res);
+          if(res.code == 100){
+              this.$message({
+                type: &quot;success&quot;,
+                showClose: true,
+                message: &quot;加载成功&quot;,
+              });
+            this.cityList = res.data;
+          }else{
+            this.$message({
+                type: &quot;error&quot;,
+                showClose: true,
+                message: &quot;加载失败&quot;,
+              });
+          }
+      })
+    },
+    addCity(name, code){
+      let options = {
+        body: {
+          &quot;city_name&quot;: name,
+          &quot;city_code&quot;: code
+        },
+        emulateJSON: true,
+      };
+      this.$http.get(&quot;/api/add_city&quot;, [options]).then(res =&gt; {
+          console.log(res);
+          if(res.code == 100){
+            this.$message({
+                type: &quot;success&quot;,
+                showClose: true,
+                message: &quot;添加成功&quot;,
+              });
+            this.fetchList();
+          }else{
+            this.$message({
+                type: &quot;error&quot;,
+                showClose: true,
+                message: &quot;添加失败&quot;,
+              });
+          }
+      })
+    }
+  },
+  mounted() {
+    this.fetchList();
+  }
+}
+&lt;/script&gt;
+
+</code></pre>
+
+<h4 id="添加路由">添加路由</h4>
+
+<p>在src/router.js下新增路由</p>
+
+<pre><code class="language-js">import Home from './views/Home.vue'
+
+export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+  ]
+})
+</code></pre>
+
+<p>路由添加好了，可以运行下是否正常了</p>
+
 <h4 id="在frontend目录下运行npm-run-dev启动node服务器-在浏览器中打开地址">在frontend目录下运行npm run dev启动node服务器，在浏览器中打开地址</h4>
 
 <pre><code class="language-bash">npm run dev
@@ -248,7 +477,7 @@ npm install vue-resource
 <pre><code class="language-bash">npm run build
 </code></pre>
 
-<h2 id="四-整合前后端ba">四、整合前后端ba</h2>
+<h2 id="四-整合前后端">四、整合前后端</h2>
 
 <p>前面构建好的前后端框架实际上都是各自运行在自己的服务器中，如果我们向通过python解析运行前后端代码，
 则需要将Django的TemplateView指向我们刚才生成的前端dist文件即可，具体配置如下：</p>
@@ -261,7 +490,7 @@ from django.views.generic.base import TemplateView //注意加上这句
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'', TemplateView.as_view(template_name=&quot;index.html&quot;)),
+    path(r'', TemplateView.as_view(template_name=&quot;index.html&quot;)), # 添加这行
 ]
 
 </code></pre>
