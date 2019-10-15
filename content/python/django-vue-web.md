@@ -86,15 +86,17 @@ pip3 install mysqlclient
 
 ## 三、开始
 ### 1. 构建python后端框架
+#### 1. 使用如下命令构建项目
 ```bash
-# 1. 使用如下命令构建项目
 django-admin startproject myproject
-
-# 2. 进入项目根目录，创建app，这里app名称叫backend，意思是后端
+```
+#### 2. 进入项目根目录，创建app，这里app名称叫backend，意思是后端
+```bash
 python3 manage.py startapp backend
-
-# 3. 在myproject下的settings.py中，将sqlite3数据库配置替换成我们的mysql配置
+```
+#### 3. 在myproject下的settings.py中，将sqlite3数据库配置替换成我们的mysql配置
 # 相关配置可以参考地址[https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES](https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES)
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -120,10 +122,99 @@ INSTALLED_APPS = [
 # 将时区修改为你需要的时区，默认是UTC
 TIME_ZONE = 'Asia/Shanghai'
 
-# 4. 在app目录下的models.py里我们简单写一个model，作为测试:
+```
+#### 4. 在backend目录下的models.py里我们简单写一个model，作为测试:
+```python
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.db import models
 
+# Create your models here.
+class ChinaCities(models.Model):
+    city_name = models.CharField(max_length=255)
+    city_code = models.IntegerField(default=0)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.city_name
+```
+有三个字段，城市名称、城市代码和添加时间，如果没有指定主键的话django会自动新增id作为主键。
+
+#### 5. 接口
+在backend目录下的views里我们新增两个接口，
+一个是city_list返回所有城市列表（通过jsonResponse返回能被前端标识的json格式数据），
+二是add_city，接收一个get请求，往数据库里添加一条city数据：
+```python
+from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
+from django.core import serializers
+from django.http import JsonResponse
+import json
+
+from .models import ChinaCities
+# Create your views here.
+
+@require_http_methods(["GET"])
+def add_city(request):
+    response = {}
+    try:
+        city = ChinaCities(city_name=request.GET.get('city_name'), city_code=request.GET.get('city_code'))
+        city.save()
+        response['message'] = 'success'
+        response['code'] = 100
+    except Exception as e:
+        response['message'] = str(e)
+        response['code'] = 99
+
+    return JsonResponse(response) # 注意这里要对齐
+
+@require_http_methods(["GET"])
+def city_list(request):
+    response = {}
+    try:
+        cities = ChinaCities.objects.filter()
+        response['data'] = json.loads(serializers.serialize("json", cities))
+        response['message'] = 'success'
+        response['code'] = 100
+
+    except Exception as e:
+        response['message'] = str(e)
+        response['code'] = 99
+
+    return JsonResponse(response) # 注意这里要对齐
 
 ```
+以上是ORM的使用
+
+#### 6. 在backend目录下，新增一个urls.py文件，用于添加路由：
+```python
+from django.conf.urls import url, include
+from . import views
+
+urlpatterns = [
+    url(r'add_city$', views.add_city, ),
+    url(r'city_list$', views.city_list, ),
+]
+```
+最后将上面的路由添加到myproject项目下的urls中
+```python
+import backend.urls # 导入
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'api/', include(backend.urls)), # 添加路由
+    url(r'', TemplateView.as_view(template_name="index.html")),
+]
+
+```
+到此路由配置完毕，运行如下初始化数据库命令
+```bash
+python3 manage.py makemigrations backend
+
+python3 manage.py migrate
+
+```
+查询数据库，发现已经初始化好了数据表
 
 ### 2. 构建vue.js前端框架
 首先确认是否安装vue-cli脚手架，通过如下命令确认
@@ -135,7 +226,7 @@ vue --version
 npm install -g @vue/cli
 ```
 
-#### 首先在整个项目根目录，及backend同级目录下，新建一个vue项目
+#### 首先在整个项目根目录，即backend同级目录下，新建一个vue项目叫frontend
 ```bash
 # vue-cli 2.x的使用如下命令创建项目
 vue-init webpack frontend # 安装过程中，可选手动选择安装组件，有些可选组件如vue-router，vuex等可以根据自己需要确定是否安装
@@ -155,6 +246,132 @@ npm install element-ui
 npm install vue-resource
 
 ```
+#### 在src/main.js下配置vue加载组件
+```js
+import VueResource from "vue-resource"
+import ElementUI from "element-ui"
+import "element-ui/lib/theme-chalk/index.css"
+
+Vue.use(VueResource);
+Vue.use(ElementUI);
+
+```
+
+#### 在src/component文件夹下新建一个组件叫Home.vue，然后写上用于添加城市信息的代码
+```html
+<template>
+  <div class="home">
+    <el-row display="margin-top:10px">
+      <el-col :span="4"><el-input v-model="name" placeholder="请输入城市名称"></el-input></el-col>
+      <el-col :span="4"><el-input v-model="code" placeholder="请输入城市代码"></el-input></el-col>
+      <el-button type="primary" @click="addCity(name, code)">新增城市</el-button>
+    </el-row>
+    <el-row>
+      <el-table :data="cityList" style="width: 100%" border>
+        <el-table-column prop="id" label="编号" min-width="100">
+          <template scope="scope">{{ scope.row.pk }}</template>
+        </el-table-column>
+        <el-table-column prop="city_name" label="城市名称" min-width="100">
+          <template scope="scope">{{ scope.row.fields.city_name }}</template>
+        </el-table-column>
+         <el-table-column prop="city_code" label="城市代码" min-width="100">
+          <template scope="scope">{{ scope.row.fields.city_code }}</template>
+        </el-table-column>
+         <el-table-column prop="create_time" label="创建时间" min-width="100">
+          <template scope="scope">{{ scope.row.fields.create_time }}</template>
+        </el-table-column>
+      </el-table>
+    </el-row>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+
+export default {
+  name: 'home',
+  data(){
+    return {
+      name: "",
+      code: 0,
+      cityList: [],
+    }
+  },
+  methods:{
+    fetchList(){
+      this.$http.get("/api/city_list").then(res => {
+        console.log(res);
+          if(res.code == 100){
+              this.$message({
+                type: "success",
+                showClose: true,
+                message: "加载成功",
+              });
+            this.cityList = res.data;
+          }else{
+            this.$message({
+                type: "error",
+                showClose: true,
+                message: "加载失败",
+              });
+          }
+      })
+    },
+    addCity(name, code){
+      let options = {
+        body: {
+          "city_name": name,
+          "city_code": code
+        },
+        emulateJSON: true,
+      };
+      this.$http.get("/api/add_city", [options]).then(res => {
+          console.log(res);
+          if(res.code == 100){
+            this.$message({
+                type: "success",
+                showClose: true,
+                message: "添加成功",
+              });
+            this.fetchList();
+          }else{
+            this.$message({
+                type: "error",
+                showClose: true,
+                message: "添加失败",
+              });
+          }
+      })
+    }
+  },
+  mounted() {
+    this.fetchList();
+  }
+}
+</script>
+
+```
+
+#### 添加路由
+在src/router.js下新增路由
+```js
+import Home from './views/Home.vue'
+
+export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+  ]
+})
+```
+路由添加好了，可以运行下是否正常了
+
+
 #### 在frontend目录下运行npm run dev启动node服务器，在浏览器中打开地址
 ```bash
 npm run dev
@@ -173,7 +390,7 @@ module.exports = {
 npm run build
 ```
 
-## 四、整合前后端ba
+## 四、整合前后端
 前面构建好的前后端框架实际上都是各自运行在自己的服务器中，如果我们向通过python解析运行前后端代码，
 则需要将Django的TemplateView指向我们刚才生成的前端dist文件即可，具体配置如下：
 
@@ -185,7 +402,7 @@ from django.views.generic.base import TemplateView //注意加上这句
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'', TemplateView.as_view(template_name="index.html")),
+    path(r'', TemplateView.as_view(template_name="index.html")), # 添加这行
 ]
 
 ```
