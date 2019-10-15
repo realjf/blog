@@ -300,14 +300,14 @@ export default {
   methods:{
     fetchList(){
       this.$http.get("/api/city_list").then(res => {
-        console.log(res);
-          if(res.code == 100){
+        console.log(res.body);
+          if(res.body.code == 100){
               this.$message({
                 type: "success",
                 showClose: true,
                 message: "加载成功",
               });
-            this.cityList = res.data;
+            this.cityList = res.body.data;
           }else{
             this.$message({
                 type: "error",
@@ -319,15 +319,15 @@ export default {
     },
     addCity(name, code){
       let options = {
-        body: {
+        params: {
           "city_name": name,
           "city_code": code
         },
         emulateJSON: true,
       };
-      this.$http.get("/api/add_city", [options]).then(res => {
-          console.log(res);
-          if(res.code == 100){
+      this.$http.get("/api/add_city", options).then(res => {
+          console.log(res.body);
+          if(res.body.code == 100){
             this.$message({
                 type: "success",
                 showClose: true,
