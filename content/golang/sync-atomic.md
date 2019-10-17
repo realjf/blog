@@ -1,5 +1,5 @@
 ---
-title: "Golang语言标准库之 Sync/Atomic原子操作"
+title: "Golang语言标准库之 sync/atomic原子操作"
 date: 2019-10-17T17:37:02+08:00
 draft: false
 ---
