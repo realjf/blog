@@ -65,20 +65,26 @@ CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条�
 
 <p>sync/atomic包的文件结构以及数据结构可以参考<a href="https://coggle.it/diagram/Xag3knoA8i_zpoat/t/-/b45bf815722b49b694e05c677e46afd16aad61d414815df8ec24b15bed61b62a">这里</a></p>
 
-<p>sync/atomic包提供了6中操作数据类型
-- int32
-- uint32
-- int64
-- uint64
-- uintptr
-- unsafe.Pointer</p>
+<p>sync/atomic包提供了6中操作数据类型</p>
 
-<p>分别为这每种数据类型提供了五种操作
-- add 增减
-- load 载入
-- store 存储
-- compareandswap 比较并交换
-- swap 交换</p>
+<ul>
+<li>int32</li>
+<li>uint32</li>
+<li>int64</li>
+<li>uint64</li>
+<li>uintptr</li>
+<li>unsafe.Pointer</li>
+</ul>
+
+<p>分别为这每种数据类型提供了五种操作</p>
+
+<ul>
+<li>add 增减</li>
+<li>load 载入</li>
+<li>store 存储</li>
+<li>compareandswap 比较并交换</li>
+<li>swap 交换</li>
+</ul>
 
 <h3 id="下面以int32为例-具体使用上面五种操作实现原子操作">下面以int32为例，具体使用上面五种操作实现原子操作</h3>
 

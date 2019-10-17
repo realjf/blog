@@ -31,9 +31,9 @@
 CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;rdquo;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
 持续到这条指令结束时放开，从而把总线锁住，这样同一总线上别的CPU就暂时不能通过总线访问内存了，保证了这条指令在多处理器环境中的原子性。
  sync/atomic包的文件结构以及数据结构可以参考这里
-sync/atomic包提供了6中操作数据类型 - int32 - uint32 - int64 - uint64 - uintptr - unsafe.Pointer
-分别为这每种数据类型提供了五种操作 - add 增减 - load 载入 - store 存储 - compareandswap 比较并交换 - swap 交换
-下面以int32为例，具体使用上面五种操作实现原子操作 AddInt32操作 var val int32 val = 10 atomic.AddInt32(&amp;amp;val, 10) // 对于无符号32位即uint32，则需要使用二进制补码进行操作 var val2 uint32 val2 = 10 atomic.AddUint32(&amp;amp;val2, ^uint32(10 - 1)) // 等价于 val2 - 10  CompareAndSwapInt32 对比并交换是指先判断addr指向的值是否与参数old一致，如果一致就用new值替换addr的值，最后返回成功，具体例子如下
+sync/atomic包提供了6中操作数据类型
+ int32 uint32 int64 uint64 uintptr unsafe.Pointer  分别为这每种数据类型提供了五种操作
+ add 增减 load 载入 store 存储 compareandswap 比较并交换 swap 交换  下面以int32为例，具体使用上面五种操作实现原子操作 AddInt32操作 var val int32 val = 10 atomic.AddInt32(&amp;amp;val, 10) // 对于无符号32位即uint32，则需要使用二进制补码进行操作 var val2 uint32 val2 = 10 atomic.AddUint32(&amp;amp;val2, ^uint32(10 - 1)) // 等价于 val2 - 10  CompareAndSwapInt32 对比并交换是指先判断addr指向的值是否与参数old一致，如果一致就用new值替换addr的值，最后返回成功，具体例子如下
 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; &amp;quot;sync/atomic&amp;quot; ) func main() { var val int32 wg := sync.</description>
     </item>
     
