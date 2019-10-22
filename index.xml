@@ -6,18 +6,26 @@
     <description>Recent content on Real_JF&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Oct 2019 19:13:36 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 22 Oct 2019 09:50:59 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Golang语言标准库之 sync.Pool临时对象池</title>
-      <link>https://realjf.io/golang/sync-pool/</link>
-      <pubDate>Thu, 17 Oct 2019 19:13:36 +0800</pubDate>
+      <title>Golang Micro 微服务框架使用</title>
+      <link>https://realjf.io/golang/golang-micro-usage/</link>
+      <pubDate>Tue, 22 Oct 2019 09:50:59 +0800</pubDate>
       
-      <guid>https://realjf.io/golang/sync-pool/</guid>
-      <description></description>
+      <guid>https://realjf.io/golang/golang-micro-usage/</guid>
+      <description>准备  搭建好golang开发环境 安装git等相关工具  开始 一、安装protobuf protobuf用于生成微服务代码
+go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go   如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
+关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
+ 二、服务发现 服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件
+安装etcd etcd下载地址https://github.com/etcd-io/etcd/releases
+三、写一个服务 以下为一个简单的rpc服务例子
+创建服务proto 微服务的关键要求之一是严格定义接口。
+Micro使用protobuf来实现这一目标。 在这里，我们使用Hello方法定义了Greeter处理程序。 它需要一个字符串参数同时使用一个HelloRequest和HelloResponse。
+syntax = &amp;quot;proto3&amp;quot;; service Greeter { rpc Hello(HelloRequest) returns (HelloResponse) {} } message HelloRequest { string name = 1; } message HelloResponse { string greeting = 2; }  生成proto protoc --proto_path=$GOPATH/src:. --micro_out=.</description>
     </item>
     
     <item>
@@ -259,6 +267,27 @@ ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下�
       <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc  ceph release http://docs.ceph.com/docs/master/releases/
 2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y  3. 配置各节点hosts文件 cat /etc/hosts
 192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3  4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen  5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3  6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster  7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1  8. 配置ceph.</description>
+    </item>
+    
+    <item>
+      <title>Golang GC 实现原理</title>
+      <link>https://realjf.io/golang/how-golang-garbage-collection-works/</link>
+      <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/how-golang-garbage-collection-works/</guid>
+      <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;rdquo;最大响应时间&amp;rdquo;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
+基础概念 内存结构 go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：
+这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:
+arena arena区域就是我们通常说的heap, go从heap分配的内存都在这个区域中.
+bitmap bitmap区域用于表示arena区域中哪些地址保存了对象, 并且对象中哪些地址包含了指针. bitmap区域中一个byte(8 bit)对应了arena区域中的四个指针大小的内存, 也就是2 bit对应一个指针大小的内存. 所以bitmap区域的大小是 512GB / 指针大小(8 byte) / 4 = 16GB.
+bitmap区域中的一个byte对应arena区域的四个指针大小的内存的结构如下, 每一个指针大小的内存都会有两个bit分别表示是否应该继续扫描和是否包含指针:
+bitmap中的byte和arena的对应关系从末尾开始, 也就是随着内存分配会向两边扩展:
+spans spans区域用于表示arena区中的某一页(Page)属于哪个span, 什么是span将在下面介绍. spans区域中一个指针(8 byte)对应了arena区域中的一页(在go中一页=8KB). 所以spans的大小是 512GB / 页大小(8KB) * 指针大小(8 byte) = 512MB.
+spans区域的一个指针对应arena区域的一页的结构如下, 和bitmap不一样的是对应关系会从开头开始:
+什么时候从heap分配对象 go对自动确定哪些对象应该放在栈上，哪些对象应该放在堆上。 简单说，当一个对象的内容可能在生成该对象的函数结束后被访问，那么这个对象就会分配到堆上
+在堆上分配的对象的情况包括： - 返回对象的指针 - 传递了对象的指针到其他函数 - 在闭包中是用来对象并且需要修改对象 - 使用new
+在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;rdquo;逃逸分析&amp;rdquo;.
+GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提到的bitmap区域涵盖了arena区域中的指针信息.</description>
     </item>
     
     <item>

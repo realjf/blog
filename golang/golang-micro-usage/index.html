@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>golang性能分析利器之Pprof // Real_JF&#39;s blog</title>
+    <title>Golang Micro 微服务框架使用 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,13 +37,13 @@
     
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">golang性能分析利器之Pprof</h1>
+      <h1 class ="post-title">Golang Micro 微服务框架使用</h1>
       <div class="post-meta">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 19, 2019
+          Oct 22, 2019
         </div>
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
@@ -55,160 +55,281 @@
     <div class="post-content">
       
 
-<p>pprof是golang程序一个性能分析的工具，可以查看堆栈、cpu信息等</p>
+<h2 id="准备">准备</h2>
 
-<p>pprof有2个包：net/http/pprof以及runtime/pprof</p>
+<ul>
+<li>搭建好golang开发环境</li>
+<li>安装git等相关工具</li>
+</ul>
 
-<p>二者之间的关系：net/http/pprof包只是使用runtime/pprof包来进行封装了一下，并在http端口上暴露出来</p>
+<h2 id="开始">开始</h2>
 
-<h4 id="性能分析利器-pprof">性能分析利器 pprof</h4>
+<h3 id="一-安装protobuf">一、安装protobuf</h3>
 
-<p>go本身提供的工具链有：
-- runtime/pprof：采集程序的运行数据进行分析
-- net/http/pprof：采集HTTP Server的运行时数据进行分析</p>
+<p>protobuf用于生成微服务代码</p>
 
-<p>pprof以profile.proto读取分析样本的集合，并生成报告以可视化并帮助分析数据</p>
+<pre><code class="language-bash">go get github.com/micro/protoc-gen-micro
+
+# 同时需要安装protoc和protoc-go-gen
+go get -d -u github.com/golang/protobuf/protoc-gen-go
+go install github.com/golang/protobuf/protoc-gen-go
+
+</code></pre>
 
 <blockquote>
-<p>profile.proto是一个Protocol Buffer v3的描述文件，它描述了一组callstack和symbolization信息，作用是表示统计分析的一组采样的调用栈，是很常见的stacktrace配置文件格式</p>
+<p>如果需要别的语言的代码生成器，请参阅<a href="https://github.com/protocolbuffers/protobuf">https://github.com/protocolbuffers/protobuf</a></p>
+
+<p>关于protobuf的使用，请参阅<a href="https://developers.google.com/protocol-buffers/">https://developers.google.com/protocol-buffers/</a></p>
 </blockquote>
 
-<h4 id="使用方式">使用方式</h4>
+<h3 id="二-服务发现">二、服务发现</h3>
 
-<ul>
-<li>Report generation：报告生成</li>
-<li>Interactive terminal use：交互式终端使用</li>
-<li>Web interface：Web界面</li>
-</ul>
+<p>服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件</p>
 
-<h5 id="1-web服务器方式">1. web服务器方式</h5>
+<h4 id="安装etcd">安装etcd</h4>
 
-<p>假如你的go呈现的是用http包启动的web服务器，当想要看web服务器的状态时，选择【net/http/pprof】，使用方法如下：</p>
+<p>etcd下载地址<a href="https://github.com/etcd-io/etcd/releases">https://github.com/etcd-io/etcd/releases</a></p>
 
-<pre><code class="language-golang">&quot;net/http&quot;
-_ &quot;net/http/pprof&quot;
-</code></pre>
+<h3 id="三-写一个服务">三、写一个服务</h3>
 
-<p>查看结果：通过访问：<a href="http://domain:port/debug/pprof查看当前web服务的状态">http://domain:port/debug/pprof查看当前web服务的状态</a></p>
+<p>以下为一个简单的rpc服务例子</p>
 
-<h5 id="2-服务进程">2. 服务进程</h5>
+<h4 id="创建服务proto">创建服务proto</h4>
 
-<p>如果你go程序是一个服务进程，同样可以选择【net/http/pprof】包，然后开启另外一个goroutine来开启端口监听</p>
+<p>微服务的关键要求之一是严格定义接口。</p>
 
-<pre><code class="language-golang">// 远程获取pprof数据
-go func() {
-    log.Println(http.ListenAndServe(&quot;localhost:8080&quot;, nil))
+<p>Micro使用protobuf来实现这一目标。
+在这里，我们使用Hello方法定义了Greeter处理程序。
+它需要一个字符串参数同时使用一个HelloRequest和HelloResponse。</p>
+
+<pre><code class="language-proto">syntax = &quot;proto3&quot;;
+
+service Greeter {
+    rpc Hello(HelloRequest) returns (HelloResponse) {}
 }
-</code></pre>
 
-<h5 id="3-应用程序">3. 应用程序</h5>
-
-<p>如果你的go程序只是一个应用程序，那就直接使用runtime/pprof包，具体用法是用pprof.StartCPUProfile和pprof.StopCPUProfile。</p>
-
-<pre><code class="language-golang">var cpuprofile = flag.String(&quot;cpuprofile&quot;, &quot;&quot;, &quot;write cpu profile to file&quot;)
-
-func main() {
-    flag.Parse()
-    if *cpuprofile != &quot;&quot; {
-        f, err := os.Create(*cpuprofile)
-        if err != nil {
-            log.Fatal(err)
-        }
-        pprof.StartCPUProfile(f)
-        defer pprof.StopCPUProfile()
-    }
+message HelloRequest {
+    string name = 1;
 }
+
+message HelloResponse {
+    string greeting = 2;
+}
+
 </code></pre>
 
-<h4 id="作用场景">作用场景</h4>
+<h4 id="生成proto">生成proto</h4>
+
+<pre><code class="language-bash">protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. path/to/greeter.proto
+</code></pre>
+
+<h4 id="写服务业务逻辑">写服务业务逻辑</h4>
+
+<p>服务需要遵循以下规则：</p>
 
 <ul>
-<li>CPU Profiling：CPU分析，按照一定的频率采集所监听的应用程序CPU（含寄存器）的使用情况，可用于确定应用程序消耗cpu周期时花费时间的位置</li>
-<li>Memory Profiling：内存分析，在应用程序进行堆分配时记录堆栈跟踪，用于监视当前和历史内存使用情况，以及检查内存泄漏。</li>
-<li>Block Profiling：阻塞分析，记录goroutine阻塞等待同步（包括定时器通道）的位置</li>
-<li>Mutex Profiling：互斥锁分析，报告互斥锁的竞争情况</li>
+<li>实现greeter定义的接口</li>
+<li>初始化一个micro.Service</li>
+<li>注册greeter处理函数</li>
+<li>运行服务</li>
 </ul>
 
-<h3 id="分析">分析</h3>
-
-<h4 id="通过web界面分析">通过web界面分析</h4>
-
-<pre><code class="language-sh">http://localhost:8080/debug/pprof/
-</code></pre>
-
-<p>结果如下：</p>
-
-<pre><code>/debug/pprof/
-
-Types of profiles available:
-Count	Profile
-1	allocs
-0	block
-0	cmdline
-14	goroutine
-1	heap
-0	mutex
-0	profile
-11	threadcreate
-0	trace
-full goroutine stack dump 
-</code></pre>
-
-<ul>
-<li>allocs：过去所有的内存分配采样</li>
-<li>block：Stack traces that led to blocking on synchronization primitives</li>
-<li>cmdline：当前程序的命令行调用</li>
-<li>goroutine：所有当前goroutine堆栈跟踪</li>
-<li>heap：所有存活对象的内存分配采样。你可以在堆采样时指定gc GET参数来运行垃圾回收</li>
-<li>mutex：争用互斥锁的拥有者堆栈跟踪</li>
-<li>profile：CPU profile. You can specify the duration in the seconds GET parameter. After you get the profile file, use the go tool pprof command to investigate the profile.</li>
-<li>threadcreate：引起创建新的操作系统线程的堆栈跟踪</li>
-<li>trace：对当前程序执行的跟踪。可以在seconds get参数中指定持续时间。获取跟踪文件后，使用go tool trace命令调查跟踪</li>
-<li>full groutine stack dump：</li>
-</ul>
-
-<h4 id="实例分析">实例分析</h4>
-
-<pre><code class="language-golang">package main
+<pre><code class="language-go">package main
 
 import (
-    &quot;flag&quot;
-    &quot;log&quot;
-    &quot;net/http&quot;
-    _ &quot;net/http/pprof&quot;
-    &quot;sync&quot;
-    &quot;time&quot;
+	&quot;context&quot;
+	&quot;fmt&quot;
+
+	micro &quot;github.com/micro/go-micro&quot;
+	proto &quot;github.com/micro/examples/service/proto&quot;
 )
 
-func Counter(wg *sync.WaitGroup) {
-    time.Sleep(time.Second)
+type Greeter struct{}
 
-    var counter int
-    for i := 0; i &lt; 1000000; i++ {
-        time.Sleep(time.Millisecond * 200)
-        counter++
-    }
-    wg.Done()
+func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest, rsp *proto.HelloResponse) error {
+	rsp.Greeting = &quot;Hello &quot; + req.Name
+	return nil
 }
 
 func main() {
-    flag.Parse()
+	// Create a new service. Optionally include some options here.
+	service := micro.NewService(
+		micro.Name(&quot;greeter&quot;),
+	)
 
-    //远程获取pprof数据
-    go func() {
-        log.Println(http.ListenAndServe(&quot;localhost:8080&quot;, nil))
-    }()
+	// Init will parse the command line flags.
+	service.Init()
 
-    var wg sync.WaitGroup
-    wg.Add(10)
-    for i := 0; i &lt; 10; i++ {
-        go Counter(&amp;wg)
-    }
-    wg.Wait()
+	// Register handler
+	proto.RegisterGreeterHandler(service.Server(), new(Greeter))
 
-    // sleep 10mins, 在程序退出之前可以查看性能参数.
-    time.Sleep(60 * time.Second)
+	// Run the server
+	if err := service.Run(); err != nil {
+		fmt.Println(err)
+	}
 }
+</code></pre>
+
+<h4 id="运行服务">运行服务</h4>
+
+<pre><code class="language-go">go run examples/service/main.go
+</code></pre>
+
+<h4 id="定义一个客户端">定义一个客户端</h4>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;context&quot;
+	&quot;fmt&quot;
+
+	micro &quot;github.com/micro/go-micro&quot;
+	proto &quot;github.com/micro/examples/service/proto&quot;
+)
+
+
+func main() {
+	// Create a new service. Optionally include some options here.
+	service := micro.NewService(micro.Name(&quot;greeter.client&quot;))
+	service.Init()
+
+	// Create new greeter client
+	greeter := proto.NewGreeterService(&quot;greeter&quot;, service.Client())
+
+	// Call the greeter
+	rsp, err := greeter.Hello(context.TODO(), &amp;proto.HelloRequest{Name: &quot;John&quot;})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Print response
+	fmt.Println(rsp.Greeting)
+}
+</code></pre>
+
+<h4 id="运行客户端">运行客户端</h4>
+
+<pre><code class="language-bash">go run client.go
+</code></pre>
+
+<h3 id="四-发布订阅">四、发布订阅</h3>
+
+<p>Go-micro具有用于事件驱动架构的内置消息代理接口。</p>
+
+<p>PubSub与RPC在protobuf生成的相同消息上运行。它们会自动进行编码/解码，并通过代理发送。默认情况下，go-micro包含点对点http代理，但是可以通过go-plugins替换掉</p>
+
+<h4 id="发布">发布</h4>
+
+<p>创建一个发布者</p>
+
+<pre><code class="language-go">p := micro.NewPublisher(&quot;events&quot;, service.Client())
+// 其中的events是话题名称
+</code></pre>
+
+<p>发布一个proto消息</p>
+
+<pre><code class="language-go">p.Publish(context.TODO(), &amp;proto.Event{Name: &quot;event&quot;})
+</code></pre>
+
+<h4 id="订阅">订阅</h4>
+
+<p>创建一个消息句柄，</p>
+
+<pre><code class="language-go">func ProcessEvent(ctx context.Context, event *proto.Event) error {
+	fmt.Printf(&quot;Got event %+v\n&quot;, event)
+	return nil
+}
+</code></pre>
+
+<p>注册消息句柄到一个话题</p>
+
+<pre><code class="language-go">micro.RegisterSubscriber(&quot;events&quot;, ProcessEvent)
+</code></pre>
+
+<blockquote>
+<p>详细例子请参考<a href="https://github.com/micro/examples/tree/master/pubsub">https://github.com/micro/examples/tree/master/pubsub</a></p>
+</blockquote>
+
+<h3 id="五-插件">五、插件</h3>
+
+<p>默认情况下，go-micro仅在核心提供每个接口的一些实现，但它是完全可插入的。
+github.com/micro/go-plugins上已有许多插件</p>
+
+<h4 id="插件使用">插件使用</h4>
+
+<p>创建一个plugins.go文件</p>
+
+<pre><code class="language-go">import (
+        // etcd v3 registry
+        _ &quot;github.com/micro/go-plugins/registry/etcdv3&quot;
+        // nats transport
+        _ &quot;github.com/micro/go-plugins/transport/nats&quot;
+        // kafka broker
+        _ &quot;github.com/micro/go-plugins/broker/kafka&quot;
+)
+</code></pre>
+
+<p>构建二进制包</p>
+
+<pre><code class="language-bash">go build -i -o service ./main.go ./plugins.go
+</code></pre>
+
+<p>插件使用</p>
+
+<pre><code class="language-go">service --registry=etcdv3 --transport=nats --broker=kafka
+</code></pre>
+
+<h3 id="六-包装器">六、包装器</h3>
+
+<p>go-micro有很多中间件可以作为包装器使用</p>
+
+<h4 id="处理句柄">处理句柄</h4>
+
+<p>以下是一个处理句柄的日志函数示例</p>
+
+<pre><code class="language-go">func logWrapper(fn server.HandlerFunc) server.HandlerFunc {
+	return func(ctx context.Context, req server.Request, rsp interface{}) error {
+		fmt.Printf(&quot;[%v] server request: %s&quot;, time.Now(), req.Endpoint())
+		return fn(ctx, req, rsp)
+	}
+}
+</code></pre>
+
+<p>初始化如下</p>
+
+<pre><code class="language-go">service := micro.NewService(
+	micro.Name(&quot;greeter&quot;),
+	// wrap the handler
+	micro.WrapHandler(logWrapper),
+)
+</code></pre>
+
+<h4 id="client">client</h4>
+
+<p>以下为一个客户端包装器log请求示例</p>
+
+<pre><code class="language-go">type logWrapper struct {
+	client.Client
+}
+
+func (l *logWrapper) Call(ctx context.Context, req client.Request, rsp interface{}, opts ...client.CallOption) error {
+	fmt.Printf(&quot;[wrapper] client request to service: %s endpoint: %s\n&quot;, req.Service(), req.Endpoint())
+	return l.Client.Call(ctx, req, rsp)
+}
+
+// implements client.Wrapper as logWrapper
+func logWrap(c client.Client) client.Client {
+	return &amp;logWrapper{c}
+}
+</code></pre>
+
+<p>初始化创建</p>
+
+<pre><code class="language-go">service := micro.NewService(
+	micro.Name(&quot;greeter&quot;),
+	// wrap the client
+	micro.WrapClient(logWrap),
+)
 
 </code></pre>
 
