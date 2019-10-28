@@ -3,18 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://realjf.io/microservice/</loc>
+    <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/microservice/protobuf-data-type/</loc>
+    <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/</loc>
+    <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/golang/golang-micro-usage/</loc>
     <lastmod>2019-10-22T09:50:59+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://realjf.io/golang/</loc>
-    <lastmod>2019-10-22T09:50:59+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/</loc>
     <lastmod>2019-10-22T09:50:59+08:00</lastmod>
     <priority>0</priority>
   </url>

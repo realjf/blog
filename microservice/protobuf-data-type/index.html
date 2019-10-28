@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>kubernetes 核心原理之 Sheduler // Real_JF&#39;s blog</title>
+    <title>Protobuf  数据类型 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,58 +37,304 @@
     
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">kubernetes 核心原理之 Sheduler</h1>
+      <h1 class ="post-title">Protobuf  数据类型</h1>
       <div class="post-meta">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Mar 19, 2019
+          Oct 28, 2019
         </div>
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
+          2 min read
         </div></div>
     </header>
     <div class="post-content">
       
 
-<p>作用是将待调度的pod按照特定的调度算法和调度策略绑定到集群中的某个合适的Node上，并将绑定信息写入etcd中。</p>
+<h3 id="基础类型">基础类型</h3>
 
-<p>目标节点上的kubelet通过api server监听到schduler产生的pod绑定事件，然后获取对应的pod清单，下载image镜像，并启动容器。</p>
+<table>
+<thead>
+<tr>
+<th>.proto类型</th>
+<th>java类型</th>
+<th>c++类型</th>
+<th>备注</th>
+</tr>
+</thead>
 
-<h4 id="scheduler默认调度流程分为以下两步">Scheduler默认调度流程分为以下两步</h4>
+<tbody>
+<tr>
+<td>double</td>
+<td>double</td>
+<td>double</td>
+<td></td>
+</tr>
+
+<tr>
+<td>float</td>
+<td>float</td>
+<td>float</td>
+<td></td>
+</tr>
+
+<tr>
+<td>int32</td>
+<td>int</td>
+<td>int32</td>
+<td>使用可变长编码方式。编码负数时不够高效，如果你的字段可能包含负数，请使用sint32</td>
+</tr>
+
+<tr>
+<td>int64</td>
+<td>long</td>
+<td>int64</td>
+<td>使用可变长编码方式。编码负数时不够高效，如果你的字段可能包含负数，请使用sint64</td>
+</tr>
+
+<tr>
+<td>uint32</td>
+<td>int[1]</td>
+<td>uint32</td>
+<td>总是4个字节，如果数值总是比228大的话，这个类型会比uint32高效</td>
+</tr>
+
+<tr>
+<td>uint64</td>
+<td>long[1]</td>
+<td>uint64</td>
+<td>总是8个字节，如果数值总是比256大的话，这个类型会比uint64高效</td>
+</tr>
+
+<tr>
+<td>sint32</td>
+<td>int</td>
+<td>int32</td>
+<td>使用可变编码方式，有符号的整型值，编码时比通常的int32高效</td>
+</tr>
+
+<tr>
+<td>sint64</td>
+<td>long</td>
+<td>int64</td>
+<td>使用可变长编码方式，有符号的整型值，编码时比通常的int64高效</td>
+</tr>
+
+<tr>
+<td>fixed32</td>
+<td>int[1]</td>
+<td>uint32</td>
+<td>总是4个字节。如果数值总是比总是比228大的话，这个类型会比uint32高效。</td>
+</tr>
+
+<tr>
+<td>fixed64</td>
+<td>long[1]</td>
+<td>unit64</td>
+<td>总是8个字节。如果数值总是比256大的话，这个类型会比uint64高效</td>
+</tr>
+
+<tr>
+<td>sfixed32</td>
+<td>int</td>
+<td>int32</td>
+<td>总是4个字节</td>
+</tr>
+
+<tr>
+<td>sfixed64</td>
+<td>long</td>
+<td>int64</td>
+<td>总是8个字节</td>
+</tr>
+
+<tr>
+<td>bool</td>
+<td>boolean</td>
+<td>bool</td>
+<td></td>
+</tr>
+
+<tr>
+<td>string</td>
+<td>String</td>
+<td>string</td>
+<td>一个字符串必须是utf-8编码或者7-bit ascii编码的文本</td>
+</tr>
+
+<tr>
+<td>bytes</td>
+<td>ByteString</td>
+<td>string</td>
+<td>可能包含任意顺序的字节数据</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="特殊字段">特殊字段</h3>
+
+<table>
+<thead>
+<tr>
+<th>英文</th>
+<th>中文</th>
+<th>备注</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>enum</td>
+<td>枚举(数字从零开始) 作用是为字段指定某”预定义值序列”</td>
+<td>enum Type {MAN = 0;WOMAN = 1; OTHER= 3;}</td>
+</tr>
+
+<tr>
+<td>message</td>
+<td>消息体</td>
+<td>message User{}</td>
+</tr>
+
+<tr>
+<td>repeated</td>
+<td>数组/集合</td>
+<td>repeated User users = 1</td>
+</tr>
+
+<tr>
+<td>import</td>
+<td>导入定义</td>
+<td>import &ldquo;protos/other_protos.proto&rdquo;</td>
+</tr>
+
+<tr>
+<td>//</td>
+<td>注释</td>
+<td></td>
+</tr>
+
+<tr>
+<td>extend</td>
+<td>扩展</td>
+<td>extend User {}</td>
+</tr>
+
+<tr>
+<td>package</td>
+<td>包名</td>
+<td>相当于命名空间，用来防止不同消息类型的命名冲突</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>protobuf 还建议把经常要传递的值把其字段编码设置为1-15之间的值。</p>
+</blockquote>
+
+<pre><code class="language-proto">package tutorial;
+
+option java_package = &quot;com.example.tutorial&quot;;
+option java_outer_classname = &quot;AddressBookProtos&quot;;
+
+message Person {
+required string name = 1;
+required int32 id = 2;        // Unique ID number for this person.
+optional string email = 3;
+
+enum PhoneType {
+  MOBILE = 0;
+  HOME = 1;
+  WORK = 2;
+}
+
+message PhoneNumber {
+  required string number = 1;
+  optional PhoneType type = 2 [default = HOME];
+}
+
+repeated PhoneNumber phone = 4;
+
+}
+
+// Our address book file is just one of these.
+message AddressBook {
+repeated Person person = 1;
+}
+</code></pre>
+
+<h4 id="定义message">定义message</h4>
 
 <ul>
-<li>预调度过程，即遍历所有目标node，筛选出符合要求的候选节点</li>
-<li>确定最优节点，在上一步基础上，采用优选策略计算出每个候选节点的积分，积分高者胜出。</li>
+<li>Message的嵌套使用可以嵌套定义，也可以采用先定义再使用的方式。</li>
+<li>Message的定义末尾可以采用java方式在不加“;”，也可以采用C++定义方式在末尾加上“;”，这两种方式都兼容，建议采用java定义方式。</li>
+<li>向.proto文件添加注释，可以使用C/C++/java风格的双斜杠（//） 语法格式。</li>
 </ul>
 
-<p>Scheduler调度流程是通过插件方式加载的“调度算法提供者”（AlgorithmProvider）具体实现的。一个AlgorithmProvider其实是一组预选策略与一组优先选择策略的结构体。</p>
+<h4 id="定义属性">定义属性</h4>
 
-<h4 id="scheduler中可选的预选策略">Scheduler中可选的预选策略</h4>
+<p>属性定义分为四个部分：标注+类型+属性名+属性顺序号+[默认值]</p>
+
+<table>
+<thead>
+<tr>
+<th>标注</th>
+<th>类型</th>
+<th>属性名</th>
+<th>属性顺序号</th>
+<th>[默认值]</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>required</td>
+<td>string</td>
+<td>name</td>
+<td>=1</td>
+<td>[default=&ldquo;&rdquo;];</td>
+</tr>
+</tbody>
+</table>
+
+<h5 id="标注">标注</h5>
+
+<p>标注包括“required”、“optional”、“repeated”三种，其中</p>
 
 <ul>
-<li>NoDiskConflict</li>
-<li>PodFitsResources</li>
-<li>PodSelectorMatches</li>
-<li>PodFitsHost</li>
-<li>CheckNodeLabelPresence</li>
-<li>CheckServiceAffinity</li>
-<li>PodFitsPorts</li>
+<li>required表示该属性为必选属性，否则对应的message“未初始化”，debug模式下导致断言，release模式下解析失败；</li>
+<li>optional表示该属性为可选属性，不指定，使用默认值（int或者char数据类型默认为0,string默认为空，bool默认为false，嵌套message默认为构造，枚举则为第一个）</li>
+<li>repeated表示该属性为重复字段，可看作是动态数组，类似于C++中的vector。</li>
 </ul>
 
-<h4 id="scheduler优选策略">Scheduler优选策略</h4>
+<p>如果为optional属性，发送端没有包含该属性，则接收端在解析式采用默认值。对于默认值，如果已设置默认值，则采用默认值，如果未设置，则类型特定的默认值为使用，例如string的默认值为””。</p>
 
-<ul>
-<li>LeastRequestedPriority（资源消耗最小）</li>
-<li>CalculateNodeLabelPriority</li>
-<li>BalancedResourceAllocation（各项资源使用率最均衡的节点）</li>
-</ul>
+<h2 id="编译-proto文件">编译.proto文件</h2>
 
-<p>每个节点通过优选策略算出一个得分，最终选出分值最大的节点作为优选的结果。</p>
+<p>可以通过定义好的.proto文件来生成Java、Python、C++代码，需要基于.proto文件运行protocol buffer编译器protoc。运行的命令如下所示：</p>
+
+<pre><code class="language-bash">protoc --proto_path=IMPORT_PATH --cpp_out=DST_DIR --java_out=DST_DIR --go_out=DST_DIR path/to/file.proto
+
+</code></pre>
+
+<blockquote>
+<p>MPORT_PATH声明了一个.proto文件所在的具体目录。如果忽略该值，则使用当前目录。如果有多个目录则可以 对&ndash;proto_path 写多次，它们将会顺序的被访问并执行导入。-I=IMPORT_PATH是它的简化形式。</p>
+</blockquote>
+
+<h3 id="使用技巧">使用技巧</h3>
+
+<h4 id="使用bytes而不是string-表示字符串">使用bytes而不是string 表示字符串</h4>
+
+<p>protobuf的bytes和string都能表示字符串，但是string类型会对字符串做utf8格式校验，而bytes不会，因此使用bytes的编解码效率更高</p>
+
+<h4 id="使用optional而不是required">使用optional而不是required</h4>
+
+<p>protobuf的可选字段optional是一个很巧妙的设计，optional字段是可选的，一个optional字段存在与否都不影响proto对象的序列化和反序列化，利用它可以实现数据协议的向后兼容和向前兼容，即以后增加新的字段，或弃用（注意这里是弃用而不是删除）旧字段都不需要修改代码。</p>
+
+<p>相比optional字段，requried字段要求字段必须存在，否则会导致proto解析失败。一旦某个字段被设计为requried类型，将来随着业务的快速发展可能会成为负担，因此在使用requried类型时一定要慎重。</p>
 
     </div>
   </article>
