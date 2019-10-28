@@ -96,3 +96,8 @@ paginate = "10"
     name = "mysql"
     title = "mysql"
     url = "/mysql/"
+  [[menu.main]]
+    identifier = "microservice"
+    name = "microservice"
+    title = "微服务"
+    url = "/microservice/"
