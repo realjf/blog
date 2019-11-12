@@ -6,7 +6,7 @@
 }
 
 .aside-menu {
-  float: right
+  float: right;
   position: relative;
   width: 20%;
   display: none;
@@ -15,4 +15,26 @@
 .aside-menu div.aside-bar-icon {
     height: 10px;
     width: 100%;
+}
+
+.sidebar-nav {
+  top: 20px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  border-bottom: 2px solid #57cc8a;
+  text-align: center;
+}
+
+.sidebar-nav a {
+  padding: 10px 25px 5px 25px;
+  border: 2px solid #57cc8a;
+}
+
+.sidebar-nav a:hover {
+  background: #57cc8a;
+}
+
+.sidebar-nav a.active {
+  background: #57cc8a;
+  color: white;
 }

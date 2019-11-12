@@ -15,89 +15,31 @@ paginate = "10"
     name = "twitter"
     url = "https://twitter.com/realjf2"
   [[params.social]]
-    name = "activity"
+    name = "pen-tool"
     url = "http://bbs.realjf.com"
 
 [menu]
   [[menu.main]]
-    identifier = "golang"
-    name = "golang"
-    title = "golang"
-    url = "/golang/"
-    weight = -110
+    identifier = "home"
+    name = "首页"
+    title = "首页"
+    url = "/"
+    weight = 10
   [[menu.main]]
-    identifier = "posts"
-    name = "posts"
-    title = "posts"
+    identifier = "archive"
+    name = "归档"
+    title = "归档"
     url = "/posts/"
-    weight = 100
+    weight = 20
   [[menu.main]]
-    identifier = "kubernetes"
-    name = "kubernetes"
-    title = "kubernetes"
-    url = "/kubernetes/"
+    identifier = "tag"
+    name = "标签"
+    title = "标签"
+    url = "/tags/"
+    weight = 30
   [[menu.main]]
-    identifier = "docker"
-    name = "docker"
-    title = "docker"
-    url = "/docker/"
-  [[menu.main]]
-    identifier = "ceph"
-    name = "ceph"
-    title = "ceph"
-    url = "/ceph/"
-  [[menu.main]]
-    identifier = "linux"
-    name = "linux"
-    title = "linux"
-    url = "/linux/"
-  [[menu.main]]
-    identifier = "distributed system"
-    name = "分布式系统"
-    title = "分布式系统"
-    url = "/distributedsystem/"
-  [[menu.main]]
-    identifier = "tools"
-    name = "tools"
-    title = "工具"
-    url = "/tools/"
-  [[menu.main]]
-    identifier = "streaming"
-    name = "streaming"
-    title = "直播"
-    url = "/streaming/"
-  [[menu.main]]
-    identifier = "GC"
-    name = "garbagecollection"
-    title = "垃圾回收(garbage collection)"
-    url = "/gc/"
-  [[menu.main]]
-    identifier = "ruby"
-    name = "ruby"
-    title = "ruby"
-    url = "/ruby/"
-  [[menu.main]]
-    identifier = "wechat"
-    name = "微信"
-    title = "微信"
-    url = "/wechat/"
-  [[menu.main]]
-    identifier = "nginx"
-    name = "nginx"
-    title = "nginx"
-    url = "/nginx/"
-  [[menu.main]]
-    identifier = "python"
-    name = "python"
-    title = "python"
-    url = "/python/"
-  [[menu.main]]
-    identifier = "mysql"
-    name = "mysql"
-    title = "mysql"
-    url = "/mysql/"
-  [[menu.main]]
-    identifier = "microservice"
-    name = "microservice"
-    title = "微服务"
-    url = "/microservice/"
+    identifier = "menu"
+    name = "分类"
+    title = "分类"
+    url = "/categories/"
+    weight = 40

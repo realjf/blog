@@ -1,8 +1,9 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
-categories: {{ .Section }}
-tags: {{ .Keywords }}
+keywords: [""]
+categories: ["{{ .Section }}"]
+tags: [""]
 draft: true
 ---
 

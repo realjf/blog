@@ -1,6 +1,9 @@
 ---
 title: "How to Set Up Blog Using Hugo"
 date: 2019-03-19T09:43:09+08:00
+keywords: ["hugo"]
+categories: ["hugo"]
+tags: ["hugo"]
 draft: false
 ---
 

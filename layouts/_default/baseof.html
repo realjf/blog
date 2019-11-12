@@ -10,10 +10,12 @@
     <base href="{{ .Site.BaseURL }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
+    <link rel="stylesheet" href="./css/highlight.min.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
 </head>
 <body>
+{{/*<iframe src="./si-sprite.svg"></iframe>*/}}
 <header class="app-header">
     <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
     <h1>{{ .Site.Title }}</h1>
@@ -23,15 +25,19 @@
             <a target="_blank" href="{{ .url }}">{{ partial "icon.html" (dict "ctx" $ "name" .name ) }}</a>
         {{ end }}
     </div>
+
 </header>
 <main class="app-container">
+    {{ partial "navigator.html" $ }}
     {{ block "main" . }}
         {{ .Content }}
     {{ end }}
 </main>
-{{ partial "sidebar.html" $ }}
+
 <div class="app-footer">
     {{ partial "footer.html" $ }}
 </div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
 </html>
