@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Real_JF&#39;s blog</title>
@@ -6,9 +6,631 @@
     <description>Recent content in Tags on Real_JF&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 28 Oct 2019 15:31:06 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>microservice</title>
+      <link>https://realjf.io/tags/microservice/</link>
+      <pubDate>Mon, 28 Oct 2019 15:31:06 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/microservice/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>protobuf</title>
+      <link>https://realjf.io/tags/protobuf/</link>
+      <pubDate>Mon, 28 Oct 2019 15:31:06 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/protobuf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rpc</title>
+      <link>https://realjf.io/tags/rpc/</link>
+      <pubDate>Mon, 28 Oct 2019 15:31:06 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/rpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微服务</title>
+      <link>https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</link>
+      <pubDate>Mon, 28 Oct 2019 15:31:06 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://realjf.io/tags/golang/</link>
+      <pubDate>Tue, 22 Oct 2019 09:50:59 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go标准库</title>
+      <link>https://realjf.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</link>
+      <pubDate>Thu, 17 Oct 2019 17:37:02 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sync</title>
+      <link>https://realjf.io/tags/sync/</link>
+      <pubDate>Thu, 17 Oct 2019 17:37:02 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/sync/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>原子操作</title>
+      <link>https://realjf.io/tags/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Thu, 17 Oct 2019 17:37:02 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>https://realjf.io/tags/mysql/</link>
+      <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql server</title>
+      <link>https://realjf.io/tags/mysql-server/</link>
+      <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/mysql-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql5.7</title>
+      <link>https://realjf.io/tags/mysql5.7/</link>
+      <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/mysql5.7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql安装</title>
+      <link>https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql源码安装</title>
+      <link>https://realjf.io/tags/mysql%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/mysql%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>django</title>
+      <link>https://realjf.io/tags/django/</link>
+      <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fullstack</title>
+      <link>https://realjf.io/tags/fullstack/</link>
+      <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/fullstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://realjf.io/tags/python/</link>
+      <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vue</title>
+      <link>https://realjf.io/tags/vue/</link>
+      <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/vue/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web</title>
+      <link>https://realjf.io/tags/web/</link>
+      <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/web/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devtools</title>
+      <link>https://realjf.io/tags/devtools/</link>
+      <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/devtools/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>make</title>
+      <link>https://realjf.io/tags/make/</link>
+      <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/make/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>makefile</title>
+      <link>https://realjf.io/tags/makefile/</link>
+      <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/makefile/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nginx</title>
+      <link>https://realjf.io/tags/nginx/</link>
+      <pubDate>Mon, 30 Sep 2019 14:56:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web服务器</title>
+      <link>https://realjf.io/tags/web%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 30 Sep 2019 14:56:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/web%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kernel</title>
+      <link>https://realjf.io/tags/kernel/</link>
+      <pubDate>Mon, 30 Sep 2019 13:50:42 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/kernel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://realjf.io/tags/linux/</link>
+      <pubDate>Mon, 30 Sep 2019 13:50:42 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux内核参数优化</title>
+      <link>https://realjf.io/tags/linux%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Mon, 30 Sep 2019 13:50:42 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/linux%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0%E4%BC%98%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>wechat</title>
+      <link>https://realjf.io/tags/wechat/</link>
+      <pubDate>Wed, 04 Sep 2019 09:28:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/wechat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微信JSSDK</title>
+      <link>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1jssdk/</link>
+      <pubDate>Wed, 04 Sep 2019 09:28:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1jssdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微信公众号</title>
+      <link>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/</link>
+      <pubDate>Wed, 04 Sep 2019 09:28:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微信开发者</title>
+      <link>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</link>
+      <pubDate>Wed, 04 Sep 2019 09:28:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>微信扫一扫</title>
+      <link>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E6%89%AB%E4%B8%80%E6%89%AB/</link>
+      <pubDate>Wed, 04 Sep 2019 09:28:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E6%89%AB%E4%B8%80%E6%89%AB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ruby</title>
+      <link>https://realjf.io/tags/ruby/</link>
+      <pubDate>Fri, 30 Aug 2019 12:42:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/ruby/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ffmpeg</title>
+      <link>https://realjf.io/tags/ffmpeg/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/ffmpeg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>obs</title>
+      <link>https://realjf.io/tags/obs/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/obs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rtmp</title>
+      <link>https://realjf.io/tags/rtmp/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/rtmp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>srs</title>
+      <link>https://realjf.io/tags/srs/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/srs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vlc</title>
+      <link>https://realjf.io/tags/vlc/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/vlc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>直播</title>
+      <link>https://realjf.io/tags/%E7%9B%B4%E6%92%AD/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E7%9B%B4%E6%92%AD/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ide</title>
+      <link>https://realjf.io/tags/ide/</link>
+      <pubDate>Fri, 05 Jul 2019 10:27:14 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/ide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sublimetext</title>
+      <link>https://realjf.io/tags/sublimetext/</link>
+      <pubDate>Fri, 05 Jul 2019 10:27:14 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/sublimetext/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sublimetext安装</title>
+      <link>https://realjf.io/tags/sublimetext%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Fri, 05 Jul 2019 10:27:14 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/sublimetext%E5%AE%89%E8%A3%85/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>distributed</title>
+      <link>https://realjf.io/tags/distributed/</link>
+      <pubDate>Thu, 28 Mar 2019 21:44:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/distributed/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>distributed system</title>
+      <link>https://realjf.io/tags/distributed-system/</link>
+      <pubDate>Thu, 28 Mar 2019 21:44:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/distributed-system/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>分布式</title>
+      <link>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</link>
+      <pubDate>Thu, 28 Mar 2019 21:44:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cgroup</title>
+      <link>https://realjf.io/tags/cgroup/</link>
+      <pubDate>Thu, 21 Mar 2019 05:14:39 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/cgroup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang性能分析</title>
+      <link>https://realjf.io/tags/golang%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</link>
+      <pubDate>Tue, 19 Mar 2019 15:14:16 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/golang%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pprof</title>
+      <link>https://realjf.io/tags/pprof/</link>
+      <pubDate>Tue, 19 Mar 2019 15:14:16 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/pprof/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ceph</title>
+      <link>https://realjf.io/tags/ceph/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/ceph/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ceph集群搭建</title>
+      <link>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>分布式存储</title>
+      <link>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gc</title>
+      <link>https://realjf.io/tags/gc/</link>
+      <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/gc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang垃圾回收</title>
+      <link>https://realjf.io/tags/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</link>
+      <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>垃圾回收原理</title>
+      <link>https://realjf.io/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%8E%9F%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>goroutine原理</title>
+      <link>https://realjf.io/tags/goroutine%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Tue, 19 Mar 2019 14:45:21 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/goroutine%E5%8E%9F%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go协程原理</title>
+      <link>https://realjf.io/tags/go%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Tue, 19 Mar 2019 14:45:21 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/go%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://realjf.io/tags/docker/</link>
+      <pubDate>Tue, 19 Mar 2019 14:40:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>namespace</title>
+      <link>https://realjf.io/tags/namespace/</link>
+      <pubDate>Tue, 19 Mar 2019 14:38:54 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/namespace/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ingress controller</title>
+      <link>https://realjf.io/tags/ingress-controller/</link>
+      <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/ingress-controller/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k8s</title>
+      <link>https://realjf.io/tags/k8s/</link>
+      <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://realjf.io/tags/kubernetes/</link>
+      <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>traefik</title>
+      <link>https://realjf.io/tags/traefik/</link>
+      <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/traefik/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k8s核心原理</title>
+      <link>https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Tue, 19 Mar 2019 14:30:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>apiserver</title>
+      <link>https://realjf.io/tags/apiserver/</link>
+      <pubDate>Tue, 19 Mar 2019 14:25:43 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/apiserver/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k8s基本概念</title>
+      <link>https://realjf.io/tags/k8s%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</link>
+      <pubDate>Tue, 19 Mar 2019 14:21:00 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/k8s%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k8s集群搭建</title>
+      <link>https://realjf.io/tags/k8s%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/k8s%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>etcd</title>
+      <link>https://realjf.io/tags/etcd/</link>
+      <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/etcd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>etcd集群搭建</title>
+      <link>https://realjf.io/tags/etcd%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/etcd%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kv键值</title>
+      <link>https://realjf.io/tags/kv%E9%94%AE%E5%80%BC/</link>
+      <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/kv%E9%94%AE%E5%80%BC/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://realjf.io/tags/hugo/</link>
+      <pubDate>Tue, 19 Mar 2019 09:43:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/hugo/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

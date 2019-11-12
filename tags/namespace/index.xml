@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>namespace on Real_JF&#39;s blog</title>
+    <link>https://realjf.io/tags/namespace/</link>
+    <description>Recent content in namespace on Real_JF&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 19 Mar 2019 14:38:54 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/namespace/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Namespace 资源隔离</title>
+      <link>https://realjf.io/posts/namespace/</link>
+      <pubDate>Tue, 19 Mar 2019 14:38:54 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/namespace/</guid>
+      <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
+ 1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
+通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
+int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);  查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
+    </item>
+    
+  </channel>
+</rss>

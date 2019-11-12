@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nginx on Real_JF&#39;s blog</title>
+    <link>https://realjf.io/tags/nginx/</link>
+    <description>Recent content in nginx on Real_JF&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 30 Sep 2019 14:56:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nginx服务的基本配置</title>
+      <link>https://realjf.io/posts/nginx-base-setting/</link>
+      <pubDate>Mon, 30 Sep 2019 14:56:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/nginx-base-setting/</guid>
+      <description>按照用户使用时的预期功能分成了4个功能
+ 用于调试、定位问题的配置项 正常运行的必备配置项 优化性能的配置项 事件类配置项  用于调试进程和定位问题的配置项 1. 是否以守护进程方式运行nginx 语法： daemon on|off;
+默认：daemon on;
+守护进程是脱离终端并且在后台运行的进程。它脱离终端是为了避免进程执行过程中的信息在任何终端中显示，这样一来，进程也不会被任何终端所产生的信息所打断。 因此，默认都是以这种方式运行的。
+2. 是否以master/worker方式运行 语法： master_process on|off;
+默认： master_process on;
+一个master进程管理多个worker进程的方式运行的，几乎所有的产品环境下，nginx都是以这种方式工作。
+3. error日志的配置 语法：error_log /path/file level;
+默认：error_log logs/error.log error;
+error日志是定位nginx问题的最佳工具，我们可以根据自己的需求妥善设置error日志的路径和级别。
+/path/file参数可以是一个具体的文件，最好将它放到一个磁盘足够大的位置； 也可以是/dev/null，这样就不会输出任何日志了，这也是关闭error日志的唯一手段； 也可以是stderr，这样日志会输出到标准错误文件中。
+level是日志的输出级别，取值范围是debug、info、notice、warn、error、crit、alert、emerg。 当设置一个级别，大于或等于该级别的日志都会被输出到/path/file文件中。小鱼该级别的日志则不会输出。
+4. 是否处理几个特殊的调试点 语法：debug_points [stop|abort]
+这个配置项也是用来帮助用户跟踪调试nginx的。他接受两个参数：stop和abort。 nginx在一些关键的错误逻辑中设置了调试点。如果设置了debug_points为stop，那么nginx的代码执行到这些调试点时就会发出sigstop信号用以调试。 如果设置为abort，则会生成一个coredump文件，可以使用gdb来查看nginx当时的各种信息。
+通常不会使用这个配置项。
+5. 仅对指定的客户端输出debug级别的日志 语法：debug_connection [IP|CIDR]
+这个配置项实际上属于事件类配置，因此，他必须放在events{&amp;hellip;}中才有效，他的值可以是ip地址或cidr地址，如：
+events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; }  这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
+这个配置对修复bug很有用，特别是定位高并发请求下才会发生的问题。
+ 在debug_connection前，需要确保在执行configure时已经加入了&amp;ndash;with-debug参数，否则不会生效。
+ 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;</description>
+    </item>
+    
+  </channel>
+</rss>

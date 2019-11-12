@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Real_JF&#39;s blog</title>
@@ -13,19 +13,19 @@
     
     <item>
       <title>Protobuf  数据类型</title>
-      <link>https://realjf.io/microservice/protobuf-data-type/</link>
+      <link>https://realjf.io/posts/protobuf-data-type/</link>
       <pubDate>Mon, 28 Oct 2019 15:31:06 +0800</pubDate>
       
-      <guid>https://realjf.io/microservice/protobuf-data-type/</guid>
+      <guid>https://realjf.io/posts/protobuf-data-type/</guid>
       <description>基础类型    .proto类型 java类型 c++类型 备注     double double double    float float float    int32 int int32 使用可变长编码方式。编码负数时不够高效，如果你的字段可能包含负数，请使用sint32   int64 long int64 使用可变长编码方式。编码负数时不够高效，如果你的字段可能包含负数，请使用sint64   uint32 int[1] uint32 总是4个字节，如果数值总是比228大的话，这个类型会比uint32高效   uint64 long[1] uint64 总是8个字节，如果数值总是比256大的话，这个类型会比uint64高效   sint32 int int32 使用可变编码方式，有符号的整型值，编码时比通常的int32高效   sint64 long int64 使用可变长编码方式，有符号的整型值，编码时比通常的int64高效   fixed32 int[1] uint32 总是4个字节。如果数值总是比总是比228大的话，这个类型会比uint32高效。   fixed64 long[1] unit64 总是8个字节。如果数值总是比256大的话，这个类型会比uint64高效   sfixed32 int int32 总是4个字节   sfixed64 long int64 总是8个字节   bool boolean bool    string String string 一个字符串必须是utf-8编码或者7-bit ascii编码的文本   bytes ByteString string 可能包含任意顺序的字节数据    特殊字段    英文 中文 备注     enum 枚举(数字从零开始) 作用是为字段指定某”预定义值序列” enum Type {MAN = 0;WOMAN = 1; OTHER= 3;}   message 消息体 message User{}   repeated 数组/集合 repeated User users = 1   import 导入定义 import &amp;ldquo;protos/other_protos.</description>
     </item>
     
     <item>
       <title>Golang Micro 微服务框架使用</title>
-      <link>https://realjf.io/golang/golang-micro-usage/</link>
+      <link>https://realjf.io/posts/golang-micro-usage/</link>
       <pubDate>Tue, 22 Oct 2019 09:50:59 +0800</pubDate>
       
-      <guid>https://realjf.io/golang/golang-micro-usage/</guid>
+      <guid>https://realjf.io/posts/golang-micro-usage/</guid>
       <description>准备  搭建好golang开发环境 安装git等相关工具  开始 一、安装protobuf protobuf用于生成微服务代码
 go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go   如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
 关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
@@ -39,10 +39,10 @@ syntax = &amp;quot;proto3&amp;quot;; service Greeter { rpc Hello(HelloRequest) r
     
     <item>
       <title>Golang语言标准库之 sync/atomic原子操作</title>
-      <link>https://realjf.io/golang/sync-atomic/</link>
+      <link>https://realjf.io/posts/sync-atomic/</link>
       <pubDate>Thu, 17 Oct 2019 17:37:02 +0800</pubDate>
       
-      <guid>https://realjf.io/golang/sync-atomic/</guid>
+      <guid>https://realjf.io/posts/sync-atomic/</guid>
       <description>原子操作，顾名思义是不可分割的，他可以是一个步骤，也可以是多个步骤，其执行过程不会被线程调度机制打断的操作。
  原子性不可能由软件单独保证，需要硬件的支持，因此和架构有关。在x86架构平台下，cpu提供了在指令执行期间对总线加锁的手段。
 CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;rdquo;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
@@ -56,19 +56,19 @@ package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; &amp;quot
     
     <item>
       <title>Mysql 5.7.27源码安装教程</title>
-      <link>https://realjf.io/mysql/mysql-5.7-installation/</link>
+      <link>https://realjf.io/posts/mysql-5.7-installation/</link>
       <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
       
-      <guid>https://realjf.io/mysql/mysql-5.7-installation/</guid>
+      <guid>https://realjf.io/posts/mysql-5.7-installation/</guid>
       <description>准备  debian 9操作系统 mysql下载地址：https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz boost下载地址：http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz  下载安装 1. 下载安装boost wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz tar zxvf boost_1_59_0.tar.gz mv boost_1_59_0 /usr/local/boost  2. 下载安装mysql # 安装依赖包 apt-get install libncurses-dev # 创建mysql用户组和用户 groupadd mysql useradd mysql -s /sbin/nologin -M -g mysql # 下载mysql wget https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz tar zxvf mysql-5.7.27.tar.gz cd mysql-5.7.27 # 创建必要的文件夹 mkdir /usr/local/mysql mkdir /usr/local/mysql/data # 数据库文件 mkdir /usr/local/mysql/tmp # sock文件 mkdir /usr/local/mysql/logs # 错误日志文件 mkdir /usr/local/mysql/binlog # binlog日志文件 # 编译mysql cmake .</description>
     </item>
     
     <item>
       <title>Mysql Community Server Installation(mysql 8.0.17 社区版本安装教程)</title>
-      <link>https://realjf.io/mysql/mysql-community-server-installation/</link>
+      <link>https://realjf.io/posts/mysql-community-server-installation/</link>
       <pubDate>Mon, 14 Oct 2019 17:50:16 +0800</pubDate>
       
-      <guid>https://realjf.io/mysql/mysql-community-server-installation/</guid>
+      <guid>https://realjf.io/posts/mysql-community-server-installation/</guid>
       <description>一、下载安装 下载地址：https://downloads.mysql.com/archives/community/
 # 下载 wget https://downloads.mysql.com/archives/get/file/mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz xz -d mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz tar xvf mysql-8.0.17-linux-glibc2.12-x86_64.tar # 移动到你需要安装的目录下 mv mysql-8.0.17-linux-glibc2.12-x86_64 /usr/local/mysql  二、配置 1. 在mysql根目录下创建一个新的data目录，用于存放数据 cd /usr/local/mysql mkdir data  2. 创建mysql用户组和mysql用户 groupadd mysql useradd -g mysql mysql  3. 改变mysql目录权限 chown -R mysql.mysql /usr/local/mysql/  4. 初始化数据库 # 创建mysql_install_db安装文件 mkdir mysql_install_db chmod 777 ./mysql_install_db # 初始化数据库 bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data # 记录好自己的临时密码  5. mysql配置 cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld  修改my.cnf文件
 vim /etc/my.</description>
@@ -76,20 +76,20 @@ vim /etc/my.</description>
     
     <item>
       <title>Django后端 &#43; Vue前端 构建Web开发框架</title>
-      <link>https://realjf.io/python/django-vue-web/</link>
+      <link>https://realjf.io/posts/django-vue-web/</link>
       <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
       
-      <guid>https://realjf.io/python/django-vue-web/</guid>
+      <guid>https://realjf.io/posts/django-vue-web/</guid>
       <description>一、准备  Django &amp;gt;= 1.11 python &amp;gt;= 3.6 mysql &amp;gt;= 5.7 node &amp;gt;= 10.15 vue-cli &amp;gt;= 2.0   本次实验项目基于debian 9系统进行构建，以下涉及到的一些安装命令请根据自己具体环境自行替换
  二、安装 1. 安装node wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz xz -d node-v10.16.3-linux-x64.tar.xz tar xvf node-v10.16.3-linux-x64.tar # 然后将文件夹移动到你需要的地方，设置环境变量PATH即可 mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3 # 这里使用软链进行设置l ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/ ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/ # 设置好后进行测试 node --version npm --version  2. 安装python3，pip # 打开下载地址 https://www.python.org/downloads/source/ # 选择适合自己的包下载 wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz xz -d Python-3.7.4.tar.xz tar xvf Python-3.</description>
     </item>
     
     <item>
       <title>Makefile 基本语法和规则</title>
-      <link>https://realjf.io/tools/makefile-rule/</link>
+      <link>https://realjf.io/posts/makefile-rule/</link>
       <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
       
-      <guid>https://realjf.io/tools/makefile-rule/</guid>
+      <guid>https://realjf.io/posts/makefile-rule/</guid>
       <description> 基本语法 target1 target2 target3: prerequisite1 prerequisite2 command1 command2 command3  冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
 每个命令必须以跳格符开头，这个语法用来要求make将紧跟在跳格符之后的内容传给subshell来执行。
 make会将#号视为注释字符，从井号开始到该行结束之间的所有文字都会被make忽略。你可以使用反斜线，来延续过长的文本行。
@@ -98,10 +98,10 @@ make会将#号视为注释字符，从井号开始到该行结束之间的所有
     
     <item>
       <title>Nginx服务的基本配置</title>
-      <link>https://realjf.io/nginx/nginx-base-setting/</link>
+      <link>https://realjf.io/posts/nginx-base-setting/</link>
       <pubDate>Mon, 30 Sep 2019 14:56:20 +0800</pubDate>
       
-      <guid>https://realjf.io/nginx/nginx-base-setting/</guid>
+      <guid>https://realjf.io/posts/nginx-base-setting/</guid>
       <description>按照用户使用时的预期功能分成了4个功能
  用于调试、定位问题的配置项 正常运行的必备配置项 优化性能的配置项 事件类配置项  用于调试进程和定位问题的配置项 1. 是否以守护进程方式运行nginx 语法： daemon on|off;
 默认：daemon on;
@@ -127,10 +127,10 @@ events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; }  这�
     
     <item>
       <title>Linux 内核参数优化</title>
-      <link>https://realjf.io/nginx/linux-kernel-optimize/</link>
+      <link>https://realjf.io/posts/linux-kernel-optimize/</link>
       <pubDate>Mon, 30 Sep 2019 13:50:42 +0800</pubDate>
       
-      <guid>https://realjf.io/nginx/linux-kernel-optimize/</guid>
+      <guid>https://realjf.io/posts/linux-kernel-optimize/</guid>
       <description>由于默认的linux内核参数考虑的是最通用的场景，这种场景下并不适合高并发访问的web服务器的定义，所以需要修改如下参数， 使得nginx可以拥有更高的性能。
 根据不同的业务特点，nginx作为静态web内容服务器、反向代理服务器或者提供图片缩略图功能（实时亚索图片）的服务器时， 其内核参数调整是不同的。
 这里只针对最通用，使nginx支持更多并发请求的tcp网络参数做简单说明。
@@ -141,10 +141,10 @@ fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600
     
     <item>
       <title>Scan Qrcode</title>
-      <link>https://realjf.io/wechat/scan-qrcode/</link>
+      <link>https://realjf.io/posts/scan-qrcode/</link>
       <pubDate>Wed, 04 Sep 2019 09:28:23 +0800</pubDate>
       
-      <guid>https://realjf.io/wechat/scan-qrcode/</guid>
+      <guid>https://realjf.io/posts/scan-qrcode/</guid>
       <description>网页调用微信JSSDK实现扫一扫功能 设置公众号js接口安全域 在公众号后台的，公众号设置，功能设置里
 配置ip白名单 在公众号后台基本配置里
 页面引入微信sdkjs代码 http://res.wx.qq.com/open/js/jweixin-1.2.0.js
@@ -153,10 +153,10 @@ fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600
     
     <item>
       <title>Ruby Installation</title>
-      <link>https://realjf.io/ruby/installation/</link>
+      <link>https://realjf.io/posts/installation/</link>
       <pubDate>Fri, 30 Aug 2019 12:42:08 +0800</pubDate>
       
-      <guid>https://realjf.io/ruby/installation/</guid>
+      <guid>https://realjf.io/posts/installation/</guid>
       <description> centos7 下进行安装ruby 准备 下载ruby ruby下载地址：http://www.ruby-lang.org/en/downloads/
 这里以2.6.4版本为例
 wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz  解压配置安装 tar zxvf ruby-2.6.4.tar.gz -C /usr/local/ cd /usr/local/ruby-2.6.4/ ./configure make &amp;amp;&amp;amp; make install  添加到环境变量中 ln -s /usr/local/ruby-2.6.4/ruby /usr/bin/ruby  验证 ruby -v  </description>
@@ -164,10 +164,10 @@ wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz  解压配置安
     
     <item>
       <title>Srs Obs FFmpeg Vlc搭建rtmp直播服务，并实现推流拉流</title>
-      <link>https://realjf.io/streaming/srs-obs-ffmpeg-vlc/</link>
+      <link>https://realjf.io/posts/srs-obs-ffmpeg-vlc/</link>
       <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
       
-      <guid>https://realjf.io/streaming/srs-obs-ffmpeg-vlc/</guid>
+      <guid>https://realjf.io/posts/srs-obs-ffmpeg-vlc/</guid>
       <description>rtmp srs直播服务器搭建 准备  srs 提供直播流服务器 obs 提供推流服务 ffmpeg 强大的软件，可作为推流端使用 vlc 用于播放rtmp直播  1. 首先搭建rtmp srs服务器 git clone https://github.com/ossrs/srs cd srs/trunk # 构建srs ./configure &amp;amp;&amp;amp; make # 开启服务 ./objs/srs -c conf/srs.conf # 停止服务 ./objs/srs stop # 重启服务 ./objs/srs restart  2. 安装obs apt-get install obs-studio  关于obs推流设置https://obsproject.com/wiki/OBS-Studio-Quickstart
 3. 安装vlc apt-get install vlc  在推流设置完成后，测试推流效果步骤如下： 1. 打开VLC，选择open media-&amp;gt;network 2. 在网络协议中输入推流地址，点击play即可
 4. 安装ffmpeg git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg cd ffmpeg # 编译ffmpeg .</description>
@@ -175,10 +175,10 @@ wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz  解压配置安
     
     <item>
       <title>Sublimetext debian安装与常用插件配置</title>
-      <link>https://realjf.io/tools/sublimetext/</link>
+      <link>https://realjf.io/posts/sublimetext/</link>
       <pubDate>Fri, 05 Jul 2019 10:27:14 +0800</pubDate>
       
-      <guid>https://realjf.io/tools/sublimetext/</guid>
+      <guid>https://realjf.io/posts/sublimetext/</guid>
       <description>sublime text官网http://www.sublimetext.com
  安装 install the GPG key wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -  确保apt工作在http源 apt-get install apt-transport-https  选择安装渠道 稳定版本
 echo &amp;quot;deb https://download.sublimetext.com/ apt/stable/&amp;quot; | sudo tee /etc/apt/sources.list.d/sublime-text.list  开发版本
@@ -190,10 +190,10 @@ Emmet 功能：前端开发必备，HTML、CSS代码快速编写神器</descript
     
     <item>
       <title>分布式系统 之 容错性</title>
-      <link>https://realjf.io/distributedsystem/fault-tolerance/</link>
+      <link>https://realjf.io/posts/fault-tolerance/</link>
       <pubDate>Thu, 28 Mar 2019 21:44:20 +0800</pubDate>
       
-      <guid>https://realjf.io/distributedsystem/fault-tolerance/</guid>
+      <guid>https://realjf.io/posts/fault-tolerance/</guid>
       <description>容错性 基本概念 容错与系统可靠性息息相关，可靠系统满足以下特性：
  可用性 可靠性 安全性 可维护性  故障分类 故障通常分为三类
  暂时故障 间歇故障 持久故障  分布式系统中的典型故障模式可分为以下几种：
@@ -210,10 +210,10 @@ Emmet 功能：前端开发必备，HTML、CSS代码快速编写神器</descript
     
     <item>
       <title>linux Cgroups</title>
-      <link>https://realjf.io/linux/cgroups/</link>
+      <link>https://realjf.io/posts/cgroups/</link>
       <pubDate>Thu, 21 Mar 2019 05:14:39 +0800</pubDate>
       
-      <guid>https://realjf.io/linux/cgroups/</guid>
+      <guid>https://realjf.io/posts/cgroups/</guid>
       <description>Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了
 Linux Cgroups(control groups)提供了对一组进程及其子进程的资源限制、控制和统计的能力，包括cpu、内存、存储和网络等。
 cgroups组件  cgroup subsystem hierarchy  cgroup cgroup是对进程分组管理的一种机制，一个cgroup包含一组进程，并可以在这个cgroup上增加linux subsystem的各种配置参数，将一组进程和一组subsystem的系统参数关联起来。
@@ -227,10 +227,10 @@ subsystem 是一组资源控制的模块，包括 - blkio 设置对块设备输�
     
     <item>
       <title>golang性能分析利器之Pprof</title>
-      <link>https://realjf.io/golang/pprof/</link>
+      <link>https://realjf.io/posts/pprof/</link>
       <pubDate>Tue, 19 Mar 2019 15:14:16 +0800</pubDate>
       
-      <guid>https://realjf.io/golang/pprof/</guid>
+      <guid>https://realjf.io/posts/pprof/</guid>
       <description>pprof是golang程序一个性能分析的工具，可以查看堆栈、cpu信息等
 pprof有2个包：net/http/pprof以及runtime/pprof
 二者之间的关系：net/http/pprof包只是使用runtime/pprof包来进行封装了一下，并在http端口上暴露出来
@@ -246,10 +246,10 @@ var cpuprofile = flag.String(&amp;quot;cpuprofile&amp;quot;, &amp;quot;&amp;quot
     
     <item>
       <title>Ceph 集群搭建一 之 集群搭建</title>
-      <link>https://realjf.io/ceph/setup-ceph-cluster-3/</link>
+      <link>https://realjf.io/posts/setup-ceph-cluster-3/</link>
       <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
       
-      <guid>https://realjf.io/ceph/setup-ceph-cluster-3/</guid>
+      <guid>https://realjf.io/posts/setup-ceph-cluster-3/</guid>
       <description>第一次练习时，我们创建一个 Ceph 存储集群，它有一个 Monitor 和两个 OSD 守护进程。一旦集群达到 active + clean 状态，再扩展它：增加第三个 OSD 、增加元数据服务器和两个 Ceph Monitors。为获得最佳体验，先在管理节点上创建一个目录，用于保存 ceph-deploy 生成的配置文件和密钥对。
  如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。
  mkdir my-cluster cd my-cluster   禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
@@ -259,20 +259,20 @@ ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下�
     
     <item>
       <title>Ceph 集群搭建二 之 预检</title>
-      <link>https://realjf.io/ceph/setup-ceph-cluster-2/</link>
+      <link>https://realjf.io/posts/setup-ceph-cluster-2/</link>
       <pubDate>Tue, 19 Mar 2019 14:57:09 +0800</pubDate>
       
-      <guid>https://realjf.io/ceph/setup-ceph-cluster-2/</guid>
+      <guid>https://realjf.io/posts/setup-ceph-cluster-2/</guid>
       <description>集群部署如下： 预检 安装ceph部署工具 在 Red Hat （rhel6、rhel7）、CentOS （el6、el7）和 Fedora 19-20 （f19 - f20） 上执行下列步骤：
 用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如： sudo subscription-manager repos --enable=el-7-server-extras-rpms  在centos上执行以下命令 sudo yum install -y yum-utils &amp;amp;&amp;amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;amp;&amp;amp; sudo yum install --nogpgcheck -y epel-release &amp;amp;&amp;amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;amp;&amp;amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*  把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo sudo vim /etc/yum.repos.d/ceph.repo  把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.</description>
     </item>
     
     <item>
       <title>Ceph 集群搭建一 之 准备</title>
-      <link>https://realjf.io/ceph/setup-ceph-cluster-1/</link>
+      <link>https://realjf.io/posts/setup-ceph-cluster-1/</link>
       <pubDate>Tue, 19 Mar 2019 14:57:05 +0800</pubDate>
       
-      <guid>https://realjf.io/ceph/setup-ceph-cluster-1/</guid>
+      <guid>https://realjf.io/posts/setup-ceph-cluster-1/</guid>
       <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc  ceph release http://docs.ceph.com/docs/master/releases/
 2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y  3. 配置各节点hosts文件 cat /etc/hosts
 192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3  4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen  5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3  6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster  7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1  8. 配置ceph.</description>
@@ -280,10 +280,10 @@ ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下�
     
     <item>
       <title>Golang GC 实现原理</title>
-      <link>https://realjf.io/golang/how-golang-garbage-collection-works/</link>
+      <link>https://realjf.io/posts/how-golang-garbage-collection-works/</link>
       <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
       
-      <guid>https://realjf.io/golang/how-golang-garbage-collection-works/</guid>
+      <guid>https://realjf.io/posts/how-golang-garbage-collection-works/</guid>
       <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;rdquo;最大响应时间&amp;rdquo;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
 基础概念 内存结构 go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：
 这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:
@@ -301,10 +301,10 @@ GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提
     
     <item>
       <title>Goroutine 运行原理</title>
-      <link>https://realjf.io/golang/goroutine-principle/</link>
+      <link>https://realjf.io/posts/goroutine-principle/</link>
       <pubDate>Tue, 19 Mar 2019 14:45:21 +0800</pubDate>
       
-      <guid>https://realjf.io/golang/goroutine-principle/</guid>
+      <guid>https://realjf.io/posts/goroutine-principle/</guid>
       <description>Golang最大的特色可以说是协程(goroutine)了, 协程让本来很复杂的异步编程变得简单, 让程序员不再需要面对回调地狱, 虽然现在引入了协程的语言越来越多, 但go中的协程仍然是实现的是最彻底的.
 核心概念 要理解协程的实现，需要理解三个重要概念，P、G和M。
 G（goroutine） G是goroutine的简写，goroutine可以解释为受管理的轻量级线程，goroutine使用go关键字创建。
@@ -324,20 +324,20 @@ P的状态  空闲中(_Pidle)：当M发现无待运行的G时会进入休眠，�
     
     <item>
       <title>什么是docker？</title>
-      <link>https://realjf.io/docker/what-docker-is/</link>
+      <link>https://realjf.io/posts/what-docker-is/</link>
       <pubDate>Tue, 19 Mar 2019 14:40:53 +0800</pubDate>
       
-      <guid>https://realjf.io/docker/what-docker-is/</guid>
+      <guid>https://realjf.io/posts/what-docker-is/</guid>
       <description>官方定义 Develop, Ship and Run Any Application, Anywhere Docker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.  Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
  LXC linux container容器是一种内核虚拟化技术，可以提供轻量级的虚拟化，以便隔离进程和资源。与kvm之类最明显的区别在于启动快，资源占用小。</description>
     </item>
     
     <item>
       <title>Namespace 资源隔离</title>
-      <link>https://realjf.io/docker/namespace/</link>
+      <link>https://realjf.io/posts/namespace/</link>
       <pubDate>Tue, 19 Mar 2019 14:38:54 +0800</pubDate>
       
-      <guid>https://realjf.io/docker/namespace/</guid>
+      <guid>https://realjf.io/posts/namespace/</guid>
       <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
  1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
 通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
@@ -346,10 +346,10 @@ int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);  
     
     <item>
       <title>Kubernetes集群下 Traefik安装和使用</title>
-      <link>https://realjf.io/kubernetes/k8s-plugins-traefik/</link>
+      <link>https://realjf.io/posts/k8s-plugins-traefik/</link>
       <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-plugins-traefik/</guid>
+      <guid>https://realjf.io/posts/k8s-plugins-traefik/</guid>
       <description>前提：安装好kubernetes集群情况下
   run traefik and let it do the work for you!
  traefik官方地址：http://traefik.cn/
@@ -358,10 +358,10 @@ int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);  
     
     <item>
       <title>kubernetes 核心原理之 网络模型</title>
-      <link>https://realjf.io/kubernetes/k8s-core-principle-network-model/</link>
+      <link>https://realjf.io/posts/k8s-core-principle-network-model/</link>
       <pubDate>Tue, 19 Mar 2019 14:30:13 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-core-principle-network-model/</guid>
+      <guid>https://realjf.io/posts/k8s-core-principle-network-model/</guid>
       <description>主要解决以下问题： - 容器与容器之间的直接通信 - pod与pod之间的通信 - pod到service之间的通信 - 集群外部与集群内部组件之间的通信
 容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
 pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） - 不同node上的pod之间</description>
@@ -369,10 +369,10 @@ pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个no
     
     <item>
       <title>kubernetes 核心原理之 集群安全机制</title>
-      <link>https://realjf.io/kubernetes/k8s-core-principle-security/</link>
+      <link>https://realjf.io/posts/k8s-core-principle-security/</link>
       <pubDate>Tue, 19 Mar 2019 14:29:44 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-core-principle-security/</guid>
+      <guid>https://realjf.io/posts/k8s-core-principle-security/</guid>
       <description> 安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
 k8s提供3种级别的客户端身份认证方式： - 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 - http token认证：通过一个token来识别合法用户
  http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
@@ -386,10 +386,10 @@ ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访�
     
     <item>
       <title>kubernetes 核心原理之 Kube-Proxy</title>
-      <link>https://realjf.io/kubernetes/k8s-core-principle-kube-proxy/</link>
+      <link>https://realjf.io/posts/k8s-core-principle-kube-proxy/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:43 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-core-principle-kube-proxy/</guid>
+      <guid>https://realjf.io/posts/k8s-core-principle-kube-proxy/</guid>
       <description>service是一个抽象的概念，类似一个反向代理，将请求转发到后端的pod上。真正实现service作用的是kube-proxy服务进程。
 在每个node上都会运行一个kube-proxy的服务进程，这个进程可以看做service的透明代理兼负载均衡器，其核心功能是将到某个service的访问请求转发到后端的多个pod实例上。
 kube-proxy会在本地node上简历一个socketserver来负责接收请求，然后均匀发送到后端某个pod端口上，这个过程默认采用round robin负载均衡算法。
@@ -405,10 +405,10 @@ service类型为NodePort kube-proxy在iptables中除了添加上面提及的规�
     
     <item>
       <title>kubernetes 核心原理之 Kubelet</title>
-      <link>https://realjf.io/kubernetes/k8s-core-principle-kubelet/</link>
+      <link>https://realjf.io/posts/k8s-core-principle-kubelet/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:28 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-core-principle-kubelet/</guid>
+      <guid>https://realjf.io/posts/k8s-core-principle-kubelet/</guid>
       <description>在每个Node节点上都会启动一个kubelet服务进程，该进程负责处理master节点下发到本节点的任务，管理Pod和pod中的容器。
 每个kubelet进程会在api server上注册节点自身信息，定期向master节点汇报节点资源的使用情况，并通过cAdvisor监控容器和节点资源。
 节点管理 节点通过设置kubelet的启动参数“&amp;ndash;register-node”，来决定是否向api server注册自己，如果该参数为true，则会向api server注册自己。
@@ -422,10 +422,10 @@ LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如�
     
     <item>
       <title>kubernetes 核心原理之 Sheduler</title>
-      <link>https://realjf.io/kubernetes/k8s-core-principle-sheduler/</link>
+      <link>https://realjf.io/posts/k8s-core-principle-sheduler/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:15 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-core-principle-sheduler/</guid>
+      <guid>https://realjf.io/posts/k8s-core-principle-sheduler/</guid>
       <description>作用是将待调度的pod按照特定的调度算法和调度策略绑定到集群中的某个合适的Node上，并将绑定信息写入etcd中。
 目标节点上的kubelet通过api server监听到schduler产生的pod绑定事件，然后获取对应的pod清单，下载image镜像，并启动容器。
 Scheduler默认调度流程分为以下两步  预调度过程，即遍历所有目标node，筛选出符合要求的候选节点 确定最优节点，在上一步基础上，采用优选策略计算出每个候选节点的积分，积分高者胜出。  Scheduler调度流程是通过插件方式加载的“调度算法提供者”（AlgorithmProvider）具体实现的。一个AlgorithmProvider其实是一组预选策略与一组优先选择策略的结构体。
@@ -434,10 +434,10 @@ Scheduler中可选的预选策略  NoDiskConflict PodFitsResources PodSelectorMa
     
     <item>
       <title>kubernetes 核心原理之 Controller Manager</title>
-      <link>https://realjf.io/kubernetes/k8s-core-principle-controller-manager/</link>
+      <link>https://realjf.io/posts/k8s-core-principle-controller-manager/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:00 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-core-principle-controller-manager/</guid>
+      <guid>https://realjf.io/posts/k8s-core-principle-controller-manager/</guid>
       <description>controller manager作为集群内部的管理控制中心，负责集群内的Node、pod副本、服务端（Endpoint）、命名空间（Namespace）、服务账号（ServiceAccount）、资源定额（ResourceQuota）等的管理。
 controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。 &amp;gt; 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
 RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
@@ -449,20 +449,20 @@ node controller节点信息更新机制 比较节点信息和node controller的n
     
     <item>
       <title>kubernetes 核心原理之 Apiserver</title>
-      <link>https://realjf.io/kubernetes/k8s-core-principle-apiserver/</link>
+      <link>https://realjf.io/posts/k8s-core-principle-apiserver/</link>
       <pubDate>Tue, 19 Mar 2019 14:25:43 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-core-principle-apiserver/</guid>
+      <guid>https://realjf.io/posts/k8s-core-principle-apiserver/</guid>
       <description>API Server的核心功能提供了kubernetes各类资源对象（如pod、rc、service等）的增删改查以及watch等http rest接口，是集群内各个功能模块之间数据交互和通信的中心枢纽，是整个系统的数据总线和数据中心。
  是集群管理的api入口 是资源配额控制的入口 提供了完备的集群安全机制  </description>
     </item>
     
     <item>
       <title>kubernetes 基本概念和术语</title>
-      <link>https://realjf.io/kubernetes/k8s-basic-concepts-and-terminology/</link>
+      <link>https://realjf.io/posts/k8s-basic-concepts-and-terminology/</link>
       <pubDate>Tue, 19 Mar 2019 14:21:00 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-basic-concepts-and-terminology/</guid>
+      <guid>https://realjf.io/posts/k8s-basic-concepts-and-terminology/</guid>
       <description>kubernetes中大部分概念，如node、pod、replication、controller、service等都可以看作是一种“资源对象”，几乎所有的资源对象都可以通过kubernetes提供的kubectl工具执行增、删、改、查等操作并保存在etcd中持久化存储。
 k8s里所有资源对象都可以采用yaml或者json格式的文件来定义或描述
  1. Master（主节点、集群控制节点）  每个kubernets集群里需要有一个master节点来负责整个集群管理和控制 所有控制命令都发给它 占据一个独立的服务器 如果宕机或不可用，整个集群内容器应用的管理都将失效  master节点运行一组以下关键进程  kubernetes api server(kube-apiserver)：提供http rest接口，是k8s所有资源增删改查等操作的唯一入口，也是集群控制入口进程 kubernetes controller manager(kube-controller-manager)：k8s所有资源对象的自动化控制中心 kubernetes scheduler(kube-scheduler)：负责资源调度（pod调度）的进程 etcd服务：保存k8s所有资源对象的数据  相关命令  kubectl get nodes：查看集群有多少个node kubectl describe node ：查看某个node详细信息  2. Node（较早版本也叫minion）  节点既可以是物理机，也可以是私有云或者公有云中的一个虚拟机，通常在一个节点上运行几百个pod kubernetes集群中的工作负载节点，当某个node宕机，其上的工作负载会被master自动转移到其他节点上  每个node节点运行一组以下关键进程  kubelet：负责pod对应的容器的创建、启停等，同时与master节点密切协作，实现集群管理的基本功能 kube-proxy：实现kubernetes service的通信与负载均衡机制 docker engine：docker引擎，负责本机的容器创建和管理工作  3. Pod 是k8s最重要也是最基本概念 - 每个Pod都有一个特殊的被称为“根容器”的Pause容器，Pause容器对应的镜像属于k8s平台的一部分（gcr.io/google_containers/pause-amd64） - pod对象将每个服务进程包装到相应的pod中，使其成为pod中运行的一个容器 - 根容器不易死亡 - pod里的多个业务容器共享pause容器的ip，共享pause容器挂接的volume（解决Pod直接拿文件共享问题） - k8s为每个pod都分配唯一的ip地址，称之为pod ip，一个Pod里的多个容器共享pod ip地址 - 集群内任意两个pod之间的tcp/ip可以直接通信，通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等。
@@ -471,10 +471,10 @@ pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放�
     
     <item>
       <title>Kubernetes集群搭建三 之 docker镜像配置</title>
-      <link>https://realjf.io/kubernetes/k8s-cluster-set-up-3/</link>
+      <link>https://realjf.io/posts/k8s-cluster-set-up-3/</link>
       <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-cluster-set-up-3/</guid>
+      <guid>https://realjf.io/posts/k8s-cluster-set-up-3/</guid>
       <description> 1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
 运行以下命令，启动一个本地镜像仓库 docker 1.6以上版本可以直接运行以下命令
 docker run -d -p 5000:5000 --restart=always --name registry registry:2  停止本地仓库
@@ -488,10 +488,10 @@ systemctl restart kubelet  </description>
     
     <item>
       <title>Kubernetes集群搭建二 之 k8s集群</title>
-      <link>https://realjf.io/kubernetes/k8s-cluster-set-up-2/</link>
+      <link>https://realjf.io/posts/k8s-cluster-set-up-2/</link>
       <pubDate>Tue, 19 Mar 2019 14:13:53 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-cluster-set-up-2/</guid>
+      <guid>https://realjf.io/posts/k8s-cluster-set-up-2/</guid>
       <description>方式1：基于CA签名的双向数字证书认证方式 过程如下： - 为kube-apiserver生成一个数字证书，并用CA证书进行签名 - 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 - 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数
 1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
 openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crt openssl genrsa -out server.key 2048  注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
@@ -502,10 +502,10 @@ openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj 
     
     <item>
       <title>Kubernetes集群搭建一 之 etcd集群</title>
-      <link>https://realjf.io/kubernetes/k8s-cluster-set-up-1/</link>
+      <link>https://realjf.io/posts/k8s-cluster-set-up-1/</link>
       <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
       
-      <guid>https://realjf.io/kubernetes/k8s-cluster-set-up-1/</guid>
+      <guid>https://realjf.io/posts/k8s-cluster-set-up-1/</guid>
       <description>系统要求    软硬件 最低配置 推荐配置     cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置   linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7   Docker 1.9版本以上 1.12版本   etcd 2.0版本及以上 3.0版本    本次实验选用的是centos7 1804版本
  需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
 #关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled   这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数

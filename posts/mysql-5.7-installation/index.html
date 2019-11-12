@@ -1,0 +1,362 @@
+<!doctype html>
+<html>
+<head>
+    <title>Mysql 5.7.27源码安装教程 // Real_JF&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.d95a4b4c81af65a53ade937075ba57faa9307d583ffc8613ee35ce6913de467b.css" />
+    <link rel="stylesheet" href="./css/highlight.min.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Real_JF&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Mysql 5.7.27源码安装教程</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Oct 15, 2019
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/mysql/">mysql</a><a class="tag" href="https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/">mysql安装</a><a class="tag" href="https://realjf.io/tags/mysql5.7/">mysql5.7</a><a class="tag" href="https://realjf.io/tags/mysql%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/">mysql源码安装</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h2 id="准备">准备</h2>
+
+<ul>
+<li>debian 9操作系统</li>
+<li>mysql下载地址：<a href="https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz">https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz</a></li>
+<li>boost下载地址：<a href="http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz">http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></li>
+</ul>
+
+<h2 id="下载安装">下载安装</h2>
+
+<h3 id="1-下载安装boost">1. 下载安装boost</h3>
+
+<pre><code class="language-bash">
+wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
+
+tar zxvf boost_1_59_0.tar.gz
+mv boost_1_59_0 /usr/local/boost
+
+</code></pre>
+
+<h3 id="2-下载安装mysql">2. 下载安装mysql</h3>
+
+<pre><code class="language-bash"># 安装依赖包
+apt-get install libncurses-dev
+
+
+# 创建mysql用户组和用户
+groupadd mysql
+useradd mysql -s /sbin/nologin -M -g mysql
+
+# 下载mysql
+wget https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz
+
+tar zxvf mysql-5.7.27.tar.gz
+cd mysql-5.7.27
+
+# 创建必要的文件夹
+mkdir /usr/local/mysql
+mkdir /usr/local/mysql/data # 数据库文件
+mkdir /usr/local/mysql/tmp # sock文件
+mkdir /usr/local/mysql/logs # 错误日志文件
+mkdir /usr/local/mysql/binlog # binlog日志文件
+
+# 编译mysql
+cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+ -DMYSQL_DATADIR=/usr/local/mysql/data \
+ -DMYSQL_UNIX_ADDR=/usr/local/mysql/tmp/mysql.sock \
+ -DDEFAULT_CHARSET=utf8 \
+ -DDEFAULT_COLLATION=utf8_general_ci \
+ -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
+ -DENABLED_LOCAL_INFILE=ON \
+ -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+ -DWITH_FEDERATED_STORAGE_ENGINE=1 \
+ -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+ -DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \
+ -DWITHOUT_PARTITION_STORAGE_ENGINE=1 \
+ -DWITH_ZLIB=bundled \
+ -DWITH_EMBEDDED_SERVER=1 \
+ -DWITH_DEBUG=0 \
+ -DWITH_BOOST=/usr/local/boost
+ 
+
+# 如果看到如下信息表示编译完成
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /path/to/mysql
+
+# 执行make安装
+make &amp;&amp; make install
+
+# 安装完成
+
+</code></pre>
+
+<h3 id="3-配置mysql系统环境变量">3. 配置mysql系统环境变量</h3>
+
+<pre><code class="language-bash">vim /etc/profile
+
+PATH=$PATH:/usr/local/mysql/bin
+
+# 使其生效
+source /etc/profile
+
+</code></pre>
+
+<h3 id="4-配置my-cnf文件">4. 配置my.cnf文件</h3>
+
+<pre><code class="language-bash"># 更改mysql安装目录的属主和属组
+chown -R mysql:mysql /usr/local/mysql
+
+# 修改my.cnf文件的组和用户
+chown mysql:mysql /etc/my.cnf
+
+# 修改my.cnf配置
+vim /etc/my.cnf
+
+[client]
+port = 3306
+socket = /usr/local/mysql/tmp/mysql.sock
+default-character-set = utf8
+
+[mysqld]
+port = 3306
+user = mysql
+basedir = /usr/local/mysql
+datadir = /usr/local/mysql/data
+pid-file = /usr/local/mysql/mysqld.pid
+socket = /usr/local/mysql/tmp/mysql.sock
+tmpdir = /usr/local/mysql/tmp
+character_set_server = utf8
+server-id = 1
+max_connections = 100
+max_connect_errors = 10
+sql_mode = NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,PIPES_AS_CONCAT,ANSI_QUOTES
+log-bin = /usr/local/mysql/binlog/mysql-bin
+log-error = /usr/local/mysql/logs/mysql_5_7_27.err
+
+</code></pre>
+
+<h3 id="5-初始化数据库">5. 初始化数据库</h3>
+
+<pre><code class="language-bash">cd /usr/local/mysql
+./bin/mysqld --initialize-insecure --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data
+
+</code></pre>
+
+<h3 id="6-开启ssl连接">6. 开启ssl连接</h3>
+
+<pre><code class="language-bash">cd /usr/local/mysql
+./bin/mysql_ssl_rsa_setup --initialize-insecure --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data
+
+Generating a 2048 bit RSA private key
+............+++
+.............................................+++
+writing new private key to 'ca-key.pem'
+-----
+Generating a 2048 bit RSA private key   
+......+++
+...................................+++
+writing new private key to 'server-key.pem'
+-----
+Generating a 2048 bit RSA private key
+.....................................................................................................+++
+........................+++
+writing new private key to 'client-key.pem'
+-----
+
+</code></pre>
+
+<h3 id="7-启动mysql数据库">7. 启动mysql数据库</h3>
+
+<pre><code class="language-bash"># 拷贝启动脚本到/etc/init.d/目录下，并改名mysqld
+cp support-files/mysql.server /etc/init.d/mysqld
+
+# 重新加载系统服务，将mysql数据库加入开机启动
+/bin/systemctl daemon-reload
+/bin/systemctl enable mysqld.service
+
+# 启动mysql数据库，并检查端口监听状态
+/etc/init.d/mysqld start
+
+</code></pre>
+
+<h3 id="8-mysql数据库基本优化-安全">8. mysql数据库基本优化（安全）</h3>
+
+<pre><code class="language-bash"># 删除全部用户，添加额外管理员，重新加载mysql授权表
+
+mysql&gt; select user,host from mysql.user;
+
+# 授权新账号
+mysql&gt; grant all privileges on *.* to username@'localhost' identified by 'password' with grant option;
+
+# 删除新账号
+mysql&gt; delete from mysql.user where user='mysql.session';
+mysql&gt; delete from mysql.user where user='mysql.sys';
+
+# 删除root账号
+mysql&gt; delete from mysql.user where user='root';
+
+# 刷新权限
+mysql&gt;flush privileges;
+
+</code></pre>
+
+<h3 id="9-优雅关闭mysql数据库的方法">9. 优雅关闭mysql数据库的方法</h3>
+
+<pre><code class="language-bash"># 使用mysql自带脚本
+/etc/init.d/mysqld stop
+# 使用mysqladmin
+mysqladmin -uusername -ppassword shutdown
+
+</code></pre>
+
+<h3 id="10-授权远程用户连接mysql数据库的方法">10. 授权远程用户连接mysql数据库的方法</h3>
+
+<pre><code class="language-bash">mysql&gt; grant all privileges on *.* to username@'ip address' identified by 'password' with grant option;
+
+mysql&gt; flush privileges;
+
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by hugo &nbsp;&nbsp;&nbsp;
+  copyright &copy; <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

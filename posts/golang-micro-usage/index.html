@@ -1,0 +1,440 @@
+<!doctype html>
+<html>
+<head>
+    <title>Golang Micro 微服务框架使用 // Real_JF&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.d95a4b4c81af65a53ade937075ba57faa9307d583ffc8613ee35ce6913de467b.css" />
+    <link rel="stylesheet" href="./css/highlight.min.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Real_JF&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Golang Micro 微服务框架使用</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Oct 22, 2019
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><a class="tag" href="https://realjf.io/tags/microservice/">microservice</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h2 id="准备">准备</h2>
+
+<ul>
+<li>搭建好golang开发环境</li>
+<li>安装git等相关工具</li>
+</ul>
+
+<h2 id="开始">开始</h2>
+
+<h3 id="一-安装protobuf">一、安装protobuf</h3>
+
+<p>protobuf用于生成微服务代码</p>
+
+<pre><code class="language-bash">go get github.com/micro/protoc-gen-micro
+
+# 同时需要安装protoc和protoc-go-gen
+go get -d -u github.com/golang/protobuf/protoc-gen-go
+go install github.com/golang/protobuf/protoc-gen-go
+
+</code></pre>
+
+<blockquote>
+<p>如果需要别的语言的代码生成器，请参阅<a href="https://github.com/protocolbuffers/protobuf">https://github.com/protocolbuffers/protobuf</a></p>
+
+<p>关于protobuf的使用，请参阅<a href="https://developers.google.com/protocol-buffers/">https://developers.google.com/protocol-buffers/</a></p>
+</blockquote>
+
+<h3 id="二-服务发现">二、服务发现</h3>
+
+<p>服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件</p>
+
+<h4 id="安装etcd">安装etcd</h4>
+
+<p>etcd下载地址<a href="https://github.com/etcd-io/etcd/releases">https://github.com/etcd-io/etcd/releases</a></p>
+
+<h3 id="三-写一个服务">三、写一个服务</h3>
+
+<p>以下为一个简单的rpc服务例子</p>
+
+<h4 id="创建服务proto">创建服务proto</h4>
+
+<p>微服务的关键要求之一是严格定义接口。</p>
+
+<p>Micro使用protobuf来实现这一目标。
+在这里，我们使用Hello方法定义了Greeter处理程序。
+它需要一个字符串参数同时使用一个HelloRequest和HelloResponse。</p>
+
+<pre><code class="language-proto">syntax = &quot;proto3&quot;;
+
+service Greeter {
+    rpc Hello(HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloResponse {
+    string greeting = 2;
+}
+
+</code></pre>
+
+<h4 id="生成proto">生成proto</h4>
+
+<pre><code class="language-bash">protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. path/to/greeter.proto
+</code></pre>
+
+<h4 id="写服务业务逻辑">写服务业务逻辑</h4>
+
+<p>服务需要遵循以下规则：</p>
+
+<ul>
+<li>实现greeter定义的接口</li>
+<li>初始化一个micro.Service</li>
+<li>注册greeter处理函数</li>
+
+<li><p>运行服务</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;context&quot;
+	&quot;fmt&quot;
+
+	micro &quot;github.com/micro/go-micro&quot;
+	proto &quot;github.com/micro/examples/service/proto&quot;
+)
+
+type Greeter struct{}
+
+func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest, rsp *proto.HelloResponse) error {
+	rsp.Greeting = &quot;Hello &quot; + req.Name
+	return nil
+}
+
+func main() {
+	// Create a new service. Optionally include some options here.
+	service := micro.NewService(
+		micro.Name(&quot;greeter&quot;),
+	)
+
+	// Init will parse the command line flags.
+	service.Init()
+
+	// Register handler
+	proto.RegisterGreeterHandler(service.Server(), new(Greeter))
+
+	// Run the server
+	if err := service.Run(); err != nil {
+		fmt.Println(err)
+	}
+}
+</code></pre></li>
+</ul>
+
+<h4 id="运行服务">运行服务</h4>
+
+<pre><code class="language-go">go run examples/service/main.go
+</code></pre>
+
+<h4 id="定义一个客户端">定义一个客户端</h4>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;context&quot;
+	&quot;fmt&quot;
+
+	micro &quot;github.com/micro/go-micro&quot;
+	proto &quot;github.com/micro/examples/service/proto&quot;
+)
+
+
+func main() {
+	// Create a new service. Optionally include some options here.
+	service := micro.NewService(micro.Name(&quot;greeter.client&quot;))
+	service.Init()
+
+	// Create new greeter client
+	greeter := proto.NewGreeterService(&quot;greeter&quot;, service.Client())
+
+	// Call the greeter
+	rsp, err := greeter.Hello(context.TODO(), &amp;proto.HelloRequest{Name: &quot;John&quot;})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Print response
+	fmt.Println(rsp.Greeting)
+}
+</code></pre>
+
+<h4 id="运行客户端">运行客户端</h4>
+
+<pre><code class="language-bash">go run client.go
+</code></pre>
+
+<h3 id="四-发布订阅">四、发布订阅</h3>
+
+<p>Go-micro具有用于事件驱动架构的内置消息代理接口。</p>
+
+<p>PubSub与RPC在protobuf生成的相同消息上运行。它们会自动进行编码/解码，并通过代理发送。默认情况下，go-micro包含点对点http代理，但是可以通过go-plugins替换掉</p>
+
+<h4 id="发布">发布</h4>
+
+<p>创建一个发布者</p>
+
+<pre><code class="language-go">p := micro.NewPublisher(&quot;events&quot;, service.Client())
+// 其中的events是话题名称
+</code></pre>
+
+<p>发布一个proto消息</p>
+
+<pre><code class="language-go">p.Publish(context.TODO(), &amp;proto.Event{Name: &quot;event&quot;})
+</code></pre>
+
+<h4 id="订阅">订阅</h4>
+
+<p>创建一个消息句柄，</p>
+
+<pre><code class="language-go">func ProcessEvent(ctx context.Context, event *proto.Event) error {
+	fmt.Printf(&quot;Got event %+v\n&quot;, event)
+	return nil
+}
+</code></pre>
+
+<p>注册消息句柄到一个话题</p>
+
+<pre><code class="language-go">micro.RegisterSubscriber(&quot;events&quot;, ProcessEvent)
+</code></pre>
+
+<blockquote>
+<p>详细例子请参考<a href="https://github.com/micro/examples/tree/master/pubsub">https://github.com/micro/examples/tree/master/pubsub</a></p>
+</blockquote>
+
+<h3 id="五-插件">五、插件</h3>
+
+<p>默认情况下，go-micro仅在核心提供每个接口的一些实现，但它是完全可插入的。
+github.com/micro/go-plugins上已有许多插件</p>
+
+<h4 id="插件使用">插件使用</h4>
+
+<p>创建一个plugins.go文件</p>
+
+<pre><code class="language-go">import (
+        // etcd v3 registry
+        _ &quot;github.com/micro/go-plugins/registry/etcdv3&quot;
+        // nats transport
+        _ &quot;github.com/micro/go-plugins/transport/nats&quot;
+        // kafka broker
+        _ &quot;github.com/micro/go-plugins/broker/kafka&quot;
+)
+</code></pre>
+
+<p>构建二进制包</p>
+
+<pre><code class="language-bash">go build -i -o service ./main.go ./plugins.go
+</code></pre>
+
+<p>插件使用</p>
+
+<pre><code class="language-go">service --registry=etcdv3 --transport=nats --broker=kafka
+</code></pre>
+
+<h3 id="六-包装器">六、包装器</h3>
+
+<p>go-micro有很多中间件可以作为包装器使用</p>
+
+<h4 id="处理句柄">处理句柄</h4>
+
+<p>以下是一个处理句柄的日志函数示例</p>
+
+<pre><code class="language-go">func logWrapper(fn server.HandlerFunc) server.HandlerFunc {
+	return func(ctx context.Context, req server.Request, rsp interface{}) error {
+		fmt.Printf(&quot;[%v] server request: %s&quot;, time.Now(), req.Endpoint())
+		return fn(ctx, req, rsp)
+	}
+}
+</code></pre>
+
+<p>初始化如下</p>
+
+<pre><code class="language-go">service := micro.NewService(
+	micro.Name(&quot;greeter&quot;),
+	// wrap the handler
+	micro.WrapHandler(logWrapper),
+)
+</code></pre>
+
+<h4 id="client">client</h4>
+
+<p>以下为一个客户端包装器log请求示例</p>
+
+<pre><code class="language-go">type logWrapper struct {
+	client.Client
+}
+
+func (l *logWrapper) Call(ctx context.Context, req client.Request, rsp interface{}, opts ...client.CallOption) error {
+	fmt.Printf(&quot;[wrapper] client request to service: %s endpoint: %s\n&quot;, req.Service(), req.Endpoint())
+	return l.Client.Call(ctx, req, rsp)
+}
+
+// implements client.Wrapper as logWrapper
+func logWrap(c client.Client) client.Client {
+	return &amp;logWrapper{c}
+}
+</code></pre>
+
+<p>初始化创建</p>
+
+<pre><code class="language-go">service := micro.NewService(
+	micro.Name(&quot;greeter&quot;),
+	// wrap the client
+	micro.WrapClient(logWrap),
+)
+
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by hugo &nbsp;&nbsp;&nbsp;
+  copyright &copy; <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
