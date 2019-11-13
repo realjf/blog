@@ -28,7 +28,21 @@ go get -u github.com/golang/protobuf/protoc-gen-go
 
 
 ### 什么是grpc?
+grpc是一个出自google的轻量级基于rpc通信协议的库。
 
+gRPC使用新的HTTP 2.0规范，该规范允许使用二进制数据。它甚至允许双向流传输，这非常酷！ HTTP 2对于gRPC的工作原理非常重要
+
+grpc数据交换描述语言叫protobuf，protobuf允许你定义一个开发友好格式的服务接口
+
+> 如果向更深入了解grpc，可以阅读[这里](https://blog.gopheracademy.com/advent-2017/go-grpc-beyond-basics/)
+
+首先创建proto文件，添加如下内容
+```proto
+// 
+
+
+
+```
 
 
 
