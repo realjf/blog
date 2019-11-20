@@ -25,7 +25,9 @@
             <a target="_blank" href="{{ .url }}">{{ partial "icon.html" (dict "ctx" $ "name" .name ) }}</a>
         {{ end }}
     </div>
-
+    <div>
+        {{ partial "revolvermap.html" $ }}
+    </div>
 </header>
 <main class="app-container">
     {{ partial "navigator.html" $ }}
