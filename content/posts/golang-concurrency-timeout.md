@@ -1,7 +1,7 @@
 ---
 title: "Golang 并发编程 之 超时处理"
 date: 2019-11-21T17:10:13+08:00
-keywords: [["golang", "concurrency", "timeout"]
+keywords: ["golang", "concurrency", "timeout"]
 categories: ["golang"]
 tags: ["golang", "concurrency", "timeout"]
 draft: false
