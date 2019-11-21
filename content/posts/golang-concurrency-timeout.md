@@ -8,7 +8,7 @@ draft: false
 ---
 
 并发编程中的超时处理
----
+===
 在并发编程中，要放弃运行时间太长的同步调用，请使用带有time.After的select语句，如下：
 ```go
 import (
