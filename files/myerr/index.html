@@ -83,7 +83,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/unix/">unix</a><a class="tag" href="https://realjf.io/tags/ourhdr.h/">ourhdr.h</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/unix/">unix</a><a class="tag" href="https://realjf.io/tags/myerr.h/">myerr.h</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
         </header>
         <div class="post-content">
             
@@ -94,12 +94,11 @@
 
 <pre><code class="language-h">// myerr.h
 
-#include &quot;ourhdr.h&quot;
 #include &lt;errno.h&gt;/* for definition of errno */
 #include &lt;stdarg.h&gt;/* ISO C variable aruments */
 
 
-static voiderr_doit(int, int, const char *, va_list);
+static void err_doit(int, int, const char *, va_list);
 
 
 /*
@@ -211,17 +210,14 @@ exit(1);
 static void
 err_doit(int errnoflag, int error, const char *fmt, va_list ap)
 {
-charbuf[MAXLINE];
-
-
-vsnprintf(buf, MAXLINE, fmt, ap);
-if (errnoflag)
-snprintf(buf+strlen(buf), MAXLINE-strlen(buf), &quot;: %s&quot;,
- strerror(error));
-strcat(buf, &quot;\n&quot;);
-fflush(stdout);/* in case stdout and stderr are the same */
-fputs(buf, stderr);
-fflush(NULL); /* flushes all stdio output streams */
+    char buf[MAXLINE];
+    vsnprintf(buf, MAXLINE, fmt, ap);
+    if (errnoflag)
+        snprintf(buf+strlen(buf), MAXLINE-strlen(buf), &quot;: %s&quot;, strerror(error));
+    strcat(buf, &quot;\n&quot;);
+    fflush(stdout);/* in case stdout and stderr are the same */
+    fputs(buf, stderr);
+    fflush(NULL); /* flushes all stdio output streams */
 }
 
 </code></pre>
