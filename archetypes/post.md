@@ -5,5 +5,14 @@ keywords: [""]
 categories: ["{{ .Section }}"]
 tags: [""]
 draft: true
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: date
+    weight: 10
 ---
 
