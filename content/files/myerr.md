@@ -1,9 +1,9 @@
 ---
 title: "unix网络编程 之 myerr.h文件"
 date: 2019-11-23T08:51:45+08:00
-keywords: ["unix", "ourhdr.h", "网络编程"]
+keywords: ["unix", "myerr.h", "网络编程"]
 categories: ["unix"]
-tags: ["unix", "ourhdr.h", "网络编程"]
+tags: ["unix", "myerr.h", "网络编程"]
 draft: false
 ---
 
@@ -13,12 +13,11 @@ myerr.h
 ```h
 // myerr.h
 
-#include "ourhdr.h"
 #include <errno.h>/* for definition of errno */
 #include <stdarg.h>/* ISO C variable aruments */
 
 
-static voiderr_doit(int, int, const char *, va_list);
+static void err_doit(int, int, const char *, va_list);
 
 
 /*
@@ -130,17 +129,14 @@ exit(1);
 static void
 err_doit(int errnoflag, int error, const char *fmt, va_list ap)
 {
-charbuf[MAXLINE];
-
-
-vsnprintf(buf, MAXLINE, fmt, ap);
-if (errnoflag)
-snprintf(buf+strlen(buf), MAXLINE-strlen(buf), ": %s",
- strerror(error));
-strcat(buf, "\n");
-fflush(stdout);/* in case stdout and stderr are the same */
-fputs(buf, stderr);
-fflush(NULL); /* flushes all stdio output streams */
+    char buf[MAXLINE];
+    vsnprintf(buf, MAXLINE, fmt, ap);
+    if (errnoflag)
+        snprintf(buf+strlen(buf), MAXLINE-strlen(buf), ": %s", strerror(error));
+    strcat(buf, "\n");
+    fflush(stdout);/* in case stdout and stderr are the same */
+    fputs(buf, stderr);
+    fflush(NULL); /* flushes all stdio output streams */
 }
 
 ```
