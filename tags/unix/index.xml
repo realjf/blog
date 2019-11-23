@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>unix on Real_JF&#39;s blog</title>
+    <link>https://realjf.io/tags/unix/</link>
+    <description>Recent content in unix on Real_JF&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Nov 2019 09:20:03 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/unix/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>unix环境高级编程 之 apue.h环境安装配置 </title>
+      <link>https://realjf.io/unix/how-to-setup-apue-env/</link>
+      <pubDate>Sat, 23 Nov 2019 09:20:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/unix/how-to-setup-apue-env/</guid>
+      <description> 官网http://www.apuebook.com/apue3e.html
+准备 apt-get install libbsd-dev  如果不执行上面步骤可能会出现如下问题：
+barrier.c:(.text+0x6e): undefined reference to `heapsort’ collect2: ld make[1]: *** [barrier] make[1]: Leaving directory `/home/albert/Documents/progs/apue.3e/threads’ make: *** [all]  1. 下载解压 wget http://www.apuebook.com/src.3e.tar.gz tar zxvf src.3e.tar.gz cd apue.3e make  2. 复制相关头文件到/usr/include等 cp ./include/apue.h /usr/include cp ./lib/libapue.a /usr/local/lib  3. 搭建成功，测试 gcc 1-3.c -o 1-3 -lapue # 编译连接后 ./1-3 /lib # 查看是否正常执行程序  </description>
+    </item>
+    
+    <item>
+      <title>unix网络编程 之 apue.h文件</title>
+      <link>https://realjf.io/files/apue-h/</link>
+      <pubDate>Sat, 23 Nov 2019 08:51:45 +0800</pubDate>
+      
+      <guid>https://realjf.io/files/apue-h/</guid>
+      <description>unix网络编程 之 myerr.h文件 apue.h
+// apue.h #include &amp;quot;ourhdr.h&amp;quot; #include &amp;lt;errno.h&amp;gt;/* for definition of errno */ #include &amp;lt;stdarg.h&amp;gt;/* ISO C variable aruments */ static voiderr_doit(int, int, const char *, va_list); /* * Nonfatal error related to a system call. * Print a message and return. */ void err_ret(const char *fmt, ...) { va_list ap; va_start(ap, fmt); err_doit(1, errno, fmt, ap); va_end(ap); } /* * Fatal error related to a system call.</description>
+    </item>
+    
+    <item>
+      <title>unix网络编程 之 ourhdr.h文件</title>
+      <link>https://realjf.io/files/ourhdr-h/</link>
+      <pubDate>Sat, 23 Nov 2019 08:51:24 +0800</pubDate>
+      
+      <guid>https://realjf.io/files/ourhdr-h/</guid>
+      <description>unix网络编程 之 ourhdr.h文件 ourhdr.h
+// ourhdr.h #ifndef __ourhdr_h #define __ourhdr_h #include &amp;lt;errno.h&amp;gt; /*for definition of errno */ #include &amp;lt;stdarg.h&amp;gt; /*ANSI C header file */ #include &amp;lt;sys/types.h&amp;gt; /* required for some of our prototypes */ #include &amp;lt;stdio.h&amp;gt; /* for convenience */ #include &amp;lt;stdlib.h&amp;gt; /* for convenience */ #include &amp;lt;string.h&amp;gt; /* for convenience */ #include &amp;lt;unistd.h&amp;gt; /* for convenience */ #define MAXLINE 4096 /* max line length */ #define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) /* default file access permissions for new files */ #define DIR_MODE (FILE_MODE | S_IXUSR | S_IXGRP | S_IXOTH) /* default permissions for new directoris */ typedef void Sigfunc(int); /* for signal handlers */ /* 4.</description>
+    </item>
+    
+    <item>
+      <title>unix网络编程 之 unp.h头文件安装配置</title>
+      <link>https://realjf.io/unix/how-to-setup-unp-env/</link>
+      <pubDate>Sat, 23 Nov 2019 08:17:24 +0800</pubDate>
+      
+      <guid>https://realjf.io/unix/how-to-setup-unp-env/</guid>
+      <description>unix网络编程环境之unp.h安装配置 官网http://www.unpbook.com/src.html
+1. 下载安装 wget http://www.unpbook.com/unpv13e.tar.gz tar zxvf unpv13e.tar.gz cd unpv13e ./configure cd lib make cd ../libfree make  上面make遇到报错，如下
+gcc -I../lib -g -O2 -D_REENTRANT -Wall -c -o in_cksum.o in_cksum.c gcc -I../lib -g -O2 -D_REENTRANT -Wall -c -o inet_ntop.o inet_ntop.c inet_ntop.c: In function ‘inet_ntop’: inet_ntop.c:60:9: error: argument ‘size’ doesn’t match prototype size_t size; ^~~~ In file included from inet_ntop.c:27: /usr/include/arpa/inet.h:64:20: error: prototype declaration extern const char *inet_ntop (int __af, const void *__restrict __cp, ^~~~~~~~~ make: *** [&amp;lt;builtin&amp;gt;: inet_ntop.</description>
+    </item>
+    
+  </channel>
+</rss>

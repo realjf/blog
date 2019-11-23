@@ -3,7 +3,7 @@
 <head>
     <title>Golang Micro 微服务框架使用 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.59.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -160,8 +160,8 @@ message HelloResponse {
 <li>实现greeter定义的接口</li>
 <li>初始化一个micro.Service</li>
 <li>注册greeter处理函数</li>
-<li>运行服务</li>
-</ul>
+
+<li><p>运行服务</p>
 
 <pre><code class="language-go">package main
 
@@ -197,7 +197,8 @@ func main() {
 		fmt.Println(err)
 	}
 }
-</code></pre>
+</code></pre></li>
+</ul>
 
 <h4 id="运行服务">运行服务</h4>
 
@@ -379,6 +380,22 @@ func logWrap(c client.Client) client.Client {
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </article>
+    
+
+    <h3>相关阅读推荐（See Also）</h3>
+    <ul>
+        
+            <li><a href="/posts/sync-atomic/">Golang语言标准库之 sync/atomic原子操作</a></li>
+        
+            <li><a href="/posts/pprof/">golang性能分析利器之Pprof</a></li>
+        
+            <li><a href="/posts/how-golang-garbage-collection-works/">Golang GC 实现原理</a></li>
+        
+            <li><a href="/posts/goroutine-principle/">Goroutine 运行原理</a></li>
+        
+    </ul>
+
+
     
 <aside class="aside-menu">
     <div class="aside-bar-icon">

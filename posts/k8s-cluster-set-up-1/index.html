@@ -3,7 +3,7 @@
 <head>
     <title>Kubernetes集群搭建一 之 etcd集群 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.59.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -173,23 +173,20 @@ setenforce 0
 <h4 id="1-安装docker">1. 安装docker</h4>
 
 <ul>
-<li>docker版本为1.13.1
-```sh
-yum install docker -y</li>
+<li><p>docker版本为1.13.1</p>
+
+<pre><code class="language-sh">yum install docker -y
+
+# 由于后面都采用服务方式启动，所以docker启动参数需要加上--exec-opt native.cgroupdriver=systemd
+vim /usr/lib/systemd/system/docker.service
+# 在启动项上加上这行就可以
+systemctl start docker
+</code></pre></li>
 </ul>
 
-<h1 id="由于后面都采用服务方式启动-所以docker启动参数需要加上-exec-opt-native-cgroupdriver-systemd">由于后面都采用服务方式启动，所以docker启动参数需要加上&ndash;exec-opt native.cgroupdriver=systemd</h1>
+<h5 id="创建安装目录">创建安装目录</h5>
 
-<p>vim /usr/lib/systemd/system/docker.service</p>
-
-<h1 id="在启动项上加上这行就可以">在启动项上加上这行就可以</h1>
-
-<p>systemctl start docker</p>
-
-<pre><code>
-##### 创建安装目录
-```sh
-mkdir -p /opt/kubernetes/bin
+<pre><code class="language-sh">mkdir -p /opt/kubernetes/bin
 </code></pre>
 
 <h4 id="2-安装etcd">2.安装etcd</h4>
@@ -377,97 +374,83 @@ mkdir -p /var/lib/etcd/etcd1
 <ul>
 <li>官网下载地址：<a href="https://kubernetes.io/docs/imported/release/notes/#downloads-for-v1-10-0">https://kubernetes.io/docs/imported/release/notes/#downloads-for-v1-10-0</a></li>
 <li>github下载地址：<a href="https://github.com/kubernetes/kubernetes/releases">https://github.com/kubernetes/kubernetes/releases</a></li>
-<li>github二进制包下载地址：<a href="https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz">https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz</a>
-```sh
-wget <a href="https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz">https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz</a>
+
+<li><p>github二进制包下载地址：<a href="https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz">https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz</a></p>
+
+<pre><code class="language-sh">wget https://dl.k8s.io/v1.10.3/kubernetes-server-linux-amd64.tar.gz
 tar zxvf kubernetes-server-linux-amd64.tar.gz
 cd kubernetes-server-linux-amd64/server/bin
 cp kube-apiserver /usr/bin/
 cp kube-controller-manager /usr/bin/
-cp kube-scheduler /usr/bin/</li>
+cp kube-scheduler /usr/bin/
+
+# 如果复制到其他目录，则相应的将systemd服务文件中的文件路径修改正确即可
+</code></pre></li>
 </ul>
 
-<h1 id="如果复制到其他目录-则相应的将systemd服务文件中的文件路径修改正确即可">如果复制到其他目录，则相应的将systemd服务文件中的文件路径修改正确即可</h1>
+<h5 id="kube-apiserver服务安装">kube-apiserver服务安装</h5>
 
-<pre><code>##### kube-apiserver服务安装
-编辑systemd服务文件/usr/lib/systemd/system/kube-apiserver.service，内容如下：
-</code></pre>
+<p>编辑systemd服务文件/usr/lib/systemd/system/kube-apiserver.service，内容如下：</p>
 
-<p>[Uint]
+<pre><code>[Uint]
 Description=Kubernetes API Server
-Documentation=<a href="https://github.com/GoogleCloudPlatform/kubernetes">https://github.com/GoogleCloudPlatform/kubernetes</a>
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=etcd.service
-Wants=etcd.service</p>
+Wants=etcd.service
 
-<p>[Service]
+[Service]
 EnvironmentFile=/etc/kubernetes/apiserver
 ExecStart=/usr/bin/kube-apiserver $KUBE_API_ARGS
 Restart=on-failure
 Type=notify
-LimitNOFILE=65536</p>
+LimitNOFILE=65536
 
-<p>[Install]
-WantedBy=multi-user.target</p>
+[Install]
+WantedBy=multi-user.target
 
-<pre><code>配置文件/etc/kubernetes/apiserver的内容包含了kube-apiserver的全部启动参数，主要的配置参数变量KUBE_API_ARGS中指定。
-具体内容如下：
 </code></pre>
 
-<p>###</p>
+<p>配置文件/etc/kubernetes/apiserver的内容包含了kube-apiserver的全部启动参数，主要的配置参数变量KUBE_API_ARGS中指定。
+具体内容如下：</p>
 
-<h1 id="kubernetes-system-config">kubernetes system config</h1>
+<pre><code>###
+# kubernetes system config
+#
+# The following values are used to configure the kube-apiserver
+#
 
-<p>#</p>
+# The address on the local server to listen to.
+#aipServer的监听地址，默认为127.0.0.1，若要配置集群，则要设置为0.0.0.0才能被其他主机找到
+KUBE_API_ADDRESS=&quot;--insecure-bind-address=0.0.0.0&quot;
 
-<h1 id="the-following-values-are-used-to-configure-the-kube-apiserver">The following values are used to configure the kube-apiserver</h1>
+#apiserver的监听端口
+# The port on the local server to listen on.
+KUBE_API_PORT=&quot;--port=8080&quot;
 
-<p>#</p>
+# kubelet的监听端口，若只作为Master节点则可以不配置
+# Port minions listen on
+KUBELET_PORT=&quot;--kubelet-port=10250&quot;
 
-<h1 id="the-address-on-the-local-server-to-listen-to">The address on the local server to listen to.</h1>
+#etcd的地址，若etcd是集群，则配置集群所有地址，用逗号隔开
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS=&quot;--etcd-servers=http://demo.etcd.server:2379&quot;
 
-<p>#aipServer的监听地址，默认为127.0.0.1，若要配置集群，则要设置为0.0.0.0才能被其他主机找到
-KUBE_API_ADDRESS=&ldquo;&ndash;insecure-bind-address=0.0.0.0&rdquo;</p>
+# service的地址范围，用于创建service的时候自动生成或指定serviceIP使用
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES=&quot;--service-cluster-ip-range=10.254.0.0/16&quot;
 
-<p>#apiserver的监听端口</p>
+#使用的系统组件，具体组件的作用参考下文以及官网
+# default admission control policies
+KUBE_ADMISSION_CONTROL=&quot;--admission_control=NamespaceLifecycle,NamespaceExists,NamespaceAutoProvision,LimitRanger,ResourceQuota&quot;
 
-<h1 id="the-port-on-the-local-server-to-listen-on">The port on the local server to listen on.</h1>
+#此处可以添加其他配置，具体配置待笔者完善
+# Add your own!
+KUBE_API_ARGS=&quot;--storage-backend=etcd3 --etcd-servers=http://127.0.0.1:2379 --insecure-bind-address=0.0.0.0 --insecure-port=8080 --service-cluster-ip-range=169.169.0.0/16 --service-node-port-range=1-65535 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds --logtostderr=false --log-dir=/var/log/kubernetes --v=2&quot;
+</code></pre>
 
-<p>KUBE_API_PORT=&ldquo;&ndash;port=8080&rdquo;</p>
+<h6 id="这里有个准入控制推荐可供参考">这里有个准入控制推荐可供参考</h6>
 
-<h1 id="kubelet的监听端口-若只作为master节点则可以不配置">kubelet的监听端口，若只作为Master节点则可以不配置</h1>
-
-<h1 id="port-minions-listen-on">Port minions listen on</h1>
-
-<p>KUBELET_PORT=&ldquo;&ndash;kubelet-port=10250&rdquo;</p>
-
-<p>#etcd的地址，若etcd是集群，则配置集群所有地址，用逗号隔开</p>
-
-<h1 id="comma-separated-list-of-nodes-in-the-etcd-cluster">Comma separated list of nodes in the etcd cluster</h1>
-
-<p>KUBE_ETCD_SERVERS=&ldquo;&ndash;etcd-servers=<a href="http://demo.etcd.server:2379&quot;">http://demo.etcd.server:2379&quot;</a></p>
-
-<h1 id="service的地址范围-用于创建service的时候自动生成或指定serviceip使用">service的地址范围，用于创建service的时候自动生成或指定serviceIP使用</h1>
-
-<h1 id="address-range-to-use-for-services">Address range to use for services</h1>
-
-<p>KUBE_SERVICE_ADDRESSES=&ldquo;&ndash;service-cluster-ip-range=10.254.0.0/16&rdquo;</p>
-
-<p>#使用的系统组件，具体组件的作用参考下文以及官网</p>
-
-<h1 id="default-admission-control-policies">default admission control policies</h1>
-
-<p>KUBE_ADMISSION_CONTROL=&ldquo;&ndash;admission_control=NamespaceLifecycle,NamespaceExists,NamespaceAutoProvision,LimitRanger,ResourceQuota&rdquo;</p>
-
-<p>#此处可以添加其他配置，具体配置待笔者完善</p>
-
-<h1 id="add-your-own">Add your own!</h1>
-
-<p>KUBE_API_ARGS=&ldquo;&ndash;storage-backend=etcd3 &ndash;etcd-servers=<a href="http://127.0.0.1:2379">http://127.0.0.1:2379</a> &ndash;insecure-bind-address=0.0.0.0 &ndash;insecure-port=8080 &ndash;service-cluster-ip-range=169.169.0.0/16 &ndash;service-node-port-range=1-65535 &ndash;admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds &ndash;logtostderr=false &ndash;log-dir=/var/log/kubernetes &ndash;v=2&rdquo;</p>
-
-<pre><code>
-###### 这里有个准入控制推荐可供参考
-```sh
-# 对于 Kubernetes &gt;= 1.6.0 版本，我们强烈建议运行以下一系列准入控制插件（顺序也很重要）
+<pre><code class="language-sh"># 对于 Kubernetes &gt;= 1.6.0 版本，我们强烈建议运行以下一系列准入控制插件（顺序也很重要）
 
 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
 
@@ -659,6 +642,9 @@ kubectl --server=192.168.37.150:8080 get nodes
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </article>
+    
+
+
     
 <aside class="aside-menu">
     <div class="aside-bar-icon">

@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+<head>
+    <title>unix网络编程 之 unp.h头文件安装配置 // Real_JF&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.19d71e1977084b5594eda195e08f3c8bfd155b608dedec30a492ec1532e702e3.css" />
+    <link rel="stylesheet" href="./css/highlight.min.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Real_JF&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">unix网络编程 之 unp.h头文件安装配置</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Nov 23, 2019
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    1 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/unix/">unix</a><a class="tag" href="https://realjf.io/tags/unp/">unp</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h1 id="unix网络编程环境之unp-h安装配置">unix网络编程环境之unp.h安装配置</h1>
+
+<p>官网<a href="http://www.unpbook.com/src.html">http://www.unpbook.com/src.html</a></p>
+
+<h3 id="1-下载安装">1. 下载安装</h3>
+
+<pre><code class="language-shell">wget http://www.unpbook.com/unpv13e.tar.gz
+tar zxvf unpv13e.tar.gz
+cd unpv13e
+./configure
+cd lib
+make
+cd ../libfree
+make
+</code></pre>
+
+<p>上面make遇到报错，如下</p>
+
+<pre><code class="language-shell">gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o in_cksum.o in_cksum.c
+gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o inet_ntop.o inet_ntop.c
+inet_ntop.c: In function ‘inet_ntop’:
+inet_ntop.c:60:9: error: argument ‘size’ doesn’t match prototype
+  size_t size;
+         ^~~~
+In file included from inet_ntop.c:27:
+/usr/include/arpa/inet.h:64:20: error: prototype declaration
+ extern const char *inet_ntop (int __af, const void *__restrict __cp,
+                    ^~~~~~~~~
+make: *** [&lt;builtin&gt;: inet_ntop.o] Error 1
+</code></pre>
+
+<p>找到inet.h和inet_ntop.c对比发现，只要把size_t size改成socklen_t size即可，
+这一步make会在上层目录生成libunp.a文件，如下为运行成功返回信息</p>
+
+<pre><code class="language-shell">gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o inet_ntop.o inet_ntop.c
+/usr/include/arpa/inet.h: In function ‘inet_ntop’:
+inet_ntop.c:152:23: warning: ‘best.len’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   if (best.base == -1 || cur.len &gt; best.len)
+       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+inet_ntop.c:123:28: note: ‘best.len’ was declared here
+  struct { int base, len; } best, cur;
+                            ^~~~
+gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o inet_pton.o inet_pton.c
+ar rv ../libunp.a in_cksum.o inet_ntop.o inet_pton.o
+a - in_cksum.o
+a - inet_ntop.o
+a - inet_pton.o
+ranlib ../libunp.a
+</code></pre>
+
+<p>接下来继续编译</p>
+
+<pre><code class="language-shell">cd ../libgai
+make
+</code></pre>
+
+<blockquote>
+<p>注意，上面这两个make如果没有执行，在编译函数是小写时没出问题，但是程序含有大写函数时报错了，所以这两步要做</p>
+</blockquote>
+
+<h3 id="2-复制">2. 复制</h3>
+
+<pre><code class="language-shell">cd ..
+cp libunp.a /usr/lib
+cp libunp.a /usr/lib64
+</code></pre>
+
+<h3 id="3-修改一些错误">3. 修改一些错误</h3>
+
+<p>1.在解压目录的lib目录下找到unp.h，在解压目录下有个文件config.h，
+将unp.h中的#include &ldquo;../config.h&rdquo;修改为#include &ldquo;config.h&rdquo;</p>
+
+<p>2.在unp.h中添加一行：#define MAX_LINE 2048</p>
+
+<ol>
+<li><p>将unp.h和config.h复制到以后我们存放源代码的同一目录下</p>
+
+<pre><code class="language-shell">cp ./lib/unp.h /usr/include/
+cp config.h /usr/include 
+</code></pre></li>
+</ol>
+
+<h3 id="遇到的问题">遇到的问题</h3>
+
+<h4 id="1-在运行程序时-可能遇到undefined-reference-to-err-quit-undefined-reference-to-err-sys-情况">1. 在运行程序时，可能遇到undefined reference to &lsquo;err_quit&rsquo;，undefined reference to &lsquo;err_sys&rsquo; 情况</h4>
+
+<p>也是未定义的声明，也就是说这些函数没有实现，</p>
+
+<p><strong>解决方法</strong></p>
+
+<p>去官网把作者自己写&rdquo;apue.h&rdquo;下载下来，放入/usr/include/ 和自己存放源代码的目录下，就可以了</p>
+
+<p>这里附上相关头文件</p>
+
+<ul>
+<li><a href="/files/apue-h">apue.h</a></li>
+<li><a href="/files/ourhdr-h">ourhdr.h</a></li>
+</ul>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

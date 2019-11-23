@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Real_JF&#39;s blog</title>
@@ -6,10 +6,64 @@
     <description>Recent content in Tags on Real_JF&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 21 Nov 2019 18:01:02 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 23 Nov 2019 09:20:03 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>unix</title>
+      <link>https://realjf.io/tags/unix/</link>
+      <pubDate>Sat, 23 Nov 2019 09:20:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/unix/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>unix环境高级编程</title>
+      <link>https://realjf.io/tags/unix%E7%8E%AF%E5%A2%83%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Sat, 23 Nov 2019 09:20:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/unix%E7%8E%AF%E5%A2%83%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ourhdr.h</title>
+      <link>https://realjf.io/tags/ourhdr.h/</link>
+      <pubDate>Sat, 23 Nov 2019 08:51:45 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/ourhdr.h/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>网络编程</title>
+      <link>https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Sat, 23 Nov 2019 08:51:45 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network programming</title>
+      <link>https://realjf.io/tags/network-programming/</link>
+      <pubDate>Sat, 23 Nov 2019 08:17:24 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/network-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>unp</title>
+      <link>https://realjf.io/tags/unp/</link>
+      <pubDate>Sat, 23 Nov 2019 08:17:24 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/unp/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>concurrency</title>
