@@ -4,6 +4,7 @@ date: {{ .Date }}
 keywords: [""]
 categories: ["{{ .Section }}"]
 tags: [""]
+series: [""]
 draft: true
 toc: true
 related:

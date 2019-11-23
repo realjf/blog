@@ -4,6 +4,7 @@ date: 2019-03-19T14:13:53+08:00
 keywords: ["kubernetes", "k8s", "k8s集群搭建"]
 categories: ["kubernetes"]
 tags: ["kubernetes", "k8s", "k8s集群搭建"]
+series: ["kubernetes cluster setup"]
 draft: false
 related:
   threshold: 80

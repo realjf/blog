@@ -4,6 +4,12 @@ title = "Real_JF's blog"
 theme = "m10c"
 paginate = "10"
 
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  series = "series"
+
+
 [params]
   author = "realjf"
   description = "认识自己，接受自己，忘记自己，追随自己的灵魂"

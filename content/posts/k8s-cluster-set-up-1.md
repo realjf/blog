@@ -4,6 +4,7 @@ date: 2019-03-19T14:13:46+08:00
 keywords: ["kubernetes", "k8s", "etcd", "etcd集群搭建", "k8s集群搭建"]
 categories: ["kubernetes", "etcd", "分布式存储"]
 tags: ["kubernetes", "k8s", "etcd", "etcd集群搭建", "分布式存储", "k8s集群搭建", "kv键值"]
+series: ["kubernetes cluster setup"]
 draft: false
 related:
   threshold: 80
@@ -23,7 +24,7 @@ related:
 #### 系统要求
 
 软硬件 | 最低配置 | 推荐配置
----|--- | ---
+ :---: | :---: | :---:
 cpu和内存 | master:至少2core和4GB内存 Node：至少4core和16GB|Master:4core和16GB Node: 应根据需要运行的容器数量进行配置
 linux操作系统 | 基于x86_64架构的各种linux发行版本 | Red Hat Linux 7 CentOS 7
 Docker | 1.9版本以上|1.12版本
@@ -44,10 +45,12 @@ setenforce 0
 #### 这里将搭建一个master节点和一个node节点的k8s集群
 > 由于 raft 算法的特性，集群的节点数必须是奇数
 
-- | ip | etcd节点名称 
----|---|---
-master节点| 192.168.37.150 | etcd1
-node1节点 | 192.168.37.152 | etcd2
+
+| - | ip | etcd节点名称 |
+| :-: | :-: | :---: |
+| master节点| 192.168.37.150 | etcd1 |
+| node1节点 | 192.168.37.152 | etcd2 |
+
 
 > 请确保节点直接可以互相ping通
 
