@@ -5,6 +5,7 @@ keywords: [""]
 categories: ["{{ .Section }}"]
 tags: [""]
 draft: true
+toc: true
 related:
   threshold: 80
   includeNewer: false

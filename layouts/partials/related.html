@@ -1,9 +1,14 @@
 {{ $related := .Site.RegularPages.Related . | first 5 }}
 {{ with $related }}
-    <h3>相关阅读推荐（See Also）</h3>
-    <ul>
-        {{ range . }}
-            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-        {{ end }}
-    </ul>
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                {{ range . }}
+                    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+                {{ end }}
+            </ul>
+        </fieldset>
+    </div>
 {{ end }}

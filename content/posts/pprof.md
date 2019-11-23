@@ -5,6 +5,7 @@ keywords: ["golang", "pprof", "golang性能分析"]
 categories: ["golang"]
 tags: ["golang", "pprof", "golang性能分析"]
 draft: false
+toc: true
 related:
   threshold: 80
   includeNewer: false
@@ -20,6 +21,7 @@ related:
     weight: 10
 ---
 
+### 简介
 pprof是golang程序一个性能分析的工具，可以查看堆栈、cpu信息等
 
 pprof有2个包：net/http/pprof以及runtime/pprof

@@ -7,6 +7,7 @@ paginate = "10"
 [params]
   author = "realjf"
   description = "认识自己，接受自己，忘记自己，追随自己的灵魂"
+  toc = true
   [[params.social]]
     name = "github"
     title = "github"
