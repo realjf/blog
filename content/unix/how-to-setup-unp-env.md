@@ -100,10 +100,11 @@ cp config.h /usr/include
 
 **解决方法**
 
-去官网把作者自己写"apue.h"下载下来，放入/usr/include/ 和自己存放源代码的目录下，就可以了
+去官网把作者自己写的"apue.h"下载下来，把里面的相关错误输出取出来单独放入文件myerr.h中，
+最后放入/usr/include/ 和自己存放源代码的目录下，就可以了
 
 这里附上相关头文件
 
-- [apue.h](/files/apue-h)
+- [myerr.h](/files/myerr)
 - [ourhdr.h](/files/ourhdr-h)
 

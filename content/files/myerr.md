@@ -1,5 +1,5 @@
 ---
-title: "unix网络编程 之 apue.h文件"
+title: "unix网络编程 之 myerr.h文件"
 date: 2019-11-23T08:51:45+08:00
 keywords: ["unix", "ourhdr.h", "网络编程"]
 categories: ["unix"]
@@ -9,9 +9,9 @@ draft: false
 
 unix网络编程 之 myerr.h文件
 ---
-apue.h
+myerr.h
 ```h
-// apue.h
+// myerr.h
 
 #include "ourhdr.h"
 #include <errno.h>/* for definition of errno */
