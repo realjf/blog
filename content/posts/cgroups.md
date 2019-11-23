@@ -5,6 +5,19 @@ keywords: ["linux", "cgroup"]
 categories: ["linux"]
 tags: ["linux", "kernel", "cgroup"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了

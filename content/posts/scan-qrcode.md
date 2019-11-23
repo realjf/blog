@@ -5,6 +5,19 @@ keywords: ["wechat", "微信公众号", "微信JSSDK", "微信扫一扫"]
 categories: ["微信开发者"]
 tags: ["微信开发者", "wechat", "微信公众号", "微信JSSDK", "微信扫一扫"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 ## 网页调用微信JSSDK实现扫一扫功能

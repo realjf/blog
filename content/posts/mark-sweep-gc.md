@@ -5,6 +5,19 @@ keywords: ["gc", "标记清理算法", "垃圾回收算法"]
 categories: ["programming", "garbage collection"]
 tags: ["gc", "标记清理算法", "垃圾回收算法"]
 draft: true
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 ### 什么是GC标记-清理算法

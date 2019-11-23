@@ -5,6 +5,19 @@ keywords: ["golang", "goroutine原理"]
 categories: ["golang"]
 tags: ["golang", "go协程原理", "goroutine原理"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 

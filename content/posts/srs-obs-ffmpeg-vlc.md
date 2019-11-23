@@ -5,6 +5,19 @@ keywords: ["直播架构", "srs", "obs", "ffmpeg", "vlc", "rtmp"]
 categories: ["streaming"]
 tags: ["直播", "srs", "obs", "ffmpeg", "vlc", "rtmp"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 ## rtmp srs直播服务器搭建
 

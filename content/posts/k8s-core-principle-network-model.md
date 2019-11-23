@@ -5,6 +5,19 @@ keywords: ["kubernetes", "k8s", "k8s核心原理"]
 categories: ["kubernetes"]
 tags: ["kubernetes", "k8s", "k8s核心原理"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 主要解决以下问题：

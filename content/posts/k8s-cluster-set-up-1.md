@@ -5,6 +5,19 @@ keywords: ["kubernetes", "k8s", "etcd", "etcd集群搭建", "k8s集群搭建"]
 categories: ["kubernetes", "etcd", "分布式存储"]
 tags: ["kubernetes", "k8s", "etcd", "etcd集群搭建", "分布式存储", "k8s集群搭建", "kv键值"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 #### 系统要求

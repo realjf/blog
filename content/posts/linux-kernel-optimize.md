@@ -5,6 +5,19 @@ keywords: ["linux", "kernel", "linux内核参数优化"]
 categories: ["linux", "nginx"]
 tags: ["linux", "kernel", "linux内核参数优化"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 由于默认的linux内核参数考虑的是最通用的场景，这种场景下并不适合高并发访问的web服务器的定义，所以需要修改如下参数，

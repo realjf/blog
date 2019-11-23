@@ -5,6 +5,19 @@ keywords: ["mysql", "mysql安装", "mysql server"]
 categories: ["database"]
 tags: ["mysql", "mysql安装", "mysql server"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 ## 一、下载安装

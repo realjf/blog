@@ -5,6 +5,19 @@ keywords: ["ceph", "ceph集群"]
 categories: ["分布式存储", "ceph"]
 tags: ["ceph", "ceph集群搭建", "分布式存储"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 集群部署如下：

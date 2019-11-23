@@ -1,10 +1,23 @@
 ---
-title: "Ruby Installation"
+title: "Ruby 环境安装"
 date: 2019-08-30T12:42:08+08:00
 keywords: ["ruby"]
 categories: ["ruby"]
 tags: ["ruby"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 # centos7 下进行安装ruby

@@ -5,6 +5,19 @@ keywords: ["golang", "go标准库", "原子操作"]
 categories: ["golang"]
 tags: ["golang", "go标准库", "sync", "原子操作"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 原子操作，顾名思义是不可分割的，他可以是一个步骤，也可以是多个步骤，其执行过程不会被线程调度机制打断的操作。

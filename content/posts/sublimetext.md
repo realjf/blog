@@ -5,6 +5,19 @@ keywords: ["devtools", "ide", "sublimetext", "sublimetext安装"]
 categories: ["devtools"]
 tags: ["devtools", "ide", "sublimetext", "sublimetext安装"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 > sublime text官网[http://www.sublimetext.com](http://www.sublimetext.com)

@@ -14,6 +14,8 @@ related:
     weight: 100
   - name: tags
     weight: 90
+  - name: categories
+    weight: 50
   - name: date
     weight: 10
 ---

@@ -5,6 +5,19 @@ keywords: ["微服务", "rpc", "protobuf"]
 categories: ["微服务"]
 tags: ["微服务", "microservice", "protobuf", "rpc"]
 draft: false
+related:
+  threshold: 80
+  includeNewer: false
+  toLower: false
+  indices:
+  - name: keywords
+    weight: 100
+  - name: tags
+    weight: 90
+  - name: categories
+    weight: 50
+  - name: date
+    weight: 10
 ---
 
 ### 基础类型
