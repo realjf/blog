@@ -10,9 +10,13 @@
     <base href="{{ .Site.BaseURL }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
-    <link rel="stylesheet" href="./css/highlight.min.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <!-- Highlight.js and css -->
+    <script src="./js/highlight.pack.js"> </script>
+{{/*    <link rel="stylesheet" href="./css/vs2015.css">*/}}
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
 {{/*<iframe src="./si-sprite.svg"></iframe>*/}}
