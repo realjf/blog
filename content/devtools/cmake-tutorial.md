@@ -189,6 +189,34 @@ target_include_directories(Tutorial PUBLIC
                            ${EXTRA_INCLUDES}
                            )
 ```
+> 请注意，使用变量EXTRA_LIBS来收集所有可选库，以便以后链接到可执行文件中
+> 变量EXTRA_INCLUDES类似地用于可选的头文件。这是处理许多可选组件时的经典方法，我们将在下一步中介绍现代方法
+
+首先，在tutorial.cxx中，根据需要添加MathFunctions.h标头
+```c
+#ifdef USE_MYMATH
+#include "MathFunctions.h"
+#endif
+```
+在同一文件中，使USE_MYMATH控制使用哪个平方根函数
+```c
+#ifdef USE_MYMATH
+  const double outputValue = mysqrt(inputValue);
+#else
+  const double outputValue = sqrt(inputValue);
+#endif
+```
+由于源代码现在需要USE_MYMATH，因此我们可以使用以下行将其添加到TutorialConfig.h.in中
+```c
+#cmakedefine USE_MYMATH
+```
+为什么在USE_MYMATH选项之后配置TutorialConfig.h.in如此重要？如果我们将两者倒置会发生什么？
+运行cmake或cmake-gui以配置项目，然后使用所选的构建工具进行构建。然后运行构建的Tutorial可执行文件。
+
+使用ccmake或CMake GUI更新USE_MYMATH的值。重新生成并再次运行本教程。 sqrt或mysqrt哪个函数可提供更好的结果。
+
+
+
 
 
 
