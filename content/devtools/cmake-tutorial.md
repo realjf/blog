@@ -1,5 +1,5 @@
 ---
-title: "Cmake Tutorial"
+title: "Cmake 使用基本教程"
 date: 2019-11-23T14:14:43+08:00
 keywords: ["cmake"]
 categories: ["devtools"]
@@ -22,6 +22,18 @@ related:
     weight: 10
 ---
 
+首先创建一个项目
+```shell script
+mkdir Tutorial
+cd Tutorial
+touch tutorial.cxx
+
+```
+tutorial.cxx内容如下：
+```c
+
+```
+
 ### 第一步：从最基础开始
 最简单的应用是在项目根目录下创建一个CMakeLists.txt文件，内容如下：
 ```text
@@ -32,7 +44,7 @@ cmake_minimum_required(VERSION 3.10)
 project(Tutorial)
 
 # 添加可执行文件
-add_executableTutorial
+add_executable(Tutorial tutorial.cxx)
 
 ```
 CMake支持大写，小写和大小写混合命令，上述示例使用小写方式。
@@ -117,6 +129,67 @@ Tutorial
 ```
 
 ### 第二步：添加一个库依赖
+将库放入名为MathFunctions的子目录中。该目录已包含头文件MathFunctions.h和源文件mysqrt.cxx。
+
+然后，在子目录MathFunctions目录的CMakeLists.txt文件中添加如下内容：
+```text
+add_library(MathFunctions mysqrt.cxx)
+```
+
+为了利用新库，我们将在顶级CMakeLists.txt文件中添加add_subdirectory调用，以便构建该库。
+将新库添加到可执行文件，并将MathFunctions添加为包含目录，以便可以找到mqsqrt.h头文件。
+现在，顶层CMakeLists.txt文件的最后添加如下几行：
+```text
+# 添加MathFunctions库
+add_subdirectory(MathFunctions)
+
+# 添加可执行文件
+add_executable(Tutorial tutorial.cxx)
+
+# 添加编译链接库
+target_link_libraries(Tutorial PUBLIC MathFunctions)
+
+# 将二叉树添加到包含文件的搜索路径
+# 这样我们就可以找到TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                          "${PROJECT_BINARY_DIR}"
+                          "${PROJECT_SOURCE_DIR}/MathFunctions"
+                          )
+
+```
+
+现在让我们将MathFunctions库设为可选。对于较大的项目，这是很常见的情况。
+第一步是向顶级CMakeLists.txt文件添加一个选项。
+```text
+option(USE_MYMATH "Use tutorial provided math implementation" ON)
+
+# 配置头文件以传递某些CMake设置到源代码中
+configure_file(TutorialConfig.h.in TutorialConfig.h)
+```
+此选项将显示在CMake GUI和ccmake中，默认值ON可由用户更改。
+此设置将存储在缓存中，以便用户无需在每次在构建目录上运行CMake时都设置该值
+
+下一个更改是使建立和链接MathFunctions库成为条件。
+为此，我们将顶级CMakeLists.txt文件的结尾更改为如下所示
+```text
+if(USE_MYMATH)
+  add_subdirectory(MathFunctions)
+  list(APPEND EXTRA_LIBS MathFunctions)
+  list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/MathFunctions")
+endif()
+
+# 添加可执行文件
+add_executable(Tutorial tutorial.cxx)
+
+target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
+
+# 将二叉树添加到包含文件的搜索路径，这样我们就可以找到TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                           "${PROJECT_BINARY_DIR}"
+                           ${EXTRA_INCLUDES}
+                           )
+```
+
 
 
 
