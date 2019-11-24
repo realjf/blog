@@ -1,12 +1,12 @@
 ---
-title: "{{ replace .Name "-" " " | title }}"
-date: {{ .Date }}
-keywords: [""]
-categories: ["{{ .Section }}"]
-tags: [""]
+title: "Cmake Tutorial"
+date: 2019-11-23T14:14:43+08:00
+keywords: ["cmake"]
+categories: ["devtools"]
+tags: ["cmake"]
 series: [""]
 draft: true
-toc: false
+toc: true
 related:
   threshold: 80
   includeNewer: false
@@ -21,4 +21,7 @@ related:
   - name: date
     weight: 10
 ---
+
+### 简介
+
 

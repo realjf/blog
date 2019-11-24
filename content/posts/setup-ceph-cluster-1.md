@@ -4,6 +4,7 @@ date: 2019-03-19T14:57:05+08:00
 keywords: ["ceph", "ceph集群"]
 categories: ["分布式存储", "ceph"]
 tags: ["ceph", "ceph集群搭建", "分布式存储"]
+series: ["ceph集群搭建"]
 draft: false
 related:
   threshold: 80
