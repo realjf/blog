@@ -1,40 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>https://realjf.io/categories/</loc>
     <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/</loc>
     <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/</loc>
     <lastmod>2019-11-23T09:20:03+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/unix/</loc>
-    <lastmod>2019-11-23T09:20:03+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/unix/</loc>
-    <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/unix/</loc>
     <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/categories/unix/</loc>
+    <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/unix/</loc>
+    <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/unix%E7%8E%AF%E5%A2%83%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -45,11 +52,13 @@
   <url>
     <loc>https://realjf.io/files/</loc>
     <lastmod>2019-11-23T08:51:45+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/myerr.h/</loc>
     <lastmod>2019-11-23T08:51:45+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -60,11 +69,13 @@
   <url>
     <loc>https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2019-11-23T08:51:45+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/ourhdr.h/</loc>
     <lastmod>2019-11-23T08:51:24+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -75,6 +86,7 @@
   <url>
     <loc>https://realjf.io/tags/network-programming/</loc>
     <lastmod>2019-11-23T08:17:24+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -85,21 +97,7 @@
   <url>
     <loc>https://realjf.io/tags/unp/</loc>
     <lastmod>2019-11-23T08:17:24+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/concurrency/</loc>
-    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/golang/</loc>
-    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/golang/</loc>
-    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -110,6 +108,25 @@
   <url>
     <loc>https://realjf.io/posts/</loc>
     <lastmod>2019-11-21T18:01:02+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/concurrency/</loc>
+    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/categories/golang/</loc>
+    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/golang/</loc>
+    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -125,6 +142,7 @@
   <url>
     <loc>https://realjf.io/tags/timeout/</loc>
     <lastmod>2019-11-21T17:10:13+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -135,21 +153,13 @@
   <url>
     <loc>https://realjf.io/tags/race/</loc>
     <lastmod>2019-11-21T16:41:31+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E7%AB%9E%E6%80%81%E6%A3%80%E6%B5%8B/</loc>
     <lastmod>2019-11-21T16:41:31+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/microservice/</loc>
-    <lastmod>2019-10-28T15:31:06+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/protobuf/</loc>
-    <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -158,18 +168,33 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/rpc/</loc>
+    <loc>https://realjf.io/tags/microservice/</loc>
     <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
+    <loc>https://realjf.io/tags/protobuf/</loc>
     <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/rpc/</loc>
+    <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
     <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
+    <lastmod>2019-10-28T15:31:06+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -185,26 +210,19 @@
   <url>
     <loc>https://realjf.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</loc>
     <lastmod>2019-10-17T17:37:02+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/sync/</loc>
     <lastmod>2019-10-17T17:37:02+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</loc>
     <lastmod>2019-10-17T17:37:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/database/</loc>
-    <lastmod>2019-10-15T09:11:41+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/mysql/</loc>
-    <lastmod>2019-10-15T09:11:41+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -213,23 +231,39 @@
   </url>
   
   <url>
+    <loc>https://realjf.io/categories/database/</loc>
+    <lastmod>2019-10-15T09:11:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/mysql/</loc>
+    <lastmod>2019-10-15T09:11:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/tags/mysql-server/</loc>
     <lastmod>2019-10-15T09:11:41+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/mysql5.7/</loc>
     <lastmod>2019-10-15T09:11:41+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2019-10-15T09:11:41+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/mysql%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2019-10-15T09:11:41+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -238,63 +272,50 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/django/</loc>
-    <lastmod>2019-10-14T15:17:48+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://realjf.io/posts/django-vue-web/</loc>
     <lastmod>2019-10-14T15:17:48+08:00</lastmod>
   </url>
   
   <url>
+    <loc>https://realjf.io/tags/django/</loc>
+    <lastmod>2019-10-14T15:17:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/tags/fullstack/</loc>
     <lastmod>2019-10-14T15:17:48+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/python/</loc>
     <lastmod>2019-10-14T15:17:48+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/python/</loc>
     <lastmod>2019-10-14T15:17:48+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/vue/</loc>
-    <lastmod>2019-10-14T15:17:48+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/vue/</loc>
     <lastmod>2019-10-14T15:17:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/vue/</loc>
+    <lastmod>2019-10-14T15:17:48+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/web/</loc>
     <lastmod>2019-10-14T15:17:48+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/devtools/</loc>
-    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/devtools/</loc>
-    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/make/</loc>
-    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/makefile/</loc>
-    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -303,13 +324,27 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/nginx/</loc>
-    <lastmod>2019-09-30T14:56:20+08:00</lastmod>
+    <loc>https://realjf.io/categories/devtools/</loc>
+    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/categories/nginx/</loc>
-    <lastmod>2019-09-30T14:56:20+08:00</lastmod>
+    <loc>https://realjf.io/tags/devtools/</loc>
+    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/make/</loc>
+    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/makefile/</loc>
+    <lastmod>2019-09-30T21:57:15+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -318,23 +353,21 @@
   </url>
   
   <url>
+    <loc>https://realjf.io/categories/nginx/</loc>
+    <lastmod>2019-09-30T14:56:20+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/nginx/</loc>
+    <lastmod>2019-09-30T14:56:20+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/tags/web%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
     <lastmod>2019-09-30T14:56:20+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/kernel/</loc>
-    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/linux/</loc>
-    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/linux/</loc>
-    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -343,8 +376,27 @@
   </url>
   
   <url>
+    <loc>https://realjf.io/tags/kernel/</loc>
+    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/categories/linux/</loc>
+    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/linux/</loc>
+    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/tags/linux%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2019-09-30T13:50:42+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -355,41 +407,37 @@
   <url>
     <loc>https://realjf.io/tags/wechat/</loc>
     <lastmod>2019-09-04T09:28:23+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1jssdk/</loc>
     <lastmod>2019-09-04T09:28:23+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/</loc>
     <lastmod>2019-09-04T09:28:23+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</loc>
     <lastmod>2019-09-04T09:28:23+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</loc>
     <lastmod>2019-09-04T09:28:23+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E6%89%AB%E4%B8%80%E6%89%AB/</loc>
     <lastmod>2019-09-04T09:28:23+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/ruby/</loc>
-    <lastmod>2019-08-30T12:42:08+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/ruby/</loc>
-    <lastmod>2019-08-30T12:42:08+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -398,23 +446,15 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/ffmpeg/</loc>
-    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <loc>https://realjf.io/categories/ruby/</loc>
+    <lastmod>2019-08-30T12:42:08+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/obs/</loc>
-    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/rtmp/</loc>
-    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/srs/</loc>
-    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <loc>https://realjf.io/tags/ruby/</loc>
+    <lastmod>2019-08-30T12:42:08+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -423,28 +463,45 @@
   </url>
   
   <url>
+    <loc>https://realjf.io/tags/ffmpeg/</loc>
+    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/obs/</loc>
+    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/rtmp/</loc>
+    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/srs/</loc>
+    <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/categories/streaming/</loc>
     <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/vlc/</loc>
     <lastmod>2019-07-10T16:06:30+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E7%9B%B4%E6%92%AD/</loc>
     <lastmod>2019-07-10T16:06:30+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/ide/</loc>
-    <lastmod>2019-07-05T10:27:14+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/sublimetext/</loc>
-    <lastmod>2019-07-05T10:27:14+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -453,28 +510,45 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/sublimetext%E5%AE%89%E8%A3%85/</loc>
+    <loc>https://realjf.io/tags/ide/</loc>
     <lastmod>2019-07-05T10:27:14+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/distributed/</loc>
-    <lastmod>2019-03-28T21:44:20+08:00</lastmod>
+    <loc>https://realjf.io/tags/sublimetext/</loc>
+    <lastmod>2019-07-05T10:27:14+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/sublimetext%E5%AE%89%E8%A3%85/</loc>
+    <lastmod>2019-07-05T10:27:14+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/distributed/</loc>
     <lastmod>2019-03-28T21:44:20+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/distributed/</loc>
+    <lastmod>2019-03-28T21:44:20+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/distributed-system/</loc>
     <lastmod>2019-03-28T21:44:20+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</loc>
     <lastmod>2019-03-28T21:44:20+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -485,6 +559,7 @@
   <url>
     <loc>https://realjf.io/tags/cgroup/</loc>
     <lastmod>2019-03-21T05:14:39+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -495,6 +570,7 @@
   <url>
     <loc>https://realjf.io/tags/golang%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/</loc>
     <lastmod>2019-03-19T15:14:16+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -505,16 +581,7 @@
   <url>
     <loc>https://realjf.io/tags/pprof/</loc>
     <lastmod>2019-03-19T15:14:16+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/ceph/</loc>
-    <lastmod>2019-03-19T14:57:12+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/ceph/</loc>
-    <lastmod>2019-03-19T14:57:12+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -523,18 +590,33 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <loc>https://realjf.io/categories/ceph/</loc>
     <lastmod>2019-03-19T14:57:12+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</loc>
+    <loc>https://realjf.io/tags/ceph/</loc>
     <lastmod>2019-03-19T14:57:12+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2019-03-19T14:57:12+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</loc>
     <lastmod>2019-03-19T14:57:12+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</loc>
+    <lastmod>2019-03-19T14:57:12+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -548,23 +630,26 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/gc/</loc>
-    <lastmod>2019-03-19T14:49:57+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://realjf.io/posts/how-golang-garbage-collection-works/</loc>
     <lastmod>2019-03-19T14:49:57+08:00</lastmod>
   </url>
   
   <url>
+    <loc>https://realjf.io/tags/gc/</loc>
+    <lastmod>2019-03-19T14:49:57+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/tags/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</loc>
     <lastmod>2019-03-19T14:49:57+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2019-03-19T14:49:57+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -575,21 +660,25 @@
   <url>
     <loc>https://realjf.io/tags/goroutine%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2019-03-19T14:45:21+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/go%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2019-03-19T14:45:21+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/docker/</loc>
-    <lastmod>2019-03-19T14:40:53+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/docker/</loc>
     <lastmod>2019-03-19T14:40:53+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/docker/</loc>
+    <lastmod>2019-03-19T14:40:53+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -598,33 +687,14 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/namespace/</loc>
-    <lastmod>2019-03-19T14:38:54+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://realjf.io/posts/namespace/</loc>
     <lastmod>2019-03-19T14:38:54+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/ingress-controller/</loc>
-    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/k8s/</loc>
-    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/kubernetes/</loc>
-    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/kubernetes/</loc>
-    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
+    <loc>https://realjf.io/tags/namespace/</loc>
+    <lastmod>2019-03-19T14:38:54+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -633,13 +703,39 @@
   </url>
   
   <url>
+    <loc>https://realjf.io/tags/ingress-controller/</loc>
+    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/k8s/</loc>
+    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/categories/kubernetes/</loc>
+    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/kubernetes/</loc>
+    <lastmod>2019-03-19T14:35:31+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/tags/traefik/</loc>
     <lastmod>2019-03-19T14:35:31+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2019-03-19T14:30:13+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -675,6 +771,7 @@
   <url>
     <loc>https://realjf.io/tags/apiserver/</loc>
     <lastmod>2019-03-19T14:25:43+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -685,21 +782,12 @@
   <url>
     <loc>https://realjf.io/tags/k8s%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</loc>
     <lastmod>2019-03-19T14:21:00+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/posts/k8s-basic-concepts-and-terminology/</loc>
     <lastmod>2019-03-19T14:21:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/k8s%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
-    <lastmod>2019-03-19T14:13:57+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/series/kubernetes-cluster-setup/</loc>
-    <lastmod>2019-03-19T14:13:57+08:00</lastmod>
   </url>
   
   <url>
@@ -710,6 +798,19 @@
   <url>
     <loc>https://realjf.io/series/</loc>
     <lastmod>2019-03-19T14:13:57+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/k8s%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2019-03-19T14:13:57+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/series/kubernetes-cluster-setup/</loc>
+    <lastmod>2019-03-19T14:13:57+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -718,28 +819,32 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/etcd/</loc>
+    <loc>https://realjf.io/posts/k8s-cluster-set-up-1/</loc>
     <lastmod>2019-03-19T14:13:46+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/etcd/</loc>
     <lastmod>2019-03-19T14:13:46+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/etcd/</loc>
+    <lastmod>2019-03-19T14:13:46+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/etcd%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2019-03-19T14:13:46+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/posts/k8s-cluster-set-up-1/</loc>
-    <lastmod>2019-03-19T14:13:46+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/kv%E9%94%AE%E5%80%BC/</loc>
     <lastmod>2019-03-19T14:13:46+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -748,13 +853,15 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/hugo/</loc>
+    <loc>https://realjf.io/categories/hugo/</loc>
     <lastmod>2019-03-19T09:43:09+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/categories/hugo/</loc>
+    <loc>https://realjf.io/tags/hugo/</loc>
     <lastmod>2019-03-19T09:43:09+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
 </urlset>
