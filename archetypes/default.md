@@ -6,7 +6,7 @@ categories: ["{{ .Section }}"]
 tags: [""]
 series: [""]
 draft: true
-toc: true
+toc: false
 related:
   threshold: 80
   includeNewer: false
