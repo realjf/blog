@@ -3,7 +3,7 @@
 <head>
     <title>Channel 底层实现原理 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.59.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -93,6 +93,7 @@
 
 <blockquote>
 <p>本次探讨版本为go v1.13</p>
+</blockquote>
 
 <h2 id="channel的实现原理">channel的实现原理</h2>
 
@@ -127,7 +128,6 @@
 - sendx和recvx 用于记录buf这个循环链表中的~发送或者接收的~index
 - sendq和recvq 分别是接收(&lt;-channel)或者发送(channel &lt;- xxx)的goroutine抽象出来的结构体(sudog)的队列。是个双向链表
 - lock 一个互斥锁，保护所有域</p>
-</blockquote>
 
 <h3 id="开始分析">开始分析</h3>
 
@@ -258,9 +258,12 @@
 
 <p><strong>由以上发送接收数据可以看出，两个goroutine之间通过channel通信，实质上是把数据从一端赋值到另一端。</strong></p>
 
-<p><strong>参考文献</strong>：
-- <a href="https://studygolang.com/articles/20714">https://studygolang.com/articles/20714</a>
-- <a href="https://blog.csdn.net/u010853261/article/details/85231944">https://blog.csdn.net/u010853261/article/details/85231944</a></p>
+<h4 id="参考文献">参考文献</h4>
+
+<ul>
+<li><a href="https://studygolang.com/articles/20714">https://studygolang.com/articles/20714</a></li>
+<li><a href="https://blog.csdn.net/u010853261/article/details/85231944">https://blog.csdn.net/u010853261/article/details/85231944</a></li>
+</ul>
 
         </div>
         <div id="disqus_thread"></div>

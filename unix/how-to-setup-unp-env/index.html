@@ -3,7 +3,7 @@
 <head>
     <title>unix网络编程 之 unp.h头文件安装配置 // Real_JF&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.59.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -78,7 +78,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    2 min read
+                    1 min read
                 </div><div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
@@ -163,26 +163,30 @@ cp libunp.a /usr/lib64
 <p>2.在unp.h中添加一行：#define MAX_LINE 2048</p>
 
 <ol>
-<li>将unp.h和config.h复制到以后我们存放源代码的同一目录下
-<code>shell script
-cp ./lib/unp.h /usr/include/
+<li><p>将unp.h和config.h复制到以后我们存放源代码的同一目录下</p>
+
+<pre><code class="language-shell">cp ./lib/unp.h /usr/include/
 cp config.h /usr/include 
-</code>
-
-### 遇到的问题
-#### 1. 在运行程序时，可能遇到undefined reference to &lsquo;err_quit&rsquo;，undefined reference to &lsquo;err_sys&rsquo; 情况
-也是未定义的声明，也就是说这些函数没有实现，
-
-<strong>解决方法</strong>
-
-去官网把作者自己写的&rdquo;apue.h&rdquo;下载下来，把里面的相关错误输出取出来单独放入文件myerr.h中，
-最后放入/usr/include/ 和自己存放源代码的目录下，就可以了
-
-这里附上相关头文件
-
-- <a href="/files/myerr">myerr.h</a>
-- <a href="/files/ourhdr-h">ourhdr.h</a></li>
+</code></pre></li>
 </ol>
+
+<h3 id="遇到的问题">遇到的问题</h3>
+
+<h4 id="1-在运行程序时-可能遇到undefined-reference-to-err-quit-undefined-reference-to-err-sys-情况">1. 在运行程序时，可能遇到undefined reference to &lsquo;err_quit&rsquo;，undefined reference to &lsquo;err_sys&rsquo; 情况</h4>
+
+<p>也是未定义的声明，也就是说这些函数没有实现，</p>
+
+<p><strong>解决方法</strong></p>
+
+<p>去官网把作者自己写的&rdquo;apue.h&rdquo;下载下来，把里面的相关错误输出取出来单独放入文件myerr.h中，
+最后放入/usr/include/ 和自己存放源代码的目录下，就可以了</p>
+
+<p>这里附上相关头文件</p>
+
+<ul>
+<li><a href="/files/myerr">myerr.h</a></li>
+<li><a href="/files/ourhdr-h">ourhdr.h</a></li>
+</ul>
 
         </div>
         <div id="disqus_thread"></div>

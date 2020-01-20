@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Real_JF&#39;s blog</title>
@@ -19,7 +19,7 @@
       <guid>https://realjf.io/golang/channel-implement/</guid>
       <description>channel是golang的一大特色，golang的goroutine之间的通信也建议通过channel机制实现。 那么我们有必要探讨下，channel的底层实现机制，以便我们更好的应用channel。
  本次探讨版本为go v1.13
-channel的实现原理 go中实现channel的文件包含在/runtime/chan.go中
+ channel的实现原理 go中实现channel的文件包含在/runtime/chan.go中
 type hchan struct { qcount uint // total data in the queue dataqsiz uint // size of the circular queue buf unsafe.Pointer // points to an array of dataqsiz elements elemsize uint16 closed uint32 elemtype *_type // element type sendx uint // send index recvx uint // receive index recvq waitq // list of recv waiters sendq waitq // list of send waiters // lock protects all fields in hchan, as well as several // fields in sudogs blocked on this channel.</description>
     </item>
     
@@ -213,10 +213,10 @@ vim /etc/my.</description>
     
     <item>
       <title>Makefile 基本语法和规则</title>
-      <link>https://realjf.io/posts/makefile-rule/</link>
+      <link>https://realjf.io/devtools/makefile-rule/</link>
       <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/makefile-rule/</guid>
+      <guid>https://realjf.io/devtools/makefile-rule/</guid>
       <description> 基本语法 target1 target2 target3: prerequisite1 prerequisite2 command1 command2 command3  冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
 每个命令必须以跳格符开头，这个语法用来要求make将紧跟在跳格符之后的内容传给subshell来执行。
 make会将#号视为注释字符，从井号开始到该行结束之间的所有文字都会被make忽略。你可以使用反斜线，来延续过长的文本行。
@@ -302,10 +302,10 @@ wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz  解压配置安
     
     <item>
       <title>Sublimetext debian安装与常用插件配置</title>
-      <link>https://realjf.io/posts/sublimetext/</link>
+      <link>https://realjf.io/devtools/sublimetext/</link>
       <pubDate>Fri, 05 Jul 2019 10:27:14 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/sublimetext/</guid>
+      <guid>https://realjf.io/devtools/sublimetext/</guid>
       <description>sublime text官网http://www.sublimetext.com
  安装 install the GPG key wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -  确保apt工作在http源 apt-get install apt-transport-https  选择安装渠道 稳定版本
 echo &amp;quot;deb https://download.sublimetext.com/ apt/stable/&amp;quot; | sudo tee /etc/apt/sources.list.d/sublime-text.list  开发版本
