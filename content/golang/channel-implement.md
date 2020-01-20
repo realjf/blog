@@ -185,6 +185,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 
 **参考文献**：
 - [https://studygolang.com/articles/20714](https://studygolang.com/articles/20714)
+- [https://blog.csdn.net/u010853261/article/details/85231944](https://blog.csdn.net/u010853261/article/details/85231944)
 
 
 
