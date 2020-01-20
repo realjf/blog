@@ -1,11 +1,11 @@
 ---
-title: "Channel 底层实现"
+title: "Channel 底层实现原理"
 date: 2020-01-20T09:08:15+08:00
 keywords: ["golang", "channel"]
 categories: ["golang"]
 tags: ["channel", "golang"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 80
