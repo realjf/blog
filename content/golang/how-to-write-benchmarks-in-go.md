@@ -5,7 +5,7 @@ keywords: ["golang", "benchmarks", "基准测试"]
 categories: ["golang"]
 tags: ["golang", "benchmarks", "基准测试"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 80

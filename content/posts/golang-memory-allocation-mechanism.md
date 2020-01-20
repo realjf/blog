@@ -1,5 +1,5 @@
 ---
-title: "Golang Memory Allocation Mechanism"
+title: "golang内存分配机制(Golang Memory Allocation Mechanism)"
 date: 2019-03-18T11:40:54+08:00
 keywords: ["golang"]
 categories: ["golang"]
