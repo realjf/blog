@@ -6,10 +6,35 @@
     <description>Recent content on Real_JF&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Nov 2019 09:20:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 10 Dec 2019 14:14:25 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>linux系统资源设置 之 Ulimit 命令</title>
+      <link>https://realjf.io/linux/command/ulimit/</link>
+      <pubDate>Tue, 10 Dec 2019 14:14:25 +0800</pubDate>
+      
+      <guid>https://realjf.io/linux/command/ulimit/</guid>
+      <description>根据linux 开发手册， ulimit 设置和获取用户的资源限制
+ulimit 参数说明
+   选项 说明     -t 最大 cpu 占用时间 (单位是秒)   -f 进程创建文件大小的最大值 (单位是blocks)   -d 进程最大的数据段的大小，以kbytes为单位   -s 线程栈的大小，以kbytes为单位   -c 最大的core文件的大小，以blocks为单位   -m 最大内存大小，以kbytes为单位   -u 用户最大的可用的进程数   -n 可以打开的最大文件描述符数量   -l 最大可加锁内存大小，以kbytes为单位   -v 进程最大可用的虚拟内存，以kbytes为单位   -x    -i    -q    -e    -r    -N    -p 管道缓冲区的大小，以kbytes为单位   -a 显示所有资源限制的设定   -S 设定资源的弹性限制    </description>
+    </item>
+    
+    <item>
+      <title>如何写go语言的基准测试？</title>
+      <link>https://realjf.io/golang/how-to-write-benchmarks-in-go/</link>
+      <pubDate>Mon, 25 Nov 2019 15:08:36 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/how-to-write-benchmarks-in-go/</guid>
+      <description>简介 Go标准库中test包包含一个基准测试工具，可用于检查Go代码的性能。 接下来将介绍如何使用测试包编写一个简单的基准测试。
+一个基准测试示例 我们以斐波那契数列计算来做测试
+func Fib(n int) int { if n &amp;lt; 2 { return n } return Fib(n-1) + Fib(n-2) }  创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
+func BenchmarkFib20(b *testing.B) { for n := 0; n &amp;lt; b.N; n++ { Fib(20) } }  编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
+ 基准测试功能以Benchmark而不是Test开头 基准功能由测试包运行多次。 b.N的值每次都会增加，直到基准运行者对基准的稳定性感到满意为止。 每个基准测试必须执行b.N次测试代码。 BenchmarkFib20中的for循环将出现在每个基准测试函数中。  运行基准测试 我们可以使用go test -bench=. 调用基准测试
+go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchmark BenchmarkFib-4 30000 44684 ns/op PASS ok test/benchmark 1.</description>
+    </item>
     
     <item>
       <title>unix环境高级编程 之 apue.h环境安装配置 </title>

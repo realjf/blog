@@ -3,21 +3,97 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://realjf.io/series/</loc>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/categories/</loc>
-    <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/linux/</loc>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/</loc>
-    <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/series/</loc>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/tags/</loc>
-    <lastmod>2019-11-23T09:20:03+08:00</lastmod>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/categories/linux/</loc>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/linux/</loc>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/linux/command/ulimit/</loc>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/ulimit/</loc>
+    <lastmod>2019-12-10T14:14:25+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/golang/</loc>
+    <lastmod>2019-11-25T15:08:36+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/benchmarks/</loc>
+    <lastmod>2019-11-25T15:08:36+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/categories/golang/</loc>
+    <lastmod>2019-11-25T15:08:36+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/golang/</loc>
+    <lastmod>2019-11-25T15:08:36+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/</loc>
+    <lastmod>2019-11-25T15:08:36+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/golang/how-to-write-benchmarks-in-go/</loc>
+    <lastmod>2019-11-25T15:08:36+08:00</lastmod>
   </url>
   
   <url>
@@ -113,18 +189,6 @@
   
   <url>
     <loc>https://realjf.io/tags/concurrency/</loc>
-    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/golang/</loc>
-    <lastmod>2019-11-21T18:01:02+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/golang/</loc>
     <lastmod>2019-11-21T18:01:02+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -377,18 +441,6 @@
   
   <url>
     <loc>https://realjf.io/tags/kernel/</loc>
-    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/categories/linux/</loc>
-    <lastmod>2019-09-30T13:50:42+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/tags/linux/</loc>
     <lastmod>2019-09-30T13:50:42+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -793,12 +845,6 @@
   <url>
     <loc>https://realjf.io/posts/k8s-cluster-set-up-3/</loc>
     <lastmod>2019-03-19T14:13:57+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/series/</loc>
-    <lastmod>2019-03-19T14:13:57+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
