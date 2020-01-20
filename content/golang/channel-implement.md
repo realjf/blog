@@ -26,7 +26,10 @@ channel是golang的一大特色，golang的goroutine之间的通信也建议通�
 那么我们有必要探讨下，channel的底层实现机制，以便我们更好的应用channel。
 
 > 本次探讨版本为go v1.13
+
+
 ## channel的实现原理
+
 go中实现channel的文件包含在/runtime/chan.go中
 ```go
 type hchan struct {
@@ -183,7 +186,8 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 
 
 
-**参考文献**：
+#### 参考文献
+
 - [https://studygolang.com/articles/20714](https://studygolang.com/articles/20714)
 - [https://blog.csdn.net/u010853261/article/details/85231944](https://blog.csdn.net/u010853261/article/details/85231944)
 
