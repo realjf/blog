@@ -54,6 +54,7 @@ type hchan struct {
 }
 ```
 可以看到，chan包含的结构如下域：
+
 - qcount 队列总数据
 - dataqsiz 循环队列的大小
 - buf 有缓冲的channel所特有的结构，用来存储缓存数据。是个循环链表
@@ -66,7 +67,7 @@ type hchan struct {
 ```go
 ch1 := make(chan int, 5)
 ```
-创建一个缓存大小为1的int型的channel,并返回一个指针。
+创建一个缓存大小为5的int型的channel,并返回一个指针。
 其中的5表示的就是循环队列的大小
 
 > 具体的实现可以查看makechan函数
