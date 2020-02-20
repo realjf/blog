@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linuxes on Real_JF&#39;s blog</title>
-    <link>https://realjf.io/linux/</link>
-    <description>Recent content in Linuxes on Real_JF&#39;s blog</description>
+    <title>initramfs on Real_JF&#39;s blog</title>
+    <link>https://realjf.io/tags/initramfs/</link>
+    <description>Recent content in initramfs on Real_JF&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 20 Feb 2020 22:07:19 +0800</lastBuildDate>
     
-	<atom:link href="https://realjf.io/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://realjf.io/tags/initramfs/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -21,17 +21,6 @@
 所以重新启动，之后进入了busybox界面的Initramfs界面，输入help可以查看相应命令。 我使用exit直接退出看能否重新进入，发现还是提示错误，无法进入
  busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。
  解决 在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&amp;ndash;vg-root的文件系统， 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&amp;ndash;vg-root， 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&amp;rsquo;y&amp;rsquo;后，提示文件系统修复完成， 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。</description>
-    </item>
-    
-    <item>
-      <title>linux系统资源设置 之 Ulimit 命令</title>
-      <link>https://realjf.io/linux/command/ulimit/</link>
-      <pubDate>Tue, 10 Dec 2019 14:14:25 +0800</pubDate>
-      
-      <guid>https://realjf.io/linux/command/ulimit/</guid>
-      <description>根据linux 开发手册， ulimit 设置和获取用户的资源限制
-ulimit 参数说明
-   选项 说明     -t 最大 cpu 占用时间 (单位是秒)   -f 进程创建文件大小的最大值 (单位是blocks)   -d 进程最大的数据段的大小，以kbytes为单位   -s 线程栈的大小，以kbytes为单位   -c 最大的core文件的大小，以blocks为单位   -m 最大内存大小，以kbytes为单位   -u 用户最大的可用的进程数   -n 可以打开的最大文件描述符数量   -l 最大可加锁内存大小，以kbytes为单位   -v 进程最大可用的虚拟内存，以kbytes为单位   -x    -i    -q    -e    -r    -N    -p 管道缓冲区的大小，以kbytes为单位   -a 显示所有资源限制的设定   -S 设定资源的弹性限制    </description>
     </item>
     
   </channel>
