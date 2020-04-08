@@ -54,6 +54,7 @@ type hchan struct {
 }
 ```
 可以看到，chan包含的结构如下域：
+
 - qcount 队列总数据
 - dataqsiz 循环队列的大小
 - buf 有缓冲的channel所特有的结构，用来存储缓存数据。是个循环链表
@@ -66,7 +67,7 @@ type hchan struct {
 ```go
 ch1 := make(chan int, 5)
 ```
-创建一个缓存大小为1的int型的channel,并返回一个指针。
+创建一个缓存大小为5的int型的channel,并返回一个指针。
 其中的5表示的就是循环队列的大小
 
 > 具体的实现可以查看makechan函数
@@ -123,7 +124,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	...
 }
 ```
-由上述代码可以看到，如果队列空闲，则直接元素直接入队，即把数据复制到缓存队列中。
+由上述代码可以看到，如果队列空闲，则元素直接入队，即把数据复制到缓存队列中。
 发送成功后，sendx会自增1，而qcount页自增1，然后解除互斥锁。
 
 在缓存队列满了之后，将处于阻塞状态，等待接收操作以空出冗余空间。
