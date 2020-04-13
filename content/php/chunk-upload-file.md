@@ -63,7 +63,7 @@ related:
 
 ```html
 <link href="/resource/webuploader/webuploader.css" rel="stylesheet" />
-<script src="/resource/webuploader/webuploader.nolog.js"></script>
+<script src="/resource/webuploader/webuploader.js"></script>
 
 ```
 页面内容如下：
@@ -75,7 +75,7 @@ related:
                         <div class="filename"></div>
                         <div class="state"></div>
                         <div class="progress">
-                            <div id="progress_bar" class="progress progress-bar progress-bar-info progress-striped active" role="progressbar" style="width: 0%">
+                            <div id="progress_bar" class="progress-bar progress-bar-info progress-striped active" role="progressbar" style="width: 0%">
                             </div>
                         </div>
                         <div class="btns">
@@ -118,11 +118,22 @@ related:
             uploader.on('fileQueued', function (file) {
                 $("#uploader .filename").html("文件名：" + file.name);
                 $("#uploader .state").html('等待上传');
+                
+                uploader.md5File( file )
+                        // 及时显示进度
+                        .progress(function(percentage) {
+                            console.log('Percentage:', percentage);
+                        })
+                
+                        // 完成
+                        .then(function(val) {
+                            console.log('md5 result:', val);
+                        });
             });
             uploader.on('uploadSuccess', function (file, response) {
                 $.post('<{$merge_url}>',  // 服务端最后合并文件地址
                 { guid: GUID, fileName: file.name, chunks: response.result.chunks }, function (data) {
-                    $list.text('已上传');
+                    console.log('已上传');
                 });
             });
             uploader.on('uploadProgress', function (file, percentage) {
@@ -307,5 +318,48 @@ class libChunkUpload
 }
 ```
 
+### FAQ
+
+进度条显示问题：进度条无法显示，一般是样式加载异常问题，可添加如下代码解决
+```css
+<style>
+                .progress {
+                    height: 20px;
+                    margin-bottom: 20px;
+                    overflow: hidden;
+                    background-color: #f5f5f5;
+                    border-radius: 4px;
+                    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+                    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+                }
+                .progress.active .progress-bar {
+                    -webkit-animation: progress-bar-stripes 2s linear infinite;
+                    animation: progress-bar-stripes 2s linear infinite;
+                }
+
+                .progress-striped .progress-bar {
+                    background-image: linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+                    background-size: 40px 40px;
+                }
+                .progress-bar {
+                    background-image: -webkit-linear-gradient(top,#428bca 0,#3071a9 100%);
+                    background-image: linear-gradient(to bottom,#428bca 0,#3071a9 100%);
+                    background-repeat: repeat-x;
+                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=’#ff428bca’,endColorstr=’#ff3071a9’,GradientType=0);
+                }
+                .progress-bar {
+                    float: left;
+                    height: 100%;
+                    font-size: 12px;
+                    line-height: 20px;
+                    color: #fff;
+                    text-align: center;
+                    background-color: #428bca;
+                    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.15);
+                    transition: width .6s ease;
+                }
+            </style>
+
+```
 
 
