@@ -78,7 +78,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    3 min read
+                    4 min read
                 </div><div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
@@ -129,7 +129,7 @@
 <h3 id="第二步-创建一个html页面-引入一下文件">第二步，创建一个html页面，引入一下文件</h3>
 
 <pre><code class="language-html">&lt;link href=&quot;/resource/webuploader/webuploader.css&quot; rel=&quot;stylesheet&quot; /&gt;
-&lt;script src=&quot;/resource/webuploader/webuploader.nolog.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/resource/webuploader/webuploader.js&quot;&gt;&lt;/script&gt;
 
 </code></pre>
 
@@ -141,7 +141,7 @@
                         &lt;div class=&quot;filename&quot;&gt;&lt;/div&gt;
                         &lt;div class=&quot;state&quot;&gt;&lt;/div&gt;
                         &lt;div class=&quot;progress&quot;&gt;
-                            &lt;div id=&quot;progress_bar&quot; class=&quot;progress progress-bar progress-bar-info progress-striped active&quot; role=&quot;progressbar&quot; style=&quot;width: 0%&quot;&gt;
+                            &lt;div id=&quot;progress_bar&quot; class=&quot;progress-bar progress-bar-info progress-striped active&quot; role=&quot;progressbar&quot; style=&quot;width: 0%&quot;&gt;
                             &lt;/div&gt;
                         &lt;/div&gt;
                         &lt;div class=&quot;btns&quot;&gt;
@@ -183,11 +183,22 @@
             uploader.on('fileQueued', function (file) {
                 $(&quot;#uploader .filename&quot;).html(&quot;文件名：&quot; + file.name);
                 $(&quot;#uploader .state&quot;).html('等待上传');
+                
+                uploader.md5File( file )
+                        // 及时显示进度
+                        .progress(function(percentage) {
+                            console.log('Percentage:', percentage);
+                        })
+                
+                        // 完成
+                        .then(function(val) {
+                            console.log('md5 result:', val);
+                        });
             });
             uploader.on('uploadSuccess', function (file, response) {
                 $.post('&lt;{$merge_url}&gt;',  // 服务端最后合并文件地址
                 { guid: GUID, fileName: file.name, chunks: response.result.chunks }, function (data) {
-                    $list.text('已上传');
+                    console.log('已上传');
                 });
             });
             uploader.on('uploadProgress', function (file, percentage) {
@@ -369,6 +380,50 @@
         return $this-&gt;_output(&quot;100:合并完成&quot;);
     }
 }
+</code></pre>
+
+<h3 id="faq">FAQ</h3>
+
+<p>进度条显示问题：进度条无法显示，一般是样式加载异常问题，可添加如下代码解决</p>
+
+<pre><code class="language-css">&lt;style&gt;
+                .progress {
+                    height: 20px;
+                    margin-bottom: 20px;
+                    overflow: hidden;
+                    background-color: #f5f5f5;
+                    border-radius: 4px;
+                    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+                    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+                }
+                .progress.active .progress-bar {
+                    -webkit-animation: progress-bar-stripes 2s linear infinite;
+                    animation: progress-bar-stripes 2s linear infinite;
+                }
+
+                .progress-striped .progress-bar {
+                    background-image: linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+                    background-size: 40px 40px;
+                }
+                .progress-bar {
+                    background-image: -webkit-linear-gradient(top,#428bca 0,#3071a9 100%);
+                    background-image: linear-gradient(to bottom,#428bca 0,#3071a9 100%);
+                    background-repeat: repeat-x;
+                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=’#ff428bca’,endColorstr=’#ff3071a9’,GradientType=0);
+                }
+                .progress-bar {
+                    float: left;
+                    height: 100%;
+                    font-size: 12px;
+                    line-height: 20px;
+                    color: #fff;
+                    text-align: center;
+                    background-color: #428bca;
+                    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.15);
+                    transition: width .6s ease;
+                }
+            &lt;/style&gt;
+
 </code></pre>
 
         </div>
