@@ -313,7 +313,7 @@ class libChunkUpload
         @fclose($out);
         @rmdir($cacheDir);
 
-        return $this->_output("100:合并完成");
+        return $this->_output("100:合并完成", ["tmp_name" => $uploadFile, "name" => $fileName, "type" => "video/mp4"]);
     }
 }
 ```
