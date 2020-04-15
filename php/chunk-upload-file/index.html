@@ -377,7 +377,7 @@
         @fclose($out);
         @rmdir($cacheDir);
 
-        return $this-&gt;_output(&quot;100:合并完成&quot;);
+        return $this-&gt;_output(&quot;100:合并完成&quot;, [&quot;tmp_name&quot; =&gt; $uploadFile, &quot;name&quot; =&gt; $fileName, &quot;type&quot; =&gt; &quot;video/mp4&quot;]);
     }
 }
 </code></pre>
