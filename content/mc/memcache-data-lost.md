@@ -84,5 +84,6 @@ php通过getStat函数获取memcache状态信息。
 - lrutail_reflocked
 
 
+解决方法是，增大MC使用内存
 
 
