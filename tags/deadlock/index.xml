@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>deadlock on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/deadlock/</link>
+    <description>Recent content in deadlock on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 16 Apr 2020 15:28:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/deadlock/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>死锁 Deadlock</title>
+      <link>https://realjf.io/posts/deadlock/</link>
+      <pubDate>Thu, 16 Apr 2020 15:28:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/deadlock/</guid>
+      <description> 什么是死锁？ 简单说，是指两个或两个以上的线程在执行过程中，彼此持有对方需要的资源和处于等待对方释放资源的现象， 如果没有外力作用，这种状态将一直持续下去。
+如何避免？ 避免死锁的一般建议是：对竞争资源按顺序采用互斥加锁
+当然，如果能在编程时就注意这方便的问题，将可以用更好的方式，比如：
+ 避免嵌套锁 避免在持有锁时调用用户提供的代码 使用固定顺序获取锁 使用锁的层次结构  </description>
+    </item>
+    
+  </channel>
+</rss>
