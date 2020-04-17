@@ -1,50 +1,139 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Series on Realjf&#39;s blog</title>
+    <title>Realjf&#39;s blog</title>
     <link>https://realjf.io/series/</link>
-    <description>Recent content in Series on Realjf&#39;s blog</description>
+    <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Apr 2020 14:04:30 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 17 Apr 2020 15:22:29 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/series/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title></title>
-      <link>https://realjf.io/series/</link>
+      <title>五种I/O模式 （Io Pattern）</title>
+      <link>https://realjf.io/cpp/io-pattern/</link>
+      <pubDate>Fri, 17 Apr 2020 15:22:29 +0800</pubDate>
+      
+      <guid>https://realjf.io/cpp/io-pattern/</guid>
+      <description>常见的五种I/O模式 I/O模式有这五种，分别是：
+ 阻塞I/O （linux下默认都采用阻塞I/O） 非阻塞I/O （可以通过fcntl或者open设置使用O_NONBLOCK参数，将文件描述符设置为非阻塞） I/O多路复用 信号驱动I/O 异步I/O  其中前面四种被称为同步IO
+用户空间与内核空间 首先理解，当进程运行在内核空间时就处于内核态，而进程运行在用户空间时则处于用户态。 在内核态下，进程运行在内核地址空间中，此时的 CPU 可以执行任何指令。运行的代码也不受任何的限制，可以自由地访问任何有效地址，也可以直接进行端口的访问。 在用户态下，进程运行在用户地址空间中，被执行的代码要受到 CPU 的诸多检查，它们只能访问映射其地址空间的页表项中规定的在用户态下可访问页面的虚拟地址，且只能对任务状态段(TSS)中 I/O 许可位图(I/O Permission Bitmap)中规定的可访问端口进行直接访问。
+所以，区分内核空间和用户空间本质上是要提高操作系统的稳定性及可用性
+进程切换过程 从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化： - 保存上下文，包括程序计数器和其他寄存器 - 更新PCB信息(进程管理与控制信息) - 把进程pcb加入等待挂起等队列 - 选择另一个进程执行，并更新其pcb - 更新内存管理的数据结构 - 恢复上下文
+阻塞IO 同步阻塞IO，用户进程发起一个IO请求，内核查看数据是否就绪，如果没有，就等待数据就绪，而用户进程处于阻塞状态， 且交出cpu控制权，但数据就绪后，内核将数据拷贝到用户进程空间，并通知用户进程，用户进程解除阻塞状态，进入就绪状态，等待下一次运行。
+信号驱动I/O
+非阻塞I/O 非阻塞IO，用户进程发起IO请求后，内核检查相应状态，无论就绪与否都返回结果给用户进程，用户进程无需等待就可以根据相应结果进行处理， 当然用户进程可以循环发起IO请求操作，这相当于一直占用CPU。
+信号驱动I/O
+I/O多路复用 多路IO复用是目前比较多的用于环节C10K问题的方案，采用select、poll、epoll等方式，其中epoll是linux特有的。 相比较非阻塞IO，多路复用的效率明显要高，且是在内核中进行的。
+信号驱动I/O
+下面分别简要说下select、poll和epoll的区别
+select select 函数监听的文件描述符有三类，writefds、readfds和exceptfds，调用后select会阻塞进程，直到有描述符就绪，或者超时， 函数返回后，通过遍历fdset，查找相应就绪的描述符进行处理。
+select目前支持几乎所有的平台，在linux上一般限制最大监视文件描述符大小为1024。
+ select最大限制是单进程fd最大支持1024个，64为系统默认为2048 对文件描述符采用轮询，效率低 需要维护一个用于存放大量fd的数据结构  poll poll本质上与select类似，管理多个文件描述符，也是进行轮询，根据描述符的状态进行处理。 但它没有最大数限制，poll也有个致命缺陷，包含大量文件描述符的数组被整个在内核与用户空间之间多次复制， 开销随着文件描述符数量激增
+epoll epoll是linux2.6开始提供的功能，是对poll的改进，epoll没有文件描述符限制，使用一个文件描述符管理多个描述符， 将用户关心的事件描述符映射到内核中，期间只复制一次。</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;多态与虚函数 （Polymorphism）</title>
+      <link>https://realjf.io/cpp/polymorphism/</link>
       <pubDate>Fri, 17 Apr 2020 14:04:30 +0800</pubDate>
       
-      <guid>https://realjf.io/series/</guid>
-      <description></description>
+      <guid>https://realjf.io/cpp/polymorphism/</guid>
+      <description>什么是多态？ C++的多态即针对同一事物对不同场景表现多种形态，称为c++的多态性
+多态分为静态多态和动态多态 - 静态多态又分为函数重载和泛型编程 - 动态多态则通过虚函数实现
+多态的作用  提供了接口与具体实现之间的另一层隔离， 改善了代码的组织结构和可读性以及可扩展性  静态多态 直接上代码
+int Add(int a, int b) { return a + b; } double Add(float a, float b) { return a + b; } // 调用的时候 int main() { Add(1, 2); // 调用的是第一个Add Add(1.5, 2.5); // 调用的是第二个Add return 0; }  可以看到，静态多态是在编译期间可以确定的，根据具体的了类型调用不同的函数
+动态多态 首先要理解，这里的动态是指在程序运行期间，所以动态多态只能在程序运行的时候确定。
+而要实现动态多态，这里需要用到关键字virtual，声明一个函数为虚函数
+具体代码：
+class Animal { public: virtual void Say() = 0; } class Cow : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;哞哞&amp;quot; &amp;lt;&amp;lt; endl; } } class Sheep : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;咩咩&amp;quot; &amp;lt;&amp;lt; endl; } } // 开始使用 int main() { Animal* cow = (Animal*)new Cow(); Animal* sheep = (Animal*)new Sheep(); cow-&amp;gt;Say(); sheep-&amp;gt;Say(); }  有上述代码可以看出，多态是基类中包含虚函数，而子类对其进行重写的，并且通过基类对象的指针或引用调用虚函数形成多态。</description>
     </item>
     
     <item>
-      <title>chunk file</title>
-      <link>https://realjf.io/series/chunk-file/</link>
-      <pubDate>Mon, 13 Apr 2020 14:00:07 +0800</pubDate>
+      <title>死锁 Deadlock</title>
+      <link>https://realjf.io/posts/deadlock/</link>
+      <pubDate>Thu, 16 Apr 2020 15:28:20 +0800</pubDate>
       
-      <guid>https://realjf.io/series/chunk-file/</guid>
-      <description></description>
+      <guid>https://realjf.io/posts/deadlock/</guid>
+      <description> 什么是死锁？ 简单说，是指两个或两个以上的线程在执行过程中，彼此持有对方需要的资源和处于等待对方释放资源的现象， 如果没有外力作用，这种状态将一直持续下去。
+如何避免？ 避免死锁的一般建议是：对竞争资源按顺序采用互斥加锁
+当然，如果能在编程时就注意这方便的问题，将可以用更好的方式，比如：
+ 避免嵌套锁 避免在持有锁时调用用户提供的代码 使用固定顺序获取锁 使用锁的层次结构  </description>
     </item>
     
     <item>
-      <title>ceph集群搭建</title>
-      <link>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</link>
-      <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
+      <title>memcache数据提前过期（丢失）Memcache Data Lost</title>
+      <link>https://realjf.io/mc/memcache-data-lost/</link>
+      <pubDate>Wed, 15 Apr 2020 10:51:20 +0800</pubDate>
       
-      <guid>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</guid>
-      <description></description>
+      <guid>https://realjf.io/mc/memcache-data-lost/</guid>
+      <description>背景 今天遇到一个比较奇葩的问题，使用脚本测试接口防洪攻击时，mc的封禁数据还未到过期时间就出现数据“丢失”的情况， 一直以为是代码问题，后来偶然想到memcache在达到内存超过50%以上时，就可能采用LRU算法回收部分内存，考虑到防洪封禁数据 比较多，所以做了本地测试
+了解下memcache的一些状态信息 php通过getStat函数获取memcache状态信息。
+ pid mc进程号 uptime 服务器已运行秒数 version 版本 time 当前时间 libevent libevent版本 pointer_size 当前os的指针大小(64位系统一般为64) rusage_user 进程的累计用户时间 rusage_system 进程的累计系统时间 curr_connections 服务器当前打开的连接数 total_connections 从服务器启动后累计打开的总连接数 connection_structures 服务器分配的连接结构数 reserved_fds cmd_get get命令总请求次数 cmd_set set命令总请求次数 cmd_flush flush命令请求次数 cmd_touch touch命令请求次数 get_hits get命令总命中次数 get_misses get命令总未命中次数 delete_misses delete_hits incr_misses incr_hits decr_misses decr_hits cas_misses cas_hits cas_badval 使用擦拭次数 touch_hits touch_misses auth_cmds 认证命令处理次数 auth_errors 认证失败次数 bytes_read 总读取字节数（请求字节数） byte_written 总发送字节数（结果字节数） limit_maxbytes 分配给memcache的内存大小（字节） accepting_conns 服务器是否大打过最大连接数 listen_disabled_num 失效的监听数 threads 当前线程数 conn_yields 连接操作主动放弃数目 hash_power_level hash_bytes hash_is_expanding malloc_fails bytes 当前存储内容所占总字节数 curr_items 当前存储的items数量 total_items 从启动后存储的items总数量 expired_unfetched evicted_unfetched evictions 为获取空闲内存而删除的items数，LRU算法释放（分配给memcache的空间用满后需要删除旧的items来得到空间分配给新的items） reclaimed 已过期的数据条目来存储新数据的数目 crawler_reclaimed lrutail_reflocked  解决方法是，增大MC使用内存</description>
     </item>
     
     <item>
-      <title>kubernetes cluster setup</title>
-      <link>https://realjf.io/series/kubernetes-cluster-setup/</link>
-      <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
+      <title>C&#43;&#43; 的Struct和Class 的区别</title>
+      <link>https://realjf.io/cpp/struct-and-class-inherit/</link>
+      <pubDate>Sat, 22 Feb 2020 22:14:22 +0800</pubDate>
       
-      <guid>https://realjf.io/series/kubernetes-cluster-setup/</guid>
-      <description></description>
+      <guid>https://realjf.io/cpp/struct-and-class-inherit/</guid>
+      <description> 关于c++的class和struct的不同可以简单归纳为以下几点： 内部成员变量及成员函数的默认防控属性不同 struct默认防控属性是public，而class默认的防控属性是Private
+继承关系中的默认防控属性的区别 在继承关系中，struct默认是public，而class是private
+在继承中的基类和子类之间的继承方式
+   继承方式 基类的public成员 基类的protected成员 基类中的private成员     public继承 仍为public成员 仍为protected成员 不可见   protected继承 变为protected成员 变为protected成员 不可见   private继承 变为private成员 变为private成员 不可见    模板中使用 class关键字可以用于定义模板参数，但是struct不行
+template&amp;lt;template T, class Y&amp;gt; int Func(const T&amp;amp; t, const Y&amp;amp; y) { ... }  使用花括号{}赋值问题  struct如果没有定义构造函数，可以使用花括号对struct成员进行赋值。 struct中如果定义了一个构造函数，则不能使用花括号进行赋值  </description>
+    </item>
+    
+    <item>
+      <title>debian 系统启动进入Busybox Initramfs界面</title>
+      <link>https://realjf.io/linux/error/boot-into-busybox-initramfs/</link>
+      <pubDate>Thu, 20 Feb 2020 22:07:19 +0800</pubDate>
+      
+      <guid>https://realjf.io/linux/error/boot-into-busybox-initramfs/</guid>
+      <description>首先说下背景  系统环境： debian 9  问题描述 今天使用vmware workstation的时候，提示操作失败，且提示为文件系统只读。 奇怪？怎么突然进入可读了，猜想可能文件系统哪里损坏导致进入只读保护模式。
+所以重新启动，之后进入了busybox界面的Initramfs界面，输入help可以查看相应命令。 我使用exit直接退出看能否重新进入，发现还是提示错误，无法进入
+ busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。
+ 解决 在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&amp;ndash;vg-root的文件系统， 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&amp;ndash;vg-root， 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&amp;rsquo;y&amp;rsquo;后，提示文件系统修复完成， 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。</description>
+    </item>
+    
+    <item>
+      <title>Channel 底层实现原理</title>
+      <link>https://realjf.io/golang/channel-implement/</link>
+      <pubDate>Mon, 20 Jan 2020 09:08:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/channel-implement/</guid>
+      <description>channel是golang的一大特色，golang的goroutine之间的通信也建议通过channel机制实现。 那么我们有必要探讨下，channel的底层实现机制，以便我们更好的应用channel。
+ 本次探讨版本为go v1.13
+ channel的实现原理 go中实现channel的文件包含在/runtime/chan.go中
+type hchan struct { qcount uint // total data in the queue dataqsiz uint // size of the circular queue buf unsafe.Pointer // points to an array of dataqsiz elements elemsize uint16 closed uint32 elemtype *_type // element type sendx uint // send index recvx uint // receive index recvq waitq // list of recv waiters sendq waitq // list of send waiters // lock protects all fields in hchan, as well as several // fields in sudogs blocked on this channel.</description>
+    </item>
+    
+    <item>
+      <title>linux系统资源设置 之 Ulimit 命令</title>
+      <link>https://realjf.io/linux/command/ulimit/</link>
+      <pubDate>Tue, 10 Dec 2019 14:14:25 +0800</pubDate>
+      
+      <guid>https://realjf.io/linux/command/ulimit/</guid>
+      <description>根据linux 开发手册， ulimit 设置和获取用户的资源限制
+ulimit 参数说明
+   选项 说明     -t 最大 cpu 占用时间 (单位是秒)   -f 进程创建文件大小的最大值 (单位是blocks)   -d 进程最大的数据段的大小，以kbytes为单位   -s 线程栈的大小，以kbytes为单位   -c 最大的core文件的大小，以blocks为单位   -m 最大内存大小，以kbytes为单位   -u 用户最大的可用的进程数   -n 可以打开的最大文件描述符数量   -l 最大可加锁内存大小，以kbytes为单位   -v 进程最大可用的虚拟内存，以kbytes为单位   -x    -i    -q    -e    -r    -N    -p 管道缓冲区的大小，以kbytes为单位   -a 显示所有资源限制的设定   -S 设定资源的弹性限制    </description>
+    </item>
+    
+    <item>
+      <title>如何写go语言的基准测试？</title>
+      <link>https://realjf.io/golang/how-to-write-benchmarks-in-go/</link>
+      <pubDate>Mon, 25 Nov 2019 15:08:36 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/how-to-write-benchmarks-in-go/</guid>
+      <description>简介 Go标准库中test包包含一个基准测试工具，可用于检查Go代码的性能。 接下来将介绍如何使用测试包编写一个简单的基准测试。
+一个基准测试示例 我们以斐波那契数列计算来做测试
+func Fib(n int) int { if n &amp;lt; 2 { return n } return Fib(n-1) + Fib(n-2) }  创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
+func BenchmarkFib20(b *testing.B) { for n := 0; n &amp;lt; b.N; n++ { Fib(20) } }  编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
+ 基准测试功能以Benchmark而不是Test开头 基准功能由测试包运行多次。 b.N的值每次都会增加，直到基准运行者对基准的稳定性感到满意为止。 每个基准测试必须执行b.N次测试代码。 BenchmarkFib20中的for循环将出现在每个基准测试函数中。  运行基准测试 我们可以使用go test -bench=. 调用基准测试
+go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchmark BenchmarkFib-4 30000 44684 ns/op PASS ok test/benchmark 1.</description>
     </item>
     
   </channel>
