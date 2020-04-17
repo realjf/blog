@@ -125,21 +125,21 @@
 <p>同步阻塞IO，用户进程发起一个IO请求，内核查看数据是否就绪，如果没有，就等待数据就绪，而用户进程处于阻塞状态，
 且交出cpu控制权，但数据就绪后，内核将数据拷贝到用户进程空间，并通知用户进程，用户进程解除阻塞状态，进入就绪状态，等待下一次运行。</p>
 
-<p><a href="./image/io_block.png">信号驱动I/O</a></p>
+<p><img src="/image/io_block.png" alt="信号驱动I/O" /></p>
 
 <h3 id="非阻塞i-o">非阻塞I/O</h3>
 
 <p>非阻塞IO，用户进程发起IO请求后，内核检查相应状态，无论就绪与否都返回结果给用户进程，用户进程无需等待就可以根据相应结果进行处理，
 当然用户进程可以循环发起IO请求操作，这相当于一直占用CPU。</p>
 
-<p><a href="./image/io_nonblock.png">信号驱动I/O</a></p>
+<p><img src="/image/io_nonblock.png" alt="信号驱动I/O" /></p>
 
 <h3 id="i-o多路复用">I/O多路复用</h3>
 
 <p>多路IO复用是目前比较多的用于环节C10K问题的方案，采用select、poll、epoll等方式，其中epoll是linux特有的。
 相比较非阻塞IO，多路复用的效率明显要高，且是在内核中进行的。</p>
 
-<p><a href="./image/io_multiplexing.png">信号驱动I/O</a></p>
+<p><img src="/image/io_multiplexing.png" alt="信号驱动I/O" /></p>
 
 <p>下面分别简要说下select、poll和epoll的区别</p>
 
@@ -184,21 +184,21 @@
 </ul>
 
 <p>epoll的工作流程
-<a href="./image/epoll.png">epoll工作流程</a></p>
+<img src="/image/epoll.png" alt="epoll工作流程" /></p>
 
 <h3 id="信号驱动i-o">信号驱动I/O</h3>
 
 <p>信号驱动IO,用户进程首先需要安装SIGIO信号处理函数，然后内核等待IO请求，用户进程继续执行，
 直到内核发出SIGIO信号，表示数据准备好，并拷贝到用户进程空间，用户线程接收到信号之后，便在信号函数中调用IO读写操作来进行实际的IO请求操作。</p>
 
-<p><a href="./image/io_signal.png">信号驱动I/O</a></p>
+<p><img src="/image/io_signal.png" alt="信号驱动I/O" /></p>
 
 <h3 id="异步i-o">异步I/O</h3>
 
 <p>相对于上述四种同步IO，异步IO最大的不同是不是顺序执行，用户进程调用aio_read后，无论内核是否准备好，都会直接返回给用户进程。
 然后用户进程继续执行，等到内核准备好数据了，内核直接复制数据给用户进程，然后内核发送通知。进程一直处于非阻塞状态。</p>
 
-<p><a href="./image/aio.png">异步I/O</a></p>
+<p><img src="/image/aio.png" alt="异步I/O" /></p>
 
 <h3 id="两种高性能io设计模式">两种高性能IO设计模式</h3>
 
