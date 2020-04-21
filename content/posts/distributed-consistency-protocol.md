@@ -2,7 +2,7 @@
 title: "分布式一致性协议 2PC和3PC Paxos（Distributed Consistency Protocol）"
 date: 2020-04-21T10:05:32+08:00
 keywords: ["分布式协议", "分布式", "Paxos", "2PC", "3PC"]
-categories: ["posts"]
+categories: ["distributed"]
 tags: ["分布式协议", "分布式", "Paxos", "2PC", "3PC"]
 series: [""]
 draft: false
