@@ -13,10 +13,10 @@
     
     <item>
       <title>分布式一致性协议 2PC和3PC Paxos（Distributed Consistency Protocol）</title>
-      <link>https://realjf.io/posts/distributed-consistency-protocol/</link>
+      <link>https://realjf.io/distributed/distributed-consistency-protocol/</link>
       <pubDate>Tue, 21 Apr 2020 10:05:32 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/distributed-consistency-protocol/</guid>
+      <guid>https://realjf.io/distributed/distributed-consistency-protocol/</guid>
       <description>分布式一致性协议在实践过程中产生了许多优秀的协议和算法，其中就包括两阶段提交、三阶段提交协议和Paxos算法。
 2PC：两阶段提交 两阶段提交，主要由协调者和参与者组成，协调者负责协调所有参与者是否提交最后结果，并保证各参与者之间的结果一致（提交或者回滚）。
 阶段一：提交事务请求阶段  协调者向所有参与者发送事务内容，询问是否可以执行事务提交操作，并等待各参与者的回应 各参与者节点执行事务操作，并将undo和redo信息记录事务日志中 如果参与者执行了事务操作，那么就反馈给协调者yes响应，表示事务可以执行，否则返回no，表示事务不可以执行。  阶段二：执行事务提交阶段 阶段二主要是对各参与者反馈的情况决定是否继续进行事务提交操作，或者回滚。 主要包括两种情况：
