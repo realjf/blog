@@ -22,6 +22,7 @@ related:
     weight: 10
 ---
 
+
 ZAB协议，（ZooKeeper Atomic Broadcast, ZooKeeper原子消息广播协议）
 
 ZAB协议不像Paxos算法，它是一种特别为Zookeeper设计的崩溃可恢复的原子消息广播协议
