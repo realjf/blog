@@ -3,7 +3,7 @@ title: "zab协议 （Zookeeper Zab Protocol）"
 date: 2020-04-22T09:18:44+08:00
 keywords: ["分布式", "zab协议"]
 categories: ["distributed"]
-tags: ["分布式", "zab协议“]
+tags: ["分布式", "zab协议"]
 series: [""]
 draft: false
 toc: false
@@ -23,7 +23,7 @@ related:
 ---
 
 
-ZAB协议，（ZooKeeper Atomic Broadcast, ZooKeeper原子消息广播协议）
+### ZAB协议，（ZooKeeper Atomic Broadcast, ZooKeeper原子消息广播协议）
 
 ZAB协议不像Paxos算法，它是一种特别为Zookeeper设计的崩溃可恢复的原子消息广播协议
 
