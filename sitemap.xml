@@ -3,15 +3,20 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://realjf.io/series/</loc>
+    <lastmod>2020-04-22T18:09:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/tags/</loc>
     <lastmod>2020-04-22T18:09:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/series/</loc>
+    <loc>https://realjf.io/cpp/keyword/</loc>
     <lastmod>2020-04-22T18:09:41+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -48,11 +53,6 @@
     <loc>https://realjf.io/categories/cpp/</loc>
     <lastmod>2020-04-22T18:09:41+08:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://realjf.io/cpp/keyword/</loc>
-    <lastmod>2020-04-22T18:09:41+08:00</lastmod>
   </url>
   
   <url>
@@ -142,6 +142,17 @@
   </url>
   
   <url>
+    <loc>https://realjf.io/cpp/smart-pointer/</loc>
+    <lastmod>2020-04-17T11:21:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/</loc>
+    <lastmod>2020-04-17T11:21:57+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/posts/</loc>
     <lastmod>2020-04-16T15:28:20+08:00</lastmod>
     <priority>0</priority>
@@ -194,13 +205,13 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/chunk-file/</loc>
+    <loc>https://realjf.io/series/chunk-file/</loc>
     <lastmod>2020-04-13T14:00:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/series/chunk-file/</loc>
+    <loc>https://realjf.io/tags/chunk-file/</loc>
     <lastmod>2020-04-13T14:00:07+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -877,13 +888,13 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2019-03-19T14:57:12+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2019-03-19T14:57:12+08:00</lastmod>
     <priority>0</priority>
   </url>
