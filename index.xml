@@ -6,10 +6,25 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Apr 2020 09:18:44 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 22 Apr 2020 18:09:41 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>常用关键字用法解析 const static volatile extern mutable</title>
+      <link>https://realjf.io/cpp/keyword/</link>
+      <pubDate>Wed, 22 Apr 2020 18:09:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/cpp/keyword/</guid>
+      <description>static 修饰局部变量  静态局部变量只作用于其定义的函数期间，函数结束，其所占用的内存空间也被回收。 在静态存储区分配空间，只初始化一次  修饰全局变量  也称静态全局变量，其作用域在定义它的文件里，不能作用于其他文件。 静态全局变量在静态存储区分配空间，在程序开始运行时完成初始化，也是唯一的一次初始化  修饰函数  静态函数只在声明它的文件中可见，不能被其他文件使用。  修饰类成员  对于静态类成员，它属于类，而不属于某个对象实例，多个对象之间共享静态类成员 静态类成员存储于静态存储区，生命周期为整个程序执行期 静态类成员需要初始化，且在类外初始化，默认初始化为0  初始化方法：&amp;lt;数据类型&amp;gt; &amp;lt;类名&amp;gt;::&amp;lt;静态类成员&amp;gt;=&amp;lt;值&amp;gt;
+修饰类成员函数  同样静态类成员函数属于整个类，而非某个实例对象，也没有this指针，需要通过类名进行访问。 不能将静态类成员函数定义为虚函数 &amp;gt; 虚函数依赖vptr和vtable，vptr通过类的构造函数生成，且只能用this指针访问，这也就是为什么静态成员函数不能是虚函数的原因 由于静态成员函数没有this指针，所以就差不多等同于nonmember函数，结果就产生了一个意想不到的好处：成为一个callback函数，使得我们得以将C++和C-based X Window系统结合，同时也成功的应用于线程函数身上 为了防止父类的影响，可以在子类定义一个与父类相同的静态变量，以屏蔽父类的影响。  const 规则：const离谁近，谁就不能被修改，只读的意思，且需要初始化。
+修饰基本数据类型  修饰一般常量时，可以在类型说明符前也可以在其后，只要在使用时不改变常量即可。 const修饰指针变量*及引用变量&amp;amp; &amp;gt; 如果const位于星号*的左侧，则const就是用来修饰指针所指向的变量，即指针指向为常量 &amp;gt; 如果const位于星号的右侧，const就是修饰指针本身，即指针本身是常量  作为函数参数的修饰符 用相应的变量初始化const常量，则在函数体中，按照const所修饰的部分进行常量化，保护了原对象的属性不被修改
+void say(const char* str){...}  作为函数返回值的修饰符 声明了返回值后，对返回值起到保护作用，即使得其返回值不为“左值”，只能作为右值使用。
+const int add(int a, int b){...}  const修饰类成员 修饰的类成员的初始化只能在类的构造函数的初始化表中进行
+const修饰类成员函数 作用是修饰的成员函数不能修改类的任何成员变量
+int funcA() const {}  const修饰类对象，定义常量对象 常量对象只能调用常量函数，别的成员函数都不能调用。</description>
+    </item>
     
     <item>
       <title>zab协议 （Zookeeper Zab Protocol）</title>
