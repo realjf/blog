@@ -1,5 +1,5 @@
 ---
-title: "常用关键字用法解析 const static volatile extern mutable"
+title: "C++常用关键字用法解析 const static volatile extern mutable"
 date: 2020-04-22T18:09:41+08:00
 keywords: [""]
 categories: ["cpp"]
