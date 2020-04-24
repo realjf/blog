@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>network on Realjf&#39;s blog</title>
-    <link>https://realjf.io/categories/network/</link>
-    <description>Recent content in network on Realjf&#39;s blog</description>
+    <title>流量控制 on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6/</link>
+    <description>Recent content in 流量控制 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 23 Apr 2020 17:31:45 +0800</lastBuildDate>
     
-	<atom:link href="https://realjf.io/categories/network/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://realjf.io/tags/%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -34,28 +34,6 @@ RFC5681规定初始拥塞窗口cwnd设置为不超过2至4个SMSS（最大报文
 拥塞窗口cwnd每次的增加量 = min(N,SMSS)
 这里使用报文段的个数作为窗口大小的单位，来阐述拥塞控制原理
  因此，使用慢开始算法后，每经过一个传输轮次，拥塞窗口cwnd就加倍。</description>
-    </item>
-    
-    <item>
-      <title>Tcp 连接的建立与终止</title>
-      <link>https://realjf.io/network/tcp/</link>
-      <pubDate>Thu, 23 Apr 2020 16:10:57 +0800</pubDate>
-      
-      <guid>https://realjf.io/network/tcp/</guid>
-      <description>tcp连接的建立和终止依赖于connect、accept、close等函数。同时tcp也可以说是全双工的方式进行通信。
-TCP连接的建立：三次握手 准备条件 服务器通过调用socket、bind和listen三个函数完成准备监听工作，称为被动打开。
-第一次 客户端通过调用connect发起连接建立请求，客户端通过tcp发送一个SYN（同步）数据包， 数据包中携带的是建立连接发送数据的初始序列号。通常SYN数据包不携带数据
-第二次 服务器收到客户端的SYN数据包后，需要对这个数据包回应一个ACK数据包（其确认序列号=初始序列号+1），且自己也需要发送建立连接的 同步SYN数据包，服务器在一个数据包中发送SYN和ACK信息，并携带自己的初始序列号
-第三次 客户端确认收到服务端发送的ACK后，需要回应服务端发送的SYN并发送一个ACK数据包（其确认序列号=初始序列号+1）给服务端。 服务端收到后，连接建立。
-TCP连接的终止： 四次挥手 第一次 某个进程首先调用close，称为主动关闭，主动端发送一个FIN数据包，同样携带一个初始序列号，表示数据发送完毕。
-第二次 接收这个FIN数据包的称为被动端，它的接收也作为一个文件结束符传递给接收端应用程序，并发送一个ACK数据包给主动端，且携带一个确认序列号
-第三次 过了某个时间，被动端的应用程序处理了这个文件结束符，调用了close关闭这端的套接字，所以也发送一个FIN数据包并携带一个初始序列号过去。
-第四次 主动端收到关闭请求，也需要回应一个ACK数据包并携带一个确认序列号过去，表示结束。
-TCP 状态转换图 TIME_WAIT状态 TIME_WAIT状态，在主动关闭端最后发送确认关闭ACK数据包后，需要等待一段时间才能关闭。这个停留时间是最长数据包生命周期（maximum segment lifetime）的两倍，称为2MSL。
-任何TCP实现都必须为MSL选择一个值，RFC1122建议是2分钟。不过伯克利套接字实现改用30秒，这意味着持续时间可能在一分钟到4分钟之间。
-TIME_WAIT存在的理由：
- 可靠实现tcp全双工连接的终止 允许老的重复数据包在网络中消失（每个数据包都有一个跳数ttl限制，通常是255）  第一个理由 因为假设最后一个ACK数据包可能丢失，这样被动端在没有收到FIN的ACK确认关闭数据包时，会启用超时重传，重新发送FIN数据包， 因此，主动端必须维持状态以等待重传的那个FIN数据包，并允许它重新发送确认ACK数据包。
-第二个理由 假设某个套接字（这里指ip和端口的组合）刚关闭，过一段时间这个套接字上又建立了另一个连接，如果这个时候那个丢失的数据包出现， 则可能被这个新连接误认为是发给它的数据，造成错误。tcp为了防止这种问题出现，就必须让这个套接字上之前关闭的连接等待一段时间， 以等待这个丢失的数据包消失，而这个时间就是2MSL，这个时间足以让这个丢失的数据包在网络中消失。</description>
     </item>
     
   </channel>
