@@ -3,7 +3,7 @@
 <head>
     <title>Ceph 集群搭建一 之 准备 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,73 +86,46 @@
                         <a class="tag" href="https://realjf.io/tags/ceph/">ceph</a><a class="tag" href="https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/">ceph集群搭建</a><a class="tag" href="https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/">分布式存储</a></div></div>
         </header>
         <div class="post-content">
-            
+            <h4 id="1-配置ceph-yum源">1. 配置ceph yum源</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">vim /etc/yum.repos.d/ceph.repo
+<span style="color:#f92672">[</span>ceph-noarch<span style="color:#f92672">]</span>
+name<span style="color:#f92672">=</span>Cephnoarch packages
+baseurl<span style="color:#f92672">=</span>http://ceph.com/rpm-<span style="color:#f92672">{</span>ceph-release<span style="color:#f92672">}</span>/<span style="color:#f92672">{</span>distro<span style="color:#f92672">}</span>/noarch
+enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+type<span style="color:#f92672">=</span>rpm-md
+gpgkey<span style="color:#f92672">=</span>https://ceph.com/git/?p<span style="color:#f92672">=</span>ceph.git;a<span style="color:#f92672">=</span>blob_plain;f<span style="color:#f92672">=</span>keys/release.asc
 
-<h4 id="1-配置ceph-yum源">1. 配置ceph yum源</h4>
-
-<pre><code class="language-sh">vim /etc/yum.repos.d/ceph.repo
-[ceph-noarch]
-name=Cephnoarch packages
-baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch
-enabled=1
-gpgcheck=1
-type=rpm-md
-gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
-
-</code></pre>
-
-<p>ceph release <a href="http://docs.ceph.com/docs/master/releases/">http://docs.ceph.com/docs/master/releases/</a></p>
-
+</code></pre></div><p>ceph release <a href="http://docs.ceph.com/docs/master/releases/">http://docs.ceph.com/docs/master/releases/</a></p>
 <h4 id="2-更新源并且安装hosts文件">2. 更新源并且安装hosts文件</h4>
-
-<pre><code class="language-sh">yum update &amp;&amp; yum install ceph-deploy -y
-</code></pre>
-
-<h4 id="3-配置各节点hosts文件">3. 配置各节点hosts文件</h4>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">yum update <span style="color:#f92672">&amp;&amp;</span> yum install ceph-deploy -y
+</code></pre></div><h4 id="3-配置各节点hosts文件">3. 配置各节点hosts文件</h4>
 <p>cat /etc/hosts</p>
-
-<pre><code class="language-sh">192.168.1.2 node1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">192.168.1.2 node1
 192.168.1.3 node2
 192.168.1.4 node3
-</code></pre>
+</code></pre></div><h4 id="4-配置各节点ssh无密码登录通过ssh方式连接各节点服务器以安装部署集群输入ssh-keygen命令在命令行输入以下内容">4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容：</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-keygen
 
-<h4 id="4-配置各节点ssh无密码登录-通过ssh方式连接各节点服务器-以安装部署集群-输入ssh-keygen命令-在命令行输入以下内容">4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容：</h4>
-
-<pre><code class="language-sh">ssh-keygen
-
-</code></pre>
-
-<h4 id="5-拷贝key到各节点">5. 拷贝key到各节点</h4>
-
-<pre><code class="language-sh">ssh-copy-id node1
+</code></pre></div><h4 id="5-拷贝key到各节点">5. 拷贝key到各节点</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id node1
 ssh-copy-id node2
 ssh-copy-id node3
-</code></pre>
-
-<h4 id="6-在执行ceph-deploy的过程中会发生一些配置文件-建议创建一个目录">6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录</h4>
-
-<pre><code class="language-sh">mkdir my-cluster
+</code></pre></div><h4 id="6-在执行ceph-deploy的过程中会发生一些配置文件建议创建一个目录">6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir my-cluster
 cd my-cluster
-</code></pre>
-
-<h4 id="7-创建集群-部署新的monitor节点">7. 创建集群，部署新的monitor节点</h4>
-
-<pre><code class="language-sh">ceph-deploy new {initial-monitor-node(s)}
-#例如
+</code></pre></div><h4 id="7-创建集群部署新的monitor节点">7. 创建集群，部署新的monitor节点</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ceph-deploy new <span style="color:#f92672">{</span>initial-monitor-node<span style="color:#f92672">(</span>s<span style="color:#f92672">)}</span>
+<span style="color:#75715e">#例如</span>
 ceph-deploy new node1
 
-</code></pre>
-
-<h4 id="8-配置ceph-conf配置文件">8. 配置ceph.conf配置文件</h4>
-
-<pre><code class="language-sh">filestore_xattr_use_omap = true
+</code></pre></div><h4 id="8-配置cephconf配置文件">8. 配置ceph.conf配置文件</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">filestore_xattr_use_omap <span style="color:#f92672">=</span> true
 &lt;!---- 以上部分都是ceph-deploy默认生成的 ---&gt;
-public network = {ip-address}/{netmask}
-cluster network = {ip-address}/{netmask}
+public network <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>ip-address<span style="color:#f92672">}</span>/<span style="color:#f92672">{</span>netmask<span style="color:#f92672">}</span>
+cluster network <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>ip-address<span style="color:#f92672">}</span>/<span style="color:#f92672">{</span>netmask<span style="color:#f92672">}</span>
 &lt;!--- 以上两个网络 ---&gt;
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

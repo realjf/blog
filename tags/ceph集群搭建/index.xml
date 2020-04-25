@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ceph集群搭建 on Realjf&#39;s blog</title>
@@ -19,9 +19,10 @@
       <guid>https://realjf.io/posts/setup-ceph-cluster-3/</guid>
       <description>第一次练习时，我们创建一个 Ceph 存储集群，它有一个 Monitor 和两个 OSD 守护进程。一旦集群达到 active + clean 状态，再扩展它：增加第三个 OSD 、增加元数据服务器和两个 Ceph Monitors。为获得最佳体验，先在管理节点上创建一个目录，用于保存 ceph-deploy 生成的配置文件和密钥对。
  如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。
- mkdir my-cluster cd my-cluster   禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
+ mkdir my-cluster cd my-cluster  禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
  创建集群 如果在某些地方碰到麻烦，想从头再来，可以用下列命令配置：
-ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下列命令可以连ceph安装包一起清除：</description>
+ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys 用下列命令可以连ceph安装包一起清除：
+ceph-deploy purge {ceph-node} [{ceph-node}] 如果执行了purge，你必须重新安装ceph</description>
     </item>
     
     <item>
@@ -31,7 +32,7 @@ ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下�
       
       <guid>https://realjf.io/posts/setup-ceph-cluster-2/</guid>
       <description>集群部署如下： 预检 安装ceph部署工具 在 Red Hat （rhel6、rhel7）、CentOS （el6、el7）和 Fedora 19-20 （f19 - f20） 上执行下列步骤：
-用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如： sudo subscription-manager repos --enable=el-7-server-extras-rpms  在centos上执行以下命令 sudo yum install -y yum-utils &amp;amp;&amp;amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;amp;&amp;amp; sudo yum install --nogpgcheck -y epel-release &amp;amp;&amp;amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;amp;&amp;amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*  把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo sudo vim /etc/yum.repos.d/ceph.repo  把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.</description>
+用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如： sudo subscription-manager repos --enable=el-7-server-extras-rpms 在centos上执行以下命令 sudo yum install -y yum-utils &amp;amp;&amp;amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;amp;&amp;amp; sudo yum install --nogpgcheck -y epel-release &amp;amp;&amp;amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;amp;&amp;amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org* 把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo sudo vim /etc/yum.repos.d/ceph.repo 把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.</description>
     </item>
     
     <item>
@@ -40,9 +41,9 @@ ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下�
       <pubDate>Tue, 19 Mar 2019 14:57:05 +0800</pubDate>
       
       <guid>https://realjf.io/posts/setup-ceph-cluster-1/</guid>
-      <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc  ceph release http://docs.ceph.com/docs/master/releases/
-2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y  3. 配置各节点hosts文件 cat /etc/hosts
-192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3  4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen  5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3  6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster  7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1  8. 配置ceph.</description>
+      <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc ceph release http://docs.ceph.com/docs/master/releases/
+2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y 3. 配置各节点hosts文件 cat /etc/hosts
+192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3 4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen 5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3 6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster 7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1 8. 配置ceph.conf配置文件 filestore_xattr_use_omap = true &amp;lt;!---- 以上部分都是ceph-deploy默认生成的 ---&amp;gt; public network = {ip-address}/{netmask} cluster network = {ip-address}/{netmask} &amp;lt;!</description>
     </item>
     
   </channel>

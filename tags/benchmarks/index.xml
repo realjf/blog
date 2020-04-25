@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>benchmarks on Realjf&#39;s blog</title>
@@ -19,8 +19,8 @@
       <guid>https://realjf.io/golang/how-to-write-benchmarks-in-go/</guid>
       <description>简介 Go标准库中test包包含一个基准测试工具，可用于检查Go代码的性能。 接下来将介绍如何使用测试包编写一个简单的基准测试。
 一个基准测试示例 我们以斐波那契数列计算来做测试
-func Fib(n int) int { if n &amp;lt; 2 { return n } return Fib(n-1) + Fib(n-2) }  创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
-func BenchmarkFib20(b *testing.B) { for n := 0; n &amp;lt; b.N; n++ { Fib(20) } }  编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
+func Fib(n int) int { if n &amp;lt; 2 { return n } return Fib(n-1) + Fib(n-2) } 创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
+func BenchmarkFib20(b *testing.B) { for n := 0; n &amp;lt; b.N; n++ { Fib(20) } } 编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
  基准测试功能以Benchmark而不是Test开头 基准功能由测试包运行多次。 b.N的值每次都会增加，直到基准运行者对基准的稳定性感到满意为止。 每个基准测试必须执行b.N次测试代码。 BenchmarkFib20中的for循环将出现在每个基准测试函数中。  运行基准测试 我们可以使用go test -bench=. 调用基准测试
 go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchmark BenchmarkFib-4 30000 44684 ns/op PASS ok test/benchmark 1.</description>
     </item>
