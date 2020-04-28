@@ -3,7 +3,7 @@
 <head>
     <title>unix网络编程 之 unp.h头文件安装配置 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -78,7 +78,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    1 min read
+                    2 min read
                 </div><div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
@@ -86,10 +86,15 @@
                         <a class="tag" href="https://realjf.io/tags/unix/">unix</a><a class="tag" href="https://realjf.io/tags/unp/">unp</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
         </header>
         <div class="post-content">
-            <h1 id="unix网络编程环境之unph安装配置">unix网络编程环境之unp.h安装配置</h1>
+            
+
+<h1 id="unix网络编程环境之unp-h安装配置">unix网络编程环境之unp.h安装配置</h1>
+
 <p>官网<a href="http://www.unpbook.com/src.html">http://www.unpbook.com/src.html</a></p>
+
 <h3 id="1-下载安装">1. 下载安装</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget http://www.unpbook.com/unpv13e.tar.gz
+
+<pre><code class="language-shell">wget http://www.unpbook.com/unpv13e.tar.gz
 tar zxvf unpv13e.tar.gz
 cd unpv13e
 ./configure
@@ -97,27 +102,33 @@ cd lib
 make
 cd ../libfree
 make
-</code></pre></div><p>上面make遇到报错，如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o in_cksum.o in_cksum.c
+</code></pre>
+
+<p>上面make遇到报错，如下</p>
+
+<pre><code class="language-shell">gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o in_cksum.o in_cksum.c
 gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o inet_ntop.o inet_ntop.c
-inet_ntop.c: In <span style="color:#66d9ef">function</span> ‘inet_ntop’:
+inet_ntop.c: In function ‘inet_ntop’:
 inet_ntop.c:60:9: error: argument ‘size’ doesn’t match prototype
   size_t size;
          ^~~~
 In file included from inet_ntop.c:27:
 /usr/include/arpa/inet.h:64:20: error: prototype declaration
- extern const char *inet_ntop <span style="color:#f92672">(</span>int __af, const void *__restrict __cp,
+ extern const char *inet_ntop (int __af, const void *__restrict __cp,
                     ^~~~~~~~~
-make: *** <span style="color:#f92672">[</span>&lt;builtin&gt;: inet_ntop.o<span style="color:#f92672">]</span> Error <span style="color:#ae81ff">1</span>
-</code></pre></div><p>找到inet.h和inet_ntop.c对比发现，只要把size_t size改成socklen_t size即可，
+make: *** [&lt;builtin&gt;: inet_ntop.o] Error 1
+</code></pre>
+
+<p>找到inet.h和inet_ntop.c对比发现，只要把size_t size改成socklen_t size即可，
 这一步make会在上层目录生成libunp.a文件，如下为运行成功返回信息</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o inet_ntop.o inet_ntop.c
-/usr/include/arpa/inet.h: In <span style="color:#66d9ef">function</span> ‘inet_ntop’:
-inet_ntop.c:152:23: warning: ‘best.len’ may be used uninitialized in this <span style="color:#66d9ef">function</span> <span style="color:#f92672">[</span>-Wmaybe-uninitialized<span style="color:#f92672">]</span>
-   <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>best.base <span style="color:#f92672">==</span> -1 <span style="color:#f92672">||</span> cur.len &gt; best.len<span style="color:#f92672">)</span>
+
+<pre><code class="language-shell">gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o inet_ntop.o inet_ntop.c
+/usr/include/arpa/inet.h: In function ‘inet_ntop’:
+inet_ntop.c:152:23: warning: ‘best.len’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+   if (best.base == -1 || cur.len &gt; best.len)
        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
 inet_ntop.c:123:28: note: ‘best.len’ was declared here
-  struct <span style="color:#f92672">{</span> int base, len; <span style="color:#f92672">}</span> best, cur;
+  struct { int base, len; } best, cur;
                             ^~~~
 gcc -I../lib -g -O2 -D_REENTRANT -Wall   -c -o inet_pton.o inet_pton.c
 ar rv ../libunp.a in_cksum.o inet_ntop.o inet_pton.o
@@ -125,36 +136,53 @@ a - in_cksum.o
 a - inet_ntop.o
 a - inet_pton.o
 ranlib ../libunp.a
-</code></pre></div><p>接下来继续编译</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd ../libgai
+</code></pre>
+
+<p>接下来继续编译</p>
+
+<pre><code class="language-shell">cd ../libgai
 make
-</code></pre></div><blockquote>
+</code></pre>
+
+<blockquote>
 <p>注意，上面这两个make如果没有执行，在编译函数是小写时没出问题，但是程序含有大写函数时报错了，所以这两步要做</p>
 </blockquote>
+
 <h3 id="2-复制">2. 复制</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd ..
+
+<pre><code class="language-shell">cd ..
 cp libunp.a /usr/lib
 cp libunp.a /usr/lib64
-</code></pre></div><h3 id="3-修改一些错误">3. 修改一些错误</h3>
+</code></pre>
+
+<h3 id="3-修改一些错误">3. 修改一些错误</h3>
+
 <p>1.在解压目录的lib目录下找到unp.h，在解压目录下有个文件config.h，
-将unp.h中的#include &ldquo;../config.h&quot;修改为#include &ldquo;config.h&rdquo;</p>
+将unp.h中的#include &ldquo;../config.h&rdquo;修改为#include &ldquo;config.h&rdquo;</p>
+
 <p>2.在unp.h中添加一行：#define MAX_LINE 2048</p>
-<ol start="3">
-<li>将unp.h和config.h复制到以后我们存放源代码的同一目录下</li>
-</ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp ./lib/unp.h /usr/include/
+
+<ol>
+<li>将unp.h和config.h复制到以后我们存放源代码的同一目录下
+<code>shell script
+cp ./lib/unp.h /usr/include/
 cp config.h /usr/include 
-</code></pre></div><h3 id="遇到的问题">遇到的问题</h3>
-<h4 id="1-在运行程序时可能遇到undefined-reference-to-err_quitundefined-reference-to-err_sys-情况">1. 在运行程序时，可能遇到undefined reference to &lsquo;err_quit&rsquo;，undefined reference to &lsquo;err_sys&rsquo; 情况</h4>
-<p>也是未定义的声明，也就是说这些函数没有实现，</p>
-<p><strong>解决方法</strong></p>
-<p>去官网把作者自己写的&quot;apue.h&quot;下载下来，把里面的相关错误输出取出来单独放入文件myerr.h中，
-最后放入/usr/include/ 和自己存放源代码的目录下，就可以了</p>
-<p>这里附上相关头文件</p>
-<ul>
-<li><a href="/files/myerr">myerr.h</a></li>
-<li><a href="/files/ourhdr-h">ourhdr.h</a></li>
-</ul>
+</code>
+
+### 遇到的问题
+#### 1. 在运行程序时，可能遇到undefined reference to &lsquo;err_quit&rsquo;，undefined reference to &lsquo;err_sys&rsquo; 情况
+也是未定义的声明，也就是说这些函数没有实现，
+
+<strong>解决方法</strong>
+
+去官网把作者自己写的&rdquo;apue.h&rdquo;下载下来，把里面的相关错误输出取出来单独放入文件myerr.h中，
+最后放入/usr/include/ 和自己存放源代码的目录下，就可以了
+
+这里附上相关头文件
+
+- <a href="/files/myerr">myerr.h</a>
+- <a href="/files/ourhdr-h">ourhdr.h</a></li>
+</ol>
 
         </div>
         <div id="disqus_thread"></div>

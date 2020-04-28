@@ -3,7 +3,7 @@
 <head>
     <title>Golang 并发编程 之 sync.Mutex 或 channel（通道） // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,13 +86,21 @@
                         <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/concurrency/">concurrency</a></div></div>
         </header>
         <div class="post-content">
-            <h1 id="并发控制中syncmutex-与-channel-的使用">并发控制中sync.Mutex 与 channel 的使用？</h1>
+            
+
+<h1 id="并发控制中sync-mutex-与-channel-的使用">并发控制中sync.Mutex 与 channel 的使用？</h1>
+
 <p>go的创建者建议“通过通信共享内存，不通过共享内存进行通信”。</p>
+
 <p>也就是说，Go确实在sync包中提供了传统的锁定机制。大多数锁定问题可以使用通道锁定或传统锁定来解决</p>
+
 <h4 id="使用锁机制和通道的优劣分析">使用锁机制和通道的优劣分析</h4>
+
 <p>Go新手常见的错误是仅仅因为可能和/或很有趣而过度使用通道和goroutine。如果最适合您的问题，请不要害怕使用sync.Mutex。
 Go务实的做法是让您使用能够最好地解决问题的工具，而不用强迫您使用一种代码风格.</p>
+
 <p>通常</p>
+
 <table>
 <thead>
 <tr>
@@ -100,6 +108,7 @@ Go务实的做法是让您使用能够最好地解决问题的工具，而不用
 <th>mutex</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>相互传递数据，分发工作单元，传递异步结果</td>
@@ -107,15 +116,21 @@ Go务实的做法是让您使用能够最好地解决问题的工具，而不用
 </tr>
 </tbody>
 </table>
+
 <h3 id="wait-group">wait-group</h3>
+
 <p>另一个重要的同步机制是sync.WaitGroup。
 这允许多个协作goroutine在再次独立运行之前共同等待同一个阈值事件。</p>
+
 <p>通常在两种情况下很有用。</p>
+
 <ul>
 <li>在“清理”时，可以使用sync.WaitGroup来确保所有goroutine（包括主要的goroutine）都在完全终止之前等待</li>
 <li>更常见的情况是循环算法，其中涉及一组goroutine，这些goroutine全部独立工作一段时间，然后全部等待障碍，然后再次独立进行。此模式可能会重复很多次。障碍事件可能会交换数据。此策略是批量同步并行（BSP）的基础</li>
 </ul>
+
 <h3 id="结语">结语</h3>
+
 <p>怎么使用取决于你的应用场景，通道通信，互斥锁和等待组是互补的，可以组合使用。</p>
 
         </div>
