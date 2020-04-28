@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>storm on Realjf&#39;s blog</title>
+    <link>https://realjf.io/categories/storm/</link>
+    <description>Recent content in storm on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Apr 2020 15:31:08 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/categories/storm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>storm安装</title>
+      <link>https://realjf.io/storm/set-up/</link>
+      <pubDate>Tue, 28 Apr 2020 15:31:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/storm/set-up/</guid>
+      <description>一、需要安装的工具  python、zookeeper、storm（如果是storm0.9以前的版本，则需要安装zeromq、jzmq）  二、开始安装 第一步：安装Python2.7.2 wget http://www.python.org/ftp/python/2.7.2/Python-2.7.2.tgz tar zxvf Python-2.7.2.tgz cd Python-2.7.2 ./configure --prefix=/usr/local/python2.7 make make install vi /etc/ld.so.conf 追加/usr/local/lib/ sudo ldconfig  第二步：安装zookeeper wget http://mirrors.cnnic.cn/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz tar -zxvf zookeeper-3.3.5.tar.gz cp -R zookeeper-3.3.5 /usr/local/zookeeper vim /etc/profile (设置ZOOKEEPER_HOME和ZOOKEEPER_HOME/bin) export ZOOKEEPER_HOME=&amp;quot;/usr/local/zookeeper&amp;quot; export PATH=$PATH:$ZOOKEEPER_HOME/bin cp /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg (用zoo_sample.cfg制作$ZOOKEEPER_HOME/conf/zoo.cfg) mkdir /tmp/zookeeper mkdir /var/log/zookeeper  zookeeper的单机安装已经完成了。
+第三步：安装zeromq wget http://download.zeromq.org/zeromq-4.1.0-rc1.tar.gz tar zxf zeromq-2.2.0.tar.gz cd zeromq-2.2.0 ./configure //因为jzmq的安装时依赖于zeromq的，所以./configure的时候不能指定zeromq的安装目录，如果指定了，则jzmq的安装会出错（即不能指定--prefix=...）。 make make install sudo ldconfig (更新LD_LIBRARY_PATH)  zeromq安装完成。 注意：如有有依赖报错，需要安装： jzmq dependencies 依赖包 sudo yum install uuid* sudo yum install libtool sudo yum install libuuid sudo yum install libuuid-devel</description>
+    </item>
+    
+  </channel>
+</rss>
