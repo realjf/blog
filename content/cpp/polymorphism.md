@@ -1,9 +1,9 @@
 ---
 title: "C++多态与虚函数 （Polymorphism）"
 date: 2020-04-17T14:04:30+08:00
-keywords: ["多态", "虚函数"]
+keywords: ["多态", "虚函数", "cpp"]
 categories: ["cpp"]
-tags: ["多态", "虚函数"]
+tags: ["多态", "虚函数", "cpp"]
 series: [""]
 draft: false
 toc: false

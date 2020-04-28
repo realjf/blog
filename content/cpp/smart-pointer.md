@@ -1,9 +1,9 @@
 ---
 title: "C++智能指针详解（Smart Pointer）"
 date: 2020-04-17T11:21:57+08:00
-keywords: ["智能指针"]
+keywords: ["智能指针", "cpp"]
 categories: ["cpp"]
-tags: ["智能指针"]
+tags: ["智能指针", "cpp"]
 series: [""]
 draft: false
 toc: false

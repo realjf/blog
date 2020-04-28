@@ -1,9 +1,9 @@
 ---
 title: "C++ 的Struct和Class 的区别"
 date: 2020-02-22T22:14:22+08:00
-keywords: ["cpp struct class"]
+keywords: ["cpp struct class", "cpp"]
 categories: ["cpp"]
-tags: ["cpp struct class"]
+tags: ["cpp struct class", "cpp"]
 series: [""]
 draft: false
 toc: false

@@ -1,9 +1,9 @@
 ---
 title: "C++之内存模型 Memory Model"
 date: 2020-04-27T16:44:23+08:00
-keywords: ["内存模型"]
+keywords: ["内存模型", "cpp"]
 categories: ["cpp"]
-tags: ["内存模型"]
+tags: ["内存模型", "cpp"]
 series: [""]
 draft: false
 toc: false

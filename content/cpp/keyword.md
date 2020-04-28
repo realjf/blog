@@ -1,9 +1,9 @@
 ---
 title: "C++常用关键字用法解析 const static volatile extern mutable"
 date: 2020-04-22T18:09:41+08:00
-keywords: [""]
+keywords: ["", "cpp"]
 categories: ["cpp"]
-tags: [""]
+tags: ["", "cpp"]
 series: [""]
 draft: false
 toc: false
