@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Apr 2020 16:44:23 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2020 15:10:49 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,72 @@
     <item>
       <title></title>
       <link>https://realjf.io/tags/</link>
-      <pubDate>Mon, 27 Apr 2020 16:44:23 +0800</pubDate>
+      <pubDate>Tue, 28 Apr 2020 15:10:49 +0800</pubDate>
       
       <guid>https://realjf.io/tags/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://realjf.io/tags/golang/</link>
+      <pubDate>Tue, 28 Apr 2020 15:10:49 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>algorithm</title>
+      <link>https://realjf.io/tags/algorithm/</link>
+      <pubDate>Tue, 28 Apr 2020 15:03:27 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>分布式</title>
+      <link>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</link>
+      <pubDate>Tue, 28 Apr 2020 14:53:32 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rabbitmq</title>
+      <link>https://realjf.io/tags/rabbitmq/</link>
+      <pubDate>Tue, 28 Apr 2020 14:49:47 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/rabbitmq/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sql</title>
+      <link>https://realjf.io/tags/sql/</link>
+      <pubDate>Tue, 28 Apr 2020 14:42:50 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>事务</title>
+      <link>https://realjf.io/tags/%E4%BA%8B%E5%8A%A1/</link>
+      <pubDate>Tue, 28 Apr 2020 14:42:50 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/%E4%BA%8B%E5%8A%A1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cpp</title>
+      <link>https://realjf.io/tags/cpp/</link>
+      <pubDate>Mon, 27 Apr 2020 16:44:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/cpp/</guid>
       <description></description>
     </item>
     
@@ -57,20 +120,20 @@
     </item>
     
     <item>
+      <title>network</title>
+      <link>https://realjf.io/tags/network/</link>
+      <pubDate>Thu, 23 Apr 2020 16:10:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>zab协议</title>
       <link>https://realjf.io/tags/zab%E5%8D%8F%E8%AE%AE/</link>
       <pubDate>Wed, 22 Apr 2020 09:18:44 +0800</pubDate>
       
       <guid>https://realjf.io/tags/zab%E5%8D%8F%E8%AE%AE/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>分布式</title>
-      <link>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</link>
-      <pubDate>Wed, 22 Apr 2020 09:18:44 +0800</pubDate>
-      
-      <guid>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</guid>
       <description></description>
     </item>
     
@@ -224,15 +287,6 @@
       <pubDate>Mon, 20 Jan 2020 09:08:15 +0800</pubDate>
       
       <guid>https://realjf.io/tags/channel/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>https://realjf.io/tags/golang/</link>
-      <pubDate>Mon, 20 Jan 2020 09:08:15 +0800</pubDate>
-      
-      <guid>https://realjf.io/tags/golang/</guid>
       <description></description>
     </item>
     
