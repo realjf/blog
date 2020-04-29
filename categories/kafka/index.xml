@@ -6,10 +6,21 @@
     <description>Recent content in kafka on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Apr 2020 17:13:30 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2020 15:37:44 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/categories/kafka/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kafka Go Client</title>
+      <link>https://realjf.io/kafka/go-client/</link>
+      <pubDate>Wed, 29 Apr 2020 15:37:44 +0800</pubDate>
+      
+      <guid>https://realjf.io/kafka/go-client/</guid>
+      <description>本次实验假定您已经安装好了kafka（单机或者集群），且配置好了远程访问地址，详见配置文件config/server.properties
+首先需要下载安装librdkafka wget https://github.com/edenhill/librdkafka/archive/v1.4.0.tar.gz tar zxvf librdkafka-1.4.0.tar.gz cd librdkafka-1.4.0 ./configure make make install  安装完毕，可以开始写go client
+在go项目下安装客户端 go get -u gopkg.in/confluentinc/confluent-kafka-go.v1/kafka  consumer示例 import ( &amp;quot;fmt&amp;quot; &amp;quot;gopkg.in/confluentinc/confluent-kafka-go.v1/kafka&amp;quot; ) func main() { c, err := kafka.NewConsumer(&amp;amp;kafka.ConfigMap{ &amp;quot;bootstrap.servers&amp;quot;: &amp;quot;192.168.37.133:9092&amp;quot;, &amp;quot;group.id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;auto.offset.reset&amp;quot;: &amp;quot;earliest&amp;quot;, }) if err != nil { panic(err) } c.SubscribeTopics([]string{&amp;quot;test&amp;quot;, &amp;quot;^aRegex.*[Tt]est&amp;quot;}, nil) for { msg, err := c.ReadMessage(-1) if err == nil { fmt.Printf(&amp;quot;Message on %s: %s\n&amp;quot;, msg.TopicPartition, string(msg.Value)) } else { fmt.</description>
+    </item>
     
     <item>
       <title>Kafka快速开始</title>
