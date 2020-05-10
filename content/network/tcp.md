@@ -1,9 +1,9 @@
 ---
 title: "Tcp 连接的建立与终止"
 date: 2020-04-23T16:10:57+08:00
-keywords: ["tcp"]
+keywords: ["tcp", "network"]
 categories: ["network"]
-tags: ["tcp"]
+tags: ["tcp", "network"]
 series: [""]
 draft: false
 toc: false

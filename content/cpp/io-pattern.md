@@ -1,8 +1,8 @@
 ---
 title: "五种I/O模式 （Io Pattern）"
 date: 2020-04-17T15:22:29+08:00
-keywords: ["I/O模式"]
-categories: ["cpp"]
+keywords: ["I/O模式", "cpp"]
+categories: ["cpp", "cpp"]
 tags: ["I/O模式"]
 series: [""]
 draft: false
