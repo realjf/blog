@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>myerr.h on Realjf&#39;s blog</title>
@@ -18,7 +18,7 @@
       
       <guid>https://realjf.io/files/myerr/</guid>
       <description>unix网络编程 之 myerr.h文件 myerr.h
-// myerr.h  #include &amp;lt;errno.h&amp;gt;/* for definition of errno */#include &amp;lt;stdarg.h&amp;gt;/* ISO C variable aruments */ static void err_doit(int, int, const char *, va_list); /* * Nonfatal error related to a system call. * Print a message and return. */ void err_ret(const char *fmt, ...) { va_list ap; va_start(ap, fmt); err_doit(1, errno, fmt, ap); va_end(ap); } /* * Fatal error related to a system call. * Print a message and terminate.</description>
+// myerr.h #include &amp;lt;errno.h&amp;gt;/* for definition of errno */ #include &amp;lt;stdarg.h&amp;gt;/* ISO C variable aruments */ static void err_doit(int, int, const char *, va_list); /* * Nonfatal error related to a system call. * Print a message and return. */ void err_ret(const char *fmt, ...) { va_list ap; va_start(ap, fmt); err_doit(1, errno, fmt, ap); va_end(ap); } /* * Fatal error related to a system call. * Print a message and terminate.</description>
     </item>
     
   </channel>

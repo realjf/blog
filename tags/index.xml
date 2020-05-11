@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Realjf&#39;s blog</title>
@@ -6,10 +6,55 @@
     <description>Recent content in Tags on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 May 2020 11:53:15 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 11 May 2020 15:46:10 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title></title>
+      <link>https://realjf.io/tags/</link>
+      <pubDate>Mon, 11 May 2020 15:46:10 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jdk</title>
+      <link>https://realjf.io/tags/jdk/</link>
+      <pubDate>Mon, 11 May 2020 15:46:10 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/jdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://realjf.io/tags/linux/</link>
+      <pubDate>Mon, 11 May 2020 15:46:10 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>distributed</title>
+      <link>https://realjf.io/tags/distributed/</link>
+      <pubDate>Mon, 11 May 2020 11:06:43 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/distributed/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>zookeeper</title>
+      <link>https://realjf.io/tags/zookeeper/</link>
+      <pubDate>Mon, 11 May 2020 11:06:43 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/zookeeper/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>flutter</title>
@@ -201,6 +246,15 @@
     </item>
     
     <item>
+      <title>I/O模式</title>
+      <link>https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Fri, 17 Apr 2020 15:22:29 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>多态</title>
       <link>https://realjf.io/tags/%E5%A4%9A%E6%80%81/</link>
       <pubDate>Fri, 17 Apr 2020 14:04:30 +0800</pubDate>
@@ -264,15 +318,6 @@
     </item>
     
     <item>
-      <title>web</title>
-      <link>https://realjf.io/tags/web/</link>
-      <pubDate>Mon, 13 Apr 2020 14:00:07 +0800</pubDate>
-      
-      <guid>https://realjf.io/tags/web/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>webuploader</title>
       <link>https://realjf.io/tags/webuploader/</link>
       <pubDate>Mon, 13 Apr 2020 14:00:07 +0800</pubDate>
@@ -314,15 +359,6 @@
       <pubDate>Mon, 20 Jan 2020 09:08:15 +0800</pubDate>
       
       <guid>https://realjf.io/tags/channel/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://realjf.io/tags/linux/</link>
-      <pubDate>Tue, 10 Dec 2019 14:14:25 +0800</pubDate>
-      
-      <guid>https://realjf.io/tags/linux/</guid>
       <description></description>
     </item>
     
@@ -597,6 +633,15 @@
     </item>
     
     <item>
+      <title>web</title>
+      <link>https://realjf.io/tags/web/</link>
+      <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/tags/web/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>devtools</title>
       <link>https://realjf.io/tags/devtools/</link>
       <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
@@ -791,15 +836,6 @@
       <pubDate>Fri, 05 Jul 2019 10:27:14 +0800</pubDate>
       
       <guid>https://realjf.io/tags/sublimetext%E5%AE%89%E8%A3%85/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>distributed</title>
-      <link>https://realjf.io/tags/distributed/</link>
-      <pubDate>Thu, 28 Mar 2019 21:44:20 +0800</pubDate>
-      
-      <guid>https://realjf.io/tags/distributed/</guid>
       <description></description>
     </item>
     
@@ -1025,15 +1061,6 @@
       <pubDate>Tue, 19 Mar 2019 09:43:09 +0800</pubDate>
       
       <guid>https://realjf.io/tags/hugo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>I/O模式</title>
-      <link>https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/</guid>
       <description></description>
     </item>
     

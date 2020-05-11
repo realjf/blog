@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>rabbitmq on Realjf&#39;s blog</title>
@@ -18,7 +18,7 @@
       
       <guid>https://realjf.io/rabbitmq/client/</guid>
       <description>go rabbitmq client library
- go get github.com/streadway/amqp send.go（消息发送者） package main import ( &amp;#34;log&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;github.com/streadway/amqp&amp;#34; ) func failOnError(err error, msg string){ if err != nil { log.Fatalf(&amp;#34;%s: %s&amp;#34;, msg, err) panic(fmt.Sprintf(&amp;#34;%s: %s&amp;#34;, msg, err)) } } func main(){ conn, err := amqp.Dial(&amp;#34;amqp://guest:guest@localhost:5672/&amp;#34;) failOnError(err, &amp;#34;Failed to connect to RabbitMQ&amp;#34;) defer conn.Close() ch, err := conn.Channel() failOnError(err, &amp;#34;Failed to open a channel&amp;#34;) defer ch.Close() q, err := ch.QueueDeclare( &amp;#34;hello&amp;#34;, false, false, false, false, nil, ) failOnError(err, &amp;#34;Failed to declare a queue&amp;#34;) body := &amp;#34;hello&amp;#34; // 发布消息 	err = ch.</description>
+go get github.com/streadway/amqp   send.go（消息发送者） package main import ( &amp;quot;log&amp;quot; &amp;quot;fmt&amp;quot; &amp;quot;github.com/streadway/amqp&amp;quot; ) func failOnError(err error, msg string){ if err != nil { log.Fatalf(&amp;quot;%s: %s&amp;quot;, msg, err) panic(fmt.Sprintf(&amp;quot;%s: %s&amp;quot;, msg, err)) } } func main(){ conn, err := amqp.Dial(&amp;quot;amqp://guest:guest@localhost:5672/&amp;quot;) failOnError(err, &amp;quot;Failed to connect to RabbitMQ&amp;quot;) defer conn.Close() ch, err := conn.Channel() failOnError(err, &amp;quot;Failed to open a channel&amp;quot;) defer ch.Close() q, err := ch.QueueDeclare( &amp;quot;hello&amp;quot;, false, false, false, false, nil, ) failOnError(err, &amp;quot;Failed to declare a queue&amp;quot;) body := &amp;quot;hello&amp;quot; // 发布消息 err = ch.</description>
     </item>
     
     <item>
@@ -28,10 +28,12 @@
       
       <guid>https://realjf.io/rabbitmq/set-up/</guid>
       <description>Erlang下载地址：http://www.erlang.org/downloads
-  rabbitmq官网下载地址：http://www.rabbitmq.com/download.html
-  CentOS7.x安装  下载rabbitmq  wget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.4/rabbitmq-server-3.7.4-1.el7.noarch.rpm 安装erlang  yum install erlang  需要先安装yum EPEL源
- yum install epel-release -y # 或 rpm -vih http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm # 或 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm rpm -vih epel-release-7-2.noarch.rpm # 更新数据 yum clean all &amp;amp;&amp;amp; yum makecache  erlang下载地址http://erlang.org/download/ 源码安装：
- wget http://erlang.org/download/otp_src_20.2.tar.gz # 解压 tar -xzvf otp_src_20.2.tar.gz # 安装依赖包 yum install -y gcc gcc-c++ unixODBC-devel openssl-devel ncurses-devel # 设定安装位置 .</description>
+ rabbitmq官网下载地址：http://www.rabbitmq.com/download.html
+  CentOS7.x安装  下载rabbitmq
+wget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.4/rabbitmq-server-3.7.4-1.el7.noarch.rpm  安装erlang
+yum install erlang   需要先安装yum EPEL源
+yum install epel-release -y # 或 rpm -vih http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm # 或 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm rpm -vih epel-release-7-2.noarch.rpm # 更新数据 yum clean all &amp;amp;&amp;amp; yum makecache     erlang下载地址http://erlang.org/download/ 源码安装：
+wget http://erlang.org/download/otp_src_20.2.tar.gz # 解压 tar -xzvf otp_src_20.2.tar.gz # 安装依赖包 yum install -y gcc gcc-c++ unixODBC-devel openssl-devel ncurses-devel # 设定安装位置 .</description>
     </item>
     
   </channel>

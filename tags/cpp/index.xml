@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cpp on Realjf&#39;s blog</title>
@@ -22,8 +22,8 @@
  自动存储持续性 在默认情况下，在函数中声明的函数参数和变量的存储持续性为自动，作用域为局部，没有链接性。
 自动变量和栈 由于自动变量的数目随函数的开始和结束而增减，因此程序常留出一段内存对自动变量进行管理，通常将其视为栈。
 栈是后进先出的，这种设计简化了参数传递。函数调用将其参数的值放在栈顶，然后重新设置栈顶指针，被调用的函数根据其形参描述来确定每个参数的地址。
-静态持续变量 c++为静态存储持续性变量提供了3种链接性：
- 外部链接性（可在其他文件中访问）、 内部链接性（只能在当前文件中访问） 无连接性（只能在当前函数或代码中访问）  这三种链接性都在整个程序执行期间存在。
+静态持续变量 c++为静态存储持续性变量提供了3种链接性： - 外部链接性（可在其他文件中访问）、 - 内部链接性（只能在当前文件中访问） - 无连接性（只能在当前函数或代码中访问）
+这三种链接性都在整个程序执行期间存在。
 编译器将分配固定的内存块来存储所有的静态变量。主要是.data段里
  如果没有显示地初始化静态变量，编译器将把它设置为0.
     存储描述 持续性 作用域 链接性 如何声明     自动 自动 代码块 无 在代码块中   寄存器 自动 代码块 无 在代码块中，使用关键字register   静态，无链接性 静态 代码块 无 在代码块中，使用关键字static   静态，外部链接性 静态 文件 外部 不在任何函数内   静态，内部链接性 静态 文件 内部 不在任何函数内，使用关键字static    静态持续性、外部链接性 外部变量的存储持续性为静态，作用域为整个文件。外部变量也称全局变量。</description>
@@ -36,14 +36,12 @@
       
       <guid>https://realjf.io/cpp/keyword/</guid>
       <description>static 修饰局部变量  静态局部变量只作用于其定义的函数期间，函数结束，其所占用的内存空间也被回收。 在静态存储区分配空间，只初始化一次  修饰全局变量  也称静态全局变量，其作用域在定义它的文件里，不能作用于其他文件。 静态全局变量在静态存储区分配空间，在程序开始运行时完成初始化，也是唯一的一次初始化  修饰函数  静态函数只在声明它的文件中可见，不能被其他文件使用。  修饰类成员  对于静态类成员，它属于类，而不属于某个对象实例，多个对象之间共享静态类成员 静态类成员存储于静态存储区，生命周期为整个程序执行期 静态类成员需要初始化，且在类外初始化，默认初始化为0  初始化方法：&amp;lt;数据类型&amp;gt; &amp;lt;类名&amp;gt;::&amp;lt;静态类成员&amp;gt;=&amp;lt;值&amp;gt;
-修饰类成员函数  同样静态类成员函数属于整个类，而非某个实例对象，也没有this指针，需要通过类名进行访问。 不能将静态类成员函数定义为虚函数   虚函数依赖vptr和vtable，vptr通过类的构造函数生成，且只能用this指针访问，这也就是为什么静态成员函数不能是虚函数的原因
-  由于静态成员函数没有this指针，所以就差不多等同于nonmember函数，结果就产生了一个意想不到的好处：成为一个callback函数，使得我们得以将C++和C-based X Window系统结合，同时也成功的应用于线程函数身上 为了防止父类的影响，可以在子类定义一个与父类相同的静态变量，以屏蔽父类的影响。  const 规则：const离谁近，谁就不能被修改，只读的意思，且需要初始化。
-修饰基本数据类型  修饰一般常量时，可以在类型说明符前也可以在其后，只要在使用时不改变常量即可。 const修饰指针变量*及引用变量&amp;amp;   如果const位于星号*的左侧，则const就是用来修饰指针所指向的变量，即指针指向为常量 如果const位于星号的右侧，const就是修饰指针本身，即指针本身是常量
- 作为函数参数的修饰符 用相应的变量初始化const常量，则在函数体中，按照const所修饰的部分进行常量化，保护了原对象的属性不被修改
-void say(const char* str){...} 作为函数返回值的修饰符 声明了返回值后，对返回值起到保护作用，即使得其返回值不为“左值”，只能作为右值使用。
-const int add(int a, int b){...} const修饰类成员 修饰的类成员的初始化只能在类的构造函数的初始化表中进行
+修饰类成员函数  同样静态类成员函数属于整个类，而非某个实例对象，也没有this指针，需要通过类名进行访问。 不能将静态类成员函数定义为虚函数 &amp;gt; 虚函数依赖vptr和vtable，vptr通过类的构造函数生成，且只能用this指针访问，这也就是为什么静态成员函数不能是虚函数的原因 由于静态成员函数没有this指针，所以就差不多等同于nonmember函数，结果就产生了一个意想不到的好处：成为一个callback函数，使得我们得以将C++和C-based X Window系统结合，同时也成功的应用于线程函数身上 为了防止父类的影响，可以在子类定义一个与父类相同的静态变量，以屏蔽父类的影响。  const 规则：const离谁近，谁就不能被修改，只读的意思，且需要初始化。
+修饰基本数据类型  修饰一般常量时，可以在类型说明符前也可以在其后，只要在使用时不改变常量即可。 const修饰指针变量*及引用变量&amp;amp; &amp;gt; 如果const位于星号*的左侧，则const就是用来修饰指针所指向的变量，即指针指向为常量 &amp;gt; 如果const位于星号的右侧，const就是修饰指针本身，即指针本身是常量  作为函数参数的修饰符 用相应的变量初始化const常量，则在函数体中，按照const所修饰的部分进行常量化，保护了原对象的属性不被修改
+void say(const char* str){...}  作为函数返回值的修饰符 声明了返回值后，对返回值起到保护作用，即使得其返回值不为“左值”，只能作为右值使用。
+const int add(int a, int b){...}  const修饰类成员 修饰的类成员的初始化只能在类的构造函数的初始化表中进行
 const修饰类成员函数 作用是修饰的成员函数不能修改类的任何成员变量
-int funcA() const {} const修饰类对象，定义常量对象 常量对象只能调用常量函数，别的成员函数都不能调用。</description>
+int funcA() const {}  const修饰类对象，定义常量对象 常量对象只能调用常量函数，别的成员函数都不能调用。</description>
     </item>
     
     <item>
@@ -53,13 +51,13 @@ int funcA() const {} const修饰类对象，定义常量对象 常量对象只�
       
       <guid>https://realjf.io/cpp/polymorphism/</guid>
       <description>什么是多态？ C++的多态即针对同一事物对不同场景表现多种形态，称为c++的多态性
-多态分为静态多态和动态多态
- 静态多态又分为函数重载和泛型编程 动态多态则通过虚函数实现  多态的作用  提供了接口与具体实现之间的另一层隔离， 改善了代码的组织结构和可读性以及可扩展性  静态多态 直接上代码
-int Add(int a, int b) { return a + b; } double Add(float a, float b) { return a + b; } // 调用的时候 int main() { Add(1, 2); // 调用的是第一个Add  Add(1.5, 2.5); // 调用的是第二个Add  return 0; } 可以看到，静态多态是在编译期间可以确定的，根据具体的了类型调用不同的函数
+多态分为静态多态和动态多态 - 静态多态又分为函数重载和泛型编程 - 动态多态则通过虚函数实现
+多态的作用  提供了接口与具体实现之间的另一层隔离， 改善了代码的组织结构和可读性以及可扩展性  静态多态 直接上代码
+int Add(int a, int b) { return a + b; } double Add(float a, float b) { return a + b; } // 调用的时候 int main() { Add(1, 2); // 调用的是第一个Add Add(1.5, 2.5); // 调用的是第二个Add return 0; }  可以看到，静态多态是在编译期间可以确定的，根据具体的了类型调用不同的函数
 动态多态 首先要理解，这里的动态是指在程序运行期间，所以动态多态只能在程序运行的时候确定。
 而要实现动态多态，这里需要用到关键字virtual，声明一个函数为虚函数
 具体代码：
-class Animal { public: virtual void Say() = 0; } class Cow : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;#34;哞哞&amp;#34; &amp;lt;&amp;lt; endl; } } class Sheep : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;#34;咩咩&amp;#34; &amp;lt;&amp;lt; endl; } } // 开始使用 int main() { Animal* cow = (Animal*)new Cow(); Animal* sheep = (Animal*)new Sheep(); cow-&amp;gt;Say(); sheep-&amp;gt;Say(); } 有上述代码可以看出，多态是基类中包含虚函数，而子类对其进行重写的，并且通过基类对象的指针或引用调用虚函数形成多态。</description>
+class Animal { public: virtual void Say() = 0; } class Cow : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;哞哞&amp;quot; &amp;lt;&amp;lt; endl; } } class Sheep : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;咩咩&amp;quot; &amp;lt;&amp;lt; endl; } } // 开始使用 int main() { Animal* cow = (Animal*)new Cow(); Animal* sheep = (Animal*)new Sheep(); cow-&amp;gt;Say(); sheep-&amp;gt;Say(); }  有上述代码可以看出，多态是基类中包含虚函数，而子类对其进行重写的，并且通过基类对象的指针或引用调用虚函数形成多态。</description>
     </item>
     
     <item>
@@ -68,11 +66,11 @@ class Animal { public: virtual void Say() = 0; } class Cow : public Animal { pub
       <pubDate>Fri, 17 Apr 2020 11:21:57 +0800</pubDate>
       
       <guid>https://realjf.io/cpp/smart-pointer/</guid>
-      <description>智能指针 智能指针在C++11版本之后提供，包含在头文件中，包括三种：
- shared_ptr unique_ptr weak_ptr  智能指针的作用 由于C++没有垃圾回收机制，一切内存堆操作都是程序员自己管理，但对于程序员来说管理堆不胜麻烦，稍有不慎忘记释放就会造成内存泄露最终导致内存溢出等问题。 而智能指针则能有效避免此类问题发生。
+      <description> 智能指针 智能指针在C++11版本之后提供，包含在头文件中，包括三种： - shared_ptr - unique_ptr - weak_ptr
+智能指针的作用 由于C++没有垃圾回收机制，一切内存堆操作都是程序员自己管理，但对于程序员来说管理堆不胜麻烦，稍有不慎忘记释放就会造成内存泄露最终导致内存溢出等问题。 而智能指针则能有效避免此类问题发生。
 智能指针通过对普通指针进行类封装，使其表现的跟普通指针类似的行为。
 shared_ptr指针 shared_ptr 使用引用计数，每一个shared_ptr的拷贝都指向相同的内存地址，每使用一次，内部的引用计数加1， 每析构一次，内部的引用计数减1，减到0时，自动删除所指向的堆内存。shared_ptr内部的引用计数是线程安全的，但是对象的读取需要加锁。
- 初始化。std::shared_ptrn，也可以make_shared函数初始化。不能直接赋值一个指针，因为它是类。 拷贝和赋值，拷贝引用计数加1，赋值引用计数减1，当计数为0时，自动释放内存。 get函数获取原始指针 不要用一个原始指针初始化多个shared_ptr，否则会造成二次释放同一内存。 避免循环引用，循环引用会导致内存泄漏。  unique_ptr指针 unique_ptr 唯一拥有其所指对象，统一时刻只能有一个unique_ptr指向给定对象（通过禁止拷贝语义，只有移动语义实现）。 相比原始指针，unique_ptr的RAII特性，使得其在出现异常时，能自动释放指向对象占用资源。unique_ptr生命周期从创建到作用域结束， 离开作用域时，若其指向对象，则将其所指向对象销毁。
+ 初始化。std::shared_ptr n，也可以make_shared函数初始化。不能直接赋值一个指针，因为它是类。 拷贝和赋值，拷贝引用计数加1，赋值引用计数减1，当计数为0时，自动释放内存。 get函数获取原始指针 不要用一个原始指针初始化多个shared_ptr，否则会造成二次释放同一内存。 避免循环引用，循环引用会导致内存泄漏。  unique_ptr指针 unique_ptr 唯一拥有其所指对象，统一时刻只能有一个unique_ptr指向给定对象（通过禁止拷贝语义，只有移动语义实现）。 相比原始指针，unique_ptr的RAII特性，使得其在出现异常时，能自动释放指向对象占用资源。unique_ptr生命周期从创建到作用域结束， 离开作用域时，若其指向对象，则将其所指向对象销毁。
 unique_ptr在生命周期内，可以改变智能指针所指对象，通过release释放所有权，通过reset函数指定新对象，通过移动语义转移所有权。
 weak_ptr指针  weak_ptr作为一个辅助智能指针，配合shared_ptr可以对资源使用情况进行观测。 weak_ptr可以从一个shared_ptr或另一个weak_ptr对象中构造，以获得资源观测权，它不会使原对象引用计数增加，  智能指针的原理 智能指针：实际指行为类似于指针的类对象，是利用了一种叫做RAII（资源获取即初始化）的技术对普通的指针进行封装, 它的一种通用实现方法是采用引用计数的方法。
  1.智能指针将一个计数器与类指向的对象相关联，引用计数跟踪共有多少个类对象共享同一指针。 2.每次创建类的新对象时，初始化指针并将引用计数置为1； 3.当对象作为另一对象的副本而创建时，拷贝构造函数拷贝指针并增加与之相应的引用计数； 4.对一个对象进行赋值时，赋值操作符减少左操作数所指对象的引用计数（如果引用计数为减至0，则删除对象），并增加右操作数所指对象的引用计数；这是因为左侧的指针指向了右侧指针所指向的对象，因此右指针所指向的对象的引用计数+1； 5.调用析构函数时，构造函数减少引用计数（如果引用计数减至0，则删除基础对象）。 6.实现智能指针有两种经典策略：一是引入辅助类，二是使用句柄类。这里主要讲一下引入辅助类的方法  </description>
@@ -84,11 +82,11 @@ weak_ptr指针  weak_ptr作为一个辅助智能指针，配合shared_ptr可以�
       <pubDate>Sat, 22 Feb 2020 22:14:22 +0800</pubDate>
       
       <guid>https://realjf.io/cpp/struct-and-class-inherit/</guid>
-      <description>关于c++的class和struct的不同可以简单归纳为以下几点： 内部成员变量及成员函数的默认防控属性不同 struct默认防控属性是public，而class默认的防控属性是Private
+      <description> 关于c++的class和struct的不同可以简单归纳为以下几点： 内部成员变量及成员函数的默认防控属性不同 struct默认防控属性是public，而class默认的防控属性是Private
 继承关系中的默认防控属性的区别 在继承关系中，struct默认是public，而class是private
 在继承中的基类和子类之间的继承方式
    继承方式 基类的public成员 基类的protected成员 基类中的private成员     public继承 仍为public成员 仍为protected成员 不可见   protected继承 变为protected成员 变为protected成员 不可见   private继承 变为private成员 变为private成员 不可见    模板中使用 class关键字可以用于定义模板参数，但是struct不行
-template&amp;lt;template T, class Y&amp;gt; int Func(const T&amp;amp; t, const Y&amp;amp; y) { ... } 使用花括号  struct如果没有定义构造函数，可以使用花括号对struct成员进行赋值。 struct中如果定义了一个构造函数，则不能使用花括号进行赋值  </description>
+template&amp;lt;template T, class Y&amp;gt; int Func(const T&amp;amp; t, const Y&amp;amp; y) { ... }  使用花括号{}赋值问题  struct如果没有定义构造函数，可以使用花括号对struct成员进行赋值。 struct中如果定义了一个构造函数，则不能使用花括号进行赋值  </description>
     </item>
     
   </channel>
