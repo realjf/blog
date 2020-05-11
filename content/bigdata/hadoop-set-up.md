@@ -26,9 +26,9 @@ related:
 - 准备4个基于centos7 的虚拟机，主机名为node1、node2、node3、node4 (sudo hostnamectl set-hostname xxxx)
 - 为每个虚拟机创建一个拥有sudoers权限的hadoop用户，直接修改/etc/sudoers文件夹，新增一行 username ALL=(ALL) ALL 即可
 - 为每个虚拟机安装jdk
-- 为每个虚拟机设置免密登录
+- 为每个虚拟机设置[免密登录](/linux/ssh-login-nopassword/)
 - 为每个虚拟机设置时间同步
-- 集群已安装zookeeper集群 [zookeeper-set-up](/distributed/zookeeper-set-up.md)
+- 集群已安装zookeeper集群 [zookeeper-set-up](/distributed/zookeeper-set-up/)
 
 
 

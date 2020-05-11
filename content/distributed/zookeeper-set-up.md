@@ -26,7 +26,7 @@ related:
 ### 准备环境
 - 准备4个centos7虚拟机
 - 下载zookeeper安装包
-- 提前安装好jdk [安装jdk](/linux/jdk-8u131.md)
+- 提前安装好jdk [安装jdk](/linux/jdk-8u131/)
 
 zookeeper下载地址：[http://mirrors.hust.edu.cn/apache/zookeeper/](http://mirrors.hust.edu.cn/apache/zookeeper/)
 
