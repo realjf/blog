@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>zookeeper集群搭建 Zookeeper cluster Set Up // Realjf&#39;s blog</title>
+    <title>免秘钥登录配置 Ssh Login Nopassword // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -66,7 +66,7 @@
     
     <article class="post">
         <header class="post-header">
-            <h1 class ="post-title">zookeeper集群搭建 Zookeeper cluster Set Up</h1>
+            <h1 class ="post-title">免秘钥登录配置 Ssh Login Nopassword</h1>
             <div class="post-meta">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -83,136 +83,109 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/zookeeper/">zookeeper</a><a class="tag" href="https://realjf.io/tags/distributed/">distributed</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/linux/">linux</a></div></div>
         </header>
         <div class="post-content">
             
 
-<h3 id="准备环境">准备环境</h3>
+<h3 id="方法一">方法一</h3>
 
-<ul>
-<li>准备4个centos7虚拟机</li>
-<li>下载zookeeper安装包</li>
-<li>提前安装好jdk <a href="/linux/jdk-8u131/">安装jdk</a></li>
-</ul>
+<p>在一个节点生成公钥，然后利用ssh-copy-id复制到各节点</p>
 
-<p>zookeeper下载地址：<a href="http://mirrors.hust.edu.cn/apache/zookeeper/">http://mirrors.hust.edu.cn/apache/zookeeper/</a></p>
+<pre><code class="language-bash">ssh-keygen -t rsa -b 4096 -P '' -f ~/.ssh/id_rsa -C &quot;备注&quot;
 
-<h3 id="集群规划">集群规划</h3>
+# 复制到各节点
+ssh-copy-id node2
+ssh-copy-id node3
+ssh-copy-id node4
 
-<ul>
-<li>node1： leader或follower</li>
-<li>node2： leader或follower</li>
-<li>node3： leader或follower</li>
-<li>node4： observer</li>
-</ul>
-
-<blockquote>
-<p>leader：能接收所有的读写请求，也可以处理所有的读写请求，而且整个集群中的所有写数据请求都是由leader进行处理
-follower：能接收所有的读写请求，但是读数据请求自己处理，写数据请求转发给leader
-observer：跟follower的唯一的区别就是没有选举权和被选举权</p>
-</blockquote>
-
-<h3 id="下载安装">下载安装</h3>
-
-<pre><code class="language-bash">wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz
-
-tar zxvf apache-zookeeper-3.5.7-bin.tar.gz
-
-# 加入环境变量path中
-vim ~/.bash_profile
-
-export ZOOKEEPER_HOME=/home/hadoop/apps/zookeeper
-export PATH=$PATH:$ZOOKEEPER_HOME/bin
-
-# 保存退出，然后source使其生效
-source ~/.bash_profile
-
+# 其他节点重复上述操作，实现各节点之间可以相互免密登录
 </code></pre>
 
-<h3 id="配置zoo-cfg文件">配置zoo.cfg文件</h3>
+<h3 id="方法二">方法二</h3>
 
-<pre><code class="language-bash"># 进入ZOOKEEPER_HOME/conf目录
-# 复制zoo_sample.cfg为zoo.cfg
-cp zoo_sample.cfg zoo.cfg
-# 编辑zoo.cfg
-vi zoo.cfg
+<p>也可以使用shell脚本，需要提前安装好expect</p>
 
-# 集群各节点的心跳时间间隔，保持默认即可(2s)
-tickTime=2000
-
-# 此配置表示，允许follower连接并同步到leader的初始化连接时间
-# 它以tickTime的倍数来表示
-# 当超过设置倍数的tickTime时间，则连接失败
-# 保持默认即可(10次心跳的时间，即20s)
-initLimit=10
-
-# follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s
-# 如果10s内没有收到响应，本次请求就失败
-syncLimit=5
-
-# zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空
-dataDir=/root/hadoop/zkdata
-
-# 客户端连接的端口号，保持默认即可
-clientPort=2181
-
-# 以下内容手动添加
-# server.id=主机名:心跳端口:选举端口
-# 注意：这里给每个节点定义了id，这些id写到配置文件中
-# id为1-255之间的任意的不重复的数字，一定要记得每个节点的id的对应关系
-server.1=node1:2888:3888
-server.2=node2:2888:3888
-server.3=node3:2888:3888
-server.4=node4:2888:3888:observer
+<pre><code class="language-bash">yum install expect -y
 </code></pre>
 
-<h3 id="hosts配置">hosts配置</h3>
+<p>autoSSH.sh</p>
 
-<p>为每个虚拟机配置hosts，以便后续根据主机名操作
-如node1配置如下</p>
+<pre><code class="language-bash">#!/bin/bash
 
-<pre><code class="language-bash">192.168.37.200 node1
-192.168.37.201 node2
-192.168.37.202 node3
-192.168.37.203 node4
+## 脚本接收的参数，也就是要互相配置 SSH 免密登录的服务器列表参数
+BASE_HOST_LIST=$*
 
+## 密码，默认用户是当前运行脚本的用户，比如 root 用户
+## 这里改成你的用户对应的密码
+BASE_PASSWORD=&quot;root&quot;
+
+## shell 函数：模拟 SSH 公钥私钥文件生成的人机交互过程
+sshkeygen(){
+    expect -c &quot;
+    spawn ssh-keygen
+    expect {
+        \&quot;ssh/id_rsa):\&quot; {send \&quot;\r\&quot;;exp_continue}
+        \&quot;passphrase):\&quot; {send \&quot;\r\&quot;;exp_continue}
+        \&quot;again:\&quot; {send \&quot;\r\&quot;;exp_continue}
+    }
+    &quot;
+}
+
+## shell 函数：模拟配置 SSH 免密登录过程的人机交互过程
+sshcopyid(){
+    expect -c &quot;
+    spawn ssh-copy-id $1
+    expect {
+        \&quot;(yes/no)?\&quot; {send \&quot;yes\r\&quot;;exp_continue}
+        \&quot;password:\&quot; {send \&quot;$2\r\&quot;;exp_continue}
+    }
+    &quot;
+}
+
+## 本机生成密钥对
+sshkeygen 
+
+## 然后本机跟其他服务器建立 SSH 免密登录(包括自己)
+for SSH_HOST in ${BASE_HOST_LIST}
+do
+    sshcopyid ${SSH_HOST} ${BASE_PASSWORD}
+done
 </code></pre>
 
-<p>其他节点依次配置</p>
+<p>上述脚本实现某个节点对其他任意节点免秘钥登录</p>
 
-<h3 id="同步配置">同步配置</h3>
+<p>如果需要各节点都能免秘钥登录，要需要以下的脚本，将上述脚本发送到各节点运行</p>
 
-<p>其他虚拟机按同样配置设置好，或者直接复制到相应机器</p>
+<p>startAutoSSH.sh</p>
 
-<pre><code class="language-bash">scp -r /home/hadoop/apps/zookeeper node2:/home/hadoop/apps/
-scp -r /home/hadoop/apps/zookeeper node3:/home/hadoop/apps/
-scp -r /home/hadoop/apps/zookeeper node4:/home/hadoop/apps/
+<pre><code class="language-bash">#!/bin/bash
 
+## 配置 SSH 免密登录的服务器列表，可写死，也可通过传参或者读配置文件的方式读取
+#BASE_HOST_LIST=&quot;node1 node2 node3 node4&quot;
+BASE_HOST_LIST=$*
+
+## 脚本的放置目录（传送之前，和传送之后都是这个目录）
+SCRIPT_PATH=&quot;/root/autoSSH.sh&quot;
+
+## 第一步：先让自己先跑 autoSSH.sh 脚本，为了能顺利发送脚本到集群各节点
+sh ${SCRIPT_PATH} ${BASE_HOST_LIST}
+
+## 第二步：把脚本发送给其他服务器，让其他服务器也执行该脚本
+for SSH_HOST in $BASE_HOST_LIST
+do
+    ## first : send install script
+    ## 注意这行，用户名写死为root，如果是其他用户，记得在这里修改
+    scp -r $SCRIPT_PATH root@${SSH_HOST}:$SCRIPT_PATH
+    ## send command and generate ssh and auto ssh
+    ssh ${SSH_HOST} sh ${SCRIPT_PATH} ${BASE_HOST_LIST}
+done
 </code></pre>
 
-<h3 id="在配置的datadir目录下新建myid文件-并写入id">在配置的dataDir目录下新建myid文件，并写入id</h3>
+<p>运行演示</p>
 
-<pre><code class="language-bash">mkdir -p /home/hadoop/zkdata
-cd /home/hadoop/zkdata
-
-echo 1 &gt; myid # 这里的id根据上面的配置server.1这个确定相应节点的id
-
+<pre><code class="language-bash">sh startAutoSSH.sh node1 node2 node3 node4
 </code></pre>
-
-<h3 id="启动集群">启动集群</h3>
-
-<p>每个节点都需要操作</p>
-
-<pre><code class="language-bash">zkServer.sh start
-</code></pre>
-
-<p>查看每个节点状态</p>
-
-<pre><code class="language-bash">zkServer.sh status
-</code></pre>
-
-<p>至此，zookeeper集群安装配置成功</p>
 
         </div>
         <div id="disqus_thread"></div>
@@ -239,7 +212,15 @@ echo 1 &gt; myid # 这里的id根据上面的配置server.1这个确定相应节
             <legend>相关阅读推荐（See Also）</legend>
             <ul>
                 
-                    <li><a href="/posts/fault-tolerance/">分布式系统 之 容错性</a></li>
+                    <li><a href="/linux/jdk-8u131/">Jdk 8 安装</a></li>
+                
+                    <li><a href="/linux/command/ulimit/">linux系统资源设置 之 Ulimit 命令</a></li>
+                
+                    <li><a href="/posts/linux-kernel-optimize/">Linux 内核参数优化</a></li>
+                
+                    <li><a href="/posts/cgroups/">linux Cgroups</a></li>
+                
+                    <li><a href="/posts/namespace/">Namespace 资源隔离</a></li>
                 
             </ul>
         </fieldset>
