@@ -138,8 +138,57 @@ zkServer.sh status
 至此，zookeeper集群安装配置成功
 
 
+### 修改zookeeper日志文件的保存路径
+修改$ZOOKEEPER/bin/zkEnv.sh文件
+```bash
+# 在这里定义存放日志文件的目录
+ZOO_LOG_DIR="/opt/beh/logs/zookeeper"
+if [ "x${ZOO_LOG_DIR}" = "x" ]
+then
+    ZOO_LOG_DIR="."
+fi
 
+# 将
+if [ "x${ZOO_LOG4J_PROP}" = "x" ]
+then
+    ZOO_LOG4J_PROP="INFO,CONSOLE"
+fi
 
+# 改为：
+if [ "x${ZOO_LOG4J_PROP}" = "x" ]
+then
+    ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
+fi
+```
+修改$ZOOKEEPER_HOME/conf/log4j.properties文件
+
+```bash
+zookeeper.root.logger=INFO, ROLLINGFILE
+zookeeper.console.threshold=INFO
+zookeeper.log.dir=/opt/beh/logs/zookeeper
+zookeeper.log.file=zookeeper.log
+zookeeper.log.threshold=DEBUG
+zookeeper.tracelog.dir=/opt/beh/logs/zookeeper
+zookeeper.tracelog.file=zookeeper_trace.log
+
+log4j.appender.ROLLINGFILE=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.ROLLINGFILE.Threshold=${zookeeper.log.threshold}
+log4j.appender.ROLLINGFILE.File=${zookeeper.log.dir}/${zookeeper.log.file}
+log4j.appender.ROLLINGFILE.MaxFileSize=512MB
+log4j.appender.ROLLINGFILE.DataPattern='.'yyyy-MM-dd
+log4j.appender.ROLLINGFILE.Threshold=info
+log4j.appender.ROLLINGFILE.encoding=UTF-8
+log4j.appender.ROLLINGFILE.layout.ConversionPattern=[%d{yyyy-MM-dd HH\:mm\:ss}]%-5p %c(line\:%L) %x-%m%n
+#log4j.appender.ROLLINGFILE.MaxBackupIndex=10
+log4j.appender.ROLLINGFILE.layout=org.apache.log4j.PatternLayout
+```
+
+修改$ZOOKEEPER_HOME/bin/zkServer.sh文件
+```bash
+_ZOO_DAEMON_OUT="$ZOO_LOG_DIR/zookeeper.out"
+修改为：
+_ZOO_DAEMON_OUT="$ZOO_LOG_DIR/zookeeper.log"
+```
 
 
 

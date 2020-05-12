@@ -31,10 +31,27 @@ related:
 - 集群已安装zookeeper集群 [zookeeper-set-up](/distributed/zookeeper-set-up/)
 
 
-
+hadoop下载地址：[https://mirrors.aliyun.com/apache/hadoop/common/](https://mirrors.aliyun.com/apache/hadoop/common/)
 
 ### 集群规划
 ![hadoop-cluster](/image/hadoop-cluster.png)
+
+### 安装
+#### 下载解压安装
+```bash
+wget https://mirrors.aliyun.com/apache/hadoop/common/stable/hadoop-3.2.1.tar.gz
+
+tar zxvf hadoop-3.2.1.tar.gz -C /home/hadoop/apps/
+```
+#### 修改hadoop-env.sh、mapred-env.sh、yarn-env.sh这三个配置文件，添加JAVA_HOME
+在hadoop的配置文件在HADOOP_HOME/etc/hadoop/下
+```bash
+export JAVA_HOME=/usr/local/jdk1.8.0_161
+```
+
+
+
+
 
 
 
