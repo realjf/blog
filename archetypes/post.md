@@ -1,9 +1,9 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
-keywords: [""]
+keywords: ["{{ .Section }}"]
 categories: ["{{ .Section }}"]
-tags: [""]
+tags: ["{{ .Section }}"]
 series: [""]
 draft: true
 toc: false
