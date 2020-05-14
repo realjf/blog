@@ -111,13 +111,16 @@
 
 <p>M是machine的简写，表示系统线程</p>
 
-<p>M可以运行两种代码：
-- go代码，即goroutine，M运行go代码需要一个P
-- 原生代码，例如阻塞的syscall，M运行原生代码不需要P</p>
+<p>M可以运行两种代码：</p>
 
 <ul>
-<li>M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。</li>
-<li>有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。</li>
+<li>go代码，即goroutine，M运行go代码需要一个P</li>
+
+<li><p>原生代码，例如阻塞的syscall，M运行原生代码不需要P</p></li>
+
+<li><p>M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。</p></li>
+
+<li><p>有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。</p></li>
 </ul>
 
 <p>go需要保证有足够的M可以运行G，不让CPU闲着，也需要保证M的数量不过多。</p>
@@ -130,9 +133,12 @@
 <p>虽然P的数量默认等于cpu的核心数，但可以通过环境变量 <strong>GOMAXPROC</strong> 修改，在实际运行时P跟cpu核心并无任何关联。</p>
 </blockquote>
 
-<p>P也可以理解为控制go代码的并行度的机制
-- 如果P的数量等于1，代表当前最多只能有一个线程M执行go代码。
-- 如果P的数量等于2，代表当前最多只能有两个线程M执行go代码。</p>
+<p>P也可以理解为控制go代码的并行度的机制</p>
+
+<ul>
+<li>如果P的数量等于1，代表当前最多只能有一个线程M执行go代码。</li>
+<li>如果P的数量等于2，代表当前最多只能有两个线程M执行go代码。</li>
+</ul>
 
 <p>执行原生代码的线程数不受P控制。</p>
 
@@ -154,11 +160,14 @@
 
 <h2 id="m的状态">M的状态</h2>
 
-<p>M并没有像G和P一样的状态标记，但可以认为一个M有以下的状态：
-- 自旋中(spinning)：M正在从运行队列获取G，这时候M会拥有一个P
-- 执行go代码中：M正在执行go代码，这时候M会拥有一个P
-- 执行原生代码中：M正在执行原生代码或者阻塞的syscall，这时M并不拥有P
-- 休眠中：M发现没有待运行的G时会进入休眠，并添加到空闲M链表中，这时M并不拥有P</p>
+<p>M并没有像G和P一样的状态标记，但可以认为一个M有以下的状态：</p>
+
+<ul>
+<li>自旋中(spinning)：M正在从运行队列获取G，这时候M会拥有一个P</li>
+<li>执行go代码中：M正在执行go代码，这时候M会拥有一个P</li>
+<li>执行原生代码中：M正在执行原生代码或者阻塞的syscall，这时M并不拥有P</li>
+<li>休眠中：M发现没有待运行的G时会进入休眠，并添加到空闲M链表中，这时M并不拥有P</li>
+</ul>
 
 <p>自旋中这个状态非常重要，是否需要唤醒或者创建新的M取决于当前自旋中的M的数量。</p>
 
@@ -196,20 +205,26 @@
 <p>当M发现无待运行的G时会进入休眠，并添加到空闲M链表中，空闲M链表保存在全局变量sched。
 进入休眠的M会等待一个信号量(m.park)，唤醒休眠的M会使用这个信号量</p>
 
-<p>go需要保证充足的M可以运行G，是通过以下机制实现的：
-- 入队运行的G后，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M。
-- 当M离开自旋状态并准备运行出队的G时，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M
-- 当M离开自旋状态并准备休眠时，会在离开自旋状态后再次检查所有运行队列，如果有待运行的G则重新进入自旋状态。</p>
+<p>go需要保证充足的M可以运行G，是通过以下机制实现的：</p>
 
-<p>因为“入队待运行的G”和“M离开自旋状态”会同时进行，go会使用这样的检查顺序：
-- 入队待运行的G
-- 内存屏障
-- 检查当前自旋的M数量
-- 唤醒或新建一个M
-- 减少当前自旋的M数量
-- 内存屏障
-- 检查所有运行队列是否有待运行的G
-- 休眠</p>
+<ul>
+<li>入队运行的G后，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M。</li>
+<li>当M离开自旋状态并准备运行出队的G时，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M</li>
+<li>当M离开自旋状态并准备休眠时，会在离开自旋状态后再次检查所有运行队列，如果有待运行的G则重新进入自旋状态。</li>
+</ul>
+
+<p>因为“入队待运行的G”和“M离开自旋状态”会同时进行，go会使用这样的检查顺序：</p>
+
+<ul>
+<li>入队待运行的G</li>
+<li>内存屏障</li>
+<li>检查当前自旋的M数量</li>
+<li>唤醒或新建一个M</li>
+<li>减少当前自旋的M数量</li>
+<li>内存屏障</li>
+<li>检查所有运行队列是否有待运行的G</li>
+<li>休眠</li>
+</ul>
 
 <p>这样可以保证不会出现待运行的G入队了，也有空闲的资源P，但无M去执行的情况。</p>
 
@@ -585,11 +600,14 @@ func main() {
 
 <p>调用闭包时参数并不通过栈传递, 而是通过寄存器rdx传递,</p>
 
-<p>闭包的传递可以总结如下：
-- 闭包的内容是[匿名函数的地址，传给匿名函数的参数（不定长）&hellip;]
-- 传递闭包给其他函数时会传递指向闭包内容的指针
-- 闭包会从寄存器rdx取出参数
-- 如果闭包修改了变量，闭包中的参数会是指针而不是值，修改时会修改到原来的位置上。</p>
+<p>闭包的传递可以总结如下：</p>
+
+<ul>
+<li>闭包的内容是[匿名函数的地址，传给匿名函数的参数（不定长）&hellip;]</li>
+<li>传递闭包给其他函数时会传递指向闭包内容的指针</li>
+<li>闭包会从寄存器rdx取出参数</li>
+<li>如果闭包修改了变量，闭包中的参数会是指针而不是值，修改时会修改到原来的位置上。</li>
+</ul>
 
 <h2 id="闭包-goroutine">闭包+goroutine</h2>
 
@@ -610,42 +628,60 @@ m0负责执行初始化操作和启动第一个g, 在之后m0就和其他的m一
 
 <h1 id="程序初始化">程序初始化</h1>
 
-<p>go程序的入口点是<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/asm_amd64.s">runtime.rt0_g0</a>，流程如下：
-- 分配栈空间，需要2个本地变量+2个函数参数，然后向8对齐
-- 把传入的argc和argv保存到栈上
-- 更新g0中的stackguard的值，stackguard用于检测栈空间是否不足，需要分配新的栈空间
-- 获取当前cpu的信息并保存到各个全局变量中
-- 调用_cgo_init如果函数存在
-- 初始化当前线程的TLS，设置FS寄存器为m0.tls+8（获取时会-8）
-- 测试TLS是否工作
-- 设置g0到TLS中，表示当前的g是g0
-- 设置m0.g0 = g0
-- 设置g0.m = m0
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime1.go#L140">runtime.check</a>做一些检查
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime1.go#L60">runtime.args</a> 保存传入的argc和argv全局变量
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/os_linux.go#L269">runtime.osinit</a>根据系统执行不同的初始化
-    - 这里(linux amd64)设置了全局变量ncpu等于cpu核心数
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L468">runtime.schedinit</a>执行共同的初始化
-    - 这里的处理比较多，会初始化栈空间分配器，GC,按cpu核心数或GOMAXPROCS的值生成P等
-    - 生成P的处理在<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L3517">procresize</a>中
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L2929">runtime.newproc</a>创建一个新的goroutine，指向的是runtime.main
-    - runtime.newproc这个函数在创建普通的goroutine时也会使用
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L1135">runtime.mstart</a>启动m0
-    - 启动后m0会不断从运行队列获取G并运行，runtime.mstart调用后不会返回
-    - runtime.mstart这个函数是m的入口点</p>
+<p>go程序的入口点是<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/asm_amd64.s">runtime.rt0_g0</a>，流程如下：</p>
 
-<p>第一个被调度的G会运行runtime.main，流程是：
-- 标记主函数已调用，设置mainStarted = true
-- 启动一个新的M执行sysmon函数，这个函数会监控全局的状态并对运行时间过长的G进行抢占
-- 要求G必须在当前M上执行
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L233">runtime_init</a>函数
-- 调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/mgc.go#L214">gcenable</a>函数
-- 调用main.init函数，如果函数存在
-- 不在要求G必须在当前M上运行
-- 如果程序是作为c的类库编译，在这里返回
-- 调用main.main函数
-- 如果当前发生了panic，则等待panic处理
-- 带哦用exit(0)退出程序</p>
+<ul>
+<li>分配栈空间，需要2个本地变量+2个函数参数，然后向8对齐</li>
+<li>把传入的argc和argv保存到栈上</li>
+<li>更新g0中的stackguard的值，stackguard用于检测栈空间是否不足，需要分配新的栈空间</li>
+<li>获取当前cpu的信息并保存到各个全局变量中</li>
+<li>调用_cgo_init如果函数存在</li>
+<li>初始化当前线程的TLS，设置FS寄存器为m0.tls+8（获取时会-8）</li>
+<li>测试TLS是否工作</li>
+<li>设置g0到TLS中，表示当前的g是g0</li>
+<li>设置m0.g0 = g0</li>
+<li>设置g0.m = m0</li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime1.go#L140">runtime.check</a>做一些检查</li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime1.go#L60">runtime.args</a> 保存传入的argc和argv全局变量</li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/os_linux.go#L269">runtime.osinit</a>根据系统执行不同的初始化
+
+<ul>
+<li>这里(linux amd64)设置了全局变量ncpu等于cpu核心数</li>
+</ul></li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L468">runtime.schedinit</a>执行共同的初始化
+
+<ul>
+<li>这里的处理比较多，会初始化栈空间分配器，GC,按cpu核心数或GOMAXPROCS的值生成P等</li>
+<li>生成P的处理在<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L3517">procresize</a>中</li>
+</ul></li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L2929">runtime.newproc</a>创建一个新的goroutine，指向的是runtime.main
+
+<ul>
+<li>runtime.newproc这个函数在创建普通的goroutine时也会使用</li>
+</ul></li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L1135">runtime.mstart</a>启动m0
+
+<ul>
+<li>启动后m0会不断从运行队列获取G并运行，runtime.mstart调用后不会返回</li>
+<li>runtime.mstart这个函数是m的入口点</li>
+</ul></li>
+</ul>
+
+<p>第一个被调度的G会运行runtime.main，流程是：</p>
+
+<ul>
+<li>标记主函数已调用，设置mainStarted = true</li>
+<li>启动一个新的M执行sysmon函数，这个函数会监控全局的状态并对运行时间过长的G进行抢占</li>
+<li>要求G必须在当前M上执行</li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L233">runtime_init</a>函数</li>
+<li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/mgc.go#L214">gcenable</a>函数</li>
+<li>调用main.init函数，如果函数存在</li>
+<li>不在要求G必须在当前M上运行</li>
+<li>如果程序是作为c的类库编译，在这里返回</li>
+<li>调用main.main函数</li>
+<li>如果当前发生了panic，则等待panic处理</li>
+<li>带哦用exit(0)退出程序</li>
+</ul>
 
 <h2 id="g-m-p的定义">G M P的定义</h2>
 
