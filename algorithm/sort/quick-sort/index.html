@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>排序算法之选择排序 Select Sort // Realjf&#39;s blog</title>
+    <title>排序算法之快速排序 Quick Sort // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -66,7 +66,7 @@
     
     <article class="post">
         <header class="post-header">
-            <h1 class ="post-title">排序算法之选择排序 Select Sort</h1>
+            <h1 class ="post-title">排序算法之快速排序 Quick Sort</h1>
             <div class="post-meta">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -78,7 +78,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    1 min read
+                    2 min read
                 </div><div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
@@ -86,36 +86,90 @@
                         <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
         </header>
         <div class="post-content">
-            <p>选择排序算法是每次循环遍历出未排除中最小值的位置，然后与将其与未排序部分第一个元素进行交换</p>
+            <p>快速排序的基本思想是：
+- 以整个数组为对象执行quickSort
+- quickSort流程如下
+    - 通过分割将对象局部数组分割为前后两个局部数组
+    - 对前半部分的局部数组执行quickSort
+    - 对后半部分的局部数组执行quickSort</p>
+
+<blockquote>
+<p>分割后前半部分数组都小于等于分割点元素，后半部分都大于分割点元素</p>
+</blockquote>
 
 <pre><code class="language-c">#include &lt;stdio.h&gt;
+#define MAX 100000
+#define SENTINEL 200000000
 
-void swap(int* a, int* b)
-{
-    if(*a &gt; *b){
-        *a = *a + *b;
-        *b = *a - *b;
-        *a = *a - *b;
+struct Card{
+    char suit;
+    int value;
+};
+
+struct Card L[MAX / 2 + 2], R[MAX/2 + 2];
+
+int partition(struct Card A[], int, n, int p, int r){
+    int i, j;
+    struct Card t, x;
+    x = A[r];
+    i = p -1;
+    for(j = p; j &lt; r; j++){
+        if(A[j].value &lt;= x.value){
+            i++;
+            t = A[i];
+            A[i] = A[j];
+            A[j] = t;
+        }
     }
-
+    t = A[i+1];
+    A[i+1] = A[r];
+    A[r] = t;
+    return i+1;
 }
 
-int main(){
-    int a[10],i,j;
-    for(i=0;i&lt;10;i++){
-        scanf(&quot;%d&quot;, &amp;a[i]);
+// 快速排序
+void quickSort(struct Card A[], int n, int p, int r){
+    int q;
+    if(p &lt; r){
+        q = partition(A, n, p, r);
+        quickSort(A, n, p, q - 1);
+        quickSort(A, n, q + 1, r);
     }
+}
+
+
+</code></pre>
+
+<p>对比下归并排序</p>
+
+<pre><code class="language-c">
+void merge(struct Card A[], int n, int left, int mid, int right){
+    int i, j, k;
+    int n1 = mid - left;
+    int n2 = right - mid;
+    for (i = 0; i &lt; n1; i++) L[i] = A[left+i];
+    for (i = 0; i &lt; n2; i++) R[i] = A[mid+i];
     
-    for(i=0;i&lt;9;i++){
-        int min = i;
-        for(j=i+1;j&lt;10;j++){
-            if(a[j] &lt; a[min]){
-                min = j;
-            }
+    L[n1].value = R[n2].value = SENTINEL;
+    i = j = 0;
+    for (k = left; k &lt; right; k++){
+        if(L[i].value &lt;= R[j].value){
+            A[k] = L[i++];
+        }else{
+            A[k] = R[j++];
         }
-        swap(&amp;a[min], &amp;a[i]);
     }
-    return 0;
+}
+
+// 归并排序
+void mergeSort(struct Card A[], int n, int left, int right){
+    int mid;
+    if(left + 1 &lt; right) {
+        mid = (left + right) / 2;
+        mergeSort(A, n, left, mid);
+        mergeSort(A, n, mid, right);
+        merge(A, n, left, mid, right);
+    }
 }
 </code></pre>
 
@@ -143,10 +197,6 @@ int main(){
         <fieldset>
             <legend>相关阅读推荐（See Also）</legend>
             <ul>
-                
-                    <li><a href="/algorithm/sort/merge-sort/">排序算法之归并排序 Merge Sort</a></li>
-                
-                    <li><a href="/algorithm/sort/quick-sort/">排序算法之快速排序 Quick Sort</a></li>
                 
                     <li><a href="/algorithm/sort/shell-sort/">排序算法之希尔排序 Shell Sort</a></li>
                 

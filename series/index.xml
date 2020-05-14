@@ -6,10 +6,22 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 May 2020 09:10:02 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 16:14:16 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>树的遍历 Tree Walk</title>
+      <link>https://realjf.io/algorithm/tree/tree-walk/</link>
+      <pubDate>Thu, 14 May 2020 16:14:16 +0800</pubDate>
+      
+      <guid>https://realjf.io/algorithm/tree/tree-walk/</guid>
+      <description> 前序遍历 按照根节点、左子树、右子树的顺序输出节点编号。称为树的前序遍历
+#define MAX 10000 #define NIL -1 struct Node { int p, l, r;}; struct Node T[MAX]; void preOrder(int u) { if(u == NIL) return; printf(&amp;quot; %d&amp;quot;, u); preOrder(T[u].l); preOrder(T[u].r); }  中序遍历 按照左子树、根节点、右子树的顺序输出节点编号。称为树的中序遍历
+void inOrder(int u) { if(u == NIL) return; inOrder(T[u].l); printf(&amp;quot; %d&amp;quot;, u); inOrder(T[u].r); }  后序遍历 按照左子树、右子树、根节点的顺序输出节点编号。称为树的后序遍历
+void postOrder(int u) { if(u == NIL) return; postOrder(T[u].l); postOrder(T[u].r); printf(&amp;quot; %d&amp;quot;, u); }  </description>
+    </item>
     
     <item>
       <title>mysql Explain 详解</title>
@@ -189,6 +201,17 @@ var o []byte sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&amp;amp;o)))
       <guid>https://realjf.io/algorithm/sort/merge-sort/</guid>
       <description>归并排序的基本思想是： - 将给定的包含n个元素的局部数组“分割”成两个局部数组，每个数组各包含n/2各元素。 - 对两个局部数组分别执行mergeSort排序。 - 通过merge将两个已排序完毕的局部数组整合成一个数组。
 #inlcude &amp;lt;iostream&amp;gt; using namespace std; #define MAX 500000 #define SENTINEL 2000000000 int L[MAX/2+2], R[MAX/2+2]; int cnt; void merge(int A[], int n, int left, int mid, int right){ int n1 = mid - left; int n2 = right - mid; for(int i=0; i&amp;lt; n1; i++)L[i] = A[left+i]; for(int i = 0; i&amp;lt; n2;i++) R[i] = A[mid+i]; L[n1] = R[n2] = SENTINEL; int i = 0; j = 0; for(int k = left; k&amp;lt;right;k++){ cnt++; if(L[i]&amp;lt;=R[j]){ A[k] = L[i++]; }else{ A[k] = R[j++]; } } } void mergeSort(int A[], int n, int left, int right){ if(left+1 &amp;lt; right){ int mid = (left + right) / 2; mergeSort(A, n, left, mid); mergeSort(A, n, mid, right); merge(A, n, left, mid, right); } } int main(){ int A[MAX], n, i; cnt = 0; cin &amp;gt;&amp;gt; n; for(i = 0; i&amp;lt;n; i++) cin&amp;gt;&amp;gt;A[i]; mergeSort(A, n, 0, n); for(i=0; i&amp;lt;n; i++){ if(i) cout &amp;lt;&amp;lt; &amp;quot; &amp;quot;; cout &amp;lt;&amp;lt; A[i]; } cout &amp;lt;&amp;lt; endl; cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; endl; return 0; }  </description>
+    </item>
+    
+    <item>
+      <title>排序算法之快速排序 Quick Sort</title>
+      <link>https://realjf.io/algorithm/sort/quick-sort/</link>
+      <pubDate>Tue, 28 Apr 2020 15:03:14 +0800</pubDate>
+      
+      <guid>https://realjf.io/algorithm/sort/quick-sort/</guid>
+      <description>快速排序的基本思想是： - 以整个数组为对象执行quickSort - quickSort流程如下 - 通过分割将对象局部数组分割为前后两个局部数组 - 对前半部分的局部数组执行quickSort - 对后半部分的局部数组执行quickSort
+ 分割后前半部分数组都小于等于分割点元素，后半部分都大于分割点元素
+ #include &amp;lt;stdio.h&amp;gt; #define MAX 100000 #define SENTINEL 200000000 struct Card{ char suit; int value; }; struct Card L[MAX / 2 + 2], R[MAX/2 + 2]; int partition(struct Card A[], int, n, int p, int r){ int i, j; struct Card t, x; x = A[r]; i = p -1; for(j = p; j &amp;lt; r; j++){ if(A[j].</description>
     </item>
     
     <item>
