@@ -223,7 +223,7 @@
 
 <p>下图是协程可能出现的工作状态，图中有4个P，其中M1~M3正在运行G并且运行后会从拥有的P的运行队列继续获取G。</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow.png" /></p>
+<p><img src="/image/golang_goroutine_outline.png" alt="/image/golang_goroutine_outline.png" /></p>
 
 <p>只看上面这张图，可能比较难理解工作流程，通过以下代码再了解一遍：</p>
 
@@ -266,43 +266,43 @@ func main() {
 
 <p>图中的虚线指的是G待运行或者开始运行的地址，不是当前运行的地址。</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-1.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-1.png" /></p>
+<p><img src="/image/golang_goroutine_main.png" alt="/image/golang_goroutine_main.png" /></p>
 
 <p>M会取得这个G并运行：</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-2.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-2.png" /></p>
+<p><img src="/image/golang_goroutine_main_2.png" alt="/image/golang_goroutine_main_2.png" /></p>
 
 <p>这时main创建一个新的channel，并启动两个新的G：</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-3.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-3.png" /></p>
+<p><img src="/image/golang_goroutine_main_3.png" alt="/image/golang_goroutine_main_3.png" /></p>
 
 <p>接下来G：main 会从channel中获取数据，因为获取不到，G会保存状态并变为等待中(_Gwaiting)并添加到channel的队列</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-4.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-4.png" /></p>
+<p><img src="/image/golang_goroutine_main_4.png" alt="/image/golang_goroutine_main_4.png" /></p>
 
 <p>因为G:main保存了运行状态，下次运行时将会从 _=&lt;-c 继续运行</p>
 
 <p>接下来M会从运行队列中获取到G：printNumber并运行：</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-5.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-5.png" /></p>
+<p><img src="/image/golang_goroutine_main_5.png" alt="/image/golang_goroutine_main_5.png" /></p>
 
 <p>printNumber会打印数字，完成后向channel写数据</p>
 
 <p>写数据时发现channel中有正在等待的G，会把数据交给这个G，把G变为待运行(_Grunnable)并重新放入运行队列：</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-6.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-6.png" /></p>
+<p><img src="/image/golang_goroutine_main_6.png" alt="/image/golang_goroutine_main_6.png" /></p>
 
 <p>接下来M会运行下一个G：printNumber，因为创建channel时指定了大小为3的缓冲区，可以直接把数据写入缓冲区而无需等待：</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-7.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-7.png" /></p>
+<p><img src="/image/golang_goroutine_main_7.png" alt="/image/golang_goroutine_main_7.png" /></p>
 
 <p>然后printNumber运行完毕，运行队列中就只剩下了G:main了：</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-8.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-8.png" /></p>
+<p><img src="/image/golang_goroutine_main_8.png" alt="/image/golang_goroutine_main_8.png" /></p>
 
 <p>最后M把G：main取出来运行，会从上次中断的位置 _=&lt;-c 继续运行：</p>
 
-<p><img src="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-9.png" alt="http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-9.png" /></p>
+<p><img src="/image/golang_goroutine_main_9.png" alt="/image/golang_goroutine_main_9.png" /></p>
 
 <p>第一个_=&lt;-c 的结果已经在前面设置过了，这条语句会执行成功。</p>
 
@@ -518,7 +518,7 @@ func someFunc(x int, s MyStruct) (int, MyStruct) { ... }
 
 <p>其运行时调用栈如下：</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171110171401966-739107068.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171110171401966-739107068.png" /></p>
+<p><img src="/image/golang_goroutine_stack.png" alt="/image/golang_goroutine_stack.png" /></p>
 
 <p>可以看得出参数和返回值都从低位到高位排列, go函数可以有多个返回值的原因也在于此. 因为返回值都通过栈传递了.
 需要注意的这里的&rdquo;返回地址&rdquo;是x86和x64上的, arm的返回地址会通过LR寄存器保存, 内容会和这里的稍微不一样.

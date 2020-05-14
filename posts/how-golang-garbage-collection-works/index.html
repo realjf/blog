@@ -98,7 +98,7 @@
 
 <p>go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165637665-171579804.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165637665-171579804.png" /></p>
+<p><img src="/image/golang_virtual_memory.png" alt="/image/golang_virtual_memory.png" /></p>
 
 <p>这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:</p>
 
@@ -115,11 +115,11 @@ bitmap区域中一个byte(8 bit)对应了arena区域中的四个指针大小的�
 <p>bitmap区域中的一个byte对应arena区域的四个指针大小的内存的结构如下,
 每一个指针大小的内存都会有两个bit分别表示是否应该继续扫描和是否包含指针:</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165646055-1225522876.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165646055-1225522876.png" /></p>
+<p><img src="/image/golang_bitmap_1.png" alt="/image/golang_bitmap_1.png" /></p>
 
 <p>bitmap中的byte和arena的对应关系从末尾开始, 也就是随着内存分配会向两边扩展:</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165652071-1143420937.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165652071-1143420937.png" /></p>
+<p><img src="/image/golang_bitmap_arena.png" alt="/image/golang_bitmap_arena.png" /></p>
 
 <h5 id="spans">spans</h5>
 
@@ -129,7 +129,7 @@ spans区域中一个指针(8 byte)对应了arena区域中的一页(在go中一�
 
 <p>spans区域的一个指针对应arena区域的一页的结构如下, 和bitmap不一样的是对应关系会从开头开始:</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165701665-214853306.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165701665-214853306.png" /></p>
+<p><img src="/image/golang_spans.png" alt="/image/golang_spans.png" /></p>
 
 <h4 id="什么时候从heap分配对象">什么时候从heap分配对象</h4>
 
@@ -161,7 +161,7 @@ go决定是否使用堆分配对象的过程也叫&rdquo;逃逸分析&rdquo;.</p
 
 <p>span是用于分配对象的区块, 下图是简单说明了Span的内部结构</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165711883-1079047912.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165711883-1079047912.png" /></p>
+<p><img src="/image/golang_span_construction.png" alt="/image/golang_span_construction.png" /></p>
 
 <p>通常一个span包含了多个大小相同的元素，一个元素会保存一个对象，除非：
 - span用于保存大对象，这种情况span只有一个元素
@@ -198,7 +198,7 @@ go决定是否使用堆分配对象的过程也叫&rdquo;逃逸分析&rdquo;.</p
 <p>P是一个虚拟的资源, 同一时间只能有一个线程访问同一个P, 所以P中的数据不需要锁.
 为了分配对象时有更好的性能, 各个P中都有span的缓存(也叫mcache), 缓存的结构如下:</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165724540-2110504561.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165724540-2110504561.png" /></p>
+<p><img src="/image/golang_mcache.png" alt="/image/golang_mcache.png" /></p>
 
 <p>各个P中按span类型的不同，有67*2=134个span的缓存。</p>
 
@@ -222,7 +222,7 @@ go决定是否使用堆分配对象的过程也叫&rdquo;逃逸分析&rdquo;.</p
 
 <p>go从堆分配对象时会调用newobject函数，这个函数的流程大致如下：</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165733821-1250658446.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165733821-1250658446.png" /></p>
+<p><img src="/image/golang_new_object.png" alt="/image/golang_new_object.png" /></p>
 
 <p>首先会检查GC是否在工作中, 如果GC在工作中并且当前的G分配了一定大小的内存则需要协助GC做一定的工作,
 这个机制叫GC Assist, 用于防止分配内存太快导致GC回收跟不上的情况发生.</p>
@@ -235,7 +235,7 @@ go决定是否使用堆分配对象的过程也叫&rdquo;逃逸分析&rdquo;.</p
 
 <p>这三个阶段纤细图解：</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165741149-1015705312.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165741149-1015705312.png" /></p>
+<p><img src="/image/golang_memory_detail.png" alt="/image/golang_memory_detail.png" /></p>
 
 <h4 id="数据类型的定义">数据类型的定义</h4>
 
@@ -261,7 +261,7 @@ go决定是否使用堆分配对象的过程也叫&rdquo;逃逸分析&rdquo;.</p
 
 <p>下图是比较完整的gc流程，并按颜色对这四个阶段进行了分类：</p>
 
-<p><img src="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165749274-1840348396.png" alt="https://images2017.cnblogs.com/blog/881857/201711/881857-20171122165749274-1840348396.png" /></p>
+<p><img src="/image/golang_flow_graph.png" alt="/image/golang_flow_graph.png" /></p>
 
 <p>在GC过程中会有两种后台任务(G), 一种是标记用的后台任务, 一种是清扫用的后台任务.
 标记用的后台任务会在需要时启动, 可以同时工作的后台任务数量大约是P的数量的25%, 也就是go所讲的让25%的cpu用在GC上的根据.
