@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>排序算法之归并排序 Merge Sort // Realjf&#39;s blog</title>
+    <title>排序算法之希尔排序 Shell Sort // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -66,7 +66,7 @@
     
     <article class="post">
         <header class="post-header">
-            <h1 class ="post-title">排序算法之归并排序 Merge Sort</h1>
+            <h1 class ="post-title">排序算法之希尔排序 Shell Sort</h1>
             <div class="post-meta">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -86,63 +86,35 @@
                         <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
         </header>
         <div class="post-content">
-            <p>归并排序的基本思想是：
-- 将给定的包含n个元素的局部数组“分割”成两个局部数组，每个数组各包含n/2各元素。
-- 对两个局部数组分别执行mergeSort排序。
-- 通过merge将两个已排序完毕的局部数组整合成一个数组。</p>
+            <p>希尔排序充分利用插入排序可以高速处理顺序较整齐的数据的特点，重复进行以间隔为g的插入排序。g是一组数列集合。</p>
 
-<pre><code class="language-cpp">#inlcude &lt;iostream&gt;
-using namespace std;
-#define MAX 500000
-#define SENTINEL 2000000000
+<pre><code class="language-c">void shellSort(int A[], int n)
+{
+    // 生成数列G={1, 4, 13, 40, 121, 364, 1093, ...}
+    for(int h = 1; ; ){
+        if(h &gt; n) break;
+        G.push_back(h);
+        h = 3*h + 1;
+    }
 
-int L[MAX/2+2], R[MAX/2+2];
-int cnt;
+    // 按逆序指定G[i]=g
+    for (int i = G.size() - 1; i &gt;= 0; i--){
+        insertionSort(A, n, G[i]);
+    }
+}
 
-
-void merge(int A[], int n, int left, int mid, int right){
-    int n1 = mid - left;
-    int n2 = right - mid;
-    for(int i=0; i&lt; n1; i++)L[i] = A[left+i];
-    for(int i = 0; i&lt; n2;i++) R[i] = A[mid+i];
-    L[n1] = R[n2] = SENTINEL;
-    int i = 0; j = 0;
-    for(int k = left; k&lt;right;k++){
-        cnt++;
-        if(L[i]&lt;=R[j]){
-            A[k] = L[i++];
-        }else{
-            A[k] = R[j++];
+void insertionSort(int A[], int n, int g)
+{
+    for(int i = g; i &lt; n; i++){
+        int v = A[i];
+        int j = i - g;
+        while(j &gt;= 0 &amp;&amp; A[j] &gt; v){
+            A[j+g] = A[j];
+            j -= g;
+            cnt++;
         }
+        A[j + g] = v;
     }
-}
-
-void mergeSort(int A[], int n, int left, int right){
-    if(left+1 &lt; right){
-        int mid = (left + right) / 2;
-        mergeSort(A, n, left, mid);
-        mergeSort(A, n, mid, right);
-        merge(A, n, left, mid, right);
-    }
-}
-
-int main(){
-    int A[MAX], n, i;
-    cnt = 0;
-    
-    cin &gt;&gt; n;
-    for(i = 0; i&lt;n; i++) cin&gt;&gt;A[i];
-    
-    mergeSort(A, n, 0, n);
-    
-    for(i=0; i&lt;n; i++){
-        if(i) cout &lt;&lt; &quot; &quot;;
-        cout &lt;&lt; A[i];
-    }
-    
-    cout &lt;&lt; endl;
-    cout &lt;&lt; cnt &lt;&lt; endl;
-    return 0;
 }
 
 </code></pre>
@@ -171,8 +143,6 @@ int main(){
         <fieldset>
             <legend>相关阅读推荐（See Also）</legend>
             <ul>
-                
-                    <li><a href="/algorithm/sort/shell-sort/">排序算法之希尔排序 Shell Sort</a></li>
                 
                     <li><a href="/algorithm/sort/insert-sort/">排序算法之插入排序 Insert Sort</a></li>
                 
