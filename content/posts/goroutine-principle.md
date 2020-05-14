@@ -158,7 +158,7 @@ go需要保证充足的M可以运行G，是通过以下机制实现的：
 ===
 下图是协程可能出现的工作状态，图中有4个P，其中M1~M3正在运行G并且运行后会从拥有的P的运行队列继续获取G。
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow.png)
+![/image/golang_goroutine_outline.png](/image/golang_goroutine_outline.png)
 
 
 只看上面这张图，可能比较难理解工作流程，通过以下代码再了解一遍：
@@ -200,45 +200,45 @@ func main() {
 
 图中的虚线指的是G待运行或者开始运行的地址，不是当前运行的地址。
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-1.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-1.png)
+![/image/golang_goroutine_main.png](/image/golang_goroutine_main.png)
 
 M会取得这个G并运行：
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-2.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-2.png)
+![/image/golang_goroutine_main_2.png](/image/golang_goroutine_main_2.png)
 
 
 这时main创建一个新的channel，并启动两个新的G：
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-3.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-3.png)
+![/image/golang_goroutine_main_3.png](/image/golang_goroutine_main_3.png)
 
 接下来G：main 会从channel中获取数据，因为获取不到，G会保存状态并变为等待中(_Gwaiting)并添加到channel的队列
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-4.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-4.png)
+![/image/golang_goroutine_main_4.png](/image/golang_goroutine_main_4.png)
 
 因为G:main保存了运行状态，下次运行时将会从 _=<-c 继续运行
 
 接下来M会从运行队列中获取到G：printNumber并运行：
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-5.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-5.png)
+![/image/golang_goroutine_main_5.png](/image/golang_goroutine_main_5.png)
 
 printNumber会打印数字，完成后向channel写数据
 
 写数据时发现channel中有正在等待的G，会把数据交给这个G，把G变为待运行(_Grunnable)并重新放入运行队列：
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-6.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-6.png)
+![/image/golang_goroutine_main_6.png](/image/golang_goroutine_main_6.png)
 
 
 接下来M会运行下一个G：printNumber，因为创建channel时指定了大小为3的缓冲区，可以直接把数据写入缓冲区而无需等待：
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-7.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-7.png)
+![/image/golang_goroutine_main_7.png](/image/golang_goroutine_main_7.png)
 
 然后printNumber运行完毕，运行队列中就只剩下了G:main了：
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-8.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-8.png)
+![/image/golang_goroutine_main_8.png](/image/golang_goroutine_main_8.png)
 
 最后M把G：main取出来运行，会从上次中断的位置 _=<-c 继续运行：
 
-![http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-9.png](http://blog.realjf.com/wp-content/uploads/2018/12/golang-runtime-workflow-part-9.png)
+![/image/golang_goroutine_main_9.png](/image/golang_goroutine_main_9.png)
 
 
 第一个_=<-c 的结果已经在前面设置过了，这条语句会执行成功。
@@ -456,7 +456,7 @@ func someFunc(x int, s MyStruct) (int, MyStruct) { ... }
 ```
 其运行时调用栈如下：
 
-![https://images2017.cnblogs.com/blog/881857/201711/881857-20171110171401966-739107068.png](https://images2017.cnblogs.com/blog/881857/201711/881857-20171110171401966-739107068.png)
+![/image/golang_goroutine_stack.png](/image/golang_goroutine_stack.png)
 
 可以看得出参数和返回值都从低位到高位排列, go函数可以有多个返回值的原因也在于此. 因为返回值都通过栈传递了.
 需要注意的这里的"返回地址"是x86和x64上的, arm的返回地址会通过LR寄存器保存, 内容会和这里的稍微不一样.

@@ -1,5 +1,5 @@
 ---
-title: "Capnp"
+title: "Capnproto协议框架"
 date: 2020-05-12T17:59:24+08:00
 keywords: [""]
 categories: ["protocol"]
