@@ -6,10 +6,19 @@
     <description>Recent content in Mysqls on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Apr 2020 14:42:50 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 09:10:02 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/mysql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mysql Explain 详解</title>
+      <link>https://realjf.io/mysql/explain-analysis/</link>
+      <pubDate>Thu, 14 May 2020 09:10:02 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/explain-analysis/</guid>
+      <description>explain 输出列    列名 JSON 名 说明     id select_id The SELECT identifier   select_type None The SELECT type   table table_name The table for the output row   partitions partitions The matching partitions   type access_type The join type   possible_keys possible_keys The possible indexes to choose   key key The index actually chosen   key_len key_length The length of the chosen key   ref ref The columns compared to the index   rows rows Estimate of rows to be examined   filtered filtered Percentage of rows filtered by table condition   Extra None Additional information    id select 标识</description>
+    </item>
     
     <item>
       <title>mysql 事务 Transaction</title>
