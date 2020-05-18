@@ -6,10 +6,27 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 18 May 2020 14:08:10 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2020 16:00:22 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>php扩展开发 php Extension Develop</title>
+      <link>https://realjf.io/php/extension-develop/</link>
+      <pubDate>Mon, 18 May 2020 16:00:22 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/extension-develop/</guid>
+      <description>下载php源代码 要开发php扩展，需要下载php源码，里面有我们开发扩展需要的工具
+下载地址：https://www.php.net/downloads
+wget https://www.php.net/distributions/php-7.4.6.tar.xz xz -d php-7.4.6.tar.xz tar xvf php-7.4.6.tar  我们需要的是源码目录下ext目录下的ext_skel或ext_skel.php文件，它是类unix环境下用于自动生成php扩展框架的脚本工具。
+开发自己的php扩展 可以通过&amp;ndash;help查看ext_skel.php的完整命令
+ext_skel --help  首先，我们需要利用ext_skel.php生成我们需要的框架，只需要提供&amp;ndash;extname的参数即可
+# 5.6.23 ./ext_skel --extname=helloworld # 7.4.6 ./ext_skel.php --ext helloworld  运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录
+目录下包含以下文件： - config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。 - php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。 - helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中
+build system配置 这里看下config.m4配置的一些内容，打开config.m4，注意，其使用dnl作为注释符
+dnl config.m4 for extension helloworld dnl Comments in this file start with the string &#39;dnl&#39;. dnl Remove where necessary. dnl If your extension references something external, use &#39;with&#39;: dnl PHP_ARG_WITH([helloworld], dnl [for helloworld support], dnl [AS_HELP_STRING([--with-helloworld], dnl [Include helloworld support])]) dnl Otherwise use &#39;enable&#39;: PHP_ARG_ENABLE([helloworld], [whether to enable helloworld support], [AS_HELP_STRING([--enable-helloworld], [Enable helloworld support])], [no]) if test &amp;quot;$PHP_HELLOWORLD&amp;quot; !</description>
+    </item>
     
     <item>
       <title>php底层运行机制 Underlying Operation Mechanism</title>
