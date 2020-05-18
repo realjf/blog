@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>php on Realjf&#39;s blog</title>
-    <link>https://realjf.io/categories/php/</link>
+    <link>https://realjf.io/tags/php/</link>
     <description>Recent content in php on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 18 May 2020 14:08:10 +0800</lastBuildDate>
     
-	<atom:link href="https://realjf.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://realjf.io/tags/php/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -34,21 +34,6 @@ zend hash table实现了典型的hash表散列结构,同时通过附加一个双
   php变量实现原理 PHP在变量申明的时候不需要指定类型。PHP在程序运行期间可能进行变量类型的隐示 转换。 和其他强类型语言一样，程序中也可以进行显示的类型转换。PHP变量可以分为简单类型(int、string、bool)、集合类型(array 、resource 、object)和常量(const)。以上所有的变量在底层都是同一种结构 zval
 Zval是zend中另一个非常重要的数据结构，用来标识并实现PHP变量，其数据结构如下
 zval结构主要分三部分：</description>
-    </item>
-    
-    <item>
-      <title>大文件分片上传 之 基于webuploader组件（Chunk Upload File）</title>
-      <link>https://realjf.io/php/chunk-upload-file/</link>
-      <pubDate>Mon, 13 Apr 2020 14:00:07 +0800</pubDate>
-      
-      <guid>https://realjf.io/php/chunk-upload-file/</guid>
-      <description>针对大文件（上百兆或者好几个G的大文件上传，总是比较麻烦的，这里将介绍一个比较方便的解决方案
-准备  百度的webuploader组件 lnmp或lamp开发环境  本次使用的是百度分享的分片js组件webuploader
-同时后端使用php接收分片文件，并进行最后的组装。
-第一步，首先下载webuploader插件 下载地址：https://github.com/fex-team/webuploader/releases
-解压后文件结构如下：
-├── Uploader.swf // SWF文件，当使用Flash运行时需要引入。 ├── webuploader.js // 完全版本。 ├── webuploader.min.js // min版本 ├── webuploader.custom.js ├── webuploader.nolog.js ├── webuploader.flashonly.js // 只有Flash实现的版本。 ├── webuploader.flashonly.min.js // min版本 ├── webuploader.html5only.js // 只有Html5实现的版本。 ├── webuploader.html5only.min.js // min版本 ├── webuploader.withoutimage.js // 去除图片处理的版本，包括HTML5和FLASH. └── webuploader.withoutimage.min.js // min版本 下载  第二步，创建一个html页面，引入一下文件 &amp;lt;link href=&amp;quot;/resource/webuploader/webuploader.css&amp;quot; rel=&amp;quot;stylesheet&amp;quot; /&amp;gt; &amp;lt;script src=&amp;quot;/resource/webuploader/webuploader.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  页面内容如下：
-&amp;lt;div id=&amp;quot;uploader&amp;quot; class=&amp;quot;wu-example&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;uploader&amp;quot; class=&amp;quot;wu-example&amp;quot;&amp;gt; &amp;lt;!--用来存放文件信息--&amp;gt; &amp;lt;div class=&amp;quot;filename&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;state&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;progress&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;progress_bar&amp;quot; class=&amp;quot;progress-bar progress-bar-info progress-striped active&amp;quot; role=&amp;quot;progressbar&amp;quot; style=&amp;quot;width: 0%&amp;quot;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;btns&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;picker&amp;quot;&amp;gt;选择文件&amp;lt;/div&amp;gt; &amp;lt;button id=&amp;quot;ctlBtn&amp;quot; class=&amp;quot;btn btn-default&amp;quot;&amp;gt;开始上传&amp;lt;/button&amp;gt; &amp;lt;button id=&amp;quot;pause&amp;quot; class=&amp;quot;btn btn-danger&amp;quot;&amp;gt;暂停上传&amp;lt;/button&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt;  第三步，js逻辑如下 &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt; $(function () { var GUID = WebUploader.</description>
     </item>
     
   </channel>
