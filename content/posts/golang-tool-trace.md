@@ -20,8 +20,28 @@ related:
     weight: 10
 ---
 
+要生成trace跟踪文件，需要使用runtime.trace的功能，具体代码如下
+```go
 
-trace 可视化界面
+func main() {
+	trace.Start(os.Stderr)
+	defer trace.Stop()
+	
+	...
+}
+```
+生成跟踪文件
+```bash
+go run main.go 2> trace.out
+
+```
+启动可视化界面
+```bash
+go tool trace trace.out
+```
+
+trace 可视化界面具体可以分为以下几个部分
+
 - View trace: 查看跟踪
 - Goroutine analysis: goroutine分析
 - Network blocking profile: 网络阻塞情况

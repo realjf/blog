@@ -5,7 +5,7 @@ keywords: ["cmake"]
 categories: ["devtools"]
 tags: ["cmake"]
 series: [""]
-draft: true
+draft: false
 toc: true
 related:
   threshold: 80
