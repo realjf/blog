@@ -325,6 +325,12 @@ ZEND_TSRMLS_CACHE_DEFINE()
 ZEND_GET_MODULE(helloworld)
 #endif
 ```
+- PHP_MINIT_FUNCTION => 模块初始化阶段（M就是module的含义，init就是initial）
+- PHP_MSHUTDOWN_FUNCTION => 模块关闭阶段（M就是module的含义，后面就是shutdown）
+- PHP_RINIT_FUNCTION => 请求初始化（R就是request的含义，init就是initial）
+- PHP_RSHUTDOWN_FUNCTION => 请求关闭阶段（R就是request的含义，后面就是shutdown）
+- PHP_MINFO_FUNCTION 指获取模块信息
+
 宏“STANDARD_MODULE_HEADER”会生成前6个字段，“STANDARD_MODULE_PROPERTIES ”会生成“version”后的字段
 这里要注意，几个宏的参数均为“helloworld”，但这并不表示几个函数的名字全为“helloworld”，
 C语言中也不可能存在函数名重载机制。实际上，在开发PHP Extension的过程中，几乎处处都要用到Zend里预定义的各种宏，
@@ -406,6 +412,29 @@ zend_parse_parameters的
 
 最后的返回值也是通过宏实现的。RETURN_TRUE宏是返回布尔值“true”
 
+可以设置return_value，但php提供了设置返回值的宏
+```c
+#define RETURN_BOOL(b)                     { RETVAL_BOOL(b); return; }
+#define RETURN_NULL()                     { RETVAL_NULL(); return;}
+#define RETURN_LONG(l)                     { RETVAL_LONG(l); return; }
+#define RETURN_DOUBLE(d)                 { RETVAL_DOUBLE(d); return; }
+#define RETURN_STR(s)                     { RETVAL_STR(s); return; }
+#define RETURN_INTERNED_STR(s)            { RETVAL_INTERNED_STR(s); return; }
+#define RETURN_NEW_STR(s)                { RETVAL_NEW_STR(s); return; }
+#define RETURN_STR_COPY(s)                { RETVAL_STR_COPY(s); return; }
+#define RETURN_STRING(s)                 { RETVAL_STRING(s); return; }
+#define RETURN_STRINGL(s, l)             { RETVAL_STRINGL(s, l); return; }
+#define RETURN_EMPTY_STRING()             { RETVAL_EMPTY_STRING(); return; }
+#define RETURN_RES(r)                     { RETVAL_RES(r); return; }
+#define RETURN_ARR(r)                     { RETVAL_ARR(r); return; }
+#define RETURN_OBJ(r)                     { RETVAL_OBJ(r); return; }
+#define RETURN_ZVAL(zv, copy, dtor)        { RETVAL_ZVAL(zv, copy, dtor); return; }
+#define RETURN_FALSE                      { RETVAL_FALSE; return; }
+#define RETURN_TRUE                       { RETVAL_TRUE; return; }
+#define RETURN_RESOURCE(r)	               { RETVAL_RESOURCE(r) } // 设置资源句柄
+```
+
+
 
 ##### 使用宏ZEND_BEGIN_ARG_INFO和ZEND_END_ARG_INFO定义参数信息
 代码如下：
@@ -456,7 +485,7 @@ make install
 
 ```
 
-这样就会发现多路一个helloworld.so文件
+这样就会发现在ls -al /usr/lib/php/20180731/ 中多了一个helloworld.so文件
 
 在php.ini文件中加入该扩展
 ```bash
