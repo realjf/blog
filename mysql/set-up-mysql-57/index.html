@@ -3,7 +3,7 @@
 <head>
     <title>MySQL 5.7 源码安装 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,64 +86,39 @@
                         <a class="tag" href="https://realjf.io/tags/sql/">sql</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h4 id="源码安装">源码安装</h4>
-
+            <h4 id="源码安装">源码安装</h4>
 <p>源码下载地址:<a href="http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz">http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz</a></p>
-
 <p>先检查已有的mysql</p>
-
 <pre><code>rpm -qa | grep mysql
 rpm -e mysql-libs-5.1.73-3.el6_5.x86_64 --nodeps
-</code></pre>
-
-<h4 id="1-安装依赖的包">1. 安装依赖的包</h4>
-
+</code></pre><h4 id="1-安装依赖的包">1. 安装依赖的包</h4>
 <p>由于从mysql5.5开始弃用了常规的configure编译方法，所以需要下载cmake编译器、boost库、ncurses库和gnu分析器生成器bison这4种工具。</p>
-
 <pre><code>yum -y install make gcc-c++  ncurses-devel
-</code></pre>
-
-<p>安装cmake</p>
-
+</code></pre><p>安装cmake</p>
 <pre><code>wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
 tar zxvf cmake-3.6.2.tar.gz
 cd cmake-3.6.2
 ./configure
 make &amp;&amp; make install
-</code></pre>
-
-<p>安装bison</p>
-
+</code></pre><p>安装bison</p>
 <pre><code>wget -c http://git.typecodes.com/libs/ccpp/bison-3.0.tar.gz
 tar zxvf bison-3.0.tar.gz &amp;&amp; cd bison-3.0/ &amp;&amp; ./configure
 make &amp;&amp; make install
-</code></pre>
-
-<p>安装boost</p>
-
+</code></pre><p>安装boost</p>
 <pre><code>wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
 tar zxvf boost_1_59_0.tar.gz
 cd boost_1_59_0
 ./bootstrap.sh
 ./b2 stage threading=multi link=shared
 ./b2 install threading=multi link=shared
-</code></pre>
-
-<p>或者</p>
-
+</code></pre><p>或者</p>
 <pre><code>wget http://sourceforge.mirrorservice.org/b/bo/boost/boost/1.59.0/boost_1_59_0.tar.bz2
 tar jxvf boost_1_59_0.tar.bz2
 // 其他的同上
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>附：卸载boost很简单，只需要删除/usr/local/include目录下和/usr/local/lib目录下有关boost的库文件就可以</p>
 </blockquote>
-
 <h4 id="2-下载编译安装mysql">2. 下载编译安装mysql</h4>
-
 <pre><code>mkdir /usr/local/mysql
 mkdir /usr/local/mysql/data
 
@@ -175,206 +150,119 @@ cmake \
 -DWITH_ZLIB:STRING=bundled
 
 make &amp;&amp; make install
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>编译的参数可以参考<a href="http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html">http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html</a></p>
 </blockquote>
-
 <h4 id="3-设置权限">3. 设置权限</h4>
-
 <p>使用下面的命令查看是否有mysql用户及用户组</p>
-
 <pre><code>cat /etc/passwd // 查看用户列表
 cat /etc/group // 查看用户组列表
-</code></pre>
-
-<p>如果没有就创建</p>
-
+</code></pre><p>如果没有就创建</p>
 <pre><code>groupadd mysql
 useradd -s /sbin/nologin -g mysql -M mysql // 创建一个用户，不允许登录和不创建主目录
 tail -1 /etc/passwd // 检查创建的用户
-</code></pre>
-
-<p>修改/usr/local/mysql权限</p>
-
+</code></pre><p>修改/usr/local/mysql权限</p>
 <pre><code>chown -R mysql:mysql /usr/local/mysql
-</code></pre>
-
-<h4 id="4-初始化配置">4. 初始化配置</h4>
-
+</code></pre><h4 id="4-初始化配置">4. 初始化配置</h4>
 <p>进入安装路径</p>
-
 <pre><code>cd /usr/local/mysql
-</code></pre>
-
-<p>进入安装路径，执行 初始化配置脚本，表</p>
-
+</code></pre><p>进入安装路径，执行 初始化配置脚本，表</p>
 <pre><code>scripts/mysql_install_db --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>注意5.7.17版本使用</p>
 </blockquote>
-
 <pre><code>./mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>注意：初始化后会生成默认密码，请记录下来
 ==2016-10-14T17:36:51.794435Z 1 [Note] A temporary password is generated for root@localhost: W=XlQVLf/7Ra==</p>
 </blockquote>
-
 <p>==后续必须修改默认密码，不然不能正常使用mysql。==</p>
-
 <blockquote>
 <p>注：在启动mysql服务时，会按照一定次序搜索my.cnf，先在/etc目录下找，找不到则会搜索“$basedir/my.cnf”,在本例中就是/usr/local/mysql/my.cnf，这是新版本mysql的配置文件的默认位置</p>
-
-<p>注意：在CentOS 6.4版操作系统的最小安装完成后，在/etc目录下会存在一个my.cnf，需要将此文件更名为其他的名字，如：/etc/my.cnf.bak，否则，该文件会干扰源码安装的MySQL的正确配置，造成无法启动。
-在使用&rdquo;yum update&rdquo;更新系统后，需要检查下/etc目录下是否会多出一个my.cnf，如果多出，将它重命名成别的。否则，MySQL将使用这个配置文件启动，可能造成无法正常启动等问题。</p>
 </blockquote>
-
+<blockquote>
+<p>注意：在CentOS 6.4版操作系统的最小安装完成后，在/etc目录下会存在一个my.cnf，需要将此文件更名为其他的名字，如：/etc/my.cnf.bak，否则，该文件会干扰源码安装的MySQL的正确配置，造成无法启动。
+在使用&quot;yum update&quot;更新系统后，需要检查下/etc目录下是否会多出一个my.cnf，如果多出，将它重命名成别的。否则，MySQL将使用这个配置文件启动，可能造成无法正常启动等问题。</p>
+</blockquote>
 <h5 id="调整配置文件和环境变量">调整配置文件和环境变量</h5>
-
 <p>将默认生成的my.cnf备份</p>
-
 <pre><code>mv /etc/my.cnf /etc/my.cnf.bak
 cd /usr/local/mysql/support-files
-</code></pre>
-
-<p>拷贝配置文件模板为新的mysql配置文件</p>
-
+</code></pre><p>拷贝配置文件模板为新的mysql配置文件</p>
 <pre><code>cp my-default.cnf /etc/my.cnf
-</code></pre>
-
-<p>可按需修改新的配置文件选项， 不修改配置选项， mysql则按默认配置参数运行.</p>
-
+</code></pre><p>可按需修改新的配置文件选项， 不修改配置选项， mysql则按默认配置参数运行.</p>
 <p>如下是我修改配置文件/etc/my.cnf， 用于设置编码为utf8以防乱码</p>
-
 <pre><code>[mysqld]
 character_set_server=utf8
 init_connect='SET NAMES utf8'
 [client]
 default-character-set=utf8
-</code></pre>
-
-<p>创建mysql命令文件</p>
-
+</code></pre><p>创建mysql命令文件</p>
 <pre><code>ln -s /mysql/bin/mysql /usr/bin/
-</code></pre>
-
-<p>注：没有这个文件就没有mysql命令，不能在任意位置使用mysql 访问数据库</p>
-
-<h4 id="5-启动mysql">5.启动mysql</h4>
-
+</code></pre><p>注：没有这个文件就没有mysql命令，不能在任意位置使用mysql 访问数据库</p>
+<h4 id="5启动mysql">5.启动mysql</h4>
 <p>添加服务，拷贝服务脚本到init.d目录，并设置开机启动</p>
-
 <pre><code>cp support-files/mysql.server /etc/init.d/mysqld
 chmod +x /etc/init.d/mysqld
 chkconfig mysql on
 service mysqld start
-</code></pre>
-
-<h4 id="6-配置用户">6. 配置用户</h4>
-
+</code></pre><h4 id="6-配置用户">6. 配置用户</h4>
 <p>mysql启动成功后，root默认没有密码，我们需要设置root密码
-设置之前，我们需要先设置path，要不不能直接调用mysql<br />
+设置之前，我们需要先设置path，要不不能直接调用mysql<br>
 修改/etc/profile文件，在文件末尾加入</p>
-
 <pre><code>PATH=/usr/local/mysql/bin:$PATH
 export PATH
-</code></pre>
-
-<p>关闭文件，运行下面的命令，</p>
-
+</code></pre><p>关闭文件，运行下面的命令，</p>
 <pre><code>source /etc/profile
-</code></pre>
-
-<p>现在，我们就可以直接在终端输入mysql了，执行</p>
-
+</code></pre><p>现在，我们就可以直接在终端输入mysql了，执行</p>
 <pre><code>mysql -u root
 mysql &gt; SET PASSWORD = PASSWORD('123456');
 mysql &gt; exit
-</code></pre>
-
-<p>修改root密码</p>
-
+</code></pre><p>修改root密码</p>
 <pre><code>alter user 'root'@'localhost' identified by 'wenti@456.COM';
-</code></pre>
-
-<p>若要配置远程访问，执行</p>
-
+</code></pre><p>若要配置远程访问，执行</p>
 <pre><code>mysql &gt; GRANT ALL PRIVILEGES ON *.* TO 'root'@'172.16.%' IDENTIFIED BY 'password' WITH GRANT OPTION;
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>password 为远程访问时的root密码，可以和本地的不同</p>
 </blockquote>
-
 <h4 id="7-配置防火墙">7. 配置防火墙</h4>
-
-<p>防火墙的3306端口默认没有开启，若要远程访问，需要开启这个端口<br />
+<p>防火墙的3306端口默认没有开启，若要远程访问，需要开启这个端口<br>
 打开/etc/sysconfig/iptables，添加如下内容：</p>
-
 <pre><code>-A INPUT -m state --state NEW -m tcp -p -dport 3306 -j ACCEPT
-</code></pre>
-
-<p>然后保存，关闭文件，在终端运行如下命令，刷新防火墙配置：</p>
-
+</code></pre><p>然后保存，关闭文件，在终端运行如下命令，刷新防火墙配置：</p>
 <pre><code>service iptables restart
-</code></pre>
-
-<p>配置成功</p>
-
+</code></pre><p>配置成功</p>
 <blockquote>
 <p>CentOS 7中默认使用Firewalld做防火墙，所以修改iptables后，在重启系统后，根本不管用。</p>
 </blockquote>
-
 <p>Firewalld中添加端口方法如下：</p>
-
 <pre><code>firewall-cmd --zone=public --add-port=3306/tcp --permanent 
 firewall-cmd --reload
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>注意：
 在低于Mysql 5.7.6的版本上，Mysql是使用mysql_install_db命令初始化数据库的，该命令会在安装Mysql的用户根目录下创建一个.mysql_secret文件，该文件记录了初始化生成的随机密码，用户可使用改密码登录Mysql并重新修改密码。
 对于Mysql 5.7.6以后的5.7系列版本，Mysql使用mysqld &ndash;initialize或mysqld &ndash;initialize-insecure命令来初始化数据库，后者可以不生成随机密码。但是安装Mysql时默认使用的是前一个命令，这个命令也会生成一个随机密码。改密码保存在了Mysql的日志文件中。</p>
 </blockquote>
-
 <h4 id="编译安装常见错误分析">编译安装常见错误分析</h4>
-
 <p>原文链接<a href="https://typecodes.com/web/solvemysqlcompileerror.html">https://typecodes.com/web/solvemysqlcompileerror.html</a></p>
-
-<h5 id="没有安装mysql所需要的boost库">* 没有安装mysql所需要的boost库</h5>
-
-<h5 id="mysql-server-pid-file-could-not-be-found-失败">* MySQL server PID file could not be found![失败]</h5>
-
+<h5 id="-没有安装mysql所需要的boost库">* 没有安装mysql所需要的boost库</h5>
+<h5 id="-mysql-server-pid-file-could-not-be-found失败">* MySQL server PID file could not be found![失败]</h5>
 <p>Starting MySQL&hellip;The server quit without updating PID file (/usr/local/mysql/data/rekfan.pid).[失败]</p>
-
 <p>1.可能是/usr/local/mysql/data/rekfan.pid文件没有写的权限
 解决方法 ：给予权限，执行 “chown -R mysql:mysql /var/data” “chmod -R 755 /usr/local/mysql/data”  然后重新启动mysqld！</p>
-
 <p>2.可能进程里已经存在mysql进程
 解决方法：用命令“ps -ef|grep mysqld”查看是否有mysqld进程，如果有使用“kill -9  进程号”杀死，然后重新启动mysqld！</p>
-
 <p>3.可能是第二次在机器上安装mysql，有残余数据影响了服务的启动。
-解决方法：去mysql的数据目录/data看看，如果存在mysql-bin.index，就赶快把它删除掉吧，它就是罪魁祸首了。本人就是使用第三条方法解决的 ！<a href="http://blog.rekfan.com/?p=186">http://blog.rekfan.com/?p=186</a></p>
-
+解决方法：去mysql的数据目录/data看看，如果存在mysql-bin.index，就赶快把它删除掉吧，它就是罪魁祸首了。本人就是使用第三条方法解决的 ！http://blog.rekfan.com/?p=186</p>
 <p>4.mysql在启动时没有指定配置文件时会使用/etc/my.cnf配置文件，请打开这个文件查看在[mysqld]节下有没有指定数据目录(datadir)。
 解决方法：请在[mysqld]下设置这一行：datadir = /usr/local/mysql/data</p>
-
 <p>5.skip-federated字段问题
 解决方法：检查一下/etc/my.cnf文件中有没有没被注释掉的skip-federated字段，如果有就立即注释掉吧。</p>
-
 <p>6.错误日志目录不存在
 解决方法：使用“chown” “chmod”命令赋予mysql所有者及权限</p>
-
 <p>7.selinux惹的祸，如果是centos系统，默认会开启selinux
 解决方法：关闭它，打开/etc/selinux/config，把SELINUX=enforcing改为SELINUX=disabled后存盘退出重启机器试试。</p>
-
-<h5 id="在丢失root密码的时候-可以这样">在丢失root密码的时候，可以这样</h5>
-
+<h5 id="在丢失root密码的时候可以这样">在丢失root密码的时候，可以这样</h5>
 <pre><code>　　mysqld_safe --skip-grant-tables&amp;
 
 　　mysql -u root mysql
@@ -382,13 +270,9 @@ firewall-cmd --reload
 　　mysql&gt; UPDATE user SET authentication_string=PASSWORD(&quot;new password&quot;) WHERE user='root';
 
 　　mysql&gt; FLUSH PRIVILEGES;收起
-</code></pre>
-
-<p>修改完毕。重启</p>
-
+</code></pre><p>修改完毕。重启</p>
 <pre><code>killall -TERM mysqld。
 </code></pre>
-
         </div>
         <div id="disqus_thread"></div>
 <script>

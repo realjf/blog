@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>assembly on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/assembly/</link>
+    <description>Recent content in assembly on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 May 2020 21:30:25 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/assembly/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>系统调用寄存器输入 System Call Inputs by Register</title>
+      <link>https://realjf.io/assembly/system-call-inputs-by-register/</link>
+      <pubDate>Sat, 30 May 2020 21:30:25 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/system-call-inputs-by-register/</guid>
+      <description>示例 </description>
+    </item>
+    
+    <item>
+      <title>寄存器 Registers</title>
+      <link>https://realjf.io/assembly/registers/</link>
+      <pubDate>Sat, 30 May 2020 21:28:19 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/registers/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

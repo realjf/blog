@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cgroup on Realjf&#39;s blog</title>
@@ -20,12 +20,12 @@
       <description>Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了
 Linux Cgroups(control groups)提供了对一组进程及其子进程的资源限制、控制和统计的能力，包括cpu、内存、存储和网络等。
 cgroups组件  cgroup subsystem hierarchy  cgroup cgroup是对进程分组管理的一种机制，一个cgroup包含一组进程，并可以在这个cgroup上增加linux subsystem的各种配置参数，将一组进程和一组subsystem的系统参数关联起来。
-subsystem 是一组资源控制的模块，包括 - blkio 设置对块设备输入输出的访问控制 - cpu 设置cgroup 中进程的cpu被调度的策略 - cpuacct 可以统计cgroup中进程的cpu占用 - cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存 - devices 控制cgroup中进程对设备的访问 - freezer 用于挂起和恢复cgroup中的进程 - memory 用于控制cgroup中进程的内存占用 - net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控 - ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程
-每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。
+subsystem 是一组资源控制的模块，包括
+ blkio 设置对块设备输入输出的访问控制 cpu 设置cgroup 中进程的cpu被调度的策略 cpuacct 可以统计cgroup中进程的cpu占用 cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存 devices 控制cgroup中进程对设备的访问 freezer 用于挂起和恢复cgroup中的进程 memory 用于控制cgroup中进程的内存占用 net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控 ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程  每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。
  如何看内核当前支持哪些subsystem呢？使用apt-get install cgroup-bin，然后通过lssubsys -a查看
  hierarchy 把一组cgroup串成一个树状结构，一个这样的树便是一个hierarchy，通过这种树状结构，cgroups可以形成继承关系。
 三个组件的关系  系统在创建了新的hierarchy之后，系统中所有的进程都会加入这个hierarchy的cgroup根节点，这个cgroup根节点是hierarchy默认创建的 一个subsystem只能附加到一个hierarchy上面 一个hierarchy可以附加多个subsystem 一个进程可以作为多个cgroup的成员，但是这些cgroup必须在不同的hierarchy中。 一个进程fork出子进程时，子进程是和父进程在同一个cgroup中的，也可以根据需要将其移动到其他cgroup中。  kernel加载Cgroups kernel通过虚拟树状文件系统配置cgroups，通过层级的目录虚拟出cgroup树。
-1. 首先，要创建并挂载一个hierarchy mkdir cgroup-test mount -t cgroup -o none,name=cgroup-test cgroup-test .</description>
+1. 首先，要创建并挂载一个hierarchy mkdir cgroup-test mount -t cgroup -o none,name=cgroup-test cgroup-test ./cgroup-test # 挂载一个hierarchy ls ./cgroup-test  cgroup.</description>
     </item>
     
   </channel>

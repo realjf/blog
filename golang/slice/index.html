@@ -3,7 +3,7 @@
 <head>
     <title>golang Slice类型扩容机制 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,65 +86,45 @@
                         <a class="tag" href="https://realjf.io/tags/golang/">golang</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<p>一个slice是一个数组某个部分的引用。在内存中，他是一个包含3个域的结构体：指向slice中第一个元素的指针，slice的长度，以及slice的容量。长度是下标操作的上界，容量是分割操作的上界</p>
-
+            <p>一个slice是一个数组某个部分的引用。在内存中，他是一个包含3个域的结构体：指向slice中第一个元素的指针，slice的长度，以及slice的容量。长度是下标操作的上界，容量是分割操作的上界</p>
 <p>数组的slice并不会实际复制一份数据，他只是创建一个新的数据结构，包含了另外的一个指针，一个长度和一个容量数据。如同分割字符串，分割数组也不涉及复制操作：它只是新建了一个结构来放置一个不同的指针，长度和容量。</p>
-
 <p>由于slice是不同于指针的多字长结构，分割操作并不需要分配内存，甚至没有通常被保存在堆中的slice头部，这种表示方法使slice操作和在c中传递指针、长度对一样廉价。移除间接引用及分配操作可以让slice足够廉价，以避免传递显式索引。</p>
-
 <h4 id="slice的扩容">slice的扩容</h4>
-
-<p>在对slice进行append等操作时，可能会造成slice的自动扩容。其扩容时的大小增长规则是：
-- 如果新的大小是当前大小2倍以上，则大小增长为新大小
-- 否则循环以下操作：如果当前大小小于1024，按每次2倍增长，否则每次按当前大小1/4增长。直到增长的大小超过或等于新大小。</p>
-
+<p>在对slice进行append等操作时，可能会造成slice的自动扩容。其扩容时的大小增长规则是：</p>
+<ul>
+<li>如果新的大小是当前大小2倍以上，则大小增长为新大小</li>
+<li>否则循环以下操作：如果当前大小小于1024，按每次2倍增长，否则每次按当前大小1/4增长。直到增长的大小超过或等于新大小。</li>
+</ul>
 <h4 id="make和new">make和new</h4>
-
 <p>有两个数据结构创建函数：new和make，基本区别是new（T）返回一个*T，返回的这个指针可以被隐式地消除索引，而make(T, args)返回一个 普通的T，通常情况下，T内部有一些隐式的指针，一句话，new返回一个指向已清零内存的指针，而make返回一个复杂的结构。</p>
-
-<h4 id="slice与unsafe-pointer相互转换">slice与unsafe.Pointer相互转换</h4>
-
+<h4 id="slice与unsafepointer相互转换">slice与unsafe.Pointer相互转换</h4>
 <p>有时候可能需要使用一些比较tricky的技巧，比如利用make弄一块内存自己管理，或者用cgo之类的方式得到的内存，转换为Go类型使用。
 从slice中得到一块内存地址是很容易的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
+<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">200</span>)
+<span style="color:#a6e22e">ptr</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">s</span>[<span style="color:#ae81ff">0</span>])
 
-<pre><code class="language-golang">
-s := make([]byte, 200)
-ptr := unsafe.Pointer(&amp;s[0])
-
-</code></pre>
-
-<p>从一个内存指针构造出go语言的slice结构相对麻烦些，比如：</p>
-
-<pre><code class="language-golang">var ptr unsafe.Pointer
-s := ((*[1&lt;&lt;10]byte)(ptr))[:200]
-</code></pre>
-
-<p>先将ptr强制类型转换为另外一种指针，一个指向[1&lt;&lt;10]byte数组的指针，这里数组大小其实是假的，然后用slice操作取出这个数组的前200个，于是s就是一个200个元素的slice</p>
-
+</code></pre></div><p>从一个内存指针构造出go语言的slice结构相对麻烦些，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ptr</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>
+<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> ((<span style="color:#f92672">*</span>[<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">10</span>]<span style="color:#66d9ef">byte</span>)(<span style="color:#a6e22e">ptr</span>))[:<span style="color:#ae81ff">200</span>]
+</code></pre></div><p>先将ptr强制类型转换为另外一种指针，一个指向[1&laquo;10]byte数组的指针，这里数组大小其实是假的，然后用slice操作取出这个数组的前200个，于是s就是一个200个元素的slice</p>
 <p>或者：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ptr</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s1</span> = <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">addr</span> <span style="color:#66d9ef">uintptr</span>
+    <span style="color:#a6e22e">len</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">cap</span> <span style="color:#66d9ef">int</span>
+}{<span style="color:#a6e22e">ptr</span>, <span style="color:#a6e22e">length</span>, <span style="color:#a6e22e">length</span>}
+<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">*</span>(<span style="color:#f92672">*</span>[]<span style="color:#66d9ef">byte</span>)(<span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">s1</span>))
 
-<pre><code class="language-golang">var ptr unsafe.Pointer
-var s1 = struct {
-    addr uintptr
-    len int
-    cap int
-}{ptr, length, length}
-s := *(*[]byte)(unsafe.Pointer(&amp;s1))
+</code></pre></div><p>或者使用reflect.SliceHeader的方式构造slice，比较推荐这种：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">o</span> []<span style="color:#66d9ef">byte</span>
+<span style="color:#a6e22e">sliceHeader</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">SliceHeader</span>)((<span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">o</span>)))
+<span style="color:#a6e22e">sliceHeader</span>.<span style="color:#a6e22e">Cap</span> = <span style="color:#a6e22e">length</span>
+<span style="color:#a6e22e">sliceHeader</span>.<span style="color:#a6e22e">Len</span> = <span style="color:#a6e22e">length</span>
+<span style="color:#a6e22e">sliceHeader</span>.<span style="color:#a6e22e">Data</span> = uintptr(<span style="color:#a6e22e">ptr</span>)
 
-</code></pre>
-
-<p>或者使用reflect.SliceHeader的方式构造slice，比较推荐这种：</p>
-
-<pre><code class="language-golang">var o []byte
-sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&amp;o)))
-sliceHeader.Cap = length
-sliceHeader.Len = length
-sliceHeader.Data = uintptr(ptr)
-
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

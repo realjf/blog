@@ -3,7 +3,7 @@
 <head>
     <title>docker error creating overlay mount to invalid argument 解决方法 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,31 +86,18 @@
                         <a class="tag" href="https://realjf.io/tags/docker/">docker</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h4 id="原因">原因</h4>
-
+            <h4 id="原因">原因</h4>
 <p>由于docker的不同版本在centos上产生的mount问题，1.2.x没有出现这个问题，当使用yum install时，安装的最新版本(1.3.x)，会导致overlay2的错误。</p>
-
 <h4 id="解决方法">解决方法</h4>
-
 <p>修改docker启动参数storage-driver</p>
-
 <pre><code>vim /etc/sysconfig/docker-storage
 # 将文件中的DOCKER_STORAGE_OPTIONS=&quot;-s overlay2&quot;修改为DOCKER_STORAGE_OPTIONS=&quot;-s overlay&quot;
 
-</code></pre>
-
-<p>然后重新加载daemon</p>
-
+</code></pre><p>然后重新加载daemon</p>
 <pre><code>systemctl daemon-reload
-</code></pre>
-
-<p>重启docker</p>
-
+</code></pre><p>重启docker</p>
 <pre><code>systemctl restart docker
 </code></pre>
-
         </div>
         <div id="disqus_thread"></div>
 <script>
