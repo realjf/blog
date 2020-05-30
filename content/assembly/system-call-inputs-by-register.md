@@ -1,5 +1,5 @@
 ---
-title: "系统调用寄存器输入 System Call Inputs by Register"
+title: "汇编语言之系统调用寄存器输入 System Call Inputs by Register"
 date: 2020-05-30T21:30:25+08:00
 keywords: ["assembly"]
 categories: ["assembly"]

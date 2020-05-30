@@ -1,6 +1,6 @@
 ---
-title: "汇编语言之寄存器 Registers"
-date: 2020-05-30T21:28:19+08:00
+title: "汇编语言之跳转标识 Jump Symbol"
+date: 2020-05-30T22:00:29+08:00
 keywords: ["assembly"]
 categories: ["assembly"]
 tags: ["assembly"]
@@ -22,4 +22,5 @@ related:
     weight: 10
 ---
 
-![/image/assembly-language-registers.png](/image/assembly-language-registers.png)
+![/image/jump_symbol.png](/image/jump_symbol.png)
+
