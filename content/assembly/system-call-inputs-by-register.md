@@ -28,3 +28,5 @@ related:
 
 ### 示例
 ![/image/sys_write.png](/image/sys_write.png)
+
+![/image/sys_write_asm.png](/image/sys_write_asm.png)
