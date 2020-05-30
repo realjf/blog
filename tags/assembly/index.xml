@@ -6,10 +6,85 @@
     <description>Recent content in assembly on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 May 2020 00:53:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 31 May 2020 02:16:58 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/assembly/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>nasm汇编之逻辑指令 Logical Instructions</title>
+      <link>https://realjf.io/assembly/logical-instructions/</link>
+      <pubDate>Sun, 31 May 2020 02:16:58 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/logical-instructions/</guid>
+      <description>处理器指令集提供指令AND，OR，XOR，TEST和NOT布尔逻辑，它们根据程序的需要测试，设置和清除位。
+   序号 指令 格式     1 AND AND operand1, operand2   2 OR OR operand1, operand2   3 XOR XOR operand1, operand2   4 TEST TEST operand1, operand2   5 NOT NOT operand1   在所有情况下，第一个操作数都可以在寄存器或内存中。第二个操作数可以是寄存器/内存，也可以是立即数（常量）。     但是，内存到内存操作是不可能的。这些指令比较或匹配操作数的位，并设置CF，OF，PF，SF和ZF标志。      and指令 AND指令用于通过执行按位AND运算来支持逻辑表达式。如果两个操作数的匹配位均为1，则按位AND运算将返回1，否则返回0
+AND操作可用于清除一个或多个位。例如，假设BL寄存器包含00111010。如果需要将高阶位清除为零，则将其与0FH
+AND	BL, 0FH ; This sets BL to 0000 1010 如果要检查给定数字是奇数还是偶数，一个简单的测试将是检查数字的最低有效位。如果为1，则数字为奇数，否则为偶数。</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之算术指令 Arithmetic Instructions</title>
+      <link>https://realjf.io/assembly/arithmetic-instructions/</link>
+      <pubDate>Sun, 31 May 2020 02:15:46 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/arithmetic-instructions/</guid>
+      <description>inc 指令 INC指令用于将操作数加1。它适用于可以在寄存器或内存中的单个操作数
+语法
+INC destination 操作数目的地可以是8位，16位或32位操作数
+示例
+INC EBX	; Increments 32-bit register INC DL ; Increments 8-bit register INC [count] ; Increments the count variable dec指令 DEC指令用于将操作数减1。它对可以在寄存器或内存中的单个操作数起作用
+语法
+DEC destination 操作数目的地可以是8位，16位或32位操作数。
+示例
+segment .data count dw 0 value db 15 segment .text inc [count] dec [value] mov ebx, count inc word [ebx] mov esi, value dec byte [esi] add和sub指令 ADD和SUB指令用于对字节，字和双字大小的二进制数据进行简单的加/减，即分别用于添加或减去8位，16位或32位操作数
+语法
+ADD/SUB	destination, source ADD / SUB指令可以在
+ 寄存器到寄存器 内存到寄存器 寄存器到内存 寄存器到常量 内存到常量  与其他指令一样，使用ADD/SUB指令也无法进行存储器到存储器的操作。 ADD或SUB操作设置或清除溢出和进位标志。</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之常量 Constants</title>
+      <link>https://realjf.io/assembly/constants/</link>
+      <pubDate>Sun, 31 May 2020 02:09:10 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/constants/</guid>
+      <description>NASM提供了多个定义常量的指令。在前面的章节中，我们已经使用过EQU指令。我们将特别讨论三个指令
+ EQU %assign %define  EQU指令 EQU指令用于定义常量。 EQU指令的语法如下
+CONSTANT_NAME EQU expression 示例
+TOTAL_STUDENTS equ 50 EQU语句的操作数可以是表达式
+LENGTH equ 20 WIDTH equ 10 AREA equ length * width 示例
+Live Demo SYS_EXIT equ 1 SYS_WRITE equ 4 STDIN equ 0 STDOUT equ 1 section	.text global _start ;must be declared for using gcc 	_start: ;tell linker entry point  mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg1 mov edx, len1 int 0x80 mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg2 mov edx, len2 int 0x80 mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg3 mov edx, len3 int 0x80 mov eax,SYS_EXIT ;system call number (sys_exit)  int 0x80 ;call kernel  section	.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之变量 Variables</title>
+      <link>https://realjf.io/assembly/variables/</link>
+      <pubDate>Sun, 31 May 2020 01:50:22 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/variables/</guid>
+      <description>NASM提供了各种定义指令来为变量保留存储空间。 define assembler指令用于分配存储空间。它可以用于保留以及初始化一个或多个字节
+为初始化数据分配存储空间 初始化数据的存储分配语句的语法为
+[variable-name] define-directive initial-value [,initial-value]... 其中，变量名是每个存储空间的标识符。汇编器为数据段中定义的每个变量名称关联一个偏移值。
+五种基本类型指令
+   指令 说明 存储空间     DB 定义字节 1 byte   DW 定义字 2 bytes   DD 定义双字 4 bytes   DQ 定义四字 8 bytes   DT 定义10字 10 bytes    示例
+choice	DB	&amp;#39;y&amp;#39; number	DW	12345 neg_number	DW	-12345 big_number	DQ	123456789 real_number1	DD	1.234 real_number2	DQ	123.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之寻址模式 Addressing Modes</title>
+      <link>https://realjf.io/assembly/address-modes/</link>
+      <pubDate>Sun, 31 May 2020 01:05:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/address-modes/</guid>
+      <description>大多数汇编语言指令都需要处理操作数。操作数地址提供了要处理的数据存储的位置。一些指令不需要操作数，而另一些指令则可能需要一个，两个或三个操作数
+当一条指令需要两个操作数时，第一个操作数通常是目的地，可能是寄存器或存储器地址，第二个操作数是源。 源包含要传递的数据（立即寻址）或数据的地址（在寄存器或存储器中）。通常，操作后源数据保持不变。
+寻址的三种基本模式是
+ 寄存器寻址 立即寻址 内存寻址  寄存器寻址 在这种寻址模式下，寄存器包含操作数。根据指令，寄存器可以是第一操作数，第二操作数或两者。
+MOV DX, TAX_RATE ; Register in first operand MOV COUNT, CX	; Register in second operand MOV EAX, EBX	; Both the operands are in registers 由于寄存器之间的数据处理不涉及内存，因此可以最快地处理数据
+立即寻址 立即数操作数具有常数值或表达式。当具有两个操作数的指令使用立即寻址时，第一个操作数可以是寄存器或存储器位置，而第二个操作数是立即数。第一个操作数定义数据的长度。
+BYTE_VALUE DB 150 ; A byte value is defined WORD_VALUE DW 300 ; A word value is defined ADD BYTE_VALUE, 65 ; An immediate operand 65 is added MOV AX, 45H ; Immediate constant 45H is transferred to AX 直接内存寻址 在内存寻址模式下指定操作数时，通常需要直接访问主存储器，通常是数据段。这种寻址方式导致数据处理速度变慢。 为了找到数据在内存中的确切位置，我们需要段起始地址（通常在DS寄存器中找到）和偏移值。此偏移值也称为有效地址。</description>
+    </item>
     
     <item>
       <title>nasm汇编之系统调用 System Calls</title>

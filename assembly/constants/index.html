@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+<head>
+    <title>nasm汇编之常量 Constants // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">nasm汇编之常量 Constants</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    May 31, 2020
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    1 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/assembly/">assembly</a></div></div>
+        </header>
+        <div class="post-content">
+            <p>NASM提供了多个定义常量的指令。在前面的章节中，我们已经使用过EQU指令。我们将特别讨论三个指令</p>
+<ul>
+<li>EQU</li>
+<li>%assign</li>
+<li>%define</li>
+</ul>
+<h3 id="equ指令">EQU指令</h3>
+<p>EQU指令用于定义常量。 EQU指令的语法如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">CONSTANT_NAME</span> <span style="color:#66d9ef">EQU</span> <span style="color:#66d9ef">expression</span>
+</code></pre></div><p>示例</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">TOTAL_STUDENTS</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">50</span>
+</code></pre></div><p>EQU语句的操作数可以是表达式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">LENGTH</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">20</span>
+<span style="color:#a6e22e">WIDTH</span>  <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">10</span>
+<span style="color:#a6e22e">AREA</span>   <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">length</span> * <span style="color:#66d9ef">width</span>
+</code></pre></div><p>示例</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">Live</span> <span style="color:#66d9ef">Demo</span>
+<span style="color:#a6e22e">SYS_EXIT</span>  <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">SYS_WRITE</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">4</span>
+<span style="color:#a6e22e">STDIN</span>     <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">0</span>
+<span style="color:#a6e22e">STDOUT</span>    <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">section</span>	 <span style="color:#66d9ef">.text</span>
+   <span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>    <span style="color:#75715e">;must be declared for using gcc
+</span><span style="color:#75715e"></span>	
+<span style="color:#66d9ef">_start</span>:             <span style="color:#75715e">;tell linker entry point
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">SYS_WRITE</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#66d9ef">STDOUT</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">msg1</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">len1</span> 
+   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>                
+	
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">SYS_WRITE</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#66d9ef">STDOUT</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">msg2</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">len2</span> 
+   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span> 
+	
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">SYS_WRITE</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#66d9ef">STDOUT</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">msg3</span>         
+   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">len3</span> 
+   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>
+   
+   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>,<span style="color:#66d9ef">SYS_EXIT</span>    <span style="color:#75715e">;system call number (sys_exit)
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>            <span style="color:#75715e">;call kernel
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">section</span>	 <span style="color:#66d9ef">.data</span>
+<span style="color:#a6e22e">msg1</span> <span style="color:#66d9ef">db</span>	<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Hello</span>, <span style="color:#66d9ef">programmers</span>!<span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xA</span>,<span style="color:#ae81ff">0xD</span> 	
+<span style="color:#66d9ef">len1</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">msg1</span>			
+
+<span style="color:#66d9ef">msg2</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Welcome</span> <span style="color:#66d9ef">to</span> <span style="color:#66d9ef">the</span> <span style="color:#66d9ef">world</span> <span style="color:#66d9ef">of</span>,<span style="color:#960050;background-color:#1e0010">&#39;</span>, <span style="color:#ae81ff">0xA</span>,<span style="color:#ae81ff">0xD</span> 
+<span style="color:#66d9ef">len2</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">msg2</span> 
+
+<span style="color:#66d9ef">msg3</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Linux</span> <span style="color:#66d9ef">assembly</span> <span style="color:#66d9ef">programming</span>! <span style="color:#960050;background-color:#1e0010">&#39;</span>
+<span style="color:#a6e22e">len3</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$-</span> <span style="color:#66d9ef">msg3</span>
+</code></pre></div><h3 id="assign指令">%assign指令</h3>
+<p>％assign指令可用于定义数字常量，例如EQU指令。该指令允许重新定义。例如，您可以将常量TOTAL定义为</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#960050;background-color:#1e0010">%</span><span style="color:#a6e22e">assign</span> <span style="color:#66d9ef">TOTAL</span> <span style="color:#ae81ff">10</span>
+</code></pre></div><p>在代码的后面，您可以将其重新定义为</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#960050;background-color:#1e0010">%</span><span style="color:#a6e22e">assign</span>  <span style="color:#66d9ef">TOTAL</span>  <span style="color:#ae81ff">20</span>
+</code></pre></div><blockquote>
+<p>该指令区分大小写</p>
+</blockquote>
+<h3 id="define指令">%define指令</h3>
+<p>％define指令允许定义数字常量和字符串常量。该指令类似于C中的#define。例如，您可以将常量PTR定义为</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#960050;background-color:#1e0010">%</span><span style="color:#a6e22e">define</span> <span style="color:#66d9ef">PTR</span> [<span style="color:#66d9ef">EBP</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span>]
+</code></pre></div><p>该指令还允许重新定义，并且区分大小写</p>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/assembly/variables/">nasm汇编之变量 Variables</a></li>
+                
+                    <li><a href="/assembly/address-modes/">nasm汇编之寻址模式 Addressing Modes</a></li>
+                
+                    <li><a href="/assembly/system-calls/">nasm汇编之系统调用 System Calls</a></li>
+                
+                    <li><a href="/assembly/memory-segments/">nasm汇编之内存段 Memory Segments</a></li>
+                
+                    <li><a href="/assembly/basic-syntax/">nasm汇编之基础语法 Basic Syntax</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
