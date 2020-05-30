@@ -6,10 +6,87 @@
     <description>Recent content in assembly on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 May 2020 03:23:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 31 May 2020 06:13:27 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/assembly/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>nasm汇编之宏 Macros</title>
+      <link>https://realjf.io/assembly/macros/</link>
+      <pubDate>Sun, 31 May 2020 06:13:27 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/macros/</guid>
+      <description>编写宏是确保使用汇编语言进行模块化编程的另一种方法。
+ 宏是由名称分配的一系列指令，可以在程序中的任何位置使用。 在NASM中，宏使用％macro和％endmacro指令定义 宏以％macro指令开头，以％endmacro指令结尾  语法
+%macro macro_name number_of_params &amp;lt;macro body&amp;gt; %endmacro 其中，number_of_params指定数字参数，macro_name指定宏的名称。
+通过使用宏名称和必要的参数来调用宏。当您需要在程序中多次使用某些指令序列时，可以将这些指令放在宏中并使用它，而不必一直写指令。
+例如，程序的一个非常普遍的需求是在屏幕上写一个字符串。要显示字符串，需要以下说明序列
+mov	edx,len	;message length mov	ecx,msg	;message to write mov	ebx,1 ;file descriptor (stdout) mov	eax,4 ;system call number (sys_write) int	0x80 ;call kernel 在以上显示字符串的示例中，INT 80H函数调用已使用寄存器EAX，EBX，ECX和EDX。 因此，每次需要在屏幕上显示时，都需要将这些寄存器保存在堆栈中，调用INT 80H，然后从堆栈中恢复寄存器的原始值。因此，编写两个用于保存和还原数据的宏可能会很有用
+我们已经观察到，某些指令（如IMUL，IDIV，INT等）需要将某些信息存储在某些特定的寄存器中，甚至返回某些特定寄存器中的值。 如果程序已经使用这些寄存器来保存重要数据，则应将这些寄存器中的现有数据保存在堆栈中，并在执行指令后将其恢复。
+示例
+; A macro with two parameters ; Implements the write system call  %macro write_string 2 mov eax, 4 mov ebx, 1 mov ecx, %1 mov edx, %2 int 80h %endmacro section	.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之递归 Recursion</title>
+      <link>https://realjf.io/assembly/recursion/</link>
+      <pubDate>Sun, 31 May 2020 06:13:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/recursion/</guid>
+      <description>递归过程是一个可以自我调用的过程。递归有两种：直接和间接。 在直接递归中，该过程调用自身，在间接递归中，第一个过程调用第二个过程，第二个过程依次调用第一个过程。
+以下程序显示了如何使用汇编语言实现阶乘n。为了简化程序，我们将计算阶乘3
+section	.text global _start ;must be declared for using gcc 	_start: ;tell linker entry point  mov bx, 3 ;for calculating factorial 3  call proc_fact add ax, 30h mov [fact], ax mov	edx,len ;message length  mov	ecx,msg ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel  mov edx,1 ;message length  mov	ecx,fact ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel  mov	eax,1 ;system call number (sys_exit)  int	0x80 ;call kernel 	proc_fact: cmp bl, 1 jg do_calculation mov ax, 1 ret do_calculation: dec bl call proc_fact inc bl mul bl ;ax = al * bl  ret section	.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之过程 Procedures</title>
+      <link>https://realjf.io/assembly/procedures/</link>
+      <pubDate>Sun, 31 May 2020 03:23:47 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/procedures/</guid>
+      <description>过程或子例程在汇编语言中非常重要，因为汇编语言程序往往会很大。程序由名称标识。 在此名称之后，将描述执行明确定义的作业的过程主体。该过程的结束由return语句指示。
+语法
+proc_name: procedure body ... ret 通过使用CALL指令从另一个函数调用该过程。 CALL指令应将被调用过程的名称作为参数，如下所示
+CALL proc_name 示例
+Live Demo section	.text global _start ;must be declared for using gcc 	_start:	;tell linker entry point  mov	ecx,&amp;#39;4&amp;#39; sub ecx, &amp;#39;0&amp;#39; mov edx, &amp;#39;5&amp;#39; sub edx, &amp;#39;0&amp;#39; call sum ;call sum procedure  mov [res], eax mov	ecx, msg	mov	edx, len mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	mov	ecx, res mov	edx, 1 mov	ebx, 1	;file descriptor (stdout)  mov	eax, 4	;system call number (sys_write)  int	0x80	;call kernel 	mov	eax,1	;system call number (sys_exit)  int	0x80	;call kernel sum: mov eax, ecx add eax, edx add eax, &amp;#39;0&amp;#39; ret section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之数组 Arrays</title>
+      <link>https://realjf.io/assembly/arrays/</link>
+      <pubDate>Sun, 31 May 2020 03:23:36 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/arrays/</guid>
+      <description>汇编程序的数据定义指令用于为变量分配存储空间。 变量也可以用一些特定的值初始化。初始化值可以以十六进制，十进制或二进制形式指定
+我们可以通过以下两种方式之一来定义单词变量“ months”
+MONTHS	DW	12 MONTHS	DW	0CH MONTHS	DW	0110B 数据定义指令还可用于定义一维数组。让我们定义一维数字数组
+NUMBERS	DW 34, 45, 56, 67, 75, 89 上面的定义声明了一个六个字的数组，每个字都用数字34、45、56、67、75、89初始化。这分配了2x6 = 12个字节的连续存储空间。 第一个数字的符号地址为NUMBERS，第二个数字的符号地址为NUMBERS + 2，依此类推
+您可以定义一个大小为8的名为清单的数组，并将所有值初始化为零，如下所示：
+INVENTORY DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 可以缩写为
+INVENTORY DW 0, 0 , 0 , 0 , 0 , 0 , 0 , 0 TIMES指令还可用于将多个初始化为相同的值。使用TIMES，可以将INVENTORY数组定义为
+INVENTORY TIMES 8 DW 0 示例</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之字符串 Strings</title>
+      <link>https://realjf.io/assembly/strings/</link>
+      <pubDate>Sun, 31 May 2020 03:23:28 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/strings/</guid>
+      <description>可变长度的字符串可以根据需要包含任意多个字符。通常，我们通过两种方式之一指定字符串的长度
+ 显式存储字符串长度 使用前哨角色  我们可以使用表示位置计数器当前值的$位置计数器符号来显式存储字符串长度
+msg db &amp;#39;Hello, world!&amp;#39;,0xa ;our dear string len equ $ - msg ;length of our dear string $指向字符串变量msg的最后一个字符之后的字节。因此，$-msg给出字符串的长度。我们也可以写
+msg db &amp;#39;Hello, world!&amp;#39;,0xa ;our dear string len equ 13 ;length of our dear string 另外，您可以存储带有尾部定点字符的字符串来分隔字符串，而不必显式存储字符串长度。 前哨字符应为不出现在字符串中的特殊字符。
+例如：
+message DB &amp;#39;I am loving it!&amp;#39;, 0 字符串指令 每个字符串指令可能需要一个源操作数，一个目标操作数或两者。对于32位段，字符串指令使用ESI和EDI寄存器分别指向源和目标操作数
+但是，对于16位段，SI和DI寄存器分别用于指向源和目标。
+有五个用于处理字符串的基本说明
+ MOVS 该指令将1字节，字或双字数据从存储器位置移到另一个位置。 LODS 该指令从存储器加载。如果操作数是一个字节，则将其加载到AL寄存器中；如果操作数是一个字，则将其加载到AX寄存器中，并将双字加载到EAX寄存器中 STOS 该指令将数据从寄存器（AL，AX或EAX）存储到存储器。 CMPS 该指令比较存储器中的两个数据项。数据可以是字节大小，字或双字。 SCAS 该指令将寄存器（AL，AX或EAX）的内容与存储器中项目的内容进行比较。  上面的每个指令都有字节，字和双字版本，并且可以通过使用重复前缀来重复字符串指令
+这些指令使用ES：DI和DS：SI对寄存器，其中DI和SI寄存器包含有效的偏移地址，这些地址指向存储在存储器中的字节。 SI通常与DS（数据段）相关联，DI通常与ES（额外段）相关联。
+DS：SI（或ESI）和ES：DI（或EDI）寄存器分别指向源和目标操作数。假定源操作数位于内存中的DS：SI（或ESI），目标操作数位于ES：DI（或EDI）。
+对于16位地址，使用SI和DI寄存器，对于32位地址，使用ESI和EDI寄存器</description>
+    </item>
     
     <item>
       <title>nasm汇编之数值 Numbers</title>
