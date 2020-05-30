@@ -6,13 +6,22 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 May 2020 21:30:25 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 30 May 2020 22:00:29 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>系统调用寄存器输入 System Call Inputs by Register</title>
+      <title>汇编语言之跳转标识 Jump Symbol</title>
+      <link>https://realjf.io/assembly/jump-symbol/</link>
+      <pubDate>Sat, 30 May 2020 22:00:29 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/jump-symbol/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>汇编语言之系统调用寄存器输入 System Call Inputs by Register</title>
       <link>https://realjf.io/assembly/system-call-inputs-by-register/</link>
       <pubDate>Sat, 30 May 2020 21:30:25 +0800</pubDate>
       
@@ -21,7 +30,7 @@
     </item>
     
     <item>
-      <title>寄存器 Registers</title>
+      <title>汇编语言之寄存器 Registers</title>
       <link>https://realjf.io/assembly/registers/</link>
       <pubDate>Sat, 30 May 2020 21:28:19 +0800</pubDate>
       
