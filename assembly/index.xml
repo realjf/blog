@@ -6,10 +6,59 @@
     <description>Recent content in Assemblies on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 May 2020 22:00:29 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 31 May 2020 00:53:19 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/assembly/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>nasm汇编之系统调用 System Calls</title>
+      <link>https://realjf.io/assembly/system-calls/</link>
+      <pubDate>Sun, 31 May 2020 00:53:19 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/system-calls/</guid>
+      <description>系统调用是用户空间和内核空间之间接口的API。我们已经使用了系统调用。 sys_write和sys_exit，分别用于写入屏幕和退出程序
+linux 系统调用 您可以在汇编程序中使用Linux系统调用。您需要按照以下步骤在程序中使用Linux系统调用
+ 将系统调用编号放入EAX寄存器中 将系统调用的参数存放到EBX,ECX等寄存器 调用相关的中断 结果通常在EAX寄存器中返回  有六个寄存器，用于存储所用系统调用的参数。这些是EBX，ECX，EDX，ESI，EDI和EBP。 这些寄存器采用从EBX寄存器开始的连续参数。如果有六个以上的自变量，则第一个自变量的存储位置将存储在EBX寄存器中
+以下代码段显示了系统调用sys_exit的使用
+mov	eax,1	; system call number (sys_exit) int	0x80	; call kernel 以下代码段显示了系统调用sys_write的使用
+mov	edx,4	; message length mov	ecx,msg	; message to write mov	ebx,1	; file descriptor (stdout) mov	eax,4	; system call number (sys_write) int	0x80	; call kernel 所有系统调用及其编号（在调用int 80h之前放入EAX的值）都列在/usr/include/asm/unistd.h中
+下表显示了使用的一些系统调用
+   %eax name %ebx %ecx %edx %esx %edi     1 sys_exit int - - - -   2 sys_fork struct pt_regs - - - -   3 sys_read unsigned int char * size_t - -   4 sys_write unsigned int const char * size_t - -    示例 section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之内存段 Memory Segments</title>
+      <link>https://realjf.io/assembly/memory-segments/</link>
+      <pubDate>Sun, 31 May 2020 00:33:36 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/memory-segments/</guid>
+      <description>汇编程序的三个节.data、.bss、.text。这些部分也代表各种内存段。
+如果将section关键字替换为segment，则会得到相同的结果。试试下面的代码
+segment .text	;code segment  global _start ;must be declared for linker 	_start:	;tell linker entry point  mov edx,len	;message length  mov ecx,msg ;message to write  mov ebx,1	;file descriptor (stdout)  mov eax,4	;system call number (sys_write)  int 0x80	;call kernel  mov eax,1 ;system call number (sys_exit)  int 0x80	;call kernel  segment .data ;data segment msg	db &amp;#39;Hello, world!&amp;#39;,0xa ;our dear string len	equ	$ - msg ;length of our dear string 内存段 分段存储器模型将系统存储器分为独立的分段组，这些分段由位于分段寄存器中的指针引用。每个细分用于包含特定类型的数据。 一个段用于包含指令代码，另一段用于存储数据元素，第三段用于保留程序堆栈。</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之基础语法 Basic Syntax</title>
+      <link>https://realjf.io/assembly/basic-syntax/</link>
+      <pubDate>Sun, 31 May 2020 00:20:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/basic-syntax/</guid>
+      <description>一个汇编程序可以被分成三个sections：
+ data section bss section text section  data section data 部分用于声明初始化的数据或常量。该数据在运行时不会更改。您可以在本节中声明各种常量值，文件名或缓冲区大小等
+section .data bss section bss部分用于声明变量。声明bss部分的语法是
+section .bss text section text部分用于保留实际代码。此section必须以全局声明_start开头，该声明告诉内核程序从何处开始执行。
+section .text global _start _start: 注释 ; this is a comment  mov a, b ; move b to a statements [label] mnemonic [operands] [;comment] hello world示例 section	.text global _start ;must be declared for linker (ld) 	_start:	;tells linker entry point  mov	edx,len ;message length  mov	ecx,msg ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel 	mov	eax,1 ;system call number (sys_exit)  int	0x80 ;call kernel  section	.</description>
+    </item>
+    
+    <item>
+      <title>汇编语言之数学操作 Math Operations List</title>
+      <link>https://realjf.io/assembly/math-operations-list/</link>
+      <pubDate>Sat, 30 May 2020 22:23:28 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/math-operations-list/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>汇编语言之跳转标识 Jump Symbol</title>
