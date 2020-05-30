@@ -6,10 +6,55 @@
     <description>Recent content in Assemblies on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 May 2020 02:16:58 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 31 May 2020 03:23:19 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/assembly/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>nasm汇编之数值 Numbers</title>
+      <link>https://realjf.io/assembly/numbers/</link>
+      <pubDate>Sun, 31 May 2020 03:23:19 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/numbers/</guid>
+      <description>数值数据通常用二进制表示。算术指令对二进制数据进行操作。当数字显示在屏幕上或通过键盘输入时，它们为ASCII格式
+此类转换会产生开销，并且汇编语言编程允许以更有效的方式以二进制形式处理数字。小数可以两种形式表示
+ ASCII格式 BCD或者二进制编码的十进制形式  ASCII表示 在ASCII表示中，十进制数字存储为ASCII字符串
+有四条指令以ASCII表示形式处理数字
+ AAA ASCII Adjust After Addition AAS ASCII Adjust After Subtraction AAM ASCII Adjust After Multiplication AAD ASCII Adjust Before Division  这些指令不使用任何操作数，并假定所需的操作数位于AL寄存器中
+示例
+section	.text global _start ;must be declared for using gcc 	_start:	;tell linker entry point  sub ah, ah mov al, &amp;#39;9&amp;#39; sub al, &amp;#39;3&amp;#39; aas or al, 30h mov [res], ax mov	edx,len	;message length  mov	ecx,msg	;message to write  mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	mov	edx,1	;message length  mov	ecx,res	;message to write  mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	mov	eax,1	;system call number (sys_exit)  int	0x80	;call kernel 	section	.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之循环 Loops</title>
+      <link>https://realjf.io/assembly/loops/</link>
+      <pubDate>Sun, 31 May 2020 03:23:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/loops/</guid>
+      <description>JMP指令可用于实现循环。例如，以下代码段可用于执行循环主体10次
+MOV	CL, 10 L1: &amp;lt;LOOP-BODY&amp;gt; DEC	CL JNZ	L1 但是，处理器指令集包括一组用于实现迭代的循环指令。基本的LOOP指令具有以下语法
+LOOP label 其中，label是标识目标指令的目标标签，如跳转指令中所述。 LOOP指令假定ECX寄存器包含循环计数。 当执行循环指令时，ECX寄存器递减，并且控制跳至目标标签，直到ECX寄存器的值（即计数器达到零）为止。
+示例
+Live Demo section	.text global _start ;must be declared for using gcc 	_start:	;tell linker entry point  mov ecx,10 mov eax, &amp;#39;1&amp;#39; l1: mov [num], eax mov eax, 4 mov ebx, 1 push ecx mov ecx, num mov edx, 1 int 0x80 mov eax, [num] sub eax, &amp;#39;0&amp;#39; inc eax add eax, &amp;#39;0&amp;#39; pop ecx loop l1 mov eax,1 ;system call number (sys_exit)  int 0x80 ;call kernel section	.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之条件判断 Conditions</title>
+      <link>https://realjf.io/assembly/conditions/</link>
+      <pubDate>Sun, 31 May 2020 03:23:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/conditions/</guid>
+      <description>汇编语言中的条件执行是通过几个循环和分支指令来完成的。这些指令可以更改程序中的控制流。在两种情况下观察到条件执行
+无条件跳转 这是通过JMP指令执行的。条件执行通常涉及将控制权转移到不遵循当前执行指令的指令的地址。 控制权的转移可以是前进，执行新指令集，也可以是后退，重新执行相同的步骤
+有条件的跳转 这取决于条件由一组跳转指令j 执行。条件指令通过中断顺序流程来转移控制，而它们通过更改IP中的偏移值来完成
+cmp指令 CMP指令比较两个操作数。它通常用于条件执行中。该指令基本上从另一个操作数中减去一个操作数，以比较操作数是否相等。 它不会干扰目标或源操作数。它与条件跳转指令一起用于决策。
+语法
+CMP destination, source CMP比较两个数字数据字段。目标操作数可以在寄存器中或在内存中。源操作数可以是常量（立即数）数据，寄存器或内存
+示例
+CMP DX,	00 ; Compare the DX value with zero JE L7 ; If yes, then jump to label L7 . . L7: ... CMP通常用于比较计数器值是否已达到需要运行循环的次数。考虑以下典型条件
+INC	EDX CMP	EDX, 10	; Compares whether the counter has reached 10 JLE	LP1 ; If it is less than or equal to 10, then jump to LP1 无条件跳转 这是通过JMP指令执行的。条件执行通常涉及将控制权转移到不遵循当前执行指令的指令的地址。</description>
+    </item>
     
     <item>
       <title>nasm汇编之逻辑指令 Logical Instructions</title>
