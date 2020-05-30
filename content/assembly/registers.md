@@ -5,7 +5,7 @@ keywords: ["assembly"]
 categories: ["assembly"]
 tags: ["assembly"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 80
