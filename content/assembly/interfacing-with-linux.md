@@ -131,7 +131,7 @@ Window XCreateWindow(display, parent, x, y, width, height, border_width, depth,
 参数的传递与int $ 0x80示例中的传递相同，不同之处在于寄存器的顺序不同。
 
 库函数在源文件的开始处声明（以及在编译链接时库的路径）。
-```c
+```asm
 extern XCreateWindow
 ```
 
