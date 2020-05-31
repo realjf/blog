@@ -243,7 +243,7 @@ msg: <span style="color:#a6e22e">.ascii</span> <span style="color:#e6db74">&#34;
                        class, visual, valuemask, attributes)
 </code></pre></div><p>参数的传递与int $ 0x80示例中的传递相同，不同之处在于寄存器的顺序不同。</p>
 <p>库函数在源文件的开始处声明（以及在编译链接时库的路径）。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">extern</span> XCreateWindow
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">extern</span> <span style="color:#66d9ef">XCreateWindow</span>
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, [<span style="color:#66d9ef">xserver_pdisplay</span>]
 		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, [<span style="color:#66d9ef">xwin_parent</span>]
 		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdx</span>, [<span style="color:#66d9ef">xwin_x</span>]
