@@ -3,7 +3,7 @@
 <head>
     <title>linux系统资源设置 之 Ulimit 命令 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.56.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -87,7 +87,9 @@
         </header>
         <div class="post-content">
             <p>根据linux 开发手册， ulimit 设置和获取用户的资源限制</p>
+
 <p><strong>ulimit 参数说明</strong></p>
+
 <table>
 <thead>
 <tr>
@@ -95,79 +97,98 @@
 <th align="center">说明</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td align="center">-t</td>
 <td align="center">最大 cpu 占用时间 (单位是秒)</td>
 </tr>
+
 <tr>
 <td align="center">-f</td>
 <td align="center">进程创建文件大小的最大值 (单位是blocks)</td>
 </tr>
+
 <tr>
 <td align="center">-d</td>
 <td align="center">进程最大的数据段的大小，以kbytes为单位</td>
 </tr>
+
 <tr>
 <td align="center">-s</td>
 <td align="center">线程栈的大小，以kbytes为单位</td>
 </tr>
+
 <tr>
 <td align="center">-c</td>
 <td align="center">最大的core文件的大小，以blocks为单位</td>
 </tr>
+
 <tr>
 <td align="center">-m</td>
 <td align="center">最大内存大小，以kbytes为单位</td>
 </tr>
+
 <tr>
 <td align="center">-u</td>
 <td align="center">用户最大的可用的进程数</td>
 </tr>
+
 <tr>
 <td align="center">-n</td>
 <td align="center">可以打开的最大文件描述符数量</td>
 </tr>
+
 <tr>
 <td align="center">-l</td>
 <td align="center">最大可加锁内存大小，以kbytes为单位</td>
 </tr>
+
 <tr>
 <td align="center">-v</td>
 <td align="center">进程最大可用的虚拟内存，以kbytes为单位</td>
 </tr>
+
 <tr>
 <td align="center">-x</td>
 <td align="center"></td>
 </tr>
+
 <tr>
 <td align="center">-i</td>
 <td align="center"></td>
 </tr>
+
 <tr>
 <td align="center">-q</td>
 <td align="center"></td>
 </tr>
+
 <tr>
 <td align="center">-e</td>
 <td align="center"></td>
 </tr>
+
 <tr>
 <td align="center">-r</td>
 <td align="center"></td>
 </tr>
+
 <tr>
 <td align="center">-N</td>
 <td align="center"></td>
 </tr>
+
 <tr>
 <td align="center">-p</td>
 <td align="center">管道缓冲区的大小，以kbytes为单位</td>
 </tr>
+
 <tr>
 <td align="center">-a</td>
 <td align="center">显示所有资源限制的设定</td>
 </tr>
+
 <tr>
 <td align="center">-S</td>
 <td align="center">设定资源的弹性限制</td>
