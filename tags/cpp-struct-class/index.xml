@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cpp struct class on Realjf&#39;s blog</title>
@@ -17,11 +17,11 @@
       <pubDate>Sat, 22 Feb 2020 22:14:22 +0800</pubDate>
       
       <guid>https://realjf.io/cpp/struct-and-class-inherit/</guid>
-      <description> 关于c++的class和struct的不同可以简单归纳为以下几点： 内部成员变量及成员函数的默认防控属性不同 struct默认防控属性是public，而class默认的防控属性是Private
+      <description>关于c++的class和struct的不同可以简单归纳为以下几点： 内部成员变量及成员函数的默认防控属性不同 struct默认防控属性是public，而class默认的防控属性是Private
 继承关系中的默认防控属性的区别 在继承关系中，struct默认是public，而class是private
 在继承中的基类和子类之间的继承方式
    继承方式 基类的public成员 基类的protected成员 基类中的private成员     public继承 仍为public成员 仍为protected成员 不可见   protected继承 变为protected成员 变为protected成员 不可见   private继承 变为private成员 变为private成员 不可见    模板中使用 class关键字可以用于定义模板参数，但是struct不行
-template&amp;lt;template T, class Y&amp;gt; int Func(const T&amp;amp; t, const Y&amp;amp; y) { ... }  使用花括号{}赋值问题  struct如果没有定义构造函数，可以使用花括号对struct成员进行赋值。 struct中如果定义了一个构造函数，则不能使用花括号进行赋值  </description>
+template&amp;lt;template T, class Y&amp;gt; int Func(const T&amp;amp; t, const Y&amp;amp; y) { ... } 使用花括号  struct如果没有定义构造函数，可以使用花括号对struct成员进行赋值。 struct中如果定义了一个构造函数，则不能使用花括号进行赋值  </description>
     </item>
     
   </channel>

@@ -3,7 +3,7 @@
 <head>
     <title>Kubernetes集群下 Traefik安装和使用 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,134 +86,108 @@
                         <a class="tag" href="https://realjf.io/tags/kubernetes/">kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">k8s</a><a class="tag" href="https://realjf.io/tags/traefik/">traefik</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<blockquote>
+            <blockquote>
 <p>前提：安装好kubernetes集群情况下</p>
 </blockquote>
-
-<p><img src="https://github.com/containous/traefik/raw/master/docs/img/architecture.png" alt="https://github.com/containous/traefik/raw/master/docs/img/architecture.png" /></p>
-
+<p><img src="https://github.com/containous/traefik/raw/master/docs/img/architecture.png" alt="https://github.com/containous/traefik/raw/master/docs/img/architecture.png"></p>
 <blockquote>
 <p>run traefik and let it do the work for you!</p>
 </blockquote>
-
 <p>traefik官方地址：<a href="http://traefik.cn/">http://traefik.cn/</a></p>
-
-<h3 id="方法一-使用k8s安装">方法一：使用k8s安装</h3>
-
+<h3 id="方法一使用k8s安装">方法一：使用k8s安装</h3>
 <h4 id="准备">准备</h4>
-
-<pre><code class="language-sh">
-# 创建目录
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">
+<span style="color:#75715e"># 创建目录</span>
 mkdir traefik 
 cd traefik
 
-# 拉取traefik官方docker镜像
+<span style="color:#75715e"># 拉取traefik官方docker镜像</span>
 docker pull docker.io/traefik
-# docker hub地址：https://store.docker.com/images/traefik
+<span style="color:#75715e"># docker hub地址：https://store.docker.com/images/traefik</span>
 
-# 拉取traefik相关配置
+<span style="color:#75715e"># 拉取traefik相关配置</span>
 git clone https://github.com/containous/traefik.git
 
-# 检查traefik配置 
+<span style="color:#75715e"># 检查traefik配置</span> 
 ll traefik/example/k8s/
 
--rw-r--r-- 1 root root  140 Sep 11 16:53 cheese-default-ingress.yaml
--rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml
--rw-r--r-- 1 root root  519 Sep 11 16:53 cheese-ingress.yaml
--rw-r--r-- 1 root root  509 Sep 11 16:53 cheese-services.yaml
--rw-r--r-- 1 root root  504 Sep 11 16:53 cheeses-ingress.yaml
--rw-r--r-- 1 root root 1120 Sep 11 16:53 traefik-deployment.yaml
--rw-r--r-- 1 root root 1206 Sep 11 16:53 traefik-ds.yaml
--rw-r--r-- 1 root root  694 Sep 11 16:53 traefik-rbac.yaml
--rw-r--r-- 1 root root  471 Sep 11 16:53 ui.yaml
-</code></pre>
-
-<h4 id="创建traefik-pod">创建traefik pod</h4>
-
-<pre><code class="language-sh"># 创建traefik
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">140</span> Sep <span style="color:#ae81ff">11</span> 16:53 cheese-default-ingress.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1805</span> Sep <span style="color:#ae81ff">11</span> 16:53 cheese-deployments.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">519</span> Sep <span style="color:#ae81ff">11</span> 16:53 cheese-ingress.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">509</span> Sep <span style="color:#ae81ff">11</span> 16:53 cheese-services.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">504</span> Sep <span style="color:#ae81ff">11</span> 16:53 cheeses-ingress.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1120</span> Sep <span style="color:#ae81ff">11</span> 16:53 traefik-deployment.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1206</span> Sep <span style="color:#ae81ff">11</span> 16:53 traefik-ds.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">694</span> Sep <span style="color:#ae81ff">11</span> 16:53 traefik-rbac.yaml
+-rw-r--r-- <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">471</span> Sep <span style="color:#ae81ff">11</span> 16:53 ui.yaml
+</code></pre></div><h4 id="创建traefik-pod">创建traefik pod</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 创建traefik</span>
 kubectl create -f traefik/example/k8s/traefik-rbac.yaml
 # 
 
-clusterrole.rbac.authorization.k8s.io &quot;traefik-ingress-controller&quot; created
-clusterrolebinding.rbac.authorization.k8s.io &quot;traefik-ingress-controller&quot; created
+clusterrole.rbac.authorization.k8s.io <span style="color:#e6db74">&#34;traefik-ingress-controller&#34;</span> created
+clusterrolebinding.rbac.authorization.k8s.io <span style="color:#e6db74">&#34;traefik-ingress-controller&#34;</span> created
 
 
-# 创建traefik deployment
+<span style="color:#75715e"># 创建traefik deployment</span>
 kubectl create -f traefik/example/k8s/traefik-deploment.yaml
 
-serviceaccount &quot;traefik-ingress-controller&quot; created
-deployment.extensions &quot;traefik-ingress-controller&quot; created
-service &quot;traefik-ingress-service&quot; created
+serviceaccount <span style="color:#e6db74">&#34;traefik-ingress-controller&#34;</span> created
+deployment.extensions <span style="color:#e6db74">&#34;traefik-ingress-controller&#34;</span> created
+service <span style="color:#e6db74">&#34;traefik-ingress-service&#34;</span> created
 
 
 
-# 检查启动情况
+<span style="color:#75715e"># 检查启动情况</span>
 kubectl get pods --all-namespaces -o wide
 
 NAMESPACE     NAME                                         READY     STATUS              RESTARTS   AGE       IP        NODE
-kube-system   traefik-ingress-controller-7dcd6f447-sdbsw   0/1       ContainerCreating   0          1m        &lt;none&gt;    192.168.37.152
-myapp         test-v2-vmhqm                                0/1       Pending             0          67d       &lt;none&gt;    &lt;none&gt;
+kube-system   traefik-ingress-controller-7dcd6f447-sdbsw   0/1       ContainerCreating   <span style="color:#ae81ff">0</span>          1m        &lt;none&gt;    192.168.37.152
+myapp         test-v2-vmhqm                                0/1       Pending             <span style="color:#ae81ff">0</span>          67d       &lt;none&gt;    &lt;none&gt;
 
 
 
-</code></pre>
-
-<blockquote>
+</code></pre></div><blockquote>
 <p>如果使用非安全端口，kubectl命令需要加上&ndash;server=192.168.37.150:8080</p>
 </blockquote>
-
 <h4 id="检查traefik服务端口">检查traefik服务端口</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl get service --all-namespaces
 
-<pre><code class="language-sh">kubectl get service --all-namespaces
 
-
-NAMESPACE     NAME                      TYPE           CLUSTER-IP        EXTERNAL-IP   PORT(S)                       AGE
+NAMESPACE     NAME                      TYPE           CLUSTER-IP        EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>                       AGE
 default       kubernetes                ClusterIP      169.169.0.1       &lt;none&gt;        443/TCP                       109d
 default       service-example           LoadBalancer   169.169.150.45    &lt;pending&gt;     80:45981/TCP                  95d
 kube-system   traefik-ingress-service   NodePort       169.169.126.249   &lt;none&gt;        80:32039/TCP,8080:57048/TCP   1m
-</code></pre>
-
-<h4 id="traefik提供了kubernetes下暴露服务来提供web-ui">traefik提供了kubernetes下暴露服务来提供web ui</h4>
-
-<pre><code class="language-sh"># 创建ingress
+</code></pre></div><h4 id="traefik提供了kubernetes下暴露服务来提供web-ui">traefik提供了kubernetes下暴露服务来提供web ui</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 创建ingress</span>
 kubectl apply -f ui.yaml
 
-service &quot;traefik-web-ui&quot; created
-ingress.extensions &quot;traefik-web-ui&quot; created
+service <span style="color:#e6db74">&#34;traefik-web-ui&#34;</span> created
+ingress.extensions <span style="color:#e6db74">&#34;traefik-web-ui&#34;</span> created
 
 
-# 检查是否创建成功
+<span style="color:#75715e"># 检查是否创建成功</span>
 kubectl describe ing traefik-web-ui -n kube-system
 
 Name:             traefik-web-ui
 Namespace:        kube-system
 Address:          
-Default backend:  default-http-backend:80 (&lt;none&gt;)
+Default backend:  default-http-backend:80 <span style="color:#f92672">(</span>&lt;none&gt;<span style="color:#f92672">)</span>
 Rules:
   Host                 Path  Backends
   ----                 ----  --------
   traefik-ui.minikube  
-                       /   traefik-web-ui:web (&lt;none&gt;)
+                       /   traefik-web-ui:web <span style="color:#f92672">(</span>&lt;none&gt;<span style="color:#f92672">)</span>
 Annotations:
-  kubectl.kubernetes.io/last-applied-configuration:  {&quot;apiVersion&quot;:&quot;extensions/v1beta1&quot;,&quot;kind&quot;:&quot;Ingress&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{},&quot;name&quot;:&quot;traefik-web-ui&quot;,&quot;namespace&quot;:&quot;kube-system&quot;},&quot;spec&quot;:{&quot;rules&quot;:[{&quot;host&quot;:&quot;traefik-ui.minikube&quot;,&quot;http&quot;:{&quot;paths&quot;:[{&quot;backend&quot;:{&quot;serviceName&quot;:&quot;traefik-web-ui&quot;,&quot;servicePort&quot;:&quot;web&quot;},&quot;path&quot;:&quot;/&quot;}]}}]}}
+  kubectl.kubernetes.io/last-applied-configuration:  <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;apiVersion&#34;</span>:<span style="color:#e6db74">&#34;extensions/v1beta1&#34;</span>,<span style="color:#e6db74">&#34;kind&#34;</span>:<span style="color:#e6db74">&#34;Ingress&#34;</span>,<span style="color:#e6db74">&#34;metadata&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;annotations&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;traefik-web-ui&#34;</span>,<span style="color:#e6db74">&#34;namespace&#34;</span>:<span style="color:#e6db74">&#34;kube-system&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;spec&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;rules&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;host&#34;</span>:<span style="color:#e6db74">&#34;traefik-ui.minikube&#34;</span>,<span style="color:#e6db74">&#34;http&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;paths&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;backend&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;serviceName&#34;</span>:<span style="color:#e6db74">&#34;traefik-web-ui&#34;</span>,<span style="color:#e6db74">&#34;servicePort&#34;</span>:<span style="color:#e6db74">&#34;web&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;path&#34;</span>:<span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">}]}}]}}</span>
 
 Events:  &lt;none&gt;
-</code></pre>
-
-<p>我们刚刚创建了一个traefik-web-ui的Ingress，接下来就可以通过域名访问了，</p>
-
+</code></pre></div><p>我们刚刚创建了一个traefik-web-ui的Ingress，接下来就可以通过域名访问了，</p>
 <h4 id="访问traefik">访问traefik</h4>
-
 <p>在traefik启动成功后，它同时启动了80和8080端口，80对应的服务端端口，8080对应的ui端口，我们可以通过查看服务暴露端口号浏览器访问下提供的ui界面。</p>
-
-<p>访问：http://<node_ip>:<node_port>/dashboard/#/，这里<node_ip>可以为master或者node节点的ip均可</p>
-
-<h3 id="方法二-使用下载二进制包方式">方法二：使用下载二进制包方式</h3>
-
+<p>访问：http://&lt;node_ip&gt;:&lt;node_port&gt;/dashboard/#/，这里&lt;node_ip&gt;可以为master或者node节点的ip均可</p>
+<h3 id="方法二使用下载二进制包方式">方法二：使用下载二进制包方式</h3>
 <h4 id="下载">下载</h4>
-
 <pre><code>wget https://github.com/containous/traefik/releases/download/v1.6.2/traefik
 
 # 安装
@@ -222,10 +196,7 @@ yum install httpd-tools -y
 # 使用htpasswd生成密码
 htpasswd -bn admin 123456
 
-</code></pre>
-
-<h4 id="添加配置文件">添加配置文件</h4>
-
+</code></pre><h4 id="添加配置文件">添加配置文件</h4>
 <pre><code>vim /etc/traefik.toml
 
 # Global configuration
@@ -286,19 +257,16 @@ entryPoint = &quot;traefik&quot;
 [kubernetes]
 endpoint = &quot;http://192.168.37.150:8080&quot;
 namespaces = []
-</code></pre>
-
-<h4 id="启动方式">启动方式</h4>
-
+</code></pre><h4 id="启动方式">启动方式</h4>
 <pre><code>chmod +x traefik
 
 ./traefik -c /etc/traefik.toml
 
-</code></pre>
-
-<p>参考文献
-- <a href="https://www.kubernetes.org.cn/4408.html">https://www.kubernetes.org.cn/4408.html</a>
-- <a href="http://www.mamicode.com/info-detail-2109270.html">http://www.mamicode.com/info-detail-2109270.html</a></p>
+</code></pre><p>参考文献</p>
+<ul>
+<li><a href="https://www.kubernetes.org.cn/4408.html">https://www.kubernetes.org.cn/4408.html</a></li>
+<li><a href="http://www.mamicode.com/info-detail-2109270.html">http://www.mamicode.com/info-detail-2109270.html</a></li>
+</ul>
 
         </div>
         <div id="disqus_thread"></div>

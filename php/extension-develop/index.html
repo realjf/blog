@@ -3,7 +3,7 @@
 <head>
     <title>php扩展开发 php Extension Develop // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,499 +86,419 @@
                         <a class="tag" href="https://realjf.io/tags/php/">php</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="下载php源代码">下载php源代码</h3>
-
+            <h3 id="下载php源代码">下载php源代码</h3>
 <p>要开发php扩展，需要下载php源码，里面有我们开发扩展需要的工具</p>
-
 <p>下载地址：<a href="https://www.php.net/downloads">https://www.php.net/downloads</a></p>
-
-<pre><code class="language-bash">wget https://www.php.net/distributions/php-7.4.6.tar.xz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://www.php.net/distributions/php-7.4.6.tar.xz
 xz -d php-7.4.6.tar.xz
 tar xvf php-7.4.6.tar
 
-</code></pre>
-
-<p>我们需要的是源码目录下ext目录下的ext_skel或ext_skel.php文件，它是类unix环境下用于自动生成php扩展框架的脚本工具。</p>
-
+</code></pre></div><p>我们需要的是源码目录下ext目录下的ext_skel或ext_skel.php文件，它是类unix环境下用于自动生成php扩展框架的脚本工具。</p>
 <h3 id="开发自己的php扩展">开发自己的php扩展</h3>
-
 <p>可以通过&ndash;help查看ext_skel.php的完整命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ext_skel --help
+</code></pre></div><p>首先，我们需要利用ext_skel.php生成我们需要的框架，只需要提供&ndash;extname的参数即可</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 5.6.23</span>
+./ext_skel --extname<span style="color:#f92672">=</span>helloworld
 
-<pre><code class="language-bash">ext_skel --help
-</code></pre>
-
-<p>首先，我们需要利用ext_skel.php生成我们需要的框架，只需要提供&ndash;extname的参数即可</p>
-
-<pre><code class="language-bash"># 5.6.23
-./ext_skel --extname=helloworld
-
-# 7.4.6
+<span style="color:#75715e"># 7.4.6</span>
 ./ext_skel.php --ext helloworld
 
-</code></pre>
-
-<p>运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录</p>
-
-<p>目录下包含以下文件：
-- config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。
-- php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。
-- helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中</p>
-
+</code></pre></div><p>运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录</p>
+<p>目录下包含以下文件：</p>
+<ul>
+<li>config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。</li>
+<li>php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。</li>
+<li>helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中</li>
+</ul>
 <h4 id="build-system配置">build system配置</h4>
-
 <p>这里看下config.m4配置的一些内容，打开config.m4，注意，其使用dnl作为注释符</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnl config.m4 <span style="color:#66d9ef">for</span> extension helloworld
 
-<pre><code class="language-bash">dnl config.m4 for extension helloworld
-
-dnl Comments in this file start with the string 'dnl'.
+dnl Comments in this file start with the string <span style="color:#e6db74">&#39;dnl&#39;</span>.
 dnl Remove where necessary.
 
-dnl If your extension references something external, use 'with':
+dnl If your extension references something external, use <span style="color:#e6db74">&#39;with&#39;</span>:
 
-dnl PHP_ARG_WITH([helloworld],
-dnl   [for helloworld support],
-dnl   [AS_HELP_STRING([--with-helloworld],
-dnl     [Include helloworld support])])
+dnl PHP_ARG_WITH<span style="color:#f92672">([</span>helloworld<span style="color:#f92672">]</span>,
+dnl   <span style="color:#f92672">[</span><span style="color:#66d9ef">for</span> helloworld support<span style="color:#f92672">]</span>,
+dnl   <span style="color:#f92672">[</span>AS_HELP_STRING<span style="color:#f92672">([</span>--with-helloworld<span style="color:#f92672">]</span>,
+dnl     <span style="color:#f92672">[</span>Include helloworld support<span style="color:#f92672">])])</span>
 
-dnl Otherwise use 'enable':
+dnl Otherwise use <span style="color:#e6db74">&#39;enable&#39;</span>:
 
-PHP_ARG_ENABLE([helloworld],
-  [whether to enable helloworld support],
-  [AS_HELP_STRING([--enable-helloworld],
-    [Enable helloworld support])],
-  [no])
+PHP_ARG_ENABLE<span style="color:#f92672">([</span>helloworld<span style="color:#f92672">]</span>,
+  <span style="color:#f92672">[</span>whether to enable helloworld support<span style="color:#f92672">]</span>,
+  <span style="color:#f92672">[</span>AS_HELP_STRING<span style="color:#f92672">([</span>--enable-helloworld<span style="color:#f92672">]</span>,
+    <span style="color:#f92672">[</span>Enable helloworld support<span style="color:#f92672">])]</span>,
+  <span style="color:#f92672">[</span>no<span style="color:#f92672">])</span>
 
-if test &quot;$PHP_HELLOWORLD&quot; != &quot;no&quot;; then
+<span style="color:#66d9ef">if</span> test <span style="color:#e6db74">&#34;</span>$PHP_HELLOWORLD<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;no&#34;</span>; <span style="color:#66d9ef">then</span>
   dnl Write more examples of tests here...
 
-  dnl Remove this code block if the library does not support pkg-config.
-  dnl PKG_CHECK_MODULES([LIBFOO], [foo])
-  dnl PHP_EVAL_INCLINE($LIBFOO_CFLAGS)
-  dnl PHP_EVAL_LIBLINE($LIBFOO_LIBS, HELLOWORLD_SHARED_LIBADD)
+  dnl Remove this code block <span style="color:#66d9ef">if</span> the library does not support pkg-config.
+  dnl PKG_CHECK_MODULES<span style="color:#f92672">([</span>LIBFOO<span style="color:#f92672">]</span>, <span style="color:#f92672">[</span>foo<span style="color:#f92672">])</span>
+  dnl PHP_EVAL_INCLINE<span style="color:#f92672">(</span>$LIBFOO_CFLAGS<span style="color:#f92672">)</span>
+  dnl PHP_EVAL_LIBLINE<span style="color:#f92672">(</span>$LIBFOO_LIBS, HELLOWORLD_SHARED_LIBADD<span style="color:#f92672">)</span>
 
-  dnl If you need to check for a particular library version using PKG_CHECK_MODULES,
+  dnl If you need to check <span style="color:#66d9ef">for</span> a particular library version using PKG_CHECK_MODULES,
   dnl you can use comparison operators. For example:
-  dnl PKG_CHECK_MODULES([LIBFOO], [foo &gt;= 1.2.3])
-  dnl PKG_CHECK_MODULES([LIBFOO], [foo &lt; 3.4])
-  dnl PKG_CHECK_MODULES([LIBFOO], [foo = 1.2.3])
+  dnl PKG_CHECK_MODULES<span style="color:#f92672">([</span>LIBFOO<span style="color:#f92672">]</span>, <span style="color:#f92672">[</span>foo &gt;<span style="color:#f92672">=</span> 1.2.3<span style="color:#f92672">])</span>
+  dnl PKG_CHECK_MODULES<span style="color:#f92672">([</span>LIBFOO<span style="color:#f92672">]</span>, <span style="color:#f92672">[</span>foo &lt; 3.4<span style="color:#f92672">])</span>
+  dnl PKG_CHECK_MODULES<span style="color:#f92672">([</span>LIBFOO<span style="color:#f92672">]</span>, <span style="color:#f92672">[</span>foo <span style="color:#f92672">=</span> 1.2.3<span style="color:#f92672">])</span>
 
-  dnl Remove this code block if the library supports pkg-config.
+  dnl Remove this code block <span style="color:#66d9ef">if</span> the library supports pkg-config.
   dnl --with-helloworld -&gt; check with-path
-  dnl SEARCH_PATH=&quot;/usr/local /usr&quot;     # you might want to change this
-  dnl SEARCH_FOR=&quot;/include/helloworld.h&quot;  # you most likely want to change this
-  dnl if test -r $PHP_HELLOWORLD/$SEARCH_FOR; then # path given as parameter
-  dnl   HELLOWORLD_DIR=$PHP_HELLOWORLD
-  dnl else # search default path list
-  dnl   AC_MSG_CHECKING([for helloworld files in default path])
-  dnl   for i in $SEARCH_PATH ; do
-  dnl     if test -r $i/$SEARCH_FOR; then
-  dnl       HELLOWORLD_DIR=$i
-  dnl       AC_MSG_RESULT(found in $i)
-  dnl     fi
-  dnl   done
-  dnl fi
+  dnl SEARCH_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local /usr&#34;</span>     <span style="color:#75715e"># you might want to change this</span>
+  dnl SEARCH_FOR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/include/helloworld.h&#34;</span>  <span style="color:#75715e"># you most likely want to change this</span>
+  dnl <span style="color:#66d9ef">if</span> test -r $PHP_HELLOWORLD/$SEARCH_FOR; <span style="color:#66d9ef">then</span> <span style="color:#75715e"># path given as parameter</span>
+  dnl   HELLOWORLD_DIR<span style="color:#f92672">=</span>$PHP_HELLOWORLD
+  dnl <span style="color:#66d9ef">else</span> <span style="color:#75715e"># search default path list</span>
+  dnl   AC_MSG_CHECKING<span style="color:#f92672">([</span><span style="color:#66d9ef">for</span> helloworld files in default path<span style="color:#f92672">])</span>
+  dnl   <span style="color:#66d9ef">for</span> i in $SEARCH_PATH ; <span style="color:#66d9ef">do</span>
+  dnl     <span style="color:#66d9ef">if</span> test -r $i/$SEARCH_FOR; <span style="color:#66d9ef">then</span>
+  dnl       HELLOWORLD_DIR<span style="color:#f92672">=</span>$i
+  dnl       AC_MSG_RESULT<span style="color:#f92672">(</span>found in $i<span style="color:#f92672">)</span>
+  dnl     <span style="color:#66d9ef">fi</span>
+  dnl   <span style="color:#66d9ef">done</span>
+  dnl <span style="color:#66d9ef">fi</span>
   dnl
-  dnl if test -z &quot;$HELLOWORLD_DIR&quot;; then
-  dnl   AC_MSG_RESULT([not found])
-  dnl   AC_MSG_ERROR([Please reinstall the helloworld distribution])
-  dnl fi
+  dnl <span style="color:#66d9ef">if</span> test -z <span style="color:#e6db74">&#34;</span>$HELLOWORLD_DIR<span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">then</span>
+  dnl   AC_MSG_RESULT<span style="color:#f92672">([</span>not found<span style="color:#f92672">])</span>
+  dnl   AC_MSG_ERROR<span style="color:#f92672">([</span>Please reinstall the helloworld distribution<span style="color:#f92672">])</span>
+  dnl <span style="color:#66d9ef">fi</span>
 
-  dnl Remove this code block if the library supports pkg-config.
+  dnl Remove this code block <span style="color:#66d9ef">if</span> the library supports pkg-config.
   dnl --with-helloworld -&gt; add include path
-  dnl PHP_ADD_INCLUDE($HELLOWORLD_DIR/include)
+  dnl PHP_ADD_INCLUDE<span style="color:#f92672">(</span>$HELLOWORLD_DIR/include<span style="color:#f92672">)</span>
 
-  dnl Remove this code block if the library supports pkg-config.
-  dnl --with-helloworld -&gt; check for lib and symbol presence
-  dnl LIBNAME=HELLOWORLD # you may want to change this
-  dnl LIBSYMBOL=HELLOWORLD # you most likely want to change this
+  dnl Remove this code block <span style="color:#66d9ef">if</span> the library supports pkg-config.
+  dnl --with-helloworld -&gt; check <span style="color:#66d9ef">for</span> lib and symbol presence
+  dnl LIBNAME<span style="color:#f92672">=</span>HELLOWORLD <span style="color:#75715e"># you may want to change this</span>
+  dnl LIBSYMBOL<span style="color:#f92672">=</span>HELLOWORLD <span style="color:#75715e"># you most likely want to change this</span>
 
-  dnl If you need to check for a particular library function (e.g. a conditional
-  dnl or version-dependent feature) and you are using pkg-config:
-  dnl PHP_CHECK_LIBRARY($LIBNAME, $LIBSYMBOL,
-  dnl [
-  dnl   AC_DEFINE(HAVE_HELLOWORLD_FEATURE, 1, [ ])
-  dnl ],[
-  dnl   AC_MSG_ERROR([FEATURE not supported by your helloworld library.])
-  dnl ], [
+  dnl If you need to check <span style="color:#66d9ef">for</span> a particular library <span style="color:#66d9ef">function</span> <span style="color:#f92672">(</span>e.g. a conditional
+  dnl or version-dependent feature<span style="color:#f92672">)</span> and you are using pkg-config:
+  dnl PHP_CHECK_LIBRARY<span style="color:#f92672">(</span>$LIBNAME, $LIBSYMBOL,
+  dnl <span style="color:#f92672">[</span>
+  dnl   AC_DEFINE<span style="color:#f92672">(</span>HAVE_HELLOWORLD_FEATURE, 1, <span style="color:#f92672">[</span> <span style="color:#f92672">])</span>
+  dnl <span style="color:#f92672">]</span>,<span style="color:#f92672">[</span>
+  dnl   AC_MSG_ERROR<span style="color:#f92672">([</span>FEATURE not supported by your helloworld library.<span style="color:#f92672">])</span>
+  dnl <span style="color:#f92672">]</span>, <span style="color:#f92672">[</span>
   dnl   $LIBFOO_LIBS
-  dnl ])
+  dnl <span style="color:#f92672">])</span>
 
-  dnl If you need to check for a particular library function (e.g. a conditional
-  dnl or version-dependent feature) and you are not using pkg-config:
-  dnl PHP_CHECK_LIBRARY($LIBNAME, $LIBSYMBOL,
-  dnl [
-  dnl   PHP_ADD_LIBRARY_WITH_PATH($LIBNAME, $HELLOWORLD_DIR/$PHP_LIBDIR, HELLOWORLD_SHARED_LIBADD)
-  dnl   AC_DEFINE(HAVE_HELLOWORLD_FEATURE, 1, [ ])
-  dnl ],[
-  dnl   AC_MSG_ERROR([FEATURE not supported by your helloworld library.])
-  dnl ],[
+  dnl If you need to check <span style="color:#66d9ef">for</span> a particular library <span style="color:#66d9ef">function</span> <span style="color:#f92672">(</span>e.g. a conditional
+  dnl or version-dependent feature<span style="color:#f92672">)</span> and you are not using pkg-config:
+  dnl PHP_CHECK_LIBRARY<span style="color:#f92672">(</span>$LIBNAME, $LIBSYMBOL,
+  dnl <span style="color:#f92672">[</span>
+  dnl   PHP_ADD_LIBRARY_WITH_PATH<span style="color:#f92672">(</span>$LIBNAME, $HELLOWORLD_DIR/$PHP_LIBDIR, HELLOWORLD_SHARED_LIBADD<span style="color:#f92672">)</span>
+  dnl   AC_DEFINE<span style="color:#f92672">(</span>HAVE_HELLOWORLD_FEATURE, 1, <span style="color:#f92672">[</span> <span style="color:#f92672">])</span>
+  dnl <span style="color:#f92672">]</span>,<span style="color:#f92672">[</span>
+  dnl   AC_MSG_ERROR<span style="color:#f92672">([</span>FEATURE not supported by your helloworld library.<span style="color:#f92672">])</span>
+  dnl <span style="color:#f92672">]</span>,<span style="color:#f92672">[</span>
   dnl   -L$HELLOWORLD_DIR/$PHP_LIBDIR -lm
-  dnl ])
+  dnl <span style="color:#f92672">])</span>
   dnl
-  dnl PHP_SUBST(HELLOWORLD_SHARED_LIBADD)
+  dnl PHP_SUBST<span style="color:#f92672">(</span>HELLOWORLD_SHARED_LIBADD<span style="color:#f92672">)</span>
 
-  dnl In case of no dependencies
-  AC_DEFINE(HAVE_HELLOWORLD, 1, [ Have helloworld support ])
+  dnl In <span style="color:#66d9ef">case</span> of no dependencies
+  AC_DEFINE<span style="color:#f92672">(</span>HAVE_HELLOWORLD, 1, <span style="color:#f92672">[</span> Have helloworld support <span style="color:#f92672">])</span>
 
-  PHP_NEW_EXTENSION(helloworld, helloworld.c, $ext_shared)
-fi
-</code></pre>
-
-<p>大致上如果要引用外部模块等，需要在这里配置</p>
-
+  PHP_NEW_EXTENSION<span style="color:#f92672">(</span>helloworld, helloworld.c, $ext_shared<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>大致上如果要引用外部模块等，需要在这里配置</p>
 <h4 id="编写扩展代码">编写扩展代码</h4>
-
 <p>编写PHP扩展是基于Zend API和一些宏，首先需要搞清楚php extension的结构。
 其实质上就是zend_module_entry结构体，可以查阅zend/zend_modules.h文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">   <span style="color:#ae81ff">68</span> <span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _zend_module_entry zend_module_entry;
+   <span style="color:#ae81ff">69</span> <span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _zend_module_dep zend_module_dep;
+   <span style="color:#ae81ff">70</span> 
+   <span style="color:#ae81ff">71</span> <span style="color:#66d9ef">struct</span> _zend_module_entry {
+   <span style="color:#ae81ff">72</span>     <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">short</span> size;
+   <span style="color:#ae81ff">73</span>     <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> zend_api;
+   <span style="color:#ae81ff">74</span>     <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> zend_debug;
+   <span style="color:#ae81ff">75</span>     <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> zts;
+   <span style="color:#ae81ff">76</span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> _zend_ini_entry <span style="color:#f92672">*</span>ini_entry;
+   <span style="color:#ae81ff">77</span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> _zend_module_dep <span style="color:#f92672">*</span>deps;
+   <span style="color:#ae81ff">78</span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name;
+   <span style="color:#ae81ff">79</span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> _zend_function_entry <span style="color:#f92672">*</span>functions;
+   <span style="color:#ae81ff">80</span>     <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span>module_startup_func)(INIT_FUNC_ARGS);
+   <span style="color:#ae81ff">81</span>     <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span>module_shutdown_func)(SHUTDOWN_FUNC_ARGS);
+   <span style="color:#ae81ff">82</span>     <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span>request_startup_func)(INIT_FUNC_ARGS);
+   <span style="color:#ae81ff">83</span>     <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span>request_shutdown_func)(SHUTDOWN_FUNC_ARGS);
+   <span style="color:#ae81ff">84</span>     <span style="color:#a6e22e">void</span> (<span style="color:#f92672">*</span>info_func)(ZEND_MODULE_INFO_FUNC_ARGS);
+   <span style="color:#ae81ff">85</span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>version;
+   <span style="color:#ae81ff">86</span>     size_t globals_size;
+   <span style="color:#ae81ff">87</span> <span style="color:#960050;background-color:#1e0010">#</span>ifdef ZTS
+   <span style="color:#ae81ff">88</span>     ts_rsrc_id<span style="color:#f92672">*</span> globals_id_ptr;
+   <span style="color:#ae81ff">89</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#66d9ef">else</span>
+   <span style="color:#ae81ff">90</span>     <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> globals_ptr;
+   <span style="color:#ae81ff">91</span> <span style="color:#960050;background-color:#1e0010">#</span>endif
+   <span style="color:#ae81ff">92</span>     <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>globals_ctor)(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>global);
+   <span style="color:#ae81ff">93</span>     <span style="color:#a6e22e">void</span> (<span style="color:#f92672">*</span>globals_dtor)(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>global);
+   <span style="color:#ae81ff">94</span>     <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span>post_deactivate_func)(<span style="color:#66d9ef">void</span>);
+   <span style="color:#ae81ff">95</span>     <span style="color:#66d9ef">int</span> module_started;
+   <span style="color:#ae81ff">96</span>     <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> type;
+   <span style="color:#ae81ff">97</span>     <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>handle;
+   <span style="color:#ae81ff">98</span>     <span style="color:#66d9ef">int</span> module_number;
+   <span style="color:#ae81ff">99</span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>build_id;                                                                                                                                                          
+  <span style="color:#ae81ff">100</span> };
 
-<pre><code class="language-c">   68 typedef struct _zend_module_entry zend_module_entry;
-   69 typedef struct _zend_module_dep zend_module_dep;
-   70 
-   71 struct _zend_module_entry {
-   72     unsigned short size;
-   73     unsigned int zend_api;
-   74     unsigned char zend_debug;
-   75     unsigned char zts;
-   76     const struct _zend_ini_entry *ini_entry;
-   77     const struct _zend_module_dep *deps;
-   78     const char *name;
-   79     const struct _zend_function_entry *functions;
-   80     int (*module_startup_func)(INIT_FUNC_ARGS);
-   81     int (*module_shutdown_func)(SHUTDOWN_FUNC_ARGS);
-   82     int (*request_startup_func)(INIT_FUNC_ARGS);
-   83     int (*request_shutdown_func)(SHUTDOWN_FUNC_ARGS);
-   84     void (*info_func)(ZEND_MODULE_INFO_FUNC_ARGS);
-   85     const char *version;
-   86     size_t globals_size;
-   87 #ifdef ZTS
-   88     ts_rsrc_id* globals_id_ptr;
-   89 #else
-   90     void* globals_ptr;
-   91 #endif
-   92     void (*globals_ctor)(void *global);
-   93     void (*globals_dtor)(void *global);
-   94     int (*post_deactivate_func)(void);
-   95     int module_started;
-   96     unsigned char type;
-   97     void *handle;
-   98     int module_number;
-   99     const char *build_id;                                                                                                                                                          
-  100 };
-
-</code></pre>
-
-<p>解释下：</p>
-
+</code></pre></div><p>解释下：</p>
 <ul>
 <li>name：扩展的名字</li>
 <li>functions：存放此扩展中定义的函数的引用</li>
 </ul>
-
 <p>第9-12个字段分别是四个函数指针，这四个函数会在相应时机被调用，
 分别是“扩展模块加载时”、“扩展模块卸载时”、“每个请求开始时”和“每个请求结束时”。
 这四个函数可以看成是一种拦截机制，主要用于相应时机的资源分配、释放等相关操作。</p>
-
 <ul>
 <li>info_func： 是一个函数指针，这个指针指向的函数会在执行phpinfo()时被调用，用于显示自定义模块信息。</li>
 <li>version：模块的版本</li>
 </ul>
-
 <p>介绍完以上字段，我们可以看看“helloworld.c”中自动生成的“helloworld_module_entry”框架代码了</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/* helloworld extension for PHP */</span>
 
-<pre><code class="language-c">/* helloworld extension for PHP */
-
-#ifdef HAVE_CONFIG_H
-# include &quot;config.h&quot;
-#endif
-
-#include &quot;php.h&quot;
-#include &quot;ext/standard/info.h&quot;
-#include &quot;php_helloworld.h&quot;
-
-/* For compatibility with older PHP versions */
-#ifndef ZEND_PARSE_PARAMETERS_NONE
-#define ZEND_PARSE_PARAMETERS_NONE() \
-	ZEND_PARSE_PARAMETERS_START(0, 0) \
-	ZEND_PARSE_PARAMETERS_END()
-#endif
-
-/* {{{ void helloworld_test1()
- */
+<span style="color:#75715e">#ifdef HAVE_CONFIG_H
+</span><span style="color:#75715e"># include &#34;config.h&#34;
+</span><span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;php.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;ext/standard/info.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;php_helloworld.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">/* For compatibility with older PHP versions */</span>
+<span style="color:#75715e">#ifndef ZEND_PARSE_PARAMETERS_NONE
+</span><span style="color:#75715e">#define ZEND_PARSE_PARAMETERS_NONE() \
+</span><span style="color:#75715e">	ZEND_PARSE_PARAMETERS_START(0, 0) \
+</span><span style="color:#75715e">	ZEND_PARSE_PARAMETERS_END()
+</span><span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">/* {{{ void helloworld_test1()
+</span><span style="color:#75715e"> */</span>
 PHP_FUNCTION(helloworld_test1)
 {
 	ZEND_PARSE_PARAMETERS_NONE();
 
-	php_printf(&quot;The extension %s is loaded and working!\r\n&quot;, &quot;helloworld&quot;);
+	php_printf(<span style="color:#e6db74">&#34;The extension %s is loaded and working!</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">&#34;helloworld&#34;</span>);
 }
-/* }}} */
+<span style="color:#75715e">/* }}} */</span>
 
-/* {{{ string helloworld_test2( [ string $var ] )
- */
+<span style="color:#75715e">/* {{{ string helloworld_test2( [ string $var ] )
+</span><span style="color:#75715e"> */</span>
 PHP_FUNCTION(helloworld_test2)
 {
-	char *var = &quot;World&quot;;
-	size_t var_len = sizeof(&quot;World&quot;) - 1;
-	zend_string *retval;
+	<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>var <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;World&#34;</span>;
+	size_t var_len <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#e6db74">&#34;World&#34;</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+	zend_string <span style="color:#f92672">*</span>retval;
 
-	ZEND_PARSE_PARAMETERS_START(0, 1)
+	ZEND_PARSE_PARAMETERS_START(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STRING(var, var_len)
 	ZEND_PARSE_PARAMETERS_END();
 
-	retval = strpprintf(0, &quot;Hello %s&quot;, var);
+	retval <span style="color:#f92672">=</span> strpprintf(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Hello %s&#34;</span>, var);
 
 	RETURN_STR(retval);
 }
-/* }}}*/
+<span style="color:#75715e">/* }}}*/</span>
 
-/* {{{ PHP_RINIT_FUNCTION
- */
+<span style="color:#75715e">/* {{{ PHP_RINIT_FUNCTION
+</span><span style="color:#75715e"> */</span>
 PHP_RINIT_FUNCTION(helloworld)
 {
-#if defined(ZTS) &amp;&amp; defined(COMPILE_DL_HELLOWORLD)
-	ZEND_TSRMLS_CACHE_UPDATE();
-#endif
-
-	return SUCCESS;
+<span style="color:#75715e">#if defined(ZTS) &amp;&amp; defined(COMPILE_DL_HELLOWORLD)
+</span><span style="color:#75715e"></span>	ZEND_TSRMLS_CACHE_UPDATE();
+<span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+	<span style="color:#66d9ef">return</span> SUCCESS;
 }
-/* }}} */
+<span style="color:#75715e">/* }}} */</span>
 
-/* {{{ PHP_MINFO_FUNCTION
- */
+<span style="color:#75715e">/* {{{ PHP_MINFO_FUNCTION
+</span><span style="color:#75715e"> */</span>
 PHP_MINFO_FUNCTION(helloworld)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, &quot;helloworld support&quot;, &quot;enabled&quot;);
+	php_info_print_table_header(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;helloworld support&#34;</span>, <span style="color:#e6db74">&#34;enabled&#34;</span>);
 	php_info_print_table_end();
 }
-/* }}} */
+<span style="color:#75715e">/* }}} */</span>
 
-/* {{{ arginfo
- */
-ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test1, 0)
+<span style="color:#75715e">/* {{{ arginfo
+</span><span style="color:#75715e"> */</span>
+ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test1, <span style="color:#ae81ff">0</span>)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test2, 0)
-	ZEND_ARG_INFO(0, str)
+ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test2, <span style="color:#ae81ff">0</span>)
+	ZEND_ARG_INFO(<span style="color:#ae81ff">0</span>, str)
 ZEND_END_ARG_INFO()
-/* }}} */
+<span style="color:#75715e">/* }}} */</span>
 
-/* {{{ helloworld_functions[]
- */
-static const zend_function_entry helloworld_functions[] = {
+<span style="color:#75715e">/* {{{ helloworld_functions[]
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> zend_function_entry helloworld_functions[] <span style="color:#f92672">=</span> {
 	PHP_FE(helloworld_test1,		arginfo_helloworld_test1)
 	PHP_FE(helloworld_test2,		arginfo_helloworld_test2)
 	PHP_FE_END
 };
-/* }}} */
+<span style="color:#75715e">/* }}} */</span>
 
-/* {{{ helloworld_module_entry
- */
-zend_module_entry helloworld_module_entry = {
+<span style="color:#75715e">/* {{{ helloworld_module_entry
+</span><span style="color:#75715e"> */</span>
+zend_module_entry helloworld_module_entry <span style="color:#f92672">=</span> {
 	STANDARD_MODULE_HEADER,
-	&quot;helloworld&quot;,					/* Extension name */
-	helloworld_functions,			/* zend_function_entry */
-	NULL,							/* PHP_MINIT - Module initialization */
-	NULL,							/* PHP_MSHUTDOWN - Module shutdown */
-	PHP_RINIT(helloworld),			/* PHP_RINIT - Request initialization */
-	NULL,							/* PHP_RSHUTDOWN - Request shutdown */
-	PHP_MINFO(helloworld),			/* PHP_MINFO - Module info */
-	PHP_HELLOWORLD_VERSION,		/* Version */
+	<span style="color:#e6db74">&#34;helloworld&#34;</span>,					<span style="color:#75715e">/* Extension name */</span>
+	helloworld_functions,			<span style="color:#75715e">/* zend_function_entry */</span>
+	NULL,							<span style="color:#75715e">/* PHP_MINIT - Module initialization */</span>
+	NULL,							<span style="color:#75715e">/* PHP_MSHUTDOWN - Module shutdown */</span>
+	PHP_RINIT(helloworld),			<span style="color:#75715e">/* PHP_RINIT - Request initialization */</span>
+	NULL,							<span style="color:#75715e">/* PHP_RSHUTDOWN - Request shutdown */</span>
+	PHP_MINFO(helloworld),			<span style="color:#75715e">/* PHP_MINFO - Module info */</span>
+	PHP_HELLOWORLD_VERSION,		<span style="color:#75715e">/* Version */</span>
 	STANDARD_MODULE_PROPERTIES
 };
-/* }}} */
+<span style="color:#75715e">/* }}} */</span>
 
-#ifdef COMPILE_DL_HELLOWORLD
-# ifdef ZTS
-ZEND_TSRMLS_CACHE_DEFINE()
-# endif
-ZEND_GET_MODULE(helloworld)
-#endif
-</code></pre>
-
-<ul>
+<span style="color:#75715e">#ifdef COMPILE_DL_HELLOWORLD
+</span><span style="color:#75715e"># ifdef ZTS
+</span><span style="color:#75715e"></span>ZEND_TSRMLS_CACHE_DEFINE()
+<span style="color:#75715e"># endif
+</span><span style="color:#75715e"></span>ZEND_GET_MODULE(helloworld)
+<span style="color:#75715e">#endif
+</span></code></pre></div><ul>
 <li>PHP_MINIT_FUNCTION =&gt; 模块初始化阶段（M就是module的含义，init就是initial）</li>
 <li>PHP_MSHUTDOWN_FUNCTION =&gt; 模块关闭阶段（M就是module的含义，后面就是shutdown）</li>
 <li>PHP_RINIT_FUNCTION =&gt; 请求初始化（R就是request的含义，init就是initial）</li>
 <li>PHP_RSHUTDOWN_FUNCTION =&gt; 请求关闭阶段（R就是request的含义，后面就是shutdown）</li>
 <li>PHP_MINFO_FUNCTION 指获取模块信息</li>
 </ul>
-
 <p>宏“STANDARD_MODULE_HEADER”会生成前6个字段，“STANDARD_MODULE_PROPERTIES ”会生成“version”后的字段
 这里要注意，几个宏的参数均为“helloworld”，但这并不表示几个函数的名字全为“helloworld”，
 C语言中也不可能存在函数名重载机制。实际上，在开发PHP Extension的过程中，几乎处处都要用到Zend里预定义的各种宏，
 从全局变量到函数的定义甚至返回值，都不能按照“裸写”的方式来编写C语言，这是因为PHP的运行机制可能会导致命名冲突等问题，
 而这些宏会将函数等元素变换成一个内部名称，但这些对程序员都是透明的。</p>
-
 <p>我们的任务就是：</p>
-
 <ul>
 <li>第一，如果需要在相应时机处理一些东西，那么需要填充各个拦截函数内容；</li>
 <li>第二，编写say_hello的功能函数，并将引用添加到say_hello_functions中。</li>
 </ul>
-
-<h4 id="编写phpinfo-回调函数">编写phpinfo()回调函数</h4>
-
+<h4 id="编写phpinfo回调函数">编写phpinfo()回调函数</h4>
 <p>因为hellowolrd扩展在各个生命周期阶段并不需要做操作，所以我们只编写info_func的内容，上文说过，这个函数将在phpinfo()执行时被自动调用，用于显示扩展的信息。编写这个函数会用到四个函数：</p>
-
 <ul>
 <li>php_info_print_table_start()——开始phpinfo表格。无参数。</li>
 <li>php_info_print_table_header()——输出表格头。第一个参数是整形，指明头的列数，然后后面的参数是与列数等量的(char*)类型参数用于指定显示的文字。</li>
 <li>php_info_print_table_row()——输出表格内容。第一个参数是整形，指明这一行的列数，然后后面的参数是与列数等量的(char*)类型参数用于指定显示的文字。</li>
 <li>php_info_print_table_end()——结束phpinfo表格。无参数</li>
 </ul>
-
 <p>下面编写具体的代码：</p>
-
-<pre><code class="language-c">/* {{{ PHP_MINFO_FUNCTION
- */
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/* {{{ PHP_MINFO_FUNCTION
+</span><span style="color:#75715e"> */</span>
 PHP_MINFO_FUNCTION(helloworld)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, &quot;helloworld support&quot;, &quot;enabled&quot;);
-	php_info_print_table_row(2, &quot;author, &quot;realjf&quot;); // 新增
+	php_info_print_table_header(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;helloworld support&#34;</span>, <span style="color:#e6db74">&#34;enabled&#34;</span>);
+	php_info_print_table_row(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;author, &#34;</span>realjf<span style="color:#e6db74">&#34;); // 新增</span>
 	php_info_print_table_end();
 }
-/* }}} */
-</code></pre>
-
-<h4 id="编写核心函数">编写核心函数</h4>
-
+<span style="color:#75715e">/* }}} */</span>
+</code></pre></div><h4 id="编写核心函数">编写核心函数</h4>
 <p>编写核心函数，总共分为三步：</p>
-
 <ul>
 <li>1、使用宏PHP_FUNCTION定义函数体；</li>
 <li>2、使用宏ZEND_BEGIN_ARG_INFO和ZEND_END_ARG_INFO定义参数信息；</li>
 <li>3、使用宏PHP_FE将函数加入到say_hello_functions中。</li>
 </ul>
-
-<h5 id="使用宏php-function定义函数体">使用宏PHP_FUNCTION定义函数体</h5>
-
-<pre><code class="language-c">PHP_FUNCTION(helloworld_func)
+<h5 id="使用宏php_function定义函数体">使用宏PHP_FUNCTION定义函数体</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">PHP_FUNCTION(helloworld_func)
 {
-    char *name;
-    int name_len;
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, &quot;s&quot;, &amp;name, &amp;name_len) == FAILURE)
+    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name;
+    <span style="color:#66d9ef">int</span> name_len;
+    <span style="color:#66d9ef">if</span> (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, <span style="color:#e6db74">&#34;s&#34;</span>, <span style="color:#f92672">&amp;</span>name, <span style="color:#f92672">&amp;</span>name_len) <span style="color:#f92672">==</span> FAILURE)
     {
-        return;
+        <span style="color:#66d9ef">return</span>;
     }
-    php_printf(&quot;Hello %s!&quot;, name);
+    php_printf(<span style="color:#e6db74">&#34;Hello %s!&#34;</span>, name);
     RETURN_TRUE;
 }
-</code></pre>
-
-<p>我们一行行解释：</p>
-
+</code></pre></div><p>我们一行行解释：</p>
 <p>首先，由上述函数实现可以看出，函数的外部名称就是宏后面括号里面的名称，</p>
-
 <p>声明局部变量大致与c语言类似</p>
-
 <p>解析参数通过zend_parse_parameters函数实现，这个函数的作用是从函数用户的输入栈中读取数据，
 然后转换成相应的函数参数填入变量以供后面核心功能代码使用。</p>
-
 <p>zend_parse_parameters的</p>
-
 <ul>
 <li>第一个参数是用户传入参数的个数，可以由宏“ZEND_NUM_ARGS() TSRMLS_CC”生成；</li>
 <li>第二个参数是一个字符串，其中每个字母代表一个变量类型，我们只有一个字符串型变量，所以第二个参数是“s”；</li>
 <li>最后各个参数需要一些必要的局部变量指针用于存储数据</li>
 </ul>
-
 <p>下表给出了不同变量类型的字母代表及其所需要的局部变量指针
-<img src="/image/php_zend_parse_parameters.png" alt="/image/php_zend_parse_parameters.png" /></p>
-
+<img src="/image/php_zend_parse_parameters.png" alt="/image/php_zend_parse_parameters.png"></p>
 <p>参数解析完成后就是核心功能代码，我们这里只是输出一行字符，php_printf是Zend版本的printf。</p>
-
 <p>最后的返回值也是通过宏实现的。RETURN_TRUE宏是返回布尔值“true”</p>
-
 <p>可以设置return_value，但php提供了设置返回值的宏</p>
-
-<pre><code class="language-c">#define RETURN_BOOL(b)                     { RETVAL_BOOL(b); return; }
-#define RETURN_NULL()                     { RETVAL_NULL(); return;}
-#define RETURN_LONG(l)                     { RETVAL_LONG(l); return; }
-#define RETURN_DOUBLE(d)                 { RETVAL_DOUBLE(d); return; }
-#define RETURN_STR(s)                     { RETVAL_STR(s); return; }
-#define RETURN_INTERNED_STR(s)            { RETVAL_INTERNED_STR(s); return; }
-#define RETURN_NEW_STR(s)                { RETVAL_NEW_STR(s); return; }
-#define RETURN_STR_COPY(s)                { RETVAL_STR_COPY(s); return; }
-#define RETURN_STRING(s)                 { RETVAL_STRING(s); return; }
-#define RETURN_STRINGL(s, l)             { RETVAL_STRINGL(s, l); return; }
-#define RETURN_EMPTY_STRING()             { RETVAL_EMPTY_STRING(); return; }
-#define RETURN_RES(r)                     { RETVAL_RES(r); return; }
-#define RETURN_ARR(r)                     { RETVAL_ARR(r); return; }
-#define RETURN_OBJ(r)                     { RETVAL_OBJ(r); return; }
-#define RETURN_ZVAL(zv, copy, dtor)        { RETVAL_ZVAL(zv, copy, dtor); return; }
-#define RETURN_FALSE                      { RETVAL_FALSE; return; }
-#define RETURN_TRUE                       { RETVAL_TRUE; return; }
-#define RETURN_RESOURCE(r)	               { RETVAL_RESOURCE(r) } // 设置资源句柄
-</code></pre>
-
-<h5 id="使用宏zend-begin-arg-info和zend-end-arg-info定义参数信息">使用宏ZEND_BEGIN_ARG_INFO和ZEND_END_ARG_INFO定义参数信息</h5>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#define RETURN_BOOL(b)                     { RETVAL_BOOL(b); return; }
+</span><span style="color:#75715e">#define RETURN_NULL()                     { RETVAL_NULL(); return;}
+</span><span style="color:#75715e">#define RETURN_LONG(l)                     { RETVAL_LONG(l); return; }
+</span><span style="color:#75715e">#define RETURN_DOUBLE(d)                 { RETVAL_DOUBLE(d); return; }
+</span><span style="color:#75715e">#define RETURN_STR(s)                     { RETVAL_STR(s); return; }
+</span><span style="color:#75715e">#define RETURN_INTERNED_STR(s)            { RETVAL_INTERNED_STR(s); return; }
+</span><span style="color:#75715e">#define RETURN_NEW_STR(s)                { RETVAL_NEW_STR(s); return; }
+</span><span style="color:#75715e">#define RETURN_STR_COPY(s)                { RETVAL_STR_COPY(s); return; }
+</span><span style="color:#75715e">#define RETURN_STRING(s)                 { RETVAL_STRING(s); return; }
+</span><span style="color:#75715e">#define RETURN_STRINGL(s, l)             { RETVAL_STRINGL(s, l); return; }
+</span><span style="color:#75715e">#define RETURN_EMPTY_STRING()             { RETVAL_EMPTY_STRING(); return; }
+</span><span style="color:#75715e">#define RETURN_RES(r)                     { RETVAL_RES(r); return; }
+</span><span style="color:#75715e">#define RETURN_ARR(r)                     { RETVAL_ARR(r); return; }
+</span><span style="color:#75715e">#define RETURN_OBJ(r)                     { RETVAL_OBJ(r); return; }
+</span><span style="color:#75715e">#define RETURN_ZVAL(zv, copy, dtor)        { RETVAL_ZVAL(zv, copy, dtor); return; }
+</span><span style="color:#75715e">#define RETURN_FALSE                      { RETVAL_FALSE; return; }
+</span><span style="color:#75715e">#define RETURN_TRUE                       { RETVAL_TRUE; return; }
+</span><span style="color:#75715e">#define RETURN_RESOURCE(r)	               { RETVAL_RESOURCE(r) } </span><span style="color:#75715e">// 设置资源句柄
+</span></code></pre></div><h5 id="使用宏zend_begin_arg_info和zend_end_arg_info定义参数信息">使用宏ZEND_BEGIN_ARG_INFO和ZEND_END_ARG_INFO定义参数信息</h5>
 <p>代码如下：</p>
-
-<pre><code class="language-c">/* {{{ arginfo
- */
-ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test1, 0)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/* {{{ arginfo
+</span><span style="color:#75715e"> */</span>
+ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test1, <span style="color:#ae81ff">0</span>)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test2, 0)
-	ZEND_ARG_INFO(0, str)
+ZEND_BEGIN_ARG_INFO(arginfo_helloworld_test2, <span style="color:#ae81ff">0</span>)
+	ZEND_ARG_INFO(<span style="color:#ae81ff">0</span>, str)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO(arginfo_helloworld_func, 0)
-ZEND_END_ARG_INFO() // 新增
-/* }}} */
+ZEND_BEGIN_ARG_INFO(arginfo_helloworld_func, <span style="color:#ae81ff">0</span>)
+ZEND_END_ARG_INFO() <span style="color:#75715e">// 新增
+</span><span style="color:#75715e"></span><span style="color:#75715e">/* }}} */</span>
 
 
-</code></pre>
-
-<p>使用宏PHP_FE将函数加入到helloworld_functions中</p>
-
+</code></pre></div><p>使用宏PHP_FE将函数加入到helloworld_functions中</p>
 <p>最后，我们需要将刚才定义的函数和参数信息加入到helloworld_functions数组里，代码如下</p>
-
-<pre><code class="language-c">/* {{{ helloworld_functions[]
- */
-static const zend_function_entry helloworld_functions[] = {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/* {{{ helloworld_functions[]
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> zend_function_entry helloworld_functions[] <span style="color:#f92672">=</span> {
 	PHP_FE(helloworld_test1,		arginfo_helloworld_test1)
 	PHP_FE(helloworld_test2,		arginfo_helloworld_test2)
 	PHP_FE(helloworld_func,         arginfo_helloworld_func)
 	PHP_FE_END
 };
-/* }}} */
-</code></pre>
-
-<p>这一步就是通过PHP_EF宏实现，注意这个数组最后一行必须是PHP_FE_END，请不要删除</p>
-
+<span style="color:#75715e">/* }}} */</span>
+</code></pre></div><p>这一步就是通过PHP_EF宏实现，注意这个数组最后一行必须是PHP_FE_END，请不要删除</p>
 <p>至此，我们的扩展已完成编写</p>
-
 <h4 id="编译并安装扩展">编译并安装扩展</h4>
-
 <p>在helloworld目录下运行如下命令：</p>
-
-<pre><code class="language-bash">/usr/bin/phpize
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/usr/bin/phpize
 ./configure
 make
 make install
 
-</code></pre>
-
-<p>这样就会发现在ls -al /usr/lib/php/20180731/ 中多了一个helloworld.so文件</p>
-
+</code></pre></div><p>这样就会发现在ls -al /usr/lib/php/20180731/ 中多了一个helloworld.so文件</p>
 <p>在php.ini文件中加入该扩展</p>
-
-<pre><code class="language-bash">extension=helloworld.so
-</code></pre>
-
-<p>使用phpinfo()函数查看扩展信息</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">extension<span style="color:#f92672">=</span>helloworld.so
+</code></pre></div><p>使用phpinfo()函数查看扩展信息</p>
 <p>使用脚本测试</p>
-
-<pre><code class="language-bash">php -r 'helloworld_func(&quot;realjf&quot;);'
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">php -r <span style="color:#e6db74">&#39;helloworld_func(&#34;realjf&#34;);&#39;</span>
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

@@ -3,7 +3,7 @@
 <head>
     <title>汇编语言之引导加载程序 Bootloaders // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.56.0-DEV" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -86,58 +86,39 @@
                         <a class="tag" href="https://realjf.io/tags/assembly/">assembly</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="什么是引导加载程序">什么是引导加载程序</h3>
-
+            <h3 id="什么是引导加载程序">什么是引导加载程序</h3>
 <p>引导加载程序是一小段软件，可在打开计算机电源后加载操作系统并准备执行。发生这种情况的方式在不同的计算机设计之间会有所不同（早期的计算机需要一个人在每次打开计算机时手动对其进行设置），并且在引导加载过程中通常有多个阶段。</p>
-
 <p>至关重要的是要理解术语“引导程序”只是软件的一种分类（有时是模糊的）。对于处理器来说，引导加载程序只是它盲目执行的另一段代码。引导加载程序有许多种。有些很小，有些很大。
 有些遵循非常简单的规则，而另一些则显示精美的屏幕并为用户提供选择的选择。</p>
-
 <p>在与IBM PC兼容的计算机上，要加载的第一个程序是基本输入/输出系统（BIOS）。BIOS执行许多测试和初始化，如果一切正常，则BIOS的启动加载程序开始。其目的是加载另一个引导加载程序！
 它选择一个磁盘（或某些其他存储介质）从中加载辅助引导加载程序。</p>
-
 <p>在某些情况下，此引导加载程序会加载足够的操作系统以开始运行它。在其他情况下，它将从其他位置加载另一个引导加载程序。当在一台计算机上安装多个操作系统时，通常会发生这种情况。
 每个OS可能都有自己的特定引导加载程序，而“中央”引导加载程序会根据用户的选择加载特定的引导加载程序之一。</p>
-
 <p>大多数引导加载程序都是用汇编语言（甚至是机器代码）专门编写的，因为它们需要紧凑，无法访问其他语言可能需要的OS例程（例如内存分配），因此需要遵循一些不寻常的要求，并且它们频繁使用低级功能。
 但是，某些引导加载程序（尤其是那些具有许多功能并允许用户输入的引导加载程序）非常重。这些通常是用Assembly和C的组合编写的。GRand Unified Bootloader（GRUB）就是这样的一个例子。</p>
-
 <p>一些引导加载程序是高度特定于操作系统的，而其他引导加载程序则不太特定-当然，BIOS引导加载程序不是特定于操作系统的。
 MS-DOS引导加载程序（放置在所有 MS-DOS格式的软盘上）仅检查文件IO.SYS和MSDOS.SYS是否存在；否则，仅将其检查。
 如果它们不存在，则显示错误“非系统磁盘或磁盘错误”，否则它将加载并开始执行IO.SYS。</p>
-
 <p>可能（通过操作系统）期望最后阶段的引导加载程序以某种方式准备计算机，例如，通过将处理器置于保护模式并对中断控制器进行编程。
 尽管可以在操作系统的初始化过程中完成这些操作，但将它们移至引导加载程序可以简化操作系统的设计。
 某些操作系统要求其引导加载程序设置一个小的基本GDT（全局描述符表）并进入保护模式，以消除操作系统具有任何16位代码的需要。
 但是，操作系统可能很快会用其自己的复杂GDT代替它。</p>
-
 <h3 id="引导区">引导区</h3>
-
 <p>磁盘的前512个字节称为引导扇区或主引导记录。引导扇区是磁盘上保留的用于引导目的的区域。
 如果磁盘的引导扇区包含有效的引导扇区（扇区的最后一个字必须包含签名0xAA55），则BIOS会将磁盘视为可引导磁盘。</p>
-
 <h3 id="引导过程">引导过程</h3>
-
 <p>当打开或重置时，x86处理器开始执行在地址FFFF：0000处找到的指令（在此阶段它以实模式运行）（英特尔软件开发人员手册第3卷第9章与以下信息矛盾：执行从物理地址开始0xFFFFFFF0，等等。
 在与IBM PC兼容的处理器中，此地址映射到ROM芯片，该芯片包含计算机的基本输入/输出系统（BIOS）代码。BIOS负责许多测试和初始化。
 例如，BIOS可以执行内存测试，初始化中断控制器和系统计时器并测试这些设备是否正常运行。</p>
-
 <p>最终，实际的引导加载开始了。BIOS首先搜索并初始化可用的存储介质（例如软盘驱动器，硬盘，CD驱动器），然后确定要尝试从中引导的存储介质。
 它会检查每个设备的可用性（例如，确保软盘驱动器包含磁盘），然后按照某些预定义的顺序检查0xAA55签名（通常可以使用BIOS设置工具配置该顺序）。
 它将遇到的第一个可启动设备的第一个扇区加载到RAM中，并启动执行。</p>
-
 <p>理想情况下，这将是另一个引导加载程序，它将继续工作，进行一些准备，然后将控制权传递给其他东西。</p>
-
 <p>尽管BIOS仍与已有20年历史的软件兼容，但随着时间的推移，它们也变得越来越复杂。早期的BIOS无法从CD驱动器引导，但是现在CD甚至DVD引导都是标准的BIOS功能。
 也可以从USB存储设备启动，某些系统可以通过网络启动。为了实现这种高级功能，BIOS有时会进入保护模式等，但随后返回实模式以与旧版引导加载程序兼容。
 这就产生了一个麻烦的问题：编写引导加载程序以与普遍存在的BIOS配合使用，并且编写BIOS来支持所有这些引导加载程序，从而在很大程度上避免了新的引导加载功能。</p>
-
 <h3 id="技术细节">技术细节</h3>
-
 <p>引导加载程序在程序员必须理解的某些条件下运行，以便制作成功的引导加载程序。以下与PC BIOS启动的引导加载程序有关：</p>
-
 <ul>
 <li>驱动器的第一个扇区包含其引导加载程序。</li>
 <li>一个扇区为512字节-最后两个字节必须为0xAA55（即0x55后跟0xAA），否则BIOS将驱动器视为不可引导。</li>
@@ -152,133 +133,102 @@ MS-DOS引导加载程序（放置在所有 MS-DOS格式的软盘上）仅检查�
 <li>BIOS将堆栈指针放在引导扇区末尾之外的512个字节中，这意味着堆栈不能超过512个字节。可能有必要将堆栈移动到更大的区域。</li>
 <li>如果要在主流操作系统下读取磁盘，则需要遵守一些约定。例如，您可能希望在软盘上包括BIOS参数块，以使该盘在大多数PC操作系统下均可读。</li>
 </ul>
-
 <p>大多数汇编器都会具有ORG 7C00h与之类似的命令或指令，以通知汇编器将从偏移量7C00h开始加载代码。
 汇编程序在计算指令和数据地址时会考虑到这一点。如果不考虑这一点，则汇编程序将假定代码已加载到地址0，并且必须在代码中手动对其进行补偿。</p>
-
 <p>通常，引导程序会将内核加载到内存中，然后跳转到内核。然后，内核将能够回收引导加载程序使用的内存（因为它已经执行了其工作）。但是，可以在引导扇区中包含OS代码，并在OS启动后将其保留在驻留位置。</p>
-
 <p>这是为NASM设计的简单引导程序演示：</p>
-
-<pre><code class="language-asm">org 7C00h
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">org</span> <span style="color:#ae81ff">7</span><span style="color:#66d9ef">C00h</span>
  
-         jmp short Start ;Jump over the data (the 'short' keyword makes the jmp instruction smaller)
- 
- Msg:    db &quot;Hello World! &quot;
+         <span style="color:#a6e22e">jmp</span> <span style="color:#66d9ef">short</span> <span style="color:#66d9ef">Start</span> <span style="color:#75715e">;Jump over the data (the &#39;short&#39; keyword makes the jmp instruction smaller)
+</span><span style="color:#75715e"></span> 
+ <span style="color:#66d9ef">Msg</span>:    <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#66d9ef">Hello</span> <span style="color:#66d9ef">World</span>! <span style="color:#960050;background-color:#1e0010">&#34;</span>
  EndMsg:
  
- Start:  mov bx, 000Fh   ;Page 0, colour attribute 15 (white) for the int 10 calls below
-         mov cx, 1       ;We will want to write 1 character
-         xor dx, dx      ;Start at top left corner
-         mov ds, dx      ;Ensure ds = 0 (to let us load the message)
-         cld             ;Ensure direction flag is cleared (for LODSB)
+ Start:  <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">bx</span>, <span style="color:#ae81ff">000</span><span style="color:#66d9ef">Fh</span>   <span style="color:#75715e">;Page 0, colour attribute 15 (white) for the int 10 calls below
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">cx</span>, <span style="color:#ae81ff">1</span>       <span style="color:#75715e">;We will want to write 1 character
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">xor</span> <span style="color:#66d9ef">dx</span>, <span style="color:#66d9ef">dx</span>      <span style="color:#75715e">;Start at top left corner
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ds</span>, <span style="color:#66d9ef">dx</span>      <span style="color:#75715e">;Ensure ds = 0 (to let us load the message)
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">cld</span>             <span style="color:#75715e">;Ensure direction flag is cleared (for LODSB)
+</span><span style="color:#75715e"></span> 
+ <span style="color:#66d9ef">Print</span>:  <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">si</span>, <span style="color:#66d9ef">Msg</span>     <span style="color:#75715e">;Loads the address of the first byte of the message, 7C02h in this case
+</span><span style="color:#75715e"></span> 
+                         <span style="color:#75715e">;PC BIOS Interrupt 10 Subfunction 2 - Set cursor position
+</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;AH = 2
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">Char</span>:   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ah</span>, <span style="color:#ae81ff">2</span>       <span style="color:#75715e">;BH = page, DH = row, DL = column
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">10</span><span style="color:#66d9ef">h</span>
+         <span style="color:#a6e22e">lodsb</span>           <span style="color:#75715e">;Load a byte of the message into AL.
+</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;Remember that DS is 0 and SI holds the
+</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;offset of one of the bytes of the message.
+</span><span style="color:#75715e"></span> 
+                         <span style="color:#75715e">;PC BIOS Interrupt 10 Subfunction 9 - Write character and colour
+</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;AH = 9
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ah</span>, <span style="color:#ae81ff">9</span>       <span style="color:#75715e">;BH = page, AL = character, BL = attribute, CX = character count
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">10</span><span style="color:#66d9ef">h</span>
  
- Print:  mov si, Msg     ;Loads the address of the first byte of the message, 7C02h in this case
+         <span style="color:#a6e22e">inc</span> <span style="color:#66d9ef">dl</span>          <span style="color:#75715e">;Advance cursor
+</span><span style="color:#75715e"></span> 
+         <span style="color:#66d9ef">cmp</span> <span style="color:#66d9ef">dl</span>, <span style="color:#ae81ff">80</span>      <span style="color:#75715e">;Wrap around edge of screen if necessary
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Skip</span>
+         <span style="color:#a6e22e">xor</span> <span style="color:#66d9ef">dl</span>, <span style="color:#66d9ef">dl</span>
+         <span style="color:#a6e22e">inc</span> <span style="color:#66d9ef">dh</span>
  
-                         ;PC BIOS Interrupt 10 Subfunction 2 - Set cursor position
-                         ;AH = 2
- Char:   mov ah, 2       ;BH = page, DH = row, DL = column
-         int 10h
-         lodsb           ;Load a byte of the message into AL.
-                         ;Remember that DS is 0 and SI holds the
-                         ;offset of one of the bytes of the message.
+         <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">dh</span>, <span style="color:#ae81ff">25</span>      <span style="color:#75715e">;Wrap around bottom of screen if necessary
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Skip</span>
+         <span style="color:#a6e22e">xor</span> <span style="color:#66d9ef">dh</span>, <span style="color:#66d9ef">dh</span>
  
-                         ;PC BIOS Interrupt 10 Subfunction 9 - Write character and colour
-                         ;AH = 9
-         mov ah, 9       ;BH = page, AL = character, BL = attribute, CX = character count
-         int 10h
+ Skip:   <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">si</span>, <span style="color:#66d9ef">EndMsg</span>  <span style="color:#75715e">;If we&#39;re not at end of message,
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Char</span>        <span style="color:#75715e">;continue loading characters
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jmp</span> <span style="color:#66d9ef">Print</span>       <span style="color:#75715e">;otherwise restart from the beginning of the message
+</span><span style="color:#75715e"></span> 
  
-         inc dl          ;Advance cursor
- 
-         cmp dl, 80      ;Wrap around edge of screen if necessary
-         jne Skip
-         xor dl, dl
-         inc dh
- 
-         cmp dh, 25      ;Wrap around bottom of screen if necessary
-         jne Skip
-         xor dh, dh
- 
- Skip:   cmp si, EndMsg  ;If we're not at end of message,
-         jne Char        ;continue loading characters
-         jmp Print       ;otherwise restart from the beginning of the message
- 
- 
- times 0200h - 2 - ($ - $$)  db 0    ;Zerofill up to 510 bytes
- 
-         dw 0AA55h       ;Boot Sector signature
- 
- ;OPTIONAL:
- ;To zerofill up to the size of a standard 1.44MB, 3.5&quot; floppy disk
- ;times 1474560 - ($ - $$) db 0
-</code></pre>
-
-<p>要编译上面的文件，假设它名为“ floppy.asm”，则可以使用以下命令：</p>
-
-<pre><code class="language-shell">nasm -f bin -o floppy.img floppy.asm
-</code></pre>
-
-<p>虽然严格来说这不是引导程序，但它是可引导的，并演示了以下几点：</p>
-
+ <span style="color:#66d9ef">times</span> <span style="color:#ae81ff">0200</span><span style="color:#66d9ef">h</span> - <span style="color:#ae81ff">2</span> - (<span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">$$</span>)  <span style="color:#66d9ef">db</span> <span style="color:#ae81ff">0</span>    <span style="color:#75715e">;Zerofill up to 510 bytes
+</span><span style="color:#75715e"></span> 
+         <span style="color:#66d9ef">dw</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">AA55h</span>       <span style="color:#75715e">;Boot Sector signature
+</span><span style="color:#75715e"></span> 
+ <span style="color:#75715e">;OPTIONAL:
+</span><span style="color:#75715e"></span> <span style="color:#75715e">;To zerofill up to the size of a standard 1.44MB, 3.5&#34; floppy disk
+</span><span style="color:#75715e"></span> <span style="color:#75715e">;times 1474560 - ($ - $$) db 0
+</span></code></pre></div><p>要编译上面的文件，假设它名为“ floppy.asm”，则可以使用以下命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">nasm -f bin -o floppy.img floppy.asm
+</code></pre></div><p>虽然严格来说这不是引导程序，但它是可引导的，并演示了以下几点：</p>
 <ul>
 <li>如何在引导扇区中包括和访问数据</li>
 <li>如何跳过包含的数据（BIOS参数块必需）</li>
 <li>如何将0xAA55签名放置在扇区的末尾（如果扇区中没有太多代码，NASM将发出错误）</li>
 <li>使用BIOS中断</li>
 </ul>
-
 <p>在Linux上，您可以发出如下命令</p>
-
-<pre><code class="language-shell">cat floppy.img &gt; /dev/fd0
-</code></pre>
-
-<p>将映像写入软盘（映像可能小于磁盘的大小，在这种情况下，只会将与映像中一样多的信息写入磁盘）。一个更复杂的选项是使用dd实用程序</p>
-
-<pre><code class="language-shell">dd if=floppy.img of=/dev/fd0
-</code></pre>
-
-<h3 id="硬盘">硬盘</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat floppy.img &gt; /dev/fd0
+</code></pre></div><p>将映像写入软盘（映像可能小于磁盘的大小，在这种情况下，只会将与映像中一样多的信息写入磁盘）。一个更复杂的选项是使用dd实用程序</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>floppy.img of<span style="color:#f92672">=</span>/dev/fd0
+</code></pre></div><h3 id="硬盘">硬盘</h3>
 <p>硬盘通常会在此过程中添加额外的一层，因为它们可能已分区。硬盘的第一个扇区称为主启动记录（MBR）。常规上，硬盘的分区信息包含在MBR的末尾，即0xAA55签名之前。</p>
-
 <p>BIOS的作用与以前没有什么不同：将磁盘的第一个扇区（即MBR）读入RAM，并将执行转移到该扇区的第一个字节。BIOS忽略了分区方案-它检查的只是存在0xAA55签名。</p>
-
 <p>尽管这意味着人们可以按自己想要的任何方式使用MBR（例如，省略或扩展分区表），但这很少完成。尽管分区表的设计非常陈旧且受限制-它仅限于四个分区-实际上，
 所有与IBM PC兼容的操作系统都假定MBR将采用这种格式。
 因此，违背约定只会使磁盘无法运行，除非是专门为使用该磁盘而设计的操作系统。</p>
-
 <p>实际上，MBR通常包含一个引导加载程序，其目的是加载另一个引导加载程序-可以在分区之一的开头找到。
 这通常是一个非常简单的程序，它找到标记为Active的第一个分区，将其第一个扇区加载到RAM中，然后开始执行。
 由于按照惯例，新的引导加载程序也会加载到地址7C00h，因此在执行此操作之前，旧的加载程序可能需要将自身的全部或部分重定位到其他位置。
 同样，ES：SI预期包含分区表RAM中的地址，而DL包含启动驱动器号。违反此类约定可能会使引导加载程序与其他引导加载程序不兼容。</p>
-
 <p>但是，许多启动管理器（使用户能够选择要启动的分区甚至是内核的软件）都使用自定义MBR代码，该代码从磁盘上的某个位置加载其余的启动管理器代码，
 然后为用户提供以下选项：如何继续引导程序。引导管理器也可以驻留在分区内，在这种情况下，必须首先由另一个引导加载程序加载它。</p>
-
 <p>大多数引导管理器支持链式加载（即，通过通常的“分区到地址7C00”的第一个扇区启动另一个引导加载器），并且通常用于DOS和Windows等系统。
 但是，某些引导管理器（尤其是GRUB）支持加载用户选择的内核映像。可以与GNU / Linux和Solaris等系统一起使用，从而在启动系统时具有更大的灵活性。
 该机制可能与链加载的机制有所不同。</p>
-
 <p>显然，分区表存在一个鸡与蛋的问题，给分区方案带来了不合理的限制。一种迅速发展的解决方案是GUID分区表 ;
 它使用虚拟MBR分区表，以便旧操作系统不会干扰GPT，而较新的操作系统可以利用系统提供的许多改进。</p>
-
 <h3 id="gnu-grub">GNU GRUB</h3>
-
 <p>该协议旨在通过提供用于引导各种操作系统的单个灵活协议来简化引导过程。可以使用multiboot引导许多免费的操作系统。</p>
-
 <p>GRUB非常强大，实际上是一个小型操作系统。它可以读取各种文件系统，从而使您可以通过文件名以及内核可以使用的单独模块文件来指定内核映像。
 命令行参数也可以传递给内核-这是一种以维护模式或“安全模式”或VGA图形等方式启动OS的好方法。GRUB可以提供菜单供用户选择，还可以输入自定义加载参数。</p>
-
 <p>显然，不可能以512字节的代码提供此功能。这就是为什么GRUB分为两个或三个“阶段”的原因：</p>
-
 <ul>
 <li>阶段1 这是一个512字节的块，其中阶段1.5或阶段2的位置被硬编码到其中。它将加载下一个阶段。</li>
 <li>阶段1.5 一个可选阶段，了解阶段2所在的文件系统（例如FAT32或ext3）。它将找出阶段2的位置并将其加载。这个阶段非常小，通常位于第1阶段之后，位于固定区域。</li>
 <li>第2阶段 这是具有所有GRUB功能的更大镜像。</li>
 </ul>
-
 <p>请注意，第1阶段可以安装到硬盘的主引导记录中，也可以安装在一个分区中，并由另一个引导加载程序进行链加载。</p>
-
 <p>无法使用多重引导来加载Windows，但是可以从GRUB链式加载Windows引导加载程序（与其他非多重引导操作系统的引导加载程序一样），虽然效果不尽如人意，但是可以引导此类系统。</p>
 
         </div>
