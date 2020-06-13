@@ -83,7 +83,7 @@ adb install yourapp.apk
 #### 安装应用可能遇到INSTALL_FAILED_NO_MATCHING_ABIS: Failed to extract native libraries, res=-113 错误
 这个是由于模拟器的安卓镜像支持的架构不支持arm架构导致，只要更换支持的镜像即可，
 
-可用的安卓镜像下载地址是： https://build.anbox.io/Android-images/
+可用的安卓镜像下载地址是： https://github.com/AkihiroSuda/anbox-android-images-mirror/releases
 
 
 
