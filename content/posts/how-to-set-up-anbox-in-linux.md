@@ -76,8 +76,12 @@ adb install yourapp.apk
 需要下载安卓应用，可以通过以下应用市场下载
 
 - https://www.apkmirror.com
-- https://appgallery1.huawei.com
+- https://mobile.baidu.com/item?pid=825114773
 
+
+### Q&A
+#### 安装应用可能遇到INSTALL_FAILED_NO_MATCHING_ABIS: Failed to extract native libraries, res=-113 错误
+这个是由于模拟器的安卓镜像支持的架构不支持arm架构导致，只要更换支持的镜像即可
 
 
 
