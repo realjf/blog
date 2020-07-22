@@ -3,7 +3,7 @@
 <head>
     <title>Scan Qrcode // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.74.2" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,108 +83,92 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/">微信开发者</a><a class="tag" href="https://realjf.io/tags/wechat/">Wechat</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/">微信公众号</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E6%89%AB%E4%B8%80%E6%89%AB/">微信扫一扫</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/">微信开发者</a><a class="tag" href="https://realjf.io/tags/wechat/">wechat</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/">微信公众号</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1jssdk/">微信JSSDK</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E6%89%AB%E4%B8%80%E6%89%AB/">微信扫一扫</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="网页调用微信jssdk实现扫一扫功能">网页调用微信JSSDK实现扫一扫功能</h2>
-
+            <h2 id="网页调用微信jssdk实现扫一扫功能">网页调用微信JSSDK实现扫一扫功能</h2>
 <h3 id="设置公众号js接口安全域">设置公众号js接口安全域</h3>
-
 <p>在公众号后台的，公众号设置，功能设置里</p>
-
 <h3 id="配置ip白名单">配置ip白名单</h3>
-
 <p>在公众号后台基本配置里</p>
-
 <h3 id="页面引入微信sdkjs代码">页面引入微信sdkjs代码</h3>
-
 <p><a href="http://res.wx.qq.com/open/js/jweixin-1.2.0.js">http://res.wx.qq.com/open/js/jweixin-1.2.0.js</a></p>
-
 <h3 id="页面js代码">页面js代码</h3>
-
-<pre><code class="language-js">    // 点击扫一扫按钮事件
-    $(&quot;#btn-scan&quot;).on(&quot;click&quot;, function () {
-        //微信扫一扫 设置
-        var _queryString = window.location.search;
-        $.ajax({
-            type: &quot;post&quot;,
-            url: &quot;/mobile/user/scanSign&quot;,
-            data: {query: _queryString},
-            success: function (data) {
-                var result = data.result;
-                wx.config({
-                    debug: false, // 调试接口用
-                    appId: result.appId,                           //公众号的唯一标识
-                    timestamp: &quot;&quot; + result.timestamp,    //生成签名的时间戳
-                    nonceStr: result.nonceStr,                  //生成签名的随机串
-                    signature: result.signature,              //签名
-                    jsApiList: ['scanQRCode']   //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)
-                });
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">    <span style="color:#75715e">// 点击扫一扫按钮事件
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#btn-scan&#34;</span>).<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;click&#34;</span>, <span style="color:#66d9ef">function</span> () {
+        <span style="color:#75715e">//微信扫一扫 设置
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_queryString</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">search</span>;
+        <span style="color:#a6e22e">$</span>.<span style="color:#a6e22e">ajax</span>({
+            <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;post&#34;</span>,
+            <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/mobile/user/scanSign&#34;</span>,
+            <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">_queryString</span>},
+            <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">data</span>) {
+                <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">result</span>;
+                <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">config</span>({
+                    <span style="color:#a6e22e">debug</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>, <span style="color:#75715e">// 调试接口用
+</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">appId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">appId</span>,                           <span style="color:#75715e">//公众号的唯一标识
+</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">timestamp</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">timestamp</span>,    <span style="color:#75715e">//生成签名的时间戳
+</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">nonceStr</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">nonceStr</span>,                  <span style="color:#75715e">//生成签名的随机串
+</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">signature</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">signature</span>,              <span style="color:#75715e">//签名
+</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">jsApiList</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;scanQRCode&#39;</span>]   <span style="color:#75715e">//需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)
+</span><span style="color:#75715e"></span>                });
             }
         });
     });
 
-    //微信扫一扫处理代码
-    wx.ready(function () {
-        $(&quot;body&quot;).off(&quot;click&quot;, &quot;.j-btn_chat&quot;).on(&quot;click&quot;, &quot;.j-btn_chat&quot;, function (e) {
+    <span style="color:#75715e">//微信扫一扫处理代码
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">ready</span>(<span style="color:#66d9ef">function</span> () {
+        <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;body&#34;</span>).<span style="color:#a6e22e">off</span>(<span style="color:#e6db74">&#34;click&#34;</span>, <span style="color:#e6db74">&#34;.j-btn_chat&#34;</span>).<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;click&#34;</span>, <span style="color:#e6db74">&#34;.j-btn_chat&#34;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">e</span>) {
 
-            wx.scanQRCode({
-                needResult: 0,   // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                scanType: [&quot;qrCode&quot;, &quot;barCode&quot;], // 可以指定扫二维码还是一维码，默认二者都有
-                success: function (res) {
-                    alert(&quot;扫描成功：&quot;);
-                    // alert(res.resultStr);
-                    // window.location.href = res.resultStr;
-                    //res.resultStr可以获得扫描结果。这里写自己的业务操作代码}
-
+            <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">scanQRCode</span>({
+                <span style="color:#a6e22e">needResult</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,   <span style="color:#75715e">// 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">scanType</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#34;qrCode&#34;</span>, <span style="color:#e6db74">&#34;barCode&#34;</span>], <span style="color:#75715e">// 可以指定扫二维码还是一维码，默认二者都有
+</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">res</span>) {
+                    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;扫描成功：&#34;</span>);
+                    <span style="color:#75715e">// alert(res.resultStr);
+</span><span style="color:#75715e"></span>                    <span style="color:#75715e">// window.location.href = res.resultStr;
+</span><span style="color:#75715e"></span>                    <span style="color:#75715e">//res.resultStr可以获得扫描结果。这里写自己的业务操作代码}
+</span><span style="color:#75715e"></span>
                 }
             });
 
         });
     });
 
-    // 错误处理
-    wx.error(function (res) {
-        alert(&quot;出错了：&quot; + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
-    });
+    <span style="color:#75715e">// 错误处理
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">error</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">res</span>) {
+        <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;出错了：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">errMsg</span>);<span style="color:#75715e">//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+</span><span style="color:#75715e"></span>    });
 
-</code></pre>
-
-<h3 id="后端生成签名信息接口实现">后端生成签名信息接口实现</h3>
-
-<pre><code class="language-php">$url = $_REQUEST[''];
+</code></pre></div><h3 id="后端生成签名信息接口实现">后端生成签名信息接口实现</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$url = $_REQUEST[&#39;&#39;];
 $signPackage = (new JSSDK())-&gt;getSignPackage($url);
 
-</code></pre>
-
-<p>JSSDK实现</p>
-
-<pre><code class="language-php">class JSSDK
+</code></pre></div><p>JSSDK实现</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">class JSSDK
 {
     /**
      * 公众号 appid
      * @var string
      */
-    private $_appId = &quot;&quot;;
+    private $_appId = &#34;&#34;;
     /**
      * 公众号秘钥
      * @var string
      */
-    private $_appSecret = &quot;&quot;;
+    private $_appSecret = &#34;&#34;;
 
     /**
      * accessToken获取地址
      * @var string
      */
-    private $_access_token_url = &quot;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=%s&amp;secret=%s&quot;;
+    private $_access_token_url = &#34;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=%s&amp;secret=%s&#34;;
 
     /**
      * 获取ticket
      * @var string
      */
-    private $_api_ticket_url = &quot;https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&amp;access_token=%s&quot;;
+    private $_api_ticket_url = &#34;https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&amp;access_token=%s&#34;;
 
     /**
      * JSSDK constructor.
@@ -198,14 +182,14 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
      * @param $queryString
      * @return array
      */
-    public function getSignPackage($url = &quot;&quot;)
+    public function getSignPackage($url = &#34;&#34;)
     {
         $jsapiTicket = $this-&gt;_getJsApiTicket();
 
         // 注意 URL 一定要动态获取，不能 hardcode.
-        $protocol = (!empty($_SERVER['HTTPS']) &amp;&amp; $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? &quot;https://&quot; : &quot;http://&quot;;
-//        $url = &quot;$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]&quot;;
-        $_url = $protocol . $_SERVER['HTTP_HOST'] . &quot;your url path ...&quot;;
+        $protocol = (!empty($_SERVER[&#39;HTTPS&#39;]) <span style="color:#960050;background-color:#1e0010">&amp;&amp;</span> $_SERVER[&#39;HTTPS&#39;] !== &#39;off&#39; || $_SERVER[&#39;SERVER_PORT&#39;] == 443) ? &#34;https://&#34; : &#34;http://&#34;;
+//        $url = &#34;$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]&#34;;
+        $_url = $protocol . $_SERVER[&#39;HTTP_HOST&#39;] . &#34;your url path ...&#34;;
         if(!$url){
             $url = $_url;
         }
@@ -214,17 +198,17 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
         $nonceStr = $this-&gt;_createNonceStr();
 
         // 这里参数的顺序要按照 key 值ASCII 码升序排序
-        $string = sprintf(&quot;jsapi_ticket=%s&amp;noncestr=%s&amp;timestamp=%s&amp;url=%s&quot;, $jsapiTicket, $nonceStr, $timestamp, $url);
+        $string = sprintf(&#34;jsapi_ticket=%s<span style="color:#960050;background-color:#1e0010">&amp;</span>noncestr=%s<span style="color:#960050;background-color:#1e0010">&amp;</span>timestamp=%s<span style="color:#960050;background-color:#1e0010">&amp;</span>url=%s&#34;, $jsapiTicket, $nonceStr, $timestamp, $url);
 
         $signature = sha1($string);
 
         $signPackage = array(
-            &quot;appId&quot; =&gt; $this-&gt;_appId,
-            &quot;nonceStr&quot; =&gt; $nonceStr,
-            &quot;timestamp&quot; =&gt; $timestamp,
-            &quot;url&quot; =&gt; $url,
-            &quot;signature&quot; =&gt; $signature,
-            &quot;rawString&quot; =&gt; $string,
+            &#34;appId&#34; =&gt; $this-&gt;_appId,
+            &#34;nonceStr&#34; =&gt; $nonceStr,
+            &#34;timestamp&#34; =&gt; $timestamp,
+            &#34;url&#34; =&gt; $url,
+            &#34;signature&#34; =&gt; $signature,
+            &#34;rawString&#34; =&gt; $string,
         );
 
         return $signPackage;
@@ -236,9 +220,9 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
      */
     private function _createNonceStr($length = 16)
     {
-        $chars = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
-        $str = &quot;&quot;;
-        for ($i = 0; $i &lt; $length; $i++) {
+        $chars = &#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#34;;
+        $str = &#34;&#34;;
+        for ($i = 0; $i <span style="color:#960050;background-color:#1e0010">&lt;</span> $length; $i++) {
             $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
         }
         return $str;
@@ -249,14 +233,14 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
      */
     private function _getJsApiTicket()
     {
-        $data = json_decode($this-&gt;_get_php_file(&quot;jsapi_ticket.php&quot;));
-        if($data-&gt;expire_time &lt; time()){
-            $accessToken = $this-&gt;_getAccessToken();
+        $data = json_decode($this-&gt;_get_php_file(&#34;jsapi_ticket.php&#34;));
+        if($data-&gt;expire_time &lt; <span style="color:#f92672">time</span><span style="color:#960050;background-color:#1e0010">()){</span>
+            <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#a6e22e">accessToken </span><span style="color:#f92672">=</span> <span style="color:#e6db74">$this-</span>&gt;_getAccessToken();
             $ticket = $this-&gt;_getTicket($accessToken);
             if($ticket){
                 $data-&gt;expire_time = time() + 7000;
                 $data-&gt;jsapi_ticket = $ticket;
-                $this-&gt;_setRedisToken(&quot;jsapi_ticket.php&quot;, json_encode($data));
+                $this-&gt;_setRedisToken(&#34;jsapi_ticket.php&#34;, json_encode($data));
             }
         }else{
             $ticket = $data-&gt;jsapi_ticket;
@@ -273,21 +257,21 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
     {
         $url = sprintf($this-&gt;_api_ticket_url, $accessToken);
         $res = \clsCurl::get($url, \clsCurl::RES_TYPE_JSON);
-        $ticket = $res[&quot;ticket&quot;];
+        $ticket = $res[&#34;ticket&#34;];
         return $ticket;
     }
 
     private function _getAccessToken()
     {
-        $data = json_decode($this-&gt;_getRedisToken(&quot;access_token.php&quot;));
-        if($data-&gt;expire_time &lt; time()){
-            $url = sprintf($this-&gt;_access_token_url, $this-&gt;_appId, $this-&gt;_appSecret);
+        $data = json_decode($this-&gt;_getRedisToken(&#34;access_token.php&#34;));
+        if($data-&gt;expire_time &lt; <span style="color:#f92672">time</span><span style="color:#960050;background-color:#1e0010">()){</span>
+            <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#a6e22e">url </span><span style="color:#f92672">=</span> <span style="color:#e6db74">sprintf($this-</span>&gt;_access_token_url, $this-&gt;_appId, $this-&gt;_appSecret);
             $res = \clsCurl::get($url, \clsCurl::RES_TYPE_JSON);
-            $accessToken = $res[&quot;access_token&quot;];
+            $accessToken = $res[&#34;access_token&#34;];
             if($accessToken){
                 $data-&gt;expire_time = time() + 7000;
                 $data-&gt;access_token = $accessToken;
-                $this-&gt;_setRedisToken(&quot;access_token.php&quot;, json_encode($data));
+                $this-&gt;_setRedisToken(&#34;access_token.php&#34;, json_encode($data));
             }
         }else{
             $accessToken = $data-&gt;access_token;
@@ -303,7 +287,7 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
      */
     private function _getRedisToken($filename)
     {
-        return \Model\mdlBase::instance()-&gt;redis(&quot;online&quot;)-&gt;get($filename);
+        return \Model\mdlBase::instance()-&gt;redis(&#34;online&#34;)-&gt;get($filename);
     }
 
     /**
@@ -312,7 +296,7 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
      */
     private function _setRedisToken($filename, $content)
     {
-        return \Model\mdlBase::instance()-&gt;redis(&quot;online&quot;)-&gt;set($filename, $content);
+        return \Model\mdlBase::instance()-&gt;redis(&#34;online&#34;)-&gt;set($filename, $content);
     }
 
     private function _httpGet($url) {
@@ -331,9 +315,7 @@ $signPackage = (new JSSDK())-&gt;getSignPackage($url);
         return $res;
     }
 }
-</code></pre>
-
-<p>以上代码可根据自己实际情况进行调整</p>
+</code></pre></div><p>以上代码可根据自己实际情况进行调整</p>
 
         </div>
         <div id="disqus_thread"></div>

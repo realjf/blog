@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Php on Realjf&#39;s blog</title>
+    <title>php on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/php/</link>
-    <description>Recent content in Php on Realjf&#39;s blog</description>
+    <description>Recent content in php on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 13 Jun 2020 18:14:12 +0800</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Sat, 13 Jun 2020 18:14:12 +0800</pubDate>
       
       <guid>https://realjf.io/php/simple-websocket/</guid>
-      <description>环境准备  php 7 linux 系统  服务端 websocket.php 文件 &amp;lt;?php $address = &#39;0.0.0.0&#39;; $port = 8000; // 创建socket $server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP); socket_set_option($server, SOL_SOCKET, SO_REUSEADDR, 1); socket_bind($server, $address, $port); socket_listen($server); $client = socket_accept($server); // 发送websokcet握手 header $request = socket_read($client, 5000); // 读取数据 preg_match(&#39;#Sec-WebSocket-Key: (.*)\r\n#&#39;, $request, $matches); $key = base64_encode(pack( &#39;H*&#39;, sha1($matches[1] . &#39;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&#39;) )); $headers = &amp;quot;HTTP/1.1 101 Switching Protocols\r\n&amp;quot;; $headers .= &amp;quot;Upgrade: websocket\r\n&amp;quot;; $headers .= &amp;quot;Connection: Upgrade\r\n&amp;quot;; $headers .</description>
+      <description>环境准备  php 7 linux 系统  服务端 websocket.php 文件 &amp;lt;?php $address = &amp;#39;0.0.0.0&amp;#39;; $port = 8000; // 创建socket $server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP); socket_set_option($server, SOL_SOCKET, SO_REUSEADDR, 1); socket_bind($server, $address, $port); socket_listen($server); $client = socket_accept($server); // 发送websokcet握手 header $request = socket_read($client, 5000); // 读取数据 preg_match(&amp;#39;#Sec-WebSocket-Key: (.*)\r\n#&amp;#39;, $request, $matches); $key = base64_encode(pack( &amp;#39;H*&amp;#39;, sha1($matches[1] . &amp;#39;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&amp;#39;) )); $headers = &amp;#34;HTTP/1.1 101 Switching Protocols\r\n&amp;#34;; $headers .= &amp;#34;Upgrade: websocket\r\n&amp;#34;; $headers .= &amp;#34;Connection: Upgrade\r\n&amp;#34;; $headers .</description>
     </item>
     
     <item>
@@ -28,13 +28,13 @@
       <guid>https://realjf.io/php/extension-develop/</guid>
       <description>下载php源代码 要开发php扩展，需要下载php源码，里面有我们开发扩展需要的工具
 下载地址：https://www.php.net/downloads
-wget https://www.php.net/distributions/php-7.4.6.tar.xz xz -d php-7.4.6.tar.xz tar xvf php-7.4.6.tar  我们需要的是源码目录下ext目录下的ext_skel或ext_skel.php文件，它是类unix环境下用于自动生成php扩展框架的脚本工具。
+wget https://www.php.net/distributions/php-7.4.6.tar.xz xz -d php-7.4.6.tar.xz tar xvf php-7.4.6.tar 我们需要的是源码目录下ext目录下的ext_skel或ext_skel.php文件，它是类unix环境下用于自动生成php扩展框架的脚本工具。
 开发自己的php扩展 可以通过&amp;ndash;help查看ext_skel.php的完整命令
-ext_skel --help  首先，我们需要利用ext_skel.php生成我们需要的框架，只需要提供&amp;ndash;extname的参数即可
-# 5.6.23 ./ext_skel --extname=helloworld # 7.4.6 ./ext_skel.php --ext helloworld  运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录
-目录下包含以下文件： - config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。 - php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。 - helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中
-build system配置 这里看下config.m4配置的一些内容，打开config.m4，注意，其使用dnl作为注释符
-dnl config.m4 for extension helloworld dnl Comments in this file start with the string &#39;dnl&#39;. dnl Remove where necessary. dnl If your extension references something external, use &#39;with&#39;: dnl PHP_ARG_WITH([helloworld], dnl [for helloworld support], dnl [AS_HELP_STRING([--with-helloworld], dnl [Include helloworld support])]) dnl Otherwise use &#39;enable&#39;: PHP_ARG_ENABLE([helloworld], [whether to enable helloworld support], [AS_HELP_STRING([--enable-helloworld], [Enable helloworld support])], [no]) if test &amp;quot;$PHP_HELLOWORLD&amp;quot; !</description>
+ext_skel --help 首先，我们需要利用ext_skel.php生成我们需要的框架，只需要提供&amp;ndash;extname的参数即可
+# 5.6.23 ./ext_skel --extname=helloworld # 7.4.6 ./ext_skel.php --ext helloworld 运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录
+目录下包含以下文件：
+ config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。 php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。 helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中  build system配置 这里看下config.m4配置的一些内容，打开config.m4，注意，其使用dnl作为注释符
+dnl config.m4 for extension helloworld dnl Comments in this file start with the string &amp;#39;dnl&amp;#39;. dnl Remove where necessary. dnl If your extension references something external, use &amp;#39;with&amp;#39;: dnl PHP_ARG_WITH([helloworld], dnl [for helloworld support], dnl [AS_HELP_STRING([--with-helloworld], dnl [Include helloworld support])]) dnl Otherwise use &amp;#39;enable&amp;#39;: PHP_ARG_ENABLE([helloworld], [whether to enable helloworld support], [AS_HELP_STRING([--enable-helloworld], [Enable helloworld support])], [no]) if test &amp;#34;$PHP_HELLOWORLD&amp;#34; !</description>
     </item>
     
     <item>
@@ -46,20 +46,18 @@ dnl config.m4 for extension helloworld dnl Comments in this file start with the 
       <description>php是多进程模型，不同请求间互不干涉，保证了一个请求挂掉不会对其他请求造成影响。目前php也支持多线程模型。
 php同时也是弱类型语言，zend引擎+组件（ext）的模式，降低内部耦合，中间层sapi,隔绝web server和php
 php的核心架构 php核心架构如下图，从下到上可以简单分为四层体系：
- zend引擎：是php的内核，它将php代码翻译为可执行opcode的处理并实现相应的处理方法，实现了基本的数据结构、内存分配管理、提供了相应的api方法供外部调用，是一切的核心 Extensions：围绕着zend引擎，extensions通过组件式的方式提供各种基础服务，各种内置函数、标准库等都是通过extensions实现的。 sapi：全称是Server Application Programming Interface服务端应用编程接口，sapi通过一系列钩子函数，使得php可以和外围交互数据，通过sapi成功的将php本身和上层应用解耦隔离，php可以不再考虑如何针对不同应用进行兼容，而应用本身也可以针对自己特点实现不同处理方式。  常见的一些sapi有：apache2handler: 这是以apache作为webserver，采用mod_php模式运行方式也是应用最广泛的一种 cgi：这是webserver和php直接交互的另一种方式，fastcgi+php得到广泛应用，也是异步webserver所唯一支持的方式 cli：命令行调用的应用模式  上层应用：这是我们平时编写的php程序，通过不同的sapi方式得到各种各样的应用模式  php执行流程 php实现了典型动态语言执行过程：将一段代码经过词法解析、语法解析等阶段后，源程序会被翻译成一个个指令（opcodes）， 然后zend虚拟机顺次执行这些指令完成操作。php本身是用c实现的，因此最终调用的也是c的函数。
+ zend引擎：是php的内核，它将php代码翻译为可执行opcode的处理并实现相应的处理方法，实现了基本的数据结构、内存分配管理、提供了相应的api方法供外部调用，是一切的核心 Extensions：围绕着zend引擎，extensions通过组件式的方式提供各种基础服务，各种内置函数、标准库等都是通过extensions实现的。 sapi：全称是Server Application Programming Interface服务端应用编程接口，sapi通过一系列钩子函数，使得php可以和外围交互数据，通过sapi成功的将php本身和上层应用解耦隔离，php可以不再考虑如何针对不同应用进行兼容，而应用本身也可以针对自己特点实现不同处理方式。  常见的一些sapi有：apache2handler: 这是以apache作为webserver，采用mod_php模式运行方式也是应用最广泛的一种 cgi：这是webserver和php直接交互的另一种方式，fastcgi+php得到广泛应用，也是异步webserver所唯一支持的方式 cli：命令行调用的应用模式   上层应用：这是我们平时编写的php程序，通过不同的sapi方式得到各种各样的应用模式  php执行流程 php实现了典型动态语言执行过程：将一段代码经过词法解析、语法解析等阶段后，源程序会被翻译成一个个指令（opcodes）， 然后zend虚拟机顺次执行这些指令完成操作。php本身是用c实现的，因此最终调用的也是c的函数。
 php的执行核心是翻译出来的一条条指令，即opcode。
 opcode是php程序执行的最基本单位。一个opcode由两个参数（op1,op2）、返回值和处理函数组成。php程序最终被翻译成一组opcode处理函数的顺序执行。
 zend引擎 zend引擎作为php的内核，有很多经典的设计机制，主要有以下几个：
 实现hashTable数据结构： hashTable是zend的核心数据结构。几乎用来实现所有常见功能。
 zend hash table实现了典型的hash表散列结构,同时通过附加一个双向链表，提供了正向、反向遍历数组的功能。其结构如下：
 在hash table中既有key-&amp;gt;value形式的散列结构，也有双向链表模式，使得它能够非常方便的支持快速查找和线性遍历
- 散列结构：Zend的散列结构是典型的hash表模型，通过链表的方式来解决冲突。需要注意的是zend的hash table是一个自增长的数据结构， 当hash表数目满了之后，其本身会动态以2倍的方式扩容并重新元素位置。初始大小均为8。 另外，在进行 key-&amp;gt;value快速查找时候，zend本身还做了一些优化，通过空间换时间的方式加快速度。 比如在每个元素中都会用一个变量 nKeyLength标识key的长度以作快速判定。
- 双向链表：Zend hash table通过一个链表结构，实现了元素的线性遍历。 理论上，做遍历使用单向链表就够了，之所以使用双向链表，主要目的是为了快速删除，避免遍历。 Zend hash table是一种复合型的结构，作为数组使用时，即支持常见的关联数组也能够作为顺序索引数字来使用，甚至允许2者的混合。
- PHP关联数组：关联数组是典型的hash_table应用。
- PHP索引数组：索引数组就是我们常见的数组，通过下标访问。例如 arr[0]，Zend HashTable内部进行了归一化处理，对于index类型key同样分配了hash值和nKeyLength(为0)。内部成员变量 nNextFreeElement就是当前分配到的最大id，每次push后自动加一。正是这种归一化处理，PHP才能够实现关联和非关联的混合。由于 push操作的特殊性，索引key在PHP数组中先后顺序并不是通过下标大小来决定，而是由push的先后决定。
-  php变量实现原理 PHP在变量申明的时候不需要指定类型。PHP在程序运行期间可能进行变量类型的隐示 转换。 和其他强类型语言一样，程序中也可以进行显示的类型转换。PHP变量可以分为简单类型(int、string、bool)、集合类型(array 、resource 、object)和常量(const)。以上所有的变量在底层都是同一种结构 zval
-Zval是zend中另一个非常重要的数据结构，用来标识并实现PHP变量，其数据结构如下
-zval结构主要分三部分：</description>
+  散列结构：Zend的散列结构是典型的hash表模型，通过链表的方式来解决冲突。需要注意的是zend的hash table是一个自增长的数据结构， 当hash表数目满了之后，其本身会动态以2倍的方式扩容并重新元素位置。初始大小均为8。 另外，在进行 key-&amp;gt;value快速查找时候，zend本身还做了一些优化，通过空间换时间的方式加快速度。 比如在每个元素中都会用一个变量 nKeyLength标识key的长度以作快速判定。
+  双向链表：Zend hash table通过一个链表结构，实现了元素的线性遍历。 理论上，做遍历使用单向链表就够了，之所以使用双向链表，主要目的是为了快速删除，避免遍历。 Zend hash table是一种复合型的结构，作为数组使用时，即支持常见的关联数组也能够作为顺序索引数字来使用，甚至允许2者的混合。
+  PHP关联数组：关联数组是典型的hash_table应用。
+  PHP索引数组：索引数组就是我们常见的数组，通过下标访问。例如 arr[0]，Zend HashTable内部进行了归一化处理，对于index类型key同样分配了hash值和nKeyLength(为0)。内部成员变量 nNextFreeElement就是当前分配到的最大id，每次push后自动加一。正是这种归一化处理，PHP才能够实现关联和非关联的混合。由于 push操作的特殊性，索引key在PHP数组中先后顺序并不是通过下标大小来决定，而是由push的先后决定。
+  php变量实现原理 PHP在变量申明的时候不需要指定类型。PHP在程序运行期间可能进行变量类型的隐示 转换。 和其他强类型语言一样，程序中也可以进行显示的类型转换。PHP变量可以分为简单类型(int、string、bool)、集合类型(array 、resource 、object)和常量(const)。以上所有的变量在底层都是同一种结构 zval</description>
     </item>
     
     <item>
@@ -73,8 +71,8 @@ zval结构主要分三部分：</description>
 同时后端使用php接收分片文件，并进行最后的组装。
 第一步，首先下载webuploader插件 下载地址：https://github.com/fex-team/webuploader/releases
 解压后文件结构如下：
-├── Uploader.swf // SWF文件，当使用Flash运行时需要引入。 ├── webuploader.js // 完全版本。 ├── webuploader.min.js // min版本 ├── webuploader.custom.js ├── webuploader.nolog.js ├── webuploader.flashonly.js // 只有Flash实现的版本。 ├── webuploader.flashonly.min.js // min版本 ├── webuploader.html5only.js // 只有Html5实现的版本。 ├── webuploader.html5only.min.js // min版本 ├── webuploader.withoutimage.js // 去除图片处理的版本，包括HTML5和FLASH. └── webuploader.withoutimage.min.js // min版本 下载  第二步，创建一个html页面，引入一下文件 &amp;lt;link href=&amp;quot;/resource/webuploader/webuploader.css&amp;quot; rel=&amp;quot;stylesheet&amp;quot; /&amp;gt; &amp;lt;script src=&amp;quot;/resource/webuploader/webuploader.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  页面内容如下：
-&amp;lt;div id=&amp;quot;uploader&amp;quot; class=&amp;quot;wu-example&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;uploader&amp;quot; class=&amp;quot;wu-example&amp;quot;&amp;gt; &amp;lt;!--用来存放文件信息--&amp;gt; &amp;lt;div class=&amp;quot;filename&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;state&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;progress&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;progress_bar&amp;quot; class=&amp;quot;progress-bar progress-bar-info progress-striped active&amp;quot; role=&amp;quot;progressbar&amp;quot; style=&amp;quot;width: 0%&amp;quot;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;btns&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;picker&amp;quot;&amp;gt;选择文件&amp;lt;/div&amp;gt; &amp;lt;button id=&amp;quot;ctlBtn&amp;quot; class=&amp;quot;btn btn-default&amp;quot;&amp;gt;开始上传&amp;lt;/button&amp;gt; &amp;lt;button id=&amp;quot;pause&amp;quot; class=&amp;quot;btn btn-danger&amp;quot;&amp;gt;暂停上传&amp;lt;/button&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt;  第三步，js逻辑如下 &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt; $(function () { var GUID = WebUploader.</description>
+├── Uploader.swf // SWF文件，当使用Flash运行时需要引入。 ├── webuploader.js // 完全版本。 ├── webuploader.min.js // min版本 ├── webuploader.custom.js ├── webuploader.nolog.js ├── webuploader.flashonly.js // 只有Flash实现的版本。 ├── webuploader.flashonly.min.js // min版本 ├── webuploader.html5only.js // 只有Html5实现的版本。 ├── webuploader.html5only.min.js // min版本 ├── webuploader.withoutimage.js // 去除图片处理的版本，包括HTML5和FLASH. └── webuploader.withoutimage.min.js // min版本 下载 第二步，创建一个html页面，引入一下文件 &amp;lt;link href=&amp;#34;/resource/webuploader/webuploader.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34; /&amp;gt; &amp;lt;script src=&amp;#34;/resource/webuploader/webuploader.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 页面内容如下：
+&amp;lt;div id=&amp;#34;uploader&amp;#34; class=&amp;#34;wu-example&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;uploader&amp;#34; class=&amp;#34;wu-example&amp;#34;&amp;gt; &amp;lt;!--用来存放文件信息--&amp;gt; &amp;lt;div class=&amp;#34;filename&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;state&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;progress&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;progress_bar&amp;#34; class=&amp;#34;progress-bar progress-bar-info progress-striped active&amp;#34; role=&amp;#34;progressbar&amp;#34; style=&amp;#34;width: 0%&amp;#34;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;btns&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;picker&amp;#34;&amp;gt;选择文件&amp;lt;/div&amp;gt; &amp;lt;button id=&amp;#34;ctlBtn&amp;#34; class=&amp;#34;btn btn-default&amp;#34;&amp;gt;开始上传&amp;lt;/button&amp;gt; &amp;lt;button id=&amp;#34;pause&amp;#34; class=&amp;#34;btn btn-danger&amp;#34;&amp;gt;暂停上传&amp;lt;/button&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; 第三步，js逻辑如下 &amp;lt;script type=&amp;#34;text/javascript&amp;#34;&amp;gt; $(function () { var GUID = WebUploader.</description>
     </item>
     
   </channel>

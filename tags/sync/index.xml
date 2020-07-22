@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sync on Realjf&#39;s blog</title>
+    <title>sync on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/sync/</link>
-    <description>Recent content in Sync on Realjf&#39;s blog</description>
+    <description>Recent content in sync on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 17 Oct 2019 17:37:02 +0800</lastBuildDate>
@@ -19,13 +19,13 @@
       <guid>https://realjf.io/posts/sync-atomic/</guid>
       <description>原子操作，顾名思义是不可分割的，他可以是一个步骤，也可以是多个步骤，其执行过程不会被线程调度机制打断的操作。
  原子性不可能由软件单独保证，需要硬件的支持，因此和架构有关。在x86架构平台下，cpu提供了在指令执行期间对总线加锁的手段。
-CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;rdquo;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
+CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;quot;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
 持续到这条指令结束时放开，从而把总线锁住，这样同一总线上别的CPU就暂时不能通过总线访问内存了，保证了这条指令在多处理器环境中的原子性。
  sync/atomic包的文件结构以及数据结构可以参考这里
 sync/atomic包提供了6中操作数据类型
  int32 uint32 int64 uint64 uintptr unsafe.Pointer  分别为这每种数据类型提供了五种操作
  add 增减 load 载入 store 存储 compareandswap 比较并交换 swap 交换  下面以int32为例，具体使用上面五种操作实现原子操作 AddInt32操作 var val int32 val = 10 atomic.AddInt32(&amp;amp;val, 10) // 对于无符号32位即uint32，则需要使用二进制补码进行操作 var val2 uint32 val2 = 10 atomic.AddUint32(&amp;amp;val2, ^uint32(10 - 1)) // 等价于 val2 - 10  CompareAndSwapInt32 对比并交换是指先判断addr指向的值是否与参数old一致，如果一致就用new值替换addr的值，最后返回成功，具体例子如下
-package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; &amp;quot;sync/atomic&amp;quot; ) func main() { var val int32 wg := sync.</description>
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync/atomic&amp;#34; ) func main() { var val int32 wg := sync.</description>
     </item>
     
   </channel>

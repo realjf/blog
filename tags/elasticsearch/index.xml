@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Elasticsearch on Realjf&#39;s blog</title>
+    <title>elasticsearch on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/elasticsearch/</link>
-    <description>Recent content in Elasticsearch on Realjf&#39;s blog</description>
+    <description>Recent content in elasticsearch on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 10 Jun 2020 11:56:47 +0800</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Wed, 10 Jun 2020 11:56:47 +0800</pubDate>
       
       <guid>https://realjf.io/elasticsearch/library-elasticsearch-api-client/</guid>
-      <description>abstract class libEsBase { protected $__index = &amp;quot;&amp;quot;; protected $__type = &amp;quot;&amp;quot;; const MAX_RESULT_WINDOW = 10000; // from + size &amp;lt;= max_result_window /** * 定义结构 * @return array */ abstract protected function __getMapping(); /** * @var \Elasticsearch\Client */ protected $_es = null; public function __construct() { $this-&amp;gt;_es = &amp;quot;your elasticsearch-php api client&amp;quot;; } /** * @return array */ protected function __runBefore() { if(!$this-&amp;gt;checkEsAlive()){ return [FALSE, &amp;quot;Elasticsearch not alive&amp;quot;]; } list($check, $msg) = $this-&amp;gt;checkIndex(); if(!</description>
+      <description>abstract class libEsBase { protected $__index = &amp;#34;&amp;#34;; protected $__type = &amp;#34;&amp;#34;; const MAX_RESULT_WINDOW = 10000; // from + size &amp;lt;= max_result_window /** * 定义结构 * @return array */ abstract protected function __getMapping(); /** * @var \Elasticsearch\Client */ protected $_es = null; public function __construct() { $this-&amp;gt;_es = &amp;#34;your elasticsearch-php api client&amp;#34;; } /** * @return array */ protected function __runBefore() { if(!$this-&amp;gt;checkEsAlive()){ return [FALSE, &amp;#34;Elasticsearch not alive&amp;#34;]; } list($check, $msg) = $this-&amp;gt;checkIndex(); if(!</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       
       <guid>https://realjf.io/elasticsearch/random-fetch-data/</guid>
       <description>搜索的形式随机获取数据
-{ &amp;quot;query&amp;quot;: { &amp;quot;bool&amp;quot;: { &amp;quot;must&amp;quot;: [{ &amp;quot;term&amp;quot;: { &amp;quot;game_id&amp;quot;: 132 } }] } }, &amp;quot;from&amp;quot;: 1, &amp;quot;size&amp;quot;: 100, &amp;quot;sort&amp;quot;: { &amp;quot;_script&amp;quot;: { &amp;quot;script&amp;quot;: &amp;quot;Math.random()&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;number&amp;quot;, &amp;quot;order&amp;quot;: &amp;quot;asc&amp;quot; } } }  </description>
+{ &amp;#34;query&amp;#34;: { &amp;#34;bool&amp;#34;: { &amp;#34;must&amp;#34;: [{ &amp;#34;term&amp;#34;: { &amp;#34;game_id&amp;#34;: 132 } }] } }, &amp;#34;from&amp;#34;: 1, &amp;#34;size&amp;#34;: 100, &amp;#34;sort&amp;#34;: { &amp;#34;_script&amp;#34;: { &amp;#34;script&amp;#34;: &amp;#34;Math.random()&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;number&amp;#34;, &amp;#34;order&amp;#34;: &amp;#34;asc&amp;#34; } } } </description>
     </item>
     
     <item>
@@ -44,7 +44,7 @@ Elasticsearch 中的 doc_values 常被应用到以下场景：
  对一个字段进行排序 对一个字段进行聚合 某些过滤，比如地理位置过滤 某些与字段相关的脚本计算  因为文档值（doc_values）被序列化到磁盘，我们可以依靠操作系统的帮助来快速访问。 当 working set 远小于节点的可用内存，系统会自动将所有的文档值保存在内存中，使得其读写十分高速； 当其远大于可用内存，操作系统会自动把 doc_values 加载到系统的页缓存中，从而避免了 jvm 堆内存溢出异常。
  因此，搜索和聚合是相互紧密缠绕的。搜索使用倒排索引查找文档，聚合操作收集和聚合 doc_values 里的数据。
  doc_values 支持大部分字段类型，但是text 字段类型不支持（因为analyzed）。
-{ &amp;quot;mappings&amp;quot;: { &amp;quot;properties&amp;quot;: { &amp;quot;status_code&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;keyword&amp;quot; }, &amp;quot;session_id&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;keyword&amp;quot;, &amp;quot;doc_values&amp;quot;: false } } } }   (1) status_code 字段默认启动 doc_values 属性； (2) session_id 显式设置 doc_values = false，但是仍然可以被查询；   如果确信某字段不需要排序或者聚合，或者从脚本中访问字段值，那么我们可以设置 doc_values = false，这样可以节省磁盘空间。</description>
+{ &amp;#34;mappings&amp;#34;: { &amp;#34;properties&amp;#34;: { &amp;#34;status_code&amp;#34;: { &amp;#34;type&amp;#34;: &amp;#34;keyword&amp;#34; }, &amp;#34;session_id&amp;#34;: { &amp;#34;type&amp;#34;: &amp;#34;keyword&amp;#34;, &amp;#34;doc_values&amp;#34;: false } } } }  (1) status_code 字段默认启动 doc_values 属性； (2) session_id 显式设置 doc_values = false，但是仍然可以被查询；   如果确信某字段不需要排序或者聚合，或者从脚本中访问字段值，那么我们可以设置 doc_values = false，这样可以节省磁盘空间。</description>
     </item>
     
   </channel>

@@ -3,7 +3,7 @@
 <head>
     <title>二叉搜索树 Binary Search Tree // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.74.2" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,273 +83,261 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/algorithm/">Algorithm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="二叉搜索树的性质">二叉搜索树的性质</h3>
-
+            <h3 id="二叉搜索树的性质">二叉搜索树的性质</h3>
 <ul>
 <li>若任意节点的左子树不空，则左子树上所有节点的值均不大于它的根节点的值</li>
 <li>若任意节点的右子树不空，则右子树上所有节点的值均不小于它的根节点的值</li>
 <li>任意节点的左右子树分别为二叉搜索树</li>
 </ul>
-
 <h3 id="二叉搜索树的特点">二叉搜索树的特点</h3>
-
 <ul>
 <li>有链表的快速插入与删除操作</li>
 <li>也有数组快速查找的优势</li>
 </ul>
-
 <h3 id="二叉搜索树的复杂度">二叉搜索树的复杂度</h3>
-
 <ul>
 <li>平均每次操作需要O(logn)的时间</li>
 </ul>
-
 <p>在最优的情况下，二叉搜索树为完全二叉树，其平均比较次数为logN,在最差情况下，二叉搜索树退化为单支树，其平均比较次数为N</p>
-
 <p>如果退化成单支树，二叉搜索树的性能就失去了，如何改进呢？这将在平衡二叉树AVL树中进行讲述。</p>
-
 <h3 id="二叉搜索树的实现">二叉搜索树的实现</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
-<pre><code class="language-c++">#include &lt;iostream&gt;
-using namespace std;
-
-template&lt;class T&gt;
-struct BSTNode
+<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BSTNode</span>
 {
-    BSTNode(const T&amp; key = T())
-    : _left(nullptr), _right(nullptr), _key(key)
+    BSTNode(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> key <span style="color:#f92672">=</span> T())
+    <span style="color:#f92672">:</span> _left(<span style="color:#66d9ef">nullptr</span>), _right(<span style="color:#66d9ef">nullptr</span>), _key(key)
     {
 
     }
 
-    BSTNode&lt;T&gt;* _left;
-    BSTNode&lt;T&gt;* _right;
+    BSTNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span> _left;
+    BSTNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span> _right;
     T _key;
 };
 
-template&lt;class T&gt;
-class BSTree
+<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BSTree</span>
 {
-    typedef BSTNode&lt;T&gt; Node;
-public:
-    BSTree() : _root(nullptr)
+    <span style="color:#66d9ef">typedef</span> BSTNode<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Node;
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    BSTree() <span style="color:#f92672">:</span> _root(<span style="color:#66d9ef">nullptr</span>)
     {
 
     }
 
-    ~BSTree()
+    <span style="color:#f92672">~</span>BSTree()
     {
 
     }
 
-    BSTree(const BSTree&lt;T&gt;&amp; tree)
+    BSTree(<span style="color:#66d9ef">const</span> BSTree<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span> tree)
     {
-        _root = Copy(tree._root);
+        _root <span style="color:#f92672">=</span> Copy(tree._root);
     }
 
-    Node* Copy(Node* root)
+    Node<span style="color:#f92672">*</span> <span style="color:#a6e22e">Copy</span>(Node<span style="color:#f92672">*</span> root)
     {
-        if(root == nullptr)
-            return nullptr;
-        Node* tmp = new Node;
-        tmp-&gt;_key = root-&gt;_key;
-        tmp-&gt;_left = Copy(root-&gt;_left);
-        tmp-&gt;_right = Copy(root-&gt;_right);
-        return tmp;
+        <span style="color:#66d9ef">if</span>(root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+        Node<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node;
+        tmp<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>_key;
+        tmp<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> Copy(root<span style="color:#f92672">-&gt;</span>_left);
+        tmp<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> Copy(root<span style="color:#f92672">-&gt;</span>_right);
+        <span style="color:#66d9ef">return</span> tmp;
     }
 
-    BSTree&amp; operator=(const BSTree&amp; tree)
+    BSTree<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> BSTree<span style="color:#f92672">&amp;</span> tree)
     {
-        if(this != &amp;tree){
-            Destroy(this-&gt;_root);
-            this-&gt;_root = Copy(tree._root);
+        <span style="color:#66d9ef">if</span>(<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>tree){
+            Destroy(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>_root);
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>_root <span style="color:#f92672">=</span> Copy(tree._root);
         }
-        return *this;
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
     }
 
-    bool Insert(const T&amp; key)
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">Insert</span>(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> key)
     {
-        if(_root == nullptr)
+        <span style="color:#66d9ef">if</span>(_root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
         {
-            _root = new Node(key);
-            return true;
+            _root <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node(key);
+            <span style="color:#66d9ef">return</span> true;
         }
 
-        // 查找要插入的位置
-        Node* cur = _root;
-        Node* parent = nullptr;
-        while(cur)
+        <span style="color:#75715e">// 查找要插入的位置
+</span><span style="color:#75715e"></span>        Node<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> _root;
+        Node<span style="color:#f92672">*</span> parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+        <span style="color:#66d9ef">while</span>(cur)
         {
-            parent = cur;
-            if(key &lt; cur-&gt;_key)
+            parent <span style="color:#f92672">=</span> cur;
+            <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">&lt;</span> cur<span style="color:#f92672">-&gt;</span>_key)
             {
-                cur = cur-&gt;_left;
+                cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_left;
             }
-            else if(key &gt; cur-&gt;_key)
+            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">&gt;</span> cur<span style="color:#f92672">-&gt;</span>_key)
             {
-                cur = cur-&gt;_right;
+                cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
             }
-            else{
-                return false;
+            <span style="color:#66d9ef">else</span>{
+                <span style="color:#66d9ef">return</span> false;
             }
         }
 
-        // 插入元素
-        cur = new Node(key);
-        if(key &lt; parent-&gt;_key)
+        <span style="color:#75715e">// 插入元素
+</span><span style="color:#75715e"></span>        cur <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node(key);
+        <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">&lt;</span> parent<span style="color:#f92672">-&gt;</span>_key)
         {
-            parent-&gt;_left = cur;
+            parent<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> cur;
         }
-        else{
-            parent-&gt;_right = cur;
+        <span style="color:#66d9ef">else</span>{
+            parent<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> cur;
         }
-        return true;
+        <span style="color:#66d9ef">return</span> true;
     }
 
-    Node* Find(const T&amp; key)
+    Node<span style="color:#f92672">*</span> <span style="color:#a6e22e">Find</span>(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> key)
     {
-        Node* cur = _root;
-        while(cur)
+        Node<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> _root;
+        <span style="color:#66d9ef">while</span>(cur)
         {
-            if(cur-&gt;_key == key)
+            <span style="color:#66d9ef">if</span>(cur<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">==</span> key)
             {
-                return cur;
+                <span style="color:#66d9ef">return</span> cur;
             }
-            else if(key &lt; cur-&gt;_key)
+            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">&lt;</span> cur<span style="color:#f92672">-&gt;</span>_key)
             {
-                cur = cur-&gt;_left;
+                cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_left;
             }
-            else{
-                cur = cur-&gt;_right;
+            <span style="color:#66d9ef">else</span>{
+                cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
             }
         }
-        return nullptr;
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
     }
 
-    bool Erase(const T&amp; key)
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">Erase</span>(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> key)
     {
-        if(_root == nullptr)
-            return false;
+        <span style="color:#66d9ef">if</span>(_root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+            <span style="color:#66d9ef">return</span> false;
 
-        Node* cur = _root;
-        Node* parent = nullptr;
-        while(cur)
+        Node<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> _root;
+        Node<span style="color:#f92672">*</span> parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+        <span style="color:#66d9ef">while</span>(cur)
         {
-            if(key == cur-&gt;_key)
+            <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">==</span> cur<span style="color:#f92672">-&gt;</span>_key)
             {
-                break;
-            }else if(key &lt; cur-&gt;_key)
+                <span style="color:#66d9ef">break</span>;
+            }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">&lt;</span> cur<span style="color:#f92672">-&gt;</span>_key)
             {
-                parent = cur;
-                cur = cur-&gt;_left;
-            }else{
-                parent = cur;
-                cur = cur-&gt;_right;
+                parent <span style="color:#f92672">=</span> cur;
+                cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_left;
+            }<span style="color:#66d9ef">else</span>{
+                parent <span style="color:#f92672">=</span> cur;
+                cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
             }
         }
 
-        //遍历了整棵树，如果key不在树中，无法删除
-        if(cur == nullptr)
-            return false;
+        <span style="color:#75715e">//遍历了整棵树，如果key不在树中，无法删除
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(cur <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+            <span style="color:#66d9ef">return</span> false;
 
-        //如果在树中找到了key，进行删除结点,要分三种情况：
-        //1.该结点只有右孩子
-        //2.该结点只有左孩子
-        //3.该结点左右子树都存在
-        if(cur-&gt;_left == nullptr)
-        {
-            //情况1：
-            //只有根结点和根的右孩子，此时要删除的结点正好是树的根
-            if(cur == _root)
+        <span style="color:#75715e">//如果在树中找到了key，进行删除结点,要分三种情况：
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">//1.该结点只有右孩子
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">//2.该结点只有左孩子
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">//3.该结点左右子树都存在
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span>(cur<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+		{
+            <span style="color:#75715e">//情况1：
+</span><span style="color:#75715e"></span>			<span style="color:#75715e">//只有根结点和根的右孩子，此时要删除的结点正好是树的根
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>(cur <span style="color:#f92672">==</span> _root)
             {
-                _root = cur-&gt;_right;
-            }else{
-                if(cur == parent-&gt;_left)
+                _root <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
+            }<span style="color:#66d9ef">else</span>{
+                <span style="color:#66d9ef">if</span>(cur <span style="color:#f92672">==</span> parent<span style="color:#f92672">-&gt;</span>_left)
                 {
-                    parent-&gt;_left = cur-&gt;_right;
-                }else{
-                    parent-&gt;_right = cur-&gt;_right;
+                    parent<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
+                }<span style="color:#66d9ef">else</span>{
+                    parent<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
                 }
             }
-        }
-        else if(cur-&gt;_right == nullptr)
+		}
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(cur<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
         {
-            if(cur == _root){
-                _root = cur-&gt;_left;
-            }else{
-                if(cur == parent-&gt;_right){
-                    parent-&gt;_right = cur-&gt;_left;
-                }else{
-                    parent-&gt;_left = cur-&gt;_left;
+            <span style="color:#66d9ef">if</span>(cur <span style="color:#f92672">==</span> _root){
+                _root <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_left;
+            }<span style="color:#66d9ef">else</span>{
+                <span style="color:#66d9ef">if</span>(cur <span style="color:#f92672">==</span> parent<span style="color:#f92672">-&gt;</span>_right){
+                    parent<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_left;
+                }<span style="color:#66d9ef">else</span>{
+                    parent<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_left;
                 }
             }
         }
-        else{
-                //当前结点左右孩子都存在，直接删除不好删，可以在其子树中找一个替代结点，比如找其左子树中的最大结点，即左子树中最右侧的结点，或者找其右子树中最小的结点，即右子树中最小的结点。替换结点找到后，将替代结点中的值交给待删除结点，转换成删除替代结点。
-                if (cur-&gt;_left != nullptr || cur-&gt;_right != nullptr)
-                {
-                    //找右子树中最小的结点替换待删除的结点
-                    Node* repalce = cur-&gt;_right;
-                    parent = cur;
-                    while (repalce-&gt;_left)
-                    {
-                        parent = repalce;
-                        repalce = repalce-&gt;_left;
-                    }
-                    cur-&gt;_key = repalce-&gt;_key;
-                    if (repalce == parent-&gt;_left)
-                    {
-                        parent-&gt;_left = repalce-&gt;_right;
-                    }
-                    else
-                    {
-                        parent-&gt;_right = repalce-&gt;_right;
-                    }
-                    delete repalce;
-                    repalce = nullptr;
-                }
-                return true;
+        <span style="color:#66d9ef">else</span>{
+                <span style="color:#75715e">//当前结点左右孩子都存在，直接删除不好删，可以在其子树中找一个替代结点，比如找其左子树中的最大结点，即左子树中最右侧的结点，或者找其右子树中最小的结点，即右子树中最小的结点。替换结点找到后，将替代结点中的值交给待删除结点，转换成删除替代结点。
+</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span> (cur<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> cur<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>)
+				{
+					<span style="color:#75715e">//找右子树中最小的结点替换待删除的结点
+</span><span style="color:#75715e"></span>					Node<span style="color:#f92672">*</span> repalce <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
+					parent <span style="color:#f92672">=</span> cur;
+					<span style="color:#66d9ef">while</span> (repalce<span style="color:#f92672">-&gt;</span>_left)
+					{
+						parent <span style="color:#f92672">=</span> repalce;
+						repalce <span style="color:#f92672">=</span> repalce<span style="color:#f92672">-&gt;</span>_left;
+					}
+					cur<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">=</span> repalce<span style="color:#f92672">-&gt;</span>_key;
+					<span style="color:#66d9ef">if</span> (repalce <span style="color:#f92672">==</span> parent<span style="color:#f92672">-&gt;</span>_left)
+					{
+						parent<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> repalce<span style="color:#f92672">-&gt;</span>_right;
+					}
+					<span style="color:#66d9ef">else</span>
+					{
+						parent<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> repalce<span style="color:#f92672">-&gt;</span>_right;
+					}
+					<span style="color:#66d9ef">delete</span> repalce;
+					repalce <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+				}
+				<span style="color:#66d9ef">return</span> true;
         }
-        return false;
+        <span style="color:#66d9ef">return</span> false;
     }
 
-    void Inorder()
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Inorder</span>()
     {
         _Inorder(_root);
     }
 
-private:
-    // 中序遍历
-    void _Inorder(Node* root)
+<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+    <span style="color:#75715e">// 中序遍历
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> _Inorder(Node<span style="color:#f92672">*</span> root)
     {
-        if(root)
+        <span style="color:#66d9ef">if</span>(root)
         {
-            _Inorder(root-&gt;_left);
-            cout &lt;&lt; root-&gt;_key &lt;&lt; &quot; &quot;;
-            _Inorder(root-&gt;_right);
+            _Inorder(root<span style="color:#f92672">-&gt;</span>_left);
+            cout <span style="color:#f92672">&lt;&lt;</span> root<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+            _Inorder(root<span style="color:#f92672">-&gt;</span>_right);
         }
     }
 
-    void Destroy(Node*&amp; root)
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Destroy</span>(Node<span style="color:#f92672">*&amp;</span> root)
     {
-        if(root)
+        <span style="color:#66d9ef">if</span>(root)
         {
-            Destroy(root-&gt;_left);
-            Destroy(root-&gt;_right);
-            root = nullptr;
+            Destroy(root<span style="color:#f92672">-&gt;</span>_left);
+            Destroy(root<span style="color:#f92672">-&gt;</span>_right);
+            root <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
         }
     }
 
-private:
-    Node* _root;
+<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+    Node<span style="color:#f92672">*</span> _root;
 };
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
