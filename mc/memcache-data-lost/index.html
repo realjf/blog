@@ -3,7 +3,7 @@
 <head>
     <title>memcache数据提前过期（丢失）Memcache Data Lost // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,15 +83,21 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/memcache/">memcache</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/memcache/">Memcache</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="背景">背景</h3>
+            
+
+<h3 id="背景">背景</h3>
+
 <p>今天遇到一个比较奇葩的问题，使用脚本测试接口防洪攻击时，mc的封禁数据还未到过期时间就出现数据“丢失”的情况，
 一直以为是代码问题，后来偶然想到memcache在达到内存超过50%以上时，就可能采用LRU算法回收部分内存，考虑到防洪封禁数据
 比较多，所以做了本地测试</p>
+
 <h3 id="了解下memcache的一些状态信息">了解下memcache的一些状态信息</h3>
+
 <p>php通过getStat函数获取memcache状态信息。</p>
+
 <ul>
 <li>pid mc进程号</li>
 <li>uptime 服务器已运行秒数</li>
@@ -145,6 +151,7 @@
 <li>crawler_reclaimed</li>
 <li>lrutail_reflocked</li>
 </ul>
+
 <p>解决方法是，增大MC使用内存</p>
 
         </div>

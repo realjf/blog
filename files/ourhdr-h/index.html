@@ -3,7 +3,7 @@
 <head>
     <title>unix网络编程 之 ourhdr.h文件 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,182 +83,187 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/unix/">unix</a><a class="tag" href="https://realjf.io/tags/ourhdr.h/">ourhdr.h</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/unix/">Unix</a><a class="tag" href="https://realjf.io/tags/ourhdr.h/">Ourhdr.h</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="unix网络编程-之-ourhdrh文件">unix网络编程 之 ourhdr.h文件</h2>
+            
+
+<h2 id="unix网络编程-之-ourhdr-h文件">unix网络编程 之 ourhdr.h文件</h2>
+
 <p>ourhdr.h</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// ourhdr.h
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#ifndef __ourhdr_h  
-</span><span style="color:#75715e">#define __ourhdr_h 
-</span><span style="color:#75715e"></span> 
-<span style="color:#75715e">#include</span>    <span style="color:#75715e">&lt;errno.h&gt;               /*for definition of errno                      */</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span>    <span style="color:#75715e">&lt;stdarg.h&gt;              /*ANSI C header file                           */</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span>    <span style="color:#75715e">&lt;sys/types.h&gt;           /* required for some of our prototypes         */  </span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span>    <span style="color:#75715e">&lt;stdio.h&gt;               /* for convenience                             */  </span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span>    <span style="color:#75715e">&lt;stdlib.h&gt;              /* for convenience                             */  </span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span>    <span style="color:#75715e">&lt;string.h&gt;              /* for convenience                             */  </span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span>    <span style="color:#75715e">&lt;unistd.h&gt;              /* for convenience                             */ </span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>  
-<span style="color:#75715e">#define MAXLINE 4096                </span><span style="color:#75715e">/* max line length                             */</span><span style="color:#75715e">  
-</span><span style="color:#75715e">#define FILE_MODE       (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)  
-</span><span style="color:#75715e"></span>                                        <span style="color:#75715e">/* default file access permissions for new files */</span> 
-<span style="color:#75715e">#define DIR_MODE        (FILE_MODE | S_IXUSR | S_IXGRP | S_IXOTH)  
-</span><span style="color:#75715e"></span>                                        <span style="color:#75715e">/* default permissions for new directoris */</span> 
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">Sigfunc</span>(<span style="color:#66d9ef">int</span>);   <span style="color:#75715e">/* for signal handlers */</span> 
-                                        <span style="color:#75715e">/* 4.3BSD Reno &lt;signal.h&gt; doesn&#39;t define  
-</span><span style="color:#75715e">SIG_ERR */</span> 
-<span style="color:#75715e">#if     defined(SIG_IGN) &amp;&amp; !defined(SIG_ERR)  
-</span><span style="color:#75715e">#define SIG_ERR ((Sigfunc *)-1)  
-</span><span style="color:#75715e">#endif  
-</span><span style="color:#75715e">#define min(a,b)        ((a) &lt; (b) ? (a) : (b))  
-</span><span style="color:#75715e">#define max(a,b)        ((a) &gt; (b) ? (a) : (b)) 
-</span><span style="color:#75715e"></span>                                                <span style="color:#75715e">/* prototypes for our own functions */</span> 
-<span style="color:#66d9ef">char</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">path_alloc</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>);                     <span style="color:#75715e">/* {Prog pathalloc} */</span> 
-<span style="color:#66d9ef">int</span>      <span style="color:#a6e22e">open_max</span>(<span style="color:#66d9ef">void</span>);                        <span style="color:#75715e">/* {Prog openmax} */</span> 
-<span style="color:#66d9ef">void</span>     <span style="color:#a6e22e">clr_fl</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);                      <span style="color:#75715e">/* {Prog setfl} */</span> 
-<span style="color:#66d9ef">void</span>     <span style="color:#a6e22e">set_fl</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);                      <span style="color:#75715e">/* {Prog setfl} */</span> 
-<span style="color:#66d9ef">void</span>     <span style="color:#a6e22e">pr_exit</span>(<span style="color:#66d9ef">int</span>);                          <span style="color:#75715e">/* {Prog prexit} */</span> 
-<span style="color:#66d9ef">void</span>     <span style="color:#a6e22e">pr_mask</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);                 <span style="color:#75715e">/* {Prog prmask} */</span> 
-Sigfunc <span style="color:#f92672">*</span><span style="color:#a6e22e">signal_intr</span>(<span style="color:#66d9ef">int</span>, Sigfunc <span style="color:#f92672">*</span>);           <span style="color:#75715e">/* {Prog signal_intr_function} */</span> 
-<span style="color:#66d9ef">int</span>      <span style="color:#a6e22e">tty_cbreak</span>(<span style="color:#66d9ef">int</span>);                       <span style="color:#75715e">/* {Prog raw} */</span> 
-<span style="color:#66d9ef">int</span>      <span style="color:#a6e22e">tty_raw</span>(<span style="color:#66d9ef">int</span>);                          <span style="color:#75715e">/* {Prog raw} */</span> 
-<span style="color:#66d9ef">int</span>      <span style="color:#a6e22e">tty_reset</span>(<span style="color:#66d9ef">int</span>);                        <span style="color:#75715e">/* {Prog raw} */</span> 
-<span style="color:#66d9ef">void</span>     <span style="color:#a6e22e">tty_atexit</span>(<span style="color:#66d9ef">void</span>);                      <span style="color:#75715e">/* {Prog raw} */</span>
+
+<pre><code class="language-c">// ourhdr.h
+
+#ifndef __ourhdr_h  
+#define __ourhdr_h 
  
-<span style="color:#75715e">#ifdef  ECHO                                    </span><span style="color:#75715e">/* only if &lt;termios.h&gt; has been included */</span><span style="color:#75715e">  
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> termios  <span style="color:#f92672">*</span><span style="color:#a6e22e">tty_termios</span>(<span style="color:#66d9ef">void</span>);             <span style="color:#75715e">/* {Prog raw} */</span> 
-<span style="color:#75715e">#endif  
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span>     <span style="color:#a6e22e">sleep_us</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>);                <span style="color:#75715e">/* {Ex sleepus} */</span> 
-ssize_t  <span style="color:#a6e22e">readn</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>, size_t);            <span style="color:#75715e">/* {Prog readn} */</span> 
-ssize_t  <span style="color:#a6e22e">writen</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>, size_t);     <span style="color:#75715e">/* {Prog writen} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">daemon_init</span>(<span style="color:#66d9ef">void</span>);                     <span style="color:#75715e">/* {Prog daemoninit} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">s_pipe</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>);                         <span style="color:#75715e">/* {Progs svr4_spipe bsd spipe} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">recv_fd</span>(<span style="color:#66d9ef">int</span>, ssize_t (<span style="color:#f92672">*</span>func)(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>, size_t));  
-                                                        <span style="color:#75715e">/* {Prog recvfd_svr4 recvfd_43bsd} */</span>
+#include    &lt;errno.h&gt;               /*for definition of errno                      */
+#include    &lt;stdarg.h&gt;              /*ANSI C header file                           */
+#include    &lt;sys/types.h&gt;           /* required for some of our prototypes         */  
+#include    &lt;stdio.h&gt;               /* for convenience                             */  
+#include    &lt;stdlib.h&gt;              /* for convenience                             */  
+#include    &lt;string.h&gt;              /* for convenience                             */  
+#include    &lt;unistd.h&gt;              /* for convenience                             */ 
+  
+#define MAXLINE 4096                /* max line length                             */  
+#define FILE_MODE       (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)  
+                                        /* default file access permissions for new files */ 
+#define DIR_MODE        (FILE_MODE | S_IXUSR | S_IXGRP | S_IXOTH)  
+                                        /* default permissions for new directoris */ 
+typedef void    Sigfunc(int);   /* for signal handlers */ 
+                                        /* 4.3BSD Reno &lt;signal.h&gt; doesn't define  
+SIG_ERR */ 
+#if     defined(SIG_IGN) &amp;&amp; !defined(SIG_ERR)  
+#define SIG_ERR ((Sigfunc *)-1)  
+#endif  
+#define min(a,b)        ((a) &lt; (b) ? (a) : (b))  
+#define max(a,b)        ((a) &gt; (b) ? (a) : (b)) 
+                                                /* prototypes for our own functions */ 
+char    *path_alloc(int *);                     /* {Prog pathalloc} */ 
+int      open_max(void);                        /* {Prog openmax} */ 
+void     clr_fl(int, int);                      /* {Prog setfl} */ 
+void     set_fl(int, int);                      /* {Prog setfl} */ 
+void     pr_exit(int);                          /* {Prog prexit} */ 
+void     pr_mask(const char *);                 /* {Prog prmask} */ 
+Sigfunc *signal_intr(int, Sigfunc *);           /* {Prog signal_intr_function} */ 
+int      tty_cbreak(int);                       /* {Prog raw} */ 
+int      tty_raw(int);                          /* {Prog raw} */ 
+int      tty_reset(int);                        /* {Prog raw} */ 
+void     tty_atexit(void);                      /* {Prog raw} */
+ 
+#ifdef  ECHO                                    /* only if &lt;termios.h&gt; has been included */  
+struct termios  *tty_termios(void);             /* {Prog raw} */ 
+#endif  
+void     sleep_us(unsigned int);                /* {Ex sleepus} */ 
+ssize_t  readn(int, void *, size_t);            /* {Prog readn} */ 
+ssize_t  writen(int, const void *, size_t);     /* {Prog writen} */ 
+int              daemon_init(void);                     /* {Prog daemoninit} */ 
+int              s_pipe(int *);                         /* {Progs svr4_spipe bsd spipe} */ 
+int              recv_fd(int, ssize_t (*func)(int, const void *, size_t));  
+                                                        /* {Prog recvfd_svr4 recvfd_43bsd} */
                                                           
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">send_fd</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);                     <span style="color:#75715e">/* {Progs sendfd_svr4 se  
-</span><span style="color:#75715e">dfd_43bsd} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">send_err</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);<span style="color:#75715e">/* {Prog senderr} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">serv_listen</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);     <span style="color:#75715e">/* {Progs servlisten_svr4 servli  
-</span><span style="color:#75715e">ten_4  
-</span><span style="color:#75715e">4bsd} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">serv_accept</span>(<span style="color:#66d9ef">int</span>, uid_t <span style="color:#f92672">*</span>);     <span style="color:#75715e">/* {Progs servaccept_svr4 servac  
-</span><span style="color:#75715e">ept_4  
-</span><span style="color:#75715e">4bsd} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">cli_conn</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);        <span style="color:#75715e">/* {Progs cliconn_svr4 cliconn_4  
-</span><span style="color:#75715e">bsd} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">buf_args</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, <span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>func)(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>));  
-                                                <span style="color:#75715e">/* {Prog bufargs} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">ptym_open</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);                     <span style="color:#75715e">/* {Progs ptyopen_svr4 p yopen_44bsd} */</span> 
-<span style="color:#66d9ef">int</span>              <span style="color:#a6e22e">ptys_open</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);        <span style="color:#75715e">/* {Progs ptyopen_svr4 ptyopen_4 bsd} */</span>
+int              send_fd(int, int);                     /* {Progs sendfd_svr4 se  
+dfd_43bsd} */ 
+int              send_err(int, int, const char *);/* {Prog senderr} */ 
+int              serv_listen(const char *);     /* {Progs servlisten_svr4 servli  
+ten_4  
+4bsd} */ 
+int              serv_accept(int, uid_t *);     /* {Progs servaccept_svr4 servac  
+ept_4  
+4bsd} */ 
+int              cli_conn(const char *);        /* {Progs cliconn_svr4 cliconn_4  
+bsd} */ 
+int              buf_args(char *, int (*func)(int, char **));  
+                                                /* {Prog bufargs} */ 
+int              ptym_open(char *);                     /* {Progs ptyopen_svr4 p yopen_44bsd} */ 
+int              ptys_open(int, char *);        /* {Progs ptyopen_svr4 ptyopen_4 bsd} */
   
-<span style="color:#75715e">#ifdef  TIOCGWINSZ  
-</span><span style="color:#75715e"></span>pid_t    <span style="color:#a6e22e">pty_fork</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> termios <span style="color:#f92672">*</span>,  
-                                  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> winsize <span style="color:#f92672">*</span>);      <span style="color:#75715e">/* {Prog ptyfork */</span> 
-<span style="color:#75715e">#endif  
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span>             <span style="color:#a6e22e">lock_reg</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, off_t, <span style="color:#66d9ef">int</span>, off_t);     <span style="color:#75715e">/* {Prog lockreg} */</span>
+#ifdef  TIOCGWINSZ  
+pid_t    pty_fork(int *, char *, const struct termios *,  
+                                  const struct winsize *);      /* {Prog ptyfork */ 
+#endif  
+int             lock_reg(int, int, int, off_t, int, off_t);     /* {Prog lockreg} */
  
-<span style="color:#75715e">#define read_lock(fd, offset, whence, len)    lock_reg(fd, F_SETLK, F_RDLCK, offset, whence, len)  
-</span><span style="color:#75715e">#define readw_lock(fd, offset, whence, len)   lock_reg(fd, F_SETLKW, F_RDLCK, offset, whence, len)  
-</span><span style="color:#75715e">#define write_lock(fd, offset, whence, len)   lock_reg(fd, F_SETLK, F_WRLCK, offset, whence, len)  
-</span><span style="color:#75715e">#define writew_lock(fd, offset, whence, len)  lock_reg(fd, F_SETLKW, F_WRLCK, offset, whence, len)  
-</span><span style="color:#75715e">#define un_lock(fd, offset, whence, len)      lock_reg(fd, F_SETLK, F_UNLCK, offset, whence, len)  
-</span><span style="color:#75715e"></span>pid_t   <span style="color:#a6e22e">lock_test</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, off_t, <span style="color:#66d9ef">int</span>, off_t);      <span style="color:#75715e">/* {Prog    locktest} */</span> 
-<span style="color:#75715e">#define is_readlock(fd, offset, whence, len)  lock_test(fd, F_RDLCK, offset, whence, len)  
-</span><span style="color:#75715e">#define is_writelock(fd, offset, whence, len) lock_test(fd, F_WRLCK, offset, whence, len)  
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">err_dump</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);    <span style="color:#75715e">/* {App misc_source} */</span> 
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">err_msg</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">err_quit</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">err_ret</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">err_sys</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">log_msg</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);             <span style="color:#75715e">/* {App misc_source} */</span> 
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">log_open</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">log_quit</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">log_ret</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">log_sys</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, ...);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">TELL_WAIT</span>(<span style="color:#66d9ef">void</span>);                <span style="color:#75715e">/* parent/child from {Sec race_condition  } */</span> 
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">TELL_PARENT</span>(pid_t);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">TELL_CHILD</span>(pid_t);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">WAIT_PARENT</span>(<span style="color:#66d9ef">void</span>);  
-<span style="color:#66d9ef">void</span>    <span style="color:#a6e22e">WAIT_CHILD</span>(<span style="color:#66d9ef">void</span>);  
-<span style="color:#75715e">#endif  </span><span style="color:#75715e">/* __ourhdr_h */</span><span style="color:#75715e"> 
-</span><span style="color:#75715e"></span> 
-<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_doit</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>, va_list);
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>pname <span style="color:#f92672">=</span> NULL; <span style="color:#75715e">/* caller can set this from argv[0]*/</span>
-<span style="color:#75715e">/* Nonfatal error realated to a system call . print a message and return . */</span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_ret</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt,...)
+#define read_lock(fd, offset, whence, len)    lock_reg(fd, F_SETLK, F_RDLCK, offset, whence, len)  
+#define readw_lock(fd, offset, whence, len)   lock_reg(fd, F_SETLKW, F_RDLCK, offset, whence, len)  
+#define write_lock(fd, offset, whence, len)   lock_reg(fd, F_SETLK, F_WRLCK, offset, whence, len)  
+#define writew_lock(fd, offset, whence, len)  lock_reg(fd, F_SETLKW, F_WRLCK, offset, whence, len)  
+#define un_lock(fd, offset, whence, len)      lock_reg(fd, F_SETLK, F_UNLCK, offset, whence, len)  
+pid_t   lock_test(int, int, off_t, int, off_t);      /* {Prog    locktest} */ 
+#define is_readlock(fd, offset, whence, len)  lock_test(fd, F_RDLCK, offset, whence, len)  
+#define is_writelock(fd, offset, whence, len) lock_test(fd, F_WRLCK, offset, whence, len)  
+void    err_dump(const char *, ...);    /* {App misc_source} */ 
+void    err_msg(const char *, ...);  
+void    err_quit(const char *, ...);  
+void    err_ret(const char *, ...);  
+void    err_sys(const char *, ...);  
+void    log_msg(const char *, ...);             /* {App misc_source} */ 
+void    log_open(const char *, int, int);  
+void    log_quit(const char *, ...);  
+void    log_ret(const char *, ...);  
+void    log_sys(const char *, ...);  
+void    TELL_WAIT(void);                /* parent/child from {Sec race_condition  } */ 
+void    TELL_PARENT(pid_t);  
+void    TELL_CHILD(pid_t);  
+void    WAIT_PARENT(void);  
+void    WAIT_CHILD(void);  
+#endif  /* __ourhdr_h */ 
+ 
+static void err_doit(int, const char*, va_list);
+char *pname = NULL; /* caller can set this from argv[0]*/
+/* Nonfatal error realated to a system call . print a message and return . */
+void err_ret(const char *fmt,...)
 {
    va_list ap;
    va_start(ap, fmt);
-   err_doit(<span style="color:#ae81ff">1</span>, fmt, ap);
+   err_doit(1, fmt, ap);
    va_end(ap);
     
-    <span style="color:#66d9ef">return</span>;
+    return;
 }
  
-<span style="color:#75715e">/* Fatal error related to a system call . print a message and terminate. */</span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_sys</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt,...)
+/* Fatal error related to a system call . print a message and terminate. */
+void err_sys(const char *fmt,...)
 {
    va_list ap;
    va_start(ap, fmt);
-   err_doit(<span style="color:#ae81ff">1</span>, fmt, ap);
+   err_doit(1, fmt, ap);
    va_end(ap);
-   exit(<span style="color:#ae81ff">1</span>);
+   exit(1);
 }
-<span style="color:#75715e">/* Fatal error related to a system call . print a message ,dump core ,and terminate. */</span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_dump</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt,...)
+/* Fatal error related to a system call . print a message ,dump core ,and terminate. */
+void err_dump(const char *fmt,...)
 {
    va_list ap;
  
    va_start(ap, fmt);
-   err_doit(<span style="color:#ae81ff">1</span>, fmt, ap);
+   err_doit(1, fmt, ap);
    va_end(ap);
-   abort(); <span style="color:#75715e">/* dump core and terminate */</span>
-   exit(<span style="color:#ae81ff">1</span>); <span style="color:#75715e">/* shouldn&#39;t get here */</span>
+   abort(); /* dump core and terminate */
+   exit(1); /* shouldn't get here */
 }
  
-<span style="color:#75715e">/* Nofatal error related to a system call . print a message and return. */</span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_msg</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt,...)
+/* Nofatal error related to a system call . print a message and return. */
+void err_msg(const char *fmt,...)
 {
    va_list ap;
   
    va_start(ap, fmt);
-   err_doit(<span style="color:#ae81ff">0</span>, fmt, ap);
+   err_doit(0, fmt, ap);
    va_end(ap);
     
-   <span style="color:#66d9ef">return</span>;
+   return;
 }
-<span style="color:#75715e">/* Fatal error related to a system call . print a message and terminate. */</span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_quit</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt,...)
+/* Fatal error related to a system call . print a message and terminate. */
+void err_quit(const char *fmt,...)
 {
    va_list ap;
    va_start(ap, fmt);
-   err_doit(<span style="color:#ae81ff">0</span>, fmt, ap);
+   err_doit(0, fmt, ap);
    va_end(ap);
-   exit(<span style="color:#ae81ff">1</span>);
+   exit(1);
 }
-<span style="color:#75715e">/* print a message and return to caller. caller specifies &#34;errnoflag&#34;. */</span>
-<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_doit</span>(<span style="color:#66d9ef">int</span> errnoflag, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, va_list ap)
+/* print a message and return to caller. caller specifies &quot;errnoflag&quot;. */
+static void err_doit(int errnoflag, const char *fmt, va_list ap)
 {
-   <span style="color:#66d9ef">int</span> errno_save;
-   <span style="color:#66d9ef">char</span> buf[MAXLINE];
+   int errno_save;
+   char buf[MAXLINE];
  
-   errno_save <span style="color:#f92672">=</span> errno;  <span style="color:#75715e">/* value caller might want printed */</span>
+   errno_save = errno;  /* value caller might want printed */
    vsprintf(buf, fmt, ap);
     
-   <span style="color:#66d9ef">if</span> (errnoflag)
-     sprintf(buf<span style="color:#f92672">+</span>strlen(buf),<span style="color:#e6db74">&#34;: %s&#34;</span>, strerror(errno_save));
+   if (errnoflag)
+     sprintf(buf+strlen(buf),&quot;: %s&quot;, strerror(errno_save));
       
-   strcat(buf, <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-   fflush(stdout); <span style="color:#75715e">/* in case stdout and stderr are the same */</span>
+   strcat(buf, &quot;\n&quot;);
+   fflush(stdout); /* in case stdout and stderr are the same */
    fputs(buf, stderr);
-   fflush(NULL); <span style="color:#75715e">/*flushes and stdio  output streams */</span>
+   fflush(NULL); /*flushes and stdio  output streams */
     
-   <span style="color:#66d9ef">return</span>;
+   return;
 }
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

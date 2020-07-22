@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>webuploader on Realjf&#39;s blog</title>
+    <title>Webuploader on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/webuploader/</link>
-    <description>Recent content in webuploader on Realjf&#39;s blog</description>
+    <description>Recent content in Webuploader on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 13 Apr 2020 14:00:07 +0800</lastBuildDate>
@@ -22,8 +22,8 @@
 同时后端使用php接收分片文件，并进行最后的组装。
 第一步，首先下载webuploader插件 下载地址：https://github.com/fex-team/webuploader/releases
 解压后文件结构如下：
-├── Uploader.swf // SWF文件，当使用Flash运行时需要引入。 ├── webuploader.js // 完全版本。 ├── webuploader.min.js // min版本 ├── webuploader.custom.js ├── webuploader.nolog.js ├── webuploader.flashonly.js // 只有Flash实现的版本。 ├── webuploader.flashonly.min.js // min版本 ├── webuploader.html5only.js // 只有Html5实现的版本。 ├── webuploader.html5only.min.js // min版本 ├── webuploader.withoutimage.js // 去除图片处理的版本，包括HTML5和FLASH. └── webuploader.withoutimage.min.js // min版本 下载 第二步，创建一个html页面，引入一下文件 &amp;lt;link href=&amp;#34;/resource/webuploader/webuploader.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34; /&amp;gt; &amp;lt;script src=&amp;#34;/resource/webuploader/webuploader.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 页面内容如下：
-&amp;lt;div id=&amp;#34;uploader&amp;#34; class=&amp;#34;wu-example&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;uploader&amp;#34; class=&amp;#34;wu-example&amp;#34;&amp;gt; &amp;lt;!--用来存放文件信息--&amp;gt; &amp;lt;div class=&amp;#34;filename&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;state&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;progress&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;progress_bar&amp;#34; class=&amp;#34;progress-bar progress-bar-info progress-striped active&amp;#34; role=&amp;#34;progressbar&amp;#34; style=&amp;#34;width: 0%&amp;#34;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;btns&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;picker&amp;#34;&amp;gt;选择文件&amp;lt;/div&amp;gt; &amp;lt;button id=&amp;#34;ctlBtn&amp;#34; class=&amp;#34;btn btn-default&amp;#34;&amp;gt;开始上传&amp;lt;/button&amp;gt; &amp;lt;button id=&amp;#34;pause&amp;#34; class=&amp;#34;btn btn-danger&amp;#34;&amp;gt;暂停上传&amp;lt;/button&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; 第三步，js逻辑如下 &amp;lt;script type=&amp;#34;text/javascript&amp;#34;&amp;gt; $(function () { var GUID = WebUploader.</description>
+├── Uploader.swf // SWF文件，当使用Flash运行时需要引入。 ├── webuploader.js // 完全版本。 ├── webuploader.min.js // min版本 ├── webuploader.custom.js ├── webuploader.nolog.js ├── webuploader.flashonly.js // 只有Flash实现的版本。 ├── webuploader.flashonly.min.js // min版本 ├── webuploader.html5only.js // 只有Html5实现的版本。 ├── webuploader.html5only.min.js // min版本 ├── webuploader.withoutimage.js // 去除图片处理的版本，包括HTML5和FLASH. └── webuploader.withoutimage.min.js // min版本 下载  第二步，创建一个html页面，引入一下文件 &amp;lt;link href=&amp;quot;/resource/webuploader/webuploader.css&amp;quot; rel=&amp;quot;stylesheet&amp;quot; /&amp;gt; &amp;lt;script src=&amp;quot;/resource/webuploader/webuploader.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;  页面内容如下：
+&amp;lt;div id=&amp;quot;uploader&amp;quot; class=&amp;quot;wu-example&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;uploader&amp;quot; class=&amp;quot;wu-example&amp;quot;&amp;gt; &amp;lt;!--用来存放文件信息--&amp;gt; &amp;lt;div class=&amp;quot;filename&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;state&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;progress&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;progress_bar&amp;quot; class=&amp;quot;progress-bar progress-bar-info progress-striped active&amp;quot; role=&amp;quot;progressbar&amp;quot; style=&amp;quot;width: 0%&amp;quot;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;btns&amp;quot;&amp;gt; &amp;lt;div id=&amp;quot;picker&amp;quot;&amp;gt;选择文件&amp;lt;/div&amp;gt; &amp;lt;button id=&amp;quot;ctlBtn&amp;quot; class=&amp;quot;btn btn-default&amp;quot;&amp;gt;开始上传&amp;lt;/button&amp;gt; &amp;lt;button id=&amp;quot;pause&amp;quot; class=&amp;quot;btn btn-danger&amp;quot;&amp;gt;暂停上传&amp;lt;/button&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt;  第三步，js逻辑如下 &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt; $(function () { var GUID = WebUploader.</description>
     </item>
     
   </channel>

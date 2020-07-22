@@ -1,0 +1,453 @@
+<!doctype html>
+<html>
+<head>
+    <title>二叉搜索树 Binary Search Tree // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">二叉搜索树 Binary Search Tree</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Jul 22, 2020
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/algorithm/">Algorithm</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h3 id="二叉搜索树的性质">二叉搜索树的性质</h3>
+
+<ul>
+<li>若任意节点的左子树不空，则左子树上所有节点的值均不大于它的根节点的值</li>
+<li>若任意节点的右子树不空，则右子树上所有节点的值均不小于它的根节点的值</li>
+<li>任意节点的左右子树分别为二叉搜索树</li>
+</ul>
+
+<h3 id="二叉搜索树的特点">二叉搜索树的特点</h3>
+
+<ul>
+<li>有链表的快速插入与删除操作</li>
+<li>也有数组快速查找的优势</li>
+</ul>
+
+<h3 id="二叉搜索树的复杂度">二叉搜索树的复杂度</h3>
+
+<ul>
+<li>平均每次操作需要O(logn)的时间</li>
+</ul>
+
+<p>在最优的情况下，二叉搜索树为完全二叉树，其平均比较次数为logN,在最差情况下，二叉搜索树退化为单支树，其平均比较次数为N</p>
+
+<p>如果退化成单支树，二叉搜索树的性能就失去了，如何改进呢？这将在平衡二叉树AVL树中进行讲述。</p>
+
+<h3 id="二叉搜索树的实现">二叉搜索树的实现</h3>
+
+<pre><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+
+template&lt;class T&gt;
+struct BSTNode
+{
+    BSTNode(const T&amp; key = T())
+    : _left(nullptr), _right(nullptr), _key(key)
+    {
+
+    }
+
+    BSTNode&lt;T&gt;* _left;
+    BSTNode&lt;T&gt;* _right;
+    T _key;
+};
+
+template&lt;class T&gt;
+class BSTree
+{
+    typedef BSTNode&lt;T&gt; Node;
+public:
+    BSTree() : _root(nullptr)
+    {
+
+    }
+
+    ~BSTree()
+    {
+
+    }
+
+    BSTree(const BSTree&lt;T&gt;&amp; tree)
+    {
+        _root = Copy(tree._root);
+    }
+
+    Node* Copy(Node* root)
+    {
+        if(root == nullptr)
+            return nullptr;
+        Node* tmp = new Node;
+        tmp-&gt;_key = root-&gt;_key;
+        tmp-&gt;_left = Copy(root-&gt;_left);
+        tmp-&gt;_right = Copy(root-&gt;_right);
+        return tmp;
+    }
+
+    BSTree&amp; operator=(const BSTree&amp; tree)
+    {
+        if(this != &amp;tree){
+            Destroy(this-&gt;_root);
+            this-&gt;_root = Copy(tree._root);
+        }
+        return *this;
+    }
+
+    bool Insert(const T&amp; key)
+    {
+        if(_root == nullptr)
+        {
+            _root = new Node(key);
+            return true;
+        }
+
+        // 查找要插入的位置
+        Node* cur = _root;
+        Node* parent = nullptr;
+        while(cur)
+        {
+            parent = cur;
+            if(key &lt; cur-&gt;_key)
+            {
+                cur = cur-&gt;_left;
+            }
+            else if(key &gt; cur-&gt;_key)
+            {
+                cur = cur-&gt;_right;
+            }
+            else{
+                return false;
+            }
+        }
+
+        // 插入元素
+        cur = new Node(key);
+        if(key &lt; parent-&gt;_key)
+        {
+            parent-&gt;_left = cur;
+        }
+        else{
+            parent-&gt;_right = cur;
+        }
+        return true;
+    }
+
+    Node* Find(const T&amp; key)
+    {
+        Node* cur = _root;
+        while(cur)
+        {
+            if(cur-&gt;_key == key)
+            {
+                return cur;
+            }
+            else if(key &lt; cur-&gt;_key)
+            {
+                cur = cur-&gt;_left;
+            }
+            else{
+                cur = cur-&gt;_right;
+            }
+        }
+        return nullptr;
+    }
+
+    bool Erase(const T&amp; key)
+    {
+        if(_root == nullptr)
+            return false;
+
+        Node* cur = _root;
+        Node* parent = nullptr;
+        while(cur)
+        {
+            if(key == cur-&gt;_key)
+            {
+                break;
+            }else if(key &lt; cur-&gt;_key)
+            {
+                parent = cur;
+                cur = cur-&gt;_left;
+            }else{
+                parent = cur;
+                cur = cur-&gt;_right;
+            }
+        }
+
+        //遍历了整棵树，如果key不在树中，无法删除
+        if(cur == nullptr)
+            return false;
+
+        //如果在树中找到了key，进行删除结点,要分三种情况：
+        //1.该结点只有右孩子
+        //2.该结点只有左孩子
+        //3.该结点左右子树都存在
+        if(cur-&gt;_left == nullptr)
+        {
+            //情况1：
+            //只有根结点和根的右孩子，此时要删除的结点正好是树的根
+            if(cur == _root)
+            {
+                _root = cur-&gt;_right;
+            }else{
+                if(cur == parent-&gt;_left)
+                {
+                    parent-&gt;_left = cur-&gt;_right;
+                }else{
+                    parent-&gt;_right = cur-&gt;_right;
+                }
+            }
+        }
+        else if(cur-&gt;_right == nullptr)
+        {
+            if(cur == _root){
+                _root = cur-&gt;_left;
+            }else{
+                if(cur == parent-&gt;_right){
+                    parent-&gt;_right = cur-&gt;_left;
+                }else{
+                    parent-&gt;_left = cur-&gt;_left;
+                }
+            }
+        }
+        else{
+                //当前结点左右孩子都存在，直接删除不好删，可以在其子树中找一个替代结点，比如找其左子树中的最大结点，即左子树中最右侧的结点，或者找其右子树中最小的结点，即右子树中最小的结点。替换结点找到后，将替代结点中的值交给待删除结点，转换成删除替代结点。
+                if (cur-&gt;_left != nullptr || cur-&gt;_right != nullptr)
+                {
+                    //找右子树中最小的结点替换待删除的结点
+                    Node* repalce = cur-&gt;_right;
+                    parent = cur;
+                    while (repalce-&gt;_left)
+                    {
+                        parent = repalce;
+                        repalce = repalce-&gt;_left;
+                    }
+                    cur-&gt;_key = repalce-&gt;_key;
+                    if (repalce == parent-&gt;_left)
+                    {
+                        parent-&gt;_left = repalce-&gt;_right;
+                    }
+                    else
+                    {
+                        parent-&gt;_right = repalce-&gt;_right;
+                    }
+                    delete repalce;
+                    repalce = nullptr;
+                }
+                return true;
+        }
+        return false;
+    }
+
+    void Inorder()
+    {
+        _Inorder(_root);
+    }
+
+private:
+    // 中序遍历
+    void _Inorder(Node* root)
+    {
+        if(root)
+        {
+            _Inorder(root-&gt;_left);
+            cout &lt;&lt; root-&gt;_key &lt;&lt; &quot; &quot;;
+            _Inorder(root-&gt;_right);
+        }
+    }
+
+    void Destroy(Node*&amp; root)
+    {
+        if(root)
+        {
+            Destroy(root-&gt;_left);
+            Destroy(root-&gt;_right);
+            root = nullptr;
+        }
+    }
+
+private:
+    Node* _root;
+};
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/algorithm/tree/tree-walk/">树的遍历 Tree Walk</a></li>
+                
+                    <li><a href="/algorithm/search/binary-search/">Binary Search</a></li>
+                
+                    <li><a href="/algorithm/sort/select-sort/">排序算法之选择排序 Select Sort</a></li>
+                
+                    <li><a href="/algorithm/sort/merge-sort/">排序算法之归并排序 Merge Sort</a></li>
+                
+                    <li><a href="/algorithm/sort/quick-sort/">排序算法之快速排序 Quick Sort</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

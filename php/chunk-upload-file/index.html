@@ -3,7 +3,7 @@
 <head>
     <title>大文件分片上传 之 基于webuploader组件（Chunk Upload File） // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,21 +83,31 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/webuploader/">webuploader</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/webuploader/">Webuploader</a></div></div>
         </header>
         <div class="post-content">
-            <p>针对大文件（上百兆或者好几个G的大文件上传，总是比较麻烦的，这里将介绍一个比较方便的解决方案</p>
+            
+
+<p>针对大文件（上百兆或者好几个G的大文件上传，总是比较麻烦的，这里将介绍一个比较方便的解决方案</p>
+
 <h2 id="准备">准备</h2>
+
 <ul>
 <li>百度的webuploader组件</li>
 <li>lnmp或lamp开发环境</li>
 </ul>
+
 <p>本次使用的是百度分享的分片js组件<a href="http://fex.baidu.com/webuploader/">webuploader</a></p>
+
 <p>同时后端使用php接收分片文件，并进行最后的组装。</p>
-<h3 id="第一步首先下载webuploader插件">第一步，首先下载webuploader插件</h3>
-<p>下载地址：https://github.com/fex-team/webuploader/releases</p>
+
+<h3 id="第一步-首先下载webuploader插件">第一步，首先下载webuploader插件</h3>
+
+<p>下载地址：<a href="https://github.com/fex-team/webuploader/releases">https://github.com/fex-team/webuploader/releases</a></p>
+
 <p>解压后文件结构如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">├── Uploader.swf                      // SWF文件，当使用Flash运行时需要引入。
+
+<pre><code class="language-text">├── Uploader.swf                      // SWF文件，当使用Flash运行时需要引入。
 
 ├── webuploader.js                    // 完全版本。
 ├── webuploader.min.js                // min版本
@@ -114,112 +124,124 @@
 ├── webuploader.withoutimage.js       // 去除图片处理的版本，包括HTML5和FLASH.
 └── webuploader.withoutimage.min.js   // min版本
 下载
-</code></pre></div><h3 id="第二步创建一个html页面引入一下文件">第二步，创建一个html页面，引入一下文件</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/resource/webuploader/webuploader.css&#34;</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> /&gt;
-&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/resource/webuploader/webuploader.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre>
 
-</code></pre></div><p>页面内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;uploader&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wu-example&#34;</span>&gt;
-                    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;uploader&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wu-example&#34;</span>&gt;
-                        <span style="color:#75715e">&lt;!--用来存放文件信息--&gt;</span>
-                        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;filename&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
-                        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;state&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
-                        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;progress&#34;</span>&gt;
-                            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;progress_bar&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;progress-bar progress-bar-info progress-striped active&#34;</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;progressbar&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width: 0%&#34;</span>&gt;
-                            &lt;/<span style="color:#f92672">div</span>&gt;
-                        &lt;/<span style="color:#f92672">div</span>&gt;
-                        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btns&#34;</span>&gt;
-                            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;picker&#34;</span>&gt;选择文件&lt;/<span style="color:#f92672">div</span>&gt;
-                            &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ctlBtn&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-default&#34;</span>&gt;开始上传&lt;/<span style="color:#f92672">button</span>&gt;
-                            &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pause&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-danger&#34;</span>&gt;暂停上传&lt;/<span style="color:#f92672">button</span>&gt;
-                        &lt;/<span style="color:#f92672">div</span>&gt;
-                    &lt;/<span style="color:#f92672">div</span>&gt;
-                &lt;/<span style="color:#f92672">div</span>&gt;
-</code></pre></div><h3 id="第三步js逻辑如下">第三步，js逻辑如下</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span><span style="color:#f92672">&gt;</span>
-        <span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span> () {
-            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">GUID</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">WebUploader</span>.<span style="color:#a6e22e">Base</span>.<span style="color:#a6e22e">guid</span>();<span style="color:#75715e">//一个GUID
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">uploader</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">WebUploader</span>.<span style="color:#a6e22e">create</span>({
-                <span style="color:#a6e22e">swf</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/resource/webuploader/Uploader.swf&#39;</span>,
-                <span style="color:#a6e22e">server</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&lt;{$save_url}&gt;&#39;</span>, <span style="color:#75715e">// 服务端上传地址
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">pick</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#picker&#39;</span>,
-                <span style="color:#a6e22e">chunked</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,<span style="color:#75715e">//开始分片上传
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">chunkSize</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span><span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>,   <span style="color:#75715e">//2M
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">fileNumLimit</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1</span>,  <span style="color:#75715e">// 最大上传的文件数量
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">fileSizeLimit</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1000</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>, <span style="color:#75715e">// 总文件大小 1G
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">fileSingleSizeLimit</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1000</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>,  <span style="color:#75715e">// 单个文件大小 1G
-</span><span style="color:#75715e"></span>                <span style="color:#75715e">// 不压缩image
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">resize</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
-                <span style="color:#75715e">//只允许选择图片
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">accept</span><span style="color:#f92672">:</span> {
-                    <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Video&#39;</span>,
-                    <span style="color:#a6e22e">extensions</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;mp4&#39;</span>,
-                    <span style="color:#a6e22e">mimeTypes</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;video/mp4&#39;</span>
+<h3 id="第二步-创建一个html页面-引入一下文件">第二步，创建一个html页面，引入一下文件</h3>
+
+<pre><code class="language-html">&lt;link href=&quot;/resource/webuploader/webuploader.css&quot; rel=&quot;stylesheet&quot; /&gt;
+&lt;script src=&quot;/resource/webuploader/webuploader.js&quot;&gt;&lt;/script&gt;
+
+</code></pre>
+
+<p>页面内容如下：</p>
+
+<pre><code class="language-html">&lt;div id=&quot;uploader&quot; class=&quot;wu-example&quot;&gt;
+                    &lt;div id=&quot;uploader&quot; class=&quot;wu-example&quot;&gt;
+                        &lt;!--用来存放文件信息--&gt;
+                        &lt;div class=&quot;filename&quot;&gt;&lt;/div&gt;
+                        &lt;div class=&quot;state&quot;&gt;&lt;/div&gt;
+                        &lt;div class=&quot;progress&quot;&gt;
+                            &lt;div id=&quot;progress_bar&quot; class=&quot;progress-bar progress-bar-info progress-striped active&quot; role=&quot;progressbar&quot; style=&quot;width: 0%&quot;&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;btns&quot;&gt;
+                            &lt;div id=&quot;picker&quot;&gt;选择文件&lt;/div&gt;
+                            &lt;button id=&quot;ctlBtn&quot; class=&quot;btn btn-default&quot;&gt;开始上传&lt;/button&gt;
+                            &lt;button id=&quot;pause&quot; class=&quot;btn btn-danger&quot;&gt;暂停上传&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+</code></pre>
+
+<h3 id="第三步-js逻辑如下">第三步，js逻辑如下</h3>
+
+<pre><code class="language-js">&lt;script type=&quot;text/javascript&quot;&gt;
+        $(function () {
+            var GUID = WebUploader.Base.guid();//一个GUID
+            var uploader = WebUploader.create({
+                swf: '/resource/webuploader/Uploader.swf',
+                server: '&lt;{$save_url}&gt;', // 服务端上传地址
+                pick: '#picker',
+                chunked: true,//开始分片上传
+                chunkSize: 2 *1024 * 1024,   //2M
+                fileNumLimit:1,  // 最大上传的文件数量
+                fileSizeLimit:1000 * 1024 * 1024, // 总文件大小 1G
+                fileSingleSizeLimit:1000 * 1024 * 1024,  // 单个文件大小 1G
+                // 不压缩image
+                resize: false,
+                //只允许选择图片
+                accept: {
+                    title: 'Video',
+                    extensions: 'mp4',
+                    mimeTypes: 'video/mp4'
                 },
-                <span style="color:#a6e22e">duplicate</span> <span style="color:#f92672">:</span><span style="color:#66d9ef">false</span>, <span style="color:#75715e">//防止多次上传
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">formData</span><span style="color:#f92672">:</span> {
-                    <span style="color:#a6e22e">guid</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">GUID</span> <span style="color:#75715e">//自定义参数，待会儿解释
-</span><span style="color:#75715e"></span>                }
+                duplicate :false, //防止多次上传
+                formData: {
+                    guid: GUID //自定义参数，待会儿解释
+                }
             });
-            <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;fileQueued&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>) {
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#uploader .filename&#34;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;文件名：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">name</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#uploader .state&#34;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#39;等待上传&#39;</span>);
+            uploader.on('fileQueued', function (file) {
+                $(&quot;#uploader .filename&quot;).html(&quot;文件名：&quot; + file.name);
+                $(&quot;#uploader .state&quot;).html('等待上传');
                 
-                <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">md5File</span>( <span style="color:#a6e22e">file</span> )
-                        <span style="color:#75715e">// 及时显示进度
-</span><span style="color:#75715e"></span>                        .<span style="color:#a6e22e">progress</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">percentage</span>) {
-                            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Percentage:&#39;</span>, <span style="color:#a6e22e">percentage</span>);
+                uploader.md5File( file )
+                        // 及时显示进度
+                        .progress(function(percentage) {
+                            console.log('Percentage:', percentage);
                         })
                 
-                        <span style="color:#75715e">// 完成
-</span><span style="color:#75715e"></span>                        .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">val</span>) {
-                            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;md5 result:&#39;</span>, <span style="color:#a6e22e">val</span>);
+                        // 完成
+                        .then(function(val) {
+                            console.log('md5 result:', val);
                         });
             });
-            <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;uploadSuccess&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">response</span>) {
-                <span style="color:#a6e22e">$</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;&lt;{$merge_url}&gt;&#39;</span>,  <span style="color:#75715e">// 服务端最后合并文件地址
-</span><span style="color:#75715e"></span>                { <span style="color:#a6e22e">guid</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">GUID</span>, <span style="color:#a6e22e">fileName</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">chunks</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">chunks</span> }, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">data</span>) {
-                    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;已上传&#39;</span>);
+            uploader.on('uploadSuccess', function (file, response) {
+                $.post('&lt;{$merge_url}&gt;',  // 服务端最后合并文件地址
+                { guid: GUID, fileName: file.name, chunks: response.result.chunks }, function (data) {
+                    console.log('已上传');
                 });
             });
-            <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;uploadProgress&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">percentage</span>) {
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#progress_bar&#34;</span>).<span style="color:#a6e22e">css</span>(<span style="color:#e6db74">&#34;width&#34;</span>, <span style="color:#a6e22e">percentage</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;%&#39;</span>);
-                <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">percentage</span>);
+            uploader.on('uploadProgress', function (file, percentage) {
+                $(&quot;#progress_bar&quot;).css(&quot;width&quot;, percentage * 100 + '%');
+                console.log(percentage);
             });
-            <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;uploadSuccess&#39;</span>, <span style="color:#66d9ef">function</span> () {
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#progress_bar&#34;</span>).<span style="color:#a6e22e">attr</span>(<span style="color:#e6db74">&#34;class&#34;</span>, <span style="color:#e6db74">&#34;progress-bar progress-bar-success&#34;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#uploader .state&#34;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;上传成功...&#34;</span>);
+            uploader.on('uploadSuccess', function () {
+                $(&quot;#progress_bar&quot;).attr(&quot;class&quot;, &quot;progress-bar progress-bar-success&quot;);
+                $(&quot;#uploader .state&quot;).html(&quot;上传成功...&quot;);
             });
-            <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;uploadError&#39;</span>, <span style="color:#66d9ef">function</span> () {
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#progress_bar&#34;</span>).<span style="color:#a6e22e">attr</span>(<span style="color:#e6db74">&#34;class&#34;</span>, <span style="color:#e6db74">&#34;progress-bar progress-bar-danger&#34;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#uploader .state&#34;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;上传失败...&#34;</span>);
+            uploader.on('uploadError', function () {
+                $(&quot;#progress_bar&quot;).attr(&quot;class&quot;, &quot;progress-bar progress-bar-danger&quot;);
+                $(&quot;#uploader .state&quot;).html(&quot;上传失败...&quot;);
             });
 
-            <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#ctlBtn&#34;</span>).<span style="color:#a6e22e">click</span>(<span style="color:#66d9ef">function</span> () {
-                <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">upload</span>();
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#ctlBtn&#34;</span>).<span style="color:#a6e22e">text</span>(<span style="color:#e6db74">&#34;上传&#34;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#ctlBtn&#39;</span>).<span style="color:#a6e22e">attr</span>(<span style="color:#e6db74">&#39;disabled&#39;</span>, <span style="color:#e6db74">&#39;disabled&#39;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#progress_bar&#34;</span>).<span style="color:#a6e22e">addClass</span>(<span style="color:#e6db74">&#39;progress-bar-striped&#39;</span>).<span style="color:#a6e22e">addClass</span>(<span style="color:#e6db74">&#39;active&#39;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#uploader .state&#34;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;上传中...&#34;</span>);
+            $(&quot;#ctlBtn&quot;).click(function () {
+                uploader.upload();
+                $(&quot;#ctlBtn&quot;).text(&quot;上传&quot;);
+                $('#ctlBtn').attr('disabled', 'disabled');
+                $(&quot;#progress_bar&quot;).addClass('progress-bar-striped').addClass('active');
+                $(&quot;#uploader .state&quot;).html(&quot;上传中...&quot;);
             });
-            <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#pause&#39;</span>).<span style="color:#a6e22e">click</span>(<span style="color:#66d9ef">function</span> () {
-                <span style="color:#a6e22e">uploader</span>.<span style="color:#a6e22e">stop</span>(<span style="color:#66d9ef">true</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#ctlBtn&#39;</span>).<span style="color:#a6e22e">removeAttr</span>(<span style="color:#e6db74">&#39;disabled&#39;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#ctlBtn&#34;</span>).<span style="color:#a6e22e">text</span>(<span style="color:#e6db74">&#34;继续上传&#34;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#uploader .state&#34;</span>).<span style="color:#a6e22e">html</span>(<span style="color:#e6db74">&#34;暂停中...&#34;</span>);
-                <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#progress_bar&#34;</span>).<span style="color:#a6e22e">removeClass</span>(<span style="color:#e6db74">&#39;progress-bar-striped&#39;</span>).<span style="color:#a6e22e">removeClass</span>(<span style="color:#e6db74">&#39;active&#39;</span>);
+            $('#pause').click(function () {
+                uploader.stop(true);
+                $('#ctlBtn').removeAttr('disabled');
+                $(&quot;#ctlBtn&quot;).text(&quot;继续上传&quot;);
+                $(&quot;#uploader .state&quot;).html(&quot;暂停中...&quot;);
+                $(&quot;#progress_bar&quot;).removeClass('progress-bar-striped').removeClass('active');
             });
         });
 
-    <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+    &lt;/script&gt;
 
-</code></pre></div><h3 id="第四步服务端php代码">第四步，服务端php代码</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">class libChunkUpload
+</code></pre>
+
+<h3 id="第四步-服务端php代码">第四步，服务端php代码</h3>
+
+<pre><code class="language-php">class libChunkUpload
 {
     // 上传目录
-    const UPLOAD_PATH = &#34;/tmp/upload&#34;;
+    const UPLOAD_PATH = &quot;/tmp/upload&quot;;
 
-    private $_codeMsg = &#34;100:success&#34;;
+    private $_codeMsg = &quot;100:success&quot;;
     private $_result = [];
 
     public function __construct()
@@ -227,7 +249,7 @@
 
     }
 
-    private function _output($codeMsg = &#34;100:success&#34;, $result = [])
+    private function _output($codeMsg = &quot;100:success&quot;, $result = [])
     {
         $this-&gt;_codeMsg = $codeMsg;
         $this-&gt;_result = $result;
@@ -236,7 +258,7 @@
 
     public function response()
     {
-        return [&#34;codeMsg&#34; =&gt; $this-&gt;_codeMsg, &#34;result&#34; =&gt; $this-&gt;_result];
+        return [&quot;codeMsg&quot; =&gt; $this-&gt;_codeMsg, &quot;result&quot; =&gt; $this-&gt;_result];
     }
 
     /**
@@ -246,18 +268,18 @@
     public function upload()
     {
         // Get 或 file 方式获取文件名
-        if (isset($_REQUEST[&#34;name&#34;])) {
-            $fileName = $_REQUEST[&#34;name&#34;];
+        if (isset($_REQUEST[&quot;name&quot;])) {
+            $fileName = $_REQUEST[&quot;name&quot;];
         } elseif (!empty($_FILES)) {
-            $fileName = $_FILES[&#34;file&#34;][&#34;name&#34;];
+            $fileName = $_FILES[&quot;file&quot;][&quot;name&quot;];
         } else {
-            $fileName = uniqid(&#34;file_&#34;);
+            $fileName = uniqid(&quot;file_&quot;);
         }
-        $chunk = isset($_REQUEST[&#34;chunk&#34;]) ? intval($_REQUEST[&#34;chunk&#34;]) : 0; // 分片序号
-        $guid = $_REQUEST[&#34;guid&#34;]; // guid
+        $chunk = isset($_REQUEST[&quot;chunk&quot;]) ? intval($_REQUEST[&quot;chunk&quot;]) : 0; // 分片序号
+        $guid = $_REQUEST[&quot;guid&quot;]; // guid
         $uploadDir = self::UPLOAD_PATH;
-        $cacheDir = $uploadDir . &#34;/&#34; . $guid; // 临时保存分块目录
-        $chunks = isset($_REQUEST[&#34;chunks&#34;]) ? intval($_REQUEST[&#34;chunks&#34;]) : 1;
+        $cacheDir = $uploadDir . &quot;/&quot; . $guid; // 临时保存分块目录
+        $chunks = isset($_REQUEST[&quot;chunks&quot;]) ? intval($_REQUEST[&quot;chunks&quot;]) : 1;
 
         // 验证上传目录是否存在不存在创建
         if (!file_exists($uploadDir)) {
@@ -270,27 +292,27 @@
         }
 
         // 分片文件名
-        $filePath = $cacheDir .&#34;/&#34; . $fileName;
+        $filePath = $cacheDir .&quot;/&quot; . $fileName;
         if(file_exists($filePath)){
-            return $this-&gt;_output(&#34;101:文件已存在&#34;);
+            return $this-&gt;_output(&quot;101:文件已存在&quot;);
         }
 
-        $data = $_FILES[&#34;file&#34;];
+        $data = $_FILES[&quot;file&quot;];
         // 保存数据
-        if(!($out = @fopen($filePath . &#34;_&#34; . $chunk . &#34;.parttmp&#34;, &#34;wb&#34;))){
-            return $this-&gt;_output(&#34;99:打开文件失败&#34;);
+        if(!($out = @fopen($filePath . &quot;_&quot; . $chunk . &quot;.parttmp&quot;, &quot;wb&quot;))){
+            return $this-&gt;_output(&quot;99:打开文件失败&quot;);
         }
         if($data){
-            if ($data[&#34;error&#34;] || !is_uploaded_file($data[&#34;tmp_name&#34;])) {
-                return $this-&gt;_output(&#34;101:移动上传文件失败&#34;);
+            if ($data[&quot;error&quot;] || !is_uploaded_file($data[&quot;tmp_name&quot;])) {
+                return $this-&gt;_output(&quot;101:移动上传文件失败&quot;);
             }
 
-            if (!$in = @fopen($data[&#34;tmp_name&#34;], &#34;rb&#34;)) {
-                return $this-&gt;_output(&#34;101:打开上传文件失败&#34;);
+            if (!$in = @fopen($data[&quot;tmp_name&quot;], &quot;rb&quot;)) {
+                return $this-&gt;_output(&quot;101:打开上传文件失败&quot;);
             }
         }else{
-            if (!$in = @fopen(&#34;php://input&#34;, &#34;rb&#34;)) {
-                return $this-&gt;_output(&#34;101:打开上传文件失败&#34;);
+            if (!$in = @fopen(&quot;php://input&quot;, &quot;rb&quot;)) {
+                return $this-&gt;_output(&quot;101:打开上传文件失败&quot;);
             }
         }
 
@@ -300,16 +322,16 @@
             if(!$res){
                 @fclose($out);
                 @fclose($in);
-                return $this-&gt;_output(&#34;98:写入文件失败&#34;);
+                return $this-&gt;_output(&quot;98:写入文件失败&quot;);
             }
         }
         @fclose($out);
         @fclose($in);
 
-        if(!rename(&#34;{$filePath}_{$chunk}.parttmp&#34;, &#34;{$filePath}_{$chunk}.part&#34;)){
-            return $this-&gt;_output(&#34;99:重命名失败&#34;);
+        if(!rename(&quot;{$filePath}_{$chunk}.parttmp&quot;, &quot;{$filePath}_{$chunk}.part&quot;)){
+            return $this-&gt;_output(&quot;99:重命名失败&quot;);
         }
-        return $this-&gt;_output(&#34;100:上传成功&#34;, [&#34;chunks&#34; =&gt; $chunks]);
+        return $this-&gt;_output(&quot;100:上传成功&quot;, [&quot;chunks&quot; =&gt; $chunks]);
     }
 
     /**
@@ -318,87 +340,92 @@
      */
     public function merge()
     {
-        $fileName = $_REQUEST[&#34;fileName&#34;] ?: &#34;&#34;;
-        $guid = $_REQUEST[&#34;guid&#34;] ?: &#34;&#34;;
-        $chunks = intval($_REQUEST[&#34;chunks&#34;]);
+        $fileName = $_REQUEST[&quot;fileName&quot;] ?: &quot;&quot;;
+        $guid = $_REQUEST[&quot;guid&quot;] ?: &quot;&quot;;
+        $chunks = intval($_REQUEST[&quot;chunks&quot;]);
         if(!$fileName || !$guid){
-            return $this-&gt;_output(&#34;101:缺少参数&#34;);
+            return $this-&gt;_output(&quot;101:缺少参数&quot;);
         }
         $uploadDir = self::UPLOAD_PATH;
-        $cacheDir = $uploadDir . &#34;/&#34; . $guid; // 缓存目录
-        $filePath = $cacheDir .&#34;/&#34; . $fileName;
+        $cacheDir = $uploadDir . &quot;/&quot; . $guid; // 缓存目录
+        $filePath = $cacheDir .&quot;/&quot; . $fileName;
 
         $pathInfo = pathinfo($fileName);
-        $hashStr = substr(md5($pathInfo[&#39;basename&#39;]),8,16);
-        $hashName = time() . $hashStr . &#39;.&#39; .$pathInfo[&#39;extension&#39;];
-        $uploadPath = $uploadDir . &#34;/&#34; . $hashName;
-        if (!$out = @fopen($uploadPath, &#34;wb&#34;)) {
-            return $this-&gt;_output(&#34;101:打开写入文件失败&#34;);
+        $hashStr = substr(md5($pathInfo['basename']),8,16);
+        $hashName = time() . $hashStr . '.' .$pathInfo['extension'];
+        $uploadPath = $uploadDir . &quot;/&quot; . $hashName;
+        if (!$out = @fopen($uploadPath, &quot;wb&quot;)) {
+            return $this-&gt;_output(&quot;101:打开写入文件失败&quot;);
         }
         if ( flock($out, LOCK_EX) ) {
-            for( $index = 0; $index <span style="color:#960050;background-color:#1e0010">&lt;</span> $chunks ; $index++ ) {
-                if (!$in = @fopen(&#34;{$filePath}_{$index}.part&#34;, &#34;rb&#34;)) {
+            for( $index = 0; $index &lt; $chunks ; $index++ ) {
+                if (!$in = @fopen(&quot;{$filePath}_{$index}.part&quot;, &quot;rb&quot;)) {
                     break;
                 }
                 while ($buff = fread($in, 4096)) {
                     fwrite($out, $buff);
                 }
                 @fclose($in);
-                @unlink(&#34;{$filePath}_{$index}.part&#34;);
+                @unlink(&quot;{$filePath}_{$index}.part&quot;);
             }
             flock($out, LOCK_UN);
         }else{
             @fclose($out);
             @rmdir($cacheDir);
-            return $this-&gt;_output(&#34;99:文件加锁失败&#34;);
+            return $this-&gt;_output(&quot;99:文件加锁失败&quot;);
         }
         @fclose($out);
         @rmdir($cacheDir);
 
-        return $this-&gt;_output(&#34;100:合并完成&#34;, [&#34;tmp_name&#34; =&gt; $uploadFile, &#34;name&#34; =&gt; $fileName, &#34;type&#34; =&gt; &#34;video/mp4&#34;]);
+        return $this-&gt;_output(&quot;100:合并完成&quot;, [&quot;tmp_name&quot; =&gt; $uploadFile, &quot;name&quot; =&gt; $fileName, &quot;type&quot; =&gt; &quot;video/mp4&quot;]);
     }
 }
-</code></pre></div><h3 id="faq">FAQ</h3>
+</code></pre>
+
+<h3 id="faq">FAQ</h3>
+
 <p>进度条显示问题：进度条无法显示，一般是样式加载异常问题，可添加如下代码解决</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#f92672">&lt;</span><span style="color:#f92672">style</span><span style="color:#f92672">&gt;</span>
-                .<span style="color:#a6e22e">progress</span> {
-                    <span style="color:#66d9ef">height</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span>;
-                    <span style="color:#66d9ef">margin-bottom</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span>;
-                    <span style="color:#66d9ef">overflow</span>: <span style="color:#66d9ef">hidden</span>;
-                    <span style="color:#66d9ef">background-color</span>: <span style="color:#ae81ff">#f5f5f5</span>;
-                    <span style="color:#66d9ef">border-radius</span>: <span style="color:#ae81ff">4</span><span style="color:#66d9ef">px</span>;
-                    <span style="color:#66d9ef">-webkit-</span><span style="color:#66d9ef">box-shadow</span>: <span style="color:#66d9ef">inset</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span><span style="color:#66d9ef">px</span> <span style="color:#ae81ff">2</span><span style="color:#66d9ef">px</span> rgba(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0.1</span>);
-                    <span style="color:#66d9ef">box-shadow</span>: <span style="color:#66d9ef">inset</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span><span style="color:#66d9ef">px</span> <span style="color:#ae81ff">2</span><span style="color:#66d9ef">px</span> rgba(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0.1</span>);
+
+<pre><code class="language-css">&lt;style&gt;
+                .progress {
+                    height: 20px;
+                    margin-bottom: 20px;
+                    overflow: hidden;
+                    background-color: #f5f5f5;
+                    border-radius: 4px;
+                    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+                    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
                 }
-                .<span style="color:#a6e22e">progress</span>.<span style="color:#a6e22e">active</span> .<span style="color:#a6e22e">progress-bar</span> {
-                    <span style="color:#66d9ef">-webkit-</span><span style="color:#66d9ef">animation</span>: <span style="color:#66d9ef">progress</span><span style="color:#f92672">-</span>bar-stripes <span style="color:#ae81ff">2</span><span style="color:#66d9ef">s</span> <span style="color:#66d9ef">linear</span> <span style="color:#66d9ef">infinite</span>;
-                    <span style="color:#66d9ef">animation</span>: <span style="color:#66d9ef">progress</span><span style="color:#f92672">-</span>bar-stripes <span style="color:#ae81ff">2</span><span style="color:#66d9ef">s</span> <span style="color:#66d9ef">linear</span> <span style="color:#66d9ef">infinite</span>;
+                .progress.active .progress-bar {
+                    -webkit-animation: progress-bar-stripes 2s linear infinite;
+                    animation: progress-bar-stripes 2s linear infinite;
                 }
 
-                .<span style="color:#a6e22e">progress-striped</span> .<span style="color:#a6e22e">progress-bar</span> {
-                    <span style="color:#66d9ef">background-image</span>: linear-gradient(<span style="color:#ae81ff">45</span><span style="color:#66d9ef">deg</span>,rgba(<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0.15</span>) <span style="color:#ae81ff">25</span><span style="color:#66d9ef">%</span>,<span style="color:#66d9ef">transparent</span> <span style="color:#ae81ff">25</span><span style="color:#66d9ef">%</span>,<span style="color:#66d9ef">transparent</span> <span style="color:#ae81ff">50</span><span style="color:#66d9ef">%</span>,rgba(<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0.15</span>) <span style="color:#ae81ff">50</span><span style="color:#66d9ef">%</span>,rgba(<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">255</span>,<span style="color:#ae81ff">0.15</span>) <span style="color:#ae81ff">75</span><span style="color:#66d9ef">%</span>,<span style="color:#66d9ef">transparent</span> <span style="color:#ae81ff">75</span><span style="color:#66d9ef">%</span>,<span style="color:#66d9ef">transparent</span>);
-                    <span style="color:#66d9ef">background-size</span>: <span style="color:#ae81ff">40</span><span style="color:#66d9ef">px</span> <span style="color:#ae81ff">40</span><span style="color:#66d9ef">px</span>;
+                .progress-striped .progress-bar {
+                    background-image: linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+                    background-size: 40px 40px;
                 }
-                .<span style="color:#a6e22e">progress-bar</span> {
-                    <span style="color:#66d9ef">background-image</span>: <span style="color:#66d9ef">-webkit-</span>linear-gradient(<span style="color:#66d9ef">top</span>,<span style="color:#ae81ff">#428bca</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">#3071a9</span> <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>);
-                    <span style="color:#66d9ef">background-image</span>: linear-gradient(<span style="color:#66d9ef">to</span> <span style="color:#66d9ef">bottom</span>,<span style="color:#ae81ff">#428bca</span> <span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">#3071a9</span> <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>);
-                    <span style="color:#66d9ef">background-repeat</span>: <span style="color:#66d9ef">repeat</span><span style="color:#f92672">-</span>x;
-                    <span style="color:#66d9ef">filter</span>: progid<span style="color:#f92672">:</span>DXImageTransform<span style="color:#f92672">.</span>Microsoft<span style="color:#f92672">.</span><span style="color:#a6e22e">gradient</span>(startColorstr<span style="color:#960050;background-color:#1e0010">=’</span><span style="color:#ae81ff">#ff428b</span>ca<span style="color:#960050;background-color:#1e0010">’</span>,endColorstr<span style="color:#960050;background-color:#1e0010">=’</span><span style="color:#ae81ff">#ff3071</span>a9<span style="color:#960050;background-color:#1e0010">’</span>,GradientType<span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0</span>);
+                .progress-bar {
+                    background-image: -webkit-linear-gradient(top,#428bca 0,#3071a9 100%);
+                    background-image: linear-gradient(to bottom,#428bca 0,#3071a9 100%);
+                    background-repeat: repeat-x;
+                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=’#ff428bca’,endColorstr=’#ff3071a9’,GradientType=0);
                 }
-                .<span style="color:#a6e22e">progress-bar</span> {
-                    <span style="color:#66d9ef">float</span>: <span style="color:#66d9ef">left</span>;
-                    <span style="color:#66d9ef">height</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
-                    <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">12</span><span style="color:#66d9ef">px</span>;
-                    <span style="color:#66d9ef">line-height</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span>;
-                    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#fff</span>;
-                    <span style="color:#66d9ef">text-align</span>: <span style="color:#66d9ef">center</span>;
-                    <span style="color:#66d9ef">background-color</span>: <span style="color:#ae81ff">#428bca</span>;
-                    <span style="color:#66d9ef">box-shadow</span>: <span style="color:#66d9ef">inset</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">-1</span><span style="color:#66d9ef">px</span> <span style="color:#ae81ff">0</span> rgba(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0.15</span>);
-                    <span style="color:#66d9ef">transition</span>: <span style="color:#66d9ef">width</span> <span style="color:#ae81ff">.6</span><span style="color:#66d9ef">s</span> <span style="color:#66d9ef">ease</span>;
+                .progress-bar {
+                    float: left;
+                    height: 100%;
+                    font-size: 12px;
+                    line-height: 20px;
+                    color: #fff;
+                    text-align: center;
+                    background-color: #428bca;
+                    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.15);
+                    transition: width .6s ease;
                 }
-            <span style="color:#f92672">&lt;/</span><span style="color:#f92672">style</span><span style="color:#f92672">&gt;</span>
+            &lt;/style&gt;
 
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

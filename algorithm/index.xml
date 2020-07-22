@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Algorithms on Realjf&#39;s blog</title>
@@ -6,10 +6,21 @@
     <description>Recent content in Algorithms on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 May 2020 16:14:16 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2020 09:37:10 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/algorithm/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>二叉搜索树 Binary Search Tree</title>
+      <link>https://realjf.io/algorithm/tree/binary-search-tree/</link>
+      <pubDate>Wed, 22 Jul 2020 09:37:10 +0800</pubDate>
+      
+      <guid>https://realjf.io/algorithm/tree/binary-search-tree/</guid>
+      <description>二叉搜索树的性质  若任意节点的左子树不空，则左子树上所有节点的值均不大于它的根节点的值 若任意节点的右子树不空，则右子树上所有节点的值均不小于它的根节点的值 任意节点的左右子树分别为二叉搜索树  二叉搜索树的特点  有链表的快速插入与删除操作 也有数组快速查找的优势  二叉搜索树的复杂度  平均每次操作需要O(logn)的时间  在最优的情况下，二叉搜索树为完全二叉树，其平均比较次数为logN,在最差情况下，二叉搜索树退化为单支树，其平均比较次数为N
+如果退化成单支树，二叉搜索树的性能就失去了，如何改进呢？这将在平衡二叉树AVL树中进行讲述。
+二叉搜索树的实现 #include &amp;lt;iostream&amp;gt; using namespace std; template&amp;lt;class T&amp;gt; struct BSTNode { BSTNode(const T&amp;amp; key = T()) : _left(nullptr), _right(nullptr), _key(key) { } BSTNode&amp;lt;T&amp;gt;* _left; BSTNode&amp;lt;T&amp;gt;* _right; T _key; }; template&amp;lt;class T&amp;gt; class BSTree { typedef BSTNode&amp;lt;T&amp;gt; Node; public: BSTree() : _root(nullptr) { } ~BSTree() { } BSTree(const BSTree&amp;lt;T&amp;gt;&amp;amp; tree) { _root = Copy(tree.</description>
+    </item>
     
     <item>
       <title>树的遍历 Tree Walk</title>
@@ -17,10 +28,10 @@
       <pubDate>Thu, 14 May 2020 16:14:16 +0800</pubDate>
       
       <guid>https://realjf.io/algorithm/tree/tree-walk/</guid>
-      <description>前序遍历 按照根节点、左子树、右子树的顺序输出节点编号。称为树的前序遍历
-#define MAX 10000 #define NIL -1  struct Node { int p, l, r;}; struct Node T[MAX]; void preOrder(int u) { if(u == NIL) return; printf(&amp;#34; %d&amp;#34;, u); preOrder(T[u].l); preOrder(T[u].r); } 中序遍历 按照左子树、根节点、右子树的顺序输出节点编号。称为树的中序遍历
-void inOrder(int u) { if(u == NIL) return; inOrder(T[u].l); printf(&amp;#34; %d&amp;#34;, u); inOrder(T[u].r); } 后序遍历 按照左子树、右子树、根节点的顺序输出节点编号。称为树的后序遍历
-void postOrder(int u) { if(u == NIL) return; postOrder(T[u].l); postOrder(T[u].r); printf(&amp;#34; %d&amp;#34;, u); } </description>
+      <description> 前序遍历 按照根节点、左子树、右子树的顺序输出节点编号。称为树的前序遍历
+#define MAX 10000 #define NIL -1 struct Node { int p, l, r;}; struct Node T[MAX]; void preOrder(int u) { if(u == NIL) return; printf(&amp;quot; %d&amp;quot;, u); preOrder(T[u].l); preOrder(T[u].r); }  中序遍历 按照左子树、根节点、右子树的顺序输出节点编号。称为树的中序遍历
+void inOrder(int u) { if(u == NIL) return; inOrder(T[u].l); printf(&amp;quot; %d&amp;quot;, u); inOrder(T[u].r); }  后序遍历 按照左子树、右子树、根节点的顺序输出节点编号。称为树的后序遍历
+void postOrder(int u) { if(u == NIL) return; postOrder(T[u].l); postOrder(T[u].r); printf(&amp;quot; %d&amp;quot;, u); }  </description>
     </item>
     
     <item>
@@ -30,7 +41,7 @@ void postOrder(int u) { if(u == NIL) return; postOrder(T[u].l); postOrder(T[u].r
       
       <guid>https://realjf.io/algorithm/search/binary-search/</guid>
       <description>对于已排序的数组A进行二分查找，实现如下：
-int binarySearch(int key){ int left = 0; int right = n; int mid; while(left &amp;lt; right){ mid = (left+right)/2; if(key == A[mid]) return 1; if(key &amp;gt; A[mid]) left = mid+1; else if(key &amp;lt; A[mid]) right = mid; } return 0; } </description>
+int binarySearch(int key){ int left = 0; int right = n; int mid; while(left &amp;lt; right){ mid = (left+right)/2; if(key == A[mid]) return 1; if(key &amp;gt; A[mid]) left = mid+1; else if(key &amp;lt; A[mid]) right = mid; } return 0; }  </description>
     </item>
     
     <item>
@@ -40,7 +51,7 @@ int binarySearch(int key){ int left = 0; int right = n; int mid; while(left &amp
       
       <guid>https://realjf.io/algorithm/sort/select-sort/</guid>
       <description>选择排序算法是每次循环遍历出未排除中最小值的位置，然后与将其与未排序部分第一个元素进行交换
-#include &amp;lt;stdio.h&amp;gt; void swap(int* a, int* b) { if(*a &amp;gt; *b){ *a = *a + *b; *b = *a - *b; *a = *a - *b; } } int main(){ int a[10],i,j; for(i=0;i&amp;lt;10;i++){ scanf(&amp;#34;%d&amp;#34;, &amp;amp;a[i]); } for(i=0;i&amp;lt;9;i++){ int min = i; for(j=i+1;j&amp;lt;10;j++){ if(a[j] &amp;lt; a[min]){ min = j; } } swap(&amp;amp;a[min], &amp;amp;a[i]); } return 0; } </description>
+#include &amp;lt;stdio.h&amp;gt; void swap(int* a, int* b) { if(*a &amp;gt; *b){ *a = *a + *b; *b = *a - *b; *a = *a - *b; } } int main(){ int a[10],i,j; for(i=0;i&amp;lt;10;i++){ scanf(&amp;quot;%d&amp;quot;, &amp;amp;a[i]); } for(i=0;i&amp;lt;9;i++){ int min = i; for(j=i+1;j&amp;lt;10;j++){ if(a[j] &amp;lt; a[min]){ min = j; } } swap(&amp;amp;a[min], &amp;amp;a[i]); } return 0; }  </description>
     </item>
     
     <item>
@@ -49,8 +60,8 @@ int binarySearch(int key){ int left = 0; int right = n; int mid; while(left &amp
       <pubDate>Tue, 28 Apr 2020 15:03:19 +0800</pubDate>
       
       <guid>https://realjf.io/algorithm/sort/merge-sort/</guid>
-      <description>归并排序的基本思想是：
- 将给定的包含n个元素的局部数组“分割”成两个局部数组，每个数组各包含n/2各元素。 对两个局部数组分别执行mergeSort排序。 通过merge将两个已排序完毕的局部数组整合成一个数组。  #inlcude &amp;lt;iostream&amp;gt; using namespace std; #define MAX 500000 #define SENTINEL 2000000000  int L[MAX/2+2], R[MAX/2+2]; int cnt; void merge(int A[], int n, int left, int mid, int right){ int n1 = mid - left; int n2 = right - mid; for(int i=0; i&amp;lt; n1; i++)L[i] = A[left+i]; for(int i = 0; i&amp;lt; n2;i++) R[i] = A[mid+i]; L[n1] = R[n2] = SENTINEL; int i = 0; j = 0; for(int k = left; k&amp;lt;right;k++){ cnt++; if(L[i]&amp;lt;=R[j]){ A[k] = L[i++]; }else{ A[k] = R[j++]; } } } void mergeSort(int A[], int n, int left, int right){ if(left+1 &amp;lt; right){ int mid = (left + right) / 2; mergeSort(A, n, left, mid); mergeSort(A, n, mid, right); merge(A, n, left, mid, right); } } int main(){ int A[MAX], n, i; cnt = 0; cin &amp;gt;&amp;gt; n; for(i = 0; i&amp;lt;n; i++) cin&amp;gt;&amp;gt;A[i]; mergeSort(A, n, 0, n); for(i=0; i&amp;lt;n; i++){ if(i) cout &amp;lt;&amp;lt; &amp;#34; &amp;#34;; cout &amp;lt;&amp;lt; A[i]; } cout &amp;lt;&amp;lt; endl; cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; endl; return 0; } </description>
+      <description>归并排序的基本思想是： - 将给定的包含n个元素的局部数组“分割”成两个局部数组，每个数组各包含n/2各元素。 - 对两个局部数组分别执行mergeSort排序。 - 通过merge将两个已排序完毕的局部数组整合成一个数组。
+#inlcude &amp;lt;iostream&amp;gt; using namespace std; #define MAX 500000 #define SENTINEL 2000000000 int L[MAX/2+2], R[MAX/2+2]; int cnt; void merge(int A[], int n, int left, int mid, int right){ int n1 = mid - left; int n2 = right - mid; for(int i=0; i&amp;lt; n1; i++)L[i] = A[left+i]; for(int i = 0; i&amp;lt; n2;i++) R[i] = A[mid+i]; L[n1] = R[n2] = SENTINEL; int i = 0; j = 0; for(int k = left; k&amp;lt;right;k++){ cnt++; if(L[i]&amp;lt;=R[j]){ A[k] = L[i++]; }else{ A[k] = R[j++]; } } } void mergeSort(int A[], int n, int left, int right){ if(left+1 &amp;lt; right){ int mid = (left + right) / 2; mergeSort(A, n, left, mid); mergeSort(A, n, mid, right); merge(A, n, left, mid, right); } } int main(){ int A[MAX], n, i; cnt = 0; cin &amp;gt;&amp;gt; n; for(i = 0; i&amp;lt;n; i++) cin&amp;gt;&amp;gt;A[i]; mergeSort(A, n, 0, n); for(i=0; i&amp;lt;n; i++){ if(i) cout &amp;lt;&amp;lt; &amp;quot; &amp;quot;; cout &amp;lt;&amp;lt; A[i]; } cout &amp;lt;&amp;lt; endl; cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; endl; return 0; }  </description>
     </item>
     
     <item>
@@ -59,9 +70,9 @@ int binarySearch(int key){ int left = 0; int right = n; int mid; while(left &amp
       <pubDate>Tue, 28 Apr 2020 15:03:14 +0800</pubDate>
       
       <guid>https://realjf.io/algorithm/sort/quick-sort/</guid>
-      <description>快速排序的基本思想是：
- 以整个数组为对象执行quickSort quickSort流程如下  通过分割将对象局部数组分割为前后两个局部数组 对前半部分的局部数组执行quickSort 对后半部分的局部数组执行quickSort     分割后前半部分数组都小于等于分割点元素，后半部分都大于分割点元素
- #include &amp;lt;stdio.h&amp;gt;#define MAX 100000 #define SENTINEL 200000000  struct Card{ char suit; int value; }; struct Card L[MAX / 2 + 2], R[MAX/2 + 2]; int partition(struct Card A[], int, n, int p, int r){ int i, j; struct Card t, x; x = A[r]; i = p -1; for(j = p; j &amp;lt; r; j++){ if(A[j].</description>
+      <description>快速排序的基本思想是： - 以整个数组为对象执行quickSort - quickSort流程如下 - 通过分割将对象局部数组分割为前后两个局部数组 - 对前半部分的局部数组执行quickSort - 对后半部分的局部数组执行quickSort
+ 分割后前半部分数组都小于等于分割点元素，后半部分都大于分割点元素
+ #include &amp;lt;stdio.h&amp;gt; #define MAX 100000 #define SENTINEL 200000000 struct Card{ char suit; int value; }; struct Card L[MAX / 2 + 2], R[MAX/2 + 2]; int partition(struct Card A[], int, n, int p, int r){ int i, j; struct Card t, x; x = A[r]; i = p -1; for(j = p; j &amp;lt; r; j++){ if(A[j].</description>
     </item>
     
     <item>
@@ -71,7 +82,7 @@ int binarySearch(int key){ int left = 0; int right = n; int mid; while(left &amp
       
       <guid>https://realjf.io/algorithm/sort/shell-sort/</guid>
       <description>希尔排序充分利用插入排序可以高速处理顺序较整齐的数据的特点，重复进行以间隔为g的插入排序。g是一组数列集合。
-void shellSort(int A[], int n) { // 生成数列G={1, 4, 13, 40, 121, 364, 1093, ...}  for(int h = 1; ; ){ if(h &amp;gt; n) break; G.push_back(h); h = 3*h + 1; } // 按逆序指定G[i]=g  for (int i = G.size() - 1; i &amp;gt;= 0; i--){ insertionSort(A, n, G[i]); } } void insertionSort(int A[], int n, int g) { for(int i = g; i &amp;lt; n; i++){ int v = A[i]; int j = i - g; while(j &amp;gt;= 0 &amp;amp;&amp;amp; A[j] &amp;gt; v){ A[j+g] = A[j]; j -= g; cnt++; } A[j + g] = v; } } </description>
+void shellSort(int A[], int n) { // 生成数列G={1, 4, 13, 40, 121, 364, 1093, ...} for(int h = 1; ; ){ if(h &amp;gt; n) break; G.push_back(h); h = 3*h + 1; } // 按逆序指定G[i]=g for (int i = G.size() - 1; i &amp;gt;= 0; i--){ insertionSort(A, n, G[i]); } } void insertionSort(int A[], int n, int g) { for(int i = g; i &amp;lt; n; i++){ int v = A[i]; int j = i - g; while(j &amp;gt;= 0 &amp;amp;&amp;amp; A[j] &amp;gt; v){ A[j+g] = A[j]; j -= g; cnt++; } A[j + g] = v; } }  </description>
     </item>
     
     <item>
@@ -81,7 +92,7 @@ void shellSort(int A[], int n) { // 生成数列G={1, 4, 13, 40, 121, 364, 1093,
       
       <guid>https://realjf.io/algorithm/sort/insert-sort/</guid>
       <description>插入排序是简单的说，就是遍历整个数组，每次将一个元素插入到已排序的数组中，直到插入最后一个元素即完成整个排序过程。
-基本思想  将开头第一个元素视作已排序部分，后续元素视作未排序部分 对未排序部分执行一下操作，直到未排序部分被消除  取出未排序部分开头第一个元素作为待排序元素t 将t与已排序部分进行对比，将比t顺序大的元素往后移动一个，即确定排序位置 将待排序元素t插入空出的排序位置中    #include &amp;lt;stdio.h&amp;gt;int main(){ int a[10],i,j; for(i=0;i&amp;lt;10;i++){scanf(&amp;#34;%d&amp;#34;, &amp;amp;a[i]);} for (i=1;i&amp;lt;10;i++){ int t = a[i]; // 待排序元素  j = i-1; while(j&amp;gt;=0 &amp;amp;&amp;amp; a[j] &amp;gt; t){ a[j+1] = a[j]; // 往后移动一个  j--; } a[j+1] = t; // 插入  } for(i=0; i&amp;lt;10;i++){ printf(&amp;#34;%d &amp;#34;, a[i]); } } 插入排序算法最坏的情况时间复杂度也是O(n^2)</description>
+基本思想  将开头第一个元素视作已排序部分，后续元素视作未排序部分 对未排序部分执行一下操作，直到未排序部分被消除  取出未排序部分开头第一个元素作为待排序元素t 将t与已排序部分进行对比，将比t顺序大的元素往后移动一个，即确定排序位置 将待排序元素t插入空出的排序位置中    #include &amp;lt;stdio.h&amp;gt; int main(){ int a[10],i,j; for(i=0;i&amp;lt;10;i++){scanf(&amp;quot;%d&amp;quot;, &amp;amp;a[i]);} for (i=1;i&amp;lt;10;i++){ int t = a[i]; // 待排序元素 j = i-1; while(j&amp;gt;=0 &amp;amp;&amp;amp; a[j] &amp;gt; t){ a[j+1] = a[j]; // 往后移动一个 j--; } a[j+1] = t; // 插入 } for(i=0; i&amp;lt;10;i++){ printf(&amp;quot;%d &amp;quot;, a[i]); } }  插入排序算法最坏的情况时间复杂度也是O(n^2)</description>
     </item>
     
     <item>
@@ -92,7 +103,7 @@ void shellSort(int A[], int n) { // 生成数列G={1, 4, 13, 40, 121, 364, 1093,
       <guid>https://realjf.io/algorithm/sort/bubble-sort/</guid>
       <description>冒泡排序算法很简单，对相邻的元素进行两两比较，顺序相反则进行交换，这样，每一趟会将最小或最大的元素“浮”到顶端，最终达到完全有序。
 基本思想： 1.
-#include &amp;lt;stdio.h&amp;gt;void swap(int* a, int* b){ if(*a &amp;gt; &amp;amp;b){ *a = *a+*b; *b = *a-*b; *a = *a-*b; } return; } int main(){ int a[10],i,j; for(i=0;i&amp;lt;10;i++){scanf(&amp;#34;%d&amp;#34;, &amp;amp;a[i]);} for (i=0;i&amp;lt;10;i++){ for(j=0; j&amp;lt;i; j++){ swap(&amp;amp;a[i], &amp;amp;a[j]); } } for(i=0; i&amp;lt;10;i++){ printf(&amp;#34;%d&amp;#34;, a[i]); } } 由以上程序可以看出，程序的时间复杂度是O(n^2)</description>
+#include &amp;lt;stdio.h&amp;gt; void swap(int* a, int* b){ if(*a &amp;gt; &amp;amp;b){ *a = *a+*b; *b = *a-*b; *a = *a-*b; } return; } int main(){ int a[10],i,j; for(i=0;i&amp;lt;10;i++){scanf(&amp;quot;%d&amp;quot;, &amp;amp;a[i]);} for (i=0;i&amp;lt;10;i++){ for(j=0; j&amp;lt;i; j++){ swap(&amp;amp;a[i], &amp;amp;a[j]); } } for(i=0; i&amp;lt;10;i++){ printf(&amp;quot;%d&amp;quot;, a[i]); } }  由以上程序可以看出，程序的时间复杂度是O(n^2)</description>
     </item>
     
   </channel>

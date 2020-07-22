@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>linux on Realjf&#39;s blog</title>
+    <title>Linux on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/linux/</link>
-    <description>Recent content in linux on Realjf&#39;s blog</description>
+    <description>Recent content in Linux on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 11 May 2020 16:20:44 +0800</lastBuildDate>
@@ -18,9 +18,9 @@
       
       <guid>https://realjf.io/linux/ssh-login-nopassword/</guid>
       <description>方法一 在一个节点生成公钥，然后利用ssh-copy-id复制到各节点
-ssh-keygen -t rsa -b 4096 -P &amp;#39;&amp;#39; -f ~/.ssh/id_rsa -C &amp;#34;备注&amp;#34; # 复制到各节点 ssh-copy-id node2 ssh-copy-id node3 ssh-copy-id node4 # 其他节点重复上述操作，实现各节点之间可以相互免密登录 方法二 也可以使用shell脚本，需要提前安装好expect
-yum install expect -y autoSSH.sh
-#!/bin/bash  ## 脚本接收的参数，也就是要互相配置 SSH 免密登录的服务器列表参数 BASE_HOST_LIST=$* ## 密码，默认用户是当前运行脚本的用户，比如 root 用户 ## 这里改成你的用户对应的密码 BASE_PASSWORD=&amp;#34;root&amp;#34; ## shell 函数：模拟 SSH 公钥私钥文件生成的人机交互过程 sshkeygen(){ expect -c &amp;#34; spawn ssh-keygen expect { \&amp;#34;ssh/id_rsa):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;passphrase):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;again:\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} } &amp;#34; } ## shell 函数：模拟配置 SSH 免密登录过程的人机交互过程 sshcopyid(){ expect -c &amp;#34; spawn ssh-copy-id $1expect { \&amp;#34;(yes/no)?</description>
+ssh-keygen -t rsa -b 4096 -P &#39;&#39; -f ~/.ssh/id_rsa -C &amp;quot;备注&amp;quot; # 复制到各节点 ssh-copy-id node2 ssh-copy-id node3 ssh-copy-id node4 # 其他节点重复上述操作，实现各节点之间可以相互免密登录  方法二 也可以使用shell脚本，需要提前安装好expect
+yum install expect -y  autoSSH.sh
+#!/bin/bash ## 脚本接收的参数，也就是要互相配置 SSH 免密登录的服务器列表参数 BASE_HOST_LIST=$* ## 密码，默认用户是当前运行脚本的用户，比如 root 用户 ## 这里改成你的用户对应的密码 BASE_PASSWORD=&amp;quot;root&amp;quot; ## shell 函数：模拟 SSH 公钥私钥文件生成的人机交互过程 sshkeygen(){ expect -c &amp;quot; spawn ssh-keygen expect { \&amp;quot;ssh/id_rsa):\&amp;quot; {send \&amp;quot;\r\&amp;quot;;exp_continue} \&amp;quot;passphrase):\&amp;quot; {send \&amp;quot;\r\&amp;quot;;exp_continue} \&amp;quot;again:\&amp;quot; {send \&amp;quot;\r\&amp;quot;;exp_continue} } &amp;quot; } ## shell 函数：模拟配置 SSH 免密登录过程的人机交互过程 sshcopyid(){ expect -c &amp;quot; spawn ssh-copy-id $1 expect { \&amp;quot;(yes/no)?</description>
     </item>
     
     <item>
@@ -29,10 +29,10 @@ yum install expect -y autoSSH.sh
       <pubDate>Mon, 11 May 2020 15:46:10 +0800</pubDate>
       
       <guid>https://realjf.io/linux/jdk-8u131/</guid>
-      <description>jdk下载地址： https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
+      <description> jdk下载地址： https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
 或者：https://www.oracle.com/java/technologies/oracle-java-archive-downloads.html
 这里提供百度云下载：链接: https://pan.baidu.com/s/1_fSe_nkdoZ_QhidbQyZ1ig 提取码: ttpw
-准备环境  centos7 虚拟机  手动安装 检查系统是否已经安装了jdk，有就卸载默认的jdk rpm -qa | grep jdk ava-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 下载安装jdk wget https://download.oracle.com/otn/java/jdk/8u251-b08/3d5a2bb8f8d4428bbe94aed7ec7ae784/jdk-8u251-linux-x64.tar.gz tar zxvf jdk-8u251-linux-x64.tar.gz -C /usr/local # 配置环境变量 vi /etc/profile export JAVA_HOME=/usr/local/jdk1.8.0_251 export PATH=$PATH:$JAVA_HOME/bin # 保存退出 :wq source /etc/profile # 验证 java -version </description>
+准备环境  centos7 虚拟机  手动安装 检查系统是否已经安装了jdk，有就卸载默认的jdk rpm -qa | grep jdk ava-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64  下载安装jdk wget https://download.oracle.com/otn/java/jdk/8u251-b08/3d5a2bb8f8d4428bbe94aed7ec7ae784/jdk-8u251-linux-x64.tar.gz tar zxvf jdk-8u251-linux-x64.tar.gz -C /usr/local # 配置环境变量 vi /etc/profile export JAVA_HOME=/usr/local/jdk1.8.0_251 export PATH=$PATH:$JAVA_HOME/bin # 保存退出 :wq source /etc/profile # 验证 java -version  </description>
     </item>
     
     <item>
@@ -44,7 +44,7 @@ yum install expect -y autoSSH.sh
       <description>首先说下背景  系统环境： debian 9  问题描述 今天使用vmware workstation的时候，提示操作失败，且提示为文件系统只读。 奇怪？怎么突然进入可读了，猜想可能文件系统哪里损坏导致进入只读保护模式。
 所以重新启动，之后进入了busybox界面的Initramfs界面，输入help可以查看相应命令。 我使用exit直接退出看能否重新进入，发现还是提示错误，无法进入
  busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。
- 解决 在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&amp;ndash;vg-root的文件系统， 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&amp;ndash;vg-root， 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&amp;rsquo;y&#39;后，提示文件系统修复完成， 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。</description>
+ 解决 在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&amp;ndash;vg-root的文件系统， 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&amp;ndash;vg-root， 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&amp;rsquo;y&amp;rsquo;后，提示文件系统修复完成， 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。</description>
     </item>
     
     <item>
@@ -68,7 +68,7 @@ ulimit 参数说明
 根据不同的业务特点，nginx作为静态web内容服务器、反向代理服务器或者提供图片缩略图功能（实时亚索图片）的服务器时， 其内核参数调整是不同的。
 这里只针对最通用，使nginx支持更多并发请求的tcp网络参数做简单说明。
 需要修改/etc/sysctl.conf来更改内核参数。
-fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600 net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_max_tw_buckets = 5000 net.ipv4.ip_local_port_range = 1024 61000 net.ipv4.tcp_rmem = 4096 32768 262142 net.ipv4.tcp_wmem = 4096 32768 262142 net.core.netdev_max_backlog = 8096 net.core.rmem_default = 262144 net.core.wmem_default = 262144 net.rmem_max = 2097152 net.wmem_max = 2097152 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_max_syn.backlog = 1024 参数说明
+fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600 net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_max_tw_buckets = 5000 net.ipv4.ip_local_port_range = 1024 61000 net.ipv4.tcp_rmem = 4096 32768 262142 net.ipv4.tcp_wmem = 4096 32768 262142 net.core.netdev_max_backlog = 8096 net.core.rmem_default = 262144 net.core.wmem_default = 262144 net.rmem_max = 2097152 net.wmem_max = 2097152 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_max_syn.backlog = 1024  参数说明
  file-max: 这个参数表示进程可以同时打开的最大句柄数，这个参数直接限制最大并发连接数，需要根据实际情况配置 tcp_tw_reuse: 这个参数设置为1，表示允许将TIME_WAIT状态的socket重新用于新的tcp连接，这对于服务器来说很有意义，因为服务器上总会有大量TIME-WAIT状态的连接 tcp_keepalive_time: 这个参数表示当keepalive启用时，tcp发送keepalive消息的频度。默认是2小时，若将其设置的小一些，可以更快地清理无效的连接 tcp_fin_timeout: 这个参数表示当服务器主动关闭连接时，socket保持在FIN-WAIT-2状态的最大时间。 tcp_max_tw_buckets: 这个参数表示操作系统允许TIME-WAIT套接字数量的最大值，如果超过这个数字，TIME-WAIT套接字将立刻被清除并打印警告信息。这个参数默认为180000，过多的TIME-WAIT套接字会使web服务器变慢。 tcp_max_syn_backlog: 这个参数表示TCP三次握手建立阶段接收syn请求队列的最大长度，默认为1024，将其设置得大一些可以使出现nginx繁忙来不及accept新连接的情况时，linux不至于丢失客户端发起的连接请求。 ip_local_port_range: 这个参数定义了在udp和tcp连接中本地（不包括连接的远端）端口的取值范围。 net.</description>
     </item>
     
@@ -81,12 +81,12 @@ fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600
       <description>Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了
 Linux Cgroups(control groups)提供了对一组进程及其子进程的资源限制、控制和统计的能力，包括cpu、内存、存储和网络等。
 cgroups组件  cgroup subsystem hierarchy  cgroup cgroup是对进程分组管理的一种机制，一个cgroup包含一组进程，并可以在这个cgroup上增加linux subsystem的各种配置参数，将一组进程和一组subsystem的系统参数关联起来。
-subsystem 是一组资源控制的模块，包括
- blkio 设置对块设备输入输出的访问控制 cpu 设置cgroup 中进程的cpu被调度的策略 cpuacct 可以统计cgroup中进程的cpu占用 cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存 devices 控制cgroup中进程对设备的访问 freezer 用于挂起和恢复cgroup中的进程 memory 用于控制cgroup中进程的内存占用 net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控 ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程  每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。
+subsystem 是一组资源控制的模块，包括 - blkio 设置对块设备输入输出的访问控制 - cpu 设置cgroup 中进程的cpu被调度的策略 - cpuacct 可以统计cgroup中进程的cpu占用 - cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存 - devices 控制cgroup中进程对设备的访问 - freezer 用于挂起和恢复cgroup中的进程 - memory 用于控制cgroup中进程的内存占用 - net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控 - ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程
+每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。
  如何看内核当前支持哪些subsystem呢？使用apt-get install cgroup-bin，然后通过lssubsys -a查看
  hierarchy 把一组cgroup串成一个树状结构，一个这样的树便是一个hierarchy，通过这种树状结构，cgroups可以形成继承关系。
 三个组件的关系  系统在创建了新的hierarchy之后，系统中所有的进程都会加入这个hierarchy的cgroup根节点，这个cgroup根节点是hierarchy默认创建的 一个subsystem只能附加到一个hierarchy上面 一个hierarchy可以附加多个subsystem 一个进程可以作为多个cgroup的成员，但是这些cgroup必须在不同的hierarchy中。 一个进程fork出子进程时，子进程是和父进程在同一个cgroup中的，也可以根据需要将其移动到其他cgroup中。  kernel加载Cgroups kernel通过虚拟树状文件系统配置cgroups，通过层级的目录虚拟出cgroup树。
-1. 首先，要创建并挂载一个hierarchy mkdir cgroup-test mount -t cgroup -o none,name=cgroup-test cgroup-test ./cgroup-test # 挂载一个hierarchy ls ./cgroup-test  cgroup.</description>
+1. 首先，要创建并挂载一个hierarchy mkdir cgroup-test mount -t cgroup -o none,name=cgroup-test cgroup-test .</description>
     </item>
     
     <item>
@@ -98,7 +98,7 @@ subsystem 是一组资源控制的模块，包括
       <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
  1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
 通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
-int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg); 查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
+int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);  查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
     </item>
     
   </channel>
