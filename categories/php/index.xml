@@ -6,10 +6,21 @@
     <description>Recent content in php on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Jun 2020 18:14:12 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2020 18:00:11 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PHP启动时配置文件显示： Loaded Configuration File 为 none</title>
+      <link>https://realjf.io/php/start-with-config-file-none/</link>
+      <pubDate>Mon, 07 Sep 2020 18:00:11 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/start-with-config-file-none/</guid>
+      <description>PHP启动时配置文件显示： Loaded Configuration File 为 none 首先查看php 的配置情况 php --ini # 输出如下 Configuration File (php.ini) Path: /data/conf/etc/php.ini Loaded Configuration File: (none) Scan for additional .ini files in: (none) Additional .ini files parsed: (none) 可以看到Loaded Configuration File的配置项为none，如果你直接在teminal中执行php运行代码，可能出现配置一些配置未加载的情况 ，特别是一些扩展未加载情况导致的无法使用扩展
+解决方法 如果有strace，可以使用strace跟踪下php的执行情况
+strace /usr/local/php/bin/php -i 2&amp;gt; /tmp/ll.log # 然后使用grep查看跟踪中出现加载php.ini的路径 grep &amp;#39;php.ini&amp;#39; /tmp/ll.log # 结果如下： open(&amp;#34;/usr/local/php/bin/php.ini&amp;#34;, O_RDONLY) = -1 ENOENT (No such file or directory) open(&amp;#34;/usr/local/php/etc/php.ini&amp;#34;, O_RDONLY) = -1 ENOENT (No such file or directory) 可以看到首先加载了/usr/local/php/bin/目录下的php.</description>
+    </item>
     
     <item>
       <title>php websocket简单使用 Simple Websocket</title>
