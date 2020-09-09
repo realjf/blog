@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linuxes on Realjf&#39;s blog</title>
@@ -18,9 +18,9 @@
       
       <guid>https://realjf.io/linux/ssh-login-nopassword/</guid>
       <description>方法一 在一个节点生成公钥，然后利用ssh-copy-id复制到各节点
-ssh-keygen -t rsa -b 4096 -P &amp;#39;&amp;#39; -f ~/.ssh/id_rsa -C &amp;#34;备注&amp;#34; # 复制到各节点 ssh-copy-id node2 ssh-copy-id node3 ssh-copy-id node4 # 其他节点重复上述操作，实现各节点之间可以相互免密登录 方法二 也可以使用shell脚本，需要提前安装好expect
-yum install expect -y autoSSH.sh
-#!/bin/bash  ## 脚本接收的参数，也就是要互相配置 SSH 免密登录的服务器列表参数 BASE_HOST_LIST=$* ## 密码，默认用户是当前运行脚本的用户，比如 root 用户 ## 这里改成你的用户对应的密码 BASE_PASSWORD=&amp;#34;root&amp;#34; ## shell 函数：模拟 SSH 公钥私钥文件生成的人机交互过程 sshkeygen(){ expect -c &amp;#34; spawn ssh-keygen expect { \&amp;#34;ssh/id_rsa):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;passphrase):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;again:\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} } &amp;#34; } ## shell 函数：模拟配置 SSH 免密登录过程的人机交互过程 sshcopyid(){ expect -c &amp;#34; spawn ssh-copy-id $1expect { \&amp;#34;(yes/no)?</description>
+ssh-keygen -t rsa -b 4096 -P &#39;&#39; -f ~/.ssh/id_rsa -C &amp;quot;备注&amp;quot; # 复制到各节点 ssh-copy-id node2 ssh-copy-id node3 ssh-copy-id node4 # 其他节点重复上述操作，实现各节点之间可以相互免密登录  方法二 也可以使用shell脚本，需要提前安装好expect
+yum install expect -y  autoSSH.sh
+#!/bin/bash ## 脚本接收的参数，也就是要互相配置 SSH 免密登录的服务器列表参数 BASE_HOST_LIST=$* ## 密码，默认用户是当前运行脚本的用户，比如 root 用户 ## 这里改成你的用户对应的密码 BASE_PASSWORD=&amp;quot;root&amp;quot; ## shell 函数：模拟 SSH 公钥私钥文件生成的人机交互过程 sshkeygen(){ expect -c &amp;quot; spawn ssh-keygen expect { \&amp;quot;ssh/id_rsa):\&amp;quot; {send \&amp;quot;\r\&amp;quot;;exp_continue} \&amp;quot;passphrase):\&amp;quot; {send \&amp;quot;\r\&amp;quot;;exp_continue} \&amp;quot;again:\&amp;quot; {send \&amp;quot;\r\&amp;quot;;exp_continue} } &amp;quot; } ## shell 函数：模拟配置 SSH 免密登录过程的人机交互过程 sshcopyid(){ expect -c &amp;quot; spawn ssh-copy-id $1 expect { \&amp;quot;(yes/no)?</description>
     </item>
     
     <item>
@@ -29,10 +29,10 @@ yum install expect -y autoSSH.sh
       <pubDate>Mon, 11 May 2020 15:46:10 +0800</pubDate>
       
       <guid>https://realjf.io/linux/jdk-8u131/</guid>
-      <description>jdk下载地址： https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
+      <description> jdk下载地址： https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
 或者：https://www.oracle.com/java/technologies/oracle-java-archive-downloads.html
 这里提供百度云下载：链接: https://pan.baidu.com/s/1_fSe_nkdoZ_QhidbQyZ1ig 提取码: ttpw
-准备环境  centos7 虚拟机  手动安装 检查系统是否已经安装了jdk，有就卸载默认的jdk rpm -qa | grep jdk ava-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 下载安装jdk wget https://download.oracle.com/otn/java/jdk/8u251-b08/3d5a2bb8f8d4428bbe94aed7ec7ae784/jdk-8u251-linux-x64.tar.gz tar zxvf jdk-8u251-linux-x64.tar.gz -C /usr/local # 配置环境变量 vi /etc/profile export JAVA_HOME=/usr/local/jdk1.8.0_251 export PATH=$PATH:$JAVA_HOME/bin # 保存退出 :wq source /etc/profile # 验证 java -version </description>
+准备环境  centos7 虚拟机  手动安装 检查系统是否已经安装了jdk，有就卸载默认的jdk rpm -qa | grep jdk ava-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64  下载安装jdk wget https://download.oracle.com/otn/java/jdk/8u251-b08/3d5a2bb8f8d4428bbe94aed7ec7ae784/jdk-8u251-linux-x64.tar.gz tar zxvf jdk-8u251-linux-x64.tar.gz -C /usr/local # 配置环境变量 vi /etc/profile export JAVA_HOME=/usr/local/jdk1.8.0_251 export PATH=$PATH:$JAVA_HOME/bin # 保存退出 :wq source /etc/profile # 验证 java -version  </description>
     </item>
     
     <item>

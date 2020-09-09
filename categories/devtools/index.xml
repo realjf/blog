@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>devtools on Realjf&#39;s blog</title>
+    <title>Devtools on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/devtools/</link>
-    <description>Recent content in devtools on Realjf&#39;s blog</description>
+    <description>Recent content in Devtools on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 23 Nov 2019 14:14:43 +0800</lastBuildDate>
@@ -18,16 +18,16 @@
       
       <guid>https://realjf.io/devtools/cmake-tutorial/</guid>
       <description>首先创建一个项目
-mkdir Tutorial cd Tutorial touch tutorial.cxx tutorial.cxx内容如下：
-第一步：从最基础开始 最简单的应用是在项目根目录下创建一个CMakeLists.txt文件，内容如下：
-# 设置cmake最小要求版本 cmake_minimum_required(VERSION 3.10) # 设置项目名称 project(Tutorial) # 添加可执行文件 add_executable(Tutorial tutorial.cxx) CMake支持大写，小写和大小写混合命令，上述示例使用小写方式。
+mkdir Tutorial cd Tutorial touch tutorial.cxx  tutorial.cxx内容如下：
+ 第一步：从最基础开始 最简单的应用是在项目根目录下创建一个CMakeLists.txt文件，内容如下：
+# 设置cmake最小要求版本 cmake_minimum_required(VERSION 3.10) # 设置项目名称 project(Tutorial) # 添加可执行文件 add_executable(Tutorial tutorial.cxx)  CMake支持大写，小写和大小写混合命令，上述示例使用小写方式。
 添加版本号和配置头文件 第一个功能cmake_minimum_required是为我们的可执行文件和项目提供版本号。 虽然我们可以仅在源代码中执行此操作，但是使用CMakeLists.txt可提供更大的灵活性
-cmake_minimum_required(VERSION 3.10) # 设置项目版本号 project(Tutorial VERSION 1.0) 配置头文件以将版本号传递给源代码
-configure_file(TutorialConfig.h.in TutorialConfig.h) 由于已配置的文件将被写入二进制树，因此我们必须将该目录添加到路径列表中以搜索包含文件。 将以下行添加到CMakeLists.txt文件的末尾
-target_include_directories(Tutorial PUBLIC &amp;#34;${PROJECT_BINARY_DIR}&amp;#34; ) 在源目录中使用以下内容创建TutorialConfig.h.in
-// 配置选项和设置项目配置 #define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@ #define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@ 当CMake配置此头文件时，@Tutorial_VERSION_MAJOR@和@Tutorial_VERSION_MINOR@的值将被替换。 接下来，修改tutorial.cxx以包括配置的头文件TutorialConfig.h
+cmake_minimum_required(VERSION 3.10) # 设置项目版本号 project(Tutorial VERSION 1.0)  配置头文件以将版本号传递给源代码
+configure_file(TutorialConfig.h.in TutorialConfig.h)  由于已配置的文件将被写入二进制树，因此我们必须将该目录添加到路径列表中以搜索包含文件。 将以下行添加到CMakeLists.txt文件的末尾
+target_include_directories(Tutorial PUBLIC &amp;quot;${PROJECT_BINARY_DIR}&amp;quot; )  在源目录中使用以下内容创建TutorialConfig.h.in
+// 配置选项和设置项目配置 #define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@ #define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@  当CMake配置此头文件时，@Tutorial_VERSION_MAJOR@和@Tutorial_VERSION_MINOR@的值将被替换。 接下来，修改tutorial.cxx以包括配置的头文件TutorialConfig.h
 最后，通过更新tutorial.cxx来打印出版本号
-if (argc &amp;lt; 2) { // report version  std::cout &amp;lt;&amp;lt; argv[0] &amp;lt;&amp;lt; &amp;#34; Version &amp;#34; &amp;lt;&amp;lt; Tutorial_VERSION_MAJOR &amp;lt;&amp;lt; &amp;#34;.</description>
+if (argc &amp;lt; 2) { // report version std::cout &amp;lt;&amp;lt; argv[0] &amp;lt;&amp;lt; &amp;quot; Version &amp;quot; &amp;lt;&amp;lt; Tutorial_VERSION_MAJOR &amp;lt;&amp;lt; &amp;quot;.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@ if (argc &amp;lt; 2) { // report version  std::cout &amp;lt;&amp;lt; argv[0] &am
       <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
       
       <guid>https://realjf.io/devtools/makefile-rule/</guid>
-      <description>基本语法 target1 target2 target3: prerequisite1 prerequisite2 command1 command2 command3 冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
+      <description> 基本语法 target1 target2 target3: prerequisite1 prerequisite2 command1 command2 command3  冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
 每个命令必须以跳格符开头，这个语法用来要求make将紧跟在跳格符之后的内容传给subshell来执行。
 make会将#号视为注释字符，从井号开始到该行结束之间的所有文字都会被make忽略。你可以使用反斜线，来延续过长的文本行。
 规则 </description>
@@ -49,15 +49,12 @@ make会将#号视为注释字符，从井号开始到该行结束之间的所有
       
       <guid>https://realjf.io/devtools/sublimetext/</guid>
       <description>sublime text官网http://www.sublimetext.com
- 安装 install the GPG key wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add - 确保apt工作在http源 apt-get install apt-transport-https 选择安装渠道 稳定版本
-echo &amp;#34;deb https://download.sublimetext.com/ apt/stable/&amp;#34; | sudo tee /etc/apt/sources.list.d/sublime-text.list 开发版本
-echo &amp;#34;deb https://download.sublimetext.com/ apt/dev/&amp;#34; | sudo tee /etc/apt/sources.list.d/sublime-text.list 更新源并安装 apt-get update apt-get install sublime-text 安装常用插件 1. 安装Package Control 请参考网址Install Package Control
+ 安装 install the GPG key wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -  确保apt工作在http源 apt-get install apt-transport-https  选择安装渠道 稳定版本
+echo &amp;quot;deb https://download.sublimetext.com/ apt/stable/&amp;quot; | sudo tee /etc/apt/sources.list.d/sublime-text.list  开发版本
+echo &amp;quot;deb https://download.sublimetext.com/ apt/dev/&amp;quot; | sudo tee /etc/apt/sources.list.d/sublime-text.list  更新源并安装 apt-get update apt-get install sublime-text  安装常用插件 1. 安装Package Control 请参考网址Install Package Control
 2. 常用插件 ConvertToUTF8 功能：能将除UTF8编码之外的其他编码文件在 Sublime Text 中转换成UTF8编码，在打开文件的时候一开始会显示乱码，然后一刹那就自动显示出正常的字体，当然，在保存文件之后原文件的编码格式不会改变
 BracketHighlighter 功能：高亮显示匹配的括号、引号和标签。
-Emmet 功能：前端开发必备，HTML、CSS代码快速编写神器
-JsFormat 功能：javascript代码格式化
-ColorHighlighter 功能：显示所选颜色值的颜色，并继承了colorpicker
-Compact Expand CSS Command 功能：格式化css代码 插件地址：https://github.</description>
+Emmet 功能：前端开发必备，HTML、CSS代码快速编写神器</description>
     </item>
     
   </channel>

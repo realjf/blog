@@ -3,7 +3,7 @@
 <head>
     <title>debian 系统启动进入Busybox Initramfs界面 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,22 +83,31 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/busybox/">busybox</a><a class="tag" href="https://realjf.io/tags/initramfs/">initramfs</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/busybox/">Busybox</a><a class="tag" href="https://realjf.io/tags/initramfs/">Initramfs</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="首先说下背景">首先说下背景</h3>
+            
+
+<h3 id="首先说下背景">首先说下背景</h3>
+
 <ul>
 <li>系统环境： debian 9</li>
 </ul>
+
 <h5 id="问题描述">问题描述</h5>
+
 <p>今天使用vmware workstation的时候，提示操作失败，且提示为文件系统只读。
 奇怪？怎么突然进入可读了，猜想可能文件系统哪里损坏导致进入只读保护模式。</p>
+
 <p>所以重新启动，之后进入了busybox界面的Initramfs界面，输入help可以查看相应命令。
 我使用exit直接退出看能否重新进入，发现还是提示错误，无法进入</p>
+
 <blockquote>
 <p>busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。</p>
 </blockquote>
+
 <h5 id="解决">解决</h5>
+
 <p>在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&ndash;vg-root的文件系统，
 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&ndash;vg-root，
 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&rsquo;y&rsquo;后，提示文件系统修复完成，

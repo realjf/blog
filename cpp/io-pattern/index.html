@@ -3,7 +3,7 @@
 <head>
     <title>五种I/O模式 （Io Pattern） // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,11 +83,15 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/">I/O模式</a></div></div>
+                        </div></div>
         </header>
         <div class="post-content">
-            <h3 id="常见的五种io模式">常见的五种I/O模式</h3>
+            
+
+<h3 id="常见的五种i-o模式">常见的五种I/O模式</h3>
+
 <p>I/O模式有这五种，分别是：</p>
+
 <ul>
 <li>阻塞I/O （linux下默认都采用阻塞I/O）</li>
 <li>非阻塞I/O （可以通过fcntl或者open设置使用O_NONBLOCK参数，将文件描述符设置为非阻塞）</li>
@@ -95,80 +99,120 @@
 <li>信号驱动I/O</li>
 <li>异步I/O</li>
 </ul>
+
 <p>其中前面四种被称为同步IO</p>
+
 <h4 id="用户空间与内核空间">用户空间与内核空间</h4>
+
 <p>首先理解，当进程运行在内核空间时就处于内核态，而进程运行在用户空间时则处于用户态。
 在内核态下，进程运行在内核地址空间中，此时的 CPU 可以执行任何指令。运行的代码也不受任何的限制，可以自由地访问任何有效地址，也可以直接进行端口的访问。
 在用户态下，进程运行在用户地址空间中，被执行的代码要受到 CPU 的诸多检查，它们只能访问映射其地址空间的页表项中规定的在用户态下可访问页面的虚拟地址，且只能对任务状态段(TSS)中 I/O 许可位图(I/O Permission Bitmap)中规定的可访问端口进行直接访问。</p>
+
 <p>所以，区分内核空间和用户空间本质上是要提高操作系统的稳定性及可用性</p>
+
 <h4 id="进程切换过程">进程切换过程</h4>
-<p>从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化：</p>
-<ul>
-<li>保存上下文，包括程序计数器和其他寄存器</li>
-<li>更新PCB信息(进程管理与控制信息)</li>
-<li>把进程pcb加入等待挂起等队列</li>
-<li>选择另一个进程执行，并更新其pcb</li>
-<li>更新内存管理的数据结构</li>
-<li>恢复上下文</li>
-</ul>
+
+<p>从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化：
+- 保存上下文，包括程序计数器和其他寄存器
+- 更新PCB信息(进程管理与控制信息)
+- 把进程pcb加入等待挂起等队列
+- 选择另一个进程执行，并更新其pcb
+- 更新内存管理的数据结构
+- 恢复上下文</p>
+
 <h3 id="阻塞io">阻塞IO</h3>
+
 <p>同步阻塞IO，用户进程发起一个IO请求，内核查看数据是否就绪，如果没有，就等待数据就绪，而用户进程处于阻塞状态，
 且交出cpu控制权，但数据就绪后，内核将数据拷贝到用户进程空间，并通知用户进程，用户进程解除阻塞状态，进入就绪状态，等待下一次运行。</p>
-<p><img src="/image/io_block.png" alt="信号驱动I/O"></p>
-<h3 id="非阻塞io">非阻塞I/O</h3>
+
+<p><img src="/image/io_block.png" alt="信号驱动I/O" /></p>
+
+<h3 id="非阻塞i-o">非阻塞I/O</h3>
+
 <p>非阻塞IO，用户进程发起IO请求后，内核检查相应状态，无论就绪与否都返回结果给用户进程，用户进程无需等待就可以根据相应结果进行处理，
 当然用户进程可以循环发起IO请求操作，这相当于一直占用CPU。</p>
-<p><img src="/image/io_nonblock.png" alt="信号驱动I/O"></p>
-<h3 id="io多路复用">I/O多路复用</h3>
+
+<p><img src="/image/io_nonblock.png" alt="信号驱动I/O" /></p>
+
+<h3 id="i-o多路复用">I/O多路复用</h3>
+
 <p>多路IO复用是目前比较多的用于环节C10K问题的方案，采用select、poll、epoll等方式，其中epoll是linux特有的。
 相比较非阻塞IO，多路复用的效率明显要高，且是在内核中进行的。</p>
-<p><img src="/image/io_multiplexing.png" alt="信号驱动I/O"></p>
+
+<p><img src="/image/io_multiplexing.png" alt="信号驱动I/O" /></p>
+
 <p>下面分别简要说下select、poll和epoll的区别</p>
+
 <h4 id="select">select</h4>
+
 <p>select 函数监听的文件描述符有三类，writefds、readfds和exceptfds，调用后select会阻塞进程，直到有描述符就绪，或者超时，
 函数返回后，通过遍历fdset，查找相应就绪的描述符进行处理。</p>
+
 <p>select目前支持几乎所有的平台，在linux上一般限制最大监视文件描述符大小为1024。</p>
+
 <ul>
 <li>select最大限制是单进程fd最大支持1024个，64为系统默认为2048</li>
 <li>对文件描述符采用轮询，效率低</li>
 <li>需要维护一个用于存放大量fd的数据结构</li>
 </ul>
+
 <h4 id="poll">poll</h4>
+
 <p>poll本质上与select类似，管理多个文件描述符，也是进行轮询，根据描述符的状态进行处理。
 但它没有最大数限制，poll也有个致命缺陷，包含大量文件描述符的数组被整个在内核与用户空间之间多次复制，
 开销随着文件描述符数量激增</p>
+
 <h4 id="epoll">epoll</h4>
+
 <p>epoll是linux2.6开始提供的功能，是对poll的改进，epoll没有文件描述符限制，使用一个文件描述符管理多个描述符，
 将用户关心的事件描述符映射到内核中，期间只复制一次。</p>
+
 <p>epoll使用epoll_ctl注册文件描述符，并监听自己感兴趣的事件，使用epoll_wait可以收到事件通知。</p>
+
 <h5 id="epoll的两种触发模式">epoll的两种触发模式</h5>
+
 <ul>
 <li>EPOLLLT （水平触发）当epoll_wait监听的事件发生时，将此事件通知用户进程，用户进程可以不立即处理该事件。下次调用epoll_wait时，会再次响应并通知此事件</li>
 <li>EPOLLET （边缘触发）当epoll_wait监听的事件发生时，将此事件通知用户进程，用户进程必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应通知此事件。</li>
 </ul>
+
 <h5 id="epoll的优点">epoll的优点</h5>
+
 <ul>
 <li>没有最大并发数限制</li>
 <li>效率提升，内核态监听事件，只复制一次事件映射集，不是轮询机制，而是使用事件通知机制，只有活跃的文件描述符才占用开销。</li>
 </ul>
+
 <p>epoll的工作流程
-<img src="/image/epoll.png" alt="epoll工作流程"></p>
-<h3 id="信号驱动io">信号驱动I/O</h3>
+<img src="/image/epoll.png" alt="epoll工作流程" /></p>
+
+<h3 id="信号驱动i-o">信号驱动I/O</h3>
+
 <p>信号驱动IO,用户进程首先需要安装SIGIO信号处理函数，然后内核等待IO请求，用户进程继续执行，
 直到内核发出SIGIO信号，表示数据准备好，并拷贝到用户进程空间，用户线程接收到信号之后，便在信号函数中调用IO读写操作来进行实际的IO请求操作。</p>
-<p><img src="/image/io_signal.png" alt="信号驱动I/O"></p>
-<h3 id="异步io">异步I/O</h3>
+
+<p><img src="/image/io_signal.png" alt="信号驱动I/O" /></p>
+
+<h3 id="异步i-o">异步I/O</h3>
+
 <p>相对于上述四种同步IO，异步IO最大的不同是不是顺序执行，用户进程调用aio_read后，无论内核是否准备好，都会直接返回给用户进程。
 然后用户进程继续执行，等到内核准备好数据了，内核直接复制数据给用户进程，然后内核发送通知。进程一直处于非阻塞状态。</p>
-<p><img src="/image/aio.png" alt="异步I/O"></p>
+
+<p><img src="/image/aio.png" alt="异步I/O" /></p>
+
 <h3 id="两种高性能io设计模式">两种高性能IO设计模式</h3>
+
 <p>传统网络服务设计模式中，比较多采用多线程，或者线程池。</p>
+
 <ul>
 <li>但是多线程资源占用非常大，当连接数达到上限，依旧无法处理后续请求。</li>
 <li>而线程池由于有限制，所以不太适合长连接</li>
 </ul>
+
 <p>为了解决上述困境，提出了两种高性能IO设计模式：Reactor和Proactor</p>
+
 <p>Reactor模式采用同步IO，而Proactor采用异步IO</p>
+
 <table>
 <thead>
 <tr>
@@ -176,6 +220,7 @@
 <th align="center">proactor</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td align="center">1. 应用程序注册读/写就绪事件和相关联的事件处理器 2. 事件分离器等待事件的发生 (Reactor负责) 3. 当发生读就绪事件的时候，事件分离器调用第一步注册的事件处理器(Reactor负责) 4. 事件处理器首先执行实际的读取操作，然后根据读取到的内容进行进一步的处理(用户处理器负责)</td>

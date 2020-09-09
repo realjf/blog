@@ -3,7 +3,7 @@
 <head>
     <title>kubernetes 核心原理之 Kube-Proxy // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,40 +83,57 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/kubernetes/">kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">k8s</a><a class="tag" href="https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">k8s核心原理</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/kubernetes/">Kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">K8s</a><a class="tag" href="https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">K8s核心原理</a></div></div>
         </header>
         <div class="post-content">
-            <p>service是一个抽象的概念，类似一个反向代理，将请求转发到后端的pod上。真正实现service作用的是kube-proxy服务进程。</p>
+            
+
+<p>service是一个抽象的概念，类似一个反向代理，将请求转发到后端的pod上。真正实现service作用的是kube-proxy服务进程。</p>
+
 <p>在每个node上都会运行一个kube-proxy的服务进程，这个进程可以看做service的透明代理兼负载均衡器，其核心功能是将到某个service的访问请求转发到后端的多个pod实例上。</p>
+
 <p>kube-proxy会在本地node上简历一个socketserver来负责接收请求，然后均匀发送到后端某个pod端口上，这个过程默认采用round robin负载均衡算法。</p>
+
 <p>k8s也提供了通过修改service的service.spec.sessionAffinity参数的值来实现会话保持特性的定向转发，如果设置的值为“clientIp”，则将来自同一个clientip的请求都转发到同一个后端pod上。</p>
+
 <blockquote>
 <p>service的clusterIP与nodeport等概念是kube-proxy服务通过iptables的NAT转换实现的，kube-proxy在运行过程中动态创建与service相关的iptables规则</p>
 </blockquote>
+
 <p>访问service的请求，不论是用cluster ip+target port的方式，还是用节点机ip+node port的方式，都被节点机的iptables规则重定向到kube-proxy监听的service服务代理端口。</p>
+
 <blockquote>
 <p>kube-proxy的负载均衡器只支持round robin算法。同时在此基础上还支持session保持。</p>
 </blockquote>
+
 <p>kube-proxy内部创建了一个负载均衡器——loadbalancer，loadbalancer上保存了service到对应的后端endpoint列表的动态转发路由表，而具体的路由选择取决于round robin负载均衡算法及service的session会话保持（SessionAffinity）这两个特性</p>
-<h5 id="kube-porxy针对变化的service列表处理流程">kube-porxy针对变化的service列表，处理流程</h5>
+
+<h5 id="kube-porxy针对变化的service列表-处理流程">kube-porxy针对变化的service列表，处理流程</h5>
+
 <ol>
 <li>如果service没有设置集群ip（ClusterIP），则不做处理，否则，获取该service的所有端口定义列表（spec.ports域）</li>
 <li>逐个读取服务端口定义列表中的端口信息，根据端口名称，service名称和namespace判断本地是否已经存在对应的服务代理对象，如不存在则新建，如存在且service端口被修改过，则先删除iptables中和srevice端口相关的规则，关闭服务代理对象，然后走新建流程。</li>
 <li>更新负载均衡器组件中对应service的转发地址列表，对于新建的service，确定转发时的会话保持策略。</li>
 <li>对于已经删除的service则进行清理</li>
 </ol>
+
 <blockquote>
 <p>针对Endpoint的变化，kube-proxy会自动更新负载均衡器中对应service的转发地址列表。</p>
 </blockquote>
+
 <h5 id="针对iptables所做的一些细节操作">针对iptables所做的一些细节操作</h5>
+
 <ul>
 <li>KUBE-PORTALS-CONTAINER：从容器中通过service cluster ip和端口号访问service的请求。（容器）</li>
 <li>KUBE-PORTALS-HOST：从主机中通过service cluster ip和端口号访问service的请求（主机）</li>
 <li>KUBE-NODEPORT-CONTAINER：从容器中通过service的nodeport端口号访问service的请求。（容器）</li>
 <li>KUBE-NODEPORT-HOST：从主机中通过service的nodeport端口号访问service请求（主机）</li>
 </ul>
+
 <p>此外，kube-proxy在iptables中为每个service创建由cluster ip+service端口号到kube-proxy所在主机ip+service代理服务所监听的端口的转发规则。</p>
+
 <h5 id="service类型为nodeport">service类型为NodePort</h5>
+
 <p>kube-proxy在iptables中除了添加上面提及的规则，还会为每个service创建由nodeport端口到kube-proxy所在主机ip+service代理服务所监听的端口的转发规则。</p>
 
         </div>

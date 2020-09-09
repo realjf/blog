@@ -3,7 +3,7 @@
 <head>
     <title>远程登录Mysql配置 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,82 +83,144 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/sql/">sql</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/sql/">Sql</a></div></div>
         </header>
         <div class="post-content">
-            <p>原文地址:<a href="http://blog.chinaunix.net/uid-25806228-id-371815.html">http://blog.chinaunix.net/uid-25806228-id-371815.html</a></p>
-<h5 id="mysql默认关闭远程登录权限如下操作允许用户在任意地点登录">Mysql默认关闭远程登录权限，如下操作允许用户在任意地点登录：</h5>
+            
+
+<p>原文地址:<a href="http://blog.chinaunix.net/uid-25806228-id-371815.html">http://blog.chinaunix.net/uid-25806228-id-371815.html</a></p>
+
+<h5 id="mysql默认关闭远程登录权限-如下操作允许用户在任意地点登录">Mysql默认关闭远程登录权限，如下操作允许用户在任意地点登录：</h5>
+
 <ol>
-<li>进入mysql，</li>
+<li>进入mysql，
+<code>
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;
+</code>
+IDENTIFIED BY后跟的是密码，可设为空。</li>
+<li>FLUSH privileges;</li>
 </ol>
-<pre><code>GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;
-</code></pre><p>IDENTIFIED BY后跟的是密码，可设为空。
-2. FLUSH privileges;</p>
+
 <p>更新Mysql为了安全性，在默认情况下用户只允许在本地登录，可是在有此情况下，还是需要使用用户进行远程连接，因此为了使其可以远程需要进行如下操作：</p>
-<h5 id="一允许root用户在任何地方进行远程登录并具有所有库任何操作权限具体操作如下">一、允许root用户在任何地方进行远程登录，并具有所有库任何操作权限，具体操作如下：</h5>
+
+<h5 id="一-允许root用户在任何地方进行远程登录-并具有所有库任何操作权限-具体操作如下">一、允许root用户在任何地方进行远程登录，并具有所有库任何操作权限，具体操作如下：</h5>
+
 <p>在本机先使用root用户登录mysql：
-mysql -u root -p&quot;youpassword&rdquo;
+mysql -u root -p&rdquo;youpassword&rdquo;
 进行授权操作：</p>
+
 <pre><code>mysql&gt;GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'youpassword' WITH GRANT OPTION;
-</code></pre><p>重载授权表：</p>
+</code></pre>
+
+<p>重载授权表：</p>
+
 <pre><code>FLUSH PRIVILEGES;
-</code></pre><p>退出mysql数据库：
+</code></pre>
+
+<p>退出mysql数据库：
 exit</p>
-<h5 id="二允许root用户在一个特定的ip进行远程登录并具有所有库任何操作权限具体操作如下">二、允许root用户在一个特定的IP进行远程登录，并具有所有库任何操作权限，具体操作如下：</h5>
+
+<h5 id="二-允许root用户在一个特定的ip进行远程登录-并具有所有库任何操作权限-具体操作如下">二、允许root用户在一个特定的IP进行远程登录，并具有所有库任何操作权限，具体操作如下：</h5>
+
 <p>在本机先使用root用户登录mysql：</p>
+
 <pre><code>mysql -u root -p&quot;youpassword&quot;
-</code></pre><p>进行授权操作：</p>
+</code></pre>
+
+<p>进行授权操作：</p>
+
 <pre><code>GRANT ALL PRIVILEGES ON *.* TO root@&quot;172.16.16.152&quot; IDENTIFIED BY &quot;youpassword&quot; WITH GRANT OPTION;
-</code></pre><p>重载授权表：</p>
+</code></pre>
+
+<p>重载授权表：</p>
+
 <pre><code>FLUSH PRIVILEGES;
-</code></pre><p>退出mysql数据库：</p>
+</code></pre>
+
+<p>退出mysql数据库：</p>
+
 <pre><code>exit
-</code></pre><h5 id="三允许root用户在一个特定的ip进行远程登录并具有所有库特定操作权限具体操作如下">三、允许root用户在一个特定的IP进行远程登录，并具有所有库特定操作权限，具体操作如下：</h5>
+</code></pre>
+
+<h5 id="三-允许root用户在一个特定的ip进行远程登录-并具有所有库特定操作权限-具体操作如下">三、允许root用户在一个特定的IP进行远程登录，并具有所有库特定操作权限，具体操作如下：</h5>
+
 <p>在本机先使用root用户登录mysql：</p>
+
 <pre><code>mysql -u root -p&quot;youpassword&quot;
-</code></pre><p>进行授权操作：</p>
+</code></pre>
+
+<p>进行授权操作：</p>
+
 <pre><code>GRANT select，insert，update，delete ON *.* TO root@&quot;172.16.16.152&quot; IDENTIFIED BY &quot;youpassword&quot;;
-</code></pre><p>重载授权表：</p>
+</code></pre>
+
+<p>重载授权表：</p>
+
 <pre><code>FLUSH PRIVILEGES;
-</code></pre><p>退出mysql数据库：</p>
+</code></pre>
+
+<p>退出mysql数据库：</p>
+
 <pre><code>exit
-</code></pre><h5 id="四删除用户授权需要使用revoke命令具体命令格式为">四、删除用户授权，需要使用REVOKE命令，具体命令格式为：</h5>
+</code></pre>
+
+<h5 id="四-删除用户授权-需要使用revoke命令-具体命令格式为">四、删除用户授权，需要使用REVOKE命令，具体命令格式为：</h5>
+
 <pre><code>REVOKE privileges ON 数据库[.表名] FROM user-name;
-</code></pre><p>具体实例，先在本机登录mysql:</p>
+</code></pre>
+
+<p>具体实例，先在本机登录mysql:</p>
+
 <pre><code>mysql -u root -p&quot;youpassword&quot;
-</code></pre><p>进行授权操作：</p>
+</code></pre>
+
+<p>进行授权操作：</p>
+
 <pre><code>GRANT select，insert，update，delete ON TEST-DB TO test-user@&quot;172.16.16.152&quot; IDENTIFIED BY &quot;youpassword&quot;;
-</code></pre><p>再进行删除授权操作：</p>
+</code></pre>
+
+<p>再进行删除授权操作：</p>
+
 <pre><code>REVOKE all on TEST-DB from test-user;
-</code></pre><blockquote>
-<p><strong>注</strong>：该操作只是清除了用户对于TEST-DB的相关授权权限，但是这个“test-user”这个用户还是存在。<br>
+</code></pre>
+
+<blockquote>
+<p><strong>注</strong>：该操作只是清除了用户对于TEST-DB的相关授权权限，但是这个“test-user”这个用户还是存在。<br />
 最后从用户表内清除用户：</p>
-</blockquote>
+
 <pre><code>DELETE FROM user WHERE user=&quot;test-user&quot;;
-</code></pre><p>重载授权表：</p>
+</code></pre>
+
+<p>重载授权表：</p>
+
 <pre><code>FLUSH PRIVILEGES;
-</code></pre><p>退出mysql数据库：</p>
+</code></pre>
+
+<p>退出mysql数据库：</p>
+
 <pre><code>exit
-</code></pre><h5 id="五mysql权限详细分类">五、MYSQL权限详细分类：</h5>
-<p>全局管理权限：</p>
-<ul>
-<li>FILE: 在MySQL服务器上读写文件。</li>
-<li>PROCESS: 显示或杀死属于其它用户的服务线程。</li>
-<li>RELOAD: 重载访问控制表，刷新日志等。</li>
-<li>SHUTDOWN: 关闭MySQL服务。
-数据库/数据表/数据列权限：</li>
-<li>ALTER: 修改已存在的数据表(例如增加/删除列)和索引。</li>
-<li>CREATE: 建立新的数据库或数据表。</li>
-<li>DELETE: 删除表的记录。</li>
-<li>DROP: 删除数据表或数据库。</li>
-<li>INDEX: 建立或删除索引。</li>
-<li>INSERT: 增加表的记录。</li>
-<li>SELECT: 显示/搜索表的记录。</li>
-<li>UPDATE: 修改表中已存在的记录。
-特别的权限：</li>
-<li>ALL: 允许做任何事(和root一样)。</li>
-<li>USAGE: 只允许登录&ndash;其它什么也不允许做。</li>
-</ul>
+</code></pre>
+
+<h5 id="五-mysql权限详细分类">五、MYSQL权限详细分类：</h5>
+
+<p>全局管理权限：
+- FILE: 在MySQL服务器上读写文件。
+- PROCESS: 显示或杀死属于其它用户的服务线程。
+- RELOAD: 重载访问控制表，刷新日志等。
+- SHUTDOWN: 关闭MySQL服务。
+数据库/数据表/数据列权限：
+- ALTER: 修改已存在的数据表(例如增加/删除列)和索引。
+- CREATE: 建立新的数据库或数据表。
+- DELETE: 删除表的记录。
+- DROP: 删除数据表或数据库。
+- INDEX: 建立或删除索引。
+- INSERT: 增加表的记录。
+- SELECT: 显示/搜索表的记录。
+- UPDATE: 修改表中已存在的记录。
+特别的权限：
+- ALL: 允许做任何事(和root一样)。
+- USAGE: 只允许登录&ndash;其它什么也不允许做。</p>
+</blockquote>
 
         </div>
         <div id="disqus_thread"></div>

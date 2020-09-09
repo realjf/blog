@@ -3,7 +3,7 @@
 <head>
     <title>Golang Micro 微服务框架使用 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,207 +83,289 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><a class="tag" href="https://realjf.io/tags/microservice/">microservice</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><a class="tag" href="https://realjf.io/tags/microservice/">Microservice</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="准备">准备</h2>
+            
+
+<h2 id="准备">准备</h2>
+
 <ul>
 <li>搭建好golang开发环境</li>
 <li>安装git等相关工具</li>
 </ul>
-<h2 id="开始">开始</h2>
-<h3 id="一安装protobuf">一、安装protobuf</h3>
-<p>protobuf用于生成微服务代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go get github.com/micro/protoc-gen-micro
 
-<span style="color:#75715e"># 同时需要安装protoc和protoc-go-gen</span>
+<h2 id="开始">开始</h2>
+
+<h3 id="一-安装protobuf">一、安装protobuf</h3>
+
+<p>protobuf用于生成微服务代码</p>
+
+<pre><code class="language-bash">go get github.com/micro/protoc-gen-micro
+
+# 同时需要安装protoc和protoc-go-gen
 go get -d -u github.com/golang/protobuf/protoc-gen-go
 go install github.com/golang/protobuf/protoc-gen-go
 
-</code></pre></div><blockquote>
-<p>如果需要别的语言的代码生成器，请参阅<a href="https://github.com/protocolbuffers/protobuf">https://github.com/protocolbuffers/protobuf</a></p>
-</blockquote>
+</code></pre>
+
 <blockquote>
+<p>如果需要别的语言的代码生成器，请参阅<a href="https://github.com/protocolbuffers/protobuf">https://github.com/protocolbuffers/protobuf</a></p>
+
 <p>关于protobuf的使用，请参阅<a href="https://developers.google.com/protocol-buffers/">https://developers.google.com/protocol-buffers/</a></p>
 </blockquote>
-<h3 id="二服务发现">二、服务发现</h3>
+
+<h3 id="二-服务发现">二、服务发现</h3>
+
 <p>服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件</p>
+
 <h4 id="安装etcd">安装etcd</h4>
+
 <p>etcd下载地址<a href="https://github.com/etcd-io/etcd/releases">https://github.com/etcd-io/etcd/releases</a></p>
-<h3 id="三写一个服务">三、写一个服务</h3>
+
+<h3 id="三-写一个服务">三、写一个服务</h3>
+
 <p>以下为一个简单的rpc服务例子</p>
+
 <h4 id="创建服务proto">创建服务proto</h4>
+
 <p>微服务的关键要求之一是严格定义接口。</p>
-<p>Micro使用protobuf来实现这一目标。 
+
+<p>Micro使用protobuf来实现这一目标。
 在这里，我们使用Hello方法定义了Greeter处理程序。
 它需要一个字符串参数同时使用一个HelloRequest和HelloResponse。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto">syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">service</span> Greeter {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">rpc</span> Hello(HelloRequest) <span style="color:#66d9ef">returns</span> (HelloResponse) {}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloResponse</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> greeting <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="生成proto">生成proto</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">protoc --proto_path<span style="color:#f92672">=</span>$GOPATH/src:. --micro_out<span style="color:#f92672">=</span>. --go_out<span style="color:#f92672">=</span>. path/to/greeter.proto
-</code></pre></div><h4 id="写服务业务逻辑">写服务业务逻辑</h4>
+
+<pre><code class="language-proto">syntax = &quot;proto3&quot;;
+
+service Greeter {
+    rpc Hello(HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloResponse {
+    string greeting = 2;
+}
+
+</code></pre>
+
+<h4 id="生成proto">生成proto</h4>
+
+<pre><code class="language-bash">protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. path/to/greeter.proto
+</code></pre>
+
+<h4 id="写服务业务逻辑">写服务业务逻辑</h4>
+
 <p>服务需要遵循以下规则：</p>
+
 <ul>
 <li>实现greeter定义的接口</li>
 <li>初始化一个micro.Service</li>
 <li>注册greeter处理函数</li>
 <li>运行服务</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;context&#34;</span>
-	<span style="color:#e6db74">&#34;fmt&#34;</span>
+<pre><code class="language-go">package main
 
-	<span style="color:#a6e22e">micro</span> <span style="color:#e6db74">&#34;github.com/micro/go-micro&#34;</span>
-	<span style="color:#a6e22e">proto</span> <span style="color:#e6db74">&#34;github.com/micro/examples/service/proto&#34;</span>
+import (
+    &quot;context&quot;
+    &quot;fmt&quot;
+
+    micro &quot;github.com/micro/go-micro&quot;
+    proto &quot;github.com/micro/examples/service/proto&quot;
 )
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Greeter</span> <span style="color:#66d9ef">struct</span>{}
+type Greeter struct{}
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Greeter</span>) <span style="color:#a6e22e">Hello</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">HelloRequest</span>, <span style="color:#a6e22e">rsp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">HelloResponse</span>) <span style="color:#66d9ef">error</span> {
-	<span style="color:#a6e22e">rsp</span>.<span style="color:#a6e22e">Greeting</span> = <span style="color:#e6db74">&#34;Hello &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Name</span>
-	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest, rsp *proto.HelloResponse) error {
+    rsp.Greeting = &quot;Hello &quot; + req.Name
+    return nil
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#75715e">// Create a new service. Optionally include some options here.
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">service</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">NewService</span>(
-		<span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;greeter&#34;</span>),
-	)
+func main() {
+    // Create a new service. Optionally include some options here.
+    service := micro.NewService(
+        micro.Name(&quot;greeter&quot;),
+    )
 
-	<span style="color:#75715e">// Init will parse the command line flags.
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">service</span>.<span style="color:#a6e22e">Init</span>()
+    // Init will parse the command line flags.
+    service.Init()
 
-	<span style="color:#75715e">// Register handler
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">RegisterGreeterHandler</span>(<span style="color:#a6e22e">service</span>.<span style="color:#a6e22e">Server</span>(), new(<span style="color:#a6e22e">Greeter</span>))
+    // Register handler
+    proto.RegisterGreeterHandler(service.Server(), new(Greeter))
 
-	<span style="color:#75715e">// Run the server
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">service</span>.<span style="color:#a6e22e">Run</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
-	}
+    // Run the server
+    if err := service.Run(); err != nil {
+        fmt.Println(err)
+    }
 }
-</code></pre></div><h4 id="运行服务">运行服务</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">run</span> <span style="color:#a6e22e">examples</span><span style="color:#f92672">/</span><span style="color:#a6e22e">service</span><span style="color:#f92672">/</span><span style="color:#a6e22e">main</span>.<span style="color:#66d9ef">go</span>
-</code></pre></div><h4 id="定义一个客户端">定义一个客户端</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</code></pre>
 
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;context&#34;</span>
-	<span style="color:#e6db74">&#34;fmt&#34;</span>
+<h4 id="运行服务">运行服务</h4>
 
-	<span style="color:#a6e22e">micro</span> <span style="color:#e6db74">&#34;github.com/micro/go-micro&#34;</span>
-	<span style="color:#a6e22e">proto</span> <span style="color:#e6db74">&#34;github.com/micro/examples/service/proto&#34;</span>
+<pre><code class="language-go">go run examples/service/main.go
+</code></pre>
+
+<h4 id="定义一个客户端">定义一个客户端</h4>
+
+<pre><code class="language-go">package main
+
+import (
+    &quot;context&quot;
+    &quot;fmt&quot;
+
+    micro &quot;github.com/micro/go-micro&quot;
+    proto &quot;github.com/micro/examples/service/proto&quot;
 )
 
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#75715e">// Create a new service. Optionally include some options here.
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">service</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">NewService</span>(<span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;greeter.client&#34;</span>))
-	<span style="color:#a6e22e">service</span>.<span style="color:#a6e22e">Init</span>()
+func main() {
+    // Create a new service. Optionally include some options here.
+    service := micro.NewService(micro.Name(&quot;greeter.client&quot;))
+    service.Init()
 
-	<span style="color:#75715e">// Create new greeter client
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">greeter</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">NewGreeterService</span>(<span style="color:#e6db74">&#34;greeter&#34;</span>, <span style="color:#a6e22e">service</span>.<span style="color:#a6e22e">Client</span>())
+    // Create new greeter client
+    greeter := proto.NewGreeterService(&quot;greeter&quot;, service.Client())
 
-	<span style="color:#75715e">// Call the greeter
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">rsp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">greeter</span>.<span style="color:#a6e22e">Hello</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">HelloRequest</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;John&#34;</span>})
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
-	}
+    // Call the greeter
+    rsp, err := greeter.Hello(context.TODO(), &amp;proto.HelloRequest{Name: &quot;John&quot;})
+    if err != nil {
+        fmt.Println(err)
+    }
 
-	<span style="color:#75715e">// Print response
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">rsp</span>.<span style="color:#a6e22e">Greeting</span>)
+    // Print response
+    fmt.Println(rsp.Greeting)
 }
-</code></pre></div><h4 id="运行客户端">运行客户端</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go run client.go
-</code></pre></div><h3 id="四发布订阅">四、发布订阅</h3>
+</code></pre>
+
+<h4 id="运行客户端">运行客户端</h4>
+
+<pre><code class="language-bash">go run client.go
+</code></pre>
+
+<h3 id="四-发布订阅">四、发布订阅</h3>
+
 <p>Go-micro具有用于事件驱动架构的内置消息代理接口。</p>
+
 <p>PubSub与RPC在protobuf生成的相同消息上运行。它们会自动进行编码/解码，并通过代理发送。默认情况下，go-micro包含点对点http代理，但是可以通过go-plugins替换掉</p>
+
 <h4 id="发布">发布</h4>
+
 <p>创建一个发布者</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">NewPublisher</span>(<span style="color:#e6db74">&#34;events&#34;</span>, <span style="color:#a6e22e">service</span>.<span style="color:#a6e22e">Client</span>())
-<span style="color:#75715e">// 其中的events是话题名称
-</span></code></pre></div><p>发布一个proto消息</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Publish</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">Event</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;event&#34;</span>})
-</code></pre></div><h4 id="订阅">订阅</h4>
+
+<pre><code class="language-go">p := micro.NewPublisher(&quot;events&quot;, service.Client())
+// 其中的events是话题名称
+</code></pre>
+
+<p>发布一个proto消息</p>
+
+<pre><code class="language-go">p.Publish(context.TODO(), &amp;proto.Event{Name: &quot;event&quot;})
+</code></pre>
+
+<h4 id="订阅">订阅</h4>
+
 <p>创建一个消息句柄，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ProcessEvent</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">event</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">Event</span>) <span style="color:#66d9ef">error</span> {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Got event %+v\n&#34;</span>, <span style="color:#a6e22e">event</span>)
-	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+
+<pre><code class="language-go">func ProcessEvent(ctx context.Context, event *proto.Event) error {
+    fmt.Printf(&quot;Got event %+v\n&quot;, event)
+    return nil
 }
-</code></pre></div><p>注册消息句柄到一个话题</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">RegisterSubscriber</span>(<span style="color:#e6db74">&#34;events&#34;</span>, <span style="color:#a6e22e">ProcessEvent</span>)
-</code></pre></div><blockquote>
+</code></pre>
+
+<p>注册消息句柄到一个话题</p>
+
+<pre><code class="language-go">micro.RegisterSubscriber(&quot;events&quot;, ProcessEvent)
+</code></pre>
+
+<blockquote>
 <p>详细例子请参考<a href="https://github.com/micro/examples/tree/master/pubsub">https://github.com/micro/examples/tree/master/pubsub</a></p>
 </blockquote>
-<h3 id="五插件">五、插件</h3>
+
+<h3 id="五-插件">五、插件</h3>
+
 <p>默认情况下，go-micro仅在核心提供每个接口的一些实现，但它是完全可插入的。
 github.com/micro/go-plugins上已有许多插件</p>
+
 <h4 id="插件使用">插件使用</h4>
+
 <p>创建一个plugins.go文件</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
-        <span style="color:#75715e">// etcd v3 registry
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/micro/go-plugins/registry/etcdv3&#34;</span>
-        <span style="color:#75715e">// nats transport
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/micro/go-plugins/transport/nats&#34;</span>
-        <span style="color:#75715e">// kafka broker
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/micro/go-plugins/broker/kafka&#34;</span>
+
+<pre><code class="language-go">import (
+        // etcd v3 registry
+        _ &quot;github.com/micro/go-plugins/registry/etcdv3&quot;
+        // nats transport
+        _ &quot;github.com/micro/go-plugins/transport/nats&quot;
+        // kafka broker
+        _ &quot;github.com/micro/go-plugins/broker/kafka&quot;
 )
-</code></pre></div><p>构建二进制包</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go build -i -o service ./main.go ./plugins.go
-</code></pre></div><p>插件使用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">service</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">registry</span>=<span style="color:#a6e22e">etcdv3</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">transport</span>=<span style="color:#a6e22e">nats</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">broker</span>=<span style="color:#a6e22e">kafka</span>
-</code></pre></div><h3 id="六包装器">六、包装器</h3>
+</code></pre>
+
+<p>构建二进制包</p>
+
+<pre><code class="language-bash">go build -i -o service ./main.go ./plugins.go
+</code></pre>
+
+<p>插件使用</p>
+
+<pre><code class="language-go">service --registry=etcdv3 --transport=nats --broker=kafka
+</code></pre>
+
+<h3 id="六-包装器">六、包装器</h3>
+
 <p>go-micro有很多中间件可以作为包装器使用</p>
+
 <h4 id="处理句柄">处理句柄</h4>
+
 <p>以下是一个处理句柄的日志函数示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logWrapper</span>(<span style="color:#a6e22e">fn</span> <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">HandlerFunc</span>) <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">HandlerFunc</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Request</span>, <span style="color:#a6e22e">rsp</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[%v] server request: %s&#34;</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>(), <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Endpoint</span>())
-		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fn</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">rsp</span>)
-	}
+
+<pre><code class="language-go">func logWrapper(fn server.HandlerFunc) server.HandlerFunc {
+    return func(ctx context.Context, req server.Request, rsp interface{}) error {
+        fmt.Printf(&quot;[%v] server request: %s&quot;, time.Now(), req.Endpoint())
+        return fn(ctx, req, rsp)
+    }
 }
-</code></pre></div><p>初始化如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">service</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">NewService</span>(
-	<span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;greeter&#34;</span>),
-	<span style="color:#75715e">// wrap the handler
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">WrapHandler</span>(<span style="color:#a6e22e">logWrapper</span>),
+</code></pre>
+
+<p>初始化如下</p>
+
+<pre><code class="language-go">service := micro.NewService(
+    micro.Name(&quot;greeter&quot;),
+    // wrap the handler
+    micro.WrapHandler(logWrapper),
 )
-</code></pre></div><h4 id="client">client</h4>
+</code></pre>
+
+<h4 id="client">client</h4>
+
 <p>以下为一个客户端包装器log请求示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">logWrapper</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Client</span>
+
+<pre><code class="language-go">type logWrapper struct {
+    client.Client
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">l</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">logWrapper</span>) <span style="color:#a6e22e">Call</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Request</span>, <span style="color:#a6e22e">rsp</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">opts</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">CallOption</span>) <span style="color:#66d9ef">error</span> {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;[wrapper] client request to service: %s endpoint: %s\n&#34;</span>, <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Service</span>(), <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Endpoint</span>())
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">l</span>.<span style="color:#a6e22e">Client</span>.<span style="color:#a6e22e">Call</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">rsp</span>)
+func (l *logWrapper) Call(ctx context.Context, req client.Request, rsp interface{}, opts ...client.CallOption) error {
+    fmt.Printf(&quot;[wrapper] client request to service: %s endpoint: %s\n&quot;, req.Service(), req.Endpoint())
+    return l.Client.Call(ctx, req, rsp)
 }
 
-<span style="color:#75715e">// implements client.Wrapper as logWrapper
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logWrap</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Client</span>) <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Client</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">logWrapper</span>{<span style="color:#a6e22e">c</span>}
+// implements client.Wrapper as logWrapper
+func logWrap(c client.Client) client.Client {
+    return &amp;logWrapper{c}
 }
-</code></pre></div><p>初始化创建</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">service</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">NewService</span>(
-	<span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;greeter&#34;</span>),
-	<span style="color:#75715e">// wrap the client
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">micro</span>.<span style="color:#a6e22e">WrapClient</span>(<span style="color:#a6e22e">logWrap</span>),
+</code></pre>
+
+<p>初始化创建</p>
+
+<pre><code class="language-go">service := micro.NewService(
+    micro.Name(&quot;greeter&quot;),
+    // wrap the client
+    micro.WrapClient(logWrap),
 )
 
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

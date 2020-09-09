@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Realjf&#39;s blog</title>
@@ -17,8 +17,8 @@
       <pubDate>Sat, 13 Jun 2020 16:55:14 +0800</pubDate>
       
       <guid>https://realjf.io/posts/how-to-set-up-anbox-in-linux/</guid>
-      <description>环境准备  kali linux 2020  开始 # 使用下面的 PPA 来安装它 add-apt-repository ppa:morphis/anbox-support apt update apt install linux-headers-generic anbox-modules-dkms # 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动 modprobe ashmem_linux modprobe binder_linux # 使用 APT-GET 命令 或 APT 命令 来安装 anbox apt install anbox # 否则，需要通过 snap 来进行安装 apt install snapd snap install --classic anbox-install &amp;amp;&amp;amp; anbox-installer snap install --devmode --beta anbox 默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它
-# 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB apt install android-tools-adb 启动anbox container服务 systemctl enable anbox-container-manager systemctl start anbox-container-manager # 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.</description>
+      <description>环境准备  kali linux 2020  开始 # 使用下面的 PPA 来安装它 add-apt-repository ppa:morphis/anbox-support apt update apt install linux-headers-generic anbox-modules-dkms # 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动 modprobe ashmem_linux modprobe binder_linux # 使用 APT-GET 命令 或 APT 命令 来安装 anbox apt install anbox # 否则，需要通过 snap 来进行安装 apt install snapd snap install --classic anbox-install &amp;amp;&amp;amp; anbox-installer snap install --devmode --beta anbox  默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它
+# 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB apt install android-tools-adb  启动anbox container服务 systemctl enable anbox-container-manager systemctl start anbox-container-manager # 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Thu, 16 Apr 2020 15:28:20 +0800</pubDate>
       
       <guid>https://realjf.io/posts/deadlock/</guid>
-      <description>什么是死锁？ 简单说，是指两个或两个以上的线程在执行过程中，彼此持有对方需要的资源和处于等待对方释放资源的现象， 如果没有外力作用，这种状态将一直持续下去。
+      <description> 什么是死锁？ 简单说，是指两个或两个以上的线程在执行过程中，彼此持有对方需要的资源和处于等待对方释放资源的现象， 如果没有外力作用，这种状态将一直持续下去。
 如何避免？ 避免死锁的一般建议是：对竞争资源按顺序采用互斥加锁
 当然，如果能在编程时就注意这方便的问题，将可以用更好的方式，比如：
  避免嵌套锁 避免在持有锁时调用用户提供的代码 使用固定顺序获取锁 使用锁的层次结构  </description>
@@ -55,7 +55,7 @@
       
       <guid>https://realjf.io/posts/golang-concurrency-lockosthread/</guid>
       <description>背景介绍 一些库（尤其是图形框架和库（例如Cocoa，OpenGL和libSDL））使用线程局部状态，并且可能要求仅从特定OS线程（通常是“主”线程）调用函数。 Go为此提供了runtime.LockOSThread函数，接下来通过示例说明如何正确使用它。
-package dl import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) // 安排main.main在主线程上运行 func init() { runtime.LockOSThread() } // 在主线程main.main中调用Main循环 func Main() { for f := range mainfunc { // 取出工作队列中的函数进行调用 	f() } } var mainfunc = make(chan func()) func do(f func()) { done := make(chan bool, 1) // 将整个函数加入到工作队列中 	mainfunc &amp;lt;- func() { f() fmt.Println(&amp;#34;add queue&amp;#34;) done &amp;lt;- true } &amp;lt;-done } func Beep() { do(func() { // 无论什么时候都运行在主线程 	fmt.</description>
+package dl import ( &amp;quot;fmt&amp;quot; &amp;quot;runtime&amp;quot; ) // 安排main.main在主线程上运行 func init() { runtime.LockOSThread() } // 在主线程main.main中调用Main循环 func Main() { for f := range mainfunc { // 取出工作队列中的函数进行调用 f() } } var mainfunc = make(chan func()) func do(f func()) { done := make(chan bool, 1) // 将整个函数加入到工作队列中 mainfunc &amp;lt;- func() { f() fmt.Println(&amp;quot;add queue&amp;quot;) done &amp;lt;- true } &amp;lt;-done } func Beep() { do(func() { // 无论什么时候都运行在主线程 fmt.</description>
     </item>
     
     <item>
@@ -65,7 +65,7 @@ package dl import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) // 安排m
       
       <guid>https://realjf.io/posts/golang-concurrency-timeout/</guid>
       <description>并发编程中的超时处理 在并发编程中，要放弃运行时间太长的同步调用，请使用带有time.After的select语句，如下：
-import ( &amp;#34;errors&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main() { var timeoutNanoseconds time.Duration = 5 * time.Second c := make(chan error, 1) go func() { time.Sleep(20 * time.Second) c &amp;lt;- errors.New(&amp;#34;error&amp;#34;) } () select { case err := &amp;lt;-c: // use err and reply 	fmt.Println(err) case &amp;lt;-time.After(timeoutNanoseconds): // call timed out 	fmt.Println(&amp;#34;timeout...&amp;#34;) } } 以上代码在超时5秒后退出</description>
+import ( &amp;quot;errors&amp;quot; &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; ) func main() { var timeoutNanoseconds time.Duration = 5 * time.Second c := make(chan error, 1) go func() { time.Sleep(20 * time.Second) c &amp;lt;- errors.New(&amp;quot;error&amp;quot;) } () select { case err := &amp;lt;-c: // use err and reply fmt.Println(err) case &amp;lt;-time.After(timeoutNanoseconds): // call timed out fmt.Println(&amp;quot;timeout...&amp;quot;) } }  以上代码在超时5秒后退出</description>
     </item>
     
     <item>
@@ -77,8 +77,8 @@ import ( &amp;#34;errors&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; )
       <description>什么是数据争用或竞态 数据争用是并发系统中最常见且最难调试的错误类型之一。当两个goroutine并发访问同一变量并且至少其中之一是写操作时，就会发生数据争用。
 下面让我们来实际模拟一下数据争用问题。
 以下示例可能导致内存崩溃和损坏的数据争用
-func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&amp;#34;1&amp;#34;] = &amp;#34;a&amp;#34; c &amp;lt;- true }() m[&amp;#34;2&amp;#34;] = &amp;#34;b&amp;#34; &amp;lt;-c for k, v := range m { fmt.Println(k, v) } } 运行go run -race main.go进行竞争检测，得到的结果如下：
-#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main.func1() /root/go_project/src/test/race.go:9 +0x5d Previous write at 0x00c00008e150 by main goroutine: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main() /root/go_project/src/test/race.</description>
+func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&amp;quot;1&amp;quot;] = &amp;quot;a&amp;quot; c &amp;lt;- true }() m[&amp;quot;2&amp;quot;] = &amp;quot;b&amp;quot; &amp;lt;-c for k, v := range m { fmt.Println(k, v) } }  运行go run -race main.go进行竞争检测，得到的结果如下：
+#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main.func1() /root/go_project/src/test/race.go:9 +0x5d Previous write at 0x00c00008e150 by main goroutine: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.</description>
     </item>
     
     <item>
@@ -97,15 +97,14 @@ func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&a
       
       <guid>https://realjf.io/posts/golang-micro-usage/</guid>
       <description>准备  搭建好golang开发环境 安装git等相关工具  开始 一、安装protobuf protobuf用于生成微服务代码
-go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go  如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
-  关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
+go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go   如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
+关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
  二、服务发现 服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件
 安装etcd etcd下载地址https://github.com/etcd-io/etcd/releases
 三、写一个服务 以下为一个简单的rpc服务例子
 创建服务proto 微服务的关键要求之一是严格定义接口。
 Micro使用protobuf来实现这一目标。 在这里，我们使用Hello方法定义了Greeter处理程序。 它需要一个字符串参数同时使用一个HelloRequest和HelloResponse。
-syntax = &amp;#34;proto3&amp;#34;;service Greeter { rpc Hello(HelloRequest) returns (HelloResponse) {}}message HelloRequest { string name = 1;}message HelloResponse { string greeting = 2;}生成proto protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. path/to/greeter.proto 写服务业务逻辑 服务需要遵循以下规则：
- 实现greeter定义的接口 初始化一个micro.Service 注册greeter处理函数 运行服务  package main import ( &amp;#34;context&amp;#34; &amp;#34;fmt&amp;#34; micro &amp;#34;github.</description>
+syntax = &amp;quot;proto3&amp;quot;; service Greeter { rpc Hello(HelloRequest) returns (HelloResponse) {} } message HelloRequest { string name = 1; } message HelloResponse { string greeting = 2; }  生成proto protoc --proto_path=$GOPATH/src:. --micro_out=.</description>
     </item>
     
     <item>
@@ -116,13 +115,13 @@ syntax = &amp;#34;proto3&amp;#34;;service Greeter { rpc Hello(HelloRequest) retu
       <guid>https://realjf.io/posts/sync-atomic/</guid>
       <description>原子操作，顾名思义是不可分割的，他可以是一个步骤，也可以是多个步骤，其执行过程不会被线程调度机制打断的操作。
  原子性不可能由软件单独保证，需要硬件的支持，因此和架构有关。在x86架构平台下，cpu提供了在指令执行期间对总线加锁的手段。
-CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;quot;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
+CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;rdquo;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
 持续到这条指令结束时放开，从而把总线锁住，这样同一总线上别的CPU就暂时不能通过总线访问内存了，保证了这条指令在多处理器环境中的原子性。
  sync/atomic包的文件结构以及数据结构可以参考这里
 sync/atomic包提供了6中操作数据类型
  int32 uint32 int64 uint64 uintptr unsafe.Pointer  分别为这每种数据类型提供了五种操作
  add 增减 load 载入 store 存储 compareandswap 比较并交换 swap 交换  下面以int32为例，具体使用上面五种操作实现原子操作 AddInt32操作 var val int32 val = 10 atomic.AddInt32(&amp;amp;val, 10) // 对于无符号32位即uint32，则需要使用二进制补码进行操作 var val2 uint32 val2 = 10 atomic.AddUint32(&amp;amp;val2, ^uint32(10 - 1)) // 等价于 val2 - 10  CompareAndSwapInt32 对比并交换是指先判断addr指向的值是否与参数old一致，如果一致就用new值替换addr的值，最后返回成功，具体例子如下
-package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync/atomic&amp;#34; ) func main() { var val int32 wg := sync.</description>
+package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; &amp;quot;sync/atomic&amp;quot; ) func main() { var val int32 wg := sync.</description>
     </item>
     
     <item>
@@ -131,7 +130,7 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync
       <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
       
       <guid>https://realjf.io/posts/mysql-5.7-installation/</guid>
-      <description>准备  debian 9操作系统 mysql下载地址：https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz boost下载地址：http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz  下载安装 1. 下载安装boost wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz tar zxvf boost_1_59_0.tar.gz mv boost_1_59_0 /usr/local/boost 2. 下载安装mysql # 安装依赖包 apt-get install libncurses-dev # 创建mysql用户组和用户 groupadd mysql useradd mysql -s /sbin/nologin -M -g mysql # 下载mysql wget https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz tar zxvf mysql-5.7.27.tar.gz cd mysql-5.7.27 # 创建必要的文件夹 mkdir /usr/local/mysql mkdir /usr/local/mysql/data # 数据库文件 mkdir /usr/local/mysql/tmp # sock文件 mkdir /usr/local/mysql/logs # 错误日志文件 mkdir /usr/local/mysql/binlog # binlog日志文件 # 编译mysql cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \  -DMYSQL_DATADIR=/usr/local/mysql/data \  -DMYSQL_UNIX_ADDR=/usr/local/mysql/tmp/mysql.</description>
+      <description>准备  debian 9操作系统 mysql下载地址：https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz boost下载地址：http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz  下载安装 1. 下载安装boost wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz tar zxvf boost_1_59_0.tar.gz mv boost_1_59_0 /usr/local/boost  2. 下载安装mysql # 安装依赖包 apt-get install libncurses-dev # 创建mysql用户组和用户 groupadd mysql useradd mysql -s /sbin/nologin -M -g mysql # 下载mysql wget https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz tar zxvf mysql-5.7.27.tar.gz cd mysql-5.7.27 # 创建必要的文件夹 mkdir /usr/local/mysql mkdir /usr/local/mysql/data # 数据库文件 mkdir /usr/local/mysql/tmp # sock文件 mkdir /usr/local/mysql/logs # 错误日志文件 mkdir /usr/local/mysql/binlog # binlog日志文件 # 编译mysql cmake .</description>
     </item>
     
     <item>
@@ -141,8 +140,8 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync
       
       <guid>https://realjf.io/posts/mysql-community-server-installation/</guid>
       <description>一、下载安装 下载地址：https://downloads.mysql.com/archives/community/
-# 下载 wget https://downloads.mysql.com/archives/get/file/mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz xz -d mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz tar xvf mysql-8.0.17-linux-glibc2.12-x86_64.tar # 移动到你需要安装的目录下 mv mysql-8.0.17-linux-glibc2.12-x86_64 /usr/local/mysql 二、配置 1. 在mysql根目录下创建一个新的data目录，用于存放数据 cd /usr/local/mysql mkdir data 2. 创建mysql用户组和mysql用户 groupadd mysql useradd -g mysql mysql 3. 改变mysql目录权限 chown -R mysql.mysql /usr/local/mysql/ 4. 初始化数据库 # 创建mysql_install_db安装文件 mkdir mysql_install_db chmod 777 ./mysql_install_db # 初始化数据库 bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data # 记录好自己的临时密码 5. mysql配置 cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld 修改my.cnf文件
-vim /etc/my.cnf [mysqld] basedir = /usr/local/mysql datadir = /usr/local/mysql/data socket = /usr/local/mysql/mysql.</description>
+# 下载 wget https://downloads.mysql.com/archives/get/file/mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz xz -d mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz tar xvf mysql-8.0.17-linux-glibc2.12-x86_64.tar # 移动到你需要安装的目录下 mv mysql-8.0.17-linux-glibc2.12-x86_64 /usr/local/mysql  二、配置 1. 在mysql根目录下创建一个新的data目录，用于存放数据 cd /usr/local/mysql mkdir data  2. 创建mysql用户组和mysql用户 groupadd mysql useradd -g mysql mysql  3. 改变mysql目录权限 chown -R mysql.mysql /usr/local/mysql/  4. 初始化数据库 # 创建mysql_install_db安装文件 mkdir mysql_install_db chmod 777 ./mysql_install_db # 初始化数据库 bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data # 记录好自己的临时密码  5. mysql配置 cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld  修改my.cnf文件
+vim /etc/my.</description>
     </item>
     
     <item>
@@ -152,7 +151,7 @@ vim /etc/my.cnf [mysqld] basedir = /usr/local/mysql datadir = /usr/local/mysql/d
       
       <guid>https://realjf.io/posts/django-vue-web/</guid>
       <description>一、准备  Django &amp;gt;= 1.11 python &amp;gt;= 3.6 mysql &amp;gt;= 5.7 node &amp;gt;= 10.15 vue-cli &amp;gt;= 2.0   本次实验项目基于debian 9系统进行构建，以下涉及到的一些安装命令请根据自己具体环境自行替换
- 二、安装 1. 安装node wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz xz -d node-v10.16.3-linux-x64.tar.xz tar xvf node-v10.16.3-linux-x64.tar # 然后将文件夹移动到你需要的地方，设置环境变量PATH即可 mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3 # 这里使用软链进行设置l ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/ ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/ # 设置好后进行测试 node --version npm --version 2. 安装python3，pip # 打开下载地址 https://www.python.org/downloads/source/ # 选择适合自己的包下载 wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz xz -d Python-3.7.4.tar.xz tar xvf Python-3.7.4.tar # 进入目录进行安装 cd Python-3.</description>
+ 二、安装 1. 安装node wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz xz -d node-v10.16.3-linux-x64.tar.xz tar xvf node-v10.16.3-linux-x64.tar # 然后将文件夹移动到你需要的地方，设置环境变量PATH即可 mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3 # 这里使用软链进行设置l ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/ ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/ # 设置好后进行测试 node --version npm --version  2. 安装python3，pip # 打开下载地址 https://www.python.org/downloads/source/ # 选择适合自己的包下载 wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz xz -d Python-3.7.4.tar.xz tar xvf Python-3.</description>
     </item>
     
     <item>
@@ -178,11 +177,10 @@ level是日志的输出级别，取值范围是debug、info、notice、warn、er
 通常不会使用这个配置项。
 5. 仅对指定的客户端输出debug级别的日志 语法：debug_connection [IP|CIDR]
 这个配置项实际上属于事件类配置，因此，他必须放在events{&amp;hellip;}中才有效，他的值可以是ip地址或cidr地址，如：
-events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; } 这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
+events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; }  这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
 这个配置对修复bug很有用，特别是定位高并发请求下才会发生的问题。
  在debug_connection前，需要确保在执行configure时已经加入了&amp;ndash;with-debug参数，否则不会生效。
- 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;
-在Linux系统中，当进程发生错误或收到信号而终止时，系统会将进程执行时的内存内容（核心映像）写入一个文件（core文件），以作为调试之用，这就是所谓的核心转储（coredumps）。 当nginx进程出现一些非法操作导致进程直接被操作系统强制结束时，会生成核心转储文件，可以从文件获取当时的堆栈、寄存器信息，从而帮助我们定位问题。但 这种文件中的许多信息不一定是用户需要的，如果不加以限制，那么可能一个coredump文件会达到几个gb，引发严重问题。通过worker_rlimit_core配置可以限制core文件的大小， 从而有效帮助用户定位问题。</description>
+ 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;</description>
     </item>
     
     <item>
@@ -195,7 +193,7 @@ events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; } 这样
 根据不同的业务特点，nginx作为静态web内容服务器、反向代理服务器或者提供图片缩略图功能（实时亚索图片）的服务器时， 其内核参数调整是不同的。
 这里只针对最通用，使nginx支持更多并发请求的tcp网络参数做简单说明。
 需要修改/etc/sysctl.conf来更改内核参数。
-fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600 net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_max_tw_buckets = 5000 net.ipv4.ip_local_port_range = 1024 61000 net.ipv4.tcp_rmem = 4096 32768 262142 net.ipv4.tcp_wmem = 4096 32768 262142 net.core.netdev_max_backlog = 8096 net.core.rmem_default = 262144 net.core.wmem_default = 262144 net.rmem_max = 2097152 net.wmem_max = 2097152 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_max_syn.backlog = 1024 参数说明
+fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600 net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_max_tw_buckets = 5000 net.ipv4.ip_local_port_range = 1024 61000 net.ipv4.tcp_rmem = 4096 32768 262142 net.ipv4.tcp_wmem = 4096 32768 262142 net.core.netdev_max_backlog = 8096 net.core.rmem_default = 262144 net.core.wmem_default = 262144 net.rmem_max = 2097152 net.wmem_max = 2097152 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_max_syn.backlog = 1024  参数说明
  file-max: 这个参数表示进程可以同时打开的最大句柄数，这个参数直接限制最大并发连接数，需要根据实际情况配置 tcp_tw_reuse: 这个参数设置为1，表示允许将TIME_WAIT状态的socket重新用于新的tcp连接，这对于服务器来说很有意义，因为服务器上总会有大量TIME-WAIT状态的连接 tcp_keepalive_time: 这个参数表示当keepalive启用时，tcp发送keepalive消息的频度。默认是2小时，若将其设置的小一些，可以更快地清理无效的连接 tcp_fin_timeout: 这个参数表示当服务器主动关闭连接时，socket保持在FIN-WAIT-2状态的最大时间。 tcp_max_tw_buckets: 这个参数表示操作系统允许TIME-WAIT套接字数量的最大值，如果超过这个数字，TIME-WAIT套接字将立刻被清除并打印警告信息。这个参数默认为180000，过多的TIME-WAIT套接字会使web服务器变慢。 tcp_max_syn_backlog: 这个参数表示TCP三次握手建立阶段接收syn请求队列的最大长度，默认为1024，将其设置得大一些可以使出现nginx繁忙来不及accept新连接的情况时，linux不至于丢失客户端发起的连接请求。 ip_local_port_range: 这个参数定义了在udp和tcp连接中本地（不包括连接的远端）端口的取值范围。 net.</description>
     </item>
     
@@ -208,7 +206,7 @@ fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600
       <description>网页调用微信JSSDK实现扫一扫功能 设置公众号js接口安全域 在公众号后台的，公众号设置，功能设置里
 配置ip白名单 在公众号后台基本配置里
 页面引入微信sdkjs代码 http://res.wx.qq.com/open/js/jweixin-1.2.0.js
-页面js代码 // 点击扫一扫按钮事件  $(&amp;#34;#btn-scan&amp;#34;).on(&amp;#34;click&amp;#34;, function () { //微信扫一扫 设置  var _queryString = window.location.search; $.ajax({ type: &amp;#34;post&amp;#34;, url: &amp;#34;/mobile/user/scanSign&amp;#34;, data: {query: _queryString}, success: function (data) { var result = data.result; wx.config({ debug: false, // 调试接口用  appId: result.appId, //公众号的唯一标识  timestamp: &amp;#34;&amp;#34; + result.timestamp, //生成签名的时间戳  nonceStr: result.nonceStr, //生成签名的随机串  signature: result.signature, //签名  jsApiList: [&amp;#39;scanQRCode&amp;#39;] //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)  }); } }); }); //微信扫一扫处理代码  wx.</description>
+页面js代码 // 点击扫一扫按钮事件 $(&amp;quot;#btn-scan&amp;quot;).on(&amp;quot;click&amp;quot;, function () { //微信扫一扫 设置 var _queryString = window.location.search; $.ajax({ type: &amp;quot;post&amp;quot;, url: &amp;quot;/mobile/user/scanSign&amp;quot;, data: {query: _queryString}, success: function (data) { var result = data.result; wx.config({ debug: false, // 调试接口用 appId: result.appId, //公众号的唯一标识 timestamp: &amp;quot;&amp;quot; + result.timestamp, //生成签名的时间戳 nonceStr: result.nonceStr, //生成签名的随机串 signature: result.signature, //签名 jsApiList: [&#39;scanQRCode&#39;] //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔) }); } }); }); //微信扫一扫处理代码 wx.ready(function () { $(&amp;quot;body&amp;quot;).off(&amp;quot;click&amp;quot;, &amp;quot;.j-btn_chat&amp;quot;).on(&amp;quot;click&amp;quot;, &amp;quot;.j-btn_chat&amp;quot;, function (e) { wx.</description>
     </item>
     
     <item>
@@ -217,9 +215,9 @@ fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600
       <pubDate>Fri, 30 Aug 2019 12:42:08 +0800</pubDate>
       
       <guid>https://realjf.io/posts/ruby-installation/</guid>
-      <description>centos7 下进行安装ruby 准备 下载ruby ruby下载地址：http://www.ruby-lang.org/en/downloads/
+      <description> centos7 下进行安装ruby 准备 下载ruby ruby下载地址：http://www.ruby-lang.org/en/downloads/
 这里以2.6.4版本为例
-wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz 解压配置安装 tar zxvf ruby-2.6.4.tar.gz -C /usr/local/ cd /usr/local/ruby-2.6.4/ ./configure make &amp;amp;&amp;amp; make install 添加到环境变量中 ln -s /usr/local/ruby-2.6.4/ruby /usr/bin/ruby 验证 ruby -v </description>
+wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz  解压配置安装 tar zxvf ruby-2.6.4.tar.gz -C /usr/local/ cd /usr/local/ruby-2.6.4/ ./configure make &amp;amp;&amp;amp; make install  添加到环境变量中 ln -s /usr/local/ruby-2.6.4/ruby /usr/bin/ruby  验证 ruby -v  </description>
     </item>
     
     <item>
@@ -228,9 +226,9 @@ wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz 解压配置安�
       <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
       
       <guid>https://realjf.io/posts/srs-obs-ffmpeg-vlc/</guid>
-      <description>rtmp srs直播服务器搭建 准备  srs 提供直播流服务器 obs 提供推流服务 ffmpeg 强大的软件，可作为推流端使用 vlc 用于播放rtmp直播  1. 首先搭建rtmp srs服务器 git clone https://github.com/ossrs/srs cd srs/trunk # 构建srs ./configure &amp;amp;&amp;amp; make # 开启服务 ./objs/srs -c conf/srs.conf # 停止服务 ./objs/srs stop # 重启服务 ./objs/srs restart 2. 安装obs apt-get install obs-studio 关于obs推流设置https://obsproject.com/wiki/OBS-Studio-Quickstart
-3. 安装vlc apt-get install vlc 在推流设置完成后，测试推流效果步骤如下：
- 打开VLC，选择open media-&amp;gt;network 在网络协议中输入推流地址，点击play即可  4. 安装ffmpeg git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg cd ffmpeg # 编译ffmpeg ./configure &amp;amp;&amp;amp; make # 使用ffmpeg推流 .</description>
+      <description>rtmp srs直播服务器搭建 准备  srs 提供直播流服务器 obs 提供推流服务 ffmpeg 强大的软件，可作为推流端使用 vlc 用于播放rtmp直播  1. 首先搭建rtmp srs服务器 git clone https://github.com/ossrs/srs cd srs/trunk # 构建srs ./configure &amp;amp;&amp;amp; make # 开启服务 ./objs/srs -c conf/srs.conf # 停止服务 ./objs/srs stop # 重启服务 ./objs/srs restart  2. 安装obs apt-get install obs-studio  关于obs推流设置https://obsproject.com/wiki/OBS-Studio-Quickstart
+3. 安装vlc apt-get install vlc  在推流设置完成后，测试推流效果步骤如下： 1. 打开VLC，选择open media-&amp;gt;network 2. 在网络协议中输入推流地址，点击play即可
+4. 安装ffmpeg git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg cd ffmpeg # 编译ffmpeg .</description>
     </item>
     
     <item>
@@ -248,7 +246,7 @@ wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz 解压配置安�
 第一阶段(准备阶段)
  协调者节点向所有参与者节点询问是否可以执行提交操作，并开始等待各参与者节点的响应。 参与者节点执行所有事务操作，并将undo信息和redo信息写入日志（若成功其实这里每个参与者已经执行了事务操作） 个参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个同意消息，如果参与者节点事务操作实际执行失败，则返回一个终止操作  第二阶段（提交阶段）
 如果协调者收到了参与这的失败消息或者超时，直接给每个参与者发送回滚消息，否则，发送提交消息； 参与者根据协调者的指令执行提交或者回滚操作，释放所有事务处理过程中使用的锁资源。
- 当协调者节点从所有参与者节点处获得的相应消息都为同意时：  协调者节点向所有参与者节点发送正式提交请求 参与者节点正式完成操作，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送完成消息   如果任一参与者节点在第一阶段返回的消息为终止，或者协调者节点在第一阶段的询问在超时之前无法获取所有参与者节点的响应消息时：  协调者节点向所有参与者节点发送回滚操作请求 参与者节点利用之前写入的undo信息执行回滚，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送回滚完成消息 协调者节点收到所有参与者节点反馈的回滚完成消息后，取消事务 协调者节点收到所有参与者节点返回的完成消息后，完成事务。    缺点
+ 当协调者节点从所有参与者节点处获得的相应消息都为同意时：  协调者节点向所有参与者节点发送正式提交请求 参与者节点正式完成操作，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送完成消息  如果任一参与者节点在第一阶段返回的消息为终止，或者协调者节点在第一阶段的询问在超时之前无法获取所有参与者节点的响应消息时：  协调者节点向所有参与者节点发送回滚操作请求 参与者节点利用之前写入的undo信息执行回滚，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送回滚完成消息 协调者节点收到所有参与者节点反馈的回滚完成消息后，取消事务 协调者节点收到所有参与者节点返回的完成消息后，完成事务。    缺点
  同步阻塞问题。执行过程中，所有参与者节点都是事务阻塞型的。 单点故障问题。由于协调者的重要性，一旦协调者发生故障，参与者会一直阻塞下去。 数据不一致。在阶段二中，当协调者向参与者发送commit请求后，发生了局域网异常，或者在发送commit请求过程中协调者发生故障， 这会导致只有一部分参与者接收到了commit请求。而在这部分参与者接收到commit请求之后就会执行commit操作。但是其他部分未接收到commit请求的机器无法执行事务提交。于是整个分布式系统便出现了数据不一致性的现象。 两阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了，那么， 即使协调者通过选举产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否已被提交。  为了解决两阶段提交的种种问题，提出了三阶段提交。
 三阶段提交 三阶段提交是两阶段提交的改进版，有 两个改动点：</description>
     </item>
@@ -262,12 +260,12 @@ wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz 解压配置安�
       <description>Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了
 Linux Cgroups(control groups)提供了对一组进程及其子进程的资源限制、控制和统计的能力，包括cpu、内存、存储和网络等。
 cgroups组件  cgroup subsystem hierarchy  cgroup cgroup是对进程分组管理的一种机制，一个cgroup包含一组进程，并可以在这个cgroup上增加linux subsystem的各种配置参数，将一组进程和一组subsystem的系统参数关联起来。
-subsystem 是一组资源控制的模块，包括
- blkio 设置对块设备输入输出的访问控制 cpu 设置cgroup 中进程的cpu被调度的策略 cpuacct 可以统计cgroup中进程的cpu占用 cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存 devices 控制cgroup中进程对设备的访问 freezer 用于挂起和恢复cgroup中的进程 memory 用于控制cgroup中进程的内存占用 net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控 ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程  每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。
+subsystem 是一组资源控制的模块，包括 - blkio 设置对块设备输入输出的访问控制 - cpu 设置cgroup 中进程的cpu被调度的策略 - cpuacct 可以统计cgroup中进程的cpu占用 - cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存 - devices 控制cgroup中进程对设备的访问 - freezer 用于挂起和恢复cgroup中的进程 - memory 用于控制cgroup中进程的内存占用 - net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控 - ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程
+每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。
  如何看内核当前支持哪些subsystem呢？使用apt-get install cgroup-bin，然后通过lssubsys -a查看
  hierarchy 把一组cgroup串成一个树状结构，一个这样的树便是一个hierarchy，通过这种树状结构，cgroups可以形成继承关系。
 三个组件的关系  系统在创建了新的hierarchy之后，系统中所有的进程都会加入这个hierarchy的cgroup根节点，这个cgroup根节点是hierarchy默认创建的 一个subsystem只能附加到一个hierarchy上面 一个hierarchy可以附加多个subsystem 一个进程可以作为多个cgroup的成员，但是这些cgroup必须在不同的hierarchy中。 一个进程fork出子进程时，子进程是和父进程在同一个cgroup中的，也可以根据需要将其移动到其他cgroup中。  kernel加载Cgroups kernel通过虚拟树状文件系统配置cgroups，通过层级的目录虚拟出cgroup树。
-1. 首先，要创建并挂载一个hierarchy mkdir cgroup-test mount -t cgroup -o none,name=cgroup-test cgroup-test ./cgroup-test # 挂载一个hierarchy ls ./cgroup-test  cgroup.</description>
+1. 首先，要创建并挂载一个hierarchy mkdir cgroup-test mount -t cgroup -o none,name=cgroup-test cgroup-test .</description>
     </item>
     
     <item>
@@ -279,14 +277,14 @@ subsystem 是一组资源控制的模块，包括
       <description>简介 pprof是golang程序一个性能分析的工具，可以查看堆栈、cpu信息等
 pprof有2个包：net/http/pprof以及runtime/pprof
 二者之间的关系：net/http/pprof包只是使用runtime/pprof包来进行封装了一下，并在http端口上暴露出来
-性能分析利器 pprof go本身提供的工具链有：
- runtime/pprof：采集程序的运行数据进行分析 net/http/pprof：采集HTTP Server的运行时数据进行分析  pprof以profile.proto读取分析样本的集合，并生成报告以可视化并帮助分析数据
+性能分析利器 pprof go本身提供的工具链有： - runtime/pprof：采集程序的运行数据进行分析 - net/http/pprof：采集HTTP Server的运行时数据进行分析
+pprof以profile.proto读取分析样本的集合，并生成报告以可视化并帮助分析数据
  profile.proto是一个Protocol Buffer v3的描述文件，它描述了一组callstack和symbolization信息，作用是表示统计分析的一组采样的调用栈，是很常见的stacktrace配置文件格式
  使用方式  Report generation：报告生成 Interactive terminal use：交互式终端使用 Web interface：Web界面  1. web服务器方式 假如你的go呈现的是用http包启动的web服务器，当想要看web服务器的状态时，选择【net/http/pprof】，使用方法如下：
-&amp;#34;net/http&amp;#34; _ &amp;#34;net/http/pprof&amp;#34; 查看结果：通过访问：http://domain:port/debug/pprof查看当前web服务的状态
+&amp;quot;net/http&amp;quot; _ &amp;quot;net/http/pprof&amp;quot;  查看结果：通过访问：http://domain:port/debug/pprof查看当前web服务的状态
 2. 服务进程 如果你go程序是一个服务进程，同样可以选择【net/http/pprof】包，然后开启另外一个goroutine来开启端口监听
-// 远程获取pprof数据 go func() { log.Println(http.ListenAndServe(&amp;#34;localhost:8080&amp;#34;, nil)) } 3. 应用程序 如果你的go程序只是一个应用程序，那就直接使用runtime/pprof包，具体用法是用pprof.StartCPUProfile和pprof.StopCPUProfile。
-var cpuprofile = flag.String(&amp;#34;cpuprofile&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;write cpu profile to file&amp;#34;) func main() { flag.Parse() if *cpuprofile != &amp;#34;&amp;#34; { f, err := os.</description>
+// 远程获取pprof数据 go func() { log.Println(http.ListenAndServe(&amp;quot;localhost:8080&amp;quot;, nil)) }  3. 应用程序 如果你的go程序只是一个应用程序，那就直接使用runtime/pprof包，具体用法是用pprof.StartCPUProfile和pprof.StopCPUProfile。
+var cpuprofile = flag.String(&amp;quot;cpuprofile&amp;quot;, &amp;quot;&amp;quot;, &amp;quot;write cpu profile to file&amp;quot;) func main() { flag.Parse() if *cpuprofile != &amp;quot;&amp;quot; { f, err := os.</description>
     </item>
     
     <item>
@@ -297,10 +295,9 @@ var cpuprofile = flag.String(&amp;#34;cpuprofile&amp;#34;, &amp;#34;&amp;#34;, &
       <guid>https://realjf.io/posts/setup-ceph-cluster-3/</guid>
       <description>第一次练习时，我们创建一个 Ceph 存储集群，它有一个 Monitor 和两个 OSD 守护进程。一旦集群达到 active + clean 状态，再扩展它：增加第三个 OSD 、增加元数据服务器和两个 Ceph Monitors。为获得最佳体验，先在管理节点上创建一个目录，用于保存 ceph-deploy 生成的配置文件和密钥对。
  如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。
- mkdir my-clustercd my-cluster 禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
+ mkdir my-cluster cd my-cluster   禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
  创建集群 如果在某些地方碰到麻烦，想从头再来，可以用下列命令配置：
-ceph-deploy purgedata {ceph-node} [{ceph-node}]ceph-deploy forgetkeys用下列命令可以连ceph安装包一起清除：
-ceph-deploy purge {ceph-node} [{ceph-node}]如果执行了purge，你必须重新安装ceph</description>
+ceph-deploy purgedata {ceph-node} [{ceph-node}] ceph-deploy forgetkeys  用下列命令可以连ceph安装包一起清除：</description>
     </item>
     
     <item>
@@ -310,7 +307,7 @@ ceph-deploy purge {ceph-node} [{ceph-node}]如果执行了purge，你必须重�
       
       <guid>https://realjf.io/posts/setup-ceph-cluster-2/</guid>
       <description>集群部署如下： 预检 安装ceph部署工具 在 Red Hat （rhel6、rhel7）、CentOS （el6、el7）和 Fedora 19-20 （f19 - f20） 上执行下列步骤：
-用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如： sudo subscription-manager repos --enable=el-7-server-extras-rpms在centos上执行以下命令 sudo yum install -y yum-utils &amp;amp;&amp;amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;amp;&amp;amp; sudo yum install --nogpgcheck -y epel-release &amp;amp;&amp;amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;amp;&amp;amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo sudo vim /etc/yum.repos.d/ceph.repo把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.</description>
+用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如： sudo subscription-manager repos --enable=el-7-server-extras-rpms  在centos上执行以下命令 sudo yum install -y yum-utils &amp;amp;&amp;amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;amp;&amp;amp; sudo yum install --nogpgcheck -y epel-release &amp;amp;&amp;amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;amp;&amp;amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*  把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo sudo vim /etc/yum.repos.d/ceph.repo  把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.</description>
     </item>
     
     <item>
@@ -319,9 +316,9 @@ ceph-deploy purge {ceph-node} [{ceph-node}]如果执行了purge，你必须重�
       <pubDate>Tue, 19 Mar 2019 14:57:05 +0800</pubDate>
       
       <guid>https://realjf.io/posts/setup-ceph-cluster-1/</guid>
-      <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc ceph release http://docs.ceph.com/docs/master/releases/
-2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y 3. 配置各节点hosts文件 cat /etc/hosts
-192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3 4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen 5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3 6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster 7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1 8. 配置ceph.conf配置文件 filestore_xattr_use_omap = true &amp;lt;!---- 以上部分都是ceph-deploy默认生成的 ---&amp;gt; public network = {ip-address}/{netmask} cluster network = {ip-address}/{netmask} &amp;lt;!</description>
+      <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc  ceph release http://docs.ceph.com/docs/master/releases/
+2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y  3. 配置各节点hosts文件 cat /etc/hosts
+192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3  4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen  5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3  6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster  7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1  8. 配置ceph.</description>
     </item>
     
     <item>
@@ -330,7 +327,7 @@ ceph-deploy purge {ceph-node} [{ceph-node}]如果执行了purge，你必须重�
       <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
       
       <guid>https://realjf.io/posts/how-golang-garbage-collection-works/</guid>
-      <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;quot;最大响应时间&amp;quot;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
+      <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;rdquo;最大响应时间&amp;rdquo;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
 基础概念 内存结构 go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：
 这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:
 arena arena区域就是我们通常说的heap, go从heap分配的内存都在这个区域中.
@@ -341,7 +338,7 @@ spans spans区域用于表示arena区中的某一页(Page)属于哪个span, 什�
 spans区域的一个指针对应arena区域的一页的结构如下, 和bitmap不一样的是对应关系会从开头开始:
 什么时候从heap分配对象 go对自动确定哪些对象应该放在栈上，哪些对象应该放在堆上。 简单说，当一个对象的内容可能在生成该对象的函数结束后被访问，那么这个对象就会分配到堆上
 在堆上分配的对象的情况包括：
- 返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new  在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;quot;逃逸分析&amp;rdquo;.
+ 返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new  在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;rdquo;逃逸分析&amp;rdquo;.
 GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提到的bitmap区域涵盖了arena区域中的指针信息. 除此之外, GC还需要知道栈空间上哪些地方包含了指针, 因为栈空间不属于arena区域, 栈空间的指针信息将会在函数信息里面.</description>
     </item>
     
@@ -357,10 +354,9 @@ G（goroutine） G是goroutine的简写，goroutine可以解释为受管理的�
 main函数是一个主线程，也是一个goroutine。
  goroutine的新建、休眠、回复、停止都受到go运行时的管理 goroutine执行异步操作时会进入休眠状态，待操作完成后在恢复，无需占用系统线程。 goroutine新建或恢复时会添加到运行队列，等待M取出并运行。  M（machine） M是machine的简写，表示系统线程
 M可以运行两种代码：
-  go代码，即goroutine，M运行go代码需要一个P
-  原生代码，例如阻塞的syscall，M运行原生代码不需要P
-  M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。
-  有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。
+ go代码，即goroutine，M运行go代码需要一个P 原生代码，例如阻塞的syscall，M运行原生代码不需要P
+ M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。
+ 有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。
   go需要保证有足够的M可以运行G，不让CPU闲着，也需要保证M的数量不过多。
 P（process） P是process的简写，代表M运行G所需要的资源。
  虽然P的数量默认等于cpu的核心数，但可以通过环境变量 GOMAXPROC 修改，在实际运行时P跟cpu核心并无任何关联。
@@ -378,7 +374,7 @@ P的状态  空闲中(_Pidle)：当M发现无待运行的G时会进入休眠，�
       <pubDate>Tue, 19 Mar 2019 14:40:53 +0800</pubDate>
       
       <guid>https://realjf.io/posts/what-docker-is/</guid>
-      <description>官方定义 Develop, Ship and Run Any Application, AnywhereDocker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
+      <description>官方定义 Develop, Ship and Run Any Application, Anywhere Docker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.  Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
  LXC linux container容器是一种内核虚拟化技术，可以提供轻量级的虚拟化，以便隔离进程和资源。与kvm之类最明显的区别在于启动快，资源占用小。</description>
     </item>
     
@@ -391,7 +387,7 @@ P的状态  空闲中(_Pidle)：当M发现无待运行的G时会进入休眠，�
       <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
  1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
 通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
-int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
+int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);  查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
     </item>
     
     <item>
@@ -412,10 +408,9 @@ int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);�
       <pubDate>Tue, 19 Mar 2019 14:30:13 +0800</pubDate>
       
       <guid>https://realjf.io/posts/k8s-core-principle-network-model/</guid>
-      <description>主要解决以下问题：
- 容器与容器之间的直接通信 pod与pod之间的通信 pod到service之间的通信 集群外部与集群内部组件之间的通信  容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
-pod之间的通信 每个pod都拥有一个真实的全局ip地址
- 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） 不同node上的pod之间  </description>
+      <description>主要解决以下问题： - 容器与容器之间的直接通信 - pod与pod之间的通信 - pod到service之间的通信 - 集群外部与集群内部组件之间的通信
+容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
+pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） - 不同node上的pod之间</description>
     </item>
     
     <item>
@@ -424,14 +419,14 @@ pod之间的通信 每个pod都拥有一个真实的全局ip地址
       <pubDate>Tue, 19 Mar 2019 14:29:44 +0800</pubDate>
       
       <guid>https://realjf.io/posts/k8s-core-principle-security/</guid>
-      <description>安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
-k8s提供3种级别的客户端身份认证方式：
- 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 http token认证：通过一个token来识别合法用户   http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
+      <description> 安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
+k8s提供3种级别的客户端身份认证方式： - 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 - http token认证：通过一个token来识别合法用户
+ http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
   http base认证：通过用户名+密码的方式   http base是指把“用户名+冒号+密码”用base64算法进行编码后的字符串放在http request中的header authorization域里发送到服务端，服务端接受后进行解码，获取用户名及密码，然后进行用户身份鉴权过程
  2. API Server授权管理（Authorization） 通过授权策略来决定一个api调用是否合法。对合法用户进行授权并且随后在用户访问时进行鉴权，是权限与安全系统的重要一环。
-目前支持的授权策略：
- AlwaysDeny：表示拒绝所有的请求，一般用于测试 AlwaysAllow：允许接受所有请求，如果集群不需要授权，则可以采用这个策略，这也是默认配置 ABAC：基于属性的访问控制，表示使用用户配置的授权规则对用户请求进行匹配和控制。 Webhook：通过调用外部rest服务对用户进行授权 RBAC：基于角色的访问控制  ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访问控制：
- 对集群中的资源和非资源权限均有完整的覆盖 整个RBAC完全由几个api对象完成，同其他api对象一样，可以用kubectl或api进行操作 可以在运行时进行调整，无需重新启动api server   要使用RBAC授权模式，需要在api server的启动参数中加上 &amp;ndash;authorization-mode=RBAC
+目前支持的授权策略： - AlwaysDeny：表示拒绝所有的请求，一般用于测试 - AlwaysAllow：允许接受所有请求，如果集群不需要授权，则可以采用这个策略，这也是默认配置 - ABAC：基于属性的访问控制，表示使用用户配置的授权规则对用户请求进行匹配和控制。 - Webhook：通过调用外部rest服务对用户进行授权 - RBAC：基于角色的访问控制
+ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访问控制： - 对集群中的资源和非资源权限均有完整的覆盖 - 整个RBAC完全由几个api对象完成，同其他api对象一样，可以用kubectl或api进行操作 - 可以在运行时进行调整，无需重新启动api server
+ 要使用RBAC授权模式，需要在api server的启动参数中加上 &amp;ndash;authorization-mode=RBAC
  3. Admission Control（准入控制） </description>
     </item>
     
@@ -463,12 +458,12 @@ service类型为NodePort kube-proxy在iptables中除了添加上面提及的规�
       <description>在每个Node节点上都会启动一个kubelet服务进程，该进程负责处理master节点下发到本节点的任务，管理Pod和pod中的容器。
 每个kubelet进程会在api server上注册节点自身信息，定期向master节点汇报节点资源的使用情况，并通过cAdvisor监控容器和节点资源。
 节点管理 节点通过设置kubelet的启动参数“&amp;ndash;register-node”，来决定是否向api server注册自己，如果该参数为true，则会向api server注册自己。
-其他参数包括：
- &amp;ndash;api-servers：api server的位置 &amp;ndash;kubeconfig：kubeconfig文件，用于访问api server的安全配置文件 &amp;ndash;cloud-provider：云服务商地址，仅用于公有云环境  通过kubelet的启动参数“&amp;ndash;node-status-update-frequency”设置kubelet每隔多长时间想api server报告节点状态，默认是10s。
-Pod管理 kubelet通过以下几种方式获取自身node上所要运行的pod清单：
- 文件：同过启动参数“&amp;ndash;config”指定的配置文件目录下的文件（默认/etc/kubernetes/manifests/） http断电：通过“&amp;ndash;manifest-url”参数设置 api server：通过api server监听etcd目录，同步pod列表  kubelet去读监听到的信息，如果是创建和修改pod任务，则  为该pod创建一个数据目录 从api server读取该pod清单 为该pod挂载外部卷 下载pod用到的secret 检查已经运行在节点中的pod，如果该pod没有容器或pause容器（kubernetes/pause镜像创建的容器）没有启动，则先停止pod里所有容器的进程。如果在pod中有需要删除的容器，则删除这些容器。 用&amp;quot;kubernetes/pause&amp;quot;镜像为每个pod创建一个容器，该pause容器用于接管pod中所有其他容器的网络。每创建一个新的pod，kubelet都会先创建一个pause容器，然后创建其他容器。 为pod中的每个容器做如下处理：   为容器计算一个hash值，然后用容器的名字去查询对应docker容器的hash值。若找到容器，且两者的hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两者相同，则不做任何处理。 如果容器被终止了，且容器没有指定的restartPolicy（重启策略），则不做任何处理。 调用docker client下载容器镜像，调用docker client运行容器。  容器健康检查 检查容器健康状态的两种探针
- LivenessProbe探针：判断容器是否健康，如果不健康，则删除Pod，根据其重启策略做相应处理。 ReadinessProbe探针：判断容器是否完成启动，且准备接受请求。如果失败，pod的状态将被修改，Endpoint Controller将从Service的Endpoint中删除包含该容器所在pod的ip地址的endpoint条目。  LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康 TCPSocketAction：通过容器的ip地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康 HTTPGetAction：通过容器的ip地址和端口号即路径调用http get方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康  LivenessProbe探针包含在pod定义的spec.containers.{某个容器}中
-# 容器命令检查 livenessProbe: exec: command: - cat - /tmp/health initialDelaySeconds: 15 timeoutSeconds: 1 # http检查 livenessProbe: httpGet: path: /healthz port: 8080 initialDelaySeconds: 15 timeoutSeconds: 1 cAdvisor资源监控 监控级别包括：容器、pod、service和整个集群</description>
+其他参数包括： - &amp;ndash;api-servers：api server的位置 - &amp;ndash;kubeconfig：kubeconfig文件，用于访问api server的安全配置文件 - &amp;ndash;cloud-provider：云服务商地址，仅用于公有云环境
+通过kubelet的启动参数“&amp;ndash;node-status-update-frequency”设置kubelet每隔多长时间想api server报告节点状态，默认是10s。
+Pod管理 kubelet通过以下几种方式获取自身node上所要运行的pod清单： - 文件：同过启动参数“&amp;ndash;config”指定的配置文件目录下的文件（默认/etc/kubernetes/manifests/） - http断电：通过“&amp;ndash;manifest-url”参数设置 - api server：通过api server监听etcd目录，同步pod列表
+kubelet去读监听到的信息，如果是创建和修改pod任务，则  为该pod创建一个数据目录 从api server读取该pod清单 为该pod挂载外部卷 下载pod用到的secret 检查已经运行在节点中的pod，如果该pod没有容器或pause容器（kubernetes/pause镜像创建的容器）没有启动，则先停止pod里所有容器的进程。如果在pod中有需要删除的容器，则删除这些容器。 用&amp;rdquo;kubernetes/pause&amp;rdquo;镜像为每个pod创建一个容器，该pause容器用于接管pod中所有其他容器的网络。每创建一个新的pod，kubelet都会先创建一个pause容器，然后创建其他容器。 为pod中的每个容器做如下处理： 为容器计算一个hash值，然后用容器的名字去查询对应docker容器的hash值。若找到容器，且两者的hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两者相同，则不做任何处理。 如果容器被终止了，且容器没有指定的restartPolicy（重启策略），则不做任何处理。 调用docker client下载容器镜像，调用docker client运行容器。  容器健康检查 检查容器健康状态的两种探针 - LivenessProbe探针：判断容器是否健康，如果不健康，则删除Pod，根据其重启策略做相应处理。 - ReadinessProbe探针：判断容器是否完成启动，且准备接受请求。如果失败，pod的状态将被修改，Endpoint Controller将从Service的Endpoint中删除包含该容器所在pod的ip地址的endpoint条目。
+LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康 TCPSocketAction：通过容器的ip地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康 HTTPGetAction：通过容器的ip地址和端口号即路径调用http get方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康  LivenessProbe探针包含在pod定义的spec.containers.{某个容器}中
+# 容器命令检查 livenessProbe: exec: command: - cat - /tmp/health initialDelaySeconds: 15 timeoutSeconds: 1  # http检查 livenessProbe: httpGet: path: /healthz port: 8080 initialDelaySeconds: 15 timeoutSeconds: 1  cAdvisor资源监控 监控级别包括：容器、pod、service和整个集群</description>
     </item>
     
     <item>
@@ -490,14 +485,12 @@ Scheduler中可选的预选策略  NoDiskConflict PodFitsResources PodSelectorMa
       
       <guid>https://realjf.io/posts/k8s-core-principle-controller-manager/</guid>
       <description>controller manager作为集群内部的管理控制中心，负责集群内的Node、pod副本、服务端（Endpoint）、命名空间（Namespace）、服务账号（ServiceAccount）、资源定额（ResourceQuota）等的管理。
-controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。
- 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
- RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
+controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。 &amp;gt; 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
+RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
 此外，可以通过修改Pod的标签来实现脱离RC的管控。该方法可以用于将pod从集群中迁移、数据修复等调试。
 Replication Controller职责  确保当前集群中有且仅有N个pod实例，N是RC中定义的pod副本数量 通过调整RC的spec.replicas属性值来实现系统扩容或者缩容 通过改变RC中的pod模板（主要是镜像版本）来实现系统的滚动升级  Replication Controller典型使用场景  重新调度（Rescheduling） 弹性伸缩（Scaling） 滚动更新（Rolling Updates）  2. Node Controller Node Controller通过API Server实时获取Node的相关信息：节点健康状况、节点资源、节点名称、节点地址信息、操作系统版本、Docker版本、kubelet版本等。
-node controller节点信息更新机制 比较节点信息和node controller的nodeStatusMap中保存的节点信息
- 如果没有收到kubelet发送的节点信息、第一次收到节点kubelet发送的节点信息，或处理过程中节点状态变成非健康状态，则在nodeStatusMap中保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间和节点状态变化时间。 如果指定时间内收到新的节点信息，且节点状态发生变化，则在nodeStatusMap保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间，用上次节点信息中的节点状态变化时间作为该节点的状态变化时间 如果某一段时间内没有收到该节点状态信息，则设置节点状态为未知，并通过api server保存节点状态  3. ResourceQuota Controller（资源配额管理） 资源配额管理确保了指定的资源对象在任何时候都不会超量占用系统物理资源，避免由于某些业务进程的设计或实现的缺陷导致整个系统运行紊乱甚至意外宕机
-k8s支持一下三个层次的资源配额管理  容器级别，可以对cpu和memory进行限制 pod级别，可以对一个pod内所有容器的可用资源进行限制 namespace级别，为namespace（多租户）级别的资源限制，包括：pod数量、replication controller数量，service数量，resourceQuota数量，secret数量，可持有的pv数量  配额管理通过admission control来控制，admission control当前提供两种方式的配额约束，分别是limitRanger与resourceQuota。</description>
+node controller节点信息更新机制 比较节点信息和node controller的nodeStatusMap中保存的节点信息 - 如果没有收到kubelet发送的节点信息、第一次收到节点kubelet发送的节点信息，或处理过程中节点状态变成非健康状态，则在nodeStatusMap中保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间和节点状态变化时间。 - 如果指定时间内收到新的节点信息，且节点状态发生变化，则在nodeStatusMap保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间，用上次节点信息中的节点状态变化时间作为该节点的状态变化时间 - 如果某一段时间内没有收到该节点状态信息，则设置节点状态为未知，并通过api server保存节点状态
+3. ResourceQuota Controller（资源配额管理） 资源配额管理确保了指定的资源对象在任何时候都不会超量占用系统物理资源，避免由于某些业务进程的设计或实现的缺陷导致整个系统运行紊乱甚至意外宕机</description>
     </item>
     
     <item>
@@ -517,9 +510,9 @@ k8s支持一下三个层次的资源配额管理  容器级别，可以对cpu和
       
       <guid>https://realjf.io/posts/k8s-basic-concepts-and-terminology/</guid>
       <description>kubernetes中大部分概念，如node、pod、replication、controller、service等都可以看作是一种“资源对象”，几乎所有的资源对象都可以通过kubernetes提供的kubectl工具执行增、删、改、查等操作并保存在etcd中持久化存储。
-  k8s里所有资源对象都可以采用yaml或者json格式的文件来定义或描述
- 1. Master（主节点、集群控制节点）  每个kubernets集群里需要有一个master节点来负责整个集群管理和控制 所有控制命令都发给它 占据一个独立的服务器 如果宕机或不可用，整个集群内容器应用的管理都将失效  master节点运行一组以下关键进程  kubernetes api server(kube-apiserver)：提供http rest接口，是k8s所有资源增删改查等操作的唯一入口，也是集群控制入口进程 kubernetes controller manager(kube-controller-manager)：k8s所有资源对象的自动化控制中心 kubernetes scheduler(kube-scheduler)：负责资源调度（pod调度）的进程 etcd服务：保存k8s所有资源对象的数据  相关命令  kubectl get nodes：查看集群有多少个node kubectl describe node &amp;lt;node_name&amp;gt;：查看某个node详细信息  2. Node（较早版本也叫minion）  节点既可以是物理机，也可以是私有云或者公有云中的一个虚拟机，通常在一个节点上运行几百个pod kubernetes集群中的工作负载节点，当某个node宕机，其上的工作负载会被master自动转移到其他节点上  每个node节点运行一组以下关键进程  kubelet：负责pod对应的容器的创建、启停等，同时与master节点密切协作，实现集群管理的基本功能 kube-proxy：实现kubernetes service的通信与负载均衡机制 docker engine：docker引擎，负责本机的容器创建和管理工作  3. Pod 是k8s最重要也是最基本概念
- 每个Pod都有一个特殊的被称为“根容器”的Pause容器，Pause容器对应的镜像属于k8s平台的一部分（gcr.io/google_containers/pause-amd64） pod对象将每个服务进程包装到相应的pod中，使其成为pod中运行的一个容器 根容器不易死亡 pod里的多个业务容器共享pause容器的ip，共享pause容器挂接的volume（解决Pod直接拿文件共享问题） k8s为每个pod都分配唯一的ip地址，称之为pod ip，一个Pod里的多个容器共享pod ip地址 集群内任意两个pod之间的tcp/ip可以直接通信，通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等。  pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放在某个具体的node上的一个具体文件中，且只在此Node上启动运行）   默认情况下：当pod里的某个容器停止时，k8s会自动检测到这个问题并重新启动这个pod（重启pod里的所有容器），如果pod所在node宕机，则会将这个Node上的所有pod重新调度到其他节点上。</description>
+k8s里所有资源对象都可以采用yaml或者json格式的文件来定义或描述
+ 1. Master（主节点、集群控制节点）  每个kubernets集群里需要有一个master节点来负责整个集群管理和控制 所有控制命令都发给它 占据一个独立的服务器 如果宕机或不可用，整个集群内容器应用的管理都将失效  master节点运行一组以下关键进程  kubernetes api server(kube-apiserver)：提供http rest接口，是k8s所有资源增删改查等操作的唯一入口，也是集群控制入口进程 kubernetes controller manager(kube-controller-manager)：k8s所有资源对象的自动化控制中心 kubernetes scheduler(kube-scheduler)：负责资源调度（pod调度）的进程 etcd服务：保存k8s所有资源对象的数据  相关命令  kubectl get nodes：查看集群有多少个node kubectl describe node ：查看某个node详细信息  2. Node（较早版本也叫minion）  节点既可以是物理机，也可以是私有云或者公有云中的一个虚拟机，通常在一个节点上运行几百个pod kubernetes集群中的工作负载节点，当某个node宕机，其上的工作负载会被master自动转移到其他节点上  每个node节点运行一组以下关键进程  kubelet：负责pod对应的容器的创建、启停等，同时与master节点密切协作，实现集群管理的基本功能 kube-proxy：实现kubernetes service的通信与负载均衡机制 docker engine：docker引擎，负责本机的容器创建和管理工作  3. Pod 是k8s最重要也是最基本概念 - 每个Pod都有一个特殊的被称为“根容器”的Pause容器，Pause容器对应的镜像属于k8s平台的一部分（gcr.io/google_containers/pause-amd64） - pod对象将每个服务进程包装到相应的pod中，使其成为pod中运行的一个容器 - 根容器不易死亡 - pod里的多个业务容器共享pause容器的ip，共享pause容器挂接的volume（解决Pod直接拿文件共享问题） - k8s为每个pod都分配唯一的ip地址，称之为pod ip，一个Pod里的多个容器共享pod ip地址 - 集群内任意两个pod之间的tcp/ip可以直接通信，通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等。
+pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放在某个具体的node上的一个具体文件中，且只在此Node上启动运行）   默认情况下：当pod里的某个容器停止时，k8s会自动检测到这个问题并重新启动这个pod（重启pod里的所有容器），如果pod所在node宕机，则会将这个Node上的所有pod重新调度到其他节点上。</description>
     </item>
     
     <item>
@@ -528,15 +521,15 @@ k8s支持一下三个层次的资源配额管理  容器级别，可以对cpu和
       <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
       
       <guid>https://realjf.io/posts/k8s-cluster-set-up-3/</guid>
-      <description>1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
+      <description> 1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
 运行以下命令，启动一个本地镜像仓库 docker 1.6以上版本可以直接运行以下命令
-docker run -d -p 5000:5000 --restart=always --name registry registry:2停止本地仓库
-docker container stop registry &amp;amp;&amp;amp; docker container rm -v registry镜像仓库操作
-docker pull ubuntudocker image tag ubuntu localhost:5000/myfirstimagedocker push localhost:5000/myfirstimagedocker pull localhost:5000/myfirstimage2. kubelet配置 k8s中docker以pod启动，在kubelet创建pod时，还通过启动一个名为gcr.io/google_containers/pause的镜像来实现pod的概念。
+docker run -d -p 5000:5000 --restart=always --name registry registry:2  停止本地仓库
+docker container stop registry &amp;amp;&amp;amp; docker container rm -v registry  镜像仓库操作
+docker pull ubuntu docker image tag ubuntu localhost:5000/myfirstimage docker push localhost:5000/myfirstimage docker pull localhost:5000/myfirstimage  2. kubelet配置 k8s中docker以pod启动，在kubelet创建pod时，还通过启动一个名为gcr.io/google_containers/pause的镜像来实现pod的概念。
 需要从gcr.io中将该镜像下载，导出文件，再push到私有docker registry中。之后，可以给每台node的kubelet服务加上启动参数&amp;ndash;pod-infra-container-image，指定为私有仓库中pause镜像的地址。
---pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0如果镜像无法下载，可以从docker hub上进行下载：
-docker pull kubeguide/pause-amd64:3.0然后在kubelet启动参数加上该配置，重启kubelet服务即可
-systemctl restart kubelet</description>
+--pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0  如果镜像无法下载，可以从docker hub上进行下载：
+docker pull kubeguide/pause-amd64:3.0  然后在kubelet启动参数加上该配置，重启kubelet服务即可
+systemctl restart kubelet  </description>
     </item>
     
     <item>
@@ -545,12 +538,12 @@ systemctl restart kubelet</description>
       <pubDate>Tue, 19 Mar 2019 14:13:53 +0800</pubDate>
       
       <guid>https://realjf.io/posts/k8s-cluster-set-up-2/</guid>
-      <description>方式1：基于CA签名的双向数字证书认证方式 过程如下：
- 为kube-apiserver生成一个数字证书，并用CA证书进行签名 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数  1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
-openssl genrsa -out ca.key 2048openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crtopenssl genrsa -out server.key 2048注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
+      <description>方式1：基于CA签名的双向数字证书认证方式 过程如下： - 为kube-apiserver生成一个数字证书，并用CA证书进行签名 - 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 - 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数
+1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
+openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crt openssl genrsa -out server.key 2048  注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
  509是一种通用的证书格式
  准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：
-[ req ]req_extensions = v3_reqdistinguished_name = req_distinguished_name[ req_distinguished_name ][ v3_req ]basicConstraints = CA:FALSEkeyUsage = nonRepudiation, digitalSignature, keyEnciphermentsubjectAltName = @alt_names[alt_names]DNS.1 = kubernetesDNS.</description>
+[ req ] req_extensions = v3_req distinguished_name = req_distinguished_name [ req_distinguished_name ] [ v3_req ] basicConstraints = CA:FALSE keyUsage = nonRepudiation, digitalSignature, keyEncipherment subjectAltName = @alt_names [alt_names] DNS.</description>
     </item>
     
     <item>
@@ -561,7 +554,7 @@ openssl genrsa -out ca.key 2048openssl req -x509 -new -nodes -key ca.key -subj 
       <guid>https://realjf.io/posts/k8s-cluster-set-up-1/</guid>
       <description>系统要求    软硬件 最低配置 推荐配置     cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置   linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7   Docker 1.9版本以上 1.12版本   etcd 2.0版本及以上 3.0版本    本次实验选用的是centos7 1804版本
  需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
- #关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled 这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数
+#关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled   这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数
     - ip etcd节点名称     master节点 192.</description>
     </item>
     
@@ -576,12 +569,12 @@ openssl genrsa -out ca.key 2048openssl req -x509 -new -nodes -key ca.key -subj 
 开通github pages 找到新创建的repo中的settings，往下找到github pages， 如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。
 注意 如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：https://realjf.github.io/blog/
 配置好后，开始使用hugo构建博客 首先，clone下刚才创建的repo
-git clone git@github.com:{USERNAME}/blog 安装hugo，确保repo目录下可以使用hugo命令 请参考官网https://gohugo.io/
-# 检查安装是否成功 hugo version 利用hugo构建博客目录结构 cd blog &amp;amp;&amp;amp; hugo new site . --force 这里使用了&amp;ndash;force是因为当前目录已存在，只是需要初始化而已
-添加自己需要的主题 cd blog git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c 上述的m10c可以换成你想要的主题名字即可
+git clone git@github.com:{USERNAME}/blog  安装hugo，确保repo目录下可以使用hugo命令 请参考官网https://gohugo.io/
+# 检查安装是否成功 hugo version  利用hugo构建博客目录结构 cd blog &amp;amp;&amp;amp; hugo new site . --force  这里使用了&amp;ndash;force是因为当前目录已存在，只是需要初始化而已
+添加自己需要的主题 cd blog git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c  上述的m10c可以换成你想要的主题名字即可
 更多的主题请参考：https://themes.gohugo.io/
-# 修改根目录下的 .toml文件 theme = &amp;#34;{THEME}&amp;#34; baseUrl = &amp;#34;https://realjf.github.io/blog/&amp;#34; {THEME}请修改为你的主题名即可
-本地测试博客 hugo server -t {THEME} 到这里，基本的博客搭建完成，先保存到github git add -A &amp;amp;&amp;amp; git commit -m &amp;#34;Initializing&amp;#34; git push origin master 本地测试成功后，我们利用gh-pages分支作为新的发布分支 gh-pages分支保存的是hugo生成的html静态文件</description>
+# 修改根目录下的 .toml文件 theme = &amp;quot;{THEME}&amp;quot; baseUrl = &amp;quot;https://realjf.github.io/blog/&amp;quot;  {THEME}请修改为你的主题名即可
+本地测试博客 hugo server -t {THEME}  到这里，基本的博客搭建完成，先保存到github git add -A &amp;amp;&amp;amp; git commit -m &amp;quot;Initializing&amp;quot; git push origin master  本地测试成功后，我们利用gh-pages分支作为新的发布分支 gh-pages分支保存的是hugo生成的html静态文件</description>
     </item>
     
   </channel>

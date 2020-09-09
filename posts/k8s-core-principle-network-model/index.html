@@ -3,7 +3,7 @@
 <head>
     <title>kubernetes 核心原理之 网络模型 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,25 +83,27 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/kubernetes/">kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">k8s</a><a class="tag" href="https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">k8s核心原理</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/kubernetes/">Kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">K8s</a><a class="tag" href="https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">K8s核心原理</a></div></div>
         </header>
         <div class="post-content">
-            <p>主要解决以下问题：</p>
-<ul>
-<li>容器与容器之间的直接通信</li>
-<li>pod与pod之间的通信</li>
-<li>pod到service之间的通信</li>
-<li>集群外部与集群内部组件之间的通信</li>
-</ul>
+            
+
+<p>主要解决以下问题：
+- 容器与容器之间的直接通信
+- pod与pod之间的通信
+- pod到service之间的通信
+- 集群外部与集群内部组件之间的通信</p>
+
 <h4 id="容器与容器之间的通信">容器与容器之间的通信</h4>
+
 <p>同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口
 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信</p>
+
 <h4 id="pod之间的通信">pod之间的通信</h4>
-<p>每个pod都拥有一个真实的全局ip地址</p>
-<ul>
-<li>同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段）</li>
-<li>不同node上的pod之间</li>
-</ul>
+
+<p>每个pod都拥有一个真实的全局ip地址
+- 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段）
+- 不同node上的pod之间</p>
 
         </div>
         <div id="disqus_thread"></div>

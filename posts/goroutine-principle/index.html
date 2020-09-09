@@ -3,7 +3,7 @@
 <head>
     <title>Goroutine 运行原理 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,53 +83,71 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/go%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86/">go协程原理</a><a class="tag" href="https://realjf.io/tags/goroutine%E5%8E%9F%E7%90%86/">goroutine原理</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/go%E5%8D%8F%E7%A8%8B%E5%8E%9F%E7%90%86/">Go协程原理</a><a class="tag" href="https://realjf.io/tags/goroutine%E5%8E%9F%E7%90%86/">Goroutine原理</a></div></div>
         </header>
         <div class="post-content">
-            <p>Golang最大的特色可以说是协程(goroutine)了, 协程让本来很复杂的异步编程变得简单, 让程序员不再需要面对回调地狱,
+            
+
+<p>Golang最大的特色可以说是协程(goroutine)了, 协程让本来很复杂的异步编程变得简单, 让程序员不再需要面对回调地狱,
 虽然现在引入了协程的语言越来越多, 但go中的协程仍然是实现的是最彻底的.</p>
+
 <h2 id="核心概念">核心概念</h2>
+
 <p>要理解协程的实现，需要理解三个重要概念，P、G和M。</p>
-<h2 id="ggoroutine">G（goroutine）</h2>
+
+<h2 id="g-goroutine">G（goroutine）</h2>
+
 <p>G是goroutine的简写，goroutine可以解释为受管理的轻量级线程，goroutine使用go关键字创建。</p>
+
 <p>main函数是一个主线程，也是一个goroutine。</p>
+
 <ul>
 <li>goroutine的新建、休眠、回复、停止都受到go运行时的管理</li>
 <li>goroutine执行异步操作时会进入休眠状态，待操作完成后在恢复，无需占用系统线程。</li>
 <li>goroutine新建或恢复时会添加到运行队列，等待M取出并运行。</li>
 </ul>
-<h2 id="mmachine">M（machine）</h2>
+
+<h2 id="m-machine">M（machine）</h2>
+
 <p>M是machine的简写，表示系统线程</p>
+
 <p>M可以运行两种代码：</p>
+
 <ul>
-<li>
-<p>go代码，即goroutine，M运行go代码需要一个P</p>
-</li>
-<li>
-<p>原生代码，例如阻塞的syscall，M运行原生代码不需要P</p>
-</li>
-<li>
-<p>M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。</p>
-</li>
-<li>
-<p>有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。</p>
-</li>
+<li>go代码，即goroutine，M运行go代码需要一个P</li>
+
+<li><p>原生代码，例如阻塞的syscall，M运行原生代码不需要P</p></li>
+
+<li><p>M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。</p></li>
+
+<li><p>有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。</p></li>
 </ul>
+
 <p>go需要保证有足够的M可以运行G，不让CPU闲着，也需要保证M的数量不过多。</p>
-<h2 id="pprocess">P（process）</h2>
+
+<h2 id="p-process">P（process）</h2>
+
 <p>P是process的简写，代表M运行G所需要的资源。</p>
+
 <blockquote>
 <p>虽然P的数量默认等于cpu的核心数，但可以通过环境变量 <strong>GOMAXPROC</strong> 修改，在实际运行时P跟cpu核心并无任何关联。</p>
 </blockquote>
+
 <p>P也可以理解为控制go代码的并行度的机制</p>
+
 <ul>
 <li>如果P的数量等于1，代表当前最多只能有一个线程M执行go代码。</li>
 <li>如果P的数量等于2，代表当前最多只能有两个线程M执行go代码。</li>
 </ul>
+
 <p>执行原生代码的线程数不受P控制。</p>
+
 <p>因为同一时间只有一个线程M可以拥有P，P中的数据都是锁自由的，读写这些数据的效率会非常的高。</p>
+
 <h2 id="数据结构">数据结构</h2>
+
 <h2 id="g的状态">G的状态</h2>
+
 <ul>
 <li>空闲中(_Gidle)：表示G刚刚新建，仍未初始化</li>
 <li>待运行(_Grunnable)：表示G在运行队列中，等待M取出并运行</li>
@@ -139,16 +157,22 @@
 <li>已终止(_Gdead)：表示G未被使用，可能已执行完毕（并在freelist中等待下次复用）</li>
 <li>栈复制中(_Gcopystack)：表示G正在获取一个新的栈空间并把原来的内容复制过去（用于防止GC扫描）</li>
 </ul>
+
 <h2 id="m的状态">M的状态</h2>
+
 <p>M并没有像G和P一样的状态标记，但可以认为一个M有以下的状态：</p>
+
 <ul>
 <li>自旋中(spinning)：M正在从运行队列获取G，这时候M会拥有一个P</li>
 <li>执行go代码中：M正在执行go代码，这时候M会拥有一个P</li>
 <li>执行原生代码中：M正在执行原生代码或者阻塞的syscall，这时M并不拥有P</li>
 <li>休眠中：M发现没有待运行的G时会进入休眠，并添加到空闲M链表中，这时M并不拥有P</li>
 </ul>
+
 <p>自旋中这个状态非常重要，是否需要唤醒或者创建新的M取决于当前自旋中的M的数量。</p>
+
 <h2 id="p的状态">P的状态</h2>
+
 <ul>
 <li>空闲中(_Pidle)：当M发现无待运行的G时会进入休眠，这时M拥有的P会变成空闲并加到空闲P链表中</li>
 <li>运行中(_Prunning)：当M拥有了一个P后，这个P的状态就会变为运行中，M运行G会使用这个P中的资源。</li>
@@ -156,27 +180,41 @@
 <li>GC停止中(_Pgcstop)：当gc停止整个世界(STW)时，P会变为此状态。</li>
 <li>已终止(_Pdead)：当P的数量在运行时改变，且数量减少时多余的P会变为此状态。</li>
 </ul>
+
 <h2 id="本地可运行队列g">本地可运行队列G</h2>
+
 <p>在go中有多个运行队列可以保存待运行(_Grunnable)的G，他们分别是各个P中的本地运行队列和全局运行队列。</p>
+
 <p>入队待运行的G时会优先加到当前P的本地运行队列，M获取待运行的G时也会优先从拥有的P的本地运行队列获取。</p>
+
 <ul>
 <li>本地运行队列有数量限制，当数量达到256个时会入队到全局运行队列</li>
 <li>本地运行队列的数据结构是环形队列，由一个256长度的数组和两个序号(head,tail)组成</li>
 </ul>
+
 <p>当M从P的本地运行队列获取G时，如果发现本地队列为空会尝试从其他P盗取一半的G过来，这个机制叫做<a href="http://supertech.csail.mit.edu/papers/steal.pdf">work stealing</a></p>
+
 <h2 id="全局可运行队列g">全局可运行队列G</h2>
+
 <p>全局运行队列保存在全局变量sched中，全局运行队列入队和出队需要使用线程锁。</p>
+
 <p>全局运行队列的数据结构是双向链表，由两个指针(head, tail)组成。</p>
+
 <h2 id="空闲m链表">空闲M链表</h2>
+
 <p>当M发现无待运行的G时会进入休眠，并添加到空闲M链表中，空闲M链表保存在全局变量sched。
 进入休眠的M会等待一个信号量(m.park)，唤醒休眠的M会使用这个信号量</p>
+
 <p>go需要保证充足的M可以运行G，是通过以下机制实现的：</p>
+
 <ul>
 <li>入队运行的G后，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M。</li>
 <li>当M离开自旋状态并准备运行出队的G时，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M</li>
 <li>当M离开自旋状态并准备休眠时，会在离开自旋状态后再次检查所有运行队列，如果有待运行的G则重新进入自旋状态。</li>
 </ul>
+
 <p>因为“入队待运行的G”和“M离开自旋状态”会同时进行，go会使用这样的检查顺序：</p>
+
 <ul>
 <li>入队待运行的G</li>
 <li>内存屏障</li>
@@ -187,37 +225,49 @@
 <li>检查所有运行队列是否有待运行的G</li>
 <li>休眠</li>
 </ul>
-<p>这样可以保证不会出现待运行的G入队了，也有空闲的资源P，但无M去执行的情况。</p>
-<h2 id="空闲p链表">空闲P链表</h2>
-<p>当P的本地运行队列中的所有G都运行完毕，又不能从其他地方拿到G时，拥有P的M会释放P并进入休眠状态，释放的P会变成空闲状态并加到空闲P链表中，空闲P链表保存在全局变量sched</p>
-<p>下次待运行的G入队时如果发现有空闲的P，但是又没有自旋中的M时会唤醒或者新建一个M，M会拥有这个P，P会重新变为运行中的状态。</p>
-<h1 id="工作流程">工作流程</h1>
-<p>下图是协程可能出现的工作状态，图中有4个P，其中M1~M3正在运行G并且运行后会从拥有的P的运行队列继续获取G。</p>
-<p><img src="/image/golang_goroutine_outline.png" alt="/image/golang_goroutine_outline.png"></p>
-<p>只看上面这张图，可能比较难理解工作流程，通过以下代码再了解一遍：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<span style="color:#f92672">import</span> (
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
-    <span style="color:#e6db74">&#34;time&#34;</span>
+<p>这样可以保证不会出现待运行的G入队了，也有空闲的资源P，但无M去执行的情况。</p>
+
+<h2 id="空闲p链表">空闲P链表</h2>
+
+<p>当P的本地运行队列中的所有G都运行完毕，又不能从其他地方拿到G时，拥有P的M会释放P并进入休眠状态，释放的P会变成空闲状态并加到空闲P链表中，空闲P链表保存在全局变量sched</p>
+
+<p>下次待运行的G入队时如果发现有空闲的P，但是又没有自旋中的M时会唤醒或者新建一个M，M会拥有这个P，P会重新变为运行中的状态。</p>
+
+<h1 id="工作流程">工作流程</h1>
+
+<p>下图是协程可能出现的工作状态，图中有4个P，其中M1~M3正在运行G并且运行后会从拥有的P的运行队列继续获取G。</p>
+
+<p><img src="/image/golang_goroutine_outline.png" alt="/image/golang_goroutine_outline.png" /></p>
+
+<p>只看上面这张图，可能比较难理解工作流程，通过以下代码再了解一遍：</p>
+
+<pre><code class="language-golang">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
 )
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printNumber</span>(<span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">to</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">c</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">from</span>; <span style="color:#a6e22e">x</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">to</span>; <span style="color:#a6e22e">x</span><span style="color:#f92672">++</span> {
-        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d\n&#34;</span>, <span style="color:#a6e22e">x</span>)
-        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+func printNumber(from, to int, c chan int) {
+    for x := from; x &lt;= to; x++ {
+        fmt.Printf(&quot;%d\n&quot;, x)
+        time.Sleep(1 * time.Millisecond)
     }
-    <span style="color:#a6e22e">c</span> <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">0</span>
+    c &lt;- 0
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">3</span>)
-    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">printNumber</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#a6e22e">c</span>)
-    <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">printNumber</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">6</span>, <span style="color:#a6e22e">c</span>)
-    <span style="color:#a6e22e">_</span> = <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>
-    <span style="color:#a6e22e">_</span> = <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>
+func main() {
+    c := make(chan int, 3)
+    go printNumber(1, 3, c)
+    go printNumber(4, 6, c)
+    _ = &lt;- c
+    _ = &lt;- c
 }
-</code></pre></div><p>程序运行结果</p>
+</code></pre>
+
+<p>程序运行结果</p>
+
 <pre><code>1
 4
 2
@@ -225,48 +275,82 @@
 6
 3
 
-</code></pre><p>程序启动时会创建一个G，指向的是main（实际是runtime.main而不是main.main）</p>
+</code></pre>
+
+<p>程序启动时会创建一个G，指向的是main（实际是runtime.main而不是main.main）</p>
+
 <p>图中的虚线指的是G待运行或者开始运行的地址，不是当前运行的地址。</p>
-<p><img src="/image/golang_goroutine_main.png" alt="/image/golang_goroutine_main.png"></p>
+
+<p><img src="/image/golang_goroutine_main.png" alt="/image/golang_goroutine_main.png" /></p>
+
 <p>M会取得这个G并运行：</p>
-<p><img src="/image/golang_goroutine_main_2.png" alt="/image/golang_goroutine_main_2.png"></p>
+
+<p><img src="/image/golang_goroutine_main_2.png" alt="/image/golang_goroutine_main_2.png" /></p>
+
 <p>这时main创建一个新的channel，并启动两个新的G：</p>
-<p><img src="/image/golang_goroutine_main_3.png" alt="/image/golang_goroutine_main_3.png"></p>
+
+<p><img src="/image/golang_goroutine_main_3.png" alt="/image/golang_goroutine_main_3.png" /></p>
+
 <p>接下来G：main 会从channel中获取数据，因为获取不到，G会保存状态并变为等待中(_Gwaiting)并添加到channel的队列</p>
-<p><img src="/image/golang_goroutine_main_4.png" alt="/image/golang_goroutine_main_4.png"></p>
+
+<p><img src="/image/golang_goroutine_main_4.png" alt="/image/golang_goroutine_main_4.png" /></p>
+
 <p>因为G:main保存了运行状态，下次运行时将会从 _=&lt;-c 继续运行</p>
+
 <p>接下来M会从运行队列中获取到G：printNumber并运行：</p>
-<p><img src="/image/golang_goroutine_main_5.png" alt="/image/golang_goroutine_main_5.png"></p>
+
+<p><img src="/image/golang_goroutine_main_5.png" alt="/image/golang_goroutine_main_5.png" /></p>
+
 <p>printNumber会打印数字，完成后向channel写数据</p>
+
 <p>写数据时发现channel中有正在等待的G，会把数据交给这个G，把G变为待运行(_Grunnable)并重新放入运行队列：</p>
-<p><img src="/image/golang_goroutine_main_6.png" alt="/image/golang_goroutine_main_6.png"></p>
+
+<p><img src="/image/golang_goroutine_main_6.png" alt="/image/golang_goroutine_main_6.png" /></p>
+
 <p>接下来M会运行下一个G：printNumber，因为创建channel时指定了大小为3的缓冲区，可以直接把数据写入缓冲区而无需等待：</p>
-<p><img src="/image/golang_goroutine_main_7.png" alt="/image/golang_goroutine_main_7.png"></p>
+
+<p><img src="/image/golang_goroutine_main_7.png" alt="/image/golang_goroutine_main_7.png" /></p>
+
 <p>然后printNumber运行完毕，运行队列中就只剩下了G:main了：</p>
-<p><img src="/image/golang_goroutine_main_8.png" alt="/image/golang_goroutine_main_8.png"></p>
+
+<p><img src="/image/golang_goroutine_main_8.png" alt="/image/golang_goroutine_main_8.png" /></p>
+
 <p>最后M把G：main取出来运行，会从上次中断的位置 _=&lt;-c 继续运行：</p>
-<p><img src="/image/golang_goroutine_main_9.png" alt="/image/golang_goroutine_main_9.png"></p>
+
+<p><img src="/image/golang_goroutine_main_9.png" alt="/image/golang_goroutine_main_9.png" /></p>
+
 <p>第一个_=&lt;-c 的结果已经在前面设置过了，这条语句会执行成功。</p>
+
 <p>第二个_=&lt;-c 在获取时发现channel中已有缓冲的0，于是结果就是这个0，不需要等待。</p>
+
 <p>最后main执行完毕，程序结束。</p>
+
 <p>有人可能会好奇如果最后再加一个 _=&lt;-c会变成什么结果，这时因为所有G都进入等待状态，go会检测出来并报告死锁：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">fatal error: all goroutines are asleep - deadlock!
-</code></pre></div><h1 id="开始代码分析">开始代码分析</h1>
+
+<pre><code class="language-shell">fatal error: all goroutines are asleep - deadlock!
+</code></pre>
+
+<h1 id="开始代码分析">开始代码分析</h1>
+
 <h2 id="汇编代码">汇编代码</h2>
+
 <p>上面的程序可生成如下的汇编代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 go tool compile -S main.go &gt;&gt; main.S
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 有效的配对</span>
-    $GOOS		$GOARCH
+
+<pre><code class="language-shell">GOOS=linux GOARCH=amd64 go tool compile -S main.go &gt;&gt; main.S
+</code></pre>
+
+<pre><code class="language-shell"># 有效的配对
+    $GOOS       $GOARCH
     android     arm
-    darwin      <span style="color:#ae81ff">386</span>
+    darwin      386
     darwin      amd64
     darwin      arm
     darwin      arm64
     dragonfly   amd64
-    freebsd     <span style="color:#ae81ff">386</span>
+    freebsd     386
     freebsd     amd64
     freebsd     arm
-    linux       <span style="color:#ae81ff">386</span>
+    linux       386
     linux       amd64
     linux       arm
     linux       arm64
@@ -276,236 +360,276 @@
     linux       mipsle
     linux       mips64
     linux       mips64le
-    netbsd      <span style="color:#ae81ff">386</span>
+    netbsd      386
     netbsd      amd64
     netbsd      arm
-    openbsd     <span style="color:#ae81ff">386</span>
+    openbsd     386
     openbsd     amd64
     openbsd     arm
-    plan9       <span style="color:#ae81ff">386</span>
+    plan9       386
     plan9       amd64
     solaris     amd64
-    windows     <span style="color:#ae81ff">386</span>
+    windows     386
     windows     amd64
 
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#a6e22e">.printNumber</span> <span style="color:#66d9ef">STEXT</span> <span style="color:#66d9ef">size</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">244</span> <span style="color:#66d9ef">args</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x18</span> <span style="color:#66d9ef">locals</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x68</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000</span> <span style="color:#ae81ff">00000</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">TEXT</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.printNumber</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">$104-24</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000</span> <span style="color:#ae81ff">00000</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">MOVQ</span>	(<span style="color:#66d9ef">TLS</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0009</span> <span style="color:#ae81ff">00009</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">CMPQ</span>	<span style="color:#66d9ef">SP</span>, <span style="color:#ae81ff">16</span>(<span style="color:#66d9ef">CX</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x000d</span> <span style="color:#ae81ff">00013</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">JLS</span>	<span style="color:#ae81ff">234</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0013</span> <span style="color:#ae81ff">00019</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">SUBQ</span>	<span style="color:#66d9ef">$104</span>, <span style="color:#66d9ef">SP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0017</span> <span style="color:#ae81ff">00023</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">BP</span>, <span style="color:#ae81ff">96</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x001c</span> <span style="color:#ae81ff">00028</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#ae81ff">96</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">BP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0021</span> <span style="color:#ae81ff">00033</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">FUNCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">gclocals</span><span style="color:#960050;background-color:#1e0010">·</span><span style="color:#ae81ff">9</span><span style="color:#66d9ef">ef2fc5b1903b64eb17bd45cd7894e14</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0021</span> <span style="color:#ae81ff">00033</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">FUNCDATA</span>	<span style="color:#66d9ef">$1</span>, <span style="color:#66d9ef">gclocals</span><span style="color:#960050;background-color:#1e0010">·</span><span style="color:#66d9ef">cebf9419b90e46477aa4e5920f8669ae</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0021</span> <span style="color:#ae81ff">00033</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.from</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">112</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0026</span> <span style="color:#ae81ff">00038</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">9</span>)	<span style="color:#66d9ef">JMP</span>	<span style="color:#ae81ff">181</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x002b</span> <span style="color:#ae81ff">00043</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">9</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.x</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">64</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0030</span> <span style="color:#ae81ff">00048</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_5</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">72</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0035</span> <span style="color:#ae81ff">00053</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">XORPS</span>	<span style="color:#66d9ef">X0</span>, <span style="color:#66d9ef">X0</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0038</span> <span style="color:#ae81ff">00056</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVUPS</span>	<span style="color:#66d9ef">X0</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_4</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">80</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x003d</span> <span style="color:#ae81ff">00061</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#66d9ef">type.int</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0044</span> <span style="color:#ae81ff">00068</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">CX</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0048</span> <span style="color:#ae81ff">00072</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_5</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">72</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">DX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004d</span> <span style="color:#ae81ff">00077</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">DX</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0052</span> <span style="color:#ae81ff">00082</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0052</span> <span style="color:#ae81ff">00082</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.convT2E64</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0057</span> <span style="color:#ae81ff">00087</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#ae81ff">16</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x005c</span> <span style="color:#ae81ff">00092</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#ae81ff">24</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0061</span> <span style="color:#ae81ff">00097</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_4</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">80</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0066</span> <span style="color:#ae81ff">00102</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">CX</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_4</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">88</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x006b</span> <span style="color:#ae81ff">00107</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#66d9ef">go.string.</span><span style="color:#960050;background-color:#1e0010">&#34;</span>%d<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">n</span><span style="color:#960050;background-color:#1e0010">&#34;</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0072</span> <span style="color:#ae81ff">00114</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0076</span> <span style="color:#ae81ff">00118</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$3</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x007f</span> <span style="color:#ae81ff">00127</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_4</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">80</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0084</span> <span style="color:#ae81ff">00132</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">CX</span>, <span style="color:#ae81ff">16</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0089</span> <span style="color:#ae81ff">00137</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$1</span>, <span style="color:#ae81ff">24</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0092</span> <span style="color:#ae81ff">00146</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$1</span>, <span style="color:#ae81ff">32</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x009b</span> <span style="color:#ae81ff">00155</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x009b</span> <span style="color:#ae81ff">00155</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">10</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">fmt.Printf</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00a0</span> <span style="color:#ae81ff">00160</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">11</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$1000000</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00a8</span> <span style="color:#ae81ff">00168</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">11</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$0</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00a8</span> <span style="color:#ae81ff">00168</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">11</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">time.Sleep</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00ad</span> <span style="color:#ae81ff">00173</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">11</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.x</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">64</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00b2</span> <span style="color:#ae81ff">00178</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">9</span>)	<span style="color:#66d9ef">INCQ</span>	<span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00b5</span> <span style="color:#ae81ff">00181</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">9</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.to</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">120</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00ba</span> <span style="color:#ae81ff">00186</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">9</span>)	<span style="color:#66d9ef">CMPQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00bd</span> <span style="color:#ae81ff">00189</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">9</span>)	<span style="color:#66d9ef">JLE</span>	<span style="color:#ae81ff">43</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00c3</span> <span style="color:#ae81ff">00195</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">9</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.c</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">128</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00cb</span> <span style="color:#ae81ff">00203</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">13</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00cf</span> <span style="color:#ae81ff">00207</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">13</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.statictmp_0</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00d6</span> <span style="color:#ae81ff">00214</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">13</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00db</span> <span style="color:#ae81ff">00219</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">13</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$2</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00db</span> <span style="color:#ae81ff">00219</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">13</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.chansend1</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00e0</span> <span style="color:#ae81ff">00224</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">14</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#ae81ff">96</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">BP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00e5</span> <span style="color:#ae81ff">00229</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">14</span>)	<span style="color:#66d9ef">ADDQ</span>	<span style="color:#66d9ef">$104</span>, <span style="color:#66d9ef">SP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00e9</span> <span style="color:#ae81ff">00233</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">14</span>)	<span style="color:#66d9ef">RET</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00ea</span> <span style="color:#ae81ff">00234</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">14</span>)	<span style="color:#66d9ef">NOP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00ea</span> <span style="color:#ae81ff">00234</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$-1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00ea</span> <span style="color:#ae81ff">00234</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.morestack_noctxt</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00ef</span> <span style="color:#ae81ff">00239</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">8</span>)	<span style="color:#66d9ef">JMP</span>	<span style="color:#ae81ff">0</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000</span> <span style="color:#ae81ff">64</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">25</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">3</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">61</span> <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">f</span> <span style="color:#ae81ff">86</span> <span style="color:#66d9ef">d7</span>  <span style="color:#66d9ef">dH..</span>%....H<span style="color:#75715e">;a....
-</span><span style="color:#75715e"></span>	<span style="color:#ae81ff">0x0010</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">83</span> <span style="color:#66d9ef">ec</span> <span style="color:#ae81ff">68</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">6</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">60</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">d</span> <span style="color:#ae81ff">6</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span>  <span style="color:#66d9ef">...H..hH.l$</span><span style="color:#960050;background-color:#1e0010">`</span><span style="color:#66d9ef">H.l$</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0020</span> <span style="color:#ae81ff">60</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">70</span> <span style="color:#66d9ef">e9</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">a</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">40</span>  <span style="color:#960050;background-color:#1e0010">`</span><span style="color:#66d9ef">H.D$p.....H.D$@</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0030</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">f</span> <span style="color:#ae81ff">57</span> <span style="color:#66d9ef">c0</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">f</span> <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">50</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">d</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">d</span>  <span style="color:#66d9ef">H.D$H.W...D$PH..</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0040</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">d</span> <span style="color:#ae81ff">54</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">54</span>  <span style="color:#66d9ef">....H..$H.T$HH.T</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0050</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">08</span> <span style="color:#66d9ef">e8</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">4</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span>  <span style="color:#66d9ef">$......H.D$.H.L$</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0060</span> <span style="color:#ae81ff">18</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">50</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">4</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">58</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">d</span> <span style="color:#ae81ff">05</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span>  <span style="color:#66d9ef">.H.D$PH.L$XH....</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0070</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">04</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">48</span> <span style="color:#66d9ef">c7</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">08</span> <span style="color:#ae81ff">03</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span>  <span style="color:#66d9ef">..H..$H.D$.....H</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0080</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">d</span> <span style="color:#ae81ff">4</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">50</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">4</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">48</span> <span style="color:#66d9ef">c7</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">18</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">00</span>  <span style="color:#66d9ef">.L$PH.L$.H.D$...</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0090</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#66d9ef">c7</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">20</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#66d9ef">e8</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span>  <span style="color:#66d9ef">..H.D$</span> <span style="color:#66d9ef">.........</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00a0</span> <span style="color:#ae81ff">48</span> <span style="color:#66d9ef">c7</span> <span style="color:#ae81ff">04</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">40</span> <span style="color:#ae81ff">42</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">f</span> <span style="color:#ae81ff">00</span> <span style="color:#66d9ef">e8</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">44</span>  <span style="color:#66d9ef">H..$@B.......H.D</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00b0</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">40</span> <span style="color:#ae81ff">48</span> <span style="color:#66d9ef">ff</span> <span style="color:#66d9ef">c0</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">4</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">78</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">39</span> <span style="color:#66d9ef">c8</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">f</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">e</span> <span style="color:#ae81ff">68</span>  <span style="color:#66d9ef">$@H..H.L$xH9...h</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00c0</span> <span style="color:#66d9ef">ff</span> <span style="color:#66d9ef">ff</span> <span style="color:#66d9ef">ff</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">84</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">80</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">04</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">48</span>  <span style="color:#66d9ef">...H..$....H..$H</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00d0</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">d</span> <span style="color:#ae81ff">05</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">89</span> <span style="color:#ae81ff">44</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">08</span> <span style="color:#66d9ef">e8</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span>  <span style="color:#66d9ef">......H.D$......</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00e0</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">8</span><span style="color:#66d9ef">b</span> <span style="color:#ae81ff">6</span><span style="color:#66d9ef">c</span> <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">60</span> <span style="color:#ae81ff">48</span> <span style="color:#ae81ff">83</span> <span style="color:#66d9ef">c4</span> <span style="color:#ae81ff">68</span> <span style="color:#66d9ef">c3</span> <span style="color:#66d9ef">e8</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#66d9ef">e9</span>  <span style="color:#66d9ef">H.l$</span><span style="color:#960050;background-color:#1e0010">`</span><span style="color:#66d9ef">H..h.......</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00f0</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">c</span> <span style="color:#66d9ef">ff</span> <span style="color:#66d9ef">ff</span> <span style="color:#66d9ef">ff</span>                                      <span style="color:#66d9ef">....</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">5</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">16</span> <span style="color:#66d9ef">TLS</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">64</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">15</span> <span style="color:#66d9ef">type.int</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">83</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">8</span> <span style="color:#66d9ef">runtime.convT2E64</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">110</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">15</span> <span style="color:#66d9ef">go.string.</span><span style="color:#960050;background-color:#1e0010">&#34;</span>%d<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">n</span><span style="color:#960050;background-color:#1e0010">&#34;+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">156</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">8</span> <span style="color:#66d9ef">fmt.Printf</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">169</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">8</span> <span style="color:#66d9ef">time.Sleep</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">210</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">15</span> <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.statictmp_0</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">220</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">8</span> <span style="color:#66d9ef">runtime.chansend1</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-	<span style="color:#a6e22e">rel</span> <span style="color:#ae81ff">235</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span> <span style="color:#66d9ef">t</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">8</span> <span style="color:#66d9ef">runtime.morestack_noctxt</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">0</span>
-<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#a6e22e">.main</span> <span style="color:#66d9ef">STEXT</span> <span style="color:#66d9ef">size</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">286</span> <span style="color:#66d9ef">args</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x0</span> <span style="color:#66d9ef">locals</span><span style="color:#960050;background-color:#1e0010">=</span><span style="color:#ae81ff">0x50</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000</span> <span style="color:#ae81ff">00000</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">TEXT</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.main</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">$80-0</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0000</span> <span style="color:#ae81ff">00000</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">MOVQ</span>	(<span style="color:#66d9ef">TLS</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0009</span> <span style="color:#ae81ff">00009</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">CMPQ</span>	<span style="color:#66d9ef">SP</span>, <span style="color:#ae81ff">16</span>(<span style="color:#66d9ef">CX</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x000d</span> <span style="color:#ae81ff">00013</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">JLS</span>	<span style="color:#ae81ff">276</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0013</span> <span style="color:#ae81ff">00019</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">SUBQ</span>	<span style="color:#66d9ef">$80</span>, <span style="color:#66d9ef">SP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0017</span> <span style="color:#ae81ff">00023</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">BP</span>, <span style="color:#ae81ff">72</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x001c</span> <span style="color:#ae81ff">00028</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#ae81ff">72</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">BP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0021</span> <span style="color:#ae81ff">00033</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">FUNCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">gclocals</span><span style="color:#960050;background-color:#1e0010">·</span><span style="color:#ae81ff">69</span><span style="color:#66d9ef">c1753bd5f81501d95132d08af04464</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0021</span> <span style="color:#ae81ff">00033</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">FUNCDATA</span>	<span style="color:#66d9ef">$1</span>, <span style="color:#66d9ef">gclocals</span><span style="color:#960050;background-color:#1e0010">·</span><span style="color:#ae81ff">9</span><span style="color:#66d9ef">fb7f0986f647f17cb53dda1484e0f7a</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0021</span> <span style="color:#ae81ff">00033</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">17</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#66d9ef">type.chan</span> <span style="color:#66d9ef">int</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0028</span> <span style="color:#ae81ff">00040</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">17</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x002c</span> <span style="color:#ae81ff">00044</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">17</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$3</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0035</span> <span style="color:#ae81ff">00053</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">17</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$0</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0035</span> <span style="color:#ae81ff">00053</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">17</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.makechan</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x003a</span> <span style="color:#ae81ff">00058</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">17</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#ae81ff">16</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x003f</span> <span style="color:#ae81ff">00063</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">17</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.c</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">64</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0044</span> <span style="color:#ae81ff">00068</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$1</span>, <span style="color:#ae81ff">16</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x004d</span> <span style="color:#ae81ff">00077</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$3</span>, <span style="color:#ae81ff">24</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0056</span> <span style="color:#ae81ff">00086</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">32</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x005b</span> <span style="color:#ae81ff">00091</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">MOVL</span>	<span style="color:#66d9ef">$24</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0062</span> <span style="color:#ae81ff">00098</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.printNumber</span><span style="color:#960050;background-color:#1e0010">·</span><span style="color:#66d9ef">f</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0069</span> <span style="color:#ae81ff">00105</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">CX</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x006e</span> <span style="color:#ae81ff">00110</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x006e</span> <span style="color:#ae81ff">00110</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">18</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.newproc</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0073</span> <span style="color:#ae81ff">00115</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$4</span>, <span style="color:#ae81ff">16</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x007c</span> <span style="color:#ae81ff">00124</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$6</span>, <span style="color:#ae81ff">24</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0085</span> <span style="color:#ae81ff">00133</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.c</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">64</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x008a</span> <span style="color:#ae81ff">00138</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">32</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x008f</span> <span style="color:#ae81ff">00143</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">MOVL</span>	<span style="color:#66d9ef">$24</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0096</span> <span style="color:#ae81ff">00150</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.printNumber</span><span style="color:#960050;background-color:#1e0010">·</span><span style="color:#66d9ef">f</span>(<span style="color:#66d9ef">SB</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x009d</span> <span style="color:#ae81ff">00157</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">CX</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00a2</span> <span style="color:#ae81ff">00162</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00a2</span> <span style="color:#ae81ff">00162</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">19</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.newproc</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00a7</span> <span style="color:#ae81ff">00167</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">21</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_1</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">56</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00b0</span> <span style="color:#ae81ff">00176</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">21</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.c</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">64</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00b5</span> <span style="color:#ae81ff">00181</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">21</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00b9</span> <span style="color:#ae81ff">00185</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">21</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_1</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">56</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00be</span> <span style="color:#ae81ff">00190</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">21</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">CX</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00c3</span> <span style="color:#ae81ff">00195</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">21</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00c3</span> <span style="color:#ae81ff">00195</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">21</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.chanrecv1</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00c8</span> <span style="color:#ae81ff">00200</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">22</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_2</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">48</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00d1</span> <span style="color:#ae81ff">00209</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">22</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.c</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">64</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00d6</span> <span style="color:#ae81ff">00214</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">22</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00da</span> <span style="color:#ae81ff">00218</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">22</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_2</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">48</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">CX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00df</span> <span style="color:#ae81ff">00223</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">22</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">CX</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00e4</span> <span style="color:#ae81ff">00228</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">22</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00e4</span> <span style="color:#ae81ff">00228</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">22</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.chanrecv1</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00e9</span> <span style="color:#ae81ff">00233</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">23</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_3</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">40</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00f2</span> <span style="color:#ae81ff">00242</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">23</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">.c</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">64</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00f7</span> <span style="color:#ae81ff">00247</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">23</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, (<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x00fb</span> <span style="color:#ae81ff">00251</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">23</span>)	<span style="color:#66d9ef">LEAQ</span>	<span style="color:#960050;background-color:#1e0010">&#34;&#34;</span><span style="color:#66d9ef">..autotmp_3</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">40</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">AX</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0100</span> <span style="color:#ae81ff">00256</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">23</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">8</span>(<span style="color:#66d9ef">SP</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0105</span> <span style="color:#ae81ff">00261</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">23</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$0</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0105</span> <span style="color:#ae81ff">00261</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">23</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.chanrecv1</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x010a</span> <span style="color:#ae81ff">00266</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">24</span>)	<span style="color:#66d9ef">MOVQ</span>	<span style="color:#ae81ff">72</span>(<span style="color:#66d9ef">SP</span>), <span style="color:#66d9ef">BP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x010f</span> <span style="color:#ae81ff">00271</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">24</span>)	<span style="color:#66d9ef">ADDQ</span>	<span style="color:#66d9ef">$80</span>, <span style="color:#66d9ef">SP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0113</span> <span style="color:#ae81ff">00275</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">24</span>)	<span style="color:#66d9ef">RET</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0114</span> <span style="color:#ae81ff">00276</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">24</span>)	<span style="color:#66d9ef">NOP</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0114</span> <span style="color:#ae81ff">00276</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">PCDATA</span>	<span style="color:#66d9ef">$0</span>, <span style="color:#66d9ef">$-1</span>
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0114</span> <span style="color:#ae81ff">00276</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">CALL</span>	<span style="color:#66d9ef">runtime.morestack_noctxt</span>(<span style="color:#66d9ef">SB</span>)
-	<span style="color:#960050;background-color:#1e0010">0</span><span style="color:#a6e22e">x0119</span> <span style="color:#ae81ff">00281</span> (<span style="color:#66d9ef">test_sched.go</span>:<span style="color:#ae81ff">16</span>)	<span style="color:#66d9ef">JMP</span>	<span style="color:#ae81ff">0</span>
-</code></pre></div><h2 id="调用规范">调用规范</h2>
+</code></pre>
+
+<pre><code class="language-asm">&quot;&quot;.printNumber STEXT size=244 args=0x18 locals=0x68
+    0x0000 00000 (test_sched.go:8)  TEXT    &quot;&quot;.printNumber(SB), $104-24
+    0x0000 00000 (test_sched.go:8)  MOVQ    (TLS), CX
+    0x0009 00009 (test_sched.go:8)  CMPQ    SP, 16(CX)
+    0x000d 00013 (test_sched.go:8)  JLS 234
+    0x0013 00019 (test_sched.go:8)  SUBQ    $104, SP
+    0x0017 00023 (test_sched.go:8)  MOVQ    BP, 96(SP)
+    0x001c 00028 (test_sched.go:8)  LEAQ    96(SP), BP
+    0x0021 00033 (test_sched.go:8)  FUNCDATA    $0, gclocals·9ef2fc5b1903b64eb17bd45cd7894e14(SB)
+    0x0021 00033 (test_sched.go:8)  FUNCDATA    $1, gclocals·cebf9419b90e46477aa4e5920f8669ae(SB)
+    0x0021 00033 (test_sched.go:8)  MOVQ    &quot;&quot;.from+112(SP), AX
+    0x0026 00038 (test_sched.go:9)  JMP 181
+    0x002b 00043 (test_sched.go:9)  MOVQ    AX, &quot;&quot;.x+64(SP)
+    0x0030 00048 (test_sched.go:10) MOVQ    AX, &quot;&quot;..autotmp_5+72(SP)
+    0x0035 00053 (test_sched.go:10) XORPS   X0, X0
+    0x0038 00056 (test_sched.go:10) MOVUPS  X0, &quot;&quot;..autotmp_4+80(SP)
+    0x003d 00061 (test_sched.go:10) LEAQ    type.int(SB), CX
+    0x0044 00068 (test_sched.go:10) MOVQ    CX, (SP)
+    0x0048 00072 (test_sched.go:10) LEAQ    &quot;&quot;..autotmp_5+72(SP), DX
+    0x004d 00077 (test_sched.go:10) MOVQ    DX, 8(SP)
+    0x0052 00082 (test_sched.go:10) PCDATA  $0, $1
+    0x0052 00082 (test_sched.go:10) CALL    runtime.convT2E64(SB)
+    0x0057 00087 (test_sched.go:10) MOVQ    16(SP), AX
+    0x005c 00092 (test_sched.go:10) MOVQ    24(SP), CX
+    0x0061 00097 (test_sched.go:10) MOVQ    AX, &quot;&quot;..autotmp_4+80(SP)
+    0x0066 00102 (test_sched.go:10) MOVQ    CX, &quot;&quot;..autotmp_4+88(SP)
+    0x006b 00107 (test_sched.go:10) LEAQ    go.string.&quot;%d\n&quot;(SB), AX
+    0x0072 00114 (test_sched.go:10) MOVQ    AX, (SP)
+    0x0076 00118 (test_sched.go:10) MOVQ    $3, 8(SP)
+    0x007f 00127 (test_sched.go:10) LEAQ    &quot;&quot;..autotmp_4+80(SP), CX
+    0x0084 00132 (test_sched.go:10) MOVQ    CX, 16(SP)
+    0x0089 00137 (test_sched.go:10) MOVQ    $1, 24(SP)
+    0x0092 00146 (test_sched.go:10) MOVQ    $1, 32(SP)
+    0x009b 00155 (test_sched.go:10) PCDATA  $0, $1
+    0x009b 00155 (test_sched.go:10) CALL    fmt.Printf(SB)
+    0x00a0 00160 (test_sched.go:11) MOVQ    $1000000, (SP)
+    0x00a8 00168 (test_sched.go:11) PCDATA  $0, $0
+    0x00a8 00168 (test_sched.go:11) CALL    time.Sleep(SB)
+    0x00ad 00173 (test_sched.go:11) MOVQ    &quot;&quot;.x+64(SP), AX
+    0x00b2 00178 (test_sched.go:9)  INCQ    AX
+    0x00b5 00181 (test_sched.go:9)  MOVQ    &quot;&quot;.to+120(SP), CX
+    0x00ba 00186 (test_sched.go:9)  CMPQ    AX, CX
+    0x00bd 00189 (test_sched.go:9)  JLE 43
+    0x00c3 00195 (test_sched.go:9)  MOVQ    &quot;&quot;.c+128(SP), AX
+    0x00cb 00203 (test_sched.go:13) MOVQ    AX, (SP)
+    0x00cf 00207 (test_sched.go:13) LEAQ    &quot;&quot;.statictmp_0(SB), AX
+    0x00d6 00214 (test_sched.go:13) MOVQ    AX, 8(SP)
+    0x00db 00219 (test_sched.go:13) PCDATA  $0, $2
+    0x00db 00219 (test_sched.go:13) CALL    runtime.chansend1(SB)
+    0x00e0 00224 (test_sched.go:14) MOVQ    96(SP), BP
+    0x00e5 00229 (test_sched.go:14) ADDQ    $104, SP
+    0x00e9 00233 (test_sched.go:14) RET
+    0x00ea 00234 (test_sched.go:14) NOP
+    0x00ea 00234 (test_sched.go:8)  PCDATA  $0, $-1
+    0x00ea 00234 (test_sched.go:8)  CALL    runtime.morestack_noctxt(SB)
+    0x00ef 00239 (test_sched.go:8)  JMP 0
+    0x0000 64 48 8b 0c 25 00 00 00 00 48 3b 61 10 0f 86 d7  dH..%....H;a....
+    0x0010 00 00 00 48 83 ec 68 48 89 6c 24 60 48 8d 6c 24  ...H..hH.l$`H.l$
+    0x0020 60 48 8b 44 24 70 e9 8a 00 00 00 48 89 44 24 40  `H.D$p.....H.D$@
+    0x0030 48 89 44 24 48 0f 57 c0 0f 11 44 24 50 48 8d 0d  H.D$H.W...D$PH..
+    0x0040 00 00 00 00 48 89 0c 24 48 8d 54 24 48 48 89 54  ....H..$H.T$HH.T
+    0x0050 24 08 e8 00 00 00 00 48 8b 44 24 10 48 8b 4c 24  $......H.D$.H.L$
+    0x0060 18 48 89 44 24 50 48 89 4c 24 58 48 8d 05 00 00  .H.D$PH.L$XH....
+    0x0070 00 00 48 89 04 24 48 c7 44 24 08 03 00 00 00 48  ..H..$H.D$.....H
+    0x0080 8d 4c 24 50 48 89 4c 24 10 48 c7 44 24 18 01 00  .L$PH.L$.H.D$...
+    0x0090 00 00 48 c7 44 24 20 01 00 00 00 e8 00 00 00 00  ..H.D$ .........
+    0x00a0 48 c7 04 24 40 42 0f 00 e8 00 00 00 00 48 8b 44  H..$@B.......H.D
+    0x00b0 24 40 48 ff c0 48 8b 4c 24 78 48 39 c8 0f 8e 68  $@H..H.L$xH9...h
+    0x00c0 ff ff ff 48 8b 84 24 80 00 00 00 48 89 04 24 48  ...H..$....H..$H
+    0x00d0 8d 05 00 00 00 00 48 89 44 24 08 e8 00 00 00 00  ......H.D$......
+    0x00e0 48 8b 6c 24 60 48 83 c4 68 c3 e8 00 00 00 00 e9  H.l$`H..h.......
+    0x00f0 0c ff ff ff                                      ....
+    rel 5+4 t=16 TLS+0
+    rel 64+4 t=15 type.int+0
+    rel 83+4 t=8 runtime.convT2E64+0
+    rel 110+4 t=15 go.string.&quot;%d\n&quot;+0
+    rel 156+4 t=8 fmt.Printf+0
+    rel 169+4 t=8 time.Sleep+0
+    rel 210+4 t=15 &quot;&quot;.statictmp_0+0
+    rel 220+4 t=8 runtime.chansend1+0
+    rel 235+4 t=8 runtime.morestack_noctxt+0
+&quot;&quot;.main STEXT size=286 args=0x0 locals=0x50
+    0x0000 00000 (test_sched.go:16) TEXT    &quot;&quot;.main(SB), $80-0
+    0x0000 00000 (test_sched.go:16) MOVQ    (TLS), CX
+    0x0009 00009 (test_sched.go:16) CMPQ    SP, 16(CX)
+    0x000d 00013 (test_sched.go:16) JLS 276
+    0x0013 00019 (test_sched.go:16) SUBQ    $80, SP
+    0x0017 00023 (test_sched.go:16) MOVQ    BP, 72(SP)
+    0x001c 00028 (test_sched.go:16) LEAQ    72(SP), BP
+    0x0021 00033 (test_sched.go:16) FUNCDATA    $0, gclocals·69c1753bd5f81501d95132d08af04464(SB)
+    0x0021 00033 (test_sched.go:16) FUNCDATA    $1, gclocals·9fb7f0986f647f17cb53dda1484e0f7a(SB)
+    0x0021 00033 (test_sched.go:17) LEAQ    type.chan int(SB), AX
+    0x0028 00040 (test_sched.go:17) MOVQ    AX, (SP)
+    0x002c 00044 (test_sched.go:17) MOVQ    $3, 8(SP)
+    0x0035 00053 (test_sched.go:17) PCDATA  $0, $0
+    0x0035 00053 (test_sched.go:17) CALL    runtime.makechan(SB)
+    0x003a 00058 (test_sched.go:17) MOVQ    16(SP), AX
+    0x003f 00063 (test_sched.go:17) MOVQ    AX, &quot;&quot;.c+64(SP)
+    0x0044 00068 (test_sched.go:18) MOVQ    $1, 16(SP)
+    0x004d 00077 (test_sched.go:18) MOVQ    $3, 24(SP)
+    0x0056 00086 (test_sched.go:18) MOVQ    AX, 32(SP)
+    0x005b 00091 (test_sched.go:18) MOVL    $24, (SP)
+    0x0062 00098 (test_sched.go:18) LEAQ    &quot;&quot;.printNumber·f(SB), CX
+    0x0069 00105 (test_sched.go:18) MOVQ    CX, 8(SP)
+    0x006e 00110 (test_sched.go:18) PCDATA  $0, $1
+    0x006e 00110 (test_sched.go:18) CALL    runtime.newproc(SB)
+    0x0073 00115 (test_sched.go:19) MOVQ    $4, 16(SP)
+    0x007c 00124 (test_sched.go:19) MOVQ    $6, 24(SP)
+    0x0085 00133 (test_sched.go:19) MOVQ    &quot;&quot;.c+64(SP), AX
+    0x008a 00138 (test_sched.go:19) MOVQ    AX, 32(SP)
+    0x008f 00143 (test_sched.go:19) MOVL    $24, (SP)
+    0x0096 00150 (test_sched.go:19) LEAQ    &quot;&quot;.printNumber·f(SB), CX
+    0x009d 00157 (test_sched.go:19) MOVQ    CX, 8(SP)
+    0x00a2 00162 (test_sched.go:19) PCDATA  $0, $1
+    0x00a2 00162 (test_sched.go:19) CALL    runtime.newproc(SB)
+    0x00a7 00167 (test_sched.go:21) MOVQ    $0, &quot;&quot;..autotmp_1+56(SP)
+    0x00b0 00176 (test_sched.go:21) MOVQ    &quot;&quot;.c+64(SP), AX
+    0x00b5 00181 (test_sched.go:21) MOVQ    AX, (SP)
+    0x00b9 00185 (test_sched.go:21) LEAQ    &quot;&quot;..autotmp_1+56(SP), CX
+    0x00be 00190 (test_sched.go:21) MOVQ    CX, 8(SP)
+    0x00c3 00195 (test_sched.go:21) PCDATA  $0, $1
+    0x00c3 00195 (test_sched.go:21) CALL    runtime.chanrecv1(SB)
+    0x00c8 00200 (test_sched.go:22) MOVQ    $0, &quot;&quot;..autotmp_2+48(SP)
+    0x00d1 00209 (test_sched.go:22) MOVQ    &quot;&quot;.c+64(SP), AX
+    0x00d6 00214 (test_sched.go:22) MOVQ    AX, (SP)
+    0x00da 00218 (test_sched.go:22) LEAQ    &quot;&quot;..autotmp_2+48(SP), CX
+    0x00df 00223 (test_sched.go:22) MOVQ    CX, 8(SP)
+    0x00e4 00228 (test_sched.go:22) PCDATA  $0, $1
+    0x00e4 00228 (test_sched.go:22) CALL    runtime.chanrecv1(SB)
+    0x00e9 00233 (test_sched.go:23) MOVQ    $0, &quot;&quot;..autotmp_3+40(SP)
+    0x00f2 00242 (test_sched.go:23) MOVQ    &quot;&quot;.c+64(SP), AX
+    0x00f7 00247 (test_sched.go:23) MOVQ    AX, (SP)
+    0x00fb 00251 (test_sched.go:23) LEAQ    &quot;&quot;..autotmp_3+40(SP), AX
+    0x0100 00256 (test_sched.go:23) MOVQ    AX, 8(SP)
+    0x0105 00261 (test_sched.go:23) PCDATA  $0, $0
+    0x0105 00261 (test_sched.go:23) CALL    runtime.chanrecv1(SB)
+    0x010a 00266 (test_sched.go:24) MOVQ    72(SP), BP
+    0x010f 00271 (test_sched.go:24) ADDQ    $80, SP
+    0x0113 00275 (test_sched.go:24) RET
+    0x0114 00276 (test_sched.go:24) NOP
+    0x0114 00276 (test_sched.go:16) PCDATA  $0, $-1
+    0x0114 00276 (test_sched.go:16) CALL    runtime.morestack_noctxt(SB)
+    0x0119 00281 (test_sched.go:16) JMP 0
+</code></pre>
+
+<h2 id="调用规范">调用规范</h2>
+
 <p>go有一套独自的调用规范</p>
+
 <p>o的调用规范非常的简单, 所有参数都通过栈传递, 返回值也通过栈传递,</p>
+
 <p>例如这样的函数：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyStruct</span> <span style="color:#66d9ef">struct</span> { <span style="color:#a6e22e">X</span> <span style="color:#66d9ef">int</span>; <span style="color:#a6e22e">P</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span> }
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">someFunc</span>(<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">s</span> <span style="color:#a6e22e">MyStruct</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">MyStruct</span>) { <span style="color:#f92672">...</span> }
-</code></pre></div><p>其运行时调用栈如下：</p>
-<p><img src="/image/golang_goroutine_stack.png" alt="/image/golang_goroutine_stack.png"></p>
+
+<pre><code class="language-golang">type MyStruct struct { X int; P *int }
+func someFunc(x int, s MyStruct) (int, MyStruct) { ... }
+</code></pre>
+
+<p>其运行时调用栈如下：</p>
+
+<p><img src="/image/golang_goroutine_stack.png" alt="/image/golang_goroutine_stack.png" /></p>
+
 <p>可以看得出参数和返回值都从低位到高位排列, go函数可以有多个返回值的原因也在于此. 因为返回值都通过栈传递了.
-需要注意的这里的&quot;返回地址&quot;是x86和x64上的, arm的返回地址会通过LR寄存器保存, 内容会和这里的稍微不一样.
+需要注意的这里的&rdquo;返回地址&rdquo;是x86和x64上的, arm的返回地址会通过LR寄存器保存, 内容会和这里的稍微不一样.
 另外注意的是和c不一样, 传递构造体时整个构造体的内容都会复制到栈上, 如果构造体很大将会影响性能.</p>
+
 <h2 id="tls">TLS</h2>
+
 <p>TLS的全称是Thread-local storage, 代表每个线程的中的本地数据.</p>
+
 <p>例如标准c中的errno就是一个典型的TLS变量, 每个线程都有一个独自的errno, 写入它不会干扰到其他线程中的值.
 go在实现协程时非常依赖TLS机制, 会用于获取系统线程中当前的G和G所属的M的实例</p>
+
 <p>因为go并不使用glibc, 操作TLS会使用系统原生的接口, 以linux x64为例,
 go在新建M时会调用arch_prctl这个syscall设置FS寄存器的值为M.tls的地址,
 运行中每个M的FS寄存器都会指向它们对应的M实例的tls, linux内核调度线程时FS寄存器会跟着线程一起切换,
 这样go代码只需要访问FS寄存器就可以存取线程本地的数据.</p>
+
 <h2 id="栈扩张">栈扩张</h2>
+
 <p>因为go中的协程是stackful coroutine, 每一个goroutine都需要有自己的栈空间,
 栈空间的内容在goroutine休眠时需要保留, 待休眠完成后恢复(这时整个调用树都是完整的).
 这样就引出了一个问题, goroutine可能会同时存在很多个, 如果每一个goroutine都预先分配一个足够的栈空间那么go就会使用过多的内存.</p>
+
 <p>为了避免这个问题, go在一开始只为goroutine分配一个很小的栈空间, 它的大小在当前版本是2K.
 当函数发现栈空间不足时, 会申请一块新的栈空间并把原来的栈内容复制过去.</p>
-<h2 id="写屏障write-barrier">写屏障(write barrier)</h2>
+
+<h2 id="写屏障-write-barrier">写屏障(write barrier)</h2>
+
 <p>因为go支持并行GC, GC的扫描和go代码可以同时运行, 这样带来的问题是GC扫描的过程中go代码有可能改变了对象的依赖树,
 例如开始扫描时发现根对象A和B, B拥有C的指针, GC先扫描A, 然后B把C的指针交给A, GC再扫描B, 这时C就不会被扫描到.
 为了避免这个问题, go在GC的标记阶段会启用写屏障(Write Barrier).</p>
+
 <p>启用了写屏障(Write Barrier)后, 当B把C的指针交给A时, GC会认为在这一轮的扫描中C的指针是存活的,
 即使A可能会在稍后丢掉C, 那么C就在下一轮回收.
 写屏障只针对指针启用, 而且只在GC的标记阶段启用, 平时会直接把值写入到目标地址:</p>
+
 <p>关于写屏障的详细将在下一篇(GC篇)分析.
 值得一提的是CoreCLR的GC也有写屏障的机制, 但作用跟这里的不一样(用于标记跨代引用).</p>
-<h2 id="闭包closure">闭包(Closure)</h2>
-<p>golang闭包的实现</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<span style="color:#f92672">import</span> (
-    <span style="color:#e6db74">&#34;fmt&#34;</span>
+<h2 id="闭包-closure">闭包(Closure)</h2>
+
+<p>golang闭包的实现</p>
+
+<pre><code class="language-golang">package main
+
+import (
+    &quot;fmt&quot;
 )
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">executeFn</span>(<span style="color:#a6e22e">fn</span> <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fn</span>();
+func executeFn(fn func() int) int {
+    return fn();
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span>
-    <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">executeFn</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">int</span> {
-        <span style="color:#a6e22e">a</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">b</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>
+func main() {
+    a := 1
+    b := 2
+    c := executeFn(func() int {
+        a += b
+        return a
     })
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d %d %d\n&#34;</span>, <span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">c</span>)
+    fmt.Printf(&quot;%d %d %d\n&quot;, a, b, c)
 }
-</code></pre></div><p>调用闭包时参数并不通过栈传递, 而是通过寄存器rdx传递,</p>
+</code></pre>
+
+<p>调用闭包时参数并不通过栈传递, 而是通过寄存器rdx传递,</p>
+
 <p>闭包的传递可以总结如下：</p>
+
 <ul>
 <li>闭包的内容是[匿名函数的地址，传给匿名函数的参数（不定长）&hellip;]</li>
 <li>传递闭包给其他函数时会传递指向闭包内容的指针</li>
 <li>闭包会从寄存器rdx取出参数</li>
 <li>如果闭包修改了变量，闭包中的参数会是指针而不是值，修改时会修改到原来的位置上。</li>
 </ul>
-<h2 id="闭包goroutine">闭包+goroutine</h2>
+
+<h2 id="闭包-goroutine">闭包+goroutine</h2>
+
 <p>细心的可能会发现在上面的例子中, 闭包的内容在栈上, 如果不是直接调用executeFn而是go executeFn呢?</p>
+
 <p>首先go会通过逃逸分析算出变量a和闭包会逃逸到外面,
 这时go会在heap上分配变量a和闭包, 上面调用的两次newobject就是分别对变量a和闭包的分配.</p>
+
 <h2 id="m0和g0">m0和g0</h2>
+
 <p>go中还有特殊的M和G, 它们是m0和g0.</p>
+
 <p>m0是启动程序后的主线程, 这个m对应的实例会在全局变量m0中, 不需要在heap上分配,
 m0负责执行初始化操作和启动第一个g, 在之后m0就和其他的m一样了.</p>
+
 <p>g0是仅用于负责调度的G, g0不指向任何可执行的函数, 每个m都会有一个自己的g0,
 在调度或系统调用时会使用g0的栈空间, 全局变量的g0是m0的g0.</p>
+
 <h1 id="程序初始化">程序初始化</h1>
+
 <p>go程序的入口点是<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/asm_amd64.s">runtime.rt0_g0</a>，流程如下：</p>
+
 <ul>
 <li>分配栈空间，需要2个本地变量+2个函数参数，然后向8对齐</li>
 <li>把传入的argc和argv保存到栈上</li>
@@ -520,29 +644,31 @@ m0负责执行初始化操作和启动第一个g, 在之后m0就和其他的m一
 <li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime1.go#L140">runtime.check</a>做一些检查</li>
 <li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime1.go#L60">runtime.args</a> 保存传入的argc和argv全局变量</li>
 <li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/os_linux.go#L269">runtime.osinit</a>根据系统执行不同的初始化
+
 <ul>
 <li>这里(linux amd64)设置了全局变量ncpu等于cpu核心数</li>
-</ul>
-</li>
+</ul></li>
 <li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L468">runtime.schedinit</a>执行共同的初始化
+
 <ul>
 <li>这里的处理比较多，会初始化栈空间分配器，GC,按cpu核心数或GOMAXPROCS的值生成P等</li>
 <li>生成P的处理在<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L3517">procresize</a>中</li>
-</ul>
-</li>
+</ul></li>
 <li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L2929">runtime.newproc</a>创建一个新的goroutine，指向的是runtime.main
+
 <ul>
 <li>runtime.newproc这个函数在创建普通的goroutine时也会使用</li>
-</ul>
-</li>
+</ul></li>
 <li>调用<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/proc.go#L1135">runtime.mstart</a>启动m0
+
 <ul>
 <li>启动后m0会不断从运行队列获取G并运行，runtime.mstart调用后不会返回</li>
 <li>runtime.mstart这个函数是m的入口点</li>
+</ul></li>
 </ul>
-</li>
-</ul>
+
 <p>第一个被调度的G会运行runtime.main，流程是：</p>
+
 <ul>
 <li>标记主函数已调用，设置mainStarted = true</li>
 <li>启动一个新的M执行sysmon函数，这个函数会监控全局的状态并对运行时间过长的G进行抢占</li>
@@ -556,11 +682,15 @@ m0负责执行初始化操作和启动第一个g, 在之后m0就和其他的m一
 <li>如果当前发生了panic，则等待panic处理</li>
 <li>带哦用exit(0)退出程序</li>
 </ul>
+
 <h2 id="g-m-p的定义">G M P的定义</h2>
+
 <p>G的定义<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime2.go#L320">在这里</a>.
 M的定义<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime2.go#L383">在这里</a>.
-P的定义[在这里)(https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime2.go#L450).</p>
+P的定义[在这里)(<a href="https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime2.go#L450">https://github.com/golang/go/blob/go1.9.2/src/runtime/runtime2.go#L450</a>).</p>
+
 <h4 id="g里面比较重要的成员如下">G里面比较重要的成员如下</h4>
+
 <ul>
 <li>stack: 当前g使用的栈空间, 有lo和hi两个成员</li>
 <li>stackguard0: 检查栈空间是否足够的值, 低于这个值会扩张栈, 0是go代码使用的</li>
@@ -572,7 +702,9 @@ P的定义[在这里)(https://github.com/golang/go/blob/go1.9.2/src/runtime/runt
 <li>preempt: g是否被抢占中</li>
 <li>lockedm: g是否要求要回到这个M执行, 有的时候g中断了恢复会要求使用原来的M执行</li>
 </ul>
+
 <h4 id="m里面比较重要的成员如下">M里面比较重要的成员如下</h4>
+
 <ul>
 <li>g0: 用于调度的特殊g, 调度和执行系统调用时会切换到这个g</li>
 <li>curg: 当前运行的g</li>
@@ -583,7 +715,9 @@ P的定义[在这里)(https://github.com/golang/go/blob/go1.9.2/src/runtime/runt
 <li>mcache: 分配内存时使用的本地分配器, 和p.mcache一样(拥有P时会复制过来)</li>
 <li>lockedg: lockedm的对应值</li>
 </ul>
+
 <h4 id="p里面比较重要的成员如下">P里面比较重要的成员如下</h4>
+
 <ul>
 <li>status: p的当前状态</li>
 <li>link: 下一个p, 当p在链表结构中会使用</li>
@@ -596,11 +730,17 @@ P的定义[在这里)(https://github.com/golang/go/blob/go1.9.2/src/runtime/runt
 <li>gcBgMarkWorker: 后台GC的worker函数, 如果它存在M会优先执行它</li>
 <li>gcw: GC的本地工作队列</li>
 </ul>
+
 <h2 id="go的实现">go的实现</h2>
+
 <h2 id="调度器的实现">调度器的实现</h2>
+
 <h2 id="抢占的实现">抢占的实现</h2>
+
 <h2 id="channel的实现">channel的实现</h2>
+
 <p>参考文献：</p>
+
 <ul>
 <li><a href="http://www.cnblogs.com/zkweb/p/7815600.html?utm_campaign=studygolang.com&amp;utm_medium=studygolang.com&amp;utm_source=studygolang.com">http://www.cnblogs.com/zkweb/p/7815600.html?utm_campaign=studygolang.com&amp;utm_medium=studygolang.com&amp;utm_source=studygolang.com</a></li>
 </ul>

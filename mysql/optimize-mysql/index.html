@@ -3,7 +3,7 @@
 <head>
     <title>Mysql优化技巧 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,88 +83,85 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/sql/">sql</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/sql/">Sql</a></div></div>
         </header>
         <div class="post-content">
-            <h4 id="索引失效情况">索引失效情况：</h4>
+            
+
+<h4 id="索引失效情况">索引失效情况：</h4>
+
 <ul>
-<li>
-<ol>
-<li>如果条件中有or，即使其中有条件带有索引也不会使用，换言之，要想使用or，又想让索引生效，只能将or条件中的每个列都必须使用索引。</li>
-</ol>
-</li>
-<li>
-<ol start="2">
-<li>对于多列索引，不是使用的第一部分，则不会使用索引</li>
-</ol>
-</li>
-<li>
-<ol start="3">
-<li>like查询是以%开头的情况</li>
-</ol>
-</li>
-<li>
-<ol start="4">
-<li>如果列类型是字符串，那一定要在条件中将数据使用引号引用起来，否则不使用索引。</li>
-</ol>
-</li>
-<li>
-<ol start="5">
-<li>如果mysql估计使用全表扫描要比使用索引快，则不使用索引。</li>
-</ol>
-</li>
-<li>
-<ol start="6">
-<li>在列上进行运算</li>
-</ol>
-</li>
-<li>
-<ol start="7">
-<li>使用NOT IN 和 &lt;&gt;操作</li>
-</ol>
-</li>
-<li>
-<ol start="8">
-<li>只要列中包含有NULL值将不会 被包含在索引中，复合索引中只要有一列含有NULL值，那么这一列对于此复合索引就是无效的，所以我们在数据库设计时不要让字段的默认值为NULL</li>
-</ol>
-</li>
-<li>
-<ol start="9">
-<li>mysql查询只使用一个索引，因此如果where子句已经使用了索引，那么order by中的列不会使用索引的。因此数据库默认排序可以复合要求的情况下不要使用排序操作，尽量不要包含多列排序，如果需要最好给这些列创建复合索引。</li>
-</ol>
-</li>
+<li>1. 如果条件中有or，即使其中有条件带有索引也不会使用，换言之，要想使用or，又想让索引生效，只能将or条件中的每个列都必须使用索引。</li>
+<li>2. 对于多列索引，不是使用的第一部分，则不会使用索引</li>
+<li>3. like查询是以%开头的情况</li>
+<li>4. 如果列类型是字符串，那一定要在条件中将数据使用引号引用起来，否则不使用索引。</li>
+<li>5. 如果mysql估计使用全表扫描要比使用索引快，则不使用索引。</li>
+<li>6. 在列上进行运算</li>
+<li>7. 使用NOT IN 和 &lt;&gt;操作</li>
+<li>8. 只要列中包含有NULL值将不会 被包含在索引中，复合索引中只要有一列含有NULL值，那么这一列对于此复合索引就是无效的，所以我们在数据库设计时不要让字段的默认值为NULL</li>
+<li>9. mysql查询只使用一个索引，因此如果where子句已经使用了索引，那么order by中的列不会使用索引的。因此数据库默认排序可以复合要求的情况下不要使用排序操作，尽量不要包含多列排序，如果需要最好给这些列创建复合索引。</li>
 </ul>
+
 <h4 id="sql语句小技巧">sql语句小技巧</h4>
-<h5 id="1-在使用group-by-分组查询时默认分组后还会进行排序可能会降低速度">1. 在使用group by 分组查询时，默认分组后，还会进行排序，可能会降低速度</h5>
+
+<h5 id="1-在使用group-by-分组查询时-默认分组后-还会进行排序-可能会降低速度">1. 在使用group by 分组查询时，默认分组后，还会进行排序，可能会降低速度</h5>
+
 <p>在group by后面加上order by null 就可以防止排序</p>
-<h5 id="2-有些情况下可以使用连接来替代子查询因为使用joinmysql不需要在内存中创建临时表">2. 有些情况下，可以使用连接来替代子查询，因为使用join，mysql不需要在内存中创建临时表。</h5>
+
+<h5 id="2-有些情况下-可以使用连接来替代子查询-因为使用join-mysql不需要在内存中创建临时表">2. 有些情况下，可以使用连接来替代子查询，因为使用join，mysql不需要在内存中创建临时表。</h5>
+
 <p>select * from dept,emp where dept.deptno=emp.deptno
 select * from dept left join emp on dept.deptno=emp.deptno[左外连接]</p>
-<h5 id="3-避免使用-select-">3. 避免使用 select *</h5>
+
+<h5 id="3-避免使用-select">3. 避免使用 select *</h5>
+
 <p>从数据库中读取越多数据，查询就越慢</p>
+
 <h5 id="4-当只要一行数据时使用limit-1">4. 当只要一行数据时使用limit 1</h5>
+
 <p>使用limit 1数据库引擎会在找到一条数据后停止搜索，而不是继续往后查寻下一条符合记录的数据。</p>
+
 <h5 id="5-使用explain你的select查询">5. 使用explain你的select查询</h5>
+
 <p>使用explain关键字可以让你直到mysql是如何处理你的sql语句的，这可以帮你分析你的查询语句或表结构的性能瓶颈。</p>
+
 <h5 id="6-永远为每张表设置一个id字段为主键">6. 永远为每张表设置一个id字段为主键</h5>
+
 <h5 id="7-使用enum而不是varchar类型">7. 使用enum而不是varchar类型</h5>
+
 <p>enum类型非常快和紧凑，实际上，其保存的是tinyint类型，但其外表上显示为字符串。</p>
-<h5 id="8-从procedure-analyse取得建议">8. 从procedure analyse()取得建议</h5>
+
+<h5 id="8-从procedure-analyse-取得建议">8. 从procedure analyse()取得建议</h5>
+
 <p>一定要注意，这些只是建议，只有当你的表里的数据越来越多时，这些建议才会变得准确。一定要记住，你才是最终做决定的人。</p>
+
 <h5 id="9-把ip地址存为unsigned-int类型">9. 把ip地址存为unsigned int类型</h5>
+
 <p>很多程序员都会创建一个 VARCHAR(15) 字段来存放字符串形式的IP而不是整形的IP。如果你用整形来存放，只需要4个字节，并且你可以有定长的字段。而且，这会为你带来查询上的优势，尤其是当 你需要使用这样的WHERE条件：IP between ip1 and ip2。</p>
+
 <p>我们必需要使用UNSIGNED INT，因为 IP地址会使用整个32位的无符号整形。
 而你的查询，你可以使用 INET_ATON() 来把一个字符串IP转成一个整形，并使用 INET_NTOA() 把一个整形转成一个字符串IP。在PHP中，也有这样的函数 ip2long() 和 long2ip()。</p>
+
 <h5 id="10-固定长度的表会更快">10。 固定长度的表会更快</h5>
+
 <p>表中没有如下类型的字段： VARCHAR，TEXT，BLOB。只要你包括了其中一个这些字段，那么这个表就不是“固定长度静态表”了，这样，MySQL 引擎会用另一种方法来处理。</p>
+
 <p>固定长度的表会提高性能，因为MySQL搜寻得会更快一些，因为这些固定的长度是很容易计算下一个数据的偏移量的，所以读取的自然也会很快。而如果字段不是定长的，那么，每一次要找下一条的话，需要程序找到主键。</p>
+
 <p>并且，固定长度的表也更容易被缓存和重建。不过，唯一的副作用是，固定长度的字段会浪费一些空间，因为定长的字段无论你用不用，他都是要分配那么多的空间。</p>
+
 <h5 id="11-拆分大的-delete-或-insert-语句">11. 拆分大的 DELETE 或 INSERT 语句</h5>
+
 <h5 id="12-越小的列会越快">12. 越小的列会越快</h5>
-<h5 id="13-使用一个对象关系映射器object-relational-mapper">13. 使用一个对象关系映射器(Object Relational Mapper)</h5>
+
+<h5 id="13-使用一个对象关系映射器-object-relational-mapper">13. 使用一个对象关系映射器(Object Relational Mapper)</h5>
+
 <p>使用 ORM (Object Relational Mapper)，你能够获得可靠的性能增涨。一个ORM可以做的所有事情，也能被手动的编写出来。但是，这需要一个高级专家。</p>
+
 <p>ORM 的最重要的是“Lazy Loading”，也就是说，只有在需要的去取值的时候才会去真正的去做。但你也需要小心这种机制的副作用，因为这很有可能会因为要去创建很多很多小的查询反而会降低性能。</p>
+
 <p>ORM 还可以把你的SQL语句打包成一个事务，这会比单独执行他们快得多得多。</p>
+
 <p>目前，个人最喜欢的PHP的ORM是：Doctrine。</p>
 
         </div>

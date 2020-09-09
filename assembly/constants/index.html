@@ -3,7 +3,7 @@
 <head>
     <title>nasm汇编之常量 Constants // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,76 +83,105 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/assembly/">assembly</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/assembly/">Assembly</a></div></div>
         </header>
         <div class="post-content">
-            <p>NASM提供了多个定义常量的指令。在前面的章节中，我们已经使用过EQU指令。我们将特别讨论三个指令</p>
+            
+
+<p>NASM提供了多个定义常量的指令。在前面的章节中，我们已经使用过EQU指令。我们将特别讨论三个指令</p>
+
 <ul>
 <li>EQU</li>
 <li>%assign</li>
 <li>%define</li>
 </ul>
+
 <h3 id="equ指令">EQU指令</h3>
+
 <p>EQU指令用于定义常量。 EQU指令的语法如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">CONSTANT_NAME</span> <span style="color:#66d9ef">EQU</span> <span style="color:#66d9ef">expression</span>
-</code></pre></div><p>示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">TOTAL_STUDENTS</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">50</span>
-</code></pre></div><p>EQU语句的操作数可以是表达式</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">LENGTH</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">20</span>
-<span style="color:#a6e22e">WIDTH</span>  <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">10</span>
-<span style="color:#a6e22e">AREA</span>   <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">length</span> * <span style="color:#66d9ef">width</span>
-</code></pre></div><p>示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">Live</span> <span style="color:#66d9ef">Demo</span>
-<span style="color:#a6e22e">SYS_EXIT</span>  <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">1</span>
-<span style="color:#a6e22e">SYS_WRITE</span> <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">4</span>
-<span style="color:#a6e22e">STDIN</span>     <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">0</span>
-<span style="color:#a6e22e">STDOUT</span>    <span style="color:#66d9ef">equ</span> <span style="color:#ae81ff">1</span>
-<span style="color:#a6e22e">section</span>	 <span style="color:#66d9ef">.text</span>
-   <span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>    <span style="color:#75715e">;must be declared for using gcc
-</span><span style="color:#75715e"></span>	
-<span style="color:#66d9ef">_start</span>:             <span style="color:#75715e">;tell linker entry point
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">SYS_WRITE</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#66d9ef">STDOUT</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">msg1</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">len1</span> 
-   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>                
-	
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">SYS_WRITE</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#66d9ef">STDOUT</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">msg2</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">len2</span> 
-   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span> 
-	
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">SYS_WRITE</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#66d9ef">STDOUT</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">msg3</span>         
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">len3</span> 
-   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>
+
+<pre><code class="language-asm">CONSTANT_NAME EQU expression
+</code></pre>
+
+<p>示例</p>
+
+<pre><code class="language-asm">TOTAL_STUDENTS equ 50
+</code></pre>
+
+<p>EQU语句的操作数可以是表达式</p>
+
+<pre><code class="language-asm">LENGTH equ 20
+WIDTH  equ 10
+AREA   equ length * width
+</code></pre>
+
+<p>示例</p>
+
+<pre><code class="language-asm">Live Demo
+SYS_EXIT  equ 1
+SYS_WRITE equ 4
+STDIN     equ 0
+STDOUT    equ 1
+section  .text
+   global _start    ;must be declared for using gcc
+    
+_start:             ;tell linker entry point
+   mov eax, SYS_WRITE         
+   mov ebx, STDOUT         
+   mov ecx, msg1         
+   mov edx, len1 
+   int 0x80                
+    
+   mov eax, SYS_WRITE         
+   mov ebx, STDOUT         
+   mov ecx, msg2         
+   mov edx, len2 
+   int 0x80 
+    
+   mov eax, SYS_WRITE         
+   mov ebx, STDOUT         
+   mov ecx, msg3         
+   mov edx, len3 
+   int 0x80
    
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>,<span style="color:#66d9ef">SYS_EXIT</span>    <span style="color:#75715e">;system call number (sys_exit)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>            <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span>
-<span style="color:#a6e22e">section</span>	 <span style="color:#66d9ef">.data</span>
-<span style="color:#a6e22e">msg1</span> <span style="color:#66d9ef">db</span>	<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Hello</span>, <span style="color:#66d9ef">programmers</span>!<span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xA</span>,<span style="color:#ae81ff">0xD</span> 	
-<span style="color:#66d9ef">len1</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">msg1</span>			
+   mov eax,SYS_EXIT    ;system call number (sys_exit)
+   int 0x80            ;call kernel
 
-<span style="color:#66d9ef">msg2</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Welcome</span> <span style="color:#66d9ef">to</span> <span style="color:#66d9ef">the</span> <span style="color:#66d9ef">world</span> <span style="color:#66d9ef">of</span>,<span style="color:#960050;background-color:#1e0010">&#39;</span>, <span style="color:#ae81ff">0xA</span>,<span style="color:#ae81ff">0xD</span> 
-<span style="color:#66d9ef">len2</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">msg2</span> 
+section  .data
+msg1 db 'Hello, programmers!',0xA,0xD   
+len1 equ $ - msg1           
 
-<span style="color:#66d9ef">msg3</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Linux</span> <span style="color:#66d9ef">assembly</span> <span style="color:#66d9ef">programming</span>! <span style="color:#960050;background-color:#1e0010">&#39;</span>
-<span style="color:#a6e22e">len3</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$-</span> <span style="color:#66d9ef">msg3</span>
-</code></pre></div><h3 id="assign指令">%assign指令</h3>
+msg2 db 'Welcome to the world of,', 0xA,0xD 
+len2 equ $ - msg2 
+
+msg3 db 'Linux assembly programming! '
+len3 equ $- msg3
+</code></pre>
+
+<h3 id="assign指令">%assign指令</h3>
+
 <p>％assign指令可用于定义数字常量，例如EQU指令。该指令允许重新定义。例如，您可以将常量TOTAL定义为</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#960050;background-color:#1e0010">%</span><span style="color:#a6e22e">assign</span> <span style="color:#66d9ef">TOTAL</span> <span style="color:#ae81ff">10</span>
-</code></pre></div><p>在代码的后面，您可以将其重新定义为</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#960050;background-color:#1e0010">%</span><span style="color:#a6e22e">assign</span>  <span style="color:#66d9ef">TOTAL</span>  <span style="color:#ae81ff">20</span>
-</code></pre></div><blockquote>
+
+<pre><code class="language-asm">%assign TOTAL 10
+</code></pre>
+
+<p>在代码的后面，您可以将其重新定义为</p>
+
+<pre><code class="language-asm">%assign  TOTAL  20
+</code></pre>
+
+<blockquote>
 <p>该指令区分大小写</p>
 </blockquote>
+
 <h3 id="define指令">%define指令</h3>
+
 <p>％define指令允许定义数字常量和字符串常量。该指令类似于C中的#define。例如，您可以将常量PTR定义为</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#960050;background-color:#1e0010">%</span><span style="color:#a6e22e">define</span> <span style="color:#66d9ef">PTR</span> [<span style="color:#66d9ef">EBP</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#ae81ff">4</span>]
-</code></pre></div><p>该指令还允许重新定义，并且区分大小写</p>
+
+<pre><code class="language-asm">%define PTR [EBP+4]
+</code></pre>
+
+<p>该指令还允许重新定义，并且区分大小写</p>
 
         </div>
         <div id="disqus_thread"></div>

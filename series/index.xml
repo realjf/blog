@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Series on Realjf&#39;s blog</title>
@@ -6,22 +6,22 @@
     <description>Recent content in Series on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Apr 2020 14:00:07 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2020 09:18:15 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/series/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>chunk file</title>
-      <link>https://realjf.io/series/chunk-file/</link>
-      <pubDate>Mon, 13 Apr 2020 14:00:07 +0800</pubDate>
+      <title></title>
+      <link>https://realjf.io/series/</link>
+      <pubDate>Wed, 09 Sep 2020 09:18:15 +0800</pubDate>
       
-      <guid>https://realjf.io/series/chunk-file/</guid>
+      <guid>https://realjf.io/series/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>ceph集群搭建</title>
+      <title>Ceph集群搭建</title>
       <link>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</link>
       <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
       
@@ -30,7 +30,16 @@
     </item>
     
     <item>
-      <title>kubernetes cluster setup</title>
+      <title>Chunk File</title>
+      <link>https://realjf.io/series/chunk-file/</link>
+      <pubDate>Mon, 13 Apr 2020 14:00:07 +0800</pubDate>
+      
+      <guid>https://realjf.io/series/chunk-file/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes Cluster Setup</title>
       <link>https://realjf.io/series/kubernetes-cluster-setup/</link>
       <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
       

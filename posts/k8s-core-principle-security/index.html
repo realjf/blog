@@ -3,7 +3,7 @@
 <head>
     <title>kubernetes 核心原理之 集群安全机制 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,10 +83,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/kubernetes/">kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">k8s</a><a class="tag" href="https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">k8s核心原理</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/kubernetes/">Kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">K8s</a><a class="tag" href="https://realjf.io/tags/k8s%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">K8s核心原理</a></div></div>
         </header>
         <div class="post-content">
-            <h4 id="安全性考虑目标">安全性考虑目标</h4>
+            
+
+<h4 id="安全性考虑目标">安全性考虑目标</h4>
+
 <ul>
 <li>保证容器与其所在的宿主机的隔离</li>
 <li>限制容器给基础设施及其他容器带来消极影响的能力</li>
@@ -96,45 +99,54 @@
 <li>在必要时允许将管理员权限赋给普通用户</li>
 <li>允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行</li>
 </ul>
-<h4 id="1-api-server认证管理authentication">1. API Server认证管理（Authentication）</h4>
+
+<h4 id="1-api-server认证管理-authentication">1. API Server认证管理（Authentication）</h4>
+
 <p>集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题</p>
-<p>k8s提供3种级别的客户端身份认证方式：</p>
-<ul>
-<li>最严格的https证书认证：基于ca根证书签名的双向数字证书认证</li>
-<li>http token认证：通过一个token来识别合法用户</li>
-</ul>
+
+<p>k8s提供3种级别的客户端身份认证方式：
+- 最严格的https证书认证：基于ca根证书签名的双向数字证书认证
+- http token认证：通过一个token来识别合法用户</p>
+
 <blockquote>
 <p>http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。</p>
 </blockquote>
+
 <ul>
 <li>http base认证：通过用户名+密码的方式</li>
 </ul>
+
 <blockquote>
 <p>http base是指把“用户名+冒号+密码”用base64算法进行编码后的字符串放在http request中的header authorization域里发送到服务端，服务端接受后进行解码，获取用户名及密码，然后进行用户身份鉴权过程</p>
 </blockquote>
-<h4 id="2-api-server授权管理authorization">2. API Server授权管理（Authorization）</h4>
+
+<h4 id="2-api-server授权管理-authorization">2. API Server授权管理（Authorization）</h4>
+
 <p>通过授权策略来决定一个api调用是否合法。对合法用户进行授权并且随后在用户访问时进行鉴权，是权限与安全系统的重要一环。</p>
-<p>目前支持的授权策略：</p>
-<ul>
-<li>AlwaysDeny：表示拒绝所有的请求，一般用于测试</li>
-<li>AlwaysAllow：允许接受所有请求，如果集群不需要授权，则可以采用这个策略，这也是默认配置</li>
-<li>ABAC：基于属性的访问控制，表示使用用户配置的授权规则对用户请求进行匹配和控制。</li>
-<li>Webhook：通过调用外部rest服务对用户进行授权</li>
-<li>RBAC：基于角色的访问控制</li>
-</ul>
+
+<p>目前支持的授权策略：
+- AlwaysDeny：表示拒绝所有的请求，一般用于测试
+- AlwaysAllow：允许接受所有请求，如果集群不需要授权，则可以采用这个策略，这也是默认配置
+- ABAC：基于属性的访问控制，表示使用用户配置的授权规则对用户请求进行匹配和控制。
+- Webhook：通过调用外部rest服务对用户进行授权
+- RBAC：基于角色的访问控制</p>
+
 <h5 id="abac授权模式">ABAC授权模式</h5>
+
 <h5 id="webhook授权模式">Webhook授权模式</h5>
+
 <h5 id="rbac授权模式详解">RBAC授权模式详解</h5>
-<p>基于角色的访问控制：</p>
-<ul>
-<li>对集群中的资源和非资源权限均有完整的覆盖</li>
-<li>整个RBAC完全由几个api对象完成，同其他api对象一样，可以用kubectl或api进行操作</li>
-<li>可以在运行时进行调整，无需重新启动api server</li>
-</ul>
+
+<p>基于角色的访问控制：
+- 对集群中的资源和非资源权限均有完整的覆盖
+- 整个RBAC完全由几个api对象完成，同其他api对象一样，可以用kubectl或api进行操作
+- 可以在运行时进行调整，无需重新启动api server</p>
+
 <blockquote>
 <p>要使用RBAC授权模式，需要在api server的启动参数中加上 &ndash;authorization-mode=RBAC</p>
 </blockquote>
-<h4 id="3-admission-control准入控制">3. Admission Control（准入控制）</h4>
+
+<h4 id="3-admission-control-准入控制">3. Admission Control（准入控制）</h4>
 
         </div>
         <div id="disqus_thread"></div>
