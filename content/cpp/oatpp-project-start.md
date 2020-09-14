@@ -103,27 +103,18 @@ project(${project_name})
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_library(${project_name}-lib
-        src/main.cpp
-)
+## add executables
+
+add_executable(${project_name} src/main.cpp)
 
 ## link libs
 find_package(oatpp 1.1.0 REQUIRED)
 
-target_link_libraries(${project_name}-lib
+target_link_libraries(${project_name}
         PUBLIC oatpp::oatpp
         PUBLIC oatpp::oatpp-test
 )
 
-target_include_directories(${project_name}-lib PUBLIC src)
-
-## add executables
-
-add_executable(${project_name}-exe
-        src/main.cpp)
-
-target_link_libraries(${project_name}-exe ${project_name}-lib)
-add_dependencies(${project_name}-exe ${project_name}-lib)
 ```
 
 ### 开始编译
