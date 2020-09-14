@@ -104,7 +104,7 @@ No Configuration，
 
 保存后，还是在RUN Code界面的左上角选择Listen for XDebug即可调试测试了
 
+接下来，通过浏览器访问http://127.0.0.1/php/php_test.php即可访问文件
 
-
-
+> 注意，如果你的apache端口不是80，需要加上你的端口号进行访问
 
