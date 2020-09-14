@@ -68,6 +68,9 @@ xdebug.remote_host = 127.0.0.1
 ```shell script
 "php.validate.executablePath": "E:\\xampp\\php\\php.exe"
 ```
+
+配置好这些后，启动xampp的apache服务器
+
 ### 准备好后开始测试
 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
 ```php
