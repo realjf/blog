@@ -3,7 +3,7 @@ title: "Windows下 Vscode Cpp开发环境配置"
 date: 2020-09-14T15:59:09+08:00
 keywords: ["posts", "vscode"]
 categories: ["posts"]
-tags: ["posts", "vscode"]
+tags: ["posts", "vscode", "cpp"]
 series: [""]
 draft: false
 toc: false
