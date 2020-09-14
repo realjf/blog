@@ -69,7 +69,7 @@ xdebug.remote_host = 127.0.0.1
 "php.validate.executablePath": "E:\\xampp\\php\\php.exe"
 ```
 ### 准备好后开始测试
-新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
+在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
 ```php
 <?php
 $a = 'hello world';
@@ -99,7 +99,7 @@ No Configuration，
 }
 ```
 
-保存后，还是在RUN Code界面的左上角选择Listen for XDebug即可测试
+保存后，还是在RUN Code界面的左上角选择Listen for XDebug即可调试测试了
 
 
 
