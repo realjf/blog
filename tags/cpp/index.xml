@@ -22,6 +22,17 @@
     </item>
     
     <item>
+      <title>Windows下 Vscode Cpp开发环境配置</title>
+      <link>https://realjf.io/posts/vscode-win-cpp-setting/</link>
+      <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
+      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019&amp;frasl;2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
+开始配置vscode 首先打开vscode，安装一下插件   ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;rdquo;&amp;gt; edit Configurations&amp;rdquo;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
+开始编辑c_cpp_properties.json文件 { &amp;quot;configurations&amp;quot;: [ { &amp;quot;name&amp;quot;: &amp;quot;GCC&amp;quot;, &amp;quot;includePath&amp;quot;: [ &amp;quot;${workspaceFolder}/**&amp;quot;, &amp;quot;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;quot; // 这里添加第三方库目录 ], &amp;quot;defines&amp;quot;: [ &amp;quot;_DEBUG&amp;quot;, &amp;quot;UNICODE&amp;quot;, &amp;quot;_UNICODE&amp;quot; ], &amp;quot;windowsSdkVersion&amp;quot;: &amp;quot;10.0.15063.0&amp;quot;, &amp;quot;compilerPath&amp;quot;: &amp;quot;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;quot;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;quot;cStandard&amp;quot;: &amp;quot;c11&amp;quot;, &amp;quot;cppStandard&amp;quot;: &amp;quot;c++17&amp;quot;, &amp;quot;intelliSenseMode&amp;quot;: &amp;quot;gcc-x64&amp;quot; // 这里是模式选择 } ], &amp;quot;version&amp;quot;: 4 }  配置完成后，在vscode的工作目录下有个.</description>
+    </item>
+    
+    <item>
       <title>C&#43;&#43;之内存模型 Memory Model</title>
       <link>https://realjf.io/cpp/memory-model/</link>
       <pubDate>Mon, 27 Apr 2020 16:44:23 +0800</pubDate>

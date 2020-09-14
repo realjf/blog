@@ -6,17 +6,39 @@
     <description>Recent content in Vscode on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2020 15:59:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2020 17:08:59 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/vscode/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>windows下Vscode Php开发环境配置</title>
+      <link>https://realjf.io/posts/vscode-win-php-setting/</link>
+      <pubDate>Mon, 14 Sep 2020 17:08:59 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/vscode-win-php-setting/</guid>
+      <description>准备  windows10 系统 vscode xampp  首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
+当然如果你能翻墙，可以直接访问xampp官网下载
+下载完成后安装，安装完成后，将xampp/php/php.exe加入系统路径, 在terminal中执行php -v验证是否成功
+下载xdebug插件 下载地址：https://xdebug.org/download
+如果不知道下载什么版本，可以将你的phpinfo信息拷贝到这个网址下查询https://xdebug.org/wizard 复制后点击下面的分析phpinfo按钮
+这里下载的是：https://xdebug.org/files/php_xdebug-2.9.6-7.4-vc15-x86_64.dll
+将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改
+xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
+vscode下载安装 下载vscode：https://code.visualstudio.com/
+下载安装完成后，需要安装一些扩展插件
+ bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer  按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
+&amp;quot;php.validate.executablePath&amp;quot;: &amp;quot;E:\\xampp\\php\\php.exe&amp;quot;  配置好这些后，启动xampp的apache服务器
+准备好后开始测试 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
+&amp;lt;?php $a = &#39;hello world&#39;; echo $a; ?&amp;gt;  在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
+    </item>
+    
+    <item>
       <title>Windows下 Vscode Cpp开发环境配置</title>
-      <link>https://realjf.io/posts/vscode-win-cpp-settting/</link>
+      <link>https://realjf.io/posts/vscode-win-cpp-setting/</link>
       <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/vscode-win-cpp-settting/</guid>
+      <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
       <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019&amp;frasl;2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
 开始配置vscode 首先打开vscode，安装一下插件   ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;rdquo;&amp;gt; edit Configurations&amp;rdquo;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
 开始编辑c_cpp_properties.json文件 { &amp;quot;configurations&amp;quot;: [ { &amp;quot;name&amp;quot;: &amp;quot;GCC&amp;quot;, &amp;quot;includePath&amp;quot;: [ &amp;quot;${workspaceFolder}/**&amp;quot;, &amp;quot;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;quot; // 这里添加第三方库目录 ], &amp;quot;defines&amp;quot;: [ &amp;quot;_DEBUG&amp;quot;, &amp;quot;UNICODE&amp;quot;, &amp;quot;_UNICODE&amp;quot; ], &amp;quot;windowsSdkVersion&amp;quot;: &amp;quot;10.0.15063.0&amp;quot;, &amp;quot;compilerPath&amp;quot;: &amp;quot;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;quot;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;quot;cStandard&amp;quot;: &amp;quot;c11&amp;quot;, &amp;quot;cppStandard&amp;quot;: &amp;quot;c++17&amp;quot;, &amp;quot;intelliSenseMode&amp;quot;: &amp;quot;gcc-x64&amp;quot; // 这里是模式选择 } ], &amp;quot;version&amp;quot;: 4 }  配置完成后，在vscode的工作目录下有个.</description>
