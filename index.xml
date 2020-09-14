@@ -6,10 +6,31 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Sep 2020 09:18:15 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2020 16:30:24 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Oatpp框架简单项目初次启动</title>
+      <link>https://realjf.io/cpp/oatpp-project-start/</link>
+      <pubDate>Mon, 14 Sep 2020 16:30:24 +0800</pubDate>
+      
+      <guid>https://realjf.io/cpp/oatpp-project-start/</guid>
+      <description>准备  window10系统 已配置好c++开发环境的vscode visual studio 2019&amp;frasl;2017  方法一 开始 # 新建项目目录 mkdir oatpp_example cd oatpp_example mkdir src type null &amp;gt; CMakeLists.txt type null &amp;gt; src/main.cpp  写代码 src/main.cpp的内容如下：
+#include &amp;quot;oatpp/web/server/HttpConnectionHandler.hpp&amp;quot; #include &amp;quot;oatpp/network/server/Server.hpp&amp;quot; #include &amp;quot;oatpp/network/server/SimpleTCPConnectionProvider.hpp&amp;quot; class Handler : public oatpp::web::server::HttpRequestHandler { public: /** * Handle incoming request and return outgoing response. */ std::shared_ptr&amp;lt;OutgoingResponse&amp;gt; handle(const std::shared_ptr&amp;lt;IncomingRequest&amp;gt;&amp;amp; request) override { return ResponseFactory::createResponse(Status::CODE_200, &amp;quot;Hello World!&amp;quot;); } }; void run() { /* Create Router for HTTP requests routing */ auto router = oatpp::web::server::HttpRouter::createShared(); /* Route GET - &amp;quot;/hello&amp;quot; requests to Handler */ router-&amp;gt;route(&amp;quot;GET&amp;quot;, &amp;quot;/hello&amp;quot;, std::make_shared&amp;lt;Handler&amp;gt;()); /* Create HTTP connection handler with router */ auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router); /* Create TCP connection provider */ auto connectionProvider = oatpp::network::server::SimpleTCPConnectionProvider::createShared(8000 /*port*/); /* Create server which takes provided TCP connection and passes them to HTTP connection handler */ oatpp::network::server::Server server(connectionProvider, connectionHandler); /* Priny info about server port */ OATPP_LOGI(&amp;quot;MyApp&amp;quot;, &amp;quot;Server running on port %s&amp;quot;, connectionProvider-&amp;gt;getProperty(&amp;quot;port&amp;quot;).</description>
+    </item>
+    
+    <item>
+      <title>Windows下 Vscode Cpp开发环境配置</title>
+      <link>https://realjf.io/posts/vscode-win-cpp-settting/</link>
+      <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/vscode-win-cpp-settting/</guid>
+      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019&amp;frasl;2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
+开始配置vscode 首先打开vscode，安装一下插件   ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;rdquo;&amp;gt; edit Configurations&amp;rdquo;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
+开始编辑c_cpp_properties.json文件 { &amp;quot;configurations&amp;quot;: [ { &amp;quot;name&amp;quot;: &amp;quot;GCC&amp;quot;, &amp;quot;includePath&amp;quot;: [ &amp;quot;${workspaceFolder}/**&amp;quot;, &amp;quot;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;quot; // 这里添加第三方库目录 ], &amp;quot;defines&amp;quot;: [ &amp;quot;_DEBUG&amp;quot;, &amp;quot;UNICODE&amp;quot;, &amp;quot;_UNICODE&amp;quot; ], &amp;quot;windowsSdkVersion&amp;quot;: &amp;quot;10.0.15063.0&amp;quot;, &amp;quot;compilerPath&amp;quot;: &amp;quot;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;quot;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;quot;cStandard&amp;quot;: &amp;quot;c11&amp;quot;, &amp;quot;cppStandard&amp;quot;: &amp;quot;c++17&amp;quot;, &amp;quot;intelliSenseMode&amp;quot;: &amp;quot;gcc-x64&amp;quot; // 这里是模式选择 } ], &amp;quot;version&amp;quot;: 4 }  配置完成后，在vscode的工作目录下有个.</description>
+    </item>
     
     <item>
       <title>Go Mod Module Declares Its Path as: xxxx but was required as: xxxx</title>
