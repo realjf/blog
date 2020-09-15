@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://realjf.io/php/php-mcrypt-install-in-win/</loc>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/php/memcached-and-php-extension-install-win/</loc>
+    <lastmod>2020-09-15T14:12:53+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/posts/vscode-win-php-setting/</loc>
     <lastmod>2020-09-14T17:08:59+08:00</lastmod>
   </url>
@@ -648,14 +658,14 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/series/</loc>
-    <lastmod>2020-09-14T17:08:59+08:00</lastmod>
+    <loc>https://realjf.io/tags/</loc>
+    <lastmod>2020-04-28T14:26:34+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/</loc>
-    <lastmod>2020-04-28T14:26:34+08:00</lastmod>
+    <loc>https://realjf.io/series/</loc>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -750,13 +760,13 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2019-03-19T14:57:12+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+    <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2019-03-19T14:57:12+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -774,13 +784,13 @@
   </url>
   
   <url>
-    <loc>https://realjf.io/series/chunk-file/</loc>
+    <loc>https://realjf.io/tags/chunk-file/</loc>
     <lastmod>2020-04-13T14:00:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://realjf.io/tags/chunk-file/</loc>
+    <loc>https://realjf.io/series/chunk-file/</loc>
     <lastmod>2020-04-13T14:00:07+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -1182,6 +1192,12 @@
   </url>
   
   <url>
+    <loc>https://realjf.io/tags/mcrypt/</loc>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://realjf.io/mc/</loc>
     <lastmod>2020-04-15T10:51:20+08:00</lastmod>
     <priority>0</priority>
@@ -1190,6 +1206,12 @@
   <url>
     <loc>https://realjf.io/tags/memcache/</loc>
     <lastmod>2020-04-15T10:51:20+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://realjf.io/tags/memcached/</loc>
+    <lastmod>2020-09-15T14:12:53+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1315,19 +1337,19 @@
   
   <url>
     <loc>https://realjf.io/tags/php/</loc>
-    <lastmod>2020-09-14T17:08:59+08:00</lastmod>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/categories/php/</loc>
-    <lastmod>2020-09-07T18:00:11+08:00</lastmod>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://realjf.io/php/</loc>
-    <lastmod>2020-09-07T18:00:11+08:00</lastmod>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1399,7 +1421,7 @@
   
   <url>
     <loc>https://realjf.io/</loc>
-    <lastmod>2020-09-14T17:08:59+08:00</lastmod>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1429,7 +1451,7 @@
   
   <url>
     <loc>https://realjf.io/series/</loc>
-    <lastmod>2020-09-14T17:08:59+08:00</lastmod>
+    <lastmod>2020-09-15T14:34:59+08:00</lastmod>
     <priority>0</priority>
   </url>
   
