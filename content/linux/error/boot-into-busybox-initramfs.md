@@ -26,7 +26,7 @@ related:
 - 系统环境： debian 9
 
 
-##### 问题描述
+##### 问题描述1
 今天使用vmware workstation的时候，提示操作失败，且提示为文件系统只读。
 奇怪？怎么突然进入可读了，猜想可能文件系统哪里损坏导致进入只读保护模式。
 
@@ -41,5 +41,33 @@ related:
 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入'y'后，提示文件系统修复完成，
 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。
 
+##### 问题描述2
+```shell script
+Gave up waiting for root device. Common problems:
+    - Boot args (cat /proc/cmdline)
+    - Check rootdelay=(did the system wait for the right device ?)
+    - Missing modules (cat /proc/modules; ls /dev)
+
+ALERT! /dev/mapper/realjf--vg-root does not exist.
+
+Dropping to a shell!
+
+BusyBox v.1.23.2 (Debian xxx. xxx) built-in shell (ash)
+Enter 'help' for list of built-in commands.
+
+(initramfs):
+```
+
+##### 解决方法
+在该命令行下运行如下命令
+```shell script
+lvm vgchange -a y
+exit
+```
+然后运行如下命令
+```shell script
+update-initramfs -k all -c
+# 运行结束后，重启即可
+```
 
 
