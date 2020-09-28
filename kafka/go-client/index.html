@@ -3,7 +3,7 @@
 <head>
     <title>Kafka Go Client // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,108 +83,93 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/kafka/">Kafka</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/kafka/">kafka</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<p>本次实验假定您已经安装好了kafka（单机或者集群），且配置好了远程访问地址，详见配置文件config/server.properties</p>
-
+            <p>本次实验假定您已经安装好了kafka（单机或者集群），且配置好了远程访问地址，详见配置文件config/server.properties</p>
 <h3 id="首先需要下载安装librdkafka">首先需要下载安装librdkafka</h3>
-
-<pre><code class="language-bash">wget https://github.com/edenhill/librdkafka/archive/v1.4.0.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/edenhill/librdkafka/archive/v1.4.0.tar.gz
 tar zxvf librdkafka-1.4.0.tar.gz
 cd librdkafka-1.4.0
 ./configure
 make
 make install
 
-</code></pre>
-
-<p>安装完毕，可以开始写go client</p>
-
+</code></pre></div><p>安装完毕，可以开始写go client</p>
 <h3 id="在go项目下安装客户端">在go项目下安装客户端</h3>
-
-<pre><code class="language-bash">go get -u gopkg.in/confluentinc/confluent-kafka-go.v1/kafka
-</code></pre>
-
-<h3 id="consumer示例">consumer示例</h3>
-
-<pre><code class="language-go">
-import (
-    &quot;fmt&quot;
-    &quot;gopkg.in/confluentinc/confluent-kafka-go.v1/kafka&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go get -u gopkg.in/confluentinc/confluent-kafka-go.v1/kafka
+</code></pre></div><h3 id="consumer示例">consumer示例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;gopkg.in/confluentinc/confluent-kafka-go.v1/kafka&#34;</span>
 )
 
-func main() {
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
 
-    c, err := kafka.NewConsumer(&amp;kafka.ConfigMap{
-        &quot;bootstrap.servers&quot;: &quot;192.168.37.133:9092&quot;,
-        &quot;group.id&quot;:          &quot;1&quot;,
-        &quot;auto.offset.reset&quot;: &quot;earliest&quot;,
-    })
+	<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">NewConsumer</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">ConfigMap</span>{
+		<span style="color:#e6db74">&#34;bootstrap.servers&#34;</span>: <span style="color:#e6db74">&#34;192.168.37.133:9092&#34;</span>,
+		<span style="color:#e6db74">&#34;group.id&#34;</span>:          <span style="color:#e6db74">&#34;1&#34;</span>,
+		<span style="color:#e6db74">&#34;auto.offset.reset&#34;</span>: <span style="color:#e6db74">&#34;earliest&#34;</span>,
+	})
 
-    if err != nil {
-        panic(err)
-    }
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
+	}
 
-    c.SubscribeTopics([]string{&quot;test&quot;, &quot;^aRegex.*[Tt]est&quot;}, nil)
+	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">SubscribeTopics</span>([]<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;test&#34;</span>, <span style="color:#e6db74">&#34;^aRegex.*[Tt]est&#34;</span>}, <span style="color:#66d9ef">nil</span>)
 
-    for {
-        msg, err := c.ReadMessage(-1)
-        if err == nil {
-            fmt.Printf(&quot;Message on %s: %s\n&quot;, msg.TopicPartition, string(msg.Value))
-        } else {
+	<span style="color:#66d9ef">for</span> {
+		<span style="color:#a6e22e">msg</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">ReadMessage</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Message on %s: %s\n&#34;</span>, <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">TopicPartition</span>, string(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">Value</span>))
+		} <span style="color:#66d9ef">else</span> {
 
-            fmt.Printf(&quot;Consumer error: %v (%v)\n&quot;, err, msg)
-        }
-    }
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Consumer error: %v (%v)\n&#34;</span>, <span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">msg</span>)
+		}
+	}
 
-    c.Close()
+	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Close</span>()
 }
-</code></pre>
-
-<h3 id="producer示例">producer示例</h3>
-
-<pre><code class="language-go">import (
-    &quot;fmt&quot;
-    &quot;gopkg.in/confluentinc/confluent-kafka-go.v1/kafka&quot;
+</code></pre></div><h3 id="producer示例">producer示例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;gopkg.in/confluentinc/confluent-kafka-go.v1/kafka&#34;</span>
 )
 
-func main() {
-    p, err := kafka.NewProducer(&amp;kafka.ConfigMap{&quot;bootstrap.servers&quot;: &quot;192.168.37.133:9092&quot;})
-    if err != nil{
-        panic(err)
-    }
-    defer p.Close()
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">NewProducer</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">ConfigMap</span>{<span style="color:#e6db74">&#34;bootstrap.servers&#34;</span>: <span style="color:#e6db74">&#34;192.168.37.133:9092&#34;</span>})
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>{
+		panic(<span style="color:#a6e22e">err</span>)
+	}
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Close</span>()
 
-    go func() {
-        for e := range p.Events() {
-            switch ev := e.(type) {
-            case *kafka.Message:
-                if ev.TopicPartition.Error != nil {
-                    fmt.Printf(&quot;Delivery failed: %v\n&quot;, ev.TopicPartition)
-                }else{
-                    fmt.Printf(&quot;Delivered message to %v\n&quot;, ev.TopicPartition)
-                }
-            }
-        }
-    }()
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Events</span>() {
+			<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">ev</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">e</span>.(<span style="color:#66d9ef">type</span>) {
+			<span style="color:#66d9ef">case</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">Message</span>:
+				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">TopicPartition</span>.<span style="color:#a6e22e">Error</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+					<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Delivery failed: %v\n&#34;</span>, <span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">TopicPartition</span>)
+				}<span style="color:#66d9ef">else</span>{
+					<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Delivered message to %v\n&#34;</span>, <span style="color:#a6e22e">ev</span>.<span style="color:#a6e22e">TopicPartition</span>)
+				}
+			}
+		}
+	}()
 
-    topic := &quot;test&quot;
-    for _, word := range []string{&quot;Welcome&quot;, &quot;to&quot;, &quot;the&quot;, &quot;Confluent&quot;, &quot;kafka&quot;, &quot;Golang&quot;, &quot;client&quot;} {
-        p.Produce(&amp;kafka.Message{
-            TopicPartition: kafka.TopicPartition{Topic: &amp;topic, Partition: kafka.PartitionAny},
-            Value: []byte(word),
-        }, nil)
-    }
+	<span style="color:#a6e22e">topic</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;test&#34;</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">word</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Welcome&#34;</span>, <span style="color:#e6db74">&#34;to&#34;</span>, <span style="color:#e6db74">&#34;the&#34;</span>, <span style="color:#e6db74">&#34;Confluent&#34;</span>, <span style="color:#e6db74">&#34;kafka&#34;</span>, <span style="color:#e6db74">&#34;Golang&#34;</span>, <span style="color:#e6db74">&#34;client&#34;</span>} {
+		<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Produce</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">Message</span>{
+			<span style="color:#a6e22e">TopicPartition</span>: <span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">TopicPartition</span>{<span style="color:#a6e22e">Topic</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">topic</span>, <span style="color:#a6e22e">Partition</span>: <span style="color:#a6e22e">kafka</span>.<span style="color:#a6e22e">PartitionAny</span>},
+			<span style="color:#a6e22e">Value</span>: []byte(<span style="color:#a6e22e">word</span>),
+		}, <span style="color:#66d9ef">nil</span>)
+	}
 
-    // 等待消息发送
-    p.Flush(15 * 1000)
+	<span style="color:#75715e">// 等待消息发送
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Flush</span>(<span style="color:#ae81ff">15</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>)
 }
 
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

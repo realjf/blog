@@ -3,7 +3,7 @@
 <head>
     <title>简单的基于Elasticsearch-php API的封装 Library Elasticsearch Api Client // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,15 +83,15 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">Elasticsearch</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">elasticsearch</a></div></div>
         </header>
         <div class="post-content">
-            <pre><code class="language-php">abstract class libEsBase
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">abstract class libEsBase
 {
-    protected $__index = &quot;&quot;;
-    protected $__type = &quot;&quot;;
+    protected $__index = &#34;&#34;;
+    protected $__type = &#34;&#34;;
 
-    const MAX_RESULT_WINDOW = 10000; // from + size &lt;= max_result_window
+    const MAX_RESULT_WINDOW = 10000; // from + size <span style="color:#960050;background-color:#1e0010">&lt;</span>= max_result_window
 
     /**
      * 定义结构
@@ -107,7 +107,7 @@
 
     public function __construct()
     {
-        $this-&gt;_es = &quot;your elasticsearch-php api client&quot;;
+        $this-&gt;_es = &#34;your elasticsearch-php api client&#34;;
     }
 
     /**
@@ -116,7 +116,7 @@
     protected function __runBefore()
     {
         if(!$this-&gt;checkEsAlive()){
-            return [FALSE, &quot;Elasticsearch not alive&quot;];
+            return [FALSE, &#34;Elasticsearch not alive&#34;];
         }
         list($check, $msg) = $this-&gt;checkIndex();
         if(!$check){
@@ -136,7 +136,7 @@
             }
         }
 
-        return [TRUE, &quot;&quot;];
+        return [TRUE, &#34;&#34;];
     }
 
     /**
@@ -155,14 +155,14 @@
     {
         try{
             $param = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'body' =&gt; [],
+                &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+                &#39;body&#39; =&gt; [],
             ];
             $result = $this-&gt;_es-&gt;indices()-&gt;create($param);
         }catch (\Exception $e){
             return [FALSE, $e-&gt;getMessage()];
         }
-        return [$result['acknowledged'], $result];
+        return [$result[&#39;acknowledged&#39;], $result];
     }
 
     /**
@@ -173,9 +173,9 @@
     {
         try{
             $param = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'type' =&gt; $this-&gt;__type,
-                'body' =&gt; [
+                &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+                &#39;type&#39; =&gt; $this-&gt;__type,
+                &#39;body&#39; =&gt; [
                     $this-&gt;__type =&gt; $this-&gt;__getMapping(),
                 ],
             ];
@@ -183,24 +183,24 @@
         }catch (\Exception $e){
             return [FALSE, $e-&gt;getMessage()];
         }
-        return [$result['acknowledged'], $result];
+        return [$result[&#39;acknowledged&#39;], $result];
     }
 
     /**
      * 删除索引
      * @return array
      */
-    public function deleteIndex($index = &quot;&quot;)
+    public function deleteIndex($index = &#34;&#34;)
     {
         try{
             $param = [
-                'index' =&gt; $index ?: $this-&gt;_getIndex(),
+                &#39;index&#39; =&gt; $index ?: $this-&gt;_getIndex(),
             ];
             $result = $this-&gt;_es-&gt;indices()-&gt;delete($param);
         }catch (\Exception $e){
             return [FALSE, $e-&gt;getMessage()];
         }
-        return [$result['acknowledged'], $result];
+        return [$result[&#39;acknowledged&#39;], $result];
     }
 
     /**
@@ -211,8 +211,8 @@
     {
         try{
             $param = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'type' =&gt; $this-&gt;__type,
+                &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+                &#39;type&#39; =&gt; $this-&gt;__type,
             ];
             $result = $this-&gt;_es-&gt;indices()-&gt;getMapping($param);
         }catch (\Exception $e){
@@ -232,12 +232,12 @@
     public function getById($id)
     {
         if(!$id){
-            return [FALSE, &quot;&quot;];
+            return [FALSE, &#34;&#34;];
         }
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            'id' =&gt; $id,
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
+            &#39;id&#39; =&gt; $id,
         ];
         try{
             $result = $this-&gt;_es-&gt;get($params);
@@ -245,8 +245,8 @@
             return [FALSE, $e-&gt;getMessage()];
         }
         $data = [];
-        if($result['hits']){
-            $data = $result['hits'];
+        if($result[&#39;hits&#39;]){
+            $data = $result[&#39;hits&#39;];
         }
         return [TRUE, $data];
     }
@@ -254,37 +254,37 @@
     public function scroll($query, $page, $limit)
     {
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            'size' =&gt; $limit,
-            'scroll' =&gt; &quot;1m&quot;, // 存活时间
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
+            &#39;size&#39; =&gt; $limit,
+            &#39;scroll&#39; =&gt; &#34;1m&#34;, // 存活时间
         ];
 
         if(!$query){
-            $params['body']['query'] = [
-                'match_all' =&gt; new \stdClass(),
+            $params[&#39;body&#39;][&#39;query&#39;] = [
+                &#39;match_all&#39; =&gt; new \stdClass(),
             ];
         }else{
-            $params['body']['query'] = $query;
+            $params[&#39;body&#39;][&#39;query&#39;] = $query;
         }
         $data = [
-            'total' =&gt; 0,
-            'data' =&gt; [],
+            &#39;total&#39; =&gt; 0,
+            &#39;data&#39; =&gt; [],
         ];
         try{
             $result = $this-&gt;_es-&gt;search($params);
-            $scroll_id = $result[&quot;_scroll_id&quot;];
+            $scroll_id = $result[&#34;_scroll_id&#34;];
 
             if($page != 1){
                 $i = 1;
-                while($i &lt; $page) {
+                while($i <span style="color:#960050;background-color:#1e0010">&lt;</span> $page) {
                     $result = [];
                     $response = $this-&gt;_es-&gt;scroll([
-                        &quot;scroll_id&quot; =&gt; $scroll_id,
-                        &quot;scroll&quot; =&gt; &quot;1m&quot;
+                        &#34;scroll_id&#34; =&gt; $scroll_id,
+                        &#34;scroll&#34; =&gt; &#34;1m&#34;
                     ]);
-                    if(count($response['hits']['hits']) &gt; 0){
-                        $scroll_id = $response[&quot;_scroll_id&quot;];
+                    if(count($response[&#39;hits&#39;][&#39;hits&#39;]) &gt; 0){
+                        $scroll_id = $response[&#34;_scroll_id&#34;];
                         $result = $response;
                     }else{
                         break;
@@ -296,10 +296,10 @@
             return [FALSE, $e-&gt;getMessage()];
         }
 
-        if($result['hits']['total'] &gt; 0){
-            $data['total'] = $result['hits']['total'];
-            foreach ($result['hits']['hits'] as $v){
-                $data['data'][] = $v['_source'];
+        if($result[&#39;hits&#39;][&#39;total&#39;] &gt; 0){
+            $data[&#39;total&#39;] = $result[&#39;hits&#39;][&#39;total&#39;];
+            foreach ($result[&#39;hits&#39;][&#39;hits&#39;] as $v){
+                $data[&#39;data&#39;][] = $v[&#39;_source&#39;];
             }
         }
         return [TRUE, $data];
@@ -312,17 +312,17 @@
     public function count()
     {
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
         ];
         try{
             $result = $this-&gt;_es-&gt;count($params);
         }catch (\Exception $e){
             return [FALSE, $e-&gt;getMessage()];
         }
-        $data['total'] = 0;
-        if($result['count'] &gt;= 0){
-            return [TRUE, $result['count']];
+        $data[&#39;total&#39;] = 0;
+        if($result[&#39;count&#39;] &gt;= 0){
+            return [TRUE, $result[&#39;count&#39;]];
         }
         return [FALSE, $result];
     }
@@ -335,7 +335,7 @@
      * @param array $order
      * @return array
      */
-    public function search($query, $page = 1, $limit = 20, $order = ['date' =&gt; 'desc'], $aggs = [])
+    public function search($query, $page = 1, $limit = 20, $order = [&#39;date&#39; =&gt; &#39;desc&#39;], $aggs = [])
     {
         list($check, $msg) = $this-&gt;__runBefore();
         if(!$check){
@@ -343,24 +343,24 @@
         }
         $from = max(0, $page * $limit - $limit);
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
         ];
-        $params['body']['sort'] = $order;
-        $params['body']['from'] = $from;
-        $params['body']['size'] = $limit;
+        $params[&#39;body&#39;][&#39;sort&#39;] = $order;
+        $params[&#39;body&#39;][&#39;from&#39;] = $from;
+        $params[&#39;body&#39;][&#39;size&#39;] = $limit;
         if(!$query){
-            $params['body']['query'] = [
-                'match_all' =&gt; new \stdClass(),
+            $params[&#39;body&#39;][&#39;query&#39;] = [
+                &#39;match_all&#39; =&gt; new \stdClass(),
             ];
         }else{
-            $params['body']['query'] = $query;
+            $params[&#39;body&#39;][&#39;query&#39;] = $query;
         }
         if($aggs){
-            $params['body'] = array_merge($params['body'], $aggs);
+            $params[&#39;body&#39;] = array_merge($params[&#39;body&#39;], $aggs);
         }
         if($from + $limit &gt; self::MAX_RESULT_WINDOW){
-            return [FALSE, &quot;超出限制范围&quot;];
+            return [FALSE, &#34;超出限制范围&#34;];
         }
         try{
             $result = $this-&gt;_es-&gt;search($params);
@@ -368,18 +368,18 @@
             return [FALSE, $e-&gt;getMessage()];
         }
         $data = [
-            'total' =&gt; 0,
-            'data' =&gt; [],
-            'aggs' =&gt; [],
+            &#39;total&#39; =&gt; 0,
+            &#39;data&#39; =&gt; [],
+            &#39;aggs&#39; =&gt; [],
         ];
-        if($result['hits']['total'] &gt; 0){
-            $data['total'] = $result['hits']['total'];
-            foreach ($result['hits']['hits'] as $v){
-                $data['data'][] = $v['_source'];
+        if($result[&#39;hits&#39;][&#39;total&#39;] &gt; 0){
+            $data[&#39;total&#39;] = $result[&#39;hits&#39;][&#39;total&#39;];
+            foreach ($result[&#39;hits&#39;][&#39;hits&#39;] as $v){
+                $data[&#39;data&#39;][] = $v[&#39;_source&#39;];
             }
         }
         if($aggs){
-            $data['aggs'] = $result['aggregations'];
+            $data[&#39;aggs&#39;] = $result[&#39;aggregations&#39;];
         }
         return [TRUE, $data];
     }
@@ -393,14 +393,14 @@
     public function checkIndex()
     {
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
         ];
         try{
             $data = $this-&gt;_es-&gt;indices()-&gt;exists($params);
         }catch (\Exception $e){
             return [FALSE, $e-&gt;getMessage()];
         }
-        return [$data, &quot;&quot;];
+        return [$data, &#34;&#34;];
     }
 
     /**
@@ -425,13 +425,13 @@
             return [FALSE, $msg];
         }
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
         ];
         if($id){    // 如果不设置 id，则es会自动生成，建议设置id
-            $params['id'] = intval($id);
+            $params[&#39;id&#39;] = intval($id);
         }
-        $params['body'] = $data;
+        $params[&#39;body&#39;] = $data;
         try{
             $result = $this-&gt;_es-&gt;index($params);
         } catch (\Exception $e){
@@ -456,16 +456,16 @@
     {
         $ids = \clsTools::filterIds($ids, 0);
         if(!$ids){
-            return [FALSE, &quot;empty ids&quot;];
+            return [FALSE, &#34;empty ids&#34;];
         }
         $params = [
-            &quot;docs&quot; =&gt; [],
+            &#34;docs&#34; =&gt; [],
         ];
         foreach ($ids as $id){
-            $params[&quot;docs&quot;][] = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'type' =&gt; $this-&gt;__type,
-                &quot;id&quot; =&gt; $id,
+            $params[&#34;docs&#34;][] = [
+                &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+                &#39;type&#39; =&gt; $this-&gt;__type,
+                &#34;id&#34; =&gt; $id,
             ];
         }
 
@@ -475,8 +475,8 @@
             return [FALSE, $e-&gt;getMessage()];
         }
         $data = [];
-        if($result['hits']){
-            $data = $result['hits'];
+        if($result[&#39;hits&#39;]){
+            $data = $result[&#39;hits&#39;];
         }
         return [TRUE, $data];
     }
@@ -490,9 +490,9 @@
     {
         $id = intval($id);
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            &quot;id&quot; =&gt; $id,
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
+            &#34;id&#34; =&gt; $id,
         ];
         try{
             $result = $this-&gt;_es-&gt;delete($params);
@@ -500,7 +500,7 @@
             return [FALSE, $e-&gt;getMessage()];
         }
 
-        if($result['found']){
+        if($result[&#39;found&#39;]){
             return [TRUE, $result];
         }
         return [FALSE, $result];
@@ -514,10 +514,10 @@
     public function deleteByQuery($query)
     {
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            &quot;body&quot; =&gt; [
-                'query' =&gt; $query,
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
+            &#34;body&#34; =&gt; [
+                &#39;query&#39; =&gt; $query,
             ],
         ];
         try{
@@ -525,7 +525,7 @@
         }catch (\Exception $e){
             return [FALSE, $e-&gt;getMessage()];
         }
-        if($result['found']){
+        if($result[&#39;found&#39;]){
             return [TRUE, $result];
         }
         return [FALSE, $result];
@@ -541,11 +541,11 @@
     {
         $id = intval($id);
         $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            &quot;id&quot; =&gt; $id,
-            &quot;body&quot; =&gt; [
-                &quot;doc&quot; =&gt; $data,
+            &#39;index&#39; =&gt; $this-&gt;_getIndex(),
+            &#39;type&#39; =&gt; $this-&gt;__type,
+            &#34;id&#34; =&gt; $id,
+            &#34;body&#34; =&gt; [
+                &#34;doc&#34; =&gt; $data,
             ],
         ];
         try{
@@ -554,18 +554,17 @@
             return [FALSE, $e-&gt;getMessage()];
         }
 
-        if($result['result'] == &quot;updated&quot;){
+        if($result[&#39;result&#39;] == &#34;updated&#34;){
             return [TRUE, $result];
         }
-        if($result[&quot;result&quot;] == &quot;noop&quot;){
+        if($result[&#34;result&#34;] == &#34;noop&#34;){
             // 空操作
             return [TRUE, $result];
         }
         return [FALSE, $result];
     }
 }
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

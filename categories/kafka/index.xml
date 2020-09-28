@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kafka on Realjf&#39;s blog</title>
+    <title>kafka on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/kafka/</link>
-    <description>Recent content in Kafka on Realjf&#39;s blog</description>
+    <description>Recent content in kafka on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 29 Apr 2020 15:37:44 +0800</lastBuildDate>
@@ -18,8 +18,8 @@
       
       <guid>https://realjf.io/kafka/go-client/</guid>
       <description>本次实验假定您已经安装好了kafka（单机或者集群），且配置好了远程访问地址，详见配置文件config/server.properties
-首先需要下载安装librdkafka wget https://github.com/edenhill/librdkafka/archive/v1.4.0.tar.gz tar zxvf librdkafka-1.4.0.tar.gz cd librdkafka-1.4.0 ./configure make make install  安装完毕，可以开始写go client
-在go项目下安装客户端 go get -u gopkg.in/confluentinc/confluent-kafka-go.v1/kafka  consumer示例 import ( &amp;quot;fmt&amp;quot; &amp;quot;gopkg.in/confluentinc/confluent-kafka-go.v1/kafka&amp;quot; ) func main() { c, err := kafka.NewConsumer(&amp;amp;kafka.ConfigMap{ &amp;quot;bootstrap.servers&amp;quot;: &amp;quot;192.168.37.133:9092&amp;quot;, &amp;quot;group.id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;auto.offset.reset&amp;quot;: &amp;quot;earliest&amp;quot;, }) if err != nil { panic(err) } c.SubscribeTopics([]string{&amp;quot;test&amp;quot;, &amp;quot;^aRegex.*[Tt]est&amp;quot;}, nil) for { msg, err := c.ReadMessage(-1) if err == nil { fmt.Printf(&amp;quot;Message on %s: %s\n&amp;quot;, msg.TopicPartition, string(msg.Value)) } else { fmt.</description>
+首先需要下载安装librdkafka wget https://github.com/edenhill/librdkafka/archive/v1.4.0.tar.gztar zxvf librdkafka-1.4.0.tar.gzcd librdkafka-1.4.0./configuremakemake install安装完毕，可以开始写go client
+在go项目下安装客户端 go get -u gopkg.in/confluentinc/confluent-kafka-go.v1/kafkaconsumer示例 import (&amp;#34;fmt&amp;#34;&amp;#34;gopkg.in/confluentinc/confluent-kafka-go.v1/kafka&amp;#34;)func main() {c, err := kafka.NewConsumer(&amp;amp;kafka.ConfigMap{&amp;#34;bootstrap.servers&amp;#34;: &amp;#34;192.168.37.133:9092&amp;#34;,&amp;#34;group.id&amp;#34;: &amp;#34;1&amp;#34;,&amp;#34;auto.offset.reset&amp;#34;: &amp;#34;earliest&amp;#34;,})if err != nil {panic(err)}c.SubscribeTopics([]string{&amp;#34;test&amp;#34;, &amp;#34;^aRegex.*[Tt]est&amp;#34;}, nil)for {msg, err := c.ReadMessage(-1)if err == nil {fmt.Printf(&amp;#34;Message on %s: %s\n&amp;#34;, msg.TopicPartition, string(msg.Value))} else {fmt.</description>
     </item>
     
     <item>
@@ -29,10 +29,10 @@
       
       <guid>https://realjf.io/kafka/set-up/</guid>
       <description>下载地址：https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz
-下载 wget https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz tar zxvf kafka_2.12-2.5.0.tgz cd kafka_2.12-2.5.0  开启服务器 # 开启zookeeper bin/zookeeper-server-start.sh config/zookeeper.properties # 开启kafka bin/kafka-server-start.sh config/server.properties  创建一个topic bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test  上面创建了一个叫test的topic
+下载 wget https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgztar zxvf kafka_2.12-2.5.0.tgzcd kafka_2.12-2.5.0开启服务器 # 开启zookeeperbin/zookeeper-server-start.sh config/zookeeper.properties# 开启kafkabin/kafka-server-start.sh config/server.properties创建一个topic bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test上面创建了一个叫test的topic
 我们现在可以运行list topic命令查看刚才创建的topic
-bin/kafka-topics.sh --list --bootstrap-server localhost:9092  发送消息 bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test 这是一条信息 这是另外一条消息  开启一个消费者consumer 接收消息
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning 这是一条信息 这是另一条信息  安装一个多broker集群，即kafka集群 # 首先为每个broker创建一个配置 cp config/server.properties config/server-1.properties cp config/server.properties config/server-2.properties # 然后为每个配置文件设置 config/server-1.</description>
+bin/kafka-topics.sh --list --bootstrap-server localhost:9092发送消息 bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test这是一条信息这是另外一条消息开启一个消费者consumer 接收消息
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning这是一条信息这是另一条信息安装一个多broker集群，即kafka集群 # 首先为每个broker创建一个配置cp config/server.properties config/server-1.propertiescp config/server.properties config/server-2.properties# 然后为每个配置文件设置config/server-1.properties:broker.id=1listeners=PLAINTEXT://:9093log.dirs=/tmp/kafka-logs-1config/server-2.properties:broker.</description>
     </item>
     
   </channel>

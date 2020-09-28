@@ -3,7 +3,7 @@
 <head>
     <title>Dockerfile实现修改容器hosts文件内容 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -83,19 +83,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/docker/">Docker</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/docker/">docker</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h4 id="场景">场景</h4>
-
+            <h4 id="场景">场景</h4>
 <p>今天突然遇到一个问题，需要向容器的/etc/hosts文件追加自定义的内容，直接的做法的是，进入容器，直接修改/etc/hosts文件，但是，这种做法在容器重新启动后就失效，而且容器启动实例一多，就会带来繁琐的手动操作。</p>
-
 <p>为了能让同一个镜像启动的容器每次启动的时候都能自动更新成我们需要的/etc/hosts文件，现有以下几种方法：</p>
-
-<h4 id="1-在docker-run的时候增加参数-add-host进行添加-官方给的方法">1. 在docker run的时候增加参数&ndash;add-host进行添加（官方给的方法）</h4>
-
+<h4 id="1-在docker-run的时候增加参数--add-host进行添加官方给的方法">1. 在docker run的时候增加参数&ndash;add-host进行添加（官方给的方法）</h4>
 <pre><code># 添加单个hosts
 docker run -it nginx --add-host=localhost:127.0.0.1
 
@@ -105,60 +99,46 @@ docker run -it nginx --add-host=localhost:127.0.0.1 --add-host=example.com:127.0
 # 一个ip对应多个hosts
 docker run -it nginx --add-host=&quot;localhost example.com&quot;:127.0.0.1
 
-</code></pre>
-
-<h4 id="2-在dockerfile中-使用脚本作为镜像入口-再利用脚本运行修改hosts文件的命令以及真正的应用程序入口">2. 在dockerfile中，使用脚本作为镜像入口，再利用脚本运行修改hosts文件的命令以及真正的应用程序入口</h4>
-
-<p>文件说明
-- myhosts：需要追加到/etc/hosts中的内容
-- run.sh：容器的入口执行脚本
-- dockerfile：构建镜像的dockerfile文件</p>
-
+</code></pre><h4 id="2-在dockerfile中使用脚本作为镜像入口再利用脚本运行修改hosts文件的命令以及真正的应用程序入口">2. 在dockerfile中，使用脚本作为镜像入口，再利用脚本运行修改hosts文件的命令以及真正的应用程序入口</h4>
+<p>文件说明</p>
+<ul>
+<li>myhosts：需要追加到/etc/hosts中的内容</li>
+<li>run.sh：容器的入口执行脚本</li>
+<li>dockerfile：构建镜像的dockerfile文件</li>
+</ul>
 <p>dockerfile示例如下：</p>
-
-<pre><code class="language-dockerfile">FROM centos:6
-MAINTAINER chenjiefeng
-
-COPY run.sh ~/run.sh
-COPY myhosts ~/myhosts
-RUN chmod +x ~/run.sh
-
-ENTRYPOINT /bin/sh -c ~/run.sh
-</code></pre>
-
-<p>run.sh示例如下：</p>
-
-<pre><code class="language-shell">#!/bin/bash
-# 向hosts文件追加内容
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> centos:6</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">MAINTAINER</span><span style="color:#e6db74"> chenjiefeng</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> run.sh ~/run.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> myhosts ~/myhosts<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x ~/run.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> /bin/sh -c ~/run.sh<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>run.sh示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span><span style="color:#75715e"># 向hosts文件追加内容</span>
 cat ~/myhosts &gt;&gt; /etc/hosts
 
-# 其他命令
+<span style="color:#75715e"># 其他命令</span>
 
-# 保留终端，防止容器自动退出
+<span style="color:#75715e"># 保留终端，防止容器自动退出</span>
 /bin/bash 
-</code></pre>
-
-<p>myhosts示例如下：</p>
-
+</code></pre></div><p>myhosts示例如下：</p>
 <pre><code>127.0.0.1 localhost example.com
-</code></pre>
-
-<p>镜像构建完成后，执行docker run 指令运行容器，查看/etc/hosts配置</p>
-
+</code></pre><p>镜像构建完成后，执行docker run 指令运行容器，查看/etc/hosts配置</p>
 <pre><code>$ cat /etc/hosts
 
-127.0.0.1   localhost
-::1 localhost ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-172.17.0.9  f7e886276ba3
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+fe00::0	ip6-localnet
+ff00::0	ip6-mcastprefix
+ff02::1	ip6-allnodes
+ff02::2	ip6-allrouters
+172.17.0.9	f7e886276ba3
 127.0.0.1 localhost example.com
 
-</code></pre>
-
-<p>bingo! 已经修改成功</p>
+</code></pre><p>bingo! 已经修改成功</p>
 
         </div>
         <div id="disqus_thread"></div>
