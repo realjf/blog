@@ -35,6 +35,7 @@
 </header>
 <main class="app-container">
     {{ partial "navigator.html" $ }}
+    {{ partial "search.html" $ }}
     {{ block "main" . }}
         {{ .Content }}
     {{ end }}

@@ -9,6 +9,10 @@ paginate = "10"
   category = "categories"
   series = "series"
 
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5
 
 [params]
   author = "realjf"
