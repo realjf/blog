@@ -6,10 +6,19 @@
     <description>Recent content in Devtools on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Nov 2019 14:14:43 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2020 05:29:26 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/devtools/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>安装vagrant Install Vagrant</title>
+      <link>https://realjf.io/devtools/install-vagrant/</link>
+      <pubDate>Tue, 29 Sep 2020 05:29:26 +0800</pubDate>
+      
+      <guid>https://realjf.io/devtools/install-vagrant/</guid>
+      <description>准备环境  kali 2020  安装 apt updateapt install vagrant# 测试是否安装成功vagrant --version</description>
+    </item>
     
     <item>
       <title>Cmake 使用基本教程</title>
