@@ -58,7 +58,7 @@ Enter 'help' for list of built-in commands.
 (initramfs):
 ```
 
-##### 解决方法
+##### 解决方法1
 在该命令行下运行如下命令
 ```shell script
 lvm vgchange -a y
@@ -69,5 +69,16 @@ exit
 update-initramfs -k all -c
 # 运行结束后，重启即可
 ```
-
+##### 解决方法2
+执行以下命令
+```shell script
+#停止设备
+mdadm -S /dev/md0
+#激活设备
+mdadm -A -s /dev/md0
+#强制启动
+mdadm -R /dev/md0
+# 退出
+exit
+```
 
