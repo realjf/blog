@@ -149,7 +149,7 @@
 
     
     function search() {
-        key = document.getElementById("search-key").value;
+        var key = document.getElementById("search-key").value;
         if (key === "") {
             return;
         }
@@ -167,22 +167,23 @@
         }
 
         
-        xmltext = new XMLHttpRequest;
+        var xmltext = new XMLHttpRequest;
         xmltext.open("GET", "./index.xml", false);
         xmltext.send();
-        resp = xmltext.responseXML;
-        items = resp.getElementsByTagName("item");
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
         
         var i = 0;
-        haveResult = false;
+        var haveResult = false;
         while (i < items.length) {
-            txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML
-            if (txt.indexOf(key) > -1) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
                 haveResult = true;
-                title = items[i].getElementsByTagName("title")[0].innerHTML;
-                link = items[i].getElementsByTagName("link")[0].innerHTML;
-                time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
-                mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
                 addItem(title, link, time, mark)
             }
             i++;
@@ -196,7 +197,7 @@
     
     function addItem(title, link, time, mark) {
         document.getElementById("search-tip").style.display = "none";
-        tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
             "<header class=\"post-header\">" +
             "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
             "<div class=\"post-meta\">" +
@@ -210,7 +211,7 @@
             "</div>" +
             " </div>" +
             "</article>"
-        div = document.createElement("div")
+        var div = document.createElement("div")
         div.innerHTML = tmpl;
         document.getElementById('result').appendChild(div)
 
