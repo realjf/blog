@@ -1,15 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cmake on Realjf&#39;s blog</title>
+    <title>Cmake on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/cmake/</link>
-    <description>Recent content in cmake on Realjf&#39;s blog</description>
+    <description>Recent content in Cmake on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Nov 2019 14:14:43 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 04 Nov 2020 09:24:08 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/cmake/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>如何使用cmake - How to Use Cmake</title>
+      <link>https://realjf.io/devtools/how-to-use-cmake/</link>
+      <pubDate>Wed, 04 Nov 2020 09:24:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/devtools/how-to-use-cmake/</guid>
+      <description>准备  cmake   下载地址：https://cmake.org/download/
+ 安装 具体的安装方法参照官网，这里不做赘述
+建议 cmake每次运行会产生大量中间文件，可以通过在项目根目录下创建build文件，然后运行cmake ../执行项目构建
+cmake命令行选项 指定构建系统生成器： -G 使用-G可以指定编译器，当前平台支持的编译器名称可以通过帮助手册查询cmake &amp;ndash;help，
+# 使用vs2017构建工程 cmake -G &amp;quot;Visual Studio 15 2017&amp;quot; ../ # 使用MinGW cmake -G &amp;quot;MinGW Makefiles&amp;quot; # 使用unix makefiles cmake -G &amp;quot;Unix Makefiles&amp;quot;  CMakeCache.txt文件  当cmake第一次运行一个空的构建的时候，他会创建一个CMakeCache.txt文件， 文件里存放了一些可以用来制定工程的项目，比如：变量、选项等
+ 对于同一变量，如果cache文件里面有设置，那么CMakeLists文件里就会优先使用Cache文件里面的同名变量。
+ CMakeLists里面通过设置了一个Cache里面没有的变量，那么就将这个变量的值写入到Cache里面
+  添加变量到cache文件中： -D  注意：-D后面不能有空格，如：cmake -DCMAKE_BUILD_TYPE:STRING=Debug  从Cache文件中删除变量：-U  此选项和-D功能相反，从Cache文件中删除变量，支持使用*和？通配符  cmake命令行模式：-E  cmake提供了很多和平台无关的命令，在任何平台都可以使用：chdir, copy,copy_if_different等 可以使用：cmake -D help进行查询  打印运行的每一行cmake  命令行选项中：&amp;ndash;trace，将打印运行的每一行cmake 命令：&amp;ndash;trace-source=&amp;ldquo;filename&amp;rdquo; 就会打印出有关filename的执行  设置编译参数  add_definitions (-DENABLED)，当在cmake里面添加该定义的时候，如果代码里面定义了#ifdef ENABLED #endif 相关的片段，此时代码里面这一块代码就会生效 //add_definitions(&amp;ldquo;-Wall -ansi -pedantic -g&amp;rdquo;) 该命令现已经被取代，使用：add_compile_definitions(WITH_OPENCV2)  设置默认值命令：option  option命令可以帮助我们设置一个自定义的宏，如：option(MY-MESSAGE &amp;ldquo;this is my message&amp;rdquo; ON) 第一个参数就是我们要设置的默认值的名字 第二个参数是对值的解释，类似于注释 第三个值是这个默认值的值，如果没有声明，cmake默认的是OFF 使用：设置好之后我们在命令行去使用的时候，也可以去给他设定值：cmake -DMY-MESSAGE=on .</description>
+    </item>
     
     <item>
       <title>Cmake 使用基本教程</title>
@@ -18,16 +34,16 @@
       
       <guid>https://realjf.io/devtools/cmake-tutorial/</guid>
       <description>首先创建一个项目
-mkdir Tutorialcd Tutorialtouch tutorial.cxxtutorial.cxx内容如下：
-第一步：从最基础开始 最简单的应用是在项目根目录下创建一个CMakeLists.txt文件，内容如下：
-# 设置cmake最小要求版本cmake_minimum_required(VERSION 3.10)# 设置项目名称project(Tutorial)# 添加可执行文件add_executable(Tutorial tutorial.cxx)CMake支持大写，小写和大小写混合命令，上述示例使用小写方式。
+mkdir Tutorial cd Tutorial touch tutorial.cxx  tutorial.cxx内容如下：
+ 第一步：从最基础开始 最简单的应用是在项目根目录下创建一个CMakeLists.txt文件，内容如下：
+# 设置cmake最小要求版本 cmake_minimum_required(VERSION 3.10) # 设置项目名称 project(Tutorial) # 添加可执行文件 add_executable(Tutorial tutorial.cxx)  CMake支持大写，小写和大小写混合命令，上述示例使用小写方式。
 添加版本号和配置头文件 第一个功能cmake_minimum_required是为我们的可执行文件和项目提供版本号。 虽然我们可以仅在源代码中执行此操作，但是使用CMakeLists.txt可提供更大的灵活性
-cmake_minimum_required(VERSION 3.10)# 设置项目版本号project(Tutorial VERSION 1.0)配置头文件以将版本号传递给源代码
-configure_file(TutorialConfig.h.in TutorialConfig.h)由于已配置的文件将被写入二进制树，因此我们必须将该目录添加到路径列表中以搜索包含文件。 将以下行添加到CMakeLists.txt文件的末尾
-target_include_directories(Tutorial PUBLIC&amp;#34;${PROJECT_BINARY_DIR}&amp;#34;)在源目录中使用以下内容创建TutorialConfig.h.in
-// 配置选项和设置项目配置#define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@#define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@当CMake配置此头文件时，@Tutorial_VERSION_MAJOR@和@Tutorial_VERSION_MINOR@的值将被替换。 接下来，修改tutorial.cxx以包括配置的头文件TutorialConfig.h
+cmake_minimum_required(VERSION 3.10) # 设置项目版本号 project(Tutorial VERSION 1.0)  配置头文件以将版本号传递给源代码
+configure_file(TutorialConfig.h.in TutorialConfig.h)  由于已配置的文件将被写入二进制树，因此我们必须将该目录添加到路径列表中以搜索包含文件。 将以下行添加到CMakeLists.txt文件的末尾
+target_include_directories(Tutorial PUBLIC &amp;quot;${PROJECT_BINARY_DIR}&amp;quot; )  在源目录中使用以下内容创建TutorialConfig.h.in
+// 配置选项和设置项目配置 #define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@ #define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@  当CMake配置此头文件时，@Tutorial_VERSION_MAJOR@和@Tutorial_VERSION_MINOR@的值将被替换。 接下来，修改tutorial.cxx以包括配置的头文件TutorialConfig.h
 最后，通过更新tutorial.cxx来打印出版本号
-if (argc &amp;lt; 2) {// report version std::cout &amp;lt;&amp;lt; argv[0] &amp;lt;&amp;lt; &amp;#34; Version &amp;#34; &amp;lt;&amp;lt; Tutorial_VERSION_MAJOR &amp;lt;&amp;lt; &amp;#34;.</description>
+if (argc &amp;lt; 2) { // report version std::cout &amp;lt;&amp;lt; argv[0] &amp;lt;&amp;lt; &amp;quot; Version &amp;quot; &amp;lt;&amp;lt; Tutorial_VERSION_MAJOR &amp;lt;&amp;lt; &amp;quot;.</description>
     </item>
     
   </channel>

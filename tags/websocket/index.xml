@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>websocket on Realjf&#39;s blog</title>
+    <title>Websocket on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/websocket/</link>
-    <description>Recent content in websocket on Realjf&#39;s blog</description>
+    <description>Recent content in Websocket on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 13 Jun 2020 18:14:12 +0800</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Sat, 13 Jun 2020 18:14:12 +0800</pubDate>
       
       <guid>https://realjf.io/php/simple-websocket/</guid>
-      <description>环境准备  php 7 linux 系统  服务端 websocket.php 文件 &amp;lt;?php$address = &amp;#39;0.0.0.0&amp;#39;;$port = 8000;// 创建socket$server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);socket_set_option($server, SOL_SOCKET, SO_REUSEADDR, 1);socket_bind($server, $address, $port);socket_listen($server);$client = socket_accept($server);// 发送websokcet握手 header$request = socket_read($client, 5000); // 读取数据preg_match(&amp;#39;#Sec-WebSocket-Key: (.*)\r\n#&amp;#39;, $request, $matches);$key = base64_encode(pack(&amp;#39;H*&amp;#39;,sha1($matches[1] . &amp;#39;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&amp;#39;)));$headers = &amp;#34;HTTP/1.1 101 Switching Protocols\r\n&amp;#34;;$headers .= &amp;#34;Upgrade: websocket\r\n&amp;#34;;$headers .= &amp;#34;Connection: Upgrade\r\n&amp;#34;;$headers .</description>
+      <description>环境准备  php 7 linux 系统  服务端 websocket.php 文件 &amp;lt;?php $address = &#39;0.0.0.0&#39;; $port = 8000; // 创建socket $server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP); socket_set_option($server, SOL_SOCKET, SO_REUSEADDR, 1); socket_bind($server, $address, $port); socket_listen($server); $client = socket_accept($server); // 发送websokcet握手 header $request = socket_read($client, 5000); // 读取数据 preg_match(&#39;#Sec-WebSocket-Key: (.*)\r\n#&#39;, $request, $matches); $key = base64_encode(pack( &#39;H*&#39;, sha1($matches[1] . &#39;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&#39;) )); $headers = &amp;quot;HTTP/1.1 101 Switching Protocols\r\n&amp;quot;; $headers .= &amp;quot;Upgrade: websocket\r\n&amp;quot;; $headers .= &amp;quot;Connection: Upgrade\r\n&amp;quot;; $headers .</description>
     </item>
     
   </channel>
