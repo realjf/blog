@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vue.js on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/vue.js/</link>
+    <description>Recent content in Vue.js on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 06 Nov 2020 15:35:03 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/vue.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>vue.js 2 系列之四 javascript入门 Js Primer</title>
+      <link>https://realjf.io/vuejs/js-primer/</link>
+      <pubDate>Fri, 06 Nov 2020 15:35:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/js-primer/</guid>
+      <description>准备 首先创建项目
+vue create jsprimer --default  安装jquery，bootstrap，popper.js
+cd jsprimer npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
+import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  配置package.json的eslintConfig里的rules
+&amp;quot;rules&amp;quot;: { &amp;quot;no-unused-vars&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-console&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-declare&amp;quot;: &amp;quot;off&amp;quot; },  运行项目
+npm run serve  函数 定义函数，包括缺省值，函数返回值， 在main.js中添加如下代码
+func myFunc(name, age = 18) { return &amp;quot;Hello &amp;quot; + name + &amp;quot;, your age is &amp;quot; + age.</description>
+    </item>
+    
+    <item>
+      <title>vue.js 2 系列之三 Html 和 Css 入门</title>
+      <link>https://realjf.io/vuejs/html-css-primer/</link>
+      <pubDate>Fri, 06 Nov 2020 14:41:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/html-css-primer/</guid>
+      <description>准备 首先创建项目
+vue create htmlcss --default  安装jquery，bootstrap，popper.js
+cd htmlcss npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
+import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  eslint配置
+# 进入node_modules目录的.bin目录下，初始化eslint cd node_modules/.bin/ eslint --init # 设置选项，除选择vue.js外，其他都选择默认选项 # 最后，将node_modules目录.bin目录下的.eslintrc.js文件拷贝到项目根目录下 # window下 copy .eslintrc.js ..\..\ # linux下 cp .</description>
+    </item>
+    
+    <item>
+      <title>vue.js 2 系列之二 理解vue.js Understanding Vue.js</title>
+      <link>https://realjf.io/vuejs/understanding-vuejs/</link>
+      <pubDate>Fri, 06 Nov 2020 14:26:34 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/understanding-vuejs/</guid>
+      <description>理解web应用结构模型 往返交互(round-trip)或者多页应用模型 通过用户点击提交表单等操作，浏览器请求返回新的html文档结构供用户浏览
+单体应用模型或单页应用模型 用户通过点击提交表单发送ajax请求更新首次返回的html文档中的部分数据</description>
+    </item>
+    
+    <item>
+      <title>vue.js 2 系列之一 第一个vue.js应用 First Vuejs App</title>
+      <link>https://realjf.io/vuejs/first-vuejs-app/</link>
+      <pubDate>Fri, 06 Nov 2020 10:37:34 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/first-vuejs-app/</guid>
+      <description>准备开发环境  安装最新版node.js 使用npm安装@vue/cli命令行工具包 安装git 安装开发ide，如vscode，sublime text, atom,vim等 安装浏览器，chrome,firefox等   安装vue命令：npm install -g @vue/cli
+ 创建工程项目 vue create todo --default  项目结构解析 执行tree -L 1后得到如下结构
+├── babel.config.js ├── node_modules ├── package.json ├── package-lock.json ├── public | ├── favicon.ico | └── index.html ├── README.md └── src ├── App.vue ├── assets │ └── logo.png ├── components │ └── HelloWorld.vue └── main.js   public/index.html 这是浏览器加载的第一个文件 src/main.js 这个vue.js应用的配置js文件 src/App.vue 这是vue.js组件，包含html文档结构和js代码以及css文档样式 src/assets/logo.png assets文件夹是存放静态资源文件  运行开发工具 cd todo npm run serve # 运行结果如下： App running at: - Local: http://localhost:8080/ - Network: http://192.</description>
+    </item>
+    
+  </channel>
+</rss>

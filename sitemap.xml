@@ -4,6 +4,34 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     
     <url>
+        <loc>https://realjf.io/vuejs/js-primer/</loc>
+        <lastmod>2020-11-06T15:35:03+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/vuejs/html-css-primer/</loc>
+        <lastmod>2020-11-06T14:41:48+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/vuejs/understanding-vuejs/</loc>
+        <lastmod>2020-11-06T14:26:34+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/vuejs/first-vuejs-app/</loc>
+        <lastmod>2020-11-06T10:37:34+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
         <loc>https://realjf.io/devtools/how-to-use-cmake/</loc>
         <lastmod>2020-11-04T09:24:08+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -935,15 +963,15 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/</loc>
-        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
+        <loc>https://realjf.io/series/</loc>
+        <lastmod>2020-11-04T09:24:08+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/</loc>
-        <lastmod>2020-11-04T09:24:08+08:00</lastmod>
+        <loc>https://realjf.io/tags/</loc>
+        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -1054,14 +1082,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1082,14 +1110,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/chunk-file/</loc>
+        <loc>https://realjf.io/series/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/chunk-file/</loc>
+        <loc>https://realjf.io/tags/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1775,6 +1803,13 @@
     </url>
     
     <url>
+        <loc>https://realjf.io/series/pro-vue.js2/</loc>
+        <lastmod>2020-11-06T15:35:03+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
         <loc>https://realjf.io/tags/protobuf/</loc>
         <lastmod>2019-10-28T15:31:06+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -1825,7 +1860,7 @@
     
     <url>
         <loc>https://realjf.io/</loc>
-        <lastmod>2020-11-04T09:24:08+08:00</lastmod>
+        <lastmod>2020-11-06T15:35:03+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -2050,6 +2085,34 @@
     <url>
         <loc>https://realjf.io/categories/vue/</loc>
         <lastmod>2019-10-14T15:17:48+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/vue.js/</loc>
+        <lastmod>2020-11-06T15:35:03+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/vuejs/</loc>
+        <lastmod>2020-11-06T15:35:03+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/vuejs/</loc>
+        <lastmod>2020-11-06T15:35:03+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/categories/vuejs/</loc>
+        <lastmod>2020-11-06T15:35:03+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
