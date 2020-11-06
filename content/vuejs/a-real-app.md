@@ -97,7 +97,7 @@ import "font-awesome/css/font-awesome.min.css";
 ...
 ```
 ### 准备restful web服务
-在src/data.js下添加如下代码：
+在sportsstore/data.js下添加如下代码：
 ```javascript
 var data = [
   {
@@ -174,7 +174,7 @@ module.exports = function() {
 };
 
 ```
-在src/authMiddleware.js文件里添加如下代码：
+在sportsstore/authMiddleware.js文件里添加如下代码：
 ```javascript
 const jwt = require("jsonwebtoken");
 
@@ -225,8 +225,21 @@ module.exports = function(req, res, next) {
 };
 
 ```
+在package.json中添加如下内容
+```javascript
+"scripts": {
+    "json": "json-server data.js -p 3500 -m authMiddleware.js"
+}
+```
 
-
+运行web 服务
+```shell script
+npm run json
+```
+在第二个终端中执行一下命令
+```shell script
+npm run serve
+```
 
 
 
