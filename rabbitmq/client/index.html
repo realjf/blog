@@ -3,7 +3,7 @@
 <head>
     <title>rabbitmq go客户端库实现 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,147 +237,131 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/rabbitmq/">Rabbitmq</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/rabbitmq/">rabbitmq</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<blockquote>
+            <blockquote>
 <p>go rabbitmq client library</p>
-
-<pre><code class="language-golang">go get github.com/streadway/amqp
-</code></pre>
 </blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#a6e22e">streadway</span><span style="color:#f92672">/</span><span style="color:#a6e22e">amqp</span>
+</code></pre></div><h4 id="sendgo消息发送者">send.go（消息发送者）</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<h4 id="send-go-消息发送者">send.go（消息发送者）</h4>
-
-<pre><code class="language-golang">package main
-
-import (
-    &quot;log&quot;
-    &quot;fmt&quot;
-    &quot;github.com/streadway/amqp&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;log&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/streadway/amqp&#34;</span>
 )
 
-func failOnError(err error, msg string){
-    if err != nil {
-        log.Fatalf(&quot;%s: %s&quot;, msg, err)
-        panic(fmt.Sprintf(&quot;%s: %s&quot;, msg, err))
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>, <span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">string</span>){
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;%s: %s&#34;</span>, <span style="color:#a6e22e">msg</span>, <span style="color:#a6e22e">err</span>)
+		panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s: %s&#34;</span>, <span style="color:#a6e22e">msg</span>, <span style="color:#a6e22e">err</span>))
+	}
 }
 
-func main(){
-    conn, err := amqp.Dial(&quot;amqp://guest:guest@localhost:5672/&quot;)
-    failOnError(err, &quot;Failed to connect to RabbitMQ&quot;)
-    defer conn.Close()
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
+	<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">amqp</span>.<span style="color:#a6e22e">Dial</span>(<span style="color:#e6db74">&#34;amqp://guest:guest@localhost:5672/&#34;</span>)
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to connect to RabbitMQ&#34;</span>)
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
 
-    ch, err := conn.Channel()
-    failOnError(err, &quot;Failed to open a channel&quot;)
-    defer ch.Close()
+	<span style="color:#a6e22e">ch</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Channel</span>()
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to open a channel&#34;</span>)
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">Close</span>()
 
-    q, err := ch.QueueDeclare(
-        &quot;hello&quot;,
-        false,
-        false,
-        false,
-        false,
-        nil,
-    )
-    failOnError(err, &quot;Failed to declare a queue&quot;)
+	<span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">QueueDeclare</span>(
+		<span style="color:#e6db74">&#34;hello&#34;</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">nil</span>,
+	)
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to declare a queue&#34;</span>)
 
-    body := &quot;hello&quot;
-    // 发布消息
-    err = ch.Publish(
-        &quot;&quot;,
-        q.Name,
-        false,
-        false,
-        amqp.Publishing{
-            ContentType: &quot;text/plain&quot;,
-            Body: []byte(body),
-        })
-    failOnError(err, &quot;Failed to publish a message&quot;)
+	<span style="color:#a6e22e">body</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;hello&#34;</span>
+	<span style="color:#75715e">// 发布消息
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">Publish</span>(
+		<span style="color:#e6db74">&#34;&#34;</span>,
+		<span style="color:#a6e22e">q</span>.<span style="color:#a6e22e">Name</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#a6e22e">amqp</span>.<span style="color:#a6e22e">Publishing</span>{
+			<span style="color:#a6e22e">ContentType</span>: <span style="color:#e6db74">&#34;text/plain&#34;</span>,
+			<span style="color:#a6e22e">Body</span>: []byte(<span style="color:#a6e22e">body</span>),
+		})
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to publish a message&#34;</span>)
 
 
 }
 
-</code></pre>
+</code></pre></div><h4 id="receivego消息接收者">receive.go（消息接收者）</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<h4 id="receive-go-消息接收者">receive.go（消息接收者）</h4>
-
-<pre><code class="language-golang">package main
-
-import (
-    &quot;github.com/streadway/amqp&quot;
-    &quot;log&quot;
-    &quot;fmt&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;github.com/streadway/amqp&#34;</span>
+	<span style="color:#e6db74">&#34;log&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
 )
 
-func failOnError(err error, msg string){
-    if err != nil {
-        log.Fatalf(&quot;%s: %s&quot;, msg, err)
-        panic(fmt.Sprintf(&quot;%s: %s&quot;, msg, err))
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>, <span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">string</span>){
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;%s: %s&#34;</span>, <span style="color:#a6e22e">msg</span>, <span style="color:#a6e22e">err</span>)
+		panic(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s: %s&#34;</span>, <span style="color:#a6e22e">msg</span>, <span style="color:#a6e22e">err</span>))
+	}
 }
 
-func main(){
-    conn, err := amqp.Dial(&quot;amqp://guest:guest@localhost:5672/&quot;)
-    failOnError(err, &quot;Failed to connect to RabbitMQ&quot;)
-    defer conn.Close()
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
+	<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">amqp</span>.<span style="color:#a6e22e">Dial</span>(<span style="color:#e6db74">&#34;amqp://guest:guest@localhost:5672/&#34;</span>)
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to connect to RabbitMQ&#34;</span>)
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
 
-    ch, err := conn.Channel()
-    failOnError(err, &quot;Failed to open a channel&quot;)
-    defer ch.Close()
+	<span style="color:#a6e22e">ch</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Channel</span>()
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to open a channel&#34;</span>)
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">Close</span>()
 
-    q, err := ch.QueueDeclare(
-        &quot;hello&quot;,
-        false,
-        false,
-        false,
-        false,
-        nil,
-    )
-    failOnError(err, &quot;Failed to declare a queue&quot;)
+	<span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">QueueDeclare</span>(
+		<span style="color:#e6db74">&#34;hello&#34;</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">nil</span>,
+	)
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to declare a queue&#34;</span>)
 
-    msgs, err := ch.Consume(
-        q.Name,
-        &quot;&quot;,
-        true,
-        false,
-        false,
-        false,
-        nil,
-    )
-    failOnError(err, &quot;Failed to register a consumer&quot;)
+	<span style="color:#a6e22e">msgs</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">Consume</span>(
+		<span style="color:#a6e22e">q</span>.<span style="color:#a6e22e">Name</span>,
+		<span style="color:#e6db74">&#34;&#34;</span>,
+		<span style="color:#66d9ef">true</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">false</span>,
+		<span style="color:#66d9ef">nil</span>,
+	)
+	<span style="color:#a6e22e">failOnError</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Failed to register a consumer&#34;</span>)
 
-    forever := make(chan bool)
+	<span style="color:#a6e22e">forever</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
 
-    go func() {
-        for d := range msgs {
-            log.Printf(&quot;Received a message: %s&quot;, d.Body)
-        }
-    }()
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">msgs</span> {
+			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Received a message: %s&#34;</span>, <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Body</span>)
+		}
+	}()
 
-    log.Printf(&quot; [*] Waiting for messages. To exit press CTRL+C&quot;)
-    &lt;-forever
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34; [*] Waiting for messages. To exit press CTRL+C&#34;</span>)
+	<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">forever</span>
 }
 
 
-</code></pre>
-
-<p>之后运行</p>
-
+</code></pre></div><p>之后运行</p>
 <pre><code>go run send.go
 go run receive.go
-</code></pre>
-
-<p>即可看到返回结果如下：</p>
-
+</code></pre><p>即可看到返回结果如下：</p>
 <pre><code>2018/03/13 23:27:32  [*] Waiting for messages. To exit press CTRL+C
 2018/03/13 23:27:32 Received a message: hello
 
 </code></pre>
-
         </div>
         <div id="disqus_thread"></div>
 <script>

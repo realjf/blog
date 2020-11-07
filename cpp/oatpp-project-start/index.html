@@ -3,7 +3,7 @@
 <head>
     <title>Oatpp框架简单项目初次启动 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,137 +237,114 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/cpp/">Cpp</a><a class="tag" href="https://realjf.io/tags/oatpp/">Oatpp</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/cpp/">cpp</a><a class="tag" href="https://realjf.io/tags/oatpp/">oatpp</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="准备">准备</h2>
-
+            <h2 id="准备">准备</h2>
 <ul>
 <li>window10系统</li>
 <li>已配置好c++开发环境的vscode</li>
-<li>visual studio <sup>2019</sup>&frasl;<sub>2017</sub></li>
+<li>visual studio 2019/2017</li>
 </ul>
-
 <h2 id="方法一">方法一</h2>
-
 <h3 id="开始">开始</h3>
-
-<pre><code class="language-shell"># 新建项目目录
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 新建项目目录</span>
 mkdir oatpp_example
 cd oatpp_example
 mkdir src
 type null &gt; CMakeLists.txt
 type null &gt; src/main.cpp
-</code></pre>
-
-<h3 id="写代码">写代码</h3>
-
+</code></pre></div><h3 id="写代码">写代码</h3>
 <p>src/main.cpp的内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#include &#34;oatpp/web/server/HttpConnectionHandler.hpp&#34;</span>
 
-<pre><code class="language-shell">#include &quot;oatpp/web/server/HttpConnectionHandler.hpp&quot;
+<span style="color:#75715e">#include &#34;oatpp/network/server/Server.hpp&#34;</span>
+<span style="color:#75715e">#include &#34;oatpp/network/server/SimpleTCPConnectionProvider.hpp&#34;</span>
 
-#include &quot;oatpp/network/server/Server.hpp&quot;
-#include &quot;oatpp/network/server/SimpleTCPConnectionProvider.hpp&quot;
-
-class Handler : public oatpp::web::server::HttpRequestHandler {
+class Handler : public oatpp::web::server::HttpRequestHandler <span style="color:#f92672">{</span>
     public:
     /**
-      * Handle incoming request and return outgoing response.
+      * Handle incoming request and <span style="color:#66d9ef">return</span> outgoing response.
       */
-    std::shared_ptr&lt;OutgoingResponse&gt; handle(const std::shared_ptr&lt;IncomingRequest&gt;&amp; request) override {
-    return ResponseFactory::createResponse(Status::CODE_200, &quot;Hello World!&quot;);
-  }
+    std::shared_ptr&lt;OutgoingResponse&gt; handle<span style="color:#f92672">(</span>const std::shared_ptr&lt;IncomingRequest&gt;&amp; request<span style="color:#f92672">)</span> override <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> ResponseFactory::createResponse<span style="color:#f92672">(</span>Status::CODE_200, <span style="color:#e6db74">&#34;Hello World!&#34;</span><span style="color:#f92672">)</span>;
+  <span style="color:#f92672">}</span>
 
-};
+<span style="color:#f92672">}</span>;
 
 
-void run() {
-    /* Create Router for HTTP requests routing */
-    auto router = oatpp::web::server::HttpRouter::createShared();
+void run<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    /* Create Router <span style="color:#66d9ef">for</span> HTTP requests routing */
+    auto router <span style="color:#f92672">=</span> oatpp::web::server::HttpRouter::createShared<span style="color:#f92672">()</span>;
 
-    /* Route GET - &quot;/hello&quot; requests to Handler */
-    router-&gt;route(&quot;GET&quot;, &quot;/hello&quot;, std::make_shared&lt;Handler&gt;());
+    /* Route GET - <span style="color:#e6db74">&#34;/hello&#34;</span> requests to Handler */
+    router-&gt;route<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;GET&#34;</span>, <span style="color:#e6db74">&#34;/hello&#34;</span>, std::make_shared&lt;Handler&gt;<span style="color:#f92672">())</span>;
 
     /* Create HTTP connection handler with router */
-    auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router);
+    auto connectionHandler <span style="color:#f92672">=</span> oatpp::web::server::HttpConnectionHandler::createShared<span style="color:#f92672">(</span>router<span style="color:#f92672">)</span>;
 
     /* Create TCP connection provider */
-    auto connectionProvider = oatpp::network::server::SimpleTCPConnectionProvider::createShared(8000 /*port*/);
+    auto connectionProvider <span style="color:#f92672">=</span> oatpp::network::server::SimpleTCPConnectionProvider::createShared<span style="color:#f92672">(</span><span style="color:#ae81ff">8000</span> /*port*/<span style="color:#f92672">)</span>;
 
     /* Create server which takes provided TCP connection and passes them to HTTP connection handler */
-    oatpp::network::server::Server server(connectionProvider, connectionHandler);
+    oatpp::network::server::Server server<span style="color:#f92672">(</span>connectionProvider, connectionHandler<span style="color:#f92672">)</span>;
 
     /* Priny info about server port */
-    OATPP_LOGI(&quot;MyApp&quot;, &quot;Server running on port %s&quot;, connectionProvider-&gt;getProperty(&quot;port&quot;).getData());
+    OATPP_LOGI<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;MyApp&#34;</span>, <span style="color:#e6db74">&#34;Server running on port %s&#34;</span>, connectionProvider-&gt;getProperty<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;port&#34;</span><span style="color:#f92672">)</span>.getData<span style="color:#f92672">())</span>;
 
     /* Run server */
-    server.run();
-}
+    server.run<span style="color:#f92672">()</span>;
+<span style="color:#f92672">}</span>
 
-int main() {
+int main<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
     /* Init oatpp Environment */
-    oatpp::base::Environment::init();
+    oatpp::base::Environment::init<span style="color:#f92672">()</span>;
 
     /* Run App */
-    run();
+    run<span style="color:#f92672">()</span>;
 
     /* Destory oatpp Environment */
-    oatpp::base::Environment::destroy();
+    oatpp::base::Environment::destroy<span style="color:#f92672">()</span>;
 
-    return 0;
-}
-</code></pre>
+    <span style="color:#66d9ef">return</span> 0;
+<span style="color:#f92672">}</span>
+</code></pre></div><p>接下来是CMakeLists.txt文件，其内容如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cmake_minimum_required<span style="color:#f92672">(</span>VERSION 3.1<span style="color:#f92672">)</span>
 
-<p>接下来是CMakeLists.txt文件，其内容如下:</p>
+set<span style="color:#f92672">(</span>project_name oatpp_example<span style="color:#f92672">)</span> <span style="color:#75715e">## rename your project here</span>
 
-<pre><code class="language-shell">cmake_minimum_required(VERSION 3.1)
+project<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span><span style="color:#f92672">)</span>
 
-set(project_name oatpp_example) ## rename your project here
+set<span style="color:#f92672">(</span>CMAKE_CXX_STANDARD 11<span style="color:#f92672">)</span>
 
-project(${project_name})
+<span style="color:#75715e">## add executables</span>
 
-set(CMAKE_CXX_STANDARD 11)
+add_executable<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span> src/main.cpp<span style="color:#f92672">)</span>
 
-## add executables
+<span style="color:#75715e">## link libs</span>
+find_package<span style="color:#f92672">(</span>oatpp 1.1.0 REQUIRED<span style="color:#f92672">)</span>
 
-add_executable(${project_name} src/main.cpp)
-
-## link libs
-find_package(oatpp 1.1.0 REQUIRED)
-
-target_link_libraries(${project_name}
+target_link_libraries<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>
         PUBLIC oatpp::oatpp
         PUBLIC oatpp::oatpp-test
-)
+<span style="color:#f92672">)</span>
 
-</code></pre>
-
-<h3 id="开始编译">开始编译</h3>
-
-<pre><code class="language-shell">mkdir build
+</code></pre></div><h3 id="开始编译">开始编译</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir build
 cd build
 cmake ..
-</code></pre>
-
-<p>接下来需要使用visual studio 2019/2017打开build/xxxx.sln文件，然后右击ALL BUILD文件夹，选择生成
+</code></pre></div><p>接下来需要使用visual studio 2019/2017打开build/xxxx.sln文件，然后右击ALL BUILD文件夹，选择生成
 即可在build/Debug目录下生成可执行文件</p>
-
 <h2 id="方法二">方法二</h2>
-
 <p>直接使用官方的启动项目搭建</p>
-
-<pre><code class="language-shell"># 首先clone下项目
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 首先clone下项目</span>
 git clone git@github.com:oatpp/oatpp-starter.git
 
-# 然后进入项目根目录
+<span style="color:#75715e"># 然后进入项目根目录</span>
 mkdir build
 cd build
 cmake ..
-</code></pre>
-
-<p>接下来的步骤方法一，直接用visual studio 2019/2017打开build目录下的xxx.sln文件，
+</code></pre></div><p>接下来的步骤方法一，直接用visual studio 2019/2017打开build目录下的xxx.sln文件，
 然后右击ALL BUILD文件夹，选择生成即可在build/Debug目录下生成可执行文件</p>
 
         </div>

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Unix环境高级编程 on Realjf&#39;s blog</title>
+    <title>unix环境高级编程 on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/unix%E7%8E%AF%E5%A2%83%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/</link>
-    <description>Recent content in Unix环境高级编程 on Realjf&#39;s blog</description>
+    <description>Recent content in unix环境高级编程 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 23 Nov 2019 09:20:03 +0800</lastBuildDate>
@@ -17,9 +17,9 @@
       <pubDate>Sat, 23 Nov 2019 09:20:03 +0800</pubDate>
       
       <guid>https://realjf.io/unix/how-to-setup-apue-env/</guid>
-      <description> 官网http://www.apuebook.com/apue3e.html
-准备 apt-get install libbsd-dev  如果不执行上面步骤可能会出现如下问题：
-barrier.c:(.text+0x6e): undefined reference to `heapsort’ collect2: ld make[1]: *** [barrier] make[1]: Leaving directory `/home/albert/Documents/progs/apue.3e/threads’ make: *** [all]  1. 下载解压 wget http://www.apuebook.com/src.3e.tar.gz tar zxvf src.3e.tar.gz cd apue.3e make  2. 复制相关头文件到/usr/include等 cp ./include/apue.h /usr/include cp ./lib/libapue.a /usr/local/lib  3. 搭建成功，测试 gcc 1-3.c -o 1-3 -lapue # 编译连接后 ./1-3 /lib # 查看是否正常执行程序  </description>
+      <description>官网http://www.apuebook.com/apue3e.html
+准备 apt-get install libbsd-dev如果不执行上面步骤可能会出现如下问题：
+barrier.c:(.text+0x6e): undefined reference to `heapsort’collect2: ldmake[1]: *** [barrier] make[1]: Leaving directory `/home/albert/Documents/progs/apue.3e/threads’make: *** [all] 1. 下载解压 wget http://www.apuebook.com/src.3e.tar.gztar zxvf src.3e.tar.gzcd apue.3emake2. 复制相关头文件到/usr/include等 cp ./include/apue.h /usr/includecp ./lib/libapue.a /usr/local/lib3. 搭建成功，测试 gcc 1-3.c -o 1-3 -lapue# 编译连接后./1-3 /lib# 查看是否正常执行程序</description>
     </item>
     
   </channel>
