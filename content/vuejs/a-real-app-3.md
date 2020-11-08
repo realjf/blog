@@ -5,7 +5,7 @@ keywords: ["vuejs", "vue.js"]
 categories: ["vuejs"]
 tags: ["vuejs", "vue.js"]
 series: ["pro vue.js2"]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 80
