@@ -3,7 +3,7 @@
 <head>
     <title>unix环境高级编程 之 apue.h环境安装配置  // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,49 +237,32 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/unix/">Unix</a><a class="tag" href="https://realjf.io/tags/unix%E7%8E%AF%E5%A2%83%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/">Unix环境高级编程</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/unix/">unix</a><a class="tag" href="https://realjf.io/tags/unix%E7%8E%AF%E5%A2%83%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/">unix环境高级编程</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<p>官网<a href="http://www.apuebook.com/apue3e.html">http://www.apuebook.com/apue3e.html</a></p>
-
+            <p>官网<a href="http://www.apuebook.com/apue3e.html">http://www.apuebook.com/apue3e.html</a></p>
 <h3 id="准备">准备</h3>
-
-<pre><code class="language-shell">apt-get install libbsd-dev
-</code></pre>
-
-<p>如果不执行上面步骤可能会出现如下问题：</p>
-
-<pre><code class="language-shell">barrier.c:(.text+0x6e): undefined reference to `heapsort’
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt-get install libbsd-dev
+</code></pre></div><p>如果不执行上面步骤可能会出现如下问题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">barrier.c:<span style="color:#f92672">(</span>.text+0x6e<span style="color:#f92672">)</span>: undefined reference to <span style="color:#e6db74">`</span>heapsort’
 collect2: ld
-make[1]: *** [barrier] 
-make[1]: Leaving directory `/home/albert/Documents/progs/apue.3e/threads’
-make: *** [all] 
-</code></pre>
-
-<h3 id="1-下载解压">1. 下载解压</h3>
-
-<pre><code class="language-shell">wget http://www.apuebook.com/src.3e.tar.gz
+make<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: *** <span style="color:#f92672">[</span>barrier<span style="color:#f92672">]</span> 
+make<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: Leaving directory <span style="color:#e6db74">`</span>/home/albert/Documents/progs/apue.3e/threads’
+make: *** <span style="color:#f92672">[</span>all<span style="color:#f92672">]</span> 
+</code></pre></div><h3 id="1-下载解压">1. 下载解压</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget http://www.apuebook.com/src.3e.tar.gz
 tar zxvf src.3e.tar.gz
 cd apue.3e
 make
-</code></pre>
-
-<h3 id="2-复制相关头文件到-usr-include等">2. 复制相关头文件到/usr/include等</h3>
-
-<pre><code class="language-shell">cp ./include/apue.h /usr/include
+</code></pre></div><h3 id="2-复制相关头文件到usrinclude等">2. 复制相关头文件到/usr/include等</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp ./include/apue.h /usr/include
 cp ./lib/libapue.a /usr/local/lib
-</code></pre>
-
-<h3 id="3-搭建成功-测试">3. 搭建成功，测试</h3>
-
-<pre><code class="language-shell">gcc 1-3.c -o 1-3 -lapue
-# 编译连接后
+</code></pre></div><h3 id="3-搭建成功测试">3. 搭建成功，测试</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">gcc 1-3.c -o 1-3 -lapue
+<span style="color:#75715e"># 编译连接后</span>
 ./1-3 /lib
-# 查看是否正常执行程序
-</code></pre>
-
+<span style="color:#75715e"># 查看是否正常执行程序</span>
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

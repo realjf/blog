@@ -3,7 +3,7 @@
 <head>
     <title>unix网络编程 之 myerr.h文件 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,145 +237,140 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/unix/">Unix</a><a class="tag" href="https://realjf.io/tags/myerr.h/">Myerr.h</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/unix/">unix</a><a class="tag" href="https://realjf.io/tags/myerr.h/">myerr.h</a><a class="tag" href="https://realjf.io/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="unix网络编程-之-myerr-h文件">unix网络编程 之 myerr.h文件</h2>
-
+            <h2 id="unix网络编程-之-myerrh文件">unix网络编程 之 myerr.h文件</h2>
 <p>myerr.h</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-h" data-lang="h"><span style="color:#75715e">// myerr.h
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;errno.h&gt;/* for definition of errno */</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdarg.h&gt;/* ISO C variable aruments */</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
 
-<pre><code class="language-h">// myerr.h
-
-#include &lt;errno.h&gt;/* for definition of errno */
-#include &lt;stdarg.h&gt;/* ISO C variable aruments */
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">err_doit</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>, va_list);
 
 
-static void err_doit(int, int, const char *, va_list);
-
-
-/*
- * Nonfatal error related to a system call.
- * Print a message and return.
- */
-void
-err_ret(const char *fmt, ...)
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Nonfatal error related to a system call.
+</span><span style="color:#75715e"> * Print a message and return.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">err_ret</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...)
 {
 va_list ap;
 
 
 va_start(ap, fmt);
-err_doit(1, errno, fmt, ap);
+err_doit(<span style="color:#ae81ff">1</span>, errno, fmt, ap);
 va_end(ap);
 }
 
 
-/*
- * Fatal error related to a system call.
- * Print a message and terminate.
- */
-void
-err_sys(const char *fmt, ...)
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Fatal error related to a system call.
+</span><span style="color:#75715e"> * Print a message and terminate.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">err_sys</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...)
 {
 va_list ap;
 
 
 va_start(ap, fmt);
-err_doit(1, errno, fmt, ap);
+err_doit(<span style="color:#ae81ff">1</span>, errno, fmt, ap);
 va_end(ap);
-exit(1);
+exit(<span style="color:#ae81ff">1</span>);
 }
 
 
-/*
- * Fatal error unrelated to a system call.
- * Error code passed as explict parameter.
- * Print a message and terminate.
- */
-void
-err_exit(int error, const char *fmt, ...)
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Fatal error unrelated to a system call.
+</span><span style="color:#75715e"> * Error code passed as explict parameter.
+</span><span style="color:#75715e"> * Print a message and terminate.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">err_exit</span>(<span style="color:#66d9ef">int</span> error, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...)
 {
 va_list ap;
 
 
 va_start(ap, fmt);
-err_doit(1, error, fmt, ap);
+err_doit(<span style="color:#ae81ff">1</span>, error, fmt, ap);
 va_end(ap);
-exit(1);
+exit(<span style="color:#ae81ff">1</span>);
 }
 
 
-/*
- * Fatal error related to a system call.
- * Print a message, dump core, and terminate.
- */
-void
-err_dump(const char *fmt, ...)
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Fatal error related to a system call.
+</span><span style="color:#75715e"> * Print a message, dump core, and terminate.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">err_dump</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...)
 {
 va_list ap;
 
 
 va_start(ap, fmt);
-err_doit(1, errno, fmt, ap);
+err_doit(<span style="color:#ae81ff">1</span>, errno, fmt, ap);
 va_end(ap);
-abort(); /* dump core and terminate */
-exit(1); /* shouldn't get here */
+abort(); <span style="color:#75715e">/* dump core and terminate */</span>
+exit(<span style="color:#ae81ff">1</span>); <span style="color:#75715e">/* shouldn&#39;t get here */</span>
 }
 
 
-/*
- * Nonfatal error unrelated to a system call.
- * Print a message and return.
- */
-void
-err_msg(const char *fmt, ...)
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Nonfatal error unrelated to a system call.
+</span><span style="color:#75715e"> * Print a message and return.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">err_msg</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...)
 {
 va_list ap;
 
 
 va_start(ap, fmt);
-err_doit(0, 0, fmt, ap);
+err_doit(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, fmt, ap);
 va_end(ap);
 }
 
 
-/*
- * Fatal error unrelated to a system call.
- * Print a message and terminate.
- */
-void
-err_quit(const char *fmt, ...)
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Fatal error unrelated to a system call.
+</span><span style="color:#75715e"> * Print a message and terminate.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">err_quit</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, ...)
 {
 va_list ap;
 
 
 va_start(ap, fmt);
-err_doit(0, 0, fmt, ap);
+err_doit(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, fmt, ap);
 va_end(ap);
-exit(1);
+exit(<span style="color:#ae81ff">1</span>);
 }
 
 
-/*
- * Print a message and return to caller.
- * Caller specifies &quot;errnoflag&quot;.
- */
-static void
-err_doit(int errnoflag, int error, const char *fmt, va_list ap)
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Print a message and return to caller.
+</span><span style="color:#75715e"> * Caller specifies &#34;errnoflag&#34;.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">err_doit</span>(<span style="color:#66d9ef">int</span> errnoflag, <span style="color:#66d9ef">int</span> error, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fmt, va_list ap)
 {
-    char buf[MAXLINE];
+    <span style="color:#66d9ef">char</span> buf[MAXLINE];
     vsnprintf(buf, MAXLINE, fmt, ap);
-    if (errnoflag)
-        snprintf(buf+strlen(buf), MAXLINE-strlen(buf), &quot;: %s&quot;, strerror(error));
-    strcat(buf, &quot;\n&quot;);
-    fflush(stdout);/* in case stdout and stderr are the same */
+    <span style="color:#66d9ef">if</span> (errnoflag)
+        snprintf(buf<span style="color:#f92672">+</span>strlen(buf), MAXLINE<span style="color:#f92672">-</span>strlen(buf), <span style="color:#e6db74">&#34;: %s&#34;</span>, strerror(error));
+    strcat(buf, <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    fflush(stdout);<span style="color:#75715e">/* in case stdout and stderr are the same */</span>
     fputs(buf, stderr);
-    fflush(NULL); /* flushes all stdio output streams */
+    fflush(NULL); <span style="color:#75715e">/* flushes all stdio output streams */</span>
 }
 
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

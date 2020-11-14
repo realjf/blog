@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Web服务器 on Realjf&#39;s blog</title>
+    <title>web服务器 on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/web%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
-    <description>Recent content in Web服务器 on Realjf&#39;s blog</description>
+    <description>Recent content in web服务器 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 30 Sep 2019 14:56:20 +0800</lastBuildDate>
@@ -34,10 +34,11 @@ level是日志的输出级别，取值范围是debug、info、notice、warn、er
 通常不会使用这个配置项。
 5. 仅对指定的客户端输出debug级别的日志 语法：debug_connection [IP|CIDR]
 这个配置项实际上属于事件类配置，因此，他必须放在events{&amp;hellip;}中才有效，他的值可以是ip地址或cidr地址，如：
-events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; }  这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
+events{debug_connection 10.224.66.14;debug_connection 10.224.57.0/24;}这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
 这个配置对修复bug很有用，特别是定位高并发请求下才会发生的问题。
  在debug_connection前，需要确保在执行configure时已经加入了&amp;ndash;with-debug参数，否则不会生效。
- 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;</description>
+ 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;
+在Linux系统中，当进程发生错误或收到信号而终止时，系统会将进程执行时的内存内容（核心映像）写入一个文件（core文件），以作为调试之用，这就是所谓的核心转储（coredumps）。 当nginx进程出现一些非法操作导致进程直接被操作系统强制结束时，会生成核心转储文件，可以从文件获取当时的堆栈、寄存器信息，从而帮助我们定位问题。但 这种文件中的许多信息不一定是用户需要的，如果不加以限制，那么可能一个coredump文件会达到几个gb，引发严重问题。通过worker_rlimit_core配置可以限制core文件的大小， 从而有效帮助用户定位问题。</description>
     </item>
     
   </channel>

@@ -3,7 +3,7 @@
 <head>
     <title>Docker容器和宿主机时间不一致问题解决 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,23 +237,15 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/docker/">Docker</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/docker/">docker</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h4 id="1-在dockerfile中解决-永久性-推荐">1. 在Dockerfile中解决（永久性，推荐）</h4>
-
+            <h4 id="1-在dockerfile中解决永久性推荐">1. 在Dockerfile中解决（永久性，推荐）</h4>
 <p>在Dockerfile文件中加上如下：</p>
-
 <pre><code>ENV TZ=Asia/Shanghai # 添加你需要的时区
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt; /etc/timezone
-</code></pre>
-
-<h4 id="2-临时性设置">2. 临时性设置</h4>
-
+</code></pre><h4 id="2-临时性设置">2. 临时性设置</h4>
 <p>在container的shell交互里输入</p>
-
 <pre><code>TZ=Asia/Shanghai
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt; /etc/timezone
 
@@ -261,7 +253,6 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt; /etc/tim
 date
 
 </code></pre>
-
         </div>
         <div id="disqus_thread"></div>
 <script>

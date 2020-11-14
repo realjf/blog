@@ -1,15 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vue.js on Realjf&#39;s blog</title>
+    <title>vue.js on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/vue.js/</link>
-    <description>Recent content in Vue.js on Realjf&#39;s blog</description>
+    <description>Recent content in vue.js on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Nov 2020 14:15:41 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2020 20:31:27 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/vue.js/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>vue.js 2 系列之九 理解vue.js Understanding Vuejs 2</title>
+      <link>https://realjf.io/vuejs/understanding-vuejs-2/</link>
+      <pubDate>Sat, 14 Nov 2020 20:31:27 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/understanding-vuejs-2/</guid>
+      <description>准备 创建项目
+vue create nomagic在项目根目录下添加新文件vue.config.js
+module.exports = {runtimeCompiler: true}在项目根目录下运行
+npm install bootstrap@4.0.0在main.js里添加bootstrap.min.css如下内容
+import Vue from &amp;#39;vue&amp;#39;import App from &amp;#39;./App.vue&amp;#39;import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34;;Vue.config.productionTip = falsenew Vue({render: h =&amp;gt; h(App),}).$mount(&amp;#39;#app&amp;#39;)运行例子
+npm run serve使用DOM API创建应用 在main.js中添加如下内容：
+require(&amp;#39;../node_modules/bootstrap/dist/css/bootstrap.min.css&amp;#39;)let counter = 1;let container = document.createElement(&amp;#34;div&amp;#34;);container.classList.add(&amp;#34;text-center&amp;#34;, &amp;#34;p-3&amp;#34;);let msg = document.createElement(&amp;#34;h1&amp;#34;);msg.classList.add(&amp;#34;bg-primary&amp;#34;, &amp;#34;text-white&amp;#34;, &amp;#34;p-3&amp;#34;);msg.textContent = &amp;#34;Button Not Pressed&amp;#34;;let button = document.</description>
+    </item>
     
     <item>
       <title>vue.js 2 系列之八 运动商店A Real App 4</title>
@@ -19,9 +34,9 @@
       <guid>https://realjf.io/vuejs/a-real-app-4/</guid>
       <description>基于之前一篇基础之上进行构建 /vuejs/a-real-app-3/
 首先，运行json web服务
-npm run json  然后运行运动商店http服务器
-npm run serve  添加商品管理功能 在src/store文件夹中的index.js文件中添加如下内容
-import Vue from &amp;quot;vue&amp;quot;; import Vuex from &amp;quot;vuex&amp;quot;; import Axios from &amp;quot;axios&amp;quot;; import CartModule from &amp;quot;./cart&amp;quot;; import OrdersModule from &amp;quot;./orders&amp;quot;; import AuthModule from &amp;quot;./auth&amp;quot;; Vue.use(Vuex); const baseUrl = &amp;quot;http://localhost:3500&amp;quot;; const productsUrl = `${baseUrl}/products`; const categoriesUrl = `${baseUrl}/categories`; const testData = []; for(let i = 1; i &amp;lt;= 10; i++){ testData.push({ id: i, name: `Product #${i}`, category: `Category ${i % 3}`, description: `This is Product #${i}`, price: i * 50 }) } export default new Vuex.</description>
+npm run json 然后运行运动商店http服务器
+npm run serve 添加商品管理功能 在src/store文件夹中的index.js文件中添加如下内容
+import Vue from &amp;#34;vue&amp;#34;; import Vuex from &amp;#34;vuex&amp;#34;; import Axios from &amp;#34;axios&amp;#34;; import CartModule from &amp;#34;./cart&amp;#34;; import OrdersModule from &amp;#34;./orders&amp;#34;; import AuthModule from &amp;#34;./auth&amp;#34;; Vue.use(Vuex); const baseUrl = &amp;#34;http://localhost:3500&amp;#34;; const productsUrl = `${baseUrl}/products`; const categoriesUrl = `${baseUrl}/categories`; const testData = []; for(let i = 1; i &amp;lt;= 10; i++){ testData.push({ id: i, name: `Product #${i}`, category: `Category ${i % 3}`, description: `This is Product #${i}`, price: i * 50 }) } export default new Vuex.</description>
     </item>
     
     <item>
@@ -32,9 +47,10 @@ import Vue from &amp;quot;vue&amp;quot;; import Vuex from &amp;quot;vuex&amp;quo
       <guid>https://realjf.io/vuejs/a-real-app-3/</guid>
       <description>基于之前一篇基础之上进行构建 /vuejs/a-real-app-2/
 准备 在data.js文件中添加如下内容：
-var faker = require(&amp;quot;faker&amp;quot;); var data = []; var categories = [&amp;quot;Watersports&amp;quot;, &amp;quot;Soccer&amp;quot;,&amp;quot;Chess&amp;quot;, &amp;quot;Running&amp;quot;]; faker.seed(100); for(let i=1; i&amp;lt;=500; i++){ var category = faker.helpers.randomize(categories); data.push({ id: i, name: faker.commerce.productName(), category: category, description: `${category}: ${faker.lorem.sentence(3)}`, price: faker.commerce.price() }) } module.exports = function() { return { products: data, categories: categories, orders: [], }; };  然后执行如下命令：
-npm run json  在另外一个终端执行如下命令：
-npm run serve  处理大量数据 改进分页导航 在src/components文件夹的PageControls.vue文件中添加如下内容：</description>
+var faker = require(&amp;#34;faker&amp;#34;);var data = [];var categories = [&amp;#34;Watersports&amp;#34;, &amp;#34;Soccer&amp;#34;,&amp;#34;Chess&amp;#34;, &amp;#34;Running&amp;#34;];faker.seed(100);for(let i=1; i&amp;lt;=500; i++){var category = faker.helpers.randomize(categories);data.push({id: i,name: faker.commerce.productName(),category: category,description: `${category}: ${faker.lorem.sentence(3)}`,price: faker.commerce.price()})}module.exports = function() {return {products: data,categories: categories,orders: [],};};然后执行如下命令：
+npm run json在另外一个终端执行如下命令：
+npm run serve处理大量数据 改进分页导航 在src/components文件夹的PageControls.vue文件中添加如下内容：
+&amp;lt;template&amp;gt;&amp;lt;div class=&amp;#34;row mt-2&amp;#34;&amp;gt;&amp;lt;div class=&amp;#34;col-3 form-group&amp;#34;&amp;gt;&amp;lt;select class=&amp;#34;form-control&amp;#34; v-on:change=&amp;#34;changePageSize&amp;#34;&amp;gt;&amp;lt;option value=&amp;#34;4&amp;#34;&amp;gt;4 per page&amp;lt;/option&amp;gt;&amp;lt;option value=&amp;#34;8&amp;#34;&amp;gt;8 per page&amp;lt;/option&amp;gt;&amp;lt;option value=&amp;#34;12&amp;#34;&amp;gt;12 per page&amp;lt;/option&amp;gt;&amp;lt;/select&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div class=&amp;#34;text-right col&amp;#34;&amp;gt;&amp;lt;button v-bind:disabled=&amp;#34;currentPage==1&amp;#34; v-on:click=&amp;#34;setCurrentPage(currentPage-1)&amp;#34; class=&amp;#34;btn btn-secondary mx-1&amp;#34;&amp;gt;Previous&amp;lt;/button&amp;gt;&amp;lt;span v-if=&amp;#34;currentPage &amp;gt; 4&amp;#34;&amp;gt;&amp;lt;button v-on:click=&amp;#34;setCurrentPage(1)&amp;#34; class=&amp;#34;btn btn-secondary mx-1&amp;#34;&amp;gt;1&amp;lt;/button&amp;gt;&amp;lt;span class=&amp;#34;h4&amp;#34;&amp;gt;.</description>
     </item>
     
     <item>
@@ -45,9 +61,9 @@ npm run serve  处理大量数据 改进分页导航 在src/components文件夹�
       <guid>https://realjf.io/vuejs/a-real-app-2/</guid>
       <description>下单 基于之前一篇基础之上进行构建 /vuejs/a-real-app/
 创建购物车预置 在src/components文件夹下新建ShoppingCart.vue文件，其内容如下：
-&amp;lt;template&amp;gt; &amp;lt;h4 class=&amp;quot;bg-primary text-white text-center p-2&amp;quot;&amp;gt; placeholder for Cart &amp;lt;/h4&amp;gt; &amp;lt;/template&amp;gt;  配置url路由 在src/router文件夹中添加index.js文件中添加如下内容：
-import Vue from &amp;quot;vue&amp;quot;; import VueRouter from &amp;quot;vue-router&amp;quot;; import Store from &amp;quot;../components/Store&amp;quot;; import ShoppingCart from &amp;quot;../components/ShoppingCart&amp;quot;; Vue.use(VueRouter); export default new VueRouter({ mode: &amp;quot;history&amp;quot;, routes: [ {path:&amp;quot;/&amp;quot;, component: Store}, {path: &amp;quot;/cart&amp;quot;, component: ShoppingCart}, {path: &amp;quot;*&amp;quot;, redirect: &amp;quot;/&amp;quot;} ] })  将上面的路由文件添加到main.js中
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.</description>
+&amp;lt;template&amp;gt;&amp;lt;h4 class=&amp;#34;bg-primary text-white text-center p-2&amp;#34;&amp;gt;placeholder for Cart&amp;lt;/h4&amp;gt;&amp;lt;/template&amp;gt;配置url路由 在src/router文件夹中添加index.js文件中添加如下内容：
+import Vue from &amp;#34;vue&amp;#34;;import VueRouter from &amp;#34;vue-router&amp;#34;;import Store from &amp;#34;../components/Store&amp;#34;;import ShoppingCart from &amp;#34;../components/ShoppingCart&amp;#34;;Vue.use(VueRouter);export default new VueRouter({mode: &amp;#34;history&amp;#34;,routes: [{path:&amp;#34;/&amp;#34;, component: Store},{path: &amp;#34;/cart&amp;#34;, component: ShoppingCart},{path: &amp;#34;*&amp;#34;, redirect: &amp;#34;/&amp;#34;}]})将上面的路由文件添加到main.js中
+import Vue from &amp;#39;vue&amp;#39;import App from &amp;#39;./App.vue&amp;#39;// 引入jqueryimport $ from &amp;#39;jquery&amp;#39;Vue.</description>
     </item>
     
     <item>
@@ -57,11 +73,11 @@ import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquer
       
       <guid>https://realjf.io/vuejs/a-real-app/</guid>
       <description>准备 首先创建项目
-vue create sportsstore --default  安装jquery，bootstrap，popper.js
-cd sportsstore npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  配置package.json的eslintConfig里的rules
-&amp;quot;rules&amp;quot;: { &amp;quot;no-unused-vars&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-console&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-declare&amp;quot;: &amp;quot;off&amp;quot; },  运行项目
-npm run serve  添加附加包 cd sportsstore npm install axios@0.</description>
+vue create sportsstore --default 安装jquery，bootstrap，popper.js
+cd sportsstore npm install jquery npm install bootstrap@4.0.0 npm install popper 在 main.js文件中引入jquery和bootstrap
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; // 引入jquery import $ from &amp;#39;jquery&amp;#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34; new Vue({ render: h =&amp;gt; h(App), }).$mount(&amp;#39;#app&amp;#39;) 配置package.json的eslintConfig里的rules
+&amp;#34;rules&amp;#34;: { &amp;#34;no-unused-vars&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-console&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-declare&amp;#34;: &amp;#34;off&amp;#34; }, 运行项目
+npm run serve 添加附加包 cd sportsstore npm install axios@0.18.0 npm install vue-router@3.0.1 npm install vuex@3.</description>
     </item>
     
     <item>
@@ -71,12 +87,12 @@ npm run serve  添加附加包 cd sportsstore npm install axios@0.</description>
       
       <guid>https://realjf.io/vuejs/js-primer/</guid>
       <description>准备 首先创建项目
-vue create jsprimer --default  安装jquery，bootstrap，popper.js
-cd jsprimer npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  配置package.json的eslintConfig里的rules
-&amp;quot;rules&amp;quot;: { &amp;quot;no-unused-vars&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-console&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-declare&amp;quot;: &amp;quot;off&amp;quot; },  运行项目
-npm run serve  函数 定义函数，包括缺省值，函数返回值， 在main.js中添加如下代码
-func myFunc(name, age = 18) { return &amp;quot;Hello &amp;quot; + name + &amp;quot;, your age is &amp;quot; + age.</description>
+vue create jsprimer --default 安装jquery，bootstrap，popper.js
+cd jsprimer npm install jquery npm install bootstrap@4.0.0 npm install popper 在 main.js文件中引入jquery和bootstrap
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; // 引入jquery import $ from &amp;#39;jquery&amp;#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34; new Vue({ render: h =&amp;gt; h(App), }).$mount(&amp;#39;#app&amp;#39;) 配置package.json的eslintConfig里的rules
+&amp;#34;rules&amp;#34;: { &amp;#34;no-unused-vars&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-console&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-declare&amp;#34;: &amp;#34;off&amp;#34; }, 运行项目
+npm run serve 函数 定义函数，包括缺省值，函数返回值， 在main.js中添加如下代码
+func myFunc(name, age = 18) { return &amp;#34;Hello &amp;#34; + name + &amp;#34;, your age is &amp;#34; + age.</description>
     </item>
     
     <item>
@@ -86,10 +102,10 @@ func myFunc(name, age = 18) { return &amp;quot;Hello &amp;quot; + name + &amp;qu
       
       <guid>https://realjf.io/vuejs/html-css-primer/</guid>
       <description>准备 首先创建项目
-vue create htmlcss --default  安装jquery，bootstrap，popper.js
-cd htmlcss npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  eslint配置
-# 进入node_modules目录的.bin目录下，初始化eslint cd node_modules/.bin/ eslint --init # 设置选项，除选择vue.js外，其他都选择默认选项 # 最后，将node_modules目录.bin目录下的.eslintrc.js文件拷贝到项目根目录下 # window下 copy .eslintrc.js ..\..\ # linux下 cp .</description>
+vue create htmlcss --default 安装jquery，bootstrap，popper.js
+cd htmlcss npm install jquery npm install bootstrap@4.0.0 npm install popper 在 main.js文件中引入jquery和bootstrap
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; // 引入jquery import $ from &amp;#39;jquery&amp;#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34; new Vue({ render: h =&amp;gt; h(App), }).$mount(&amp;#39;#app&amp;#39;) eslint配置
+# 进入node_modules目录的.bin目录下，初始化eslint cd node_modules/.bin/ eslint --init # 设置选项，除选择vue.js外，其他都选择默认选项 # 最后，将node_modules目录.bin目录下的.eslintrc.js文件拷贝到项目根目录下 # window下 copy .eslintrc.js ..\..\  # linux下 cp .eslintrc.js ../../ 配置.</description>
     </item>
     
     <item>
@@ -109,8 +125,8 @@ import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquer
       
       <guid>https://realjf.io/vuejs/first-vuejs-app/</guid>
       <description>准备开发环境  安装最新版node.js 使用npm安装@vue/cli命令行工具包 安装git 安装开发ide，如vscode，sublime text, atom,vim等 安装浏览器，chrome,firefox等   安装vue命令：npm install -g @vue/cli
- 创建工程项目 vue create todo --default  项目结构解析 执行tree -L 1后得到如下结构
-├── babel.config.js ├── node_modules ├── package.json ├── package-lock.json ├── public | ├── favicon.ico | └── index.html ├── README.md └── src ├── App.vue ├── assets │ └── logo.png ├── components │ └── HelloWorld.vue └── main.js   public/index.html 这是浏览器加载的第一个文件 src/main.js 这个vue.js应用的配置js文件 src/App.vue 这是vue.js组件，包含html文档结构和js代码以及css文档样式 src/assets/logo.png assets文件夹是存放静态资源文件  运行开发工具 cd todo npm run serve # 运行结果如下： App running at: - Local: http://localhost:8080/ - Network: http://192.</description>
+ 创建工程项目 vue create todo --default 项目结构解析 执行tree -L 1后得到如下结构
+├── babel.config.js ├── node_modules ├── package.json ├── package-lock.json ├── public | ├── favicon.ico | └── index.html ├── README.md └── src ├── App.vue ├── assets │ └── logo.png ├── components │ └── HelloWorld.vue └── main.js  public/index.html 这是浏览器加载的第一个文件 src/main.js 这个vue.js应用的配置js文件 src/App.vue 这是vue.js组件，包含html文档结构和js代码以及css文档样式 src/assets/logo.png assets文件夹是存放静态资源文件  运行开发工具 cd todo npm run serve # 运行结果如下： App running at: - Local: http://localhost:8080/ - Network: http://192.</description>
     </item>
     
   </channel>

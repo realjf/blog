@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Network on Realjf&#39;s blog</title>
+    <title>network on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/network/</link>
-    <description>Recent content in Network on Realjf&#39;s blog</description>
+    <description>Recent content in network on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 23 Apr 2020 17:31:45 +0800</lastBuildDate>
@@ -33,7 +33,8 @@ RFC5681规定初始拥塞窗口cwnd设置为不超过2至4个SMSS（最大报文
  若SMSS&amp;gt;2190字节，则设置初始拥塞窗口cwnd=2xSMSS字节，且不得超过2个报文段。 若SMSS&amp;gt;1095且SMSS&amp;lt;=2190字节，则设置初始拥塞窗口cwnd=3xSMSS字节，且不得超过3个报文段。 若SMSS&amp;lt;=1095字节，则设置初始拥塞窗口cwnd=4xSMSS字节，且不得超过4个报文段。  慢开始规定：在每收到一个对新的报文段的确认后，可以把拥塞窗口增加最多一个SMSS的数值。即
 拥塞窗口cwnd每次的增加量 = min(N,SMSS)
 这里使用报文段的个数作为窗口大小的单位，来阐述拥塞控制原理
- 因此，使用慢开始算法后，每经过一个传输轮次，拥塞窗口cwnd就加倍。</description>
+ 因此，使用慢开始算法后，每经过一个传输轮次，拥塞窗口cwnd就加倍。
+ 为了防止拥塞窗口cwnd增长过大引起网络拥塞，还需要设置一个慢开始门限ssthresh状态变量。慢开始门限ssthresh用法如下：</description>
     </item>
     
     <item>
