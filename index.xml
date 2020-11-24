@@ -6,10 +6,37 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Nov 2020 11:33:17 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2020 12:07:13 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>VS Code扩展开发 之 语言扩展语法高亮 Language Extension Syntax Highlight</title>
+      <link>https://realjf.io/vscode/language-extension-syntax-highlight/</link>
+      <pubDate>Tue, 24 Nov 2020 12:07:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/language-extension-syntax-highlight/</guid>
+      <description>简介 语法高亮显示确定在VisualStudio代码编辑器中显示的源代码的颜色和样式。 它负责在JavaScript中为if或for等关键字着色，这与字符串、注释和变量名不同
+语法高亮有两个组件：
+ Tokenization：符号化，将文本拆分为符号列表 Theming：支持主题，使用主题或用户设置将符号映射到特定的颜色和样式  在深入讨论细节之前，一个好的开始是使用scopeinspector工具并探索源文件中存在哪些标记以及它们与哪些主题规则匹配。 要同时查看语义和语法标记，请在TypeScript文件中使用内置主题（例如，Dark+）
+符号化 文本的符号化是将文本分成若干段，并用标记类型对每个段进行分类。
+VS代码的标记化引擎由TextMate语法驱动。TextMate语法是正则表达式的结构化集合， 以plist（XML）或JSON文件的形式编写。 语法扩展可以通过语法贡献点的贡献。
+TextMate符号化引擎在与呈现器相同的进程中运行，标记会随着用户类型的变化而更新。 标记用于语法高亮显示，但也用于将源代码分类为注释、字符串和正则表达式区域。
+从版本1.43开始，VS代码还允许扩展通过 语义标记提供者 为程序提供标记化。典型的是， 在项目服务器中实现的符号和语义的源代码一般都可以理解。例如， 可以在整个项目中使用常量高亮显示来呈现常量变量名，而不仅仅是在声明的地方。
+基于语义标记的高亮显示被认为是对基于TextMate的语法高亮显示的补充。 语义突出显示在语法突出显示之上。由于语言服务器需要一段时间来加载和分析项目， 语义标记高亮显示可能会在短时间延迟后出现。
+本文主要讨论基于TextMate的标记化。语义标记化和主题化在 语义高亮指南中解释
+TextMate 语法 VS代码使用TextMate语法作为语法标记化引擎。 它们是为TextMate编辑器而发明的， 由于开源社区创建和维护了大量的语言包，因此被许多其他编辑器和ide采用。
+TextMate语法依赖于Oniguruma正则表达式， 通常以plist或JSON的形式编写。您可以在这里找到对TextMate语法的很好的介绍， 并且可以查看现有的TextMate语法，以了解它们是如何工作的
+TextMate标记和作用域 标记是同一程序元素的一个或多个字符。示例标记包括运算符（如+和*）、变量名（如myVar）或字符串（如“my string”）。
+每个token都与定义token上下文的作用域相关联。作用域是一个点分隔的标识符列表，用于指定当前token的上下文。 例如，JavaScript中的+操作具有作用域关键字.运算符.算术.js。
+主题将范围映射到颜色和样式，以提供语法高亮显示。TextMate提供了许多主题所针对的通用范围的列表。 为了尽可能广泛地支持您的语法，请尝试在现有范围上构建，而不是定义新的范围。
+作用域嵌套，以便每个token也与父作用域的列表相关联。 下面的示例使用范围检查器 在一个简单的JavaScript函数中显示+运算符的范围层次结构。 最具体的作用域列在顶部，更一般的父作用域列在下面：
+父范围信息也用于创建主题。当主题以某个范围为目标时，所有具有该父作用域的标记都将被着色， 除非该主题还为其各自的作用域提供了更具体的着色
+添加 基本语法 VS代码支持json TextMate语法。这些都是通过grammars贡献点贡献的。
+每个语法贡献都指定：语法应用于的语言的标识符、语法标记的顶级作用域名称以及语法文件的相对路径。 下面的示例显示了虚构的abc语言的语法贡献：
+{ &amp;quot;contributes&amp;quot;: { &amp;quot;languages&amp;quot;: [ { &amp;quot;id&amp;quot;: &amp;quot;abc&amp;quot;, &amp;quot;extensions&amp;quot;: [&amp;quot;.abc&amp;quot;] } ], &amp;quot;grammars&amp;quot;: [ { &amp;quot;language&amp;quot;: &amp;quot;abc&amp;quot;, &amp;quot;scopeName&amp;quot;: &amp;quot;source.</description>
+    </item>
     
     <item>
       <title>VSCode扩展开发系列三 之 结束 Vscode Extension Wrapping Up</title>
