@@ -3,7 +3,7 @@
 echo "Pushing updates to GitHub..."
 
 git pull
-rmdir /s public /Y
+rmdir /s /Q public
 git add -A
 git commit -m "updates"
 git push origin master

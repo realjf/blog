@@ -1,5 +1,5 @@
 ---
-title: "VSCode扩展开发系列二 之 第一个vscode插件开发 Your First Vscode Extension"
+title: "VSCode扩展开发系列一 之 第一个vscode插件开发 Your First Vscode Extension"
 date: 2020-11-24T10:18:41+08:00
 keywords: ["vscode"]
 categories: ["vscode"]

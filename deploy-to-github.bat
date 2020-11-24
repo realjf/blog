@@ -5,7 +5,7 @@ rem update
 git pull
 
 rem init public
-rmdir /s public
+rmdir /s /Q public
 mkdir public
 git worktree prune
 
