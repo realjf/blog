@@ -1,15 +1,46 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>vscode on Realjf&#39;s blog</title>
+    <title>Vscode on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/vscode/</link>
-    <description>Recent content in vscode on Realjf&#39;s blog</description>
+    <description>Recent content in Vscode on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2020 17:08:59 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2020 11:33:17 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/vscode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>VSCode扩展开发系列三 之 结束 Vscode Extension Wrapping Up</title>
+      <link>https://realjf.io/vscode/vscode-extension-wrapping-up/</link>
+      <pubDate>Tue, 24 Nov 2020 11:33:17 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/vscode-extension-wrapping-up/</guid>
+      <description> 扩展的能力  VS Code APIs Contribution Points  详见扩展的能力
+指南和例子  Extension Guide Listing vscode-extension-example  测试和发布  如何在你的扩展中添加集成测试 如何发布你的扩展到vs code市场 如何为你的扩展建立持续集成  </description>
+    </item>
+    
+    <item>
+      <title>VSCode扩展开发系列二 之 扩展解析 Vscode Extension Anatomy</title>
+      <link>https://realjf.io/vscode/vscode-extension-anatomy/</link>
+      <pubDate>Tue, 24 Nov 2020 11:24:01 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/vscode-extension-anatomy/</guid>
+      <description>在上一节中我们创建了一个hello world扩展，那么他的工作原理是什么呢？
+ 注册onCommand激活事件：onCommand:extension.helloWorld，以便在用户运行Hello World命令时，扩展可激活 使用 contributes.commands Contribution Point使命令Hello World在命令调色板中可用，并且绑定一个命令id:extension.helloWorld 使用commands.registerCommand vscode api去绑定一个已经被extension.helloWorld的命令id注册的函数绑定  这里需要理解以下概念
+ Activation Event：设置扩展激活的时机。位于 package.json 中。 Contribution Point：设置在 VSCode 中哪些地方添加新功能，也就是这个扩展增强了哪些功能。位于 package.json 中。 Register：在 extension.ts 中给要写的功能用 vscode.commands.register&amp;hellip; 给 Activation Event 或 Contribution Point 中配置的事件绑定方法或者设置监听器。位于入口文件（默认是 extension.ts）的 activate() 函数中。 VS Code API：你可以在扩展代码中调用的javascript api功能集合  扩展文件结构 . ├── .vscode │ ├── launch.json // Config for launching and debugging the extension │ └── tasks.json // Config for build task that compiles TypeScript ├── .</description>
+    </item>
+    
+    <item>
+      <title>VSCode扩展开发系列一 之 第一个vscode插件开发 Your First Vscode Extension</title>
+      <link>https://realjf.io/vscode/your-first-vscode-extension/</link>
+      <pubDate>Tue, 24 Nov 2020 10:18:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/your-first-vscode-extension/</guid>
+      <description>准备  node.js git  安装yeoman和vscode扩展生成器 npm install -g yo generator-code  用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
+yo code ? What type of extension do you want to create? New Extension (TypeScript) ? What&#39;s the name of your extension? HelloWorld ? What&#39;s the identifier of your extension? helloworld ? What&#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
+    </item>
     
     <item>
       <title>windows下Vscode Php开发环境配置</title>
@@ -23,13 +54,14 @@
 下载xdebug插件 下载地址：https://xdebug.org/download
 如果不知道下载什么版本，可以将你的phpinfo信息拷贝到这个网址下查询https://xdebug.org/wizard 复制后点击下面的分析phpinfo按钮
 这里下载的是：https://xdebug.org/files/php_xdebug-2.9.6-7.4-vc15-x86_64.dll
-将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;quot;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改 xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
+将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改
+xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
 vscode下载安装 下载vscode：https://code.visualstudio.com/
 下载安装完成后，需要安装一些扩展插件
  bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer  按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
-&amp;#34;php.validate.executablePath&amp;#34;: &amp;#34;E:\\xampp\\php\\php.exe&amp;#34; 配置好这些后，启动xampp的apache服务器
+&amp;quot;php.validate.executablePath&amp;quot;: &amp;quot;E:\\xampp\\php\\php.exe&amp;quot;  配置好这些后，启动xampp的apache服务器
 准备好后开始测试 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
-&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt; 在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
+&amp;lt;?php $a = &#39;hello world&#39;; echo $a; ?&amp;gt;  在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
     </item>
     
     <item>
@@ -38,9 +70,9 @@ vscode下载安装 下载vscode：https://code.visualstudio.com/
       <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
-      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
- 开始配置vscode 首先打开vscode，安装一下插件  ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;rdquo;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
-开始编辑c_cpp_properties.json文件 { &amp;#34;configurations&amp;#34;: [ { &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;, &amp;#34;includePath&amp;#34;: [ &amp;#34;${workspaceFolder}/**&amp;#34;, &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录 ], &amp;#34;defines&amp;#34;: [ &amp;#34;_DEBUG&amp;#34;, &amp;#34;UNICODE&amp;#34;, &amp;#34;_UNICODE&amp;#34; ], &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.0.15063.0&amp;#34;, &amp;#34;compilerPath&amp;#34;: &amp;#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;#34;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;#34;cStandard&amp;#34;: &amp;#34;c11&amp;#34;, &amp;#34;cppStandard&amp;#34;: &amp;#34;c++17&amp;#34;, &amp;#34;intelliSenseMode&amp;#34;: &amp;#34;gcc-x64&amp;#34; // 这里是模式选择 } ], &amp;#34;version&amp;#34;: 4 } 配置完成后，在vscode的工作目录下有个.</description>
+      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019&amp;frasl;2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
+开始配置vscode 首先打开vscode，安装一下插件   ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;rdquo;&amp;gt; edit Configurations&amp;rdquo;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
+开始编辑c_cpp_properties.json文件 { &amp;quot;configurations&amp;quot;: [ { &amp;quot;name&amp;quot;: &amp;quot;GCC&amp;quot;, &amp;quot;includePath&amp;quot;: [ &amp;quot;${workspaceFolder}/**&amp;quot;, &amp;quot;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;quot; // 这里添加第三方库目录 ], &amp;quot;defines&amp;quot;: [ &amp;quot;_DEBUG&amp;quot;, &amp;quot;UNICODE&amp;quot;, &amp;quot;_UNICODE&amp;quot; ], &amp;quot;windowsSdkVersion&amp;quot;: &amp;quot;10.0.15063.0&amp;quot;, &amp;quot;compilerPath&amp;quot;: &amp;quot;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;quot;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;quot;cStandard&amp;quot;: &amp;quot;c11&amp;quot;, &amp;quot;cppStandard&amp;quot;: &amp;quot;c++17&amp;quot;, &amp;quot;intelliSenseMode&amp;quot;: &amp;quot;gcc-x64&amp;quot; // 这里是模式选择 } ], &amp;quot;version&amp;quot;: 4 }  配置完成后，在vscode的工作目录下有个.</description>
     </item>
     
   </channel>

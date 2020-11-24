@@ -3,7 +3,7 @@
 <head>
     <title>How to Set Up Blog Using Hugo // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,112 +237,172 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/hugo/">hugo</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/hugo/">Hugo</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="github-pages有两种方式">github pages有两种方式：</h3>
+            
+
+<h3 id="github-pages有两种方式">github pages有两种方式：</h3>
+
 <ul>
 <li>一种是{USERNAME}.github.io/</li>
 <li>另一种是{USERNAME}.github.io/{PROJECT}</li>
 </ul>
+
 <p>我们这里使用第二种方法创建</p>
+
 <h4 id="前期准备">前期准备</h4>
+
 <ul>
 <li>有一个github账号</li>
 </ul>
+
 <h4 id="创建一个公开的repo">创建一个公开的repo</h4>
+
 <p>例如：blog</p>
+
 <h4 id="开通github-pages">开通github pages</h4>
+
 <p>找到新创建的repo中的settings，往下找到github pages，
 如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。</p>
-<p><strong>注意</strong>
-如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：https://realjf.github.io/blog/</p>
-<h4 id="配置好后开始使用hugo构建博客">配置好后，开始使用hugo构建博客</h4>
-<p>首先，clone下刚才创建的repo</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git clone git@github.com:<span style="color:#f92672">{</span>USERNAME<span style="color:#f92672">}</span>/blog
 
-</code></pre></div><h4 id="安装hugo确保repo目录下可以使用hugo命令">安装hugo，确保repo目录下可以使用hugo命令</h4>
+<p><strong>注意</strong>
+如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：<a href="https://realjf.github.io/blog/">https://realjf.github.io/blog/</a></p>
+
+<h4 id="配置好后-开始使用hugo构建博客">配置好后，开始使用hugo构建博客</h4>
+
+<p>首先，clone下刚才创建的repo</p>
+
+<pre><code class="language-sh">git clone git@github.com:{USERNAME}/blog
+
+</code></pre>
+
+<h4 id="安装hugo-确保repo目录下可以使用hugo命令">安装hugo，确保repo目录下可以使用hugo命令</h4>
+
 <p>请参考官网<a href="https://gohugo.io/">https://gohugo.io/</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 检查安装是否成功</span>
+
+<pre><code class="language-sh"># 检查安装是否成功
 hugo version
-</code></pre></div><h4 id="利用hugo构建博客目录结构">利用hugo构建博客目录结构</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd blog <span style="color:#f92672">&amp;&amp;</span> hugo new site . --force
-</code></pre></div><p>这里使用了&ndash;force是因为当前目录已存在，只是需要初始化而已</p>
+</code></pre>
+
+<h4 id="利用hugo构建博客目录结构">利用hugo构建博客目录结构</h4>
+
+<pre><code class="language-sh">cd blog &amp;&amp; hugo new site . --force
+</code></pre>
+
+<p>这里使用了&ndash;force是因为当前目录已存在，只是需要初始化而已</p>
+
 <h4 id="添加自己需要的主题">添加自己需要的主题</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cd blog
+
+<pre><code class="language-sh">cd blog
 git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c
-</code></pre></div><p>上述的m10c可以换成你想要的主题名字即可</p>
+</code></pre>
+
+<p>上述的m10c可以换成你想要的主题名字即可</p>
+
 <p>更多的主题请参考：<a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 修改根目录下的 .toml文件</span>
-theme <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;{THEME}&#34;</span>
-baseUrl <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://realjf.github.io/blog/&#34;</span>
-</code></pre></div><p>{THEME}请修改为你的主题名即可</p>
+
+<pre><code class="language-sh"># 修改根目录下的 .toml文件
+theme = &quot;{THEME}&quot;
+baseUrl = &quot;https://realjf.github.io/blog/&quot;
+</code></pre>
+
+<p>{THEME}请修改为你的主题名即可</p>
+
 <h4 id="本地测试博客">本地测试博客</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">hugo server -t <span style="color:#f92672">{</span>THEME<span style="color:#f92672">}</span>
-</code></pre></div><h4 id="到这里基本的博客搭建完成先保存到github">到这里，基本的博客搭建完成，先保存到github</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git add -A <span style="color:#f92672">&amp;&amp;</span> git commit -m <span style="color:#e6db74">&#34;Initializing&#34;</span>
+
+<pre><code class="language-sh">hugo server -t {THEME}
+</code></pre>
+
+<h4 id="到这里-基本的博客搭建完成-先保存到github">到这里，基本的博客搭建完成，先保存到github</h4>
+
+<pre><code class="language-sh">git add -A &amp;&amp; git commit -m &quot;Initializing&quot;
 git push origin master
-</code></pre></div><h4 id="本地测试成功后我们利用gh-pages分支作为新的发布分支">本地测试成功后，我们利用gh-pages分支作为新的发布分支</h4>
+</code></pre>
+
+<h4 id="本地测试成功后-我们利用gh-pages分支作为新的发布分支">本地测试成功后，我们利用gh-pages分支作为新的发布分支</h4>
+
 <p>gh-pages分支保存的是hugo生成的html静态文件</p>
+
 <p>先把public发布目录添加到.gitignore文件里</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;public&#34;</span> &gt;&gt; .gitignore
-</code></pre></div><h4 id="保存到远程repo">保存到远程repo</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git add -A <span style="color:#f92672">&amp;&amp;</span> git commit -m <span style="color:#e6db74">&#34;add ignore file&#34;</span>
+
+<pre><code class="language-sh">echo &quot;public&quot; &gt;&gt; .gitignore
+</code></pre>
+
+<h4 id="保存到远程repo">保存到远程repo</h4>
+
+<pre><code class="language-sh">git add -A &amp;&amp; git commit -m &quot;add ignore file&quot;
 git push origin master
-</code></pre></div><h4 id="初始化gh-pages分支">初始化gh-pages分支</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git checkout --orphan gh-pages
+</code></pre>
+
+<h4 id="初始化gh-pages分支">初始化gh-pages分支</h4>
+
+<pre><code class="language-sh">git checkout --orphan gh-pages
 git reset --hard
-git commit --allow-empty -m <span style="color:#e6db74">&#34;Initializing gh-pages branch&#34;</span>
+git commit --allow-empty -m &quot;Initializing gh-pages branch&quot;
 git push origin gh-pages
 git checkout master
-</code></pre></div><h4 id="构建和发布">构建和发布</h4>
+</code></pre>
+
+<h4 id="构建和发布">构建和发布</h4>
+
 <p>先删除public目录</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">rm -rf public
+
+<pre><code class="language-sh">rm -rf public
 git worktree add -B gh-pages public origin/gh-pages
 
-<span style="color:#75715e"># 在根目录下构建</span>
+# 在根目录下构建
 hugo -t &lt;THEME&gt;
 
-cd public <span style="color:#f92672">&amp;&amp;</span> git add --all <span style="color:#f92672">&amp;&amp;</span> git commit -m <span style="color:#e6db74">&#34;Publishing to gh-pages&#34;</span>
+cd public &amp;&amp; git add --all &amp;&amp; git commit -m &quot;Publishing to gh-pages&quot;
 cd ..
 git push origin gh-pages
-</code></pre></div><h4 id="设置gh-pages作为你的发布分支">设置gh-pages作为你的发布分支</h4>
-<p>回到settings里的github pages选项，将source设置为gh-pages分支，等待几分钟后，重新访问博客地址，查看效果是否正常</p>
-<h4 id="每次发布hugo的时候都需要运行以下脚本以便更新发布">每次发布hugo的时候，都需要运行以下脚本，以便更新发布</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">
-<span style="color:#75715e">#!/bin/sh</span>
+</code></pre>
 
-DIR<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>dirname <span style="color:#e6db74">&#34;</span>$0<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+<h4 id="设置gh-pages作为你的发布分支">设置gh-pages作为你的发布分支</h4>
+
+<p>回到settings里的github pages选项，将source设置为gh-pages分支，等待几分钟后，重新访问博客地址，查看效果是否正常</p>
+
+<h4 id="每次发布hugo的时候-都需要运行以下脚本-以便更新发布">每次发布hugo的时候，都需要运行以下脚本，以便更新发布</h4>
+
+<pre><code class="language-sh">
+#!/bin/sh
+
+DIR=$(dirname &quot;$0&quot;)
 
 cd $DIR/..
 
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#66d9ef">$(</span>git status -s<span style="color:#66d9ef">)</span> <span style="color:#f92672">]]</span>
-<span style="color:#66d9ef">then</span>
-    echo <span style="color:#e6db74">&#34;The working directory is dirty. Please commit any pending changes.&#34;</span>
+if [[ $(git status -s) ]]
+then
+    echo &quot;The working directory is dirty. Please commit any pending changes.&quot;
     exit 1;
-<span style="color:#66d9ef">fi</span>
+fi
 
-echo <span style="color:#e6db74">&#34;Deleting old publication&#34;</span>
+echo &quot;Deleting old publication&quot;
 rm -rf public
 mkdir public
 git worktree prune
 rm -rf .git/worktrees/public/
 
-echo <span style="color:#e6db74">&#34;Checking out gh-pages branch into public&#34;</span>
+echo &quot;Checking out gh-pages branch into public&quot;
 git worktree add -B gh-pages public upstream/gh-pages
 
-echo <span style="color:#e6db74">&#34;Removing existing files&#34;</span>
+echo &quot;Removing existing files&quot;
 rm -rf public/*
 
-echo <span style="color:#e6db74">&#34;Generating site&#34;</span>
+echo &quot;Generating site&quot;
 hugo
 
-echo <span style="color:#e6db74">&#34;Updating gh-pages branch&#34;</span>
-cd public <span style="color:#f92672">&amp;&amp;</span> git add --all <span style="color:#f92672">&amp;&amp;</span> git commit -m <span style="color:#e6db74">&#34;Publishing to gh-pages (publish.sh)&#34;</span>
+echo &quot;Updating gh-pages branch&quot;
+cd public &amp;&amp; git add --all &amp;&amp; git commit -m &quot;Publishing to gh-pages (publish.sh)&quot;
 
-</code></pre></div><p>最后发布</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git push origin gh-pages
-</code></pre></div>
+</code></pre>
+
+<p>最后发布</p>
+
+<pre><code class="language-sh">git push origin gh-pages
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>
