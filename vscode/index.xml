@@ -6,10 +6,25 @@
     <description>Recent content in Vscodes on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Nov 2020 14:03:58 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2020 15:44:23 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/vscode/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>VS Code语言语法分词引擎 TextMate语法解析 (Vscode Language Grammars Engine - TextMate)</title>
+      <link>https://realjf.io/vscode/vscode-language-grammars-textmate/</link>
+      <pubDate>Tue, 24 Nov 2020 15:44:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/vscode-language-grammars-textmate/</guid>
+      <description>语言语法用于为文档元素（如关键字、注释、字符串或类似内容）指定名称。 这样做的目的是允许设置样式（语法高亮显示），并使文本编辑器“智能”地了解插入符号所在的上下文。 例如，您可能希望按键或制表符触发器根据上下文的不同而采取不同的操作， 或者您可能希望在键入文本文档中不是散文的部分（例如HTML标记）时禁用拼写检查。
+语言语法仅用于分析文档并为该文档的子集分配名称。然后，范围选择器可以用于样式设置、 首选项以及决定键和选项卡触发器应该如何展开。
+有关这个概念的更全面的介绍，请参阅scopes简介博客文章
+语法示例 先来看下以下示例
+{ scopeName = &#39;source.untitled&#39;; fileTypes = (); foldingStartMarker = &#39;\{\s*$&#39;; foldingStopMarker = &#39;^\s*\}&#39;; patterns = ({ name = &#39;keyword.control.untitled&#39;; match = &#39;\b(if|while|for|return)\b&#39;; }, { name = &#39;string.quoted.double.untitled&#39;; begin = &#39;&amp;quot;&#39;; end = &#39;&amp;quot;&#39;; patterns = ({ name = &#39;constant.character.escape.untitled&#39;; match = &#39;\\.&#39;; }); }, ); }  格式是属性列表格式，在根级别有五个键/值对：
+ scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例， 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source， 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails. 从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。
+ fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项， 那么TextMate就会记住用户选择。</description>
+    </item>
     
     <item>
       <title>VS Code扩展开发 之 发布扩展 Publishing Vscode Extensions</title>
