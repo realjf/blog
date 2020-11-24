@@ -6,13 +6,33 @@
     <description>Recent content in Vscodes on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Nov 2020 12:07:13 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2020 14:03:58 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/vscode/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>VS Code扩展开发 之 语言扩展语法高亮 Language Extension Syntax Highlight</title>
+      <title>VS Code扩展开发 之 发布扩展 Publishing Vscode Extensions</title>
+      <link>https://realjf.io/vscode/publishing-vscode-extensions/</link>
+      <pubDate>Tue, 24 Nov 2020 14:03:58 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/publishing-vscode-extensions/</guid>
+      <description>一旦你制作了高质量的扩展，你就能发布到vscode 扩展市场，以便让其他人可以找到并下载使用你的扩展， 你可以打包扩展为可安装的VSIX格式并与其他人分享
+本节将包括以下内容：
+ 使用vsce，这个是管理VS Code扩展的CLI工具 打包、发布以及取消发布扩展 注册一个发布者id用于发布扩展  vsce vsce，是Visual Studio Code Extensions的简称，是一个打包，发布和管理vscode扩展的命令行工具
+安装 请确保你已经安装了node.js
+npm install -g vsce  使用 cd myExtension vsce package # myExtension.vsix generated vsce publish # &amp;lt;publisherID&amp;gt;.myExtension published to VS Code MarketPlace  更多的命令请使用vsce &amp;ndash;help查看
+发布扩展  由于安全考虑，vsce不会发布包含用户提供的svg图片的扩展
+ 发布工具检查如下内容：
+ package.json中提供的icon图标可能不是一个svg package.json中提供的徽章可能不是svg，除非他们来自可信的徽章提供商 README.md和CHANGELOG.md中的图片地址需要处理成https路径 README.md中和CHANGELOG.md中的图片可能不是svg除非他们来自可信的徽章提供商  visualstudio代码利用Azure DevOps提供其Marketplace服务。 这意味着扩展的身份验证、托管和管理是通过azuredevops提供的。
+vsce只能使用Personal access tokens发布扩展。要发布扩展，至少需要创建一个，
+获取个人access token 首先，确保你有Azure DevOps组织
+ 在下面的示例中，组织的名称是realjf。从组织的主页（例如：https://dev.azure.com/realjf)下一步， 打开“个人图像设置”下拉菜单，选择Personal access tokens：
+ 在Personal Access Tokens页面，点击New Token创建一个新的Personal Access Token</description>
+    </item>
+    
+    <item>
+      <title>VS Code扩展开发 之 语言的语法高亮 Language Extension Syntax Highlight</title>
       <link>https://realjf.io/vscode/language-extension-syntax-highlight/</link>
       <pubDate>Tue, 24 Nov 2020 12:07:13 +0800</pubDate>
       
