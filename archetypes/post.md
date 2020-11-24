@@ -8,8 +8,8 @@ series: [""]
 draft: true
 toc: false
 related:
-  threshold: 80
-  includeNewer: false
+  threshold: 50
+  includeNewer: true
   toLower: false
   indices:
   - name: keywords

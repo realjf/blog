@@ -9,7 +9,7 @@ draft: false
 toc: false
 related:
   threshold: 80
-  includeNewer: false
+  includeNewer: true
   toLower: false
   indices:
   - name: keywords
