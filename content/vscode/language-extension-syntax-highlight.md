@@ -1,5 +1,5 @@
 ---
-title: "VS Code扩展开发 之 语言扩展语法高亮 Language Extension Syntax Highlight"
+title: "VS Code扩展开发 之 语言的语法高亮 Language Extension Syntax Highlight"
 date: 2020-11-24T12:07:13+08:00
 keywords: ["vscode", "extension", "language", "lang"]
 categories: ["vscode"]
