@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gcc on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/gcc/</link>
+    <description>Recent content in gcc on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Nov 2020 21:02:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>如何安装低版本的gcc How to Install Old Gcc on Ubuntu</title>
+      <link>https://realjf.io/linux/how-to-install-old-gcc-on-ubuntu/</link>
+      <pubDate>Sat, 28 Nov 2020 21:02:00 +0800</pubDate>
+      
+      <guid>https://realjf.io/linux/how-to-install-old-gcc-on-ubuntu/</guid>
+      <description>提供如下gcc版本 # provides# lucid/usr/bin/gcc-3.3/usr/bin/g++-3.3/usr/bin/gcc-3.4/usr/bin/g++-3.4/usr/bin/gcc-4.0/usr/bin/g++-4.0/usr/bin/gcc-4.1/usr/bin/g++-4.1/usr/bin/gcc-4.2/usr/bin/g++-4.2# precise/usr/bin/gcc-3.3/usr/bin/g++-3.3/usr/bin/gcc-4.5/usr/bin/g++-4.5# trusty/usr/bin/gcc-3.3/usr/bin/g++-3.3/usr/bin/gcc-4.5/usr/bin/g++-4.5安装 # get old gcc, compiler tools only ...sudo add-apt-repository ppa:h-rayflood/gcc-lowersudo apt-get updatesudo apt-get dist-upgrade sudo apt-get install gcc-N.Nsudo apt-get install g++-N.N update：当执行apt-get update时，update重点更新的是来自软件源的软件包的索引记录（即index files） upgrade: 当执行apt-get upgrade时，upgrade是根据update更新的索引记录来下载并更新软件包 dist-upgrade: 当执行apt-get dist-upgrade时，除了拥有upgrade的全部功能外，dist-upgrade会比upgrade更智能地处理需要更新的软件包的依赖关系  </description>
+    </item>
+    
+    <item>
+      <title>如何切换多个版本的gcc编译器 How to Switch Between Multiple Gcc Compiler Versions</title>
+      <link>https://realjf.io/linux/how-to-switch-between-multiple-gcc-compiler-versions/</link>
+      <pubDate>Sat, 28 Nov 2020 20:22:22 +0800</pubDate>
+      
+      <guid>https://realjf.io/linux/how-to-switch-between-multiple-gcc-compiler-versions/</guid>
+      <description>读完本节你将学到  如何安装多版本的gcc和g++编译器版本 如何创建可选的编译器版本列表 如何在多版本编译器间切换  软件要求  gcc ubuntu  安装gcc 安装多个版本的gcc sudo apt-get install build-essentialsudo apt -y install gcc-7 g++-7 gcc-8 g++-8 gcc-9 g++-9使用update-alternatives工具创建多版本gcc编译器可选列表 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 7sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 7sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 8sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9 最后一行的数字是优先级</description>
+    </item>
+    
+  </channel>
+</rss>

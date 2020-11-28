@@ -3,7 +3,7 @@
 <head>
     <title>Mysql Community Server Installation(mysql 8.0.17 社区版本安装教程) // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,136 +237,92 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/mysql/">Mysql</a><a class="tag" href="https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/">Mysql安装</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/mysql/">mysql</a><a class="tag" href="https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/">mysql安装</a><a class="tag" href="https://realjf.io/tags/mysql/">mysql</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="一-下载安装">一、下载安装</h2>
-
+            <h2 id="一下载安装">一、下载安装</h2>
 <p>下载地址：<a href="https://downloads.mysql.com/archives/community/">https://downloads.mysql.com/archives/community/</a></p>
-
-<pre><code class="language-bash"># 下载
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 下载</span>
 wget https://downloads.mysql.com/archives/get/file/mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz
 xz -d mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz
 tar xvf mysql-8.0.17-linux-glibc2.12-x86_64.tar
 
-# 移动到你需要安装的目录下
+<span style="color:#75715e"># 移动到你需要安装的目录下</span>
 mv mysql-8.0.17-linux-glibc2.12-x86_64 /usr/local/mysql
 
-</code></pre>
-
-<h2 id="二-配置">二、配置</h2>
-
-<h4 id="1-在mysql根目录下创建一个新的data目录-用于存放数据">1. 在mysql根目录下创建一个新的data目录，用于存放数据</h4>
-
-<pre><code class="language-bash">cd /usr/local/mysql
+</code></pre></div><h2 id="二配置">二、配置</h2>
+<h4 id="1-在mysql根目录下创建一个新的data目录用于存放数据">1. 在mysql根目录下创建一个新的data目录，用于存放数据</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /usr/local/mysql
 mkdir data
-</code></pre>
-
-<h4 id="2-创建mysql用户组和mysql用户">2. 创建mysql用户组和mysql用户</h4>
-
-<pre><code class="language-bash">groupadd mysql
+</code></pre></div><h4 id="2-创建mysql用户组和mysql用户">2. 创建mysql用户组和mysql用户</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">groupadd mysql
 useradd -g mysql mysql
 
-</code></pre>
-
-<h4 id="3-改变mysql目录权限">3. 改变mysql目录权限</h4>
-
-<pre><code class="language-bash">chown -R mysql.mysql /usr/local/mysql/
-</code></pre>
-
-<h4 id="4-初始化数据库">4. 初始化数据库</h4>
-
-<pre><code class="language-bash"># 创建mysql_install_db安装文件
+</code></pre></div><h4 id="3-改变mysql目录权限">3. 改变mysql目录权限</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R mysql.mysql /usr/local/mysql/
+</code></pre></div><h4 id="4-初始化数据库">4. 初始化数据库</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建mysql_install_db安装文件</span>
 mkdir mysql_install_db
-chmod 777 ./mysql_install_db
+chmod <span style="color:#ae81ff">777</span> ./mysql_install_db
 
-# 初始化数据库
-bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data
+<span style="color:#75715e"># 初始化数据库</span>
+bin/mysqld --initialize --user<span style="color:#f92672">=</span>mysql --basedir<span style="color:#f92672">=</span>/usr/local/mysql --datadir<span style="color:#f92672">=</span>/usr/local/mysql/data
 
-# 记录好自己的临时密码
+<span style="color:#75715e"># 记录好自己的临时密码</span>
 
-</code></pre>
-
-<h4 id="5-mysql配置">5. mysql配置</h4>
-
-<pre><code class="language-bash">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
-</code></pre>
-
-<p>修改my.cnf文件</p>
-
-<pre><code class="language-bash">vim /etc/my.cnf
-[mysqld]
-    basedir = /usr/local/mysql   
-    datadir = /usr/local/mysql/data
-    socket = /usr/local/mysql/mysql.sock
-    character-set-server=utf8
-    port = 3306
-   sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
- [client]
-   socket = /usr/local/mysql/mysql.sock
-   default-character-set=utf8
-</code></pre>
-
-<p>保存退出</p>
-
+</code></pre></div><h4 id="5-mysql配置">5. mysql配置</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
+</code></pre></div><p>修改my.cnf文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/my.cnf
+<span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+    basedir <span style="color:#f92672">=</span> /usr/local/mysql   
+    datadir <span style="color:#f92672">=</span> /usr/local/mysql/data
+    socket <span style="color:#f92672">=</span> /usr/local/mysql/mysql.sock
+    character-set-server<span style="color:#f92672">=</span>utf8
+    port <span style="color:#f92672">=</span> 3306
+   sql_mode<span style="color:#f92672">=</span>NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+ <span style="color:#f92672">[</span>client<span style="color:#f92672">]</span>
+   socket <span style="color:#f92672">=</span> /usr/local/mysql/mysql.sock
+   default-character-set<span style="color:#f92672">=</span>utf8
+</code></pre></div><p>保存退出</p>
 <h4 id="6-建立mysql服务">6. 建立mysql服务</h4>
-
-<pre><code class="language-bash">cp -a ./support-files/mysql.server /etc/init.d/mysqld
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cp -a ./support-files/mysql.server /etc/init.d/mysqld
 chmod +x /etc/init.d/mysqld
-# 如果mysql.server里的basedir和datadir与配置不一样，需要修改
+<span style="color:#75715e"># 如果mysql.server里的basedir和datadir与配置不一样，需要修改</span>
 
-# 添加开机自启动
+<span style="color:#75715e"># 添加开机自启动</span>
 
-</code></pre>
-
-<h4 id="7-配置全局环境变量">7. 配置全局环境变量</h4>
-
+</code></pre></div><h4 id="7-配置全局环境变量">7. 配置全局环境变量</h4>
 <p>编辑 /etc/profile文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 添加如下内容</span>
+export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/mysql/bin:/usr/local/mysql/lib
 
-<pre><code class="language-bash"># 添加如下内容
-export PATH=$PATH:/usr/local/mysql/bin:/usr/local/mysql/lib
-
-# 立即生效
+<span style="color:#75715e"># 立即生效</span>
 source /etc/profile
 
-</code></pre>
+</code></pre></div><h4 id="8-启动mysql服务">8. 启动mysql服务</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">service mysqld start
 
-<h4 id="8-启动mysql服务">8. 启动mysql服务</h4>
-
-<pre><code class="language-bash">service mysqld start
-
-# 查看初始化密码
+<span style="color:#75715e"># 查看初始化密码</span>
 cat /root/.mysql_secret
 
-</code></pre>
+</code></pre></div><h4 id="9-登录mysql">9. 登录mysql</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mysql -uroot -p密码
 
-<h4 id="9-登录mysql">9. 登录mysql</h4>
+<span style="color:#75715e"># 修改密码</span>
+SET PASSWORD FOR <span style="color:#e6db74">&#39;root&#39;</span>@localhost<span style="color:#f92672">=</span>PASSWORD<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;123456&#39;</span><span style="color:#f92672">)</span>;
 
-<pre><code class="language-bash">mysql -uroot -p密码
-
-# 修改密码
-SET PASSWORD FOR 'root'@localhost=PASSWORD('123456');
-
-</code></pre>
-
-<h4 id="10-设置远程登录">10. 设置远程登录</h4>
-
-<pre><code class="language-bash">mysql&gt; use mysql
-mysql&gt; update user set host='%' where user='root' limit 1;
+</code></pre></div><h4 id="10-设置远程登录">10. 设置远程登录</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mysql&gt; use mysql
+mysql&gt; update user set host<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;%&#39;</span> where user<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;root&#39;</span> limit 1;
 mysql&gt; flush privileges;
 
-</code></pre>
-
-<p>然后开放3306端口</p>
-
-<pre><code class="language-bash">firewall-cmd --permanent --add-port=3306/tcp
-# 重启防火墙
+</code></pre></div><p>然后开放3306端口</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">firewall-cmd --permanent --add-port<span style="color:#f92672">=</span>3306/tcp
+<span style="color:#75715e"># 重启防火墙</span>
 firewall-cmd --reload
 
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
