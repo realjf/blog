@@ -23,4 +23,52 @@ related:
 ---
 
 ## 项目准备
+创建新项目
+```shell script
+vue create templatesanddata --default
+```
+添加bootstrap css包
+```shell script
+npm install bootstrap@4.0.0 jquery popper.js
+```
+在 main.js文件中引入jquery和bootstrap
+
+```js
+import Vue from 'vue'
+import App from './App.vue'
+
+// 引入jquery
+import $ from 'jquery'
+
+Vue.config.productionTip = false
+
+// 添加bootstrap框架
+import "bootstrap/dist/css/bootstrap.min.css"
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+
+```
+配置package.json的eslintConfig里的rules
+```javascript
+"rules": {
+    "no-unused-vars":"off",
+	"no-console":"off",
+	"no-declare": "off"
+},
+```
+
+运行项目
+```shell script
+npm run serve
+```
+
+## 理解组件的元素
+
+
+
+
+
+
 
