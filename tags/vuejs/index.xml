@@ -6,10 +6,33 @@
     <description>Recent content in vuejs on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Nov 2020 20:31:27 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Nov 2020 13:16:08 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/tags/vuejs/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>vue.js 2 系列之十三 使用转发器指令 Using the Repeater Directive</title>
+      <link>https://realjf.io/vuejs/using-the-repeater-directive/</link>
+      <pubDate>Sun, 29 Nov 2020 13:16:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/using-the-repeater-directive/</guid>
+      <description>本节将介绍
+ v-for指令 v-for指令的alias特性 用v-bind指令定义一个key属性 使用v-for指令的index特性 使用Vue.set方法 在v-for指令的表达式中使用data中预置的一个数值  v-for指令，枚举一个数组 ...&amp;lt;h2 class=&amp;#34;bg-primary text-white text-center p-3&amp;#34;&amp;gt;Products&amp;lt;/h2&amp;gt;&amp;lt;table class=&amp;#34;table table-sm table-bordered table-striped text-left&amp;#34;&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;Name&amp;lt;/th&amp;gt;&amp;lt;th&amp;gt;Price&amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr v-for=&amp;#34;p in products&amp;#34;&amp;gt;&amp;lt;td&amp;gt;Name&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;Category&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;......data: function() {return {products: [{name: &amp;#34;Kayak&amp;#34;, price: 275}]}}...v-for指令的alias &amp;lt;h2 class=&amp;#34;bg-primary text-white text-center p-3&amp;#34;&amp;gt;Products&amp;lt;/h2&amp;gt;&amp;lt;table class=&amp;#34;table table-sm table-bordered table-striped text-left&amp;#34;&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;Name&amp;lt;/th&amp;gt;&amp;lt;th&amp;gt;Price&amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr v-for=&amp;#34;p in products&amp;#34; v-bind:key=&amp;#34;p.</description>
+    </item>
+    
+    <item>
+      <title>vue.js 2 系列之十二 使用基本指令 Using the Basic Directives</title>
+      <link>https://realjf.io/vuejs/using-the-basic-directives/</link>
+      <pubDate>Sun, 29 Nov 2020 12:38:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/using-the-basic-directives/</guid>
+      <description>v-on指令，处理事件 &amp;lt;a v-on:click=&amp;#34;handleClick&amp;#34;&amp;gt;&amp;lt;/a&amp;gt;v-on指令用于处理事件。此指令已配置通过click点击事件调用方法称为handleClick。在组件脚本的methods部分定义了这个方法元素。
+v-text指令，设置元素的文本内容 &amp;lt;span v-text=&amp;#34;name&amp;#34;&amp;gt;&amp;lt;/span&amp;gt;这是v-text指令，用于设置元素的文本内容，该指令将完整的替换元素的内容。 如上，span元素的内容将是name变量的内容。
+v-html指令，以html方式解析显示内容 &amp;lt;span v-html=&amp;#34;fragment&amp;#34;&amp;gt;&amp;lt;/span&amp;gt;该指令将fragment变量的内容作为html数据显示。
+v-if指令，可选的显示元素 &amp;lt;h4 v-if=&amp;#34;showElements&amp;#34;&amp;gt;{{ price }}&amp;lt;/h4&amp;gt;该指令判断showElements变量是否为真，如果为真，则h4标签可见，如果为假，则不可见。 这里的不可见表示不是隐藏，而是不生成标签，也不占空间。
+v-else,v-else-if指令，与v-if指令联合使用，功能相似 &amp;lt;h3 v-if=&amp;#34;counter % 3 == 0&amp;#34;&amp;gt;1&amp;lt;/h3&amp;gt;&amp;lt;h3 v-else-if=&amp;#34;counter % 3 == 1&amp;#34;&amp;gt;2&amp;lt;/h3&amp;gt;&amp;lt;h3 v-else=&amp;#34;counter % 3 == 2&amp;#34;&amp;gt;3&amp;lt;/h3&amp;gt;v-bind指令，设置一个元素的属性和自带属性值 &amp;lt;h3 v-bind:class=&amp;#34;class1&amp;#34; class=&amp;#34;display-5&amp;#34;&amp;gt;&amp;lt;/h3&amp;gt;...computed: {class1(){return this.highlight ? [&amp;#34;bg-light&amp;#34;, &amp;#34;text-dark&amp;#34;,&amp;#34;display-4&amp;#34;] : [&amp;#34;bg-dark&amp;#34;, &amp;#34;text-light&amp;#34;, &amp;#34;p-2&amp;#34;];}}... 该指令可以配置为一个变量或表达式。 当然也可以用对象或者数组配置class属性。 同时，其还会合并直接在元素上设置的class属性  &amp;lt;h3 v-bind:style=&amp;#34;elemStyles&amp;#34;&amp;gt;&amp;lt;/h3&amp;gt;...computed: {elemStyles(){return {&amp;#34;border&amp;#34;: &amp;#34;5px solid red&amp;#34;,&amp;#34;background-color&amp;#34;: this.</description>
+    </item>
     
     <item>
       <title>vue.js 2 系列之九 理解vue.js Understanding Vuejs 2</title>
