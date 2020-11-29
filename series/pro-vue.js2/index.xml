@@ -6,10 +6,23 @@
     <description>Recent content in pro vue.js2 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Nov 2020 13:16:08 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 29 Nov 2020 14:29:47 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/series/pro-vue.js2/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>vue.js 2 系列之十四 处理事件 Handling Events</title>
+      <link>https://realjf.io/vuejs/handling-events/</link>
+      <pubDate>Sun, 29 Nov 2020 14:29:47 +0800</pubDate>
+      
+      <guid>https://realjf.io/vuejs/handling-events/</guid>
+      <description>本节将学习:
+ 使用v-on指令 使用事件对象 用一个方法处理事件以及接收事件对象作为参数值 对您想要的每个事件应用v-on指令，使用事件对象接收或检测事件类型 使用事件传播修饰符 使用鼠标和键盘修饰符  处理事件 v-on指令被用于处理事件,其格式如下：
+&amp;lt;h3 v-on:click=&amp;#34;name=&amp;#39;Clicked!&amp;#39;&amp;#34;&amp;gt;&amp;lt;/h3&amp;gt;其中：
+ v-on是指令 click是事件参数 name=&#39;Clicked!&amp;rsquo; 是表达式  理解事件和事件对象 有许多可用的事件类型，如下：
+   事件类型 描述     click 当鼠标在一个元素边界内部被按下并释放时触发   mousedown 鼠标按钮在元素边界内被按下时触发   mousemove 鼠标在元素边界内移动时触发   mouseleave 鼠标离开元素边界时触发   keydown 一个按键按下时触发    有用的事件对象自有属性 | 自有属性| 描述| |:&amp;mdash;:|:&amp;mdash;:| | target | 该属性返回当前事件触发的html元素的DOM对象 | | currentTarget | 该属性返回当前正在被处理事件的HTML元素的DOM对象，不同于target | | type | 该属性返回事件类型 | | key | 对于键盘事件，该属性返回事件关联的key |</description>
+    </item>
     
     <item>
       <title>vue.js 2 系列之十三 使用转发器指令 Using the Repeater Directive</title>
