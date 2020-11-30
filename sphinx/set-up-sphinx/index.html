@@ -3,7 +3,7 @@
 <head>
     <title>安装 Sphinx // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -240,128 +240,185 @@
                         </div></div>
         </header>
         <div class="post-content">
-            <h4 id="简介">简介</h4>
+            
+
+<h4 id="简介">简介</h4>
+
 <p>sphinx是由俄罗斯人开发的一个全文检索引擎。旨在为其他应用提供高速、低空间占用、告诫过相关度的全文搜索功能。</p>
-<p>特性:</p>
-<ul>
-<li>高速的建立索引（在现代cpu上，峰值性能可达到10MB/秒）;</li>
-<li>高性能的搜索（在2~4GB的文本数据上，平均每次检索响应时间小于0.1秒）</li>
-<li>可处理海量数据（目前已知可以处理超过100GB的文本数据，在单一CPU系统上可处理100M文档）</li>
-<li>提供了优秀的相关度算法，基于短语相似度和统计的复合Ranking方法。</li>
-<li>支持分布式搜索</li>
-<li>支持短语搜索</li>
-<li>提供文档摘要生成</li>
-<li>可作为mysql的存储引擎提供搜索服务</li>
-<li>支持布尔、短语、词语相似度等多种检索模式</li>
-<li>文档支持多个全文检索字段（最大不超过32个）</li>
-<li>文档支持多个额外的属性信息</li>
-<li>支持断词</li>
-</ul>
+
+<p>特性:
+- 高速的建立索引（在现代cpu上，峰值性能可达到10MB/秒）;
+- 高性能的搜索（在2~4GB的文本数据上，平均每次检索响应时间小于0.1秒）
+- 可处理海量数据（目前已知可以处理超过100GB的文本数据，在单一CPU系统上可处理100M文档）
+- 提供了优秀的相关度算法，基于短语相似度和统计的复合Ranking方法。
+- 支持分布式搜索
+- 支持短语搜索
+- 提供文档摘要生成
+- 可作为mysql的存储引擎提供搜索服务
+- 支持布尔、短语、词语相似度等多种检索模式
+- 文档支持多个全文检索字段（最大不超过32个）
+- 文档支持多个额外的属性信息
+- 支持断词</p>
+
 <p>官网地址：<a href="http://sphinxsearch.com/">http://sphinxsearch.com/</a></p>
+
 <p>下载地址：<a href="http://sphinxsearch.com/downloads/current/">http://sphinxsearch.com/downloads/current/</a></p>
+
 <p>二进制地址：<a href="http://sphinxsearch.com/files/sphinx-3.0.2-2592786-linux-amd64.tar.gz">http://sphinxsearch.com/files/sphinx-3.0.2-2592786-linux-amd64.tar.gz</a></p>
+
 <p>源码包地址：<a href="http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz">http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz</a></p>
+
 <p>中文文档地址：<a href="http://www.sphinxsearch.org/archives/category/php">http://www.sphinxsearch.org/archives/category/php</a></p>
+
 <h4 id="sphinx在mysql上的应用有两种方式">sphinx在mysql上的应用有两种方式：</h4>
+
 <ol>
 <li>采用api调用，如php、java等的api函数或方法查询。优点是可不必对mysql重新编译，服务端进程“低耦合”，且程序灵活度高、方便调用。</li>
 <li>使用插件方式 sphinxSE把sphinx编译成一个mysql插件并使用特定的sql语句进行检索。</li>
 <li>通过安装相关编程语言的扩展插件</li>
 </ol>
+
 <h4 id="准备">准备</h4>
+
 <ul>
 <li>mysql</li>
 <li>mysql-devel</li>
 <li>编译软件gcc gcc-c++ autoconf automake</li>
-<li>sphinx</li>
+
+<li><p>sphinx
+```</p>
+
+<h1 id="安装工具">安装工具</h1>
+
+<p>yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-devel</p></li>
 </ul>
-<pre><code># 安装工具
-yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-devel
 
-</code></pre><h4 id="sphinx安装">sphinx安装</h4>
-<pre><code># 下载
-wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz
+<pre><code>#### sphinx安装
+</code></pre>
 
-# 解压
-tar zxvf sphinx-2.2.11-release.tar.gz
+<h1 id="下载">下载</h1>
 
-# 安装
-./configure --prefix=/usr/local/sphinx
-make &amp;&amp; make install
+<p>wget <a href="http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz">http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz</a></p>
 
-# 备份配置文件
-cd /usr/local/sphinx/etc
-cp sphinx.conf.dist sphinx.conf
+<h1 id="解压">解压</h1>
 
-</code></pre><h4 id="coreseek下载地址">coreseek下载地址</h4>
-<p>coreseek下载地址：<a href="http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz">http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz</a></p>
-<p>百度分享地址：<a href="https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw">https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw</a></p>
-<pre><code># 准备
-locale
+<p>tar zxvf sphinx-2.2.11-release.tar.gz</p>
+
+<h1 id="安装">安装</h1>
+
+<p>./configure &ndash;prefix=/usr/local/sphinx
+make &amp;&amp; make install</p>
+
+<h1 id="备份配置文件">备份配置文件</h1>
+
+<p>cd /usr/local/sphinx/etc
+cp sphinx.conf.dist sphinx.conf</p>
+
+<pre><code>
+#### coreseek下载地址
+coreseek下载地址：[http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz](http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz)
+
+百度分享地址：[https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw](https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw)
+
+</code></pre>
+
+<h1 id="准备-1">准备</h1>
+
+<p>locale
 LANG=zh_CN.UTF-8
-LC_ALL=&quot;zh_CN.UTF-8&quot;
+LC_ALL=&ldquo;zh_CN.UTF-8&rdquo;</p>
 
-# 以下核心项，locale为zh_CN.UTF-8，就可以正常显示和输入中文，locale设置功能由操作系统自身支持，BSD/Linux均可开启；该功能，不是coreseek提供的。
-# 如果需要修改，可以使用export LANG=zh_CN.UTF-8进行修改
-</code></pre><h4 id="安装coreseek开发的mmseg为coreseek提供中文分词功能">安装coreseek开发的mmseg，为coreseek提供中文分词功能</h4>
-<pre><code>tar zxvf coreseek-3.2.14.tar.gz
+<h1 id="以下核心项-locale为zh-cn-utf-8-就可以正常显示和输入中文-locale设置功能由操作系统自身支持-bsd-linux均可开启-该功能-不是coreseek提供的">以下核心项，locale为zh_CN.UTF-8，就可以正常显示和输入中文，locale设置功能由操作系统自身支持，BSD/Linux均可开启；该功能，不是coreseek提供的。</h1>
+
+<h1 id="如果需要修改-可以使用export-lang-zh-cn-utf-8进行修改">如果需要修改，可以使用export LANG=zh_CN.UTF-8进行修改</h1>
+
+<pre><code>#### 安装coreseek开发的mmseg，为coreseek提供中文分词功能
+</code></pre>
+
+<p>tar zxvf coreseek-3.2.14.tar.gz
 cd mmseg-3.2.14
 ./bootstrap
-./configure --prefix=/usr/local/mmseg3
-make &amp;&amp; make install
+./configure &ndash;prefix=/usr/local/mmseg3
+make &amp;&amp; make install</p>
 
+<h1 id="安装完成后-mmseg使用的词典和配置文件-将自动安装到-usr-local-mmseg3-etc中">安装完成后，mmseg使用的词典和配置文件，将自动安装到/usr/local/mmseg3/etc中</h1>
 
-# 安装完成后，mmseg使用的词典和配置文件，将自动安装到/usr/local/mmseg3/etc中
-# 中文分词测试
-/usr/local/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc src/t1.txt
-# 输出结果如下:
-中文/x 分/x 词/x 测试/x 
-中国人/x 上海市/x 
+<h1 id="中文分词测试">中文分词测试</h1>
 
-Word Splite took: 0 ms.
+<p>/usr/local/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc src/t1.txt</p>
 
-</code></pre><h4 id="安装coreseek">安装coreseek</h4>
-<pre><code>cd ..
-cd csft-3.2.14
-# 执行并配置
-sh buildconf.sh
-./configure --prefix=/usr/local/coreseek  --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/mmseg3/include/mmseg/ --with-mmseg-libs=/usr/local/mmseg3/lib/ --with-mysql=/usr/local/mysql
+<h1 id="输出结果如下">输出结果如下:</h1>
 
-# 如果出现找不到mysql includes file则使用以下编译命令
+<p>中文/x 分/x 词/x 测试/x
+中国人/x 上海市/x</p>
 
-./configure --prefix=/usr/local/coreseek --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/mmseg3/include/mmseg/ --with-mmseg-libs=/usr/local/mmseg3/lib/ --with-mysql-includes=/alidata/server/mysql/include/ --with-mysql-libs=/alidata/server/mysql/bin/ 
+<p>Word Splite took: 0 ms.</p>
 
-make &amp;&amp; make install
-</code></pre><p>如果编译报错，由于是gcc版本问题，所以需要手动修改以下内容</p>
-<p>vim  /usr/local/src/coreseek-4.1-beta/csft-4.1/src/sphinxexpr.cpp</p>
-<pre><code>error: ‘ExprEval’ was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
-   T val = ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
-   
-# 解决办法：
-1013 T val = ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
-# 修改为
-T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
+<pre><code>
+#### 安装coreseek
+</code></pre>
 
-1047 T val = ExprEval ( this-&gt;m_pArg, tMatch );
-# 修改为
-T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );
-1080 T val = ExprEval ( this-&gt;m_pArg, tMatch );
-# 修改为
-T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );
+<p>cd ..
+cd csft-3.2.14</p>
 
-</code></pre><p>如果缺少python环境的devel支持包，则</p>
-<pre><code>yum install -y python-devel
-</code></pre><h4 id="测试mmseg分词和coreseek检索">测试mmseg分词和coreseek检索</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd coreseek-3.2.14/testpack
+<h1 id="执行并配置">执行并配置</h1>
+
+<p>sh buildconf.sh
+./configure &ndash;prefix=/usr/local/coreseek  &ndash;without-unixodbc &ndash;with-mmseg &ndash;with-mmseg-includes=/usr/local/mmseg3/include/mmseg/ &ndash;with-mmseg-libs=/usr/local/mmseg3/lib/ &ndash;with-mysql=/usr/local/mysql</p>
+
+<h1 id="如果出现找不到mysql-includes-file则使用以下编译命令">如果出现找不到mysql includes file则使用以下编译命令</h1>
+
+<p>./configure &ndash;prefix=/usr/local/coreseek &ndash;without-unixodbc &ndash;with-mmseg &ndash;with-mmseg-includes=/usr/local/mmseg3/include/mmseg/ &ndash;with-mmseg-libs=/usr/local/mmseg3/lib/ &ndash;with-mysql-includes=/alidata/server/mysql/include/ &ndash;with-mysql-libs=/alidata/server/mysql/bin/</p>
+
+<p>make &amp;&amp; make install</p>
+
+<pre><code>如果编译报错，由于是gcc版本问题，所以需要手动修改以下内容
+
+vim  /usr/local/src/coreseek-4.1-beta/csft-4.1/src/sphinxexpr.cpp
+</code></pre>
+
+<p>error: ‘ExprEval’ was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
+   T val = ExprEval ( this-&gt;m_pArg, tMatch ); // &lsquo;this&rsquo; fixes gcc braindamage</p>
+
+<h1 id="解决办法">解决办法：</h1>
+
+<p>1013 T val = ExprEval ( this-&gt;m_pArg, tMatch ); // &lsquo;this&rsquo; fixes gcc braindamage</p>
+
+<h1 id="修改为">修改为</h1>
+
+<p>T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch ); // &lsquo;this&rsquo; fixes gcc braindamage</p>
+
+<p>1047 T val = ExprEval ( this-&gt;m_pArg, tMatch );</p>
+
+<h1 id="修改为-1">修改为</h1>
+
+<p>T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );
+1080 T val = ExprEval ( this-&gt;m_pArg, tMatch );</p>
+
+<h1 id="修改为-2">修改为</h1>
+
+<p>T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );</p>
+
+<pre><code>
+如果缺少python环境的devel支持包，则
+</code></pre>
+
+<p>yum install -y python-devel</p>
+
+<pre><code>
+
+#### 测试mmseg分词和coreseek检索
+```shell
+cd coreseek-3.2.14/testpack
 cat var/test/test.xml
-<span style="color:#75715e"># 测试mmseg分词</span>
+# 测试mmseg分词
 /usr/local/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc var/test/test.xml
 
-<span style="color:#75715e"># 建立索引</span>
+# 建立索引
 /usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/example.conf --all
-<span style="color:#75715e"># 如果运行报错</span>
-<span style="color:#75715e"># /usr/local/coreseek/bin/indexer: error while loading shared libraries: libmysqlclient.so.20: cannot open shared object file: No such file or directory</span>
-<span style="color:#75715e"># 解决办法是</span>
+# 如果运行报错
+# /usr/local/coreseek/bin/indexer: error while loading shared libraries: libmysqlclient.so.20: cannot open shared object file: No such file or directory
+# 解决办法是
 locate libmysqlclient.so.20
 
 /usr/local/mysql/lib/libmysqlclient.so.20
@@ -369,21 +426,27 @@ locate libmysqlclient.so.20
 /usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20
 /usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20.3.4
 
-<span style="color:#75715e"># 以上输出内容可以看出，/usr/local/mysql/lib/libmysqlclient.so.20</span>
+# 以上输出内容可以看出，/usr/local/mysql/lib/libmysqlclient.so.20
 
 vim /etc/ld.so.conf
-<span style="color:#75715e"># 新增一行 /usr/local/mysql/lib/</span>
-<span style="color:#75715e"># 然后执行ldconfig生效</span>
+# 新增一行 /usr/local/mysql/lib/
+# 然后执行ldconfig生效
 
-/usr/local/coreseek/bin/search -c etc/csft.conf <span style="color:#75715e"># 网络搜索</span>
+/usr/local/coreseek/bin/search -c etc/csft.conf # 网络搜索
 
-</code></pre></div><blockquote>
+</code></pre>
+
+<blockquote>
 <p>如果没有locate命令，则运行以下命令安装</p>
-</blockquote>
+
 <pre><code>yum install mlocate
 updatedb
 # 现在可以使用locate了
-</code></pre><h4 id="一些常用命令">一些常用命令</h4>
+</code></pre>
+</blockquote>
+
+<h4 id="一些常用命令">一些常用命令</h4>
+
 <pre><code># 开启搜索服务
 /usr/local/coreseek/bin/searchd -c etc/csft.conf
 # 停止搜索服务
@@ -393,51 +456,87 @@ updatedb
 /usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/example.conf --all --rotate
 
 
-</code></pre><h4 id="配置">配置</h4>
+</code></pre>
+
+<h4 id="配置">配置</h4>
+
 <blockquote>
 <p>mysql数据源的配置可参考testpack/etc/csft_mysql.conf文件</p>
 </blockquote>
+
 <pre><code># 修改sphinx配置
 vim /usr/local/sphinx/etc/sphinx.conf
 # sql_host = localhost // 主机地址
 # sql_user = root // 数据库账户
 # sql_pass = qaz325234 // 数据库密码 数据库密码
-</code></pre><h3 id="qa">Q&amp;A</h3>
+</code></pre>
+
+<h3 id="q-a">Q&amp;A</h3>
+
 <p>安装遇到的错误和问题解决方案</p>
+
 <p>1、测试mmseg分词的时候</p>
+
 <p>执行</p>
+
 <p>/usr/local/coreseek/bin/indexer -c etc/csft.conf &ndash;all</p>
+
 <p>提示下面的错误：</p>
+
 <p>/usr/local/coreseek/bin/indexer: error while loading shared libraries: libmysqlclient.so.18: cannot open shared object file: No such file or directory</p>
+
 <p>原因：sphinx indexer的依赖库ibmysqlclient.so.18找不到。</p>
+
 <p>解决办法：</p>
+
 <p>vi /etc/ld.so.conf
 加入 /usr/local/mysql/lib</p>
+
 <p>然后运行 ldconfig</p>
+
 <p>问题解决</p>
+
 <p>2、执行索引的时候</p>
+
 <p>/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/csft_ttd_search.conf &ndash;all &ndash;rotate</p>
+
 <p>提示下面的错误：</p>
+
 <p>FATAL: failed to open /usr/local/coreseek/var/data/ttd_article/.tmp.spl: No such file or directory, will not index. Try &ndash;rotate option.</p>
+
 <p>原因：source源找不到mysql.sock</p>
+
 <p>解决办法：在配置文件csft_ttd_search.conf（自己创建的文件）的 source源 加入下面的代码</p>
+
 <p>sql_sock   = /tmp/mysql.sock</p>
+
 <p>3、执行索引的时候，出现的警告，导致索引没创建成功</p>
+
 <p>WARNING: failed to open pid_file &lsquo;/usr/local/coreseek/var/log/searchd_ttd_search.pid&rsquo;.
 WARNING: indices NOT rotated.</p>
+
 <p>原因：找不到searchd_ttd_search.pid文件</p>
+
 <p>解决办法：在’/usr/local/coreseek/var/log 下创建searchd_ttd_search.pid文件</p>
+
 <p>再执行/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/csft_ttd_search.conf –all –rotate
 出现了另外一个警告：</p>
+
 <p>WARNING: failed to scanf pid from pid_file &lsquo;/usr/local/coreseek/var/log/searchd_ttd_search.pid&rsquo;.
 WARNING: indices NOT rotated.</p>
+
 <p>原因：虽然创建了searchd_ttd_search.pid文件，但是里面没有写入进程id</p>
+
 <p>解决办法（根本原因）：在执行索引之前没有启动searchd服务，因此执行下面的命令</p>
+
 <p>/usr/local/coreseek/bin/searchd &ndash;config /usr/local/coreseek/etc/ttd_search.conf</p>
+
 <p>出现了期待已久的成功提示：</p>
+
 <p>Coreseek Fulltext 3.2 [ Sphinx 0.9.9-release (r2117)]
-Copyright (c) 2007-2011,
+Copyright &copy; 2007-2011,
 Beijing Choice Software Technologies Inc (<a href="http://www.coreseek.com">http://www.coreseek.com</a>)</p>
+
 <p>using config file &lsquo;/usr/local/coreseek/etc/ttd_search.conf&rsquo;&hellip;
 listening on all interfaces, port=9312
 rotating index &lsquo;mysql&rsquo;: success</p>

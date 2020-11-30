@@ -3,7 +3,7 @@
 <head>
     <title>mysql Explain 详解 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,10 +237,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/mysql/">mysql</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/mysql/">Mysql</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="explain-输出列">explain 输出列</h3>
+            
+
+<h3 id="explain-输出列">explain 输出列</h3>
+
 <table>
 <thead>
 <tr>
@@ -249,62 +252,74 @@
 <th align="center">说明</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td align="center">id</td>
 <td align="center">select_id</td>
 <td align="center">The SELECT identifier</td>
 </tr>
+
 <tr>
 <td align="center">select_type</td>
 <td align="center">None</td>
 <td align="center">The SELECT type</td>
 </tr>
+
 <tr>
 <td align="center">table</td>
 <td align="center">table_name</td>
 <td align="center">The table for the output row</td>
 </tr>
+
 <tr>
 <td align="center">partitions</td>
 <td align="center">partitions</td>
 <td align="center">The matching partitions</td>
 </tr>
+
 <tr>
 <td align="center">type</td>
 <td align="center">access_type</td>
 <td align="center">The join type</td>
 </tr>
+
 <tr>
 <td align="center">possible_keys</td>
 <td align="center">possible_keys</td>
 <td align="center">The possible indexes to choose</td>
 </tr>
+
 <tr>
 <td align="center">key</td>
 <td align="center">key</td>
 <td align="center">The index actually chosen</td>
 </tr>
+
 <tr>
 <td align="center">key_len</td>
 <td align="center">key_length</td>
 <td align="center">The length of the chosen key</td>
 </tr>
+
 <tr>
 <td align="center">ref</td>
 <td align="center">ref</td>
 <td align="center">The columns compared to the index</td>
 </tr>
+
 <tr>
 <td align="center">rows</td>
 <td align="center">rows</td>
 <td align="center">Estimate of rows to be examined</td>
 </tr>
+
 <tr>
 <td align="center">filtered</td>
 <td align="center">filtered</td>
 <td align="center">Percentage of rows filtered by table condition</td>
 </tr>
+
 <tr>
 <td align="center">Extra</td>
 <td align="center">None</td>
@@ -312,11 +327,17 @@
 </tr>
 </tbody>
 </table>
+
 <h4 id="id">id</h4>
+
 <p>select 标识</p>
-<h4 id="select_type">select_type</h4>
+
+<h4 id="select-type">select_type</h4>
+
 <p>select 查询类型</p>
+
 <p>具体类型如下：</p>
+
 <table>
 <thead>
 <tr>
@@ -325,57 +346,68 @@
 <th align="center">说明</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td align="center">SIMPLE</td>
 <td align="center">None</td>
 <td align="center">Simple SELECT (not using UNION or subqueries)</td>
 </tr>
+
 <tr>
 <td align="center">PRIMARY</td>
 <td align="center">None</td>
 <td align="center">Outermost SELECT</td>
 </tr>
+
 <tr>
 <td align="center">UNION</td>
 <td align="center">None</td>
 <td align="center">Second or later SELECT statement in a UNION</td>
 </tr>
+
 <tr>
 <td align="center">DEPENDENT UNION</td>
 <td align="center">dependent (true)</td>
 <td align="center">Second or later SELECT statement in a UNION, dependent on outer query</td>
 </tr>
+
 <tr>
 <td align="center">UNION RESULT</td>
 <td align="center">union_result</td>
 <td align="center">Result of a UNION.</td>
 </tr>
+
 <tr>
 <td align="center">SUBQUERY</td>
 <td align="center">None</td>
 <td align="center">First SELECT in subquery</td>
 </tr>
+
 <tr>
 <td align="center">DEPENDENT SUBQUERY</td>
 <td align="center">dependent (true)</td>
 <td align="center">First SELECT in subquery, dependent on outer query</td>
 </tr>
+
 <tr>
 <td align="center">DERIVED</td>
 <td align="center">None</td>
 <td align="center">Derived table</td>
 </tr>
+
 <tr>
 <td align="center">MATERIALIZED</td>
 <td align="center">materialized_from_subquery</td>
 <td align="center">Materialized subquery</td>
 </tr>
+
 <tr>
 <td align="center">UNCACHEABLE SUBQUERY</td>
 <td align="center">cacheable (false)</td>
 <td align="center">A subquery for which the result cannot be cached and must be re-evaluated for each row of the outer query</td>
 </tr>
+
 <tr>
 <td align="center">UNCACHEABLE UNION</td>
 <td align="center">cacheable (false)</td>
@@ -383,6 +415,7 @@
 </tr>
 </tbody>
 </table>
+
 <ul>
 <li>simple：表示不需要union操作或者不包含子查询的简单select查询。有连接查询时，外层的查询为simple，且只有一个。</li>
 <li>primary：一个需要union操作或者含有子查询的select，位于最外层的单位查询的select_type即为primary。且只有一个。</li>
@@ -396,88 +429,97 @@
 <li>UNCACHEABLE SUBQUERY：对于外层的主表，子查询不可被物化，每次都需要计算（耗时操作）</li>
 <li>UNCACHEABLE UNION：UNION操作中，内层的不可被物化的子查询（类似于UNCACHEABLE SUBQUERY）</li>
 </ul>
+
 <h4 id="table">table</h4>
+
 <p>显示查询表名，如果查询使用了别名，那么这里显示的是别名，如果不涉及对数据表的操作，那么这显示为null，</p>
+
 <ul>
-<li>如果显示为尖括号括起来的<!-- raw HTML omitted -->就表示这个是临时表，后边的N就是执行计划中的id，表示结果来自于这个查询产生。</li>
-<li>如果是尖括号括起来的&lt;union M,N&gt;，与<!-- raw HTML omitted -->类似，也是一个临时表，表示这个结果来自于union查询的id为M,N的结果集。</li>
-<li>如果是尖括号括起来的<!-- raw HTML omitted -->，这个表示子查询结果被物化，之后子查询结果可以被复用（个人理解）。</li>
+<li>如果显示为尖括号括起来的<derived N>就表示这个是临时表，后边的N就是执行计划中的id，表示结果来自于这个查询产生。</li>
+<li>如果是尖括号括起来的<union M,N>，与<derived N>类似，也是一个临时表，表示这个结果来自于union查询的id为M,N的结果集。</li>
+<li>如果是尖括号括起来的<subquery N>，这个表示子查询结果被物化，之后子查询结果可以被复用（个人理解）。</li>
 </ul>
+
 <h4 id="partitions">partitions</h4>
+
 <p>分区表使用情况</p>
+
 <p>版本5.7以前，该项是explain partitions显示的选项，
 5.7以后成为了默认选项。该列显示的为分区表命中的分区情况。非分区表该字段为空（null）。</p>
+
 <h4 id="type">type</h4>
+
 <p>由好到差分别是：system、const、eq_ref、ref、fulltext、ref_or_null、index_merge、unique_subquery、
 index_subquery、range、index、ALL</p>
+
 <p>除了all之外，其他的type都可以使用到索引，除了index_merge之外，其他的type只可以用到一个索引</p>
+
 <ul>
-<li>
-<p>system：表中只有一行数据或者是空表，且只能用于myisam和memory表。如果是Innodb引擎表，type列在这个情况通常都是all或者index</p>
-</li>
-<li>
-<p>const：使用唯一索引或者主键，返回记录一定是1行记录的等值where条件时，通常type是const。其他数据库也叫做唯一索引扫描</p>
-</li>
-<li>
-<p>eq_ref：出现在要连接过个表的查询计划中，驱动表只返回一行数据，且这行数据是第二个表的主键或者唯一索引，且必须为not null，唯一索引和主键是多列时，只有所有的列都用作比较时才会出现eq_ref</p>
-</li>
-<li>
-<p>ref：不像eq_ref那样要求连接顺序，也没有主键和唯一索引的要求，只要使用相等条件检索时就可能出现，常见与辅助索引的等值查找。或者多列主键、唯一索引中，使用第一个列之外的列作为等值查找也会出现，总之，返回数据不唯一的等值查找就可能出现。</p>
-</li>
-<li>
-<p>fulltext：全文索引检索，要注意，全文索引的优先级很高，若全文索引和普通索引同时存在时，mysql不管代价，优先选择使用全文索引</p>
-</li>
-<li>
-<p>ref_or_null：与ref方法类似，只是增加了null值的比较。实际用的不多。
+<li>system：表中只有一行数据或者是空表，且只能用于myisam和memory表。如果是Innodb引擎表，type列在这个情况通常都是all或者index</li>
+<li>const：使用唯一索引或者主键，返回记录一定是1行记录的等值where条件时，通常type是const。其他数据库也叫做唯一索引扫描</li>
+<li>eq_ref：出现在要连接过个表的查询计划中，驱动表只返回一行数据，且这行数据是第二个表的主键或者唯一索引，且必须为not null，唯一索引和主键是多列时，只有所有的列都用作比较时才会出现eq_ref</li>
+<li>ref：不像eq_ref那样要求连接顺序，也没有主键和唯一索引的要求，只要使用相等条件检索时就可能出现，常见与辅助索引的等值查找。或者多列主键、唯一索引中，使用第一个列之外的列作为等值查找也会出现，总之，返回数据不唯一的等值查找就可能出现。</li>
+<li>fulltext：全文索引检索，要注意，全文索引的优先级很高，若全文索引和普通索引同时存在时，mysql不管代价，优先选择使用全文索引</li>
+
+<li><p>ref_or_null：与ref方法类似，只是增加了null值的比较。实际用的不多。
 例如：
 SELECT * FROM ref_table
-WHERE key_column=expr OR key_column IS NULL;</p>
-</li>
-<li>
-<p>index_merge：表示查询使用了两个以上的索引，最后取交集或者并集，常见and ，or的条件使用了不同的索引，官方排序这个在ref_or_null之后，但是实际上由于要读取所个索引，性能可能大部分时间都不如range</p>
-</li>
-<li>
-<p>unique_subquery：用于where中的in形式子查询，子查询返回不重复值唯一值</p>
-</li>
-<li>
-<p>index_subquery：用于in形式子查询使用到了辅助索引或者in常数列表，子查询可能返回重复值，可以使用索引将子查询去重。</p>
-</li>
-<li>
-<p>range：索引范围扫描，常见于使用 =, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=, IS NULL, &lt;=&gt;, BETWEEN, IN()或者like等运算符的查询中。</p>
-</li>
-<li>
-<p>index：索引全表扫描，把索引从头到尾扫一遍，常见于使用索引列就可以处理不需要读取数据文件的查询、可以使用索引排序或者分组的查询。</p>
-</li>
-<li>
-<p>all 全表扫描</p>
-</li>
+WHERE key_column=expr OR key_column IS NULL;</p></li>
+
+<li><p>index_merge：表示查询使用了两个以上的索引，最后取交集或者并集，常见and ，or的条件使用了不同的索引，官方排序这个在ref_or_null之后，但是实际上由于要读取所个索引，性能可能大部分时间都不如range</p></li>
+
+<li><p>unique_subquery：用于where中的in形式子查询，子查询返回不重复值唯一值</p></li>
+
+<li><p>index_subquery：用于in形式子查询使用到了辅助索引或者in常数列表，子查询可能返回重复值，可以使用索引将子查询去重。</p></li>
+
+<li><p>range：索引范围扫描，常见于使用 =, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=, IS NULL, &lt;=&gt;, BETWEEN, IN()或者like等运算符的查询中。</p></li>
+
+<li><p>index：索引全表扫描，把索引从头到尾扫一遍，常见于使用索引列就可以处理不需要读取数据文件的查询、可以使用索引排序或者分组的查询。</p></li>
+
+<li><p>all 全表扫描</p></li>
 </ul>
+
 <p>以上说的是索引扫描的两种情况，一种是查询使用了覆盖索引，那么它只需要扫描索引就可以获得数据，这个效率要比全表扫描要快，因为索引通常比数据表小，而且还能避免二次查询。在extra中显示Using index，反之，如果在索引上进行全表扫描，没有Using index的提示。
 L：all：这个就是全表扫描数据文件，然后再在server层进行过滤返回符合要求的记录。</p>
-<h4 id="possible_keys">possible_keys</h4>
+
+<h4 id="possible-keys">possible_keys</h4>
+
 <p>可能使用的索引</p>
+
 <h4 id="key">key</h4>
+
 <p>查询实际使用到的索引，select_type为index_merge时，这里可能出现两个以上的索引，其他的select_type这里只会出现一个</p>
-<h4 id="key_len">key_len</h4>
+
+<h4 id="key-len">key_len</h4>
+
 <p>用于处理查询的索引长度，如果是单列索引，那就整个索引长度算进去，
 如果是多列索引，那么查询不一定都能使用到所有的列，具体使用到了多少个列的索引，这里就会计算进去，
 没有使用到的列，这里不会计算进去。留意下这个列的值，算一下你的多列索引总长度就知道有没有使用到所有的列了。
 要注意，mysql的ICP特性使用到的索引不会计入其中。
 另外，key_len只计算where条件用到的索引长度，而排序和分组就算用到了索引，也不会计算到key_len中</p>
+
 <h4 id="ref">ref</h4>
+
 <ul>
 <li>如果是使用的常数等值查询，这里会显示const，</li>
 <li>如果是连接查询，被驱动表的执行计划这里会显示驱动表的关联字段，</li>
 <li>如果是条件使用了表达式或者函数，或者条件列发生了内部隐式转换，这里可能显示为func</li>
 </ul>
+
 <h4 id="rows">rows</h4>
+
 <p>这里是执行计划中估算的扫描行数，不是精确值</p>
+
 <h4 id="filtered">filtered</h4>
+
 <p>使用explain extended时会出现这个列，5.7之后的版本默认就有这个字段，不需要使用explain extended了。
 这个字段表示存储引擎返回的数据在server层过滤后，剩下多少满足查询的记录数量的比例，
 注意是百分比，不是具体记录数</p>
+
 <h4 id="extra">Extra</h4>
+
 <p>如果你想要优化你的查询，那就要注意extra辅助信息中的using filesort和using temporary，这两项非常消耗性能，需要注意</p>
+
 <ul>
 <li>distinct：在select部分使用了distinc关键字</li>
 <li>no tables used：不带from字句的查询或者From dual查询</li>
@@ -489,12 +531,12 @@ L：all：这个就是全表扫描数据文件，然后再在server层进行过�
 <li>using index for group-by：类似Using index，所需数据只需要读取索引，当query中有group by或distinct子句时，如果分组字段也在索引中，extra就会显示该值。</li>
 <li>using join buffer（block nested loop），using join buffer（batched key accss）：5.6.x之后的版本优化关联查询的BNL，BKA特性。主要是减少内表的循环数量以及比较顺序地扫描查询。</li>
 <li>using sort_union，using_union，using intersect，using sort_intersection：
+
 <ul>
 <li>using intersect：表示使用and的各个索引的条件时，该信息表示是从处理结果获取交集</li>
 <li>using union：表示使用or连接各个使用索引的条件时，该信息表示从处理结果获取并集</li>
 <li>using sort_union和using sort_intersection：与前面两个对应的类似，只是他们是出现在用and和or查询信息量大时，先查询主键，然后进行排序合并后，才能读取记录并返回。</li>
-</ul>
-</li>
+</ul></li>
 <li>using temporary：表示使用了临时表存储中间结果。临时表可以是内存临时表和磁盘临时表，执行计划中看不出来，需要查看status变量，used_tmp_table，used_tmp_disk_table才能看出来。</li>
 <li>using where：表示存储引擎返回的记录并不是所有的都满足查询条件，需要在server层进行过滤。查询条件中分为限制条件和检查条件，5.6之前，存储引擎只能根据限制条件扫描数据并返回，然后server层根据检查条件进行过滤再返回真正符合查询的数据。5.6.x之后支持ICP特性，可以把检查条件也下推到存储引擎层，不符合检查条件和限制条件的数据，直接不读取，这样就大大减少了存储引擎扫描的记录数量。extra列显示using index condition</li>
 <li>firstmatch(tb_name)：5.6.x开始引入的优化子查询的新特性之一，常见于where字句含有in()类型的子查询。如果内表的数据量比较大，就可能出现这个</li>

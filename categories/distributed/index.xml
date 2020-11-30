@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>distributed on Realjf&#39;s blog</title>
+    <title>Distributed on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/distributed/</link>
-    <description>Recent content in distributed on Realjf&#39;s blog</description>
+    <description>Recent content in Distributed on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 11 May 2020 11:06:43 +0800</lastBuildDate>
@@ -19,7 +19,7 @@
       <guid>https://realjf.io/distributed/zookeeper-set-up/</guid>
       <description>准备环境  准备4个centos7虚拟机 下载zookeeper安装包 提前安装好jdk 安装jdk  zookeeper下载地址：http://mirrors.hust.edu.cn/apache/zookeeper/
 集群规划  node1： leader或follower node2： leader或follower node3： leader或follower node4： observer   leader：能接收所有的读写请求，也可以处理所有的读写请求，而且整个集群中的所有写数据请求都是由leader进行处理 follower：能接收所有的读写请求，但是读数据请求自己处理，写数据请求转发给leader observer：跟follower的唯一的区别就是没有选举权和被选举权
- 下载安装 wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gztar zxvf apache-zookeeper-3.5.7-bin.tar.gz# 加入环境变量path中vim ~/.bash_profileexport ZOOKEEPER_HOME=/home/hadoop/apps/zookeeperexport PATH=$PATH:$ZOOKEEPER_HOME/bin# 保存退出，然后source使其生效source ~/.bash_profile配置zoo.cfg文件 # 进入ZOOKEEPER_HOME/conf目录# 复制zoo_sample.cfg为zoo.cfgcp zoo_sample.cfg zoo.cfg# 编辑zoo.cfgvi zoo.cfg# 集群各节点的心跳时间间隔，保持默认即可(2s)tickTime=2000# 此配置表示，允许follower连接并同步到leader的初始化连接时间# 它以tickTime的倍数来表示# 当超过设置倍数的tickTime时间，则连接失败# 保持默认即可(10次心跳的时间，即20s)initLimit=10# follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s# 如果10s内没有收到响应，本次请求就失败syncLimit=5# zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空dataDir=/root/hadoop/zkdata# 客户端连接的端口号，保持默认即可clientPort=2181# 以下内容手动添加# server.</description>
+ 下载安装 wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz tar zxvf apache-zookeeper-3.5.7-bin.tar.gz # 加入环境变量path中 vim ~/.bash_profile export ZOOKEEPER_HOME=/home/hadoop/apps/zookeeper export PATH=$PATH:$ZOOKEEPER_HOME/bin # 保存退出，然后source使其生效 source ~/.bash_profile  配置zoo.cfg文件 # 进入ZOOKEEPER_HOME/conf目录 # 复制zoo_sample.cfg为zoo.cfg cp zoo_sample.cfg zoo.cfg # 编辑zoo.cfg vi zoo.cfg # 集群各节点的心跳时间间隔，保持默认即可(2s) tickTime=2000 # 此配置表示，允许follower连接并同步到leader的初始化连接时间 # 它以tickTime的倍数来表示 # 当超过设置倍数的tickTime时间，则连接失败 # 保持默认即可(10次心跳的时间，即20s) initLimit=10 # follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s # 如果10s内没有收到响应，本次请求就失败 syncLimit=5 # zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空 dataDir=/root/hadoop/zkdata # 客户端连接的端口号，保持默认即可 clientPort=2181 # 以下内容手动添加 # server.</description>
     </item>
     
     <item>
@@ -30,15 +30,15 @@
       <guid>https://realjf.io/distributed/lock-implement/</guid>
       <description>我们需要的分布式锁应该是怎么样的？  可以保证在分布式部署的应用集群中，同一个方法在同一时间只能被一台机器上的一个线程执行。 这把锁要是一把可重入锁（避免死锁） 这把锁最好是一把阻塞锁（根据业务需求考虑要不要这条） 有高可用的获取锁和释放锁功能 获取锁和释放锁的性能要好  实现分布式锁的几种方法 分布式锁是控制分布式系统之间同步访问共享 资源的一种方式。在分布式系统中，常常需要协调他们的动作，如果不同的系统或是同一个系统的不同主机之间共享了一个或一组资源，那么访问这些资源的时候，往往需要互斥来防止彼此干扰来保证一致性，这种情况下，便需要使用到分布式锁。
  基于缓存实现，如Redis实现——使用redis的setnx()、get()、getset()方法，用于分布式锁，解决死锁问题 基于数据库乐观锁实现 基于zookeeper实现   乐观锁通常实现基于数据版本(version)的记录机制实现的，比如有一张红包表（t_bonus），有一个字段(left_count)记录礼物的剩余个数，用户每领取一个奖品，对应的left_count减1，在并发的情况下如何要保证left_count不为负数，乐观锁的实现方式为在红包表上添加一个版本号字段（version），默认为0。
- SETNX key val # 原子性操作，当且仅当key不存在时，set一个key为val的字符串，返回1；若key存在，则什么都不做，返回0。expire key timeout # 为key设置一个超时时间，单位为second，超过这个时间锁会自动释放，避免死锁。delete key # 删除keyGETSET key value# 将给定 key 的值设为 value ，并返回 key 的旧值 (old value)，当 key 存在但不是字符串类型时，返回一个错误，当key不存在时，返回nil基于数据库实现 使用数据库乐观锁，包括主键防重，版本号控制。但是这两种方法各有利弊。
-  使用主键冲突的策略进行防重，在并发量非常高的情况下对数据库性能会有影响，尤其是应用数据表和主键冲突表在一个库的时候，表现更加明显。其实针对是否会对数据库性能产生影响这个话题，我也和一些专业的DBA同学讨论过，普遍认可的是在MySQL数据库中采用主键冲突防重，在大并发情况下有可能会造成锁表现象，比较好的办法是在程序中生产主键进行防重。
-  使用版本号策略 这个策略源于mysql的mvcc机制，使用这个策略其实本身没有什么问题，唯一的问题就是对数据表侵入较大，我们要为每个表设计一个版本号字段，然后写一条判断sql每次进行判断。
+ SETNX key val # 原子性操作，当且仅当key不存在时，set一个key为val的字符串，返回1；若key存在，则什么都不做，返回0。 expire key timeout # 为key设置一个超时时间，单位为second，超过这个时间锁会自动释放，避免死锁。 delete key # 删除key GETSET key value # 将给定 key 的值设为 value ，并返回 key 的旧值 (old value)，当 key 存在但不是字符串类型时，返回一个错误，当key不存在时，返回nil  基于数据库实现 使用数据库乐观锁，包括主键防重，版本号控制。但是这两种方法各有利弊。
+ 使用主键冲突的策略进行防重，在并发量非常高的情况下对数据库性能会有影响，尤其是应用数据表和主键冲突表在一个库的时候，表现更加明显。其实针对是否会对数据库性能产生影响这个话题，我也和一些专业的DBA同学讨论过，普遍认可的是在MySQL数据库中采用主键冲突防重，在大并发情况下有可能会造成锁表现象，比较好的办法是在程序中生产主键进行防重。
+ 使用版本号策略 这个策略源于mysql的mvcc机制，使用这个策略其实本身没有什么问题，唯一的问题就是对数据表侵入较大，我们要为每个表设计一个版本号字段，然后写一条判断sql每次进行判断。
   基于数据库表实现 要实现分布式锁，最简单的方式可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。
 当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。
-上面这种简单的实现有以下几个问题：
-  1、这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。
-  2、这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得到锁。
-  3、这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会直接报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</description>
+上面这种简单的实现有以下几个问题： - 1、这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。
+ 2、这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得到锁。
+ 3、这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会直接报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。
+ 4、这把锁是非重入的，同一个线程在没有释放锁之前无法再次获得该锁。因为数据中数据已经存在了。</description>
     </item>
     
     <item>
@@ -56,8 +56,9 @@ ZooKeeper设计成只允许唯一的一个leader服务器来进行事务请求�
 当leader服务器出现崩溃退出或机器重启，亦或集群中已经不存在过半的服务器与该leader服务器保持正常通信时，那么在重新开始新一轮的原子广播事务操作之前， 所有进程首先会使用崩溃恢复协议来使彼此达到一个一致的状态，于是整个ZAB流程就会从消息广播模式进入到崩溃恢复模式。
 数据同步 在ZAB协议的事务编号ZXID设计中，ZXID是一个64位的数字，其中低32位可以看作是一个简单的单调递增的计数器，针对客户端的每一个事务请求，leader服务器在产生 一个新的事务Proposal的时候，都会对该计数器进行加1操作，而高32位则代表了leader周期epoch的编号，每当选举产生一个新的leader服务器，就会从这个leader 服务器上取出其本地日志中最大事务Proposal的ZXID，并从该ZXID中解析出对应的epoch值，然后再对其进行加1操作，之后就会以此编号作为新的epoch，并 将低32位置0来开始生成新的ZXID。ZAB协议中的这一通过epoch编号来区分leader周期变化的策略，能够有效避免不同的leader服务器错误地使用相同的ZXID编号 提出不一样的事务Proposal的异常情况，这对于识别在leader崩溃恢复前后生成的Proposal非常有帮助。
 基于这样的策略，当一个包含了上一个leader周期中尚未提交过的事务Proposal的服务器启动时，其肯定无法成为leader，因为当前集群中一定包含一个Quorum集合， 该集合中的机器一定包含了更高epoch的事务Proposal，因此这台机器的事务Proposal肯定不是最高，也就无法成为leader了。
-ZAB与Paxos算法的联系与区别 联系  两者都存在一个类似leader进程的角色，由其负责协调多个follower进程的运行 leader进程都会等待超过半数的follower做出正确的反馈后，才会将一个提案进行提交 在ZAB协议中，每个Proposal中都包含了一个epoch值，用来代表当前leader周期，在Paxos算法中，同样存在这样一个标识，只是名字是Ballot。  区别 Paxos算法一个新选举产生的主进程会进行两个阶段的工作，第一阶段称为读阶段，与所有其他进程通信收集上一个主进程提出的提案，并将它们提交。 第二个阶段称为写阶段，主进程开始提出自己的提案。
-ZAB协议在Paxos算法上额外添加了一个同步阶段。在同步阶段之前，ZAB有个类似Paxos算法的读阶段，称为发现阶段。同步阶段之后，也有一个类似的写阶段。</description>
+ZAB与Paxos算法的联系与区别 联系  两者都存在一个类似leader进程的角色，由其负责协调多个follower进程的运行 leader进程都会等待超过半数的follower做出正确的反馈后，才会将一个提案进行提交 在ZAB协议中，每个Proposal中都包含了一个epoch值，用来代表当前leader周期，在Paxos算法中，同样存在这样一个标识，只是名字是Ballot。
+区别 Paxos算法一个新选举产生的主进程会进行两个阶段的工作，第一阶段称为读阶段，与所有其他进程通信收集上一个主进程提出的提案，并将它们提交。 第二个阶段称为写阶段，主进程开始提出自己的提案。
+  ZAB协议在Paxos算法上额外添加了一个同步阶段。在同步阶段之前，ZAB有个类似Paxos算法的读阶段，称为发现阶段。同步阶段之后，也有一个类似的写阶段。</description>
     </item>
     
     <item>
@@ -95,7 +96,7 @@ ZAB协议在Paxos算法上额外添加了一个同步阶段。在同步阶段之
 第一阶段(准备阶段)
  协调者节点向所有参与者节点询问是否可以执行提交操作，并开始等待各参与者节点的响应。 参与者节点执行所有事务操作，并将undo信息和redo信息写入日志（若成功其实这里每个参与者已经执行了事务操作） 个参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个同意消息，如果参与者节点事务操作实际执行失败，则返回一个终止操作  第二阶段（提交阶段）
 如果协调者收到了参与这的失败消息或者超时，直接给每个参与者发送回滚消息，否则，发送提交消息； 参与者根据协调者的指令执行提交或者回滚操作，释放所有事务处理过程中使用的锁资源。
- 当协调者节点从所有参与者节点处获得的相应消息都为同意时：  协调者节点向所有参与者节点发送正式提交请求 参与者节点正式完成操作，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送完成消息   如果任一参与者节点在第一阶段返回的消息为终止，或者协调者节点在第一阶段的询问在超时之前无法获取所有参与者节点的响应消息时：  协调者节点向所有参与者节点发送回滚操作请求 参与者节点利用之前写入的undo信息执行回滚，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送回滚完成消息 协调者节点收到所有参与者节点反馈的回滚完成消息后，取消事务 协调者节点收到所有参与者节点返回的完成消息后，完成事务。    缺点
+ 当协调者节点从所有参与者节点处获得的相应消息都为同意时：  协调者节点向所有参与者节点发送正式提交请求 参与者节点正式完成操作，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送完成消息  如果任一参与者节点在第一阶段返回的消息为终止，或者协调者节点在第一阶段的询问在超时之前无法获取所有参与者节点的响应消息时：  协调者节点向所有参与者节点发送回滚操作请求 参与者节点利用之前写入的undo信息执行回滚，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送回滚完成消息 协调者节点收到所有参与者节点反馈的回滚完成消息后，取消事务 协调者节点收到所有参与者节点返回的完成消息后，完成事务。    缺点
  同步阻塞问题。执行过程中，所有参与者节点都是事务阻塞型的。 单点故障问题。由于协调者的重要性，一旦协调者发生故障，参与者会一直阻塞下去。 数据不一致。在阶段二中，当协调者向参与者发送commit请求后，发生了局域网异常，或者在发送commit请求过程中协调者发生故障， 这会导致只有一部分参与者接收到了commit请求。而在这部分参与者接收到commit请求之后就会执行commit操作。但是其他部分未接收到commit请求的机器无法执行事务提交。于是整个分布式系统便出现了数据不一致性的现象。 两阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了，那么， 即使协调者通过选举产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否已被提交。  为了解决两阶段提交的种种问题，提出了三阶段提交。
 三阶段提交 三阶段提交是两阶段提交的改进版，有 两个改动点：</description>
     </item>

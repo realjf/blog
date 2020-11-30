@@ -3,7 +3,7 @@
 <head>
     <title>如何切换多个版本的gcc编译器 How to Switch Between Multiple Gcc Compiler Versions // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,89 +237,131 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/linux/">linux</a><a class="tag" href="https://realjf.io/tags/gcc/">gcc</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/linux/">Linux</a><a class="tag" href="https://realjf.io/tags/gcc/">Gcc</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="读完本节你将学到">读完本节你将学到</h2>
+            
+
+<h2 id="读完本节你将学到">读完本节你将学到</h2>
+
 <ul>
 <li>如何安装多版本的gcc和g++编译器版本</li>
 <li>如何创建可选的编译器版本列表</li>
 <li>如何在多版本编译器间切换</li>
 </ul>
+
 <h2 id="软件要求">软件要求</h2>
+
 <ul>
 <li>gcc</li>
 <li>ubuntu</li>
 </ul>
+
 <h2 id="安装gcc">安装gcc</h2>
+
 <h3 id="安装多个版本的gcc">安装多个版本的gcc</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get install build-essential
+
+<pre><code class="language-shell">sudo apt-get install build-essential
 sudo apt -y install gcc-7 g++-7 gcc-8 g++-8 gcc-9 g++-9
-</code></pre></div><h3 id="使用update-alternatives工具创建多版本gcc编译器可选列表">使用update-alternatives工具创建多版本gcc编译器可选列表</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 7
+</code></pre>
+
+<h3 id="使用update-alternatives工具创建多版本gcc编译器可选列表">使用update-alternatives工具创建多版本gcc编译器可选列表</h3>
+
+<pre><code class="language-shell">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 7
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 7
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 8
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
-</code></pre></div><blockquote>
+</code></pre>
+
+<blockquote>
 <p>最后一行的数字是优先级</p>
 </blockquote>
-<h3 id="检查c和c编译器列表的可用性并选择你期望的版本">检查c和c++编译器列表的可用性，并选择你期望的版本</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo update-alternatives --config gcc
-There are <span style="color:#ae81ff">3</span> choices <span style="color:#66d9ef">for</span> the alternative gcc <span style="color:#f92672">(</span>providing /usr/bin/gcc<span style="color:#f92672">)</span>.
+
+<h3 id="检查c和c-编译器列表的可用性-并选择你期望的版本">检查c和c++编译器列表的可用性，并选择你期望的版本</h3>
+
+<pre><code class="language-shell">sudo update-alternatives --config gcc
+There are 3 choices for the alternative gcc (providing /usr/bin/gcc).
 
   Selection    Path            Priority   Status
 ------------------------------------------------------------
-  <span style="color:#ae81ff">0</span>            /usr/bin/gcc-9   <span style="color:#ae81ff">9</span>         auto mode
-  <span style="color:#ae81ff">1</span>            /usr/bin/gcc-7   <span style="color:#ae81ff">7</span>         manual mode
-* <span style="color:#ae81ff">2</span>            /usr/bin/gcc-8   <span style="color:#ae81ff">8</span>         manual mode
-  <span style="color:#ae81ff">3</span>            /usr/bin/gcc-9   <span style="color:#ae81ff">9</span>         manual mode
-Press  to keep the current choice<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span>, or type selection number: 1
-</code></pre></div><p>c++编译器如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo update-alternatives --config g++
-There are <span style="color:#ae81ff">3</span> choices <span style="color:#66d9ef">for</span> the alternative g++ <span style="color:#f92672">(</span>providing /usr/bin/g++<span style="color:#f92672">)</span>.
+  0            /usr/bin/gcc-9   9         auto mode
+  1            /usr/bin/gcc-7   7         manual mode
+* 2            /usr/bin/gcc-8   8         manual mode
+  3            /usr/bin/gcc-9   9         manual mode
+Press  to keep the current choice[*], or type selection number: 1
+</code></pre>
+
+<p>c++编译器如下：</p>
+
+<pre><code class="language-shell">sudo update-alternatives --config g++
+There are 3 choices for the alternative g++ (providing /usr/bin/g++).
 
   Selection    Path            Priority   Status
 ------------------------------------------------------------
-* <span style="color:#ae81ff">0</span>            /usr/bin/g++-9   <span style="color:#ae81ff">9</span>         auto mode
-  <span style="color:#ae81ff">1</span>            /usr/bin/g++-7   <span style="color:#ae81ff">7</span>         manual mode
-  <span style="color:#ae81ff">2</span>            /usr/bin/g++-8   <span style="color:#ae81ff">8</span>         manual mode
-  <span style="color:#ae81ff">3</span>            /usr/bin/g++-9   <span style="color:#ae81ff">9</span>         manual mode
+* 0            /usr/bin/g++-9   9         auto mode
+  1            /usr/bin/g++-7   7         manual mode
+  2            /usr/bin/g++-8   8         manual mode
+  3            /usr/bin/g++-9   9         manual mode
 
-Press  to keep the current choice<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span>, or type selection number:
-</code></pre></div><h3 id="每次切换完版本后检查你选择的编译器版本">每次切换完版本后检查你选择的编译器版本</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ gcc --version
+Press  to keep the current choice[*], or type selection number:
+</code></pre>
+
+<h3 id="每次切换完版本后检查你选择的编译器版本">每次切换完版本后检查你选择的编译器版本</h3>
+
+<pre><code class="language-shell">$ gcc --version
 $ g++ --version
-</code></pre></div><h3 id="要删除某一个版本">要删除某一个版本</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo update-alternatives --remove gcc /usr/bin/gcc-5
-</code></pre></div><h3 id="如果在编译时遇到如下问题">如果在编译时遇到如下问题</h3>
+</code></pre>
+
+<h3 id="要删除某一个版本">要删除某一个版本</h3>
+
+<pre><code class="language-shell">sudo update-alternatives --remove gcc /usr/bin/gcc-5
+</code></pre>
+
+<h3 id="如果在编译时遇到如下问题">如果在编译时遇到如下问题</h3>
+
 <h4 id="问题1">问题1</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">usr/bin/ld: skipping incompatible /usr/lib/gcc/x86_64-linux-gnu/4.8/libgcc.a when searching <span style="color:#66d9ef">for</span> -lgcc
+
+<pre><code class="language-shell">usr/bin/ld: skipping incompatible /usr/lib/gcc/x86_64-linux-gnu/4.8/libgcc.a when searching for -lgcc
 /usr/bin/ld: cannot find -lgcc
-/usr/bin/ld: skipping incompatible /usr/lib/gcc/x86_64-linux-gnu/4.8/libgcc_s.so when searching <span style="color:#66d9ef">for</span> -lgcc_s
+/usr/bin/ld: skipping incompatible /usr/lib/gcc/x86_64-linux-gnu/4.8/libgcc_s.so when searching for -lgcc_s
 /usr/bin/ld: cannot find -lgcc_s
-collect2: error: ld returned <span style="color:#ae81ff">1</span> exit status
-</code></pre></div><p>解决方法</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get install gcc-multilib g++-multilib
-</code></pre></div><blockquote>
+collect2: error: ld returned 1 exit status
+</code></pre>
+
+<p>解决方法</p>
+
+<pre><code class="language-shell">sudo apt-get install gcc-multilib g++-multilib
+</code></pre>
+
+<blockquote>
 <p>注意，安装的gcc-multilib必须是对应gcc版本的如：gcc-4.8-multilib等</p>
 </blockquote>
+
 <h4 id="问题2">问题2</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo make ARCH<span style="color:#f92672">=</span>i386 menuconfig
+
+<pre><code class="language-shell">$ sudo make ARCH=i386 menuconfig
   HOSTCC  scripts/fixdep
 /usr/bin/ld: cannot find crt1.o: No such file or directory
 /usr/bin/ld: cannot find crti.o: No such file or directory
 /usr/bin/ld: cannot find -lgcc_s
-collect2: ld returned <span style="color:#ae81ff">1</span> exit status
-make<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>: *** <span style="color:#f92672">[</span>scripts/fixdep<span style="color:#f92672">]</span> Error 1
-make: *** <span style="color:#f92672">[</span>scripts<span style="color:#f92672">]</span> Error 2
-</code></pre></div><p>解决方法</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get update
+collect2: ld returned 1 exit status
+make[1]: *** [scripts/fixdep] Error 1
+make: *** [scripts] Error 2
+</code></pre>
+
+<p>解决方法</p>
+
+<pre><code class="language-shell">sudo apt-get update
 sudo apt-get install lib6-dev-i386
-</code></pre></div><p>如果无效，采用如下方法</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-</code></pre></div>
+</code></pre>
+
+<p>如果无效，采用如下方法</p>
+
+<pre><code class="language-shell">
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>
