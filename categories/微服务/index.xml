@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>微服务 on Realjf&#39;s blog</title>
@@ -6,11 +6,7 @@
     <description>Recent content in 微服务 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Oct 2019 15:31:06 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 28 Oct 2019 15:31:06 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Protobuf  数据类型</title>
       <link>https://realjf.io/posts/protobuf-data-type/</link>
@@ -27,14 +23,15 @@
       
       <guid>https://realjf.io/posts/golang-micro-usage/</guid>
       <description>准备  搭建好golang开发环境 安装git等相关工具  开始 一、安装protobuf protobuf用于生成微服务代码
-go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go   如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
-关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
+go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go  如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
+  关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
  二、服务发现 服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件
 安装etcd etcd下载地址https://github.com/etcd-io/etcd/releases
 三、写一个服务 以下为一个简单的rpc服务例子
 创建服务proto 微服务的关键要求之一是严格定义接口。
 Micro使用protobuf来实现这一目标。 在这里，我们使用Hello方法定义了Greeter处理程序。 它需要一个字符串参数同时使用一个HelloRequest和HelloResponse。
-syntax = &amp;quot;proto3&amp;quot;; service Greeter { rpc Hello(HelloRequest) returns (HelloResponse) {} } message HelloRequest { string name = 1; } message HelloResponse { string greeting = 2; }  生成proto protoc --proto_path=$GOPATH/src:. --micro_out=.</description>
+syntax = &amp;#34;proto3&amp;#34;;service Greeter { rpc Hello(HelloRequest) returns (HelloResponse) {}}message HelloRequest { string name = 1;}message HelloResponse { string greeting = 2;}生成proto protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. path/to/greeter.proto 写服务业务逻辑 服务需要遵循以下规则：
+ 实现greeter定义的接口 初始化一个micro.Service 注册greeter处理函数 运行服务  package main import ( &amp;#34;context&amp;#34; &amp;#34;fmt&amp;#34; micro &amp;#34;github.</description>
     </item>
     
   </channel>

@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Realjf&#39;s blog</title>
+    <title>posts on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/posts/</link>
-    <description>Recent content in Posts on Realjf&#39;s blog</description>
+    <description>Recent content in posts on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2020 17:08:59 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/categories/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 14 Sep 2020 17:08:59 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>windows下Vscode Php开发环境配置</title>
       <link>https://realjf.io/posts/vscode-win-php-setting/</link>
@@ -23,14 +19,13 @@
 下载xdebug插件 下载地址：https://xdebug.org/download
 如果不知道下载什么版本，可以将你的phpinfo信息拷贝到这个网址下查询https://xdebug.org/wizard 复制后点击下面的分析phpinfo按钮
 这里下载的是：https://xdebug.org/files/php_xdebug-2.9.6-7.4-vc15-x86_64.dll
-将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改
-xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
+将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改 xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
 vscode下载安装 下载vscode：https://code.visualstudio.com/
 下载安装完成后，需要安装一些扩展插件
  bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer  按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
-&amp;quot;php.validate.executablePath&amp;quot;: &amp;quot;E:\\xampp\\php\\php.exe&amp;quot;  配置好这些后，启动xampp的apache服务器
+&amp;#34;php.validate.executablePath&amp;#34;: &amp;#34;E:\\xampp\\php\\php.exe&amp;#34; 配置好这些后，启动xampp的apache服务器
 准备好后开始测试 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
-&amp;lt;?php $a = &#39;hello world&#39;; echo $a; ?&amp;gt;  在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
+&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt;在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
     </item>
     
     <item>
@@ -39,9 +34,9 @@ vscode下载安装 下载vscode：https://code.visualstudio.com/
       <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
-      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019&amp;frasl;2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
-开始配置vscode 首先打开vscode，安装一下插件   ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;rdquo;&amp;gt; edit Configurations&amp;rdquo;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
-开始编辑c_cpp_properties.json文件 { &amp;quot;configurations&amp;quot;: [ { &amp;quot;name&amp;quot;: &amp;quot;GCC&amp;quot;, &amp;quot;includePath&amp;quot;: [ &amp;quot;${workspaceFolder}/**&amp;quot;, &amp;quot;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;quot; // 这里添加第三方库目录 ], &amp;quot;defines&amp;quot;: [ &amp;quot;_DEBUG&amp;quot;, &amp;quot;UNICODE&amp;quot;, &amp;quot;_UNICODE&amp;quot; ], &amp;quot;windowsSdkVersion&amp;quot;: &amp;quot;10.0.15063.0&amp;quot;, &amp;quot;compilerPath&amp;quot;: &amp;quot;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;quot;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;quot;cStandard&amp;quot;: &amp;quot;c11&amp;quot;, &amp;quot;cppStandard&amp;quot;: &amp;quot;c++17&amp;quot;, &amp;quot;intelliSenseMode&amp;quot;: &amp;quot;gcc-x64&amp;quot; // 这里是模式选择 } ], &amp;quot;version&amp;quot;: 4 }  配置完成后，在vscode的工作目录下有个.</description>
+      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
+ 开始配置vscode 首先打开vscode，安装一下插件  ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;quot;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
+开始编辑c_cpp_properties.json文件 { &amp;#34;configurations&amp;#34;: [ { &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;, &amp;#34;includePath&amp;#34;: [ &amp;#34;${workspaceFolder}/**&amp;#34;, &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录 ], &amp;#34;defines&amp;#34;: [ &amp;#34;_DEBUG&amp;#34;, &amp;#34;UNICODE&amp;#34;, &amp;#34;_UNICODE&amp;#34; ], &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.0.15063.0&amp;#34;, &amp;#34;compilerPath&amp;#34;: &amp;#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;#34;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;#34;cStandard&amp;#34;: &amp;#34;c11&amp;#34;, &amp;#34;cppStandard&amp;#34;: &amp;#34;c++17&amp;#34;, &amp;#34;intelliSenseMode&amp;#34;: &amp;#34;gcc-x64&amp;#34; // 这里是模式选择 } ], &amp;#34;version&amp;#34;: 4 } 配置完成后，在vscode的工作目录下有个.</description>
     </item>
     
     <item>
@@ -50,8 +45,8 @@ vscode下载安装 下载vscode：https://code.visualstudio.com/
       <pubDate>Sat, 13 Jun 2020 16:55:14 +0800</pubDate>
       
       <guid>https://realjf.io/posts/how-to-set-up-anbox-in-linux/</guid>
-      <description>环境准备  kali linux 2020  开始 # 使用下面的 PPA 来安装它 add-apt-repository ppa:morphis/anbox-support apt update apt install linux-headers-generic anbox-modules-dkms # 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动 modprobe ashmem_linux modprobe binder_linux # 使用 APT-GET 命令 或 APT 命令 来安装 anbox apt install anbox # 否则，需要通过 snap 来进行安装 apt install snapd snap install --classic anbox-install &amp;amp;&amp;amp; anbox-installer snap install --devmode --beta anbox  默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它
-# 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB apt install android-tools-adb  启动anbox container服务 systemctl enable anbox-container-manager systemctl start anbox-container-manager # 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.</description>
+      <description>环境准备  kali linux 2020  开始 # 使用下面的 PPA 来安装它 add-apt-repository ppa:morphis/anbox-support apt update apt install linux-headers-generic anbox-modules-dkms # 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动 modprobe ashmem_linux modprobe binder_linux # 使用 APT-GET 命令 或 APT 命令 来安装 anbox apt install anbox # 否则，需要通过 snap 来进行安装 apt install snapd snap install --classic anbox-install &amp;amp;&amp;amp; anbox-installer snap install --devmode --beta anbox 默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它
+# 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB apt install android-tools-adb 启动anbox container服务 systemctl enable anbox-container-manager systemctl start anbox-container-manager # 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.</description>
     </item>
     
     <item>
@@ -60,7 +55,7 @@ vscode下载安装 下载vscode：https://code.visualstudio.com/
       <pubDate>Thu, 16 Apr 2020 15:28:20 +0800</pubDate>
       
       <guid>https://realjf.io/posts/deadlock/</guid>
-      <description> 什么是死锁？ 简单说，是指两个或两个以上的线程在执行过程中，彼此持有对方需要的资源和处于等待对方释放资源的现象， 如果没有外力作用，这种状态将一直持续下去。
+      <description>什么是死锁？ 简单说，是指两个或两个以上的线程在执行过程中，彼此持有对方需要的资源和处于等待对方释放资源的现象， 如果没有外力作用，这种状态将一直持续下去。
 如何避免？ 避免死锁的一般建议是：对竞争资源按顺序采用互斥加锁
 当然，如果能在编程时就注意这方便的问题，将可以用更好的方式，比如：
  避免嵌套锁 避免在持有锁时调用用户提供的代码 使用固定顺序获取锁 使用锁的层次结构  </description>
