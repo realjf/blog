@@ -3,7 +3,7 @@
 <head>
     <title>windows环境下安装Memcached和php-memcached扩展以及安装php-memcache扩展 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,77 +237,108 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/php/">php</a><a class="tag" href="https://realjf.io/tags/memcached/">memcached</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/php/">Php</a><a class="tag" href="https://realjf.io/tags/memcached/">Memcached</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="准备">准备</h2>
+            
+
+<h2 id="准备">准备</h2>
+
 <ul>
 <li>xampp环境</li>
 <li>php-memcached扩展，地址<a href="https://github.com/lifenglsf/php_memcached_dll">https://github.com/lifenglsf/php_memcached_dll</a></li>
 <li>php-memcache扩展，地址<a href="http://pecl.php.net/package/memcache/4.0.5.2/windows">http://pecl.php.net/package/memcache/4.0.5.2/windows</a></li>
 <li>memcached下载地址<a href="https://www.runoob.com/memcached/window-install-memcached.html">https://www.runoob.com/memcached/window-install-memcached.html</a></li>
 </ul>
+
 <h3 id="memcached安装">memcached安装</h3>
+
 <p>首先下载对应版本的memcached，我这里使用的是这个<a href="http://static.runoob.com/download/memcached-1.4.5-amd64.zip">http://static.runoob.com/download/memcached-1.4.5-amd64.zip</a></p>
+
 <p>安装步骤详见：<a href="https://www.runoob.com/memcached/window-install-memcached.html">https://www.runoob.com/memcached/window-install-memcached.html</a></p>
+
 <p>我这里只写1.4.5版本的安装</p>
+
 <p>首先下载解压后，用管理员权限运行如下命令：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">schtasks /create /sc onstart /tn memcached /tr <span style="color:#e6db74">&#34;&#39;e:\memcached\memcached.exe&#39; -m 512&#34;</span>
 
-<span style="color:#75715e"># /tn taskname 指定唯一识别这个计划任务的名称</span>
-<span style="color:#75715e"># /sc schedule 指定计划频率</span>
-<span style="color:#75715e"># /create 创建新计划任务</span>
-<span style="color:#75715e"># /tr taskrun 指定在这个计划运行的程序的路径和文件名</span>
+<pre><code class="language-shell">schtasks /create /sc onstart /tn memcached /tr &quot;'e:\memcached\memcached.exe' -m 512&quot;
 
-<span style="color:#75715e"># 如果需要删除，可以运行如下命令</span>
+# /tn taskname 指定唯一识别这个计划任务的名称
+# /sc schedule 指定计划频率
+# /create 创建新计划任务
+# /tr taskrun 指定在这个计划运行的程序的路径和文件名
+
+# 如果需要删除，可以运行如下命令
 schtasks /delete /tn memcached
 
-<span style="color:#75715e"># 设置开机启动后如何立马运行</span>
+# 设置开机启动后如何立马运行
 schtasks /run /tn memcached
 
-<span style="color:#75715e"># 运行后如何终止正在运行的计划任务</span>
+# 运行后如何终止正在运行的计划任务
 schtasks /end /tn memcached
 
-<span style="color:#75715e"># 查看更多schtasks帮助</span>
+# 查看更多schtasks帮助
 schtasks /?
-</code></pre></div><h3 id="memcached的php扩展">memcached的php扩展</h3>
+</code></pre>
+
+<h3 id="memcached的php扩展">memcached的php扩展</h3>
+
 <p>首先phpinfo查看php版本，
-http://localhost:8080/dashboard/phpinfo.php</p>
+<a href="http://localhost:8080/dashboard/phpinfo.php">http://localhost:8080/dashboard/phpinfo.php</a></p>
+
 <p>然后根据Zend Extension Build和PHP Extension Build可以确定对应的memcached版本，
 我这里的信息如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Zend Extension Build	API320190902,TS,VC15
-PHP Extension Build	API20190902,TS,VC15
 
-<span style="color:#75715e"># 注意后面的TS,VC15，找对应的memcached扩展也需要对应这个</span>
+<pre><code class="language-shell">Zend Extension Build    API320190902,TS,VC15
+PHP Extension Build API20190902,TS,VC15
 
-</code></pre></div><p>根据上面给的github地址下载好对应版本的php_memcached.dll和libmemcached后，进行如下操作：</p>
+# 注意后面的TS,VC15，找对应的memcached扩展也需要对应这个
+
+</code></pre>
+
+<p>根据上面给的github地址下载好对应版本的php_memcached.dll和libmemcached后，进行如下操作：</p>
+
 <ul>
 <li>首先复制libmemcached.dll到windows/system32目录下</li>
 <li>然后复制php_memcached.dll到xampp/php/ext目录下</li>
 <li>最后再php.ini文件中添加一行extension=php_memcached.dll，保存重启apache即可</li>
 </ul>
+
 <h3 id="memcache扩展安装">memcache扩展安装</h3>
+
 <p>同样在phpinfo查看php版本，
-http://localhost:8080/dashboard/phpinfo.php</p>
+<a href="http://localhost:8080/dashboard/phpinfo.php">http://localhost:8080/dashboard/phpinfo.php</a></p>
+
 <p>然后根据Zend Extension Build和PHP Extension Build可以确定对应的memcache版本，
 我这里的信息如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Zend Extension Build	API320190902,TS,VC15
-PHP Extension Build	API20190902,TS,VC15
 
-<span style="color:#75715e"># 注意后面的TS,VC15，找对应的memcache扩展也需要对应这个</span>
+<pre><code class="language-shell">Zend Extension Build    API320190902,TS,VC15
+PHP Extension Build API20190902,TS,VC15
 
-</code></pre></div><p>根据上面给的下载地址，这里下载的是
+# 注意后面的TS,VC15，找对应的memcache扩展也需要对应这个
+
+</code></pre>
+
+<p>根据上面给的下载地址，这里下载的是
 <a href="https://windows.php.net/downloads/pecl/releases/memcache/4.0.5.2/php_memcache-4.0.5.2-7.4-ts-vc15-x64.zip">https://windows.php.net/downloads/pecl/releases/memcache/4.0.5.2/php_memcache-4.0.5.2-7.4-ts-vc15-x64.zip</a>，</p>
+
 <p>下载后解压进行如下操作：</p>
+
 <ul>
 <li>复制php_memcache.dll到xampp/php/ext目录下</li>
 <li>最后再php.ini文件中添加一行extension=php_memcache.dll，保存重启apache即可</li>
 </ul>
+
 <h3 id="memcache可视化处理">memcache可视化处理</h3>
+
 <p>最后，这里推荐一个memcache可视化工具，Memadmin，下载地址<a href="http://www.junopen.com/memadmin/"> http://www.junopen.com/memadmin/</a></p>
+
 <p>下载后解压到xampp/htdocs目录下，设置虚拟主机后即可访问</p>
-<h3 id="qa">Q&amp;A</h3>
-<h4 id="在安装memcached的时候遇到报错failed-to-ignore-sighup-no-error">在安装memcached的时候，遇到报错Failed to ignore SIGHUP: No error</h4>
+
+<h3 id="q-a">Q&amp;A</h3>
+
+<h4 id="在安装memcached的时候-遇到报错failed-to-ignore-sighup-no-error">在安装memcached的时候，遇到报错Failed to ignore SIGHUP: No error</h4>
+
 <p>原因：安装方式不正确，应该采用schtasks命令进行计划任务设置</p>
 
         </div>
