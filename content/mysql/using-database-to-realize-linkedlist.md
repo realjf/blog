@@ -83,8 +83,36 @@ static public function sort($queue)
 排序完成后，需要对链表进行移动操作，把第一个人员移动到第5位，程序实现如下：
 ```php
 // 将第5个的next修改为这个用户的id，然后把该用户的next修改为第6个用户的id
-$queue[4]["next"] = $queue[0]["id"];
-$queue[0]["next"] = $queue[5]["id"];
+$num = count($queue);
+            if($num == 1){
+                // 只有一个的时候，操作无效果
+                return $queue;
+            }
+            if($num == 5){
+                // 置于队尾
+                $queue[4]["next"] = $queue[0]["id"];
+                $queue[0]["next"] = 0;
+    
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()->updateQueue($queue[4]["id"], ["next" => $queue[4]["next"]]);
+                mdlAccompany::instance()->updateQueue($queue[0]["id"], ["next" => $queue[0]["next"]]);
+            }elseif($num < 5){
+                // 小于5个
+                $queue[$num-1]["next"] = $queue[0]["id"];
+                $queue[0]["next"] = 0;
+    
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()->updateQueue($queue[$num-1]["id"], ["next" => $queue[$num-1]["next"]]);
+                mdlAccompany::instance()->updateQueue($queue[0]["id"], ["next" => $queue[0]["next"]]);
+            }else{
+                // 大于5个
+                $queue[4]["next"] = $queue[0]["id"];
+                $queue[0]["next"] = $queue[5]["id"];
+    
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()->updateQueue($queue[4]["id"], ["next" => $queue[4]["next"]]);
+                mdlAccompany::instance()->updateQueue($queue[0]["id"], ["next" => $queue[0]["next"]]);
+            }
 // 修改完后，重新将数据更新到数据库中，然后重新排序即可
 $queue = self::sort($queue);
 ```
