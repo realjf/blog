@@ -309,8 +309,36 @@
 <p>排序完成后，需要对链表进行移动操作，把第一个人员移动到第5位，程序实现如下：</p>
 
 <pre><code class="language-php">// 将第5个的next修改为这个用户的id，然后把该用户的next修改为第6个用户的id
-$queue[4][&quot;next&quot;] = $queue[0][&quot;id&quot;];
-$queue[0][&quot;next&quot;] = $queue[5][&quot;id&quot;];
+$num = count($queue);
+            if($num == 1){
+                // 只有一个的时候，操作无效果
+                return $queue;
+            }
+            if($num == 5){
+                // 置于队尾
+                $queue[4][&quot;next&quot;] = $queue[0][&quot;id&quot;];
+                $queue[0][&quot;next&quot;] = 0;
+    
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()-&gt;updateQueue($queue[4][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[4][&quot;next&quot;]]);
+                mdlAccompany::instance()-&gt;updateQueue($queue[0][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[0][&quot;next&quot;]]);
+            }elseif($num &lt; 5){
+                // 小于5个
+                $queue[$num-1][&quot;next&quot;] = $queue[0][&quot;id&quot;];
+                $queue[0][&quot;next&quot;] = 0;
+    
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()-&gt;updateQueue($queue[$num-1][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[$num-1][&quot;next&quot;]]);
+                mdlAccompany::instance()-&gt;updateQueue($queue[0][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[0][&quot;next&quot;]]);
+            }else{
+                // 大于5个
+                $queue[4][&quot;next&quot;] = $queue[0][&quot;id&quot;];
+                $queue[0][&quot;next&quot;] = $queue[5][&quot;id&quot;];
+    
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()-&gt;updateQueue($queue[4][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[4][&quot;next&quot;]]);
+                mdlAccompany::instance()-&gt;updateQueue($queue[0][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[0][&quot;next&quot;]]);
+            }
 // 修改完后，重新将数据更新到数据库中，然后重新排序即可
 $queue = self::sort($queue);
 </code></pre>
