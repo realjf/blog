@@ -3,7 +3,7 @@
 <head>
     <title>VS Code扩展开发 之 语言的语法高亮 Language Extension Syntax Highlight // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.79.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,140 +237,106 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/vscode/">Vscode</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/vscode/">vscode</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="简介">简介</h2>
-
+            <h2 id="简介">简介</h2>
 <p>语法高亮显示确定在VisualStudio代码编辑器中显示的源代码的颜色和样式。
 它负责在JavaScript中为if或for等关键字着色，这与字符串、注释和变量名不同</p>
-
 <p>语法高亮有两个组件：</p>
-
 <ul>
 <li>Tokenization：符号化，将文本拆分为符号列表</li>
 <li>Theming：支持主题，使用主题或用户设置将符号映射到特定的颜色和样式</li>
 </ul>
-
 <p>在深入讨论细节之前，一个好的开始是使用scopeinspector工具并探索源文件中存在哪些标记以及它们与哪些主题规则匹配。
 要同时查看语义和语法标记，请在TypeScript文件中使用内置主题（例如，Dark+）</p>
-
 <h2 id="符号化">符号化</h2>
-
 <p>文本的符号化是将文本分成若干段，并用标记类型对每个段进行分类。</p>
-
 <p>VS代码的标记化引擎由<a href="https://macromates.com/manual/en/language_grammars">TextMate语法</a>驱动。TextMate语法是正则表达式的结构化集合，
 以plist（XML）或JSON文件的形式编写。
 语法扩展可以通过语法贡献点的贡献。</p>
-
 <p>TextMate符号化引擎在与呈现器相同的进程中运行，标记会随着用户类型的变化而更新。
 标记用于语法高亮显示，但也用于将源代码分类为注释、字符串和正则表达式区域。</p>
-
 <p>从版本1.43开始，VS代码还允许扩展通过
 <a href="https://code.visualstudio.com/api/references/vscode-api#DocumentSemanticTokensProvider">语义标记提供者</a>
 为程序提供标记化。典型的是，
 在项目服务器中实现的符号和语义的源代码一般都可以理解。例如，
 可以在整个项目中使用常量高亮显示来呈现常量变量名，而不仅仅是在声明的地方。</p>
-
 <p>基于语义标记的高亮显示被认为是对基于TextMate的语法高亮显示的补充。
 语义突出显示在语法突出显示之上。由于语言服务器需要一段时间来加载和分析项目，
 语义标记高亮显示可能会在短时间延迟后出现。</p>
-
 <p>本文主要讨论基于TextMate的标记化。语义标记化和主题化在
 <a href="https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide">语义高亮指南</a>中解释</p>
-
 <h3 id="textmate-语法">TextMate 语法</h3>
-
 <p>VS代码使用<a href="https://macromates.com/manual/en/language_grammars">TextMate语法</a>作为语法标记化引擎。
 它们是为TextMate编辑器而发明的，
 由于开源社区创建和维护了大量的语言包，因此被许多其他编辑器和ide采用。</p>
-
 <p>TextMate语法依赖于<a href="https://macromates.com/manual/en/regular_expressions">Oniguruma正则表达式</a>，
 通常以plist或JSON的形式编写。您可以在<a href="https://www.apeth.com/nonblog/stories/textmatebundle.html">这里</a>找到对TextMate语法的很好的介绍，
 并且可以查看现有的TextMate语法，以了解它们是如何工作的</p>
-
 <h3 id="textmate标记和作用域">TextMate标记和作用域</h3>
-
 <p>标记是同一程序元素的一个或多个字符。示例标记包括运算符（如+和*）、变量名（如myVar）或字符串（如“my string”）。</p>
-
 <p>每个token都与定义token上下文的作用域相关联。作用域是一个点分隔的标识符列表，用于指定当前token的上下文。
 例如，JavaScript中的+操作具有作用域关键字.运算符.算术.js。</p>
-
 <p>主题将范围映射到颜色和样式，以提供语法高亮显示。TextMate提供了许多主题所针对的<a href="https://macromates.com/manual/en/language_grammars">通用范围的列表</a>。
 为了尽可能广泛地支持您的语法，请尝试在现有范围上构建，而不是定义新的范围。</p>
-
 <p>作用域嵌套，以便每个token也与父作用域的列表相关联。
 下面的示例使用<a href="https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#scope-inspector">范围检查器</a>
 在一个简单的JavaScript函数中显示+运算符的范围层次结构。
 最具体的作用域列在顶部，更一般的父作用域列在下面：</p>
-
-<p><img src="https://code.visualstudio.com/assets/api/language-extensions/syntax-highlighting/scopes.png" alt="范围检查器" /></p>
-
+<p><img src="https://code.visualstudio.com/assets/api/language-extensions/syntax-highlighting/scopes.png" alt="范围检查器"></p>
 <p>父范围信息也用于创建主题。当主题以某个范围为目标时，所有具有该父作用域的标记都将被着色，
 除非该主题还为其各自的作用域提供了更具体的着色</p>
-
 <h3 id="添加-基本语法">添加 基本语法</h3>
-
 <p>VS代码支持json TextMate语法。这些都是通过grammars<a href="https://code.visualstudio.com/api/references/contribution-points">贡献点</a>贡献的。</p>
-
 <p>每个语法贡献都指定：语法应用于的语言的标识符、语法标记的顶级作用域名称以及语法文件的相对路径。
 下面的示例显示了虚构的abc语言的语法贡献：</p>
-
-<pre><code class="language-json">{
-  &quot;contributes&quot;: {
-    &quot;languages&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;contributes&#34;</span>: {
+    <span style="color:#f92672">&#34;languages&#34;</span>: [
       {
-        &quot;id&quot;: &quot;abc&quot;,
-        &quot;extensions&quot;: [&quot;.abc&quot;]
+        <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;abc&#34;</span>,
+        <span style="color:#f92672">&#34;extensions&#34;</span>: [<span style="color:#e6db74">&#34;.abc&#34;</span>]
       }
     ],
-    &quot;grammars&quot;: [
+    <span style="color:#f92672">&#34;grammars&#34;</span>: [
       {
-        &quot;language&quot;: &quot;abc&quot;,
-        &quot;scopeName&quot;: &quot;source.abc&quot;,
-        &quot;path&quot;: &quot;./syntaxes/abc.tmGrammar.json&quot;
+        <span style="color:#f92672">&#34;language&#34;</span>: <span style="color:#e6db74">&#34;abc&#34;</span>,
+        <span style="color:#f92672">&#34;scopeName&#34;</span>: <span style="color:#e6db74">&#34;source.abc&#34;</span>,
+        <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;./syntaxes/abc.tmGrammar.json&#34;</span>
       }
     ]
   }
 }
-</code></pre>
-
-<p>语法文件本身由一个顶级规则组成。这通常分为一个模式部分，其中列出程序的顶层元素，以及定义每个元素的repository。
+</code></pre></div><p>语法文件本身由一个顶级规则组成。这通常分为一个模式部分，其中列出程序的顶层元素，以及定义每个元素的repository。
 语法中的其他规则可以使用{“include”：“#id”}引用repository 中的元素。</p>
-
 <p>以下示例abc语法将字母a、b和c标记为关键字，并将parens嵌套标记为表达式。</p>
-
-<pre><code class="language-json">{
-  &quot;scopeName&quot;: &quot;source.abc&quot;,
-  &quot;patterns&quot;: [{ &quot;include&quot;: &quot;#expression&quot; }],
-  &quot;repository&quot;: {
-    &quot;expression&quot;: {
-      &quot;patterns&quot;: [{ &quot;include&quot;: &quot;#letter&quot; }, { &quot;include&quot;: &quot;#paren-expression&quot; }]
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;scopeName&#34;</span>: <span style="color:#e6db74">&#34;source.abc&#34;</span>,
+  <span style="color:#f92672">&#34;patterns&#34;</span>: [{ <span style="color:#f92672">&#34;include&#34;</span>: <span style="color:#e6db74">&#34;#expression&#34;</span> }],
+  <span style="color:#f92672">&#34;repository&#34;</span>: {
+    <span style="color:#f92672">&#34;expression&#34;</span>: {
+      <span style="color:#f92672">&#34;patterns&#34;</span>: [{ <span style="color:#f92672">&#34;include&#34;</span>: <span style="color:#e6db74">&#34;#letter&#34;</span> }, { <span style="color:#f92672">&#34;include&#34;</span>: <span style="color:#e6db74">&#34;#paren-expression&#34;</span> }]
     },
-    &quot;letter&quot;: {
-      &quot;match&quot;: &quot;a|b|c&quot;,
-      &quot;name&quot;: &quot;keyword.letter&quot;
+    <span style="color:#f92672">&#34;letter&#34;</span>: {
+      <span style="color:#f92672">&#34;match&#34;</span>: <span style="color:#e6db74">&#34;a|b|c&#34;</span>,
+      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;keyword.letter&#34;</span>
     },
-    &quot;paren-expression&quot;: {
-      &quot;begin&quot;: &quot;\\(&quot;,
-      &quot;end&quot;: &quot;\\)&quot;,
-      &quot;beginCaptures&quot;: {
-        &quot;0&quot;: { &quot;name&quot;: &quot;punctuation.paren.open&quot; }
+    <span style="color:#f92672">&#34;paren-expression&#34;</span>: {
+      <span style="color:#f92672">&#34;begin&#34;</span>: <span style="color:#e6db74">&#34;\\(&#34;</span>,
+      <span style="color:#f92672">&#34;end&#34;</span>: <span style="color:#e6db74">&#34;\\)&#34;</span>,
+      <span style="color:#f92672">&#34;beginCaptures&#34;</span>: {
+        <span style="color:#f92672">&#34;0&#34;</span>: { <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;punctuation.paren.open&#34;</span> }
       },
-      &quot;endCaptures&quot;: {
-        &quot;0&quot;: { &quot;name&quot;: &quot;punctuation.paren.close&quot; }
+      <span style="color:#f92672">&#34;endCaptures&#34;</span>: {
+        <span style="color:#f92672">&#34;0&#34;</span>: { <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;punctuation.paren.close&#34;</span> }
       },
-      &quot;name&quot;: &quot;expression.group&quot;,
-      &quot;patterns&quot;: [{ &quot;include&quot;: &quot;#expression&quot; }]
+      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;expression.group&#34;</span>,
+      <span style="color:#f92672">&#34;patterns&#34;</span>: [{ <span style="color:#f92672">&#34;include&#34;</span>: <span style="color:#e6db74">&#34;#expression&#34;</span> }]
     }
   }
 }
-</code></pre>
-
-<p>语法引擎将尝试连续地将expression规则应用于文档中的所有文本。对于一个简单的程序，例如：</p>
-
+</code></pre></div><p>语法引擎将尝试连续地将expression规则应用于文档中的所有文本。对于一个简单的程序，例如：</p>
 <pre><code>a
 (
     b
@@ -384,10 +350,7 @@ x
 )
 (
 a
-</code></pre>
-
-<p>示例语法生成以下范围（从最具体到最不具体的范围从左到右列出）：</p>
-
+</code></pre><p>示例语法生成以下范围（从最具体到最不具体的范围从左到右列出）：</p>
 <pre><code>a               keyword.letter, source.abc
 (               punctuation.paren.open, expression.group, source.abc
     b           keyword.letter, expression.group, source.abc
@@ -401,90 +364,74 @@ x               source.abc
 )               punctuation.paren.close, expression.group, source.abc
 (               punctuation.paren.open, expression.group, source.abc
 a               keyword.letter, source.abc
-</code></pre>
-
-<p>请注意，与其中一个规则（如字符串xyz）不匹配的文本包含在当前范围中。文件末尾的最后一个括号不是expression.group因为结束规则不匹配</p>
-
+</code></pre><p>请注意，与其中一个规则（如字符串xyz）不匹配的文本包含在当前范围中。文件末尾的最后一个括号不是expression.group因为结束规则不匹配</p>
 <h3 id="嵌入式语言">嵌入式语言</h3>
-
 <p>如果语法包含父语言中的嵌入语言，例如HTML中的CSS样式块，则可以使用embeddedLanguages贡献点告诉VS代码将嵌入的语言视为不同于父语言。
 这确保了括号匹配、注释和其他基本语言功能在嵌入式语言中按预期工作。</p>
-
 <p>embeddedLanguages贡献点将嵌入语言中的域映射到顶级语言范围。
 在下面的示例中meta.embedded.block.javascript域将被视为javascript内容：</p>
-
-<pre><code class="language-json">{
-  &quot;contributes&quot;: {
-    &quot;grammars&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;contributes&#34;</span>: {
+    <span style="color:#f92672">&#34;grammars&#34;</span>: [
       {
-        &quot;path&quot;: &quot;./syntaxes/abc.tmLanguage.json&quot;,
-        &quot;scopeName&quot;: &quot;source.abc&quot;,
-        &quot;embeddedLanguages&quot;: {
-          &quot;meta.embedded.block.javascript&quot;: &quot;javascript&quot;
+        <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;./syntaxes/abc.tmLanguage.json&#34;</span>,
+        <span style="color:#f92672">&#34;scopeName&#34;</span>: <span style="color:#e6db74">&#34;source.abc&#34;</span>,
+        <span style="color:#f92672">&#34;embeddedLanguages&#34;</span>: {
+          <span style="color:#f92672">&#34;meta.embedded.block.javascript&#34;</span>: <span style="color:#e6db74">&#34;javascript&#34;</span>
         }
       }
     ]
   }
 }
-</code></pre>
-
-<p>现在，如果您尝试在标记的一组标记内注释代码或触发代码段meta.embedded.block.javascript，
+</code></pre></div><p>现在，如果您尝试在标记的一组标记内注释代码或触发代码段meta.embedded.block.javascript，
 它们将获得正确的//javascript样式注释和正确的javascript片段</p>
-
 <h3 id="开发一个新的语法扩展">开发一个新的语法扩展</h3>
-
 <p>要快速创建新的语法扩展，请使用VS Code的<a href="https://code.visualstudio.com/api/get-started/your-first-extension">Yeoman模板</a>
 来运行yo代码并选择new Language选项：</p>
-
-<pre><code class="language-shell">yo code
-</code></pre>
-
-<p><img src="https://code.visualstudio.com/assets/api/language-extensions/syntax-highlighting/yo-new-language.png" alt="new grammar" /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yo code
+</code></pre></div><p><img src="https://code.visualstudio.com/assets/api/language-extensions/syntax-highlighting/yo-new-language.png" alt="new grammar"></p>
 <p>Yeoman将带你通过一些基本问题来构建新的扩展。创建新语法的重要问题是：</p>
-
 <ul>
 <li>Language Id：你的语言唯一id</li>
 <li>Language Name：你语言的人类可读名字</li>
 <li>Scope names：你的语法的根TextMate语法作用域名称</li>
 </ul>
-
-<pre><code class="language-shell">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
      _-----_     ╭──────────────────────────╮
     |       |    │   Welcome to the Visual  │
-    |--(o)--|    │   Studio Code Extension  │
-   `---------´   │        generator!        │
-    ( _´U`_ )    ╰──────────────────────────╯
-    /___A___\   /
+    |--<span style="color:#f92672">(</span>o<span style="color:#f92672">)</span>--|    │   Studio Code Extension  │
+   <span style="color:#e6db74">`</span>---------´   │        generator!        │
+    <span style="color:#f92672">(</span> _´U<span style="color:#e6db74">`</span>_ <span style="color:#f92672">)</span>    ╰──────────────────────────╯
+    /___A___<span style="color:#ae81ff">\ </span>  /
      |  ~  |
-   __'.___.'__
- ´   `  |° ´ Y `
+   __<span style="color:#e6db74">&#39;.___.&#39;</span>__
+ ´   <span style="color:#e6db74">`</span>  |° ´ Y <span style="color:#e6db74">`</span>
 
-? What type of extension do you want to create? New Language Support
-Enter the URL (http, https) or the file path of the tmLanguage grammar or press ENTER to start with a new grammar.
-? URL or file to import, or none for new:
-? What's the name of your extension? as86 assembler
-? What's the identifier of your extension? as86-assembler
-? What's the description of your extension? Syntax highlighting for as86 assembler
-Enter the id of the language. The id is an identifier and is single, lower-case name such as 'php', 'javascript'
+? What type of extension <span style="color:#66d9ef">do</span> you want to create? New Language Support
+Enter the URL <span style="color:#f92672">(</span>http, https<span style="color:#f92672">)</span> or the file path of the tmLanguage grammar or press ENTER to start with a new grammar.
+? URL or file to import, or none <span style="color:#66d9ef">for</span> new:
+? What<span style="color:#e6db74">&#39;s the name of your extension? as86 assembler
+</span><span style="color:#e6db74">? What&#39;</span>s the identifier of your extension? as86-assembler
+? What<span style="color:#e6db74">&#39;s the description of your extension? Syntax highlighting for as86 assembler
+</span><span style="color:#e6db74">Enter the id of the language. The id is an identifier and is single, lower-case name such as &#39;</span>php<span style="color:#e6db74">&#39;, &#39;</span>javascript<span style="color:#960050;background-color:#1e0010">&#39;</span>
 ? Language id: as86
 Enter the name of the language. The name will be shown in the VS Code editor mode selector.
 ? Language name: as86
-Enter the file extensions of the language. Use commas to separate multiple entries (e.g. .ruby, .rb)
+Enter the file extensions of the language. Use commas to separate multiple entries <span style="color:#f92672">(</span>e.g. .ruby, .rb<span style="color:#f92672">)</span>
 ? File extensions: .s
-Enter the root scope name of the grammar (e.g. source.ruby)
+Enter the root scope name of the grammar <span style="color:#f92672">(</span>e.g. source.ruby<span style="color:#f92672">)</span>
 ? Scope names: source.s
 ? Initialize a git repository? Yes
-   create as86-assembler\syntaxes\as86.tmLanguage.json
-   create as86-assembler\.vscode\launch.json
-   create as86-assembler\package.json
-   create as86-assembler\README.md
-   create as86-assembler\CHANGELOG.md
-   create as86-assembler\vsc-extension-quickstart.md
-   create as86-assembler\language-configuration.json
-   create as86-assembler\.vscodeignore
-   create as86-assembler\.gitignore
-   create as86-assembler\.gitattributes
+   create as86-assembler<span style="color:#ae81ff">\s</span>yntaxes<span style="color:#ae81ff">\a</span>s86.tmLanguage.json
+   create as86-assembler<span style="color:#ae81ff">\.</span>vscode<span style="color:#ae81ff">\l</span>aunch.json
+   create as86-assembler<span style="color:#ae81ff">\p</span>ackage.json
+   create as86-assembler<span style="color:#ae81ff">\R</span>EADME.md
+   create as86-assembler<span style="color:#ae81ff">\C</span>HANGELOG.md
+   create as86-assembler<span style="color:#ae81ff">\v</span>sc-extension-quickstart.md
+   create as86-assembler<span style="color:#ae81ff">\l</span>anguage-configuration.json
+   create as86-assembler<span style="color:#ae81ff">\.</span>vscodeignore
+   create as86-assembler<span style="color:#ae81ff">\.</span>gitignore
+   create as86-assembler<span style="color:#ae81ff">\.</span>gitattributes
 
 Your extension as86-assembler has been created!
 
@@ -493,184 +440,136 @@ To start editing with Visual Studio Code, use the following commands:
      cd as86-assembler
      code .
 
-Open vsc-extension-quickstart.md inside the new extension for further instructions
+Open vsc-extension-quickstart.md inside the new extension <span style="color:#66d9ef">for</span> further instructions
 on how to modify, test and publish your extension.
 
 For more information, also visit http://code.visualstudio.com and follow us @code.
-</code></pre>
-
-<p>生成器假定您要为该语言定义新语言和新语法。如果要为现有语言创建语法，只需使用目标语言的信息填充这些语法，
+</code></pre></div><p>生成器假定您要为该语言定义新语言和新语法。如果要为现有语言创建语法，只需使用目标语言的信息填充这些语法，
 并确保在生成的包.json.</p>
-
 <p>在回答完所有问题后，Yeoman将创建一个新的扩展结构：</p>
-
-<p><img src="/image/as86-extension-folder-structure.png" alt="folder-structure" /></p>
-
+<p><img src="/image/as86-extension-folder-structure.png" alt="folder-structure"></p>
 <p>请记住，如果您要将建立一个vs code已经知道的语言的语法，请确保在生成的package.json文件中删除该语言contribution point</p>
-
 <h4 id="转换现有的textmate语法">转换现有的TEXTMATE语法</h4>
-
 <p>yo code还可以帮助将现有的TextMate语法转换为VS代码扩展。再次，从运行yo code并选择Language extension开始。
 当要求提供现有语法文件时，请提供指向.tmLanguage或.json TextMate语法文件的完整路径：</p>
-
 <h4 id="用yaml写语法">用YAML写语法</h4>
-
 <p>随着语法变得越来越复杂，很难将其理解为json并将其维护为json。
 如果您发现自己正在编写复杂的正则表达式或需要添加注释来解释语法的各个方面，请考虑使用yaml来定义语法。</p>
-
 <p>Yaml语法与基于json的语法具有完全相同的结构，但是允许您使用Yaml更简洁的语法以及多行字符串和注释等特性。</p>
-
 <p>VS Code只能加载json语法，所以基于yaml语法的必须转换为json，js-yaml包和命令如下：</p>
-
-<pre><code class="language-shell"># Install js-yaml as a development only dependency in your extension
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Install js-yaml as a development only dependency in your extension</span>
 $ npm install js-yaml --save-dev
 
-# Use the command-line tool to convert the yaml grammar to json
+<span style="color:#75715e"># Use the command-line tool to convert the yaml grammar to json</span>
 $ npx js-yaml syntaxes/abc.tmLanguage.yaml &gt; syntaxes/abc.tmLanguage.json 
-</code></pre>
-
-<h3 id="注入语法">注入语法</h3>
-
+</code></pre></div><h3 id="注入语法">注入语法</h3>
 <p>注入语法让你可以扩展已存在的语法，注入语法是一种常规的文本匹配语法，
 它被注入到现有语法中的特定范围中。注入文法的应用实例</p>
-
 <ul>
 <li>高亮关键字，像TODO等注释</li>
 <li>向现有语法中添加更多指定域信息</li>
 <li>为标记围栏代码块添加新语言的高亮显示。</li>
 </ul>
-
 <h4 id="创建基本的注入语法">创建基本的注入语法</h4>
-
 <p>注入语法通过package.json就像普通语法一样。但是，注入语法不是指定语言，
 而是使用injectTo指定要将语法注入到的目标语言范围的列表。</p>
-
 <p>对于本例，我们将创建一个简单的注入语法，在JavaScript注释中将TODO突出显示为关键字。
 为了在JavaScript文件中应用注入语法，我们使用source.js在injectTo中的目标语言作用域</p>
-
-<pre><code class="language-json">{
-  &quot;contributes&quot;: {
-    &quot;grammars&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;contributes&#34;</span>: {
+    <span style="color:#f92672">&#34;grammars&#34;</span>: [
       {
-        &quot;path&quot;: &quot;./syntaxes/injection.json&quot;,
-        &quot;scopeName&quot;: &quot;todo-comment.injection&quot;,
-        &quot;injectTo&quot;: [&quot;source.js&quot;]
+        <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;./syntaxes/injection.json&#34;</span>,
+        <span style="color:#f92672">&#34;scopeName&#34;</span>: <span style="color:#e6db74">&#34;todo-comment.injection&#34;</span>,
+        <span style="color:#f92672">&#34;injectTo&#34;</span>: [<span style="color:#e6db74">&#34;source.js&#34;</span>]
       }
     ]
   }
 }
-</code></pre>
-
-<p>语法本身是标准的TextMate语法，但顶级injectionSelector条目除外。
+</code></pre></div><p>语法本身是标准的TextMate语法，但顶级injectionSelector条目除外。
 injectionSelector是一个域选择器，它指定应将注入的语法应用于哪些域。
 对于我们的示例，我们希望在所有//注释中突出显示TODO这个词。使用域检查器，
 我们发现JavaScript的双斜杠注释具有域comment.line.double-slash，所以我们的注射选择器是
 L:comment.line.double-slash：</p>
-
-<pre><code class="language-json">{
-  &quot;scopeName&quot;: &quot;todo-comment.injection&quot;,
-  &quot;injectionSelector&quot;: &quot;L:comment.line.double-slash&quot;,
-  &quot;patterns&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;scopeName&#34;</span>: <span style="color:#e6db74">&#34;todo-comment.injection&#34;</span>,
+  <span style="color:#f92672">&#34;injectionSelector&#34;</span>: <span style="color:#e6db74">&#34;L:comment.line.double-slash&#34;</span>,
+  <span style="color:#f92672">&#34;patterns&#34;</span>: [
     {
-      &quot;include&quot;: &quot;#todo-keyword&quot;
+      <span style="color:#f92672">&#34;include&#34;</span>: <span style="color:#e6db74">&#34;#todo-keyword&#34;</span>
     }
   ],
-  &quot;repository&quot;: {
-    &quot;todo-keyword&quot;: {
-      &quot;match&quot;: &quot;TODO&quot;,
-      &quot;name&quot;: &quot;keyword.todo&quot;
+  <span style="color:#f92672">&#34;repository&#34;</span>: {
+    <span style="color:#f92672">&#34;todo-keyword&#34;</span>: {
+      <span style="color:#f92672">&#34;match&#34;</span>: <span style="color:#e6db74">&#34;TODO&#34;</span>,
+      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;keyword.todo&#34;</span>
     }
   }
 }
-</code></pre>
-
-<p>注入选择器中的L:表示注入被添加到现有语法规则的左侧。这基本上意味着我们注入的语法规则将在任何现有语法规则之前应用。</p>
-
+</code></pre></div><p>注入选择器中的L:表示注入被添加到现有语法规则的左侧。这基本上意味着我们注入的语法规则将在任何现有语法规则之前应用。</p>
 <h4 id="嵌入式语言-1">嵌入式语言</h4>
-
 <p>注入语法也可以为它们的父语法贡献嵌入式语言。与普通语法一样，
 注入语法可以使用embeddedLanguages将域从嵌入语言映射到顶级语言域。</p>
-
 <p>例如，在JavaScript字符串中突出显示SQL查询的扩展可以使用embeddedLanguages来确保标记的字符串内的所有标记
 meta.embedded.inline.sql对于基本语言功能（如括号匹配和代码段选择）被视为sql。</p>
-
-<pre><code class="language-json">{
-  &quot;contributes&quot;: {
-    &quot;grammars&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;contributes&#34;</span>: {
+    <span style="color:#f92672">&#34;grammars&#34;</span>: [
       {
-        &quot;path&quot;: &quot;./syntaxes/injection.json&quot;,
-        &quot;scopeName&quot;: &quot;sql-string.injection&quot;,
-        &quot;injectTo&quot;: [&quot;source.js&quot;],
-        &quot;embeddedLanguages&quot;: {
-          &quot;meta.embedded.inline.sql&quot;: &quot;sql&quot;
+        <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;./syntaxes/injection.json&#34;</span>,
+        <span style="color:#f92672">&#34;scopeName&#34;</span>: <span style="color:#e6db74">&#34;sql-string.injection&#34;</span>,
+        <span style="color:#f92672">&#34;injectTo&#34;</span>: [<span style="color:#e6db74">&#34;source.js&#34;</span>],
+        <span style="color:#f92672">&#34;embeddedLanguages&#34;</span>: {
+          <span style="color:#f92672">&#34;meta.embedded.inline.sql&#34;</span>: <span style="color:#e6db74">&#34;sql&#34;</span>
         }
       }
     ]
   }
 }
 
-</code></pre>
-
-<h4 id="token类型和嵌入式语言">token类型和嵌入式语言</h4>
-
+</code></pre></div><h4 id="token类型和嵌入式语言">token类型和嵌入式语言</h4>
 <p>对于嵌入语言的注入语言来说，还有一个额外的复杂性：默认情况下，VS代码将字符串中的所有标记视为字符串内容，
 将带有注释的所有标记视为令牌内容。由于诸如括号匹配和自动结束对之类的功能在字符串和注释中被禁用，
 如果嵌入的语言出现在字符串或注释中，这些功能也将在嵌入语言中被禁用。</p>
-
 <p>若要重写此行为，可以使用 meta.embedded.* 重置VS代码将标记标记为字符串或注释内容的范围。
 总是将嵌入式语言包装在 meta.embedded.* 确保VS代码正确处理嵌入语言的范围。</p>
-
 <p>如果不能添加 meta.embedded.* 域到您的语法，您也可以使用语法贡献点中的标记类型将特定范围映射到内容模式。
 下面的tokenTypes部分确保 my.sql.template.string 作用域被视为源代码：</p>
-
-<pre><code class="language-json">{
-  &quot;contributes&quot;: {
-    &quot;grammars&quot;: [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;contributes&#34;</span>: {
+    <span style="color:#f92672">&#34;grammars&#34;</span>: [
       {
-        &quot;path&quot;: &quot;./syntaxes/injection.json&quot;,
-        &quot;scopeName&quot;: &quot;sql-string.injection&quot;,
-        &quot;injectTo&quot;: [&quot;source.js&quot;],
-        &quot;embeddedLanguages&quot;: {
-          &quot;my.sql.template.string&quot;: &quot;sql&quot;
+        <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;./syntaxes/injection.json&#34;</span>,
+        <span style="color:#f92672">&#34;scopeName&#34;</span>: <span style="color:#e6db74">&#34;sql-string.injection&#34;</span>,
+        <span style="color:#f92672">&#34;injectTo&#34;</span>: [<span style="color:#e6db74">&#34;source.js&#34;</span>],
+        <span style="color:#f92672">&#34;embeddedLanguages&#34;</span>: {
+          <span style="color:#f92672">&#34;my.sql.template.string&#34;</span>: <span style="color:#e6db74">&#34;sql&#34;</span>
         },
-        &quot;tokenTypes&quot;: {
-          &quot;my.sql.template.string&quot;: &quot;other&quot;
+        <span style="color:#f92672">&#34;tokenTypes&#34;</span>: {
+          <span style="color:#f92672">&#34;my.sql.template.string&#34;</span>: <span style="color:#e6db74">&#34;other&#34;</span>
         }
       }
     ]
   }
 }
-</code></pre>
-
-<h2 id="主题化">主题化</h2>
-
+</code></pre></div><h2 id="主题化">主题化</h2>
 <p>主题化是指为标记指定颜色和样式。主题化规则在颜色主题中指定，但用户可以在“用户设置”中自定义主题化规则。</p>
-
 <p>TextMate主题规则在tokenColors中定义，其语法与常规TextMate主题相同。
 每个规则都定义一个TextMate范围选择器和结果颜色和样式。</p>
-
 <p>在计算token的颜色和样式时，当前token的域作用域将与规则的选择器相匹配，
 以查找每个样式属性（前景、粗体、斜体、下划线）的最具体规则</p>
-
 <p><a href="https://code.visualstudio.com/api/extension-guides/color-theme#syntax-colors">颜色主题指南</a>介绍如何创建颜色主题。
 语义标记的主题化在<a href="https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide#theming">语义突出显示指南</a>中进行了说明</p>
-
 <h2 id="作用域检查器">作用域检查器</h2>
-
 <p>VS代码的内置范围检查器工具有助于调试语法和语义标记。
 它显示标记的作用域和文件中当前位置处的语义标记，以及有关应用于该标记的主题规则的元数据。</p>
-
 <p>使用Developer:Inspect Editor Tokens and Scopes命令从命令调色板触发范围检查器，
 或为其创建<a href="https://code.visualstudio.com/docs/getstarted/keybindings">keybinding</a>：</p>
-
-<pre><code class="language-json">{
-  &quot;key&quot;: &quot;cmd+alt+shift+i&quot;,
-  &quot;command&quot;: &quot;editor.action.inspectTMScopes&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+alt+shift+i&#34;</span>,
+  <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;editor.action.inspectTMScopes&#34;</span>
 }
-</code></pre>
-
-<p>范围检查器显示以下信息：</p>
-
+</code></pre></div><p>范围检查器显示以下信息：</p>
 <ul>
 <li>当前token。</li>
 <li>有关token的元数据及其计算外观的信息。如果您使用的是嵌入式语言，这里的重要条目是语言和token类型。</li>

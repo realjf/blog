@@ -1,23 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vagrant on Realjf&#39;s blog</title>
+    <title>vagrant on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/vagrant/</link>
-    <description>Recent content in Vagrant on Realjf&#39;s blog</description>
+    <description>Recent content in vagrant on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 29 Sep 2020 05:29:26 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/tags/vagrant/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 29 Sep 2020 05:29:26 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/vagrant/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>安装vagrant Install Vagrant</title>
       <link>https://realjf.io/devtools/install-vagrant/</link>
       <pubDate>Tue, 29 Sep 2020 05:29:26 +0800</pubDate>
       
       <guid>https://realjf.io/devtools/install-vagrant/</guid>
-      <description> 准备环境  kali 2020  安装 apt update apt install vagrant # 测试是否安装成功 vagrant --version  </description>
+      <description>准备环境  kali 2020  安装 apt update apt install vagrant # 测试是否安装成功 vagrant --version </description>
     </item>
     
   </channel>
