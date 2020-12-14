@@ -4,7 +4,84 @@
     
     <url>
         <loc>https://realjf.io/categories/</loc>
-        <lastmod>2020-12-14T04:29:57+08:00</lastmod>
+        <lastmod>2020-12-14T15:50:18+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/posts/</loc>
+        <lastmod>2020-12-14T15:50:18+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/posts/</loc>
+        <lastmod>2020-12-14T15:50:18+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/categories/posts/</loc>
+        <lastmod>2020-12-14T15:50:18+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/</loc>
+        <lastmod>2020-12-14T15:50:18+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/</loc>
+        <lastmod>2020-12-14T15:50:18+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/posts/how-to-design-order-id/</loc>
+        <lastmod>2020-12-14T15:50:18+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/excel/</loc>
+        <lastmod>2020-12-14T09:08:01+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/php/</loc>
+        <lastmod>2020-12-14T09:08:01+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/categories/php/</loc>
+        <lastmod>2020-12-14T09:08:01+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/php/php-excel-memory-overflow/</loc>
+        <lastmod>2020-12-14T09:08:01+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/php/</loc>
+        <lastmod>2020-12-14T09:08:01+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -32,20 +109,6 @@
     
     <url>
         <loc>https://realjf.io/grpc/</loc>
-        <lastmod>2020-12-14T04:29:57+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/</loc>
-        <lastmod>2020-12-14T04:29:57+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/</loc>
         <lastmod>2020-12-14T04:29:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -521,27 +584,6 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/php/</loc>
-        <lastmod>2020-09-15T14:34:59+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/categories/php/</loc>
-        <lastmod>2020-09-15T14:34:59+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/php/</loc>
-        <lastmod>2020-09-15T14:34:59+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/php/php-mcrypt-install-in-win/</loc>
         <lastmod>2020-09-15T14:34:59+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -558,27 +600,6 @@
     <url>
         <loc>https://realjf.io/php/memcached-and-php-extension-install-win/</loc>
         <lastmod>2020-09-15T14:12:53+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/posts/</loc>
-        <lastmod>2020-09-14T17:08:59+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/posts/</loc>
-        <lastmod>2020-09-14T17:08:59+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/categories/posts/</loc>
-        <lastmod>2020-09-14T17:08:59+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>

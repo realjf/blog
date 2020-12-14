@@ -6,7 +6,21 @@
     <description>Recent content in Phps on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 15 Sep 2020 14:34:59 +0800</lastBuildDate><atom:link href="https://realjf.io/php/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Dec 2020 09:08:01 +0800</lastBuildDate><atom:link href="https://realjf.io/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>phpExcel导出excel文件内存溢出问题 Php Excel Memory Overflow</title>
+      <link>https://realjf.io/php/php-excel-memory-overflow/</link>
+      <pubDate>Mon, 14 Dec 2020 09:08:01 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/php-excel-memory-overflow/</guid>
+      <description>背景 今天在使用phpexcel导出数据为excel格式的时候，遇到一个问题，由于数据量比较大，所以，一次性缓存在内存中导致超出php的内存限制，Excel中一个单元格在不启用缓存的情况下大概占用内存是1K。我的数据是大概31万行、9列的表格（大概279万个单元格），需要2.66GB的内存。启用缓存的话，则会降到900MB，感觉还是太大。先试下看看
+解决 phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置
+$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp; $cacheSettings = array( &amp;#39;memoryCacheSize&amp;#39; =&amp;gt; &amp;#39;950MB&amp;#39;); PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings); $oExcel = new PHPExcel(); PHPExcel_Settings::setCacheStorageMethod() 的几个参数
+ 将单元格数据序列化后保存到内存中  PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized;  将单元格序列化后再进行gzip压缩，然后保存到内存中  PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip;  缓存在临时的磁盘文件中，速度可能会慢一些  PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;  保存在php://temp  PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;  保存在memcache中  $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_memcache; $cacheSettings = array( &amp;#39;memcacheServer&amp;#39; =&amp;gt; &amp;#39;localhost&amp;#39;, &amp;#39;memcachePort&amp;#39; =&amp;gt; 11211, &amp;#39;cacheTime&amp;#39; =&amp;gt; 600 ); PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings); 其它降低内存使用的方法 如果不需要读取Excel单元格格式，可以设置为只读取数据。
+$objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setReadDataOnly(true); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.xlsx”); 如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。
+$objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setLoadSheetsOnly( array(&amp;#34;Worksheet1&amp;#34;, &amp;#34;Worksheet2&amp;#34;) ); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.</description>
+    </item>
+    
     <item>
       <title>windows环境下安装Php扩展Mcrypt</title>
       <link>https://realjf.io/php/php-mcrypt-install-in-win/</link>

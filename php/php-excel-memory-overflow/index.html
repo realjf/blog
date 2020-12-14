@@ -1,0 +1,439 @@
+<!doctype html>
+<html>
+<head>
+    <title>phpExcel导出excel文件内存溢出问题 Php Excel Memory Overflow // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">phpExcel导出excel文件内存溢出问题 Php Excel Memory Overflow</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Dec 14, 2020
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/php/">php</a><a class="tag" href="https://realjf.io/tags/excel/">excel</a></div></div>
+        </header>
+        <div class="post-content">
+            <h3 id="背景">背景</h3>
+<p>今天在使用phpexcel导出数据为excel格式的时候，遇到一个问题，由于数据量比较大，所以，一次性缓存在内存中导致超出php的内存限制，Excel中一个单元格在不启用缓存的情况下大概占用内存是1K。我的数据是大概31万行、9列的表格（大概279万个单元格），需要2.66GB的内存。启用缓存的话，则会降到900MB，感觉还是太大。先试下看看</p>
+<h3 id="解决">解决</h3>
+<p>phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$cacheMethod <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_phpTemp</span>;
+$cacheSettings <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>( <span style="color:#e6db74">&#39;memoryCacheSize&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;950MB&#39;</span>);
+<span style="color:#a6e22e">PHPExcel_Settings</span><span style="color:#f92672">::</span><span style="color:#a6e22e">setCacheStorageMethod</span>($cacheMethod,$cacheSettings);
+
+$oExcel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PHPExcel</span>();
+</code></pre></div><p>PHPExcel_Settings::setCacheStorageMethod() 的几个参数</p>
+<ul>
+<li>将单元格数据序列化后保存到内存中</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_in_memory_serialized</span>; 
+</code></pre></div><ul>
+<li>将单元格序列化后再进行gzip压缩，然后保存到内存中</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_in_memory_gzip</span>; 
+</code></pre></div><ul>
+<li>缓存在临时的磁盘文件中，速度可能会慢一些</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_discISAM</span>;
+</code></pre></div><ul>
+<li>保存在php://temp</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_phpTemp</span>; 
+</code></pre></div><ul>
+<li>保存在memcache中</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$cacheMethod <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_memcache</span>;  
+$cacheSettings <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>( <span style="color:#e6db74">&#39;memcacheServer&#39;</span>  <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;localhost&#39;</span>,  
+    <span style="color:#e6db74">&#39;memcachePort&#39;</span>    <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">11211</span>,  
+    <span style="color:#e6db74">&#39;cacheTime&#39;</span>       <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">600</span>  
+);  
+<span style="color:#a6e22e">PHPExcel_Settings</span><span style="color:#f92672">::</span><span style="color:#a6e22e">setCacheStorageMethod</span>($cacheMethod, $cacheSettings);
+</code></pre></div><h3 id="其它降低内存使用的方法">其它降低内存使用的方法</h3>
+<p>如果不需要读取Excel单元格格式，可以设置为只读取数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$objReader <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_IOFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">createReader</span>(<span style="color:#e6db74">&#39;Excel2007&#39;</span>);
+$objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setReadDataOnly</span>(<span style="color:#66d9ef">true</span>);
+$objPHPExcel <span style="color:#f92672">=</span> $objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;test.xlsx”);
+</span></code></pre></div><p>如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$objReader <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_IOFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">createReader</span>(<span style="color:#e6db74">&#39;Excel2007&#39;</span>);
+$objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setLoadSheetsOnly</span>( <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;Worksheet1&#34;</span>, <span style="color:#e6db74">&#34;Worksheet2&#34;</span>) );
+$objPHPExcel <span style="color:#f92672">=</span> $objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;test.xlsx”);
+</span></code></pre></div><p>如果只需要读取Sheet中一定区域，也可以设置过滤器。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyReadFilter</span> <span style="color:#66d9ef">implements</span> <span style="color:#a6e22e">PHPExcel_Reader_IReadFilter</span>
+{
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">readCell</span>($column, $row, $worksheetName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>) {
+        <span style="color:#75715e">// Read title row and rows 20 - 30
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> ($row <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> ($row <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">20</span> <span style="color:#f92672">&amp;&amp;</span> $row <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">30</span>)) {
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+        }
+
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+    }
+}
+
+$objReader <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_IOFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">createReader</span>(<span style="color:#e6db74">&#39;Excel2007&#39;</span>);
+$objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setReadFilter</span>( <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyReadFilter</span>() );
+$objPHPExcel <span style="color:#f92672">=</span> $objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;test.xlsx”);
+</span></code></pre></div><h3 id="我的解决方案">我的解决方案</h3>
+<p>我试了上面所有的方法还是不行，因为生产环境特殊要求，不能把php的内存设置过大，所以最后我只能把数据按照csv格式写入文件了，然后再用excel导入csv文件即可。</p>
+<p>这里只列出写每一行数据的函数，其他自行完成即可</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_writeLine</span>($pFileHandle <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>, $pValues <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>) {
+		<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">is_array</span>($pValues)) {
+			<span style="color:#75715e">// No leading delimiter
+</span><span style="color:#75715e"></span>			$writeDelimiter <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+
+			<span style="color:#75715e">// Build the line
+</span><span style="color:#75715e"></span>			$line <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+
+			<span style="color:#66d9ef">foreach</span> ($pValues <span style="color:#66d9ef">as</span> $element) {
+				<span style="color:#75715e">// Escape enclosures
+</span><span style="color:#75715e"></span>				$element <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span> <span style="color:#f92672">.</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span>, $element);
+
+				<span style="color:#75715e">// Add delimiter
+</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span> ($writeDelimiter) {
+					$line <span style="color:#f92672">.=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_delimiter</span>;
+				} <span style="color:#66d9ef">else</span> {
+					$writeDelimiter <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+				}
+
+				<span style="color:#75715e">// Add enclosed string
+</span><span style="color:#75715e"></span>				$line <span style="color:#f92672">.=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span> <span style="color:#f92672">.</span> $element <span style="color:#f92672">.</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span>;
+			}
+
+			<span style="color:#75715e">// Add line ending
+</span><span style="color:#75715e"></span>			$line <span style="color:#f92672">.=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_lineEnding</span>;
+
+			<span style="color:#75715e">// Write to file
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">fwrite</span>($pFileHandle, $line);
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#a6e22e">__d</span>(<span style="color:#e6db74">&#34;Invalid data row passed to CSV writer.&#34;</span>);
+		}
+	}
+</code></pre></div>
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/php/php-mcrypt-install-in-win/">windows环境下安装Php扩展Mcrypt</a></li>
+                
+                    <li><a href="/php/memcached-and-php-extension-install-win/">windows环境下安装Memcached和php-memcached扩展以及安装php-memcache扩展</a></li>
+                
+                    <li><a href="/php/start-with-config-file-none/">PHP启动时配置文件显示： Loaded Configuration File 为 none</a></li>
+                
+                    <li><a href="/php/simple-websocket/">php websocket简单使用 Simple Websocket</a></li>
+                
+                    <li><a href="/php/extension-develop/">php扩展开发 php Extension Develop</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
