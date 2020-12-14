@@ -28,6 +28,7 @@ related:
 
 ### 解决
 phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置
+
 ```php
 $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
 $cacheSettings = array( 'memoryCacheSize' => '950MB');
@@ -66,17 +67,21 @@ PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
 ### 其它降低内存使用的方法
 
 如果不需要读取Excel单元格格式，可以设置为只读取数据。
+
 ```php
 $objReader = PHPExcel_IOFactory::createReader('Excel2007');
 $objReader->setReadDataOnly(true);
 $objPHPExcel = $objReader->load("test.xlsx”);
 ```
+
 如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。
+
 ```php
 $objReader = PHPExcel_IOFactory::createReader('Excel2007');
 $objReader->setLoadSheetsOnly( array("Worksheet1", "Worksheet2") );
 $objPHPExcel = $objReader->load("test.xlsx”);
 ```
+
 如果只需要读取Sheet中一定区域，也可以设置过滤器。
 
 ```php
@@ -99,6 +104,7 @@ $objPHPExcel = $objReader->load("test.xlsx”);
 
 ### 我的解决方案
 我试了上面所有的方法还是不行，因为生产环境特殊要求，不能把php的内存设置过大，所以最后我只能把数据按照csv格式写入文件了，然后再用excel导入csv文件即可。这里只列出写每一行数据的函数，其他自行完成即可
+
 ```php
 private function _writeLine($pFileHandle = null, $pValues = null) {
 		if (is_array($pValues)) {
