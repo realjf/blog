@@ -1,0 +1,562 @@
+<!doctype html>
+<html>
+<head>
+    <title>Kubernetes集群搭建二 之 k8s集群 // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">Kubernetes集群搭建二 之 k8s集群</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Mar 19, 2019
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    3 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/kubernetes/">Kubernetes</a><a class="tag" href="https://realjf.io/tags/k8s/">K8s</a><a class="tag" href="https://realjf.io/tags/k8s%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/">K8s集群搭建</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h4 id="方式1-基于ca签名的双向数字证书认证方式">方式1：基于CA签名的双向数字证书认证方式</h4>
+
+<p>过程如下：
+- 为kube-apiserver生成一个数字证书，并用CA证书进行签名
+- 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥
+- 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数</p>
+
+<h5 id="1-设置kube-apiserver的ca证书相关的文件和启动参数">1). 设置kube-apiserver的CA证书相关的文件和启动参数</h5>
+
+<p>使用openssl工具在master服务器上创建CA证书和私钥相关的文件：</p>
+
+<pre><code>openssl genrsa -out ca.key 2048
+openssl req -x509 -new -nodes -key ca.key -subj &quot;/CN=k8s-master&quot; -days 5000 -out ca.crt
+openssl genrsa -out server.key 2048
+</code></pre>
+
+<p>注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名</p>
+
+<blockquote>
+<p>509是一种通用的证书格式</p>
+</blockquote>
+
+<p>准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：</p>
+
+<pre><code>[ req ]
+req_extensions = v3_req
+distinguished_name = req_distinguished_name
+[ req_distinguished_name ]
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = kubernetes
+DNS.2 = kubernetes.default
+DNS.3 = kubernetes.default.svc
+DNS.4 = kubernetes.default.svc.cluster.local
+DNS.5 = k8s-master
+IP.1 = 169.169.0.1
+IP.2 = 192.168.37.150
+
+### 更复杂的配置可以选用以下方式
+[ req ]
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+[ v3_ca ]
+basicConstraints = critical, CA:TRUE
+keyUsage = critical, digitalSignature, keyEncipherment, keyCertSign
+[ v3_req_server ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+[ v3_req_client ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth
+[ v3_req_apiserver ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names_cluster
+[ v3_req_etcd ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName = @alt_names_etcd
+[ alt_names_cluster ]
+DNS.1 = kubernetes
+DNS.2 = kubernetes.default
+DNS.3 = kubernetes.default.svc
+DNS.4 = kubernetes.default.svc.cluster.local
+DNS.5 = k8s-master
+# DNS.6 = ${KUBERNETES_PUBLIC_ADDRESS}
+IP.1 = 169.169.0.1
+IP.2 = 192.168.37.150
+# IP.3 = ${SERVICE_IP}
+# IP.4 = ${KUBERNETES_PUBLIC_IP}
+[ alt_names_etcd ]
+DNS.1 = k8s-master
+# DNS.2 = k8s-controller-2
+IP.1 = 169.169.0.1
+# IP.2 = ${CONTROLLER2_IP}
+</code></pre>
+
+<blockquote>
+<p>主要需要设置Master服务器的hostname（k8s-master）、ip地址（192.168.37.150），以及kubernetes master service的虚拟服务名称（kubernetes.default等）和该虚拟服务的ClusterIP地址（169.169.0.1）</p>
+</blockquote>
+
+<p>接下来，基于master_ssl.cnf文件创建server.csr和server.crt文件。在生成server.csr时，-subj参数中“/CN”的值需要为master的主机名：</p>
+
+<pre><code class="language-sh">openssl req -new -key server.key -subj &quot;/CN=k8s-master&quot; -config master_ssl.cnf -out server.csr
+# 如果运行上述命令，报错：Error Loading request extension section v3_req，则需要检查.cnf文件是否书写正确
+
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -days 5000 -extensions v3_req -extfile master_ssl.cnf -out server.crt
+</code></pre>
+
+<p>全部执行完，生成6个文件：ca.crt、ca.key、ca.srl、server.crt、server.csr、server.key</p>
+
+<p>将这些文件复制到一个目录(/etc/kubernetes/ssl_keys/)，然后设置kube-apiserver启动参数：</p>
+
+<pre><code># ca根证书
+--client-ca-file=/etc/kubernetes/ssl_keys/ca.crt
+# 服务端私钥文件
+--tls-private-key-file=/etc/kubernetes/ssl_keys/server.key
+# 服务端证书文件
+--tls-cert-file=/etc/kubernetes/ssl_keys/server.crt
+</code></pre>
+
+<p>同时，可以关闭非安全端口8080，设置安全端口为6443（默认值）：</p>
+
+<pre><code>--insecure-port=0
+--secure-port=6443
+</code></pre>
+
+<p>最后重启kube-apiserver</p>
+
+<h5 id="2-设置kube-controller-manager的客户端证书-私钥和启动参数">2) 设置kube-controller-manager的客户端证书、私钥和启动参数</h5>
+
+<pre><code>openssl genrsa -out cs_client.key 2048
+openssl req -new -key cs_client.key -subj &quot;/CN=k8s-master&quot; -out cs_client.csr
+openssl x509 -req -in cs_client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out cs_client.crt -days 5000
+
+</code></pre>
+
+<p>复制这些文件到/etc/kubernetes/ssl_keys/</p>
+
+<pre><code>cp cs_client.* /etc/kubernetes/ssl_keys/
+</code></pre>
+
+<p>接下来创建/etc/kubernetes/kubeconfig文件（kube-controller-manager与kube-scheduler公用），配置如下：</p>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Config
+users:
+- name: controllermanager
+  user:
+    client-certificate: /etc/kubernetes/ssl_keys/cs_client.crt
+    client-key: /etc/kubernetes/ssl_keys/cs_client.key
+clusters:
+- name: local
+  cluster:
+    server: https://192.168.37.150:6443
+    certificate-authority: /etc/kubernetes/ssl_keys/ca.crt
+contexts:
+- context:
+    cluster: local
+    user: controllermanager
+  name: my-context
+current-context: my-context
+</code></pre>
+
+<p>然后，设置kube-controlller-manager服务的启动参数，注意，&ndash;master的地址为https安全服务地址，敷使用非安全地址<a href="http://192.168.37.150:8080：">http://192.168.37.150:8080：</a></p>
+
+<pre><code class="language-sh">--master=https://192.168.37.150:6443
+--service-account-private-key-file=/etc/kubernetes/ssl_keys/server.key
+--root-ca-file=/etc/kubernetes/ssl_keys/ca.crt
+--kuberconfig=/etc/kubernetes/kubeconfig
+
+</code></pre>
+
+<p>重启kube-controller-manager服务</p>
+
+<h5 id="3-设置kube-scheduler启动参数">3) 设置kube-scheduler启动参数</h5>
+
+<p>复用kube-controller-manager创建的客户端证书，配置启动参数：</p>
+
+<pre><code>--master=https://192.168.37.150:6443
+--kuberconfig=/etc/kubernetes/kubeconfig
+</code></pre>
+
+<p>重启kube-scheduler服务</p>
+
+<h5 id="4-设置每台node上kubelet的客户端证书-私钥和启动参数">4) 设置每台node上kubelet的客户端证书、私钥和启动参数</h5>
+
+<p>复制kube-apiserver的ca.crt和ca.key文件到node节点上</p>
+
+<pre><code class="language-sh">openssl genrsa -out kubelet_client.key 2048
+openssl req -new -key kubelet_client.key -subj &quot;/CN=192.168.37.152&quot; -out kubelet_client.csr
+openssl x509 -req -in kubelet_client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out kubelet_client.crt -days 5000
+
+</code></pre>
+
+<p>将上面这些文件复制到一个目录中（如：/etc/）</p>
+
+<p>接下来创建/etc/kubernetes/kubeconfig（kubelet和kube-proxy进程共用），配置如下：</p>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Config
+users:
+- name: controllermanager
+  user:
+    client-certificate: /etc/kubernetes/ssl_keys/kubelet_client.crt
+    client-key: /etc/kubernetes/ssl_keys/kubelet_client.key
+clusters:
+- name: local
+  cluster:
+    server: https://192.168.37.150:6443
+    certificate-authority: /etc/kubernetes/ssl_keys/ca.crt
+contexts:
+- context:
+    cluster: local
+    user: controllermanager
+  name: my-context
+current-context: my-context
+
+</code></pre>
+
+<p>设置kubelet启动参数：</p>
+
+<pre><code>--api-servers=https://192.168.37.150:6443
+--kubeconfig=/etc/kubernetes/kubeconfig
+</code></pre>
+
+<p>重启kubelet服务</p>
+
+<h5 id="5-设置kube-proxy启动参数">5) 设置kube-proxy启动参数</h5>
+
+<p>复用上面创建的kubelet证书</p>
+
+<pre><code>--master=https://192.168.37.150:6443
+--kubeconfig=/etc/kubernetes/kubeconfig
+</code></pre>
+
+<p>重启kube-proxy服务</p>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/posts/k8s-cluster-set-up-1/">Kubernetes集群搭建一 之 etcd集群</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
