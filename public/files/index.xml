@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Files on Realjf&#39;s blog</title>
+    <link>https://realjf.io/files/</link>
+    <description>Recent content in Files on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Nov 2019 08:51:45 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/files/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>unix网络编程 之 myerr.h文件</title>
+      <link>https://realjf.io/files/myerr/</link>
+      <pubDate>Sat, 23 Nov 2019 08:51:45 +0800</pubDate>
+      
+      <guid>https://realjf.io/files/myerr/</guid>
+      <description>unix网络编程 之 myerr.h文件 myerr.h
+// myerr.h #include &amp;lt;errno.h&amp;gt;/* for definition of errno */ #include &amp;lt;stdarg.h&amp;gt;/* ISO C variable aruments */ static void err_doit(int, int, const char *, va_list); /* * Nonfatal error related to a system call. * Print a message and return. */ void err_ret(const char *fmt, ...) { va_list ap; va_start(ap, fmt); err_doit(1, errno, fmt, ap); va_end(ap); } /* * Fatal error related to a system call. * Print a message and terminate.</description>
+    </item>
+    
+    <item>
+      <title>unix网络编程 之 ourhdr.h文件</title>
+      <link>https://realjf.io/files/ourhdr-h/</link>
+      <pubDate>Sat, 23 Nov 2019 08:51:24 +0800</pubDate>
+      
+      <guid>https://realjf.io/files/ourhdr-h/</guid>
+      <description>unix网络编程 之 ourhdr.h文件 ourhdr.h
+// ourhdr.h #ifndef __ourhdr_h #define __ourhdr_h #include &amp;lt;errno.h&amp;gt; /*for definition of errno */ #include &amp;lt;stdarg.h&amp;gt; /*ANSI C header file */ #include &amp;lt;sys/types.h&amp;gt; /* required for some of our prototypes */ #include &amp;lt;stdio.h&amp;gt; /* for convenience */ #include &amp;lt;stdlib.h&amp;gt; /* for convenience */ #include &amp;lt;string.h&amp;gt; /* for convenience */ #include &amp;lt;unistd.h&amp;gt; /* for convenience */ #define MAXLINE 4096 /* max line length */ #define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH) /* default file access permissions for new files */ #define DIR_MODE (FILE_MODE | S_IXUSR | S_IXGRP | S_IXOTH) /* default permissions for new directoris */ typedef void Sigfunc(int); /* for signal handlers */ /* 4.</description>
+    </item>
+    
+  </channel>
+</rss>
