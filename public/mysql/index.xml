@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysqls on Realjf&#39;s blog</title>
+    <link>https://realjf.io/mysql/</link>
+    <description>Recent content in Mysqls on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Dec 2020 16:03:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用数据库实现链表 Using Database to Realize Linkedlist</title>
+      <link>https://realjf.io/mysql/using-database-to-realize-linkedlist/</link>
+      <pubDate>Wed, 09 Dec 2020 16:03:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/using-database-to-realize-linkedlist/</guid>
+      <description>背景 今天遇到一个需求，在一个排队队列中，对第一个人员可以进行延后处理操作（实际是往后移动4位，到第5位），一开始想通过排序值 控制队列排序问题，但是容错性差，不能得到很好的效果，想来想去链表结构的特性对于插入删除O(1)的性能，可以很好的解决我的问题， 所以决定通过数据库表设计来实现一个链表。
+ 数据库：mysql 程序语言：php  实现 表结构简化成只有id和next指针的设计，next指向下一个成员的id。最后一个成员的next指向0。
+表结构及数值如下：
+   id next     1 3   2 1   3 4   4 5   5 6   6 0    整理成链表大致是这样的
+2 --&amp;gt; 1 --&amp;gt; 3 --&amp;gt; 4 --&amp;gt; 5 --&amp;gt; 6 --&amp;gt; 0  最后的0代表链表结束。
+按需求，如果第一个人员延后操作，需要向后移动4位，步骤是这样的：
+首先将队列所有人员从数据库中取出，然后在程序中按照链表结构排序，排序程序如下
+static public function sort($queue) { if (!</description>
+    </item>
+    
+    <item>
+      <title>mysql Explain 详解</title>
+      <link>https://realjf.io/mysql/explain-analysis/</link>
+      <pubDate>Thu, 14 May 2020 09:10:02 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/explain-analysis/</guid>
+      <description>explain 输出列    列名 JSON 名 说明     id select_id The SELECT identifier   select_type None The SELECT type   table table_name The table for the output row   partitions partitions The matching partitions   type access_type The join type   possible_keys possible_keys The possible indexes to choose   key key The index actually chosen   key_len key_length The length of the chosen key   ref ref The columns compared to the index   rows rows Estimate of rows to be examined   filtered filtered Percentage of rows filtered by table condition   Extra None Additional information    id select 标识</description>
+    </item>
+    
+    <item>
+      <title>mysql 事务 Transaction</title>
+      <link>https://realjf.io/mysql/transaction/</link>
+      <pubDate>Tue, 28 Apr 2020 14:42:50 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/transaction/</guid>
+      <description>mysql存储引擎与事务：  1.myisam：不支持事务，用于只读程序提高性能 2. innodb：支持acid事务、行级锁、并发 3. berkeley db：支持事务。  一个事务是一个连续的一组数据库操作，就好像一个单一的工作单元进行。 如果在事务的任何操作失败，则整个事务将失败。
+事务的特性： 事务有以下四个标准属性的缩写acid，通常被称为：
+ 原子性：确保工作单元内的所有操作都完成，否则事务将被终止在故障点，和以前的操作将回滚到以前的状态。 一致性：确保数据库正确地改变状态后，成功提交的事务。 隔离性：使事务操作彼此独立的和透明的。 持久性：确保提交的事务的结果或效果的系统出现故障的情况下仍然存在。  在MySQL中，事务开始使用COMMIT或ROLLBACK语句开始工作和结束。开始和结束语句的SQL命令之间形成了大量的事务。
+COMMIT &amp;amp; ROLLBACK: 这两个关键字提交和回滚主要用于MySQL的事务。
+当一个成功的事务完成后，发出COMMIT命令应使所有参与表的更改才会生效。
+如果发生故障时，应发出一个ROLLBACK命令返回的事务中引用的每一个表到以前的状态。
+可以控制的事务行为称为AUTOCOMMIT设置会话变量。如果AUTOCOMMIT设置为1（默认值），然后每一个SQL语句（在事务与否）被认为是一个完整的事务，并承诺在默认情况下，当它完成。 AUTOCOMMIT设置为0时，发出SET AUTOCOMMIT =0命令，在随后的一系列语句的作用就像一个事务，直到一个明确的COMMIT语句时，没有活动的提交。
+可以通过使用mysql_query()函数在PHP中执行这些SQL命令。
+事务 ACID Atomicity（原子性）、Consistency（稳定性）、Isolation（隔离性）、Durability（可靠性） 1、事务的原子性 一组事务，要么成功；要么撤回。
+2、稳定性 有非法数据（外键约束之类），事务撤回。
+3、隔离性 事务独立运行。 一个事务处理后的结果，影响了其他事务，那么其他事务会撤回。 事务的100%隔离，需要牺牲速度。
+4、可靠性 软、硬件崩溃后，InnoDB数据表驱动会利用日志文件重构修改。 可靠性和高速度不可兼得， innodb_flush_log_at_trx_commit选项 决定什么时候吧事务保存到日志里。
+开启事务 START TRANSACTION 或 BEGIN
+提交事务（关闭事务） COMMIT
+放弃事务（关闭事务） ROLLBACK
+折返点 SAVEPOINT adqoo_1 ROLLBACK TO SAVEPOINT adqoo_1 发生在折返点 adqoo_1 之前的事务被提交，之后的被忽略
+事务的终止
+设置“自动提交”模式 SET AUTOCOMMIT = 0 每条SQL都是同一个事务的不同命令，之间由 COMMIT 或 ROLLBACK隔开 掉线后，没有 COMMIT 的事务都被放弃 事务锁定模式</description>
+    </item>
+    
+    <item>
+      <title>数据库范式 Database Normal Form</title>
+      <link>https://realjf.io/mysql/database-normal-form/</link>
+      <pubDate>Tue, 28 Apr 2020 14:39:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/database-normal-form/</guid>
+      <description>第一范式：关系模式中，每个属性不可再分。属性原子性 第二范式：非主属性完全依赖于主属性，即消除非主属性对主属性的部分函数依赖关系。 第三范式：非主属性对主属性不存在传递函数依赖关系。 BNCF范式：在第三范式的基础上，消除主属性之间的部分函数依赖  第一范式（1NF）：在关系模式R中的每一个具体关系r中，如果每个属性值都是不可再分的最小数据单位，则称R是第一范式的关系。 例：如职工号，姓名，电话号码组成一个表（一个人可能有多个电话号码） 规范成为1NF有三种方法： 一是重复存储职工号和姓名。这样，关键字只能是电话号码。 二是职工号为关键字，电话号码分为单位电话和住宅电话两个属性 三是职工号为关键字，但强制每条记录只能有一个电话号码。
+以上三个方法，第一种方法最不可取，按实际情况选取后两种情况。
+第二范式（2NF）：如果关系模式R（U，F）中的所有非主属性都完全依赖于任意候选关键字，则称关系R 是属于第二范式的。 例：选课关系 sc（sid，cid，grade，credit）其中sid为学号， cid为课程号，grade为成绩，credit为学分。 由以上条件，关键字为组合关键字（sid，cid） 在应用中使用以上关系模式有以下问题： a.数据冗余，假设同一门课由40个学生选修，学分就重复40次。 b.更新异常，若调整了某课程的学分，相应的元组credit值都要更新，有可能会出现同一门课学分不同。 c.插入异常，如计划开新课，由于没人选修，没有学号关键字，只能等有人选修才能把课程和学分存入。 d.删除异常，若学生已经结业，从当前数据库删除选修记录。某些门课程新生尚未选修，则此门课程及学分记录无法保存。 原因：非关键字属性credit仅函数依赖于cid，也就是credit部分依赖组合关键字（sid，cid）而不是完全依赖。 解决方法：分成两个关系模式sc（sid，cid，grade），c（cid，credit）。新关系包括两个关系模式，它们之间通过sc中的外关键字cid相联系，需要时再进行自然联接，恢复了原来的关系
+第三范式（3NF）：如果关系模式R（U，F）中的所有非主属性对任何候选关键字都不存在传递依赖，则称关系R是属于第三范式的。 例：如s（sid，sname，did，dname，location） 各属性分别代表学号，姓名，所在系，系名称，系地址。 关键字sid决定各个属性。由于是单个关键字，没有部分依赖的问题，肯定是2NF。但这关系肯定有大量的冗余，有关学生所在的几个属性did，dname，location将重复存储，插入，删除和修改时也将产生类似以上例的情况。 原因：关系中存在传递依赖造成的。即sid -&amp;gt; did。 而did -&amp;gt;sid却不存在，did -&amp;gt; location, 因此关键字sid对location函数决定是通过传递依赖did-&amp;gt;location 实现的。也就是说，sid不直接决定非主属性location。 解决目地：每个关系模式中不能留有传递依赖。 解决方法：分为两个关系 s（sid，sname，did），d（dno，dname，location） 注意：关系s中必须有外关键字did。否则两个关系之间失去联系。
+BCNF：如果关系模式R（U，F）的所有属性（包括主属性和非主属性）都不传递依赖于R的任何候选关键字，那么称关系R是属于BCNF的。或是关系模式R中，每个决定因素都包含关键字（而不是被关键字所包含）。 例：配件管理关系模式 wpe（wid，pid，eid，qnt）分别表仓库号，配件号，职工号，数量。有以下条件: a.一个仓库有多个职工。 b.一个职工仅在一个仓库工作。 c.每个仓库里一种型号的配件由专人负责，但一个人可以管理几种配件。 d.同一种型号的配件可以分放在几个仓库中。 分析： 1. pid不能确定qnt，由组合属性（wid，pid）来决定，存在函数依赖（wid，pid）-&amp;gt; qnt。 2. 每个仓库里的一种配件由专人负责，而一个人可以管理几种配件，所以有（wid，pid）-&amp;gt; eid。 3. 一个职工仅在一个仓库工作，有eid -&amp;gt; wid。 4. 每个仓库里的一种配件由专人负责，而一个职工仅在一个仓库工作，有（eid，pid）-&amp;gt; qnt。 找一下候选关键字。因为（wid，pid）-&amp;gt; qnt，（wid，pid）-&amp;gt; eid，因此（wid，pid）可以决定整个元组，是一个候选关键字。根据eid -&amp;gt; wid，（eid，pid）-&amp;gt; qnt，故（eid，pid）也能决定整个元组，为另一个候选关键字。属性eid，eid，pid 均为主属性，只有一个非主属性qnt。它对任何一个候选关键字都是完全函数依赖的，并且是直接依赖，所以该关系模式是3NF。</description>
+    </item>
+    
+    <item>
+      <title>Mysql优化技巧</title>
+      <link>https://realjf.io/mysql/optimize-mysql/</link>
+      <pubDate>Tue, 28 Apr 2020 14:35:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/optimize-mysql/</guid>
+      <description>索引失效情况：  1. 如果条件中有or，即使其中有条件带有索引也不会使用，换言之，要想使用or，又想让索引生效，只能将or条件中的每个列都必须使用索引。 2. 对于多列索引，不是使用的第一部分，则不会使用索引 3. like查询是以%开头的情况 4. 如果列类型是字符串，那一定要在条件中将数据使用引号引用起来，否则不使用索引。 5. 如果mysql估计使用全表扫描要比使用索引快，则不使用索引。 6. 在列上进行运算 7. 使用NOT IN 和 &amp;lt;&amp;gt;操作 8. 只要列中包含有NULL值将不会 被包含在索引中，复合索引中只要有一列含有NULL值，那么这一列对于此复合索引就是无效的，所以我们在数据库设计时不要让字段的默认值为NULL 9. mysql查询只使用一个索引，因此如果where子句已经使用了索引，那么order by中的列不会使用索引的。因此数据库默认排序可以复合要求的情况下不要使用排序操作，尽量不要包含多列排序，如果需要最好给这些列创建复合索引。  sql语句小技巧 1. 在使用group by 分组查询时，默认分组后，还会进行排序，可能会降低速度 在group by后面加上order by null 就可以防止排序
+2. 有些情况下，可以使用连接来替代子查询，因为使用join，mysql不需要在内存中创建临时表。 select * from dept,emp where dept.deptno=emp.deptno select * from dept left join emp on dept.deptno=emp.deptno[左外连接]
+3. 避免使用 select * 从数据库中读取越多数据，查询就越慢
+4. 当只要一行数据时使用limit 1 使用limit 1数据库引擎会在找到一条数据后停止搜索，而不是继续往后查寻下一条符合记录的数据。
+5. 使用explain你的select查询 使用explain关键字可以让你直到mysql是如何处理你的sql语句的，这可以帮你分析你的查询语句或表结构的性能瓶颈。
+6. 永远为每张表设置一个id字段为主键 7. 使用enum而不是varchar类型 enum类型非常快和紧凑，实际上，其保存的是tinyint类型，但其外表上显示为字符串。</description>
+    </item>
+    
+    <item>
+      <title>远程登录Mysql配置</title>
+      <link>https://realjf.io/mysql/remote-login-mysql/</link>
+      <pubDate>Tue, 28 Apr 2020 14:33:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/remote-login-mysql/</guid>
+      <description>原文地址:http://blog.chinaunix.net/uid-25806228-id-371815.html
+Mysql默认关闭远程登录权限，如下操作允许用户在任意地点登录：  进入mysql，  GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;&#39; WITH GRANT OPTION;  IDENTIFIED BY后跟的是密码，可设为空。 FLUSH privileges;  更新Mysql为了安全性，在默认情况下用户只允许在本地登录，可是在有此情况下，还是需要使用用户进行远程连接，因此为了使其可以远程需要进行如下操作：
+一、允许root用户在任何地方进行远程登录，并具有所有库任何操作权限，具体操作如下： 在本机先使用root用户登录mysql： mysql -u root -p&amp;rdquo;youpassword&amp;rdquo; 进行授权操作：
+mysql&amp;gt;GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;youpassword&#39; WITH GRANT OPTION;  重载授权表：
+FLUSH PRIVILEGES;  退出mysql数据库： exit
+二、允许root用户在一个特定的IP进行远程登录，并具有所有库任何操作权限，具体操作如下： 在本机先使用root用户登录mysql：
+mysql -u root -p&amp;quot;youpassword&amp;quot;  进行授权操作：
+GRANT ALL PRIVILEGES ON *.* TO root@&amp;quot;172.16.16.152&amp;quot; IDENTIFIED BY &amp;quot;youpassword&amp;quot; WITH GRANT OPTION;  重载授权表：</description>
+    </item>
+    
+    <item>
+      <title>MySQL 5.7 源码安装</title>
+      <link>https://realjf.io/mysql/set-up-mysql-57/</link>
+      <pubDate>Tue, 28 Apr 2020 14:31:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/set-up-mysql-57/</guid>
+      <description>源码安装 源码下载地址:http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz
+先检查已有的mysql
+rpm -qa | grep mysql rpm -e mysql-libs-5.1.73-3.el6_5.x86_64 --nodeps  1. 安装依赖的包 由于从mysql5.5开始弃用了常规的configure编译方法，所以需要下载cmake编译器、boost库、ncurses库和gnu分析器生成器bison这4种工具。
+yum -y install make gcc-c++ ncurses-devel  安装cmake
+wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz tar zxvf cmake-3.6.2.tar.gz cd cmake-3.6.2 ./configure make &amp;amp;&amp;amp; make install  安装bison
+wget -c http://git.typecodes.com/libs/ccpp/bison-3.0.tar.gz tar zxvf bison-3.0.tar.gz &amp;amp;&amp;amp; cd bison-3.0/ &amp;amp;&amp;amp; ./configure make &amp;amp;&amp;amp; make install  安装boost
+wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz tar zxvf boost_1_59_0.tar.gz cd boost_1_59_0 ./bootstrap.sh ./b2 stage threading=multi link=shared ./b2 install threading=multi link=shared  或者</description>
+    </item>
+    
+  </channel>
+</rss>

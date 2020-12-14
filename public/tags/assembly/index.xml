@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Assembly on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/assembly/</link>
+    <description>Recent content in Assembly on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 31 May 2020 08:55:50 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/assembly/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>汇编语言之引导加载程序 Bootloaders</title>
+      <link>https://realjf.io/assembly/bootloaders/</link>
+      <pubDate>Sun, 31 May 2020 08:55:50 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/bootloaders/</guid>
+      <description>什么是引导加载程序 引导加载程序是一小段软件，可在打开计算机电源后加载操作系统并准备执行。发生这种情况的方式在不同的计算机设计之间会有所不同（早期的计算机需要一个人在每次打开计算机时手动对其进行设置），并且在引导加载过程中通常有多个阶段。
+至关重要的是要理解术语“引导程序”只是软件的一种分类（有时是模糊的）。对于处理器来说，引导加载程序只是它盲目执行的另一段代码。引导加载程序有许多种。有些很小，有些很大。 有些遵循非常简单的规则，而另一些则显示精美的屏幕并为用户提供选择的选择。
+在与IBM PC兼容的计算机上，要加载的第一个程序是基本输入/输出系统（BIOS）。BIOS执行许多测试和初始化，如果一切正常，则BIOS的启动加载程序开始。其目的是加载另一个引导加载程序！ 它选择一个磁盘（或某些其他存储介质）从中加载辅助引导加载程序。
+在某些情况下，此引导加载程序会加载足够的操作系统以开始运行它。在其他情况下，它将从其他位置加载另一个引导加载程序。当在一台计算机上安装多个操作系统时，通常会发生这种情况。 每个OS可能都有自己的特定引导加载程序，而“中央”引导加载程序会根据用户的选择加载特定的引导加载程序之一。
+大多数引导加载程序都是用汇编语言（甚至是机器代码）专门编写的，因为它们需要紧凑，无法访问其他语言可能需要的OS例程（例如内存分配），因此需要遵循一些不寻常的要求，并且它们频繁使用低级功能。 但是，某些引导加载程序（尤其是那些具有许多功能并允许用户输入的引导加载程序）非常重。这些通常是用Assembly和C的组合编写的。GRand Unified Bootloader（GRUB）就是这样的一个例子。
+一些引导加载程序是高度特定于操作系统的，而其他引导加载程序则不太特定-当然，BIOS引导加载程序不是特定于操作系统的。 MS-DOS引导加载程序（放置在所有 MS-DOS格式的软盘上）仅检查文件IO.SYS和MSDOS.SYS是否存在；否则，仅将其检查。 如果它们不存在，则显示错误“非系统磁盘或磁盘错误”，否则它将加载并开始执行IO.SYS。
+可能（通过操作系统）期望最后阶段的引导加载程序以某种方式准备计算机，例如，通过将处理器置于保护模式并对中断控制器进行编程。 尽管可以在操作系统的初始化过程中完成这些操作，但将它们移至引导加载程序可以简化操作系统的设计。 某些操作系统要求其引导加载程序设置一个小的基本GDT（全局描述符表）并进入保护模式，以消除操作系统具有任何16位代码的需要。 但是，操作系统可能很快会用其自己的复杂GDT代替它。
+引导区 磁盘的前512个字节称为引导扇区或主引导记录。引导扇区是磁盘上保留的用于引导目的的区域。 如果磁盘的引导扇区包含有效的引导扇区（扇区的最后一个字必须包含签名0xAA55），则BIOS会将磁盘视为可引导磁盘。
+引导过程 当打开或重置时，x86处理器开始执行在地址FFFF：0000处找到的指令（在此阶段它以实模式运行）（英特尔软件开发人员手册第3卷第9章与以下信息矛盾：执行从物理地址开始0xFFFFFFF0，等等。 在与IBM PC兼容的处理器中，此地址映射到ROM芯片，该芯片包含计算机的基本输入/输出系统（BIOS）代码。BIOS负责许多测试和初始化。 例如，BIOS可以执行内存测试，初始化中断控制器和系统计时器并测试这些设备是否正常运行。
+最终，实际的引导加载开始了。BIOS首先搜索并初始化可用的存储介质（例如软盘驱动器，硬盘，CD驱动器），然后确定要尝试从中引导的存储介质。 它会检查每个设备的可用性（例如，确保软盘驱动器包含磁盘），然后按照某些预定义的顺序检查0xAA55签名（通常可以使用BIOS设置工具配置该顺序）。 它将遇到的第一个可启动设备的第一个扇区加载到RAM中，并启动执行。
+理想情况下，这将是另一个引导加载程序，它将继续工作，进行一些准备，然后将控制权传递给其他东西。
+尽管BIOS仍与已有20年历史的软件兼容，但随着时间的推移，它们也变得越来越复杂。早期的BIOS无法从CD驱动器引导，但是现在CD甚至DVD引导都是标准的BIOS功能。 也可以从USB存储设备启动，某些系统可以通过网络启动。为了实现这种高级功能，BIOS有时会进入保护模式等，但随后返回实模式以与旧版引导加载程序兼容。 这就产生了一个麻烦的问题：编写引导加载程序以与普遍存在的BIOS配合使用，并且编写BIOS来支持所有这些引导加载程序，从而在很大程度上避免了新的引导加载功能。
+技术细节 引导加载程序在程序员必须理解的某些条件下运行，以便制作成功的引导加载程序。以下与PC BIOS启动的引导加载程序有关：
+ 驱动器的第一个扇区包含其引导加载程序。 一个扇区为512字节-最后两个字节必须为0xAA55（即0x55后跟0xAA），否则BIOS将驱动器视为不可引导。 如果一切正常，则所述第一个扇区将放置在RAM地址0000：7C00上，并且BIOS的角色已经结束，因为它将控制权转移到0000：7C00（即，将JMP传递到该地址）。 DL寄存器将包含正在从中引导的驱动器号，如果您想从驱动器上的其他位置读取更多数据，则很有用。 BIOS留下了大量代码，既可以处理硬件中断（例如按键），又可以为Bootloader和OS提供服务（例如键盘输入，磁盘读取和写入屏幕）。 您必须了解中断向量表（IVT）的用途，并注意不要干扰您所依赖的BIOS部分。大多数操作系统用自己的代码替换BIOS代码，但是引导加载程序只能使用自己的代码以及BIOS提供的内容来使用。 有用的BIOS服务包括int 10h（用于显示文本/图形），int 13h（磁盘功能）和int 16h（键盘输入）。 这意味着引导加载程序需要的任何代码或数据都必须包含在第一个扇区中（请注意不要意外执行数据），或者必须将其从磁盘的另一个扇区手动加载到RAM中的某个位置。 由于操作系统尚未运行，因此大部分RAM将不使用。但是，您必须注意不要干扰上述BIOS中断处理程序和服务所需的RAM。 操作系统代码本身（或下一个引导程序）也需要加载到RAM中。 BIOS将堆栈指针放在引导扇区末尾之外的512个字节中，这意味着堆栈不能超过512个字节。可能有必要将堆栈移动到更大的区域。 如果要在主流操作系统下读取磁盘，则需要遵守一些约定。例如，您可能希望在软盘上包括BIOS参数块，以使该盘在大多数PC操作系统下均可读。  大多数汇编器都会具有ORG 7C00h与之类似的命令或指令，以通知汇编器将从偏移量7C00h开始加载代码。 汇编程序在计算指令和数据地址时会考虑到这一点。如果不考虑这一点，则汇编程序将假定代码已加载到地址0，并且必须在代码中手动对其进行补偿。
+通常，引导程序会将内核加载到内存中，然后跳转到内核。然后，内核将能够回收引导加载程序使用的内存（因为它已经执行了其工作）。但是，可以在引导扇区中包含OS代码，并在OS启动后将其保留在驻留位置。
+这是为NASM设计的简单引导程序演示：
+org 7C00h jmp short Start ;Jump over the data (the &#39;short&#39; keyword makes the jmp instruction smaller) Msg: db &amp;quot;Hello World!</description>
+    </item>
+    
+    <item>
+      <title>汇编语言之linux系统调用接口</title>
+      <link>https://realjf.io/assembly/interfacing-with-linux/</link>
+      <pubDate>Sun, 31 May 2020 08:13:52 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/interfacing-with-linux/</guid>
+      <description>syscalls Syscall是用户程序和Linux内核之间的接口。它们用于让内核执行各种系统任务，例如文件访问，进程管理和联网。 在C编程语言中，您通常会调用包装函数，该函数执行所有必需的步骤，甚至使用高级功能（例如标准IO库）。
+在Linux上，有几种方法可以进行系统调用。该页面将重点介绍通过使用int $ 0x80或syscall调用软件中断来进行syscall。这是在仅汇编程序中进行系统调用的简单直观的方法
+系统调用 为了使用中断进行系统调用，您必须通过将所有必需的信息复制到通用寄存器中来将其传递给内核
+每个系统调用都有一个固定的数字（注意：数字在int $ 0x80和系统调用之间有所不同！）。您可以通过将数字写入eax / rax寄存器来指定系统调用。
+大多数系统调用都使用参数来执行其任务。通过在进行实际调用之前将它们写入适当的寄存器中来传递这些参数。 每个参数索引都有一个特定的寄存器。请参阅小节中的表，因为int $ 0x80和syscall之间的映射不同。参数按照它们在相应C包装函数的函数签名中出现的顺序传递 您可以在每个Linux API文档中找到syscall函数及其签名，例如参考手册（键入man 2 open以查看打开的syscall的签名）。
+一切设置正确后，您可以使用int $ 0x80或syscall调用中断，内核将执行任务
+系统调用的返回/错误值被写入eax / rax。
+ 内核使用自己的堆栈来执行操作。不会以任何方式触摸用户堆栈。
+ int 0x80 在Linux x86和Linux x86_64系统上，都可以使用int $ 0x80命令调用中断0x80进行系统调用。通过如下设置通用寄存器来传递参数：
+   Syscall # Param 1 Param 2 Param 3 Param 4 Param 5 Param 6     eax ebx ecx edx esi edi ebp       Return value     eax    系统调用号在Linux生成的文件$ build / arch / x86 / include / generated / uapi / asm / unistd_32.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之宏 Macros</title>
+      <link>https://realjf.io/assembly/macros/</link>
+      <pubDate>Sun, 31 May 2020 06:13:27 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/macros/</guid>
+      <description>编写宏是确保使用汇编语言进行模块化编程的另一种方法。
+ 宏是由名称分配的一系列指令，可以在程序中的任何位置使用。 在NASM中，宏使用％macro和％endmacro指令定义 宏以％macro指令开头，以％endmacro指令结尾  语法
+%macro macro_name number_of_params &amp;lt;macro body&amp;gt; %endmacro  其中，number_of_params指定数字参数，macro_name指定宏的名称。
+通过使用宏名称和必要的参数来调用宏。当您需要在程序中多次使用某些指令序列时，可以将这些指令放在宏中并使用它，而不必一直写指令。
+例如，程序的一个非常普遍的需求是在屏幕上写一个字符串。要显示字符串，需要以下说明序列
+mov edx,len ;message length mov ecx,msg ;message to write mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel  在以上显示字符串的示例中，INT 80H函数调用已使用寄存器EAX，EBX，ECX和EDX。 因此，每次需要在屏幕上显示时，都需要将这些寄存器保存在堆栈中，调用INT 80H，然后从堆栈中恢复寄存器的原始值。因此，编写两个用于保存和还原数据的宏可能会很有用
+我们已经观察到，某些指令（如IMUL，IDIV，INT等）需要将某些信息存储在某些特定的寄存器中，甚至返回某些特定寄存器中的值。 如果程序已经使用这些寄存器来保存重要数据，则应将这些寄存器中的现有数据保存在堆栈中，并在执行指令后将其恢复。
+示例
+; A macro with two parameters ; Implements the write system call %macro write_string 2 mov eax, 4 mov ebx, 1 mov ecx, %1 mov edx, %2 int 80h %endmacro section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之递归 Recursion</title>
+      <link>https://realjf.io/assembly/recursion/</link>
+      <pubDate>Sun, 31 May 2020 06:13:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/recursion/</guid>
+      <description>递归过程是一个可以自我调用的过程。递归有两种：直接和间接。 在直接递归中，该过程调用自身，在间接递归中，第一个过程调用第二个过程，第二个过程依次调用第一个过程。
+以下程序显示了如何使用汇编语言实现阶乘n。为了简化程序，我们将计算阶乘3
+section .text global _start ;must be declared for using gcc _start: ;tell linker entry point mov bx, 3 ;for calculating factorial 3 call proc_fact add ax, 30h mov [fact], ax mov edx,len ;message length mov ecx,msg ;message to write mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel mov edx,1 ;message length mov ecx,fact ;message to write mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel mov eax,1 ;system call number (sys_exit) int 0x80 ;call kernel proc_fact: cmp bl, 1 jg do_calculation mov ax, 1 ret do_calculation: dec bl call proc_fact inc bl mul bl ;ax = al * bl ret section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之过程 Procedures</title>
+      <link>https://realjf.io/assembly/procedures/</link>
+      <pubDate>Sun, 31 May 2020 03:23:47 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/procedures/</guid>
+      <description>过程或子例程在汇编语言中非常重要，因为汇编语言程序往往会很大。程序由名称标识。 在此名称之后，将描述执行明确定义的作业的过程主体。该过程的结束由return语句指示。
+语法
+proc_name: procedure body ... ret  通过使用CALL指令从另一个函数调用该过程。 CALL指令应将被调用过程的名称作为参数，如下所示
+CALL proc_name  示例
+Live Demo section .text global _start ;must be declared for using gcc _start: ;tell linker entry point mov ecx,&#39;4&#39; sub ecx, &#39;0&#39; mov edx, &#39;5&#39; sub edx, &#39;0&#39; call sum ;call sum procedure mov [res], eax mov ecx, msg mov edx, len mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel mov ecx, res mov edx, 1 mov ebx, 1 ;file descriptor (stdout) mov eax, 4 ;system call number (sys_write) int 0x80 ;call kernel mov eax,1 ;system call number (sys_exit) int 0x80 ;call kernel sum: mov eax, ecx add eax, edx add eax, &#39;0&#39; ret section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之数组 Arrays</title>
+      <link>https://realjf.io/assembly/arrays/</link>
+      <pubDate>Sun, 31 May 2020 03:23:36 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/arrays/</guid>
+      <description>汇编程序的数据定义指令用于为变量分配存储空间。 变量也可以用一些特定的值初始化。初始化值可以以十六进制，十进制或二进制形式指定
+我们可以通过以下两种方式之一来定义单词变量“ months”
+MONTHS DW 12 MONTHS DW 0CH MONTHS DW 0110B  数据定义指令还可用于定义一维数组。让我们定义一维数字数组
+NUMBERS DW 34, 45, 56, 67, 75, 89  上面的定义声明了一个六个字的数组，每个字都用数字34、45、56、67、75、89初始化。这分配了2x6 = 12个字节的连续存储空间。 第一个数字的符号地址为NUMBERS，第二个数字的符号地址为NUMBERS + 2，依此类推
+您可以定义一个大小为8的名为清单的数组，并将所有值初始化为零，如下所示：
+INVENTORY DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 DW 0  可以缩写为
+INVENTORY DW 0, 0 , 0 , 0 , 0 , 0 , 0 , 0  TIMES指令还可用于将多个初始化为相同的值。使用TIMES，可以将INVENTORY数组定义为
+INVENTORY TIMES 8 DW 0  示例</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之字符串 Strings</title>
+      <link>https://realjf.io/assembly/strings/</link>
+      <pubDate>Sun, 31 May 2020 03:23:28 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/strings/</guid>
+      <description>可变长度的字符串可以根据需要包含任意多个字符。通常，我们通过两种方式之一指定字符串的长度
+ 显式存储字符串长度 使用前哨角色  我们可以使用表示位置计数器当前值的$位置计数器符号来显式存储字符串长度
+msg db &#39;Hello, world!&#39;,0xa ;our dear string len equ $ - msg ;length of our dear string  $指向字符串变量msg的最后一个字符之后的字节。因此，$-msg给出字符串的长度。我们也可以写
+msg db &#39;Hello, world!&#39;,0xa ;our dear string len equ 13 ;length of our dear string  另外，您可以存储带有尾部定点字符的字符串来分隔字符串，而不必显式存储字符串长度。 前哨字符应为不出现在字符串中的特殊字符。
+例如：
+message DB &#39;I am loving it!&#39;, 0  字符串指令 每个字符串指令可能需要一个源操作数，一个目标操作数或两者。对于32位段，字符串指令使用ESI和EDI寄存器分别指向源和目标操作数
+但是，对于16位段，SI和DI寄存器分别用于指向源和目标。
+有五个用于处理字符串的基本说明
+ MOVS 该指令将1字节，字或双字数据从存储器位置移到另一个位置。 LODS 该指令从存储器加载。如果操作数是一个字节，则将其加载到AL寄存器中；如果操作数是一个字，则将其加载到AX寄存器中，并将双字加载到EAX寄存器中 STOS 该指令将数据从寄存器（AL，AX或EAX）存储到存储器。 CMPS 该指令比较存储器中的两个数据项。数据可以是字节大小，字或双字。 SCAS 该指令将寄存器（AL，AX或EAX）的内容与存储器中项目的内容进行比较。  上面的每个指令都有字节，字和双字版本，并且可以通过使用重复前缀来重复字符串指令</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之数值 Numbers</title>
+      <link>https://realjf.io/assembly/numbers/</link>
+      <pubDate>Sun, 31 May 2020 03:23:19 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/numbers/</guid>
+      <description>数值数据通常用二进制表示。算术指令对二进制数据进行操作。当数字显示在屏幕上或通过键盘输入时，它们为ASCII格式
+此类转换会产生开销，并且汇编语言编程允许以更有效的方式以二进制形式处理数字。小数可以两种形式表示
+ ASCII格式 BCD或者二进制编码的十进制形式  ASCII表示 在ASCII表示中，十进制数字存储为ASCII字符串
+有四条指令以ASCII表示形式处理数字
+ AAA ASCII Adjust After Addition AAS ASCII Adjust After Subtraction AAM ASCII Adjust After Multiplication AAD ASCII Adjust Before Division  这些指令不使用任何操作数，并假定所需的操作数位于AL寄存器中
+示例
+section .text global _start ;must be declared for using gcc _start: ;tell linker entry point sub ah, ah mov al, &#39;9&#39; sub al, &#39;3&#39; aas or al, 30h mov [res], ax mov edx,len ;message length mov ecx,msg ;message to write mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel mov edx,1 ;message length mov ecx,res ;message to write mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel mov eax,1 ;system call number (sys_exit) int 0x80 ;call kernel section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之循环 Loops</title>
+      <link>https://realjf.io/assembly/loops/</link>
+      <pubDate>Sun, 31 May 2020 03:23:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/loops/</guid>
+      <description>JMP指令可用于实现循环。例如，以下代码段可用于执行循环主体10次
+MOV CL, 10 L1: &amp;lt;LOOP-BODY&amp;gt; DEC CL JNZ L1  但是，处理器指令集包括一组用于实现迭代的循环指令。基本的LOOP指令具有以下语法
+LOOP label  其中，label是标识目标指令的目标标签，如跳转指令中所述。 LOOP指令假定ECX寄存器包含循环计数。 当执行循环指令时，ECX寄存器递减，并且控制跳至目标标签，直到ECX寄存器的值（即计数器达到零）为止。
+示例
+Live Demo section .text global _start ;must be declared for using gcc _start: ;tell linker entry point mov ecx,10 mov eax, &#39;1&#39; l1: mov [num], eax mov eax, 4 mov ebx, 1 push ecx mov ecx, num mov edx, 1 int 0x80 mov eax, [num] sub eax, &#39;0&#39; inc eax add eax, &#39;0&#39; pop ecx loop l1 mov eax,1 ;system call number (sys_exit) int 0x80 ;call kernel section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之条件判断 Conditions</title>
+      <link>https://realjf.io/assembly/conditions/</link>
+      <pubDate>Sun, 31 May 2020 03:23:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/conditions/</guid>
+      <description>汇编语言中的条件执行是通过几个循环和分支指令来完成的。这些指令可以更改程序中的控制流。在两种情况下观察到条件执行
+无条件跳转 这是通过JMP指令执行的。条件执行通常涉及将控制权转移到不遵循当前执行指令的指令的地址。 控制权的转移可以是前进，执行新指令集，也可以是后退，重新执行相同的步骤
+有条件的跳转 这取决于条件由一组跳转指令j 执行。条件指令通过中断顺序流程来转移控制，而它们通过更改IP中的偏移值来完成
+cmp指令 CMP指令比较两个操作数。它通常用于条件执行中。该指令基本上从另一个操作数中减去一个操作数，以比较操作数是否相等。 它不会干扰目标或源操作数。它与条件跳转指令一起用于决策。
+语法
+CMP destination, source  CMP比较两个数字数据字段。目标操作数可以在寄存器中或在内存中。源操作数可以是常量（立即数）数据，寄存器或内存
+示例
+CMP DX, 00 ; Compare the DX value with zero JE L7 ; If yes, then jump to label L7 . . L7: ...  CMP通常用于比较计数器值是否已达到需要运行循环的次数。考虑以下典型条件
+INC EDX CMP EDX, 10 ; Compares whether the counter has reached 10 JLE LP1 ; If it is less than or equal to 10, then jump to LP1  无条件跳转 这是通过JMP指令执行的。条件执行通常涉及将控制权转移到不遵循当前执行指令的指令的地址。</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之逻辑指令 Logical Instructions</title>
+      <link>https://realjf.io/assembly/logical-instructions/</link>
+      <pubDate>Sun, 31 May 2020 02:16:58 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/logical-instructions/</guid>
+      <description>处理器指令集提供指令AND，OR，XOR，TEST和NOT布尔逻辑，它们根据程序的需要测试，设置和清除位。
+   序号 指令 格式     1 AND AND operand1, operand2   2 OR OR operand1, operand2   3 XOR XOR operand1, operand2   4 TEST TEST operand1, operand2   5 NOT NOT operand1    在所有情况下，第一个操作数都可以在寄存器或内存中。第二个操作数可以是寄存器/内存，也可以是立即数（常量）。 但是，内存到内存操作是不可能的。这些指令比较或匹配操作数的位，并设置CF，OF，PF，SF和ZF标志。
+and指令 AND指令用于通过执行按位AND运算来支持逻辑表达式。如果两个操作数的匹配位均为1，则按位AND运算将返回1，否则返回0
+AND操作可用于清除一个或多个位。例如，假设BL寄存器包含00111010。如果需要将高阶位清除为零，则将其与0FH
+AND BL, 0FH ; This sets BL to 0000 1010  如果要检查给定数字是奇数还是偶数，一个简单的测试将是检查数字的最低有效位。如果为1，则数字为奇数，否则为偶数。
+假设数字在AL寄存器中，我们可以写
+AND AL, 01H ; ANDing with 0000 0001 JZ EVEN_NUMBER  示例</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之算术指令 Arithmetic Instructions</title>
+      <link>https://realjf.io/assembly/arithmetic-instructions/</link>
+      <pubDate>Sun, 31 May 2020 02:15:46 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/arithmetic-instructions/</guid>
+      <description>inc 指令 INC指令用于将操作数加1。它适用于可以在寄存器或内存中的单个操作数
+语法
+INC destination  操作数目的地可以是8位，16位或32位操作数
+示例
+INC EBX ; Increments 32-bit register INC DL ; Increments 8-bit register INC [count] ; Increments the count variable  dec指令 DEC指令用于将操作数减1。它对可以在寄存器或内存中的单个操作数起作用
+语法
+DEC destination  操作数目的地可以是8位，16位或32位操作数。
+示例
+segment .data count dw 0 value db 15 segment .text inc [count] dec [value] mov ebx, count inc word [ebx] mov esi, value dec byte [esi]  add和sub指令 ADD和SUB指令用于对字节，字和双字大小的二进制数据进行简单的加/减，即分别用于添加或减去8位，16位或32位操作数
+语法
+ADD/SUB destination, source  ADD / SUB指令可以在</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之常量 Constants</title>
+      <link>https://realjf.io/assembly/constants/</link>
+      <pubDate>Sun, 31 May 2020 02:09:10 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/constants/</guid>
+      <description>NASM提供了多个定义常量的指令。在前面的章节中，我们已经使用过EQU指令。我们将特别讨论三个指令
+ EQU %assign %define  EQU指令 EQU指令用于定义常量。 EQU指令的语法如下
+CONSTANT_NAME EQU expression  示例
+TOTAL_STUDENTS equ 50  EQU语句的操作数可以是表达式
+LENGTH equ 20 WIDTH equ 10 AREA equ length * width  示例
+Live Demo SYS_EXIT equ 1 SYS_WRITE equ 4 STDIN equ 0 STDOUT equ 1 section .text global _start ;must be declared for using gcc _start: ;tell linker entry point mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg1 mov edx, len1 int 0x80 mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg2 mov edx, len2 int 0x80 mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg3 mov edx, len3 int 0x80 mov eax,SYS_EXIT ;system call number (sys_exit) int 0x80 ;call kernel section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之变量 Variables</title>
+      <link>https://realjf.io/assembly/variables/</link>
+      <pubDate>Sun, 31 May 2020 01:50:22 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/variables/</guid>
+      <description>NASM提供了各种定义指令来为变量保留存储空间。 define assembler指令用于分配存储空间。它可以用于保留以及初始化一个或多个字节
+为初始化数据分配存储空间 初始化数据的存储分配语句的语法为
+[variable-name] define-directive initial-value [,initial-value]...  其中，变量名是每个存储空间的标识符。汇编器为数据段中定义的每个变量名称关联一个偏移值。
+五种基本类型指令
+   指令 说明 存储空间     DB 定义字节 1 byte   DW 定义字 2 bytes   DD 定义双字 4 bytes   DQ 定义四字 8 bytes   DT 定义10字 10 bytes    示例
+choice DB &#39;y&#39; number DW 12345 neg_number DW -12345 big_number DQ 123456789 real_number1 DD 1.234 real_number2 DQ 123.</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之寻址模式 Addressing Modes</title>
+      <link>https://realjf.io/assembly/address-modes/</link>
+      <pubDate>Sun, 31 May 2020 01:05:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/address-modes/</guid>
+      <description>大多数汇编语言指令都需要处理操作数。操作数地址提供了要处理的数据存储的位置。一些指令不需要操作数，而另一些指令则可能需要一个，两个或三个操作数
+当一条指令需要两个操作数时，第一个操作数通常是目的地，可能是寄存器或存储器地址，第二个操作数是源。 源包含要传递的数据（立即寻址）或数据的地址（在寄存器或存储器中）。通常，操作后源数据保持不变。
+寻址的三种基本模式是
+ 寄存器寻址 立即寻址 内存寻址  寄存器寻址 在这种寻址模式下，寄存器包含操作数。根据指令，寄存器可以是第一操作数，第二操作数或两者。
+MOV DX, TAX_RATE ; Register in first operand MOV COUNT, CX ; Register in second operand MOV EAX, EBX ; Both the operands are in registers  由于寄存器之间的数据处理不涉及内存，因此可以最快地处理数据
+立即寻址 立即数操作数具有常数值或表达式。当具有两个操作数的指令使用立即寻址时，第一个操作数可以是寄存器或存储器位置，而第二个操作数是立即数。第一个操作数定义数据的长度。
+BYTE_VALUE DB 150 ; A byte value is defined WORD_VALUE DW 300 ; A word value is defined ADD BYTE_VALUE, 65 ; An immediate operand 65 is added MOV AX, 45H ; Immediate constant 45H is transferred to AX  直接内存寻址 在内存寻址模式下指定操作数时，通常需要直接访问主存储器，通常是数据段。这种寻址方式导致数据处理速度变慢。 为了找到数据在内存中的确切位置，我们需要段起始地址（通常在DS寄存器中找到）和偏移值。此偏移值也称为有效地址。</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之系统调用 System Calls</title>
+      <link>https://realjf.io/assembly/system-calls/</link>
+      <pubDate>Sun, 31 May 2020 00:53:19 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/system-calls/</guid>
+      <description>系统调用是用户空间和内核空间之间接口的API。我们已经使用了系统调用。 sys_write和sys_exit，分别用于写入屏幕和退出程序
+linux 系统调用 您可以在汇编程序中使用Linux系统调用。您需要按照以下步骤在程序中使用Linux系统调用
+ 将系统调用编号放入EAX寄存器中 将系统调用的参数存放到EBX,ECX等寄存器 调用相关的中断 结果通常在EAX寄存器中返回  有六个寄存器，用于存储所用系统调用的参数。这些是EBX，ECX，EDX，ESI，EDI和EBP。 这些寄存器采用从EBX寄存器开始的连续参数。如果有六个以上的自变量，则第一个自变量的存储位置将存储在EBX寄存器中
+以下代码段显示了系统调用sys_exit的使用
+mov eax,1 ; system call number (sys_exit) int 0x80 ; call kernel  以下代码段显示了系统调用sys_write的使用
+mov edx,4 ; message length mov ecx,msg ; message to write mov ebx,1 ; file descriptor (stdout) mov eax,4 ; system call number (sys_write) int 0x80 ; call kernel  所有系统调用及其编号（在调用int 80h之前放入EAX的值）都列在/usr/include/asm/unistd.h中
+下表显示了使用的一些系统调用
+   %eax name %ebx %ecx %edx %esx %edi     1 sys_exit int - - - -   2 sys_fork struct pt_regs - - - -   3 sys_read unsigned int char * size_t - -   4 sys_write unsigned int const char * size_t - -    示例 section .</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之寄存器 Register</title>
+      <link>https://realjf.io/assembly/register/</link>
+      <pubDate>Sun, 31 May 2020 00:52:44 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/register/</guid>
+      <description>处理器操作主要涉及处理数据。该数据可以存储在存储器中并从其访问。 然而，从存储器中读取数据并将数据存储到存储器中会减慢处理器的速度，因为这涉及到通过控制总线发送数据请求并进入存储器存储单元并通过同一通道获取数据的复杂过程。
+为了加速处理器的运行，处理器包括一些内部存储器存储位置，称为寄存器。
+处理器寄存器 IA-32体系结构中有10个32位和6个16位处理器寄存器。寄存器分为三类
+ 通用寄存器 控制寄存器 段寄存器  通用寄存器进一步分为以下几类
+ 数据寄存器 指针寄存器 索引寄存器  数据寄存器 四个32位数据寄存器用于算术，逻辑和其他操作。这些32位寄存器可以三种方式使用-
+ 作为完整的32位数据寄存器：EAX，EBX，ECX，EDX。 下半部分的32位寄存器可用作四个16位数据寄存器：AX，BX，CX和DX。 上述四个16位寄存器的上半部分和下半部分可以用作八个8位数据寄存器：AH，AL，BH，BL，CH，CL，DH和DL。  其中一些数据寄存器在算术运算中有特定用途。
+ AX是主要的累加器 ; 它用于输入/输出和大多数算术指令。例如，在乘法运算中，一个操作数根据操作数的大小存储在EAX或AX或AL寄存器中。 BX被称为基址寄存器，因为它可以用于索引寻址。 CX被称为计数寄存器，因为ECX，CX寄存器在迭代操作中存储循环计数。 DX被称为数据寄存器。它也用于输入/输出操作。它还与AX寄存器以及DX一起使用，用于涉及大数值的乘法和除法运算。  指针寄存器 指针寄存器是32位EIP，ESP和EBP寄存器以及相应的16位右部分IP，SP和BP。
+指针寄存器分为三类
+ 指令指针（IP） -16位IP寄存器存储要执行的下一条指令的偏移地址。与CS寄存器关联的IP（作为CS：IP）给出了代码段中当前指令的完整地址。 堆栈指针（SP） -16位SP寄存器提供程序堆栈内的偏移值。与SS寄存器（SS：SP）关联的SP是指程序堆栈中数据或地址的当前位置。 基本指针（BP） -16位BP寄存器主要帮助参考传递给子例程的参数变量。SS寄存器中的地址与BP中的偏移量相结合，以获取参数的位置。BP也可以与DI和SI组合用作特殊寻址的基址寄存器。  索引寄存器 32位索引寄存器ESI和EDI及其最右边的16位部分。SI和DI用于索引寻址，有时用于加法和减法。有两组索引指针-
+ 源索引（SI） -用作字符串操作的源索引。 目的索引（DI） -用作字符串操作的目标索引。  控制寄存器 将32位指令指针寄存器和32位标志寄存器组合起来视为控制寄存器。
+许多指令涉及比较和数学计算，并更改标志的状态，而其他一些条件指令则测试这些状态标志的值，以将控制流带到其他位置。
+通用标志位是：
+ 溢出标志（OF） -指示有符号算术运算后数据的高阶位（最左位）的溢出。 方向标记（DF） -它确定向左或向右移动或比较字符串数据的方向。DF值为0时，字符串操作为从左至右的方向；当DF值为1时，字符串操作为从右至左的方向。 中断标志（IF） -确定是否忽略或处理外部中断（例如键盘输入等）。当值为0时，它禁用外部中断，而当值为1时，它使能中断。 陷阱标志（TF） -允许在单步模式下设置处理器的操作。我们使用的DEBUG程序设置了陷阱标志，因此我们可以一次逐步执行一条指令。 符号标志（SF） -显示算术运算结果的符号。根据算术运算后数据项的符号设置此标志。该符号由最左位的高位指示。正结果将SF的值清除为0，负结果将其设置为1。 零标志（ZF） -指示算术或比较运算的结果。非零结果会将零标志清零，零结果将其清零。 辅助进位标志（AF） -包含经过算术运算后从位3到位4的进位；用于专业算术。当1字节算术运算引起从第3位到第4位的进位时，将设置AF。 奇偶校验标志（PF） -指示从算术运算获得的结果中1位的总数。偶数个1位将奇偶校验标志清为0，奇数个1位将奇偶校验标志清为1。 进位标志（CF） -在算术运算后，它包含一个高位（最左边）的0或1进位。它还存储移位或旋转操作的最后一位的内容。  下表列出了16位标志寄存器中标志位的位置：</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之内存段 Memory Segments</title>
+      <link>https://realjf.io/assembly/memory-segments/</link>
+      <pubDate>Sun, 31 May 2020 00:33:36 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/memory-segments/</guid>
+      <description>汇编程序的三个节.data、.bss、.text。这些部分也代表各种内存段。
+如果将section关键字替换为segment，则会得到相同的结果。试试下面的代码
+segment .text ;code segment global _start ;must be declared for linker _start: ;tell linker entry point mov edx,len ;message length mov ecx,msg ;message to write mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel mov eax,1 ;system call number (sys_exit) int 0x80 ;call kernel segment .data ;data segment msg db &#39;Hello, world!&#39;,0xa ;our dear string len equ $ - msg ;length of our dear string  内存段 分段存储器模型将系统存储器分为独立的分段组，这些分段由位于分段寄存器中的指针引用。每个细分用于包含特定类型的数据。 一个段用于包含指令代码，另一段用于存储数据元素，第三段用于保留程序堆栈。</description>
+    </item>
+    
+    <item>
+      <title>nasm汇编之基础语法 Basic Syntax</title>
+      <link>https://realjf.io/assembly/basic-syntax/</link>
+      <pubDate>Sun, 31 May 2020 00:20:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/basic-syntax/</guid>
+      <description>一个汇编程序可以被分成三个sections：
+ data section bss section text section  data section data 部分用于声明初始化的数据或常量。该数据在运行时不会更改。您可以在本节中声明各种常量值，文件名或缓冲区大小等
+section .data  bss section bss部分用于声明变量。声明bss部分的语法是
+section .bss  text section text部分用于保留实际代码。此section必须以全局声明_start开头，该声明告诉内核程序从何处开始执行。
+section .text global _start _start:  注释 ; this is a comment mov a, b ; move b to a  statements [label] mnemonic [operands] [;comment]  hello world示例 section .text global _start ;must be declared for linker (ld) _start: ;tells linker entry point mov edx,len ;message length mov ecx,msg ;message to write mov ebx,1 ;file descriptor (stdout) mov eax,4 ;system call number (sys_write) int 0x80 ;call kernel mov eax,1 ;system call number (sys_exit) int 0x80 ;call kernel section .</description>
+    </item>
+    
+    <item>
+      <title>汇编语言之数学操作 Math Operations List</title>
+      <link>https://realjf.io/assembly/math-operations-list/</link>
+      <pubDate>Sat, 30 May 2020 22:23:28 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/math-operations-list/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>汇编语言之跳转标识 Jump Symbol</title>
+      <link>https://realjf.io/assembly/jump-symbol/</link>
+      <pubDate>Sat, 30 May 2020 22:00:29 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/jump-symbol/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>汇编语言之系统调用寄存器输入 System Call Inputs by Register</title>
+      <link>https://realjf.io/assembly/system-call-inputs-by-register/</link>
+      <pubDate>Sat, 30 May 2020 21:30:25 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/system-call-inputs-by-register/</guid>
+      <description> 示例 </description>
+    </item>
+    
+    <item>
+      <title>汇编语言之寄存器 Registers</title>
+      <link>https://realjf.io/assembly/registers/</link>
+      <pubDate>Sat, 30 May 2020 21:28:19 +0800</pubDate>
+      
+      <guid>https://realjf.io/assembly/registers/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

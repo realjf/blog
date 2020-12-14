@@ -1,0 +1,626 @@
+<!doctype html>
+<html>
+<head>
+    <title>MySQL 5.7 源码安装 // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">MySQL 5.7 源码安装</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Apr 28, 2020
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/sql/">Sql</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h4 id="源码安装">源码安装</h4>
+
+<p>源码下载地址:<a href="http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz">http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz</a></p>
+
+<p>先检查已有的mysql</p>
+
+<pre><code>rpm -qa | grep mysql
+rpm -e mysql-libs-5.1.73-3.el6_5.x86_64 --nodeps
+</code></pre>
+
+<h4 id="1-安装依赖的包">1. 安装依赖的包</h4>
+
+<p>由于从mysql5.5开始弃用了常规的configure编译方法，所以需要下载cmake编译器、boost库、ncurses库和gnu分析器生成器bison这4种工具。</p>
+
+<pre><code>yum -y install make gcc-c++  ncurses-devel
+</code></pre>
+
+<p>安装cmake</p>
+
+<pre><code>wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
+tar zxvf cmake-3.6.2.tar.gz
+cd cmake-3.6.2
+./configure
+make &amp;&amp; make install
+</code></pre>
+
+<p>安装bison</p>
+
+<pre><code>wget -c http://git.typecodes.com/libs/ccpp/bison-3.0.tar.gz
+tar zxvf bison-3.0.tar.gz &amp;&amp; cd bison-3.0/ &amp;&amp; ./configure
+make &amp;&amp; make install
+</code></pre>
+
+<p>安装boost</p>
+
+<pre><code>wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
+tar zxvf boost_1_59_0.tar.gz
+cd boost_1_59_0
+./bootstrap.sh
+./b2 stage threading=multi link=shared
+./b2 install threading=multi link=shared
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>wget http://sourceforge.mirrorservice.org/b/bo/boost/boost/1.59.0/boost_1_59_0.tar.bz2
+tar jxvf boost_1_59_0.tar.bz2
+// 其他的同上
+</code></pre>
+
+<blockquote>
+<p>附：卸载boost很简单，只需要删除/usr/local/include目录下和/usr/local/lib目录下有关boost的库文件就可以</p>
+</blockquote>
+
+<h4 id="2-下载编译安装mysql">2. 下载编译安装mysql</h4>
+
+<pre><code>mkdir /usr/local/mysql
+mkdir /usr/local/mysql/data
+
+wget http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz
+tar zxvf mysql-5.7.15.tar.gz
+cd mysql-5.7.15
+
+// 编译安装
+cmake \
+-DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+-DMYSQL_DATADIR=/usr/local/mysql/data \
+-DSYSCONFDIR=/etc \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_MEMORY_STORAGE_ENGINE=1 \
+-DWITH_READLINE=1 \
+-DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock \
+-DMYSQL_TCP_PORT=3306 \
+-DENABLED_LOCAL_INFILE=1 \
+-DENABLED_DOWNLOADS=1 \
+-DWITH_PARTITION_STORAGE_ENGINE=1 \
+-DEXTRA_CHARSETS=all \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DMYSQL_USER=mysql \
+-DWITH_DEBUG=0 \
+-DMYSQL_MAINTAINER_MODE=0 \
+-DWITH_SSL:STRING=bundled \
+-DWITH_ZLIB:STRING=bundled
+
+make &amp;&amp; make install
+</code></pre>
+
+<blockquote>
+<p>编译的参数可以参考<a href="http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html">http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html</a></p>
+</blockquote>
+
+<h4 id="3-设置权限">3. 设置权限</h4>
+
+<p>使用下面的命令查看是否有mysql用户及用户组</p>
+
+<pre><code>cat /etc/passwd // 查看用户列表
+cat /etc/group // 查看用户组列表
+</code></pre>
+
+<p>如果没有就创建</p>
+
+<pre><code>groupadd mysql
+useradd -s /sbin/nologin -g mysql -M mysql // 创建一个用户，不允许登录和不创建主目录
+tail -1 /etc/passwd // 检查创建的用户
+</code></pre>
+
+<p>修改/usr/local/mysql权限</p>
+
+<pre><code>chown -R mysql:mysql /usr/local/mysql
+</code></pre>
+
+<h4 id="4-初始化配置">4. 初始化配置</h4>
+
+<p>进入安装路径</p>
+
+<pre><code>cd /usr/local/mysql
+</code></pre>
+
+<p>进入安装路径，执行 初始化配置脚本，表</p>
+
+<pre><code>scripts/mysql_install_db --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
+</code></pre>
+
+<blockquote>
+<p>注意5.7.17版本使用</p>
+</blockquote>
+
+<pre><code>./mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
+</code></pre>
+
+<blockquote>
+<p>注意：初始化后会生成默认密码，请记录下来
+==2016-10-14T17:36:51.794435Z 1 [Note] A temporary password is generated for root@localhost: W=XlQVLf/7Ra==</p>
+</blockquote>
+
+<p>==后续必须修改默认密码，不然不能正常使用mysql。==</p>
+
+<blockquote>
+<p>注：在启动mysql服务时，会按照一定次序搜索my.cnf，先在/etc目录下找，找不到则会搜索“$basedir/my.cnf”,在本例中就是/usr/local/mysql/my.cnf，这是新版本mysql的配置文件的默认位置</p>
+
+<p>注意：在CentOS 6.4版操作系统的最小安装完成后，在/etc目录下会存在一个my.cnf，需要将此文件更名为其他的名字，如：/etc/my.cnf.bak，否则，该文件会干扰源码安装的MySQL的正确配置，造成无法启动。
+在使用&rdquo;yum update&rdquo;更新系统后，需要检查下/etc目录下是否会多出一个my.cnf，如果多出，将它重命名成别的。否则，MySQL将使用这个配置文件启动，可能造成无法正常启动等问题。</p>
+</blockquote>
+
+<h5 id="调整配置文件和环境变量">调整配置文件和环境变量</h5>
+
+<p>将默认生成的my.cnf备份</p>
+
+<pre><code>mv /etc/my.cnf /etc/my.cnf.bak
+cd /usr/local/mysql/support-files
+</code></pre>
+
+<p>拷贝配置文件模板为新的mysql配置文件</p>
+
+<pre><code>cp my-default.cnf /etc/my.cnf
+</code></pre>
+
+<p>可按需修改新的配置文件选项， 不修改配置选项， mysql则按默认配置参数运行.</p>
+
+<p>如下是我修改配置文件/etc/my.cnf， 用于设置编码为utf8以防乱码</p>
+
+<pre><code>[mysqld]
+character_set_server=utf8
+init_connect='SET NAMES utf8'
+[client]
+default-character-set=utf8
+</code></pre>
+
+<p>创建mysql命令文件</p>
+
+<pre><code>ln -s /mysql/bin/mysql /usr/bin/
+</code></pre>
+
+<p>注：没有这个文件就没有mysql命令，不能在任意位置使用mysql 访问数据库</p>
+
+<h4 id="5-启动mysql">5.启动mysql</h4>
+
+<p>添加服务，拷贝服务脚本到init.d目录，并设置开机启动</p>
+
+<pre><code>cp support-files/mysql.server /etc/init.d/mysqld
+chmod +x /etc/init.d/mysqld
+chkconfig mysql on
+service mysqld start
+</code></pre>
+
+<h4 id="6-配置用户">6. 配置用户</h4>
+
+<p>mysql启动成功后，root默认没有密码，我们需要设置root密码
+设置之前，我们需要先设置path，要不不能直接调用mysql<br />
+修改/etc/profile文件，在文件末尾加入</p>
+
+<pre><code>PATH=/usr/local/mysql/bin:$PATH
+export PATH
+</code></pre>
+
+<p>关闭文件，运行下面的命令，</p>
+
+<pre><code>source /etc/profile
+</code></pre>
+
+<p>现在，我们就可以直接在终端输入mysql了，执行</p>
+
+<pre><code>mysql -u root
+mysql &gt; SET PASSWORD = PASSWORD('123456');
+mysql &gt; exit
+</code></pre>
+
+<p>修改root密码</p>
+
+<pre><code>alter user 'root'@'localhost' identified by 'wenti@456.COM';
+</code></pre>
+
+<p>若要配置远程访问，执行</p>
+
+<pre><code>mysql &gt; GRANT ALL PRIVILEGES ON *.* TO 'root'@'172.16.%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+</code></pre>
+
+<blockquote>
+<p>password 为远程访问时的root密码，可以和本地的不同</p>
+</blockquote>
+
+<h4 id="7-配置防火墙">7. 配置防火墙</h4>
+
+<p>防火墙的3306端口默认没有开启，若要远程访问，需要开启这个端口<br />
+打开/etc/sysconfig/iptables，添加如下内容：</p>
+
+<pre><code>-A INPUT -m state --state NEW -m tcp -p -dport 3306 -j ACCEPT
+</code></pre>
+
+<p>然后保存，关闭文件，在终端运行如下命令，刷新防火墙配置：</p>
+
+<pre><code>service iptables restart
+</code></pre>
+
+<p>配置成功</p>
+
+<blockquote>
+<p>CentOS 7中默认使用Firewalld做防火墙，所以修改iptables后，在重启系统后，根本不管用。</p>
+</blockquote>
+
+<p>Firewalld中添加端口方法如下：</p>
+
+<pre><code>firewall-cmd --zone=public --add-port=3306/tcp --permanent 
+firewall-cmd --reload
+</code></pre>
+
+<blockquote>
+<p>注意：
+在低于Mysql 5.7.6的版本上，Mysql是使用mysql_install_db命令初始化数据库的，该命令会在安装Mysql的用户根目录下创建一个.mysql_secret文件，该文件记录了初始化生成的随机密码，用户可使用改密码登录Mysql并重新修改密码。
+对于Mysql 5.7.6以后的5.7系列版本，Mysql使用mysqld &ndash;initialize或mysqld &ndash;initialize-insecure命令来初始化数据库，后者可以不生成随机密码。但是安装Mysql时默认使用的是前一个命令，这个命令也会生成一个随机密码。改密码保存在了Mysql的日志文件中。</p>
+</blockquote>
+
+<h4 id="编译安装常见错误分析">编译安装常见错误分析</h4>
+
+<p>原文链接<a href="https://typecodes.com/web/solvemysqlcompileerror.html">https://typecodes.com/web/solvemysqlcompileerror.html</a></p>
+
+<h5 id="没有安装mysql所需要的boost库">* 没有安装mysql所需要的boost库</h5>
+
+<h5 id="mysql-server-pid-file-could-not-be-found-失败">* MySQL server PID file could not be found![失败]</h5>
+
+<p>Starting MySQL&hellip;The server quit without updating PID file (/usr/local/mysql/data/rekfan.pid).[失败]</p>
+
+<p>1.可能是/usr/local/mysql/data/rekfan.pid文件没有写的权限
+解决方法 ：给予权限，执行 “chown -R mysql:mysql /var/data” “chmod -R 755 /usr/local/mysql/data”  然后重新启动mysqld！</p>
+
+<p>2.可能进程里已经存在mysql进程
+解决方法：用命令“ps -ef|grep mysqld”查看是否有mysqld进程，如果有使用“kill -9  进程号”杀死，然后重新启动mysqld！</p>
+
+<p>3.可能是第二次在机器上安装mysql，有残余数据影响了服务的启动。
+解决方法：去mysql的数据目录/data看看，如果存在mysql-bin.index，就赶快把它删除掉吧，它就是罪魁祸首了。本人就是使用第三条方法解决的 ！<a href="http://blog.rekfan.com/?p=186">http://blog.rekfan.com/?p=186</a></p>
+
+<p>4.mysql在启动时没有指定配置文件时会使用/etc/my.cnf配置文件，请打开这个文件查看在[mysqld]节下有没有指定数据目录(datadir)。
+解决方法：请在[mysqld]下设置这一行：datadir = /usr/local/mysql/data</p>
+
+<p>5.skip-federated字段问题
+解决方法：检查一下/etc/my.cnf文件中有没有没被注释掉的skip-federated字段，如果有就立即注释掉吧。</p>
+
+<p>6.错误日志目录不存在
+解决方法：使用“chown” “chmod”命令赋予mysql所有者及权限</p>
+
+<p>7.selinux惹的祸，如果是centos系统，默认会开启selinux
+解决方法：关闭它，打开/etc/selinux/config，把SELINUX=enforcing改为SELINUX=disabled后存盘退出重启机器试试。</p>
+
+<h5 id="在丢失root密码的时候-可以这样">在丢失root密码的时候，可以这样</h5>
+
+<pre><code>　　mysqld_safe --skip-grant-tables&amp;
+
+　　mysql -u root mysql
+
+　　mysql&gt; UPDATE user SET authentication_string=PASSWORD(&quot;new password&quot;) WHERE user='root';
+
+　　mysql&gt; FLUSH PRIVILEGES;收起
+</code></pre>
+
+<p>修改完毕。重启</p>
+
+<pre><code>killall -TERM mysqld。
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
