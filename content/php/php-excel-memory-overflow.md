@@ -103,7 +103,9 @@ $objPHPExcel = $objReader->load("test.xlsx”);
 ```
 
 ### 我的解决方案
-我试了上面所有的方法还是不行，因为生产环境特殊要求，不能把php的内存设置过大，所以最后我只能把数据按照csv格式写入文件了，然后再用excel导入csv文件即可。这里只列出写每一行数据的函数，其他自行完成即可
+我试了上面所有的方法还是不行，因为生产环境特殊要求，不能把php的内存设置过大，所以最后我只能把数据按照csv格式写入文件了，然后再用excel导入csv文件即可。
+
+这里只列出写每一行数据的函数，其他自行完成即可
 
 ```php
 private function _writeLine($pFileHandle = null, $pValues = null) {

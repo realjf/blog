@@ -5,7 +5,7 @@ keywords: ["cpp", "c++11", "move"]
 categories: ["cpp"]
 tags: ["cpp"]
 series: [""]
-draft: false
+draft: true
 toc: false
 related:
   threshold: 50

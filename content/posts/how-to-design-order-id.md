@@ -69,6 +69,7 @@ const TABLE = "order_id"; // 订单id
         // uid后1位
         $uidSuffix = substr(strval($ptUid), -1);
         $micro = explode(" ", microtime());
+        
         // 故意将年月日和时分秒错开，显得更无规律
         $orderId = sprintf("%02d%06d%03d%06d%01d", $appPre, date('ymd'), intval($micro[0] * 1000), date('His'), $uidSuffix);
         // 校验位（1位）
