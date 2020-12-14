@@ -1,0 +1,524 @@
+<!doctype html>
+<html>
+<head>
+    <title>vue.js 2 系列之十五 为表单元素工作 Working With Form Elements // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">vue.js 2 系列之十五 为表单元素工作 Working With Form Elements</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Nov 29, 2020
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    1 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">Vue.js</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<p>本节将学习：</p>
+
+<ul>
+<li>使用v-model指令</li>
+<li>使用number修饰符</li>
+<li>使用lazy修饰符</li>
+<li>使用trim修饰符</li>
+<li>使用v-model指令绑定数组</li>
+<li>使用v-model指令自定义数值</li>
+<li>使用v-model指令验证收集的表单数据</li>
+</ul>
+
+<h2 id="创建双向模型绑定">创建双向模型绑定</h2>
+
+<ul>
+<li>到目前为止，我所创建的所有数据绑定是单向的，其意味着数据流从组件的script元素到template元素都能对用户展示。</li>
+<li>当表单元素是应用程序唯一改变源时双向数据绑定能正常工作。当用户有其他方法进行更改（如重置）时，它们的效果会降低，
+其v-on指令调用reset方法，该方法将dataValue设置为false。这个文本插值绑定正确地反映了新值，但是输入元素没有意识到这个变化变得不同步</li>
+</ul>
+
+<h3 id="添加一个双向绑定">添加一个双向绑定</h3>
+
+<p>表单元素需要数据流的双向的，数据必须在用户操纵元素时，从表单流向数据模型。
+如当输入一个域值或勾选复选框时。当数据模型被其他有意义的修改时，数据也必须从反向流动。以确保始终向用户提供一致的数据。</p>
+
+<pre><code class="language-html">&lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; v-on:change=&quot;handleChange&quot; v-bind:checked=&quot;dataValue&quot; /&gt;
+</code></pre>
+
+<p>使用v-bind指令设置元素的checked属性值，确保点击按钮能影响到checkbox</p>
+
+<p>现在有双向绑定在dataValue属性和checkbox间形成</p>
+
+<h3 id="添加另外一个input元素">添加另外一个input元素</h3>
+
+<p>表单元素的HTML和DOM规范不一致，并且在方式上存在差异必须在用于创建的v-on和v-bind指令中反映不同的元素类型双向数据绑定</p>
+
+<pre><code class="language-html">&lt;div class=&quot;bg-primary m-2 p-2&quot;&gt;
+    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; v-on:input=&quot;handleChange&quot; v-bind:value=&quot;otherValue&quot;/&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>这个例子显示了为不同类型元素创建双向绑定的要求不同。当处理checkbox时，我们必须监听change事件，并绑定到checked属性，
+但是对于text input元素，我们监听的是input时间，并绑定value属性。</p>
+
+<h3 id="简化双向绑定">简化双向绑定</h3>
+
+<p>创建绑定所需的差异使设置绑定的过程复杂化，并且很容易混淆不同元素类型的需求，最终使用错误的事件、属性或自有属性</p>
+
+<p>Vue.js提供了v-model指令，它简化了双向绑定，自动处理不同元素的不同要求，其能处理如：input,select,textarea等元素</p>
+
+<pre><code class="language-html">&lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; v-model=&quot;dataValue&quot; /&gt;
+</code></pre>
+
+<h2 id="绑定表单元素">绑定表单元素</h2>
+
+<h3 id="绑定text域">绑定text域</h3>
+
+<p>最简单的绑定是为配置为允许用户输入文本的输入元素创建的。我使用了为纯文本和密码设置的输入元素，以及使用v-model的双向绑定
+指令</p>
+
+<pre><code class="language-html">&lt;div&gt;Name: {{ name }}&lt;/div&gt;
+&lt;div&gt;Password: {{ password }}&lt;/div&gt;
+&lt;input type=&quot;text&quot; v-model=&quot;name&quot;&gt;
+&lt;input type=&quot;password&quot; v-model=&quot;password&quot;&gt;
+</code></pre>
+
+<h3 id="绑定单选按钮和复选框">绑定单选按钮和复选框</h3>
+
+<pre><code class="language-html">&lt;div&gt;Name: {{ name }}&lt;/div&gt;
+&lt;div&gt;Password: {{ password }}&lt;/div&gt;
+&lt;input type=&quot;radio&quot; v-model=&quot;name&quot; value=&quot;Bob&quot;&gt;
+&lt;input type=&quot;radio&quot; v-model=&quot;name&quot; value=&quot;Alice&quot;&gt;
+&lt;input type=&quot;checkbox&quot; v-model=&quot;hasAdminAccess&quot;&gt;
+</code></pre>
+
+<h3 id="绑定select元素">绑定select元素</h3>
+
+<pre><code class="language-html">&lt;select v-model=&quot;name&quot;&gt;
+
+&lt;/select&gt;
+</code></pre>
+
+<h2 id="使用v-model修饰符">使用v-model修饰符</h2>
+
+<p>v-model指令提供了3种绑定，这些修饰符如下：</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">修饰符</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">number</td>
+<td align="center">此修饰符将输入中的值解析为数字，然后将其分配给数据属性</td>
+</tr>
+
+<tr>
+<td align="center">trim</td>
+<td align="center">此修饰符在赋值之前从输入中删除所有前导空格和尾随空格数据属性</td>
+</tr>
+
+<tr>
+<td align="center">lazy</td>
+<td align="center">此修饰符更改v-model指令侦听的事件，以便属性仅在用户导航离开输入元素时更新</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="格式化数值">格式化数值</h3>
+
+<p>number修饰符解决了设置type属性为number时input元素工作方式的一个奇怪之处</p>
+
+<pre><code class="language-html">&lt;input type=&quot;number&quot; v-model=&quot;amount&quot;&gt;
+</code></pre>
+
+<h3 id="延迟更新">延迟更新</h3>
+
+<p>默认情况下，v-model指令在每次按键进入input或textarea之后更新数据模型元素。
+lazy修饰符更改v-model指令侦听的事件，以便更新仅当导航到其他组件时执行。</p>
+
+<pre><code class="language-html">&lt;input type=&quot;number&quot; v-model.number.lazy=&quot;amount&quot;&gt;
+</code></pre>
+
+<h3 id="移除空格字符">移除空格字符</h3>
+
+<p>trim修饰符从用户输入的文本移除前导和尾随空格字符</p>
+
+<pre><code class="language-html">&lt;input type=&quot;text&quot; v-model.trim=&quot;name&quot;&gt;
+</code></pre>
+
+<h2 id="绑定不同数据类型">绑定不同数据类型</h2>
+
+<h3 id="选择一个数组项">选择一个数组项</h3>
+
+<p>如果v-model指令应用于复选框并绑定到作为数组的数据属性，则检查取消选中该框将在数组中添加或删除一个值。</p>
+
+<pre><code class="language-html">&lt;div v-for=&quot;city in cityNames&quot; v-bind:key=&quot;city&quot;&gt;
+&lt;input type=&quot;checkbox&quot; v-model=&quot;cites&quot; v-bind:value=&quot;city&quot;&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>其中的cites是一个数组。</p>
+
+<h4 id="使用一个select元素绑定一个数组">使用一个select元素绑定一个数组</h4>
+
+<pre><code class="language-html">&lt;select multiple v-model=&quot;cities&quot;&gt;
+&lt;option v-for=&quot;city in cityNames&quot; v-bind:key=&quot;city&quot;&gt;&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+<h3 id="为表单元素添加自定义数据">为表单元素添加自定义数据</h3>
+
+<h4 id="为radio按钮和select元素使用自定义值">为radio按钮和select元素使用自定义值</h4>
+
+<pre><code class="language-html">&lt;input type=&quot;checkbox&quot; v-model=&quot;dataValue&quot; v-bind:true-value=&quot;darkColor&quot; v-bind:false-value=&quot;lightColor&quot;&gt;
+</code></pre>
+
+<h2 id="验证表单数据">验证表单数据</h2>
+
+<p>表单验证前需要对表单元素做些修改</p>
+
+<pre><code class="language-html">&lt;form v-on:submit.prevent=&quot;handleSubmit&quot;&gt;&lt;/form&gt;
+</code></pre>
+
+<p>| 名字| 描述 |
+| name | 该用户必须提供一个包含至少3个字符的值|
+| category| 该用户必须提供一个包含只有字符的值|
+| price| 该用户必须提供一个包含只有数字的值，且在1~1000内|</p>
+
+<h3 id="定义一个验证规则">定义一个验证规则</h3>
+
+<h3 id="演示验证">演示验证</h3>
+
+<h3 id="实时响应变更">实时响应变更</h3>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/vuejs/handling-events/">vue.js 2 系列之十四 处理事件 Handling Events</a></li>
+                
+                    <li><a href="/vuejs/using-the-repeater-directive/">vue.js 2 系列之十三 使用转发器指令 Using the Repeater Directive</a></li>
+                
+                    <li><a href="/vuejs/using-the-basic-directives/">vue.js 2 系列之十二 使用基本指令 Using the Basic Directives</a></li>
+                
+                    <li><a href="/vuejs/understanding-vuejs-2/">vue.js 2 系列之九 理解vue.js Understanding Vuejs 2</a></li>
+                
+                    <li><a href="/vuejs/a-real-app-4/">vue.js 2 系列之八 运动商店A Real App 4</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

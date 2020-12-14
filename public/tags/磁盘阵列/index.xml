@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>磁盘阵列 on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/</link>
+    <description>Recent content in 磁盘阵列 on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 30 Nov 2020 08:58:27 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Grub Rescue no such partition</title>
+      <link>https://realjf.io/linux/grub-rescue/</link>
+      <pubDate>Mon, 30 Nov 2020 08:58:27 +0800</pubDate>
+      
+      <guid>https://realjf.io/linux/grub-rescue/</guid>
+      <description> 背景 我自己的系统是安装在5块磁盘组成的RAID5的磁盘阵列中的，其基本的组成如下：
+ 4块激活磁盘 1块空闲磁盘  然后，今天突然想扩容下磁盘阵列，所以使用mdadm的&amp;ndash;grow命令，把空闲磁盘加入到了激活磁盘数组里， 但是，没有重建数据，直接重启了，导致无法进入系统引导，并进入了grub rescue的界面，提示是：no such partition。
+解决 准备一个u盘可引导设备，进入系统，然后进行数据重建，以便让空闲磁盘真正加入到磁盘阵列的工作设备数组中。
+# 查看当前设备 lsblk # 确认之前都是raid成员设备的设备号，我这里是sdb1,sdc1,sdd1,sde1,sdf1 # 然后重建磁盘阵列数据 mdadm --create /dev/md0 --verbose --raid-devices=5 --level=5 /dev/sd{b,c,d,e,f}1 # 然后查看构建进度 cat /proc/mdstat # 查看当前磁盘阵列状态 mdadm -D /dev/md0 # 等待rebuiding完成后即可重启进入系统   &amp;ndash;create：创建模式 &amp;ndash;verbose: 显示信息 &amp;ndash;raid-devices：设置active devices设备数 &amp;ndash;level: 设置RAID级别，如raid0,0,raid1,1,raid5,5,raid10,10等 &amp;ndash;space-devices: 设置空闲设备数  </description>
+    </item>
+    
+  </channel>
+</rss>

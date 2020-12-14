@@ -1,0 +1,1290 @@
+<!doctype html>
+<html>
+<head>
+    <title>vue.js 2 系列之八 运动商店A Real App 4 // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">vue.js 2 系列之八 运动商店A Real App 4</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Nov 9, 2020
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    10 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">Vue.js</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h2 id="基于之前一篇基础之上进行构建">基于之前一篇基础之上进行构建</h2>
+
+<p><a href="/vuejs/a-real-app-3/">/vuejs/a-real-app-3/</a></p>
+
+<p>首先，运行json web服务</p>
+
+<pre><code class="language-shell">npm run json
+</code></pre>
+
+<p>然后运行运动商店http服务器</p>
+
+<pre><code class="language-shell">npm run serve
+</code></pre>
+
+<h2 id="添加商品管理功能">添加商品管理功能</h2>
+
+<p>在src/store文件夹中的index.js文件中添加如下内容</p>
+
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import Vuex from &quot;vuex&quot;;
+
+import Axios from &quot;axios&quot;;
+import CartModule from &quot;./cart&quot;;
+import OrdersModule from &quot;./orders&quot;;
+import AuthModule from &quot;./auth&quot;;
+
+Vue.use(Vuex);
+
+const baseUrl = &quot;http://localhost:3500&quot;;
+const productsUrl = `${baseUrl}/products`;
+const categoriesUrl = `${baseUrl}/categories`;
+
+const testData = [];
+
+for(let i = 1; i &lt;= 10; i++){
+    testData.push({
+        id: i, name: `Product #${i}`, category: `Category ${i % 3}`,
+        description: `This is Product #${i}`, price: i * 50
+    })
+}
+
+export default new Vuex.Store({
+    strict: true,
+    modules: {cart: CartModule, orders: OrdersModule, auth: AuthModule }, // 添加购物车模块
+    state: {
+        // products: testData,
+        categoriesData: [],
+        // productsTotal: testData.length,
+        currentPage: 1,
+        pageSize: 4,
+        currentCategory: &quot;All&quot;,
+        pages: [],
+        serverPageCount: 0,
+        searchTerm: &quot;&quot;,
+        showSearch: false
+    },
+    getters: {
+        // productsFilteredByCategory: state =&gt; state.products.filter(p =&gt; state.currentCategory == &quot;All&quot; || p.category == state.currentCategory),
+        // 根据当前分页以及每页个数返回当前页面产品列表
+        processedProducts: (state) =&gt; {
+            return state.pages[state.currentPage];
+        },
+        // 计算分页总数
+        pageCount: (state) =&gt; state.serverPageCount,
+        categories: state =&gt; [&quot;All&quot;, ...state.categoriesData],
+        productById:(state) =&gt; (id) =&gt; {
+            return state.pages[state.currentPage].find(p =&gt; p.id == id);
+        }
+    },
+    mutations: {
+        // 设置当前分页
+        _setCurrentPage(state, page){
+            state.currentPage = page;
+        },
+        // 设置每页个数
+        _setPageSize(state, size){
+            state.pageSize = size;
+            state.currentPage = 1;
+        },
+        // 设置当前分类
+        _setCurrentCategory(state, category){
+            state.currentCategory = category;
+            state.currentPage = 1;
+        },
+        // setData(state, data){
+        //     state.products = data.pdata;
+        //     state.productsTotal = data.pdata.length;
+        //     state.categoriesData = data.cdata.sort();
+        // },
+        addPage(state, page){
+            for(let i=0; i&lt;page.pageCount; i++){
+                Vue.set(state.pages, page.number +i, page.data.slice(i*state.pageSize, (i*state.pageSize) + state.pageSize));
+            }
+        },
+        clearPages(state){
+            state.pages.splice(0, state.pages.length);
+        },
+        setCategories(state, categories){
+            state.categoriesData = categories;
+        },
+        setPageCount(state, count){
+            state.serverPageCount = Math.ceil(Number(count)/state.pageSize);
+        },
+        setShowSearch(state, show){
+            state.showSearch = show;
+        },
+        setSearchTerm(state, term){
+            state.searchTerm = term;
+            state.currentPage = 1;
+        },
+        // 添加商品
+        _addProduct(state, product){
+            state.pages[state.currentPage].unshift(product);
+        },
+        _updateProduct(state, product){
+            let page = state.pages[state.currentPage];
+            let index = page.findIndex(p =&gt; p.id == product.id);
+            Vue.set(page, index, product);
+        }
+    },
+    actions: {
+        async getData(context) {
+            await context.dispatch(&quot;getPage&quot;, 2);
+            context.commit(&quot;setCategories&quot;, (await Axios.get(categoriesUrl)).data);
+        },
+        async getPage(context, getPageCount = 1){
+            let url = `${productsUrl}?_page=${context.state.currentPage}` + `&amp;_limit=${context.state.pageSize * getPageCount}`;
+            if(context.state.currentCategory != &quot;All&quot;){
+                url += `&amp;category=${context.state.currentCategory}`;
+            }
+            // 添加搜索词判断
+            if(context.state.searchTerm != &quot;&quot;){
+                url += `&amp;q=${context.state.searchTerm}`;
+            }
+            let response = await Axios.get(url);
+            context.commit(&quot;setPageCount&quot;, response.headers[&quot;x-total-count&quot;]);
+            context.commit(&quot;addPage&quot;, {number: context.state.currentPage, data: response.data, pageCount: getPageCount});
+        },
+        setCurrentPage(context, page){
+            context.commit(&quot;_setCurrentPage&quot;, page);
+            if(!context.state.pages[page]){
+                context.dispatch(&quot;getPage&quot;);
+            }
+        },
+        setPageSize(context, size){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setPageSize&quot;, size);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        setCurrentCategory(context, category){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setCurrentCategory&quot;, category);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        search(context, term){
+            context.commit(&quot;setSearchTerm&quot;, term);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        clearSearchTerm(context){
+            context.commit(&quot;setSearchTerm&quot;, &quot;&quot;);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        // 添加商品
+        async addProduct(context, product){
+            let data = (await context.getters.authenticatedAxios.post(productsUrl, product)).data;
+            product.id = data.id;
+            this.commit(&quot;_addProduct&quot;, product);
+        },
+        async removeProduct(context, product){
+            await context.getters.authenticatedAxios.delete(`${productsUrl}/${product.id}`);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 1);
+        },
+        async updateProduct(context, product){
+            await context.getters.authenticatedAxios.put(`${productsUrl}/${product.id}`, product);
+            this.commit(&quot;_updateProduct&quot;, product);
+        }
+    }
+})
+
+</code></pre>
+
+<h3 id="显示商品列表">显示商品列表</h3>
+
+<p>在src/components/admin文件夹的ProductAdmin.vue文件中添加如下内容</p>
+
+<pre><code class="language-html">
+&lt;template&gt;
+&lt;div&gt;
+    &lt;router-link to=&quot;/admin/products/create&quot; class=&quot;btn btn-primary my-2&quot;&gt;
+        Create Product
+    &lt;/router-link&gt;
+    &lt;table class=&quot;table table-sm table-bordered&quot;&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;ID&lt;/th&gt;
+                &lt;th&gt;Name&lt;/th&gt;
+                &lt;th&gt;Category&lt;/th&gt;
+                &lt;th class=&quot;text-right&quot;&gt;Price&lt;/th&gt;
+                &lt;th&gt;&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr v-for=&quot;p in products&quot; v-bind:key=&quot;p.id&quot;&gt;
+                &lt;td&gt;{{p.id}}&lt;/td&gt;
+                &lt;td&gt;{{p.name}}&lt;/td&gt;
+                &lt;td&gt;{{p.category}}&lt;/td&gt;
+                &lt;td class=&quot;text-right&quot;&gt;{{p.price|currency}}&lt;/td&gt;
+                &lt;td class=&quot;text-center&quot;&gt;
+                    &lt;button class=&quot;btn btn-sm btn-danger mx-1&quot; v-on:click=&quot;removeProduct(p)&quot;&gt;Delete&lt;/button&gt;
+                    &lt;button class=&quot;btn btn-sm btn-warning mx-1&quot; v-on:click=&quot;handleEdit(p)&quot;&gt;Edit&lt;/button&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;page-controls /&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import PageControls from &quot;../PageControls&quot;;
+import {
+    mapGetters,
+    mapActions
+} from &quot;vuex&quot;;
+
+export default {
+    components: {
+        PageControls
+    },
+    computed: {
+        ...mapGetters({
+            products: &quot;processedProducts&quot;
+        })
+    },
+    methods: {
+        ...mapActions({
+            removeProduct: &quot;removeProduct&quot;
+        }),
+        handleEdit(product) {
+            this.$router.push(`/admin/products/edit/${product.id}`);
+        }
+    }
+}
+&lt;/script&gt;
+
+</code></pre>
+
+<h3 id="添加编辑和路由">添加编辑和路由</h3>
+
+<p>在src/components/admin文件夹的ProductEditor.vue文件中添加如下内容</p>
+
+<pre><code class="language-html">&lt;template&gt;
+&lt;div class=&quot;bg-info text-white text-center h4 p-2&quot;&gt;Product Editor&lt;/div&gt;
+&lt;/template&gt;
+
+</code></pre>
+
+<p>在src/router的index.js中添加路由信息</p>
+
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import VueRouter from &quot;vue-router&quot;;
+
+import Store from &quot;../components/Store&quot;;
+import ShoppingCart from &quot;../components/ShoppingCart&quot;;
+import Checkout from &quot;../components/Checkout&quot;;
+import OrderThanks from &quot;../components/OrderThanks&quot;;
+import Authentication from &quot;../components/admin/Authentication&quot;;
+import Admin from &quot;../components/admin/Admin&quot;;
+import ProductAdmin from &quot;../components/admin/ProductAdmin&quot;;
+import OrderAdmin from &quot;../components/admin/OrderAdmin&quot;;
+import ProductEditor from &quot;../components/admin/ProductEditor&quot;;
+
+import dataStore from &quot;../store&quot;;
+
+Vue.use(VueRouter);
+
+export default new VueRouter({
+    mode: &quot;history&quot;,
+    routes: [
+        {path:&quot;/&quot;, component: Store},
+        {path: &quot;/cart&quot;, component: ShoppingCart},
+        {path: &quot;/checkout&quot;, component: Checkout},
+        {path: &quot;/thanks/:id&quot;, component: OrderThanks},
+        {path: &quot;/login&quot;, component: Authentication },
+        {path: &quot;/admin&quot;, component: Admin, 
+        beforeEnter(to,from,next){
+            if(dataStore.state.auth.authenticated){
+                next();
+            }else{
+                next(&quot;/login&quot;);
+            }
+        }, children: [
+            {path: &quot;products/:op(create|edit)/:id(\\d+)?&quot;, component: ProductEditor},
+            {path: &quot;products&quot;, component: ProductAdmin},
+            {path: &quot;orders&quot;, component: OrderAdmin},
+            {path: &quot;&quot;, redirect: &quot;/admin/products&quot;}
+        ]},
+        {path: &quot;*&quot;, redirect: &quot;/&quot;}
+    ]
+})
+
+
+</code></pre>
+
+<h3 id="实现编辑器功能">实现编辑器功能</h3>
+
+<p>在src/components/admin文件夹的ProductEditor.vue文件中添加如下内容：</p>
+
+<pre><code class="language-html">&lt;template&gt;
+&lt;div&gt;
+    &lt;h4 class=&quot;text-center text-white p-2&quot; v-bind:class=&quot;themeClass&quot;&gt;
+        {{ editMode ?&quot;Edit&quot; : &quot;Create Product&quot;}}
+    &lt;/h4&gt;
+    &lt;h4 v-if=&quot;$v.$invalid &amp;&amp; $v.dirty&quot; class=&quot;bg-danger text-white text-center p-2&quot;&gt;Values Required for All Fields&lt;/h4&gt;
+    &lt;div class=&quot;form-group&quot; v-if=&quot;editMode&quot;&gt;
+        &lt;label&gt;ID (Not Editable)&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; disabled v-model=&quot;product.id&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;product.name&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Description&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;product.description&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Category&lt;/label&gt;
+        &lt;select v-model=&quot;product.category&quot; class=&quot;form-control&quot;&gt;
+            &lt;option v-for=&quot;c in categories&quot; v-bind:key=&quot;c&quot;&gt;{{c}}&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Price&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;product.price&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;text-center&quot;&gt;
+        &lt;router-link to=&quot;/admin/products&quot; class=&quot;btn btn-secondary m-1&quot;&gt;Cancel&lt;/router-link&gt;
+        &lt;button class=&quot;btn m-1&quot; v-bind:class=&quot;themeClassButton&quot; v-on:click=&quot;handleSave&quot;&gt;{{editMode ? &quot;Save Changes&quot; : &quot;Store Product&quot;}}&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import {
+    mapState,
+    mapActions
+} from &quot;vuex&quot;;
+import {
+    required
+} from &quot;vuelidate/lib/validators&quot;;
+
+export default {
+    data: function () {
+        return {
+            product: {}
+        }
+    },
+    computed: {
+        ...mapState({
+            pages: state =&gt; state.pages,
+            currentPage: state =&gt; state.currentPage,
+            categories: state =&gt; state.categoriesData
+        }),
+        editMode() {
+            return this.$route.params[&quot;op&quot;] == &quot;edit&quot;;
+        },
+        themeClass() {
+            return this.editMode ? &quot;bg-info&quot; : &quot;bg-primary&quot;;
+        },
+        themeClassButton() {
+            return this.editMode ? &quot;btn-info&quot; : &quot;btn-primary&quot;;
+        }
+    },
+    validations: {
+        product: {
+            name: {
+                required
+            },
+            description: {
+                required
+            },
+            category: {
+                required
+            },
+            price: {
+                required
+            }
+        }
+    },
+    methods: {
+        ...mapActions({
+            addProduct: &quot;addProduct&quot;,
+            updateProduct: &quot;updateProduct&quot;
+        }),
+        async handleSave() {
+            this.$v.$touch(); // 触发验证
+            console.log(this.$v.$invalid);
+            // $invalid -- 验证状态，true-验证不通过，false-验证通过
+            if (!this.$v.$invalid) {
+                if (this.editMode) {
+                    console.log(this.product);
+                    await this.updateProduct(this.product);
+                } else {
+                    await this.addProduct(this.product);
+                }
+                this.$router.push(&quot;/admin/products&quot;);
+            }
+        }
+    },
+    created() {
+        if (this.editMode) {
+            Object.assign(this.product, this.$store.getters.productById(this.$route.params[&quot;id&quot;]))
+        }
+    }
+}
+&lt;/script&gt;
+
+</code></pre>
+
+<h2 id="部署商店">部署商店</h2>
+
+<h3 id="准备开发应用">准备开发应用</h3>
+
+<h4 id="准备数据存储">准备数据存储</h4>
+
+<p>在src/store文件夹的index.js文件中，修改基础url地址</p>
+
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import Vuex from &quot;vuex&quot;;
+
+import Axios from &quot;axios&quot;;
+import CartModule from &quot;./cart&quot;;
+import OrdersModule from &quot;./orders&quot;;
+import AuthModule from &quot;./auth&quot;;
+
+Vue.use(Vuex);
+
+const baseUrl = &quot;/api&quot;;
+const productsUrl = `${baseUrl}/products`;
+const categoriesUrl = `${baseUrl}/categories`;
+
+const testData = [];
+
+for(let i = 1; i &lt;= 10; i++){
+    testData.push({
+        id: i, name: `Product #${i}`, category: `Category ${i % 3}`,
+        description: `This is Product #${i}`, price: i * 50
+    })
+}
+
+export default new Vuex.Store({
+    strict: false, // 修改检查模式
+    modules: {cart: CartModule, orders: OrdersModule, auth: AuthModule }, // 添加购物车模块
+    state: {
+        // products: testData,
+        categoriesData: [],
+        // productsTotal: testData.length,
+        currentPage: 1,
+        pageSize: 4,
+        currentCategory: &quot;All&quot;,
+        pages: [],
+        serverPageCount: 0,
+        searchTerm: &quot;&quot;,
+        showSearch: false
+    },
+    getters: {
+        // productsFilteredByCategory: state =&gt; state.products.filter(p =&gt; state.currentCategory == &quot;All&quot; || p.category == state.currentCategory),
+        // 根据当前分页以及每页个数返回当前页面产品列表
+        processedProducts: (state) =&gt; {
+            return state.pages[state.currentPage];
+        },
+        // 计算分页总数
+        pageCount: (state) =&gt; state.serverPageCount,
+        categories: state =&gt; [&quot;All&quot;, ...state.categoriesData],
+        productById:(state) =&gt; (id) =&gt; {
+            return state.pages[state.currentPage].find(p =&gt; p.id == id);
+        }
+    },
+    mutations: {
+        // 设置当前分页
+        _setCurrentPage(state, page){
+            state.currentPage = page;
+        },
+        // 设置每页个数
+        _setPageSize(state, size){
+            state.pageSize = size;
+            state.currentPage = 1;
+        },
+        // 设置当前分类
+        _setCurrentCategory(state, category){
+            state.currentCategory = category;
+            state.currentPage = 1;
+        },
+        // setData(state, data){
+        //     state.products = data.pdata;
+        //     state.productsTotal = data.pdata.length;
+        //     state.categoriesData = data.cdata.sort();
+        // },
+        addPage(state, page){
+            for(let i=0; i&lt;page.pageCount; i++){
+                Vue.set(state.pages, page.number +i, page.data.slice(i*state.pageSize, (i*state.pageSize) + state.pageSize));
+            }
+        },
+        clearPages(state){
+            state.pages.splice(0, state.pages.length);
+        },
+        setCategories(state, categories){
+            state.categoriesData = categories;
+        },
+        setPageCount(state, count){
+            state.serverPageCount = Math.ceil(Number(count)/state.pageSize);
+        },
+        setShowSearch(state, show){
+            state.showSearch = show;
+        },
+        setSearchTerm(state, term){
+            state.searchTerm = term;
+            state.currentPage = 1;
+        },
+        // 添加商品
+        _addProduct(state, product){
+            state.pages[state.currentPage].unshift(product);
+        },
+        _updateProduct(state, product){
+            let page = state.pages[state.currentPage];
+            let index = page.findIndex(p =&gt; p.id == product.id);
+            Vue.set(page, index, product);
+        }
+    },
+    actions: {
+        async getData(context) {
+            await context.dispatch(&quot;getPage&quot;, 2);
+            context.commit(&quot;setCategories&quot;, (await Axios.get(categoriesUrl)).data);
+        },
+        async getPage(context, getPageCount = 1){
+            let url = `${productsUrl}?_page=${context.state.currentPage}` + `&amp;_limit=${context.state.pageSize * getPageCount}`;
+            if(context.state.currentCategory != &quot;All&quot;){
+                url += `&amp;category=${context.state.currentCategory}`;
+            }
+            // 添加搜索词判断
+            if(context.state.searchTerm != &quot;&quot;){
+                url += `&amp;q=${context.state.searchTerm}`;
+            }
+            let response = await Axios.get(url);
+            context.commit(&quot;setPageCount&quot;, response.headers[&quot;x-total-count&quot;]);
+            context.commit(&quot;addPage&quot;, {number: context.state.currentPage, data: response.data, pageCount: getPageCount});
+        },
+        setCurrentPage(context, page){
+            context.commit(&quot;_setCurrentPage&quot;, page);
+            if(!context.state.pages[page]){
+                context.dispatch(&quot;getPage&quot;);
+            }
+        },
+        setPageSize(context, size){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setPageSize&quot;, size);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        setCurrentCategory(context, category){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setCurrentCategory&quot;, category);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        search(context, term){
+            context.commit(&quot;setSearchTerm&quot;, term);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        clearSearchTerm(context){
+            context.commit(&quot;setSearchTerm&quot;, &quot;&quot;);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
+        },
+        // 添加商品
+        async addProduct(context, product){
+            let data = (await context.getters.authenticatedAxios.post(productsUrl, product)).data;
+            product.id = data.id;
+            this.commit(&quot;_addProduct&quot;, product);
+        },
+        async removeProduct(context, product){
+            await context.getters.authenticatedAxios.delete(`${productsUrl}/${product.id}`);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 1);
+        },
+        async updateProduct(context, product){
+            await context.getters.authenticatedAxios.put(`${productsUrl}/${product.id}`, product);
+            this.commit(&quot;_updateProduct&quot;, product);
+        }
+    }
+})
+
+</code></pre>
+
+<p>修改 src/store目录下的auth.js文件：</p>
+
+<pre><code class="language-javascript">import Axios from &quot;axios&quot;;
+
+// 修改登录地址
+const loginUrl = &quot;/api/login&quot;;
+
+export default {
+    state: {
+        authenticated: false,
+        jwt: null
+    },
+    getters: {
+        authenticatedAxios(state){
+            return Axios.create({
+                headers:{
+                    &quot;Authorization&quot;:`Bearer&lt;${state.jwt}&gt;`
+                }
+            });
+        }
+    },
+    mutations:{
+        setAuthenticated(state, header){
+            state.jwt = header;
+            state.authenticated = true;
+        },
+        clearAuthentication(state){
+            state.authenticated = false;
+            state.jwt = null;
+        }
+    },
+    actions: {
+        async authenticate(context, credentials){
+            let response = await Axios.post(loginUrl, credentials);
+            if(response.data.success == true){
+                context.commit(&quot;setAuthenticated&quot;, response.data.token);
+            }
+        }
+    }
+}
+
+</code></pre>
+
+<p>修改src/store目录下的orders.js文件：</p>
+
+<pre><code class="language-javascript">import Axios from &quot;axios&quot;;
+import Vue from &quot;vue&quot;;
+
+// 修改地址
+const ORDERS_URL = &quot;/api/orders&quot;
+
+export default {
+    state: {
+        orders: []
+    },
+    mutations: {
+        setOrders(state, data){
+            state.orders = data;
+        },
+        changeOrderShipped(state, order){
+            Vue.set(order, &quot;shipped&quot;, order.shipped == null || !order.shipped ? true : false);
+        }
+    },
+    actions: {
+        async storeOrder(context, order){
+            order.cartLines = context.rootState.cart.lines;
+            return (await Axios.post(ORDERS_URL, order)).data.id;
+        },
+        async getOrders(context){
+            context.commit(&quot;setOrders&quot;, (await context.rootGetters.authenticatedAxios.get(ORDERS_URL)).data);
+        },
+        async updateOrder(context, order){
+            context.commit(&quot;changeOrderShipped&quot;, order);
+            await context.rootGetters.authenticatedAxios.put(`${ORDERS_URL}/${order.id}`, order);
+        }
+    }
+}
+
+</code></pre>
+
+<p>移除认证组件中的认证信息，src/components/admin目录下的Authentication.vue文件</p>
+
+<pre><code class="language-html">&lt;template&gt;
+&lt;div class=&quot;m-2&quot;&gt;
+    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
+        SportsStore Administration
+    &lt;/h4&gt;
+    &lt;h4 v-if=&quot;showFailureMessage&quot; class=&quot;bg-danger text-white text-center p-2 my-2&quot;&gt;
+        Authentication Failed. Please try again.
+    &lt;/h4&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Username&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;$v.username.$model&quot;&gt;
+        &lt;validation-error v-bind:validation=&quot;$v.username&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input type=&quot;password&quot; class=&quot;form-control&quot; v-model=&quot;$v.password.$model&quot;&gt;
+        &lt;validation-error v-bind:validation=&quot;$v.password&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;text-center&quot;&gt;
+        &lt;button class=&quot;btn btn-primary&quot; v-on:click=&quot;handleAuth&quot;&gt;Log In&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import {
+    required
+} from 'vuelidate/lib/validators';
+import {
+    mapActions,
+    mapState
+} from &quot;vuex&quot;;
+import ValidationError from &quot;../ValidationError&quot;;
+
+export default {
+    components: {
+        ValidationError
+    },
+    data: function () {
+        return {
+            username: null,
+            password: null,
+            showFailureMessage: false,
+        }
+    },
+    computed: {
+        ...mapState({
+            authenticated: state =&gt; state.auth.authenticated
+        })
+    },
+    validations: {
+        username: {
+            required
+        },
+        password: {
+            required
+        }
+    },
+    methods: {
+        ...mapActions([&quot;authenticate&quot;]),
+        async handleAuth() {
+            this.$v.$touch();
+            if (!this.$v.$invalid) {
+                await this.authenticate({
+                    name: this.username,
+                    password: this.password
+                });
+                if (this.authenticated) {
+                    this.$router.push(&quot;/admin&quot;);
+                } else {
+                    this.showFailureMessage = true;
+                }
+            }
+        }
+    }
+}
+&lt;/script&gt;
+
+
+</code></pre>
+
+<h4 id="随请求加载管理功能">随请求加载管理功能</h4>
+
+<p>在src/router文件夹的index.js文件中添加如下内容：</p>
+
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import VueRouter from &quot;vue-router&quot;;
+
+import Store from &quot;../components/Store&quot;;
+import ShoppingCart from &quot;../components/ShoppingCart&quot;;
+import Checkout from &quot;../components/Checkout&quot;;
+import OrderThanks from &quot;../components/OrderThanks&quot;;
+// import Authentication from &quot;../components/admin/Authentication&quot;;
+// import Admin from &quot;../components/admin/Admin&quot;;
+// import ProductAdmin from &quot;../components/admin/ProductAdmin&quot;;
+// import OrderAdmin from &quot;../components/admin/OrderAdmin&quot;;
+// import ProductEditor from &quot;../components/admin/ProductEditor&quot;;
+
+const Authentication = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/Authentication&quot;);
+const Admin = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/Admin&quot;);
+const ProductAdmin = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/ProductAdmin&quot;);
+const OrderAdmin = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/OrderAdmin&quot;);
+const ProductEditor = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/ProductEditor&quot;);
+
+import dataStore from &quot;../store&quot;;
+
+Vue.use(VueRouter);
+
+export default new VueRouter({
+    mode: &quot;history&quot;,
+    routes: [
+        {path:&quot;/&quot;, component: Store},
+        {path: &quot;/cart&quot;, component: ShoppingCart},
+        {path: &quot;/checkout&quot;, component: Checkout},
+        {path: &quot;/thanks/:id&quot;, component: OrderThanks},
+        {path: &quot;/login&quot;, component: Authentication },
+        {path: &quot;/admin&quot;, component: Admin, 
+        beforeEnter(to,from,next){
+            if(dataStore.state.auth.authenticated){
+                next();
+            }else{
+                next(&quot;/login&quot;);
+            }
+        }, children: [
+            {path: &quot;products/:op(create|edit)/:id(\\d+)?&quot;, component: ProductEditor},
+            {path: &quot;products&quot;, component: ProductAdmin},
+            {path: &quot;orders&quot;, component: OrderAdmin},
+            {path: &quot;&quot;, redirect: &quot;/admin/products&quot;}
+        ]},
+        {path: &quot;*&quot;, redirect: &quot;/&quot;}
+    ]
+})
+
+
+</code></pre>
+
+<h4 id="创建数据文件">创建数据文件</h4>
+
+<p>在 data.json文件中展示商品内容</p>
+
+<pre><code class="language-json">{
+    &quot;products&quot;: [
+      {&quot;id&quot;: 1, &quot;name&quot;: &quot;Kayak&quot;, &quot;category&quot;: &quot;Watersports&quot;, &quot;description&quot;: &quot;A boat for one person&quot;, &quot;price&quot;: 275},
+      {&quot;id&quot;: 2, &quot;name&quot;: &quot;Lifejacket&quot;, &quot;category&quot;: &quot;Watersports&quot;, &quot;description&quot;: &quot;Protective and fashionable&quot;, &quot;price&quot;: 48.95},
+      {&quot;id&quot;: 3, &quot;name&quot;: &quot;Soccer Ball&quot;, &quot;category&quot;: &quot;Soccer&quot;, &quot;description&quot;: &quot;FIFA-approved size and weight&quot;, &quot;price&quot;: 19.50},
+      {&quot;id&quot;: 4, &quot;name&quot;: &quot;Corner Flags&quot;, &quot;category&quot;: &quot;Soccer&quot;, &quot;description&quot;: &quot;Give your playing field a professional touch&quot;, &quot;price&quot;: 34.95},
+      {&quot;id&quot;: 5, &quot;name&quot;: &quot;Stadium&quot;, &quot;category&quot;: &quot;Soccer&quot;, &quot;description&quot;: &quot;Flat-packed 35,000-seat stadium&quot;, &quot;price&quot;: 79500},
+      {&quot;id&quot;: 6, &quot;name&quot;: &quot;Thinking Cap&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;Improve brain efficiency by 75%&quot;, &quot;price&quot;: 16},
+      {&quot;id&quot;: 7, &quot;name&quot;: &quot;Unsteady Chair&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;Secretly give your opponent a disadvantage&quot;, &quot;price&quot;: 29.95},
+      {&quot;id&quot;: 8, &quot;name&quot;: &quot;Human Chess Board&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;A fun game for the family&quot;, &quot;price&quot;: 75},
+      {&quot;id&quot;: 9, &quot;name&quot;: &quot;Bling Bling King&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;Gold-plated, diamond-studded King&quot;, &quot;price&quot;: 1200}
+    ],
+    &quot;categories&quot;: [&quot;Watersports&quot;, &quot;Soccer&quot;, &quot;Chess&quot;],
+    &quot;orders&quot;: []
+  }
+</code></pre>
+
+<h3 id="构建应用">构建应用</h3>
+
+<pre><code class="language-shell">npm run build
+</code></pre>
+
+<h3 id="测试待发布应用">测试待发布应用</h3>
+
+<p>添加一些包</p>
+
+<pre><code class="language-shell">npm install --save-dev express@4.16.3
+npm install --save-dev connect-history-api-fallback@1.5.0
+</code></pre>
+
+<p>在项目根目录下的server.js文件中添加如下内容</p>
+
+<pre><code class="language-javascript">const express = require(&quot;express&quot;);
+const history = require(&quot;connect-history-api-fallback&quot;);
+const jsonServer = require(&quot;json-server&quot;);
+const bodyParser = require(&quot;body-parser&quot;);
+const auth = require(&quot;./authMiddleware&quot;);
+const router = jsonServer.router(&quot;data.json&quot;);
+
+const app = express();
+app.use(bodyParser.json());
+app.use(auth);
+app.use(&quot;/api&quot;, router);
+app.use(history());
+app.use(&quot;/&quot;, express.static(&quot;./dist&quot;));
+
+app.listen(80, function(){
+    console.log(&quot;HTTP Server running on port 80&quot;);
+});
+
+</code></pre>
+
+<p>测试发布构建</p>
+
+<pre><code class="language-shell">node server.js
+</code></pre>
+
+<p>然后直接在浏览器中访问<a href="http://localhost查看效果">http://localhost查看效果</a></p>
+
+<h3 id="部署应用">部署应用</h3>
+
+<h4 id="创建package文件">创建package文件</h4>
+
+<p>为了部署应用到Docker，需要创建一个package.js的版本文件，
+在根目录下添加一个deploy-package.json文件，其内容如下：</p>
+
+<pre><code class="language-json">{
+    &quot;name&quot;: &quot;store-vuejs&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;private&quot;: true,
+
+    &quot;dependencies&quot;: {
+        &quot;faker&quot;: &quot;^4.1.0&quot;,
+        &quot;json-server&quot;: &quot;^0.12.1&quot;,
+        &quot;jsonwebtoken&quot;: &quot;^8.1.1&quot;,
+        &quot;express&quot;: &quot;4.16.3&quot;,
+        &quot;connect-history-api-fallback&quot;: &quot;1.5.0&quot;
+    }
+}
+</code></pre>
+
+<h4 id="创建docker容器">创建Docker容器</h4>
+
+<p>在项目根目录下的Dockerfile文件中添加如下内容：</p>
+
+<pre><code class="language-dockerfile">FROM node:8.11.2
+RUN mkdir -p /usr/src/store-vuejs
+
+COPY dist /usr/src/store-vuejs/dist
+
+COPY authMiddleware.js /usr/src/store-vuejs/
+COPY data.json /usr/src/store-vuejs/
+COPY server.js /usr/src/store-vuejs/server.js
+COPY deploy-package.json /usr/src/store-vuejs/package.json
+
+WORKDIR /usr/src/store-vuejs
+
+RUN npm install
+
+CMD [&quot;node&quot;, &quot;server.js&quot;]
+</code></pre>
+
+<p>构建docker镜像</p>
+
+<pre><code class="language-shell">docker build . -t store-vuejs -f Dockerfile
+</code></pre>
+
+<h4 id="运行应用">运行应用</h4>
+
+<p>创建一个docker容器</p>
+
+<pre><code class="language-shell">docker run -p 80:80 store-vuejs
+</code></pre>
+
+<p>现在就可以在浏览器中访问<a href="http://localhost了">http://localhost了</a></p>
+
+<p>查看当前正在运行的docker</p>
+
+<pre><code class="language-shell">docker ps
+</code></pre>
+
+<p>停止docker容器</p>
+
+<pre><code class="language-shell">docker stop {CONTAINER_ID}
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/vuejs/a-real-app-3/">vue.js 2 系列之七 运动商店 A Real App 3</a></li>
+                
+                    <li><a href="/vuejs/a-real-app-2/">vue.js 2 系列之六 运动商店 A Real App 2</a></li>
+                
+                    <li><a href="/vuejs/a-real-app/">vue.js 2 系列之五 运动商店 A Real App</a></li>
+                
+                    <li><a href="/vuejs/js-primer/">vue.js 2 系列之四 javascript入门 Js Primer</a></li>
+                
+                    <li><a href="/vuejs/html-css-primer/">vue.js 2 系列之三 Html 和 Css 入门</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

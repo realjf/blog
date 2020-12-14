@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/hugo/</link>
+    <description>Recent content in Hugo on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 19 Mar 2019 09:43:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to Set Up Blog Using Hugo</title>
+      <link>https://realjf.io/posts/how-to-set-up-blog-using-hugo/</link>
+      <pubDate>Tue, 19 Mar 2019 09:43:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/how-to-set-up-blog-using-hugo/</guid>
+      <description>github pages有两种方式：  一种是{USERNAME}.github.io/ 另一种是{USERNAME}.github.io/{PROJECT}  我们这里使用第二种方法创建
+前期准备  有一个github账号  创建一个公开的repo 例如：blog
+开通github pages 找到新创建的repo中的settings，往下找到github pages， 如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。
+注意 如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：https://realjf.github.io/blog/
+配置好后，开始使用hugo构建博客 首先，clone下刚才创建的repo
+git clone git@github.com:{USERNAME}/blog  安装hugo，确保repo目录下可以使用hugo命令 请参考官网https://gohugo.io/
+# 检查安装是否成功 hugo version  利用hugo构建博客目录结构 cd blog &amp;amp;&amp;amp; hugo new site . --force  这里使用了&amp;ndash;force是因为当前目录已存在，只是需要初始化而已
+添加自己需要的主题 cd blog git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c  上述的m10c可以换成你想要的主题名字即可
+更多的主题请参考：https://themes.gohugo.io/
+# 修改根目录下的 .toml文件 theme = &amp;quot;{THEME}&amp;quot; baseUrl = &amp;quot;https://realjf.github.io/blog/&amp;quot;  {THEME}请修改为你的主题名即可
+本地测试博客 hugo server -t {THEME}  到这里，基本的博客搭建完成，先保存到github git add -A &amp;amp;&amp;amp; git commit -m &amp;quot;Initializing&amp;quot; git push origin master  本地测试成功后，我们利用gh-pages分支作为新的发布分支 gh-pages分支保存的是hugo生成的html静态文件</description>
+    </item>
+    
+  </channel>
+</rss>

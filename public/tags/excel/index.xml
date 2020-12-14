@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Excel on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/excel/</link>
+    <description>Recent content in Excel on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Dec 2020 09:08:01 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/excel/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>phpExcel导出excel文件内存溢出问题 Php Excel Memory Overflow</title>
+      <link>https://realjf.io/php/php-excel-memory-overflow/</link>
+      <pubDate>Mon, 14 Dec 2020 09:08:01 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/php-excel-memory-overflow/</guid>
+      <description>背景 今天在使用phpexcel导出数据为excel格式的时候，遇到一个问题，由于数据量比较大，所以，一次性缓存在内存中导致超出php的内存限制，Excel中一个单元格在不启用缓存的情况下大概占用内存是1K。我的数据是大概31万行、9列的表格（大概279万个单元格），需要2.66GB的内存。启用缓存的话，则会降到900MB，感觉还是太大。先试下看看
+解决 phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置
+$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp; $cacheSettings = array( &#39;memoryCacheSize&#39; =&amp;gt; &#39;950MB&#39;); PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings); $oExcel = new PHPExcel();  PHPExcel_Settings::setCacheStorageMethod() 的几个参数
+ 将单元格数据序列化后保存到内存中 php PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized;  将单元格序列化后再进行gzip压缩，然后保存到内存中 php PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip;  缓存在临时的磁盘文件中，速度可能会慢一些 php PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;  保存在php://temp php PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;  保存在memcache中 php $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_memcache; $cacheSettings = array( &#39;memcacheServer&#39; =&amp;gt; &#39;localhost&#39;, &#39;memcachePort&#39; =&amp;gt; 11211, &#39;cacheTime&#39; =&amp;gt; 600 ); PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);   其它降低内存使用的方法 如果不需要读取Excel单元格格式，可以设置为只读取数据。
+$objReader = PHPExcel_IOFactory::createReader(&#39;Excel2007&#39;); $objReader-&amp;gt;setReadDataOnly(true); $objPHPExcel = $objReader-&amp;gt;load(&amp;quot;test.xlsx”);  如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。</description>
+    </item>
+    
+  </channel>
+</rss>
