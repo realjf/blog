@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>csharp on Realjf&#39;s blog</title>
+    <link>https://realjf.io/categories/csharp/</link>
+    <description>Recent content in csharp on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Dec 2020 06:01:37 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/csharp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Monodevelop运行代码报错 Monodevelop Run Error Debugger Operation Failed, Native error=cannot find the specified file</title>
+      <link>https://realjf.io/csharp/monodevelop-run-error-debugger-operation-failed/</link>
+      <pubDate>Fri, 18 Dec 2020 06:01:37 +0800</pubDate>
+      
+      <guid>https://realjf.io/csharp/monodevelop-run-error-debugger-operation-failed/</guid>
+      <description>背景 今天使用monodevelop创建一个项目后，运行代码，报如下错误：
+Debugger operation failed ApplicationName=&amp;#39;/usr/lib/gnome-terminal/gnome-terminal-server&amp;#39;, CommandLine=&amp;#39;--app-id mono.develop.id1f71c1c4cede406e9ae6cc55355f30e2&amp;#39;, CurrentDirectory=&amp;#39;&amp;#39;, Native error= Cannot find the specified file 这个是因为monodevelop使用的/usr/lib/gnome-terminal/gnome-terminal-server 文件实际路径是在/usr/libexec/gnome-terminal-server下， 所以只需要把/usr/libexec/gnome-terminal-server文件复制到原路径下即可。
+解决 mkdir -p /usr/lib/gnome-terminal ln -s /usr/libexec/gnome-terminal-server /usr/lib/gnome-terminal/ </description>
+    </item>
+    
+  </channel>
+</rss>
