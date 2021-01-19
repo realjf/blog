@@ -295,27 +295,23 @@
         <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$queue) {
             <span style="color:#66d9ef">return</span> $queue;
         }
-        $callback <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> ($a, $b) {
-            <span style="color:#75715e">// 如果a的下一个成员是b，则a&lt;b
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> ($a[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">==</span> $b[<span style="color:#e6db74">&#34;id&#34;</span>]) {
-                <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-            }
-            <span style="color:#75715e">// 如果a是队尾，则返回a&gt;b
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> ($a[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
-            }
-            <span style="color:#75715e">// 如果b是队尾，则返回a&lt;b
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> ($b[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-            }
-            <span style="color:#75715e">// 如果b的下一个成员是a，则a&gt;b
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> ($b[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">==</span> $a[<span style="color:#e6db74">&#34;id&#34;</span>]) {
-                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
-            }
-        };
-        <span style="color:#a6e22e">usort</span>($queue, $callback);
-        <span style="color:#66d9ef">return</span> $queue;
-    }
+        $sortQueue <span style="color:#f92672">=</span> [];
+        <span style="color:#66d9ef">foreach</span>($queue <span style="color:#66d9ef">as</span> $v){
+            $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
+        }
+        $myQueue <span style="color:#f92672">=</span> [];
+        $nextId <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#75715e">// 先按照next倒序排列
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span>($i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; $i <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">count</span>($queue); $i<span style="color:#f92672">++</span>){
+            $myQueue[] <span style="color:#f92672">=</span> $sortQueue[$nextId];
+            $nextId <span style="color:#f92672">=</span> $sortQueue[$nextId][<span style="color:#e6db74">&#34;id&#34;</span>];
+			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$nextId){
+				<span style="color:#66d9ef">break</span>;
+			}
+        }
+        <span style="color:#75715e">// 反转数组即可
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">array_reverse</span>($myQueue);
+}
 </code></pre></div><p>排序完成后，需要对链表进行移动操作，把第一个人员移动到第5位，程序实现如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">// 将第5个的next修改为这个用户的id，然后把该用户的next修改为第6个用户的id
 </span><span style="color:#75715e"></span>$num <span style="color:#f92672">=</span> <span style="color:#a6e22e">count</span>($queue);

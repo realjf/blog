@@ -20,7 +20,7 @@
 2 --&amp;gt; 1 --&amp;gt; 3 --&amp;gt; 4 --&amp;gt; 5 --&amp;gt; 6 --&amp;gt; 0 最后的0代表链表结束。
 按需求，如果第一个人员延后操作，需要向后移动4位，步骤是这样的：
 首先将队列所有人员从数据库中取出，然后在程序中按照链表结构排序，排序程序如下
-static public function sort($queue) { if (!$queue) { return $queue; } $callback = function ($a, $b) { // 如果a的下一个成员是b，则a&amp;lt;b  if ($a[&amp;#34;next&amp;#34;] == $b[&amp;#34;id&amp;#34;]) { return -1; } // 如果a是队尾，则返回a&amp;gt;b  if ($a[&amp;#34;next&amp;#34;] == 0) { return 1; } // 如果b是队尾，则返回a&amp;lt;b  if ($b[&amp;#34;next&amp;#34;] == 0) { return -1; } // 如果b的下一个成员是a，则a&amp;gt;b  if ($b[&amp;#34;next&amp;#34;] == $a[&amp;#34;id&amp;#34;]) { return 1; } }; usort($queue, $callback); return $queue; } 排序完成后，需要对链表进行移动操作，把第一个人员移动到第5位，程序实现如下：</description>
+static public function sort($queue) { if (!$queue) { return $queue; } $sortQueue = []; foreach($queue as $v){ $sortQueue[$v[&amp;#34;next&amp;#34;]] = $v; } $myQueue = []; $nextId = 0; // 先按照next倒序排列  for($i=0; $i &amp;lt; count($queue); $i++){ $myQueue[] = $sortQueue[$nextId]; $nextId = $sortQueue[$nextId][&amp;#34;id&amp;#34;]; if(!</description>
     </item>
     
     <item>
