@@ -59,27 +59,23 @@ static public function sort($queue)
         if (!$queue) {
             return $queue;
         }
-        $callback = function ($a, $b) {
-            // 如果a的下一个成员是b，则a<b
-            if ($a["next"] == $b["id"]) {
-                return -1;
-            }
-            // 如果a是队尾，则返回a>b
-            if ($a["next"] == 0) {
-                return 1;
-            }
-            // 如果b是队尾，则返回a<b
-            if ($b["next"] == 0) {
-                return -1;
-            }
-            // 如果b的下一个成员是a，则a>b
-            if ($b["next"] == $a["id"]) {
-                return 1;
-            }
-        };
-        usort($queue, $callback);
-        return $queue;
-    }
+        $sortQueue = [];
+        foreach($queue as $v){
+            $sortQueue[$v["next"]] = $v;
+        }
+        $myQueue = [];
+        $nextId = 0;
+        // 先按照next倒序排列
+        for($i=0; $i < count($queue); $i++){
+            $myQueue[] = $sortQueue[$nextId];
+            $nextId = $sortQueue[$nextId]["id"];
+			if(!$nextId){
+				break;
+			}
+        }
+        // 反转数组即可
+        return array_reverse($myQueue);
+}
 ```
 排序完成后，需要对链表进行移动操作，把第一个人员移动到第5位，程序实现如下：
 ```php
