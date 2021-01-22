@@ -143,6 +143,10 @@ cmake ..
 cmake -DBUILD_SHARED_LIBS=ON ..
 ```
 
+## 安装
+```sh
+make && make install
+```
 
 
 
