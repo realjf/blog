@@ -6,7 +6,19 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Dec 2020 06:01:37 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Jan 2021 00:47:53 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何从源码构建GLFW How to Compile Glfw From Source</title>
+      <link>https://realjf.io/opengl/how-to-compile-glfw-from-source/</link>
+      <pubDate>Sat, 23 Jan 2021 00:47:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/how-to-compile-glfw-from-source/</guid>
+      <description>首先glfw下载 https://www.glfw.org/download.html
+下载源码包后，开始安装
+ 环境：debian-10  构建 unzip glfw-3.3.2.zip mkdir glfw-build cd glfw-build cmake .. 报错如下：
+-- The C compiler identification is GNU 10.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Looking for pthread.h -- Looking for pthread.h - found -- Performing Test CMAKE_HAVE_LIBC_PTHREAD -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed -- Looking for pthread_create in pthreads -- Looking for pthread_create in pthreads - not found -- Looking for pthread_create in pthread -- Looking for pthread_create in pthread - found -- Found Threads: TRUE -- Found Doxygen: /usr/bin/doxygen (found version &amp;#34;1.</description>
+    </item>
+    
     <item>
       <title>Monodevelop运行代码报错 Monodevelop Run Error Debugger Operation Failed, Native error=cannot find the specified file</title>
       <link>https://realjf.io/csharp/monodevelop-run-error-debugger-operation-failed/</link>
