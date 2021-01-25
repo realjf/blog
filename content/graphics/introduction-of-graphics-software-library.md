@@ -5,7 +5,7 @@ keywords: ["graphics"]
 categories: ["graphics"]
 tags: ["graphics"]
 series: [""]
-draft: false
+draft: true
 toc: false
 related:
   threshold: 50
