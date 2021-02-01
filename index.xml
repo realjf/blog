@@ -85,14 +85,11 @@ cd grpc/examples/cpp/helloworld $ mkdir -p cmake/build $ pushd cmake/build $ cma
       <pubDate>Wed, 09 Dec 2020 16:03:48 +0800</pubDate>
       
       <guid>https://realjf.io/mysql/using-database-to-realize-linkedlist/</guid>
-      <description>背景 今天遇到一个需求，在一个排队队列中，对第一个人员可以进行延后处理操作（实际是往后移动4位，到第5位），一开始想通过排序值 控制队列排序问题，但是容错性差，不能得到很好的效果，想来想去链表结构的特性对于插入删除O(1)的性能，可以很好的解决我的问题， 所以决定通过数据库表设计来实现一个链表。
- 数据库：mysql 程序语言：php  实现 表结构简化成只有id和next指针的设计，next指向下一个成员的id。最后一个成员的next指向0。
+      <description>背景 今天遇到一个需求，在一个排队队列中，对第一个人员可以进行延后处理操作（实际是往后移动 4 位，到第 5 位），一开始想通过排序值 控制队列排序问题，但是容错性差，不能得到很好的效果，想来想去链表结构的特性对于插入删除 O(1)的性能，可以很好的解决我的问题， 所以决定通过数据库表设计来实现一个链表。
+ 数据库：mysql 程序语言：php  实现 表结构简化成只有 id 和 next 指针的设计，next 指向下一个成员的 id。最后一个成员的 next 指向 0。
 表结构及数值如下：
    id next     1 3   2 1   3 4   4 5   5 6   6 0    整理成链表大致是这样的
-2 --&amp;gt; 1 --&amp;gt; 3 --&amp;gt; 4 --&amp;gt; 5 --&amp;gt; 6 --&amp;gt; 0 最后的0代表链表结束。
-按需求，如果第一个人员延后操作，需要向后移动4位，步骤是这样的：
-首先将队列所有人员从数据库中取出，然后在程序中按照链表结构排序，排序程序如下
-static public function sort($queue) { if (!$queue) { return $queue; } $sortQueue = []; foreach($queue as $v){ $sortQueue[$v[&amp;#34;next&amp;#34;]] = $v; } $myQueue = []; $nextId = 0; // 先按照next倒序排列  for($i=0; $i &amp;lt; count($queue); $i++){ $myQueue[] = $sortQueue[$nextId]; $nextId = $sortQueue[$nextId][&amp;#34;id&amp;#34;]; if(!</description>
+2 --&amp;gt; 1 --&amp;gt; 3 --&amp;gt; 4 --&amp;gt; 5 --&amp;gt; 6 --&amp;gt; 0 最后的 0 代表链表结束。</description>
     </item>
     
     <item>
