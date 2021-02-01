@@ -297,8 +297,10 @@
     }
     $sortQueue <span style="color:#f92672">=</span> [];
     $zeroNext <span style="color:#f92672">=</span> [];
+    $ids <span style="color:#f92672">=</span> [];
     <span style="color:#66d9ef">foreach</span> ($queue <span style="color:#66d9ef">as</span> $v) {
-        <span style="color:#66d9ef">if</span> ($v[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        $ids[] <span style="color:#f92672">=</span> $v[<span style="color:#e6db74">&#34;id&#34;</span>];
+        <span style="color:#66d9ef">if</span> ($v <span style="color:#f92672">&amp;&amp;</span> $v[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
             $zeroNext[$v[<span style="color:#e6db74">&#34;id&#34;</span>]] <span style="color:#f92672">=</span> $v;
             <span style="color:#66d9ef">continue</span>;
         }
@@ -316,9 +318,30 @@
     }
 
     <span style="color:#75715e">// 如果没有找到
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(<span style="color:#66d9ef">empty</span>($rightTail)){
-      $rightTail <span style="color:#f92672">=</span> <span style="color:#a6e22e">array_shift</span>($zeroNext);
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">empty</span>($rightTail)) {
+        $rightTail <span style="color:#f92672">=</span> <span style="color:#a6e22e">reset</span>($zeroNext);
+        <span style="color:#75715e">// 拼接上之前的队列
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span> ($sortQueue <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">in_array</span>($i, $ids)) {
+                <span style="color:#75715e">// 需要把$i替换成$rightTail
+</span><span style="color:#75715e"></span>                $v[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $rightTail[<span style="color:#e6db74">&#34;id&#34;</span>];
+                $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
+                <span style="color:#a6e22e">unset</span>($sortQueue[$i]);
+                <span style="color:#66d9ef">break</span>;
+            }
+        };
+        <span style="color:#75715e">// $sortQueue[$rightTail[&#34;next&#34;]] = $rightTail;
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span> ($zeroNext <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
+            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($sortQueue[$v[<span style="color:#e6db74">&#34;id&#34;</span>]])) {
+                <span style="color:#75715e">// 找到正确的结尾
+</span><span style="color:#75715e"></span>                $rightTail <span style="color:#f92672">=</span> $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
+                <span style="color:#a6e22e">unset</span>($zeroNext[$i]);
+                <span style="color:#66d9ef">break</span>;
+            }
+        }
     }
+
+    <span style="color:#a6e22e">print_r</span>($sortQueue);
 
     <span style="color:#75715e">// 将剩余的结尾拼接上去，按目前先后顺序
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">foreach</span> ($zeroNext <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
