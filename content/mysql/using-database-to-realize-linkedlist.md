@@ -66,8 +66,10 @@ static public function qsort($queue)
     }
     $sortQueue = [];
     $zeroNext = [];
+    $ids = [];
     foreach ($queue as $v) {
-        if ($v["next"] == 0) {
+        $ids[] = $v["id"];
+        if ($v && $v["next"] == 0) {
             $zeroNext[$v["id"]] = $v;
             continue;
         }
@@ -85,9 +87,30 @@ static public function qsort($queue)
     }
 
     // 如果没有找到
-    if(empty($rightTail)){
-      $rightTail = array_shift($zeroNext);
+    if (empty($rightTail)) {
+        $rightTail = reset($zeroNext);
+        // 拼接上之前的队列
+        foreach ($sortQueue as $i => $v) {
+            if (!in_array($i, $ids)) {
+                // 需要把$i替换成$rightTail
+                $v["next"] = $rightTail["id"];
+                $sortQueue[$v["next"]] = $v;
+                unset($sortQueue[$i]);
+                break;
+            }
+        };
+        // $sortQueue[$rightTail["next"]] = $rightTail;
+        foreach ($zeroNext as $i => $v) {
+            if (isset($sortQueue[$v["id"]])) {
+                // 找到正确的结尾
+                $rightTail = $sortQueue[$v["next"]] = $v;
+                unset($zeroNext[$i]);
+                break;
+            }
+        }
     }
+
+    print_r($sortQueue);
 
     // 将剩余的结尾拼接上去，按目前先后顺序
     foreach ($zeroNext as $i => $v) {
