@@ -22,5 +22,5 @@ cd ..
 # 推送到仓库
 git push origin gh-pages
 
-
+echo -e "\033[0;32mDone\033[0m"
 

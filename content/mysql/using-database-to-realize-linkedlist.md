@@ -76,12 +76,17 @@ static public function qsort($queue)
 
     $rightTail = [];
     foreach ($zeroNext as $i => $v) {
-        if ($sortQueue[$v["id"]]) {
+        if (isset($sortQueue[$v["id"]])) {
             // 找到正确的结尾
             $rightTail = $sortQueue[$v["next"]] = $v;
             unset($zeroNext[$i]);
             break;
         }
+    }
+
+    // 如果没有找到
+    if(empty($rightTail)){
+      $rightTail = array_shift($zeroNext);
     }
 
     // 将剩余的结尾拼接上去，按目前先后顺序
