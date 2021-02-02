@@ -94,6 +94,8 @@ static public function qsort($queue)
             if (!in_array($i, $ids)) {
                 // 需要把$i替换成$rightTail
                 $v["next"] = $rightTail["id"];
+                // @todo 更新到db
+                // 条件：id=$v["id"]; 数据：next=$v["next"];
                 $sortQueue[$v["next"]] = $v;
                 unset($sortQueue[$i]);
                 break;
@@ -110,13 +112,17 @@ static public function qsort($queue)
         }
     }
 
-    print_r($sortQueue);
 
     // 将剩余的结尾拼接上去，按目前先后顺序
     foreach ($zeroNext as $i => $v) {
         if (!$rightTail["next"]) {
             $rightTail["next"] = $i;
             // @todo 更新到db
+            if($rightTail["id"] == $i){
+                // next=0
+            }else{
+                // next=$i
+            }
         }
         $sortQueue[$i] = $rightTail;
         $rightTail = $sortQueue[$v["next"]] = $v;
