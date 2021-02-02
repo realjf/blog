@@ -325,7 +325,9 @@
             <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">in_array</span>($i, $ids)) {
                 <span style="color:#75715e">// 需要把$i替换成$rightTail
 </span><span style="color:#75715e"></span>                $v[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $rightTail[<span style="color:#e6db74">&#34;id&#34;</span>];
-                $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
+                <span style="color:#75715e">// @todo 更新到db
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// 条件：id=$v[&#34;id&#34;]; 数据：next=$v[&#34;next&#34;];
+</span><span style="color:#75715e"></span>                $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
                 <span style="color:#a6e22e">unset</span>($sortQueue[$i]);
                 <span style="color:#66d9ef">break</span>;
             }
@@ -341,14 +343,18 @@
         }
     }
 
-    <span style="color:#a6e22e">print_r</span>($sortQueue);
 
     <span style="color:#75715e">// 将剩余的结尾拼接上去，按目前先后顺序
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">foreach</span> ($zeroNext <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
         <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$rightTail[<span style="color:#e6db74">&#34;next&#34;</span>]) {
             $rightTail[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $i;
             <span style="color:#75715e">// @todo 更新到db
-</span><span style="color:#75715e"></span>        }
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>($rightTail[<span style="color:#e6db74">&#34;id&#34;</span>] <span style="color:#f92672">==</span> $i){
+                <span style="color:#75715e">// next=0
+</span><span style="color:#75715e"></span>            }<span style="color:#66d9ef">else</span>{
+                <span style="color:#75715e">// next=$i
+</span><span style="color:#75715e"></span>            }
+        }
         $sortQueue[$i] <span style="color:#f92672">=</span> $rightTail;
         $rightTail <span style="color:#f92672">=</span> $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
     }
