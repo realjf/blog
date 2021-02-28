@@ -8,11 +8,11 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 28 Feb 2021 14:44:38 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>VIM 快捷键 Vim Shotcut</title>
-      <link>https://realjf.io/posts/vim-shotcut/</link>
+      <title>VIM 快捷键 Vim Shortcut</title>
+      <link>https://realjf.io/posts/vim-shortcut/</link>
       <pubDate>Sun, 28 Feb 2021 14:44:38 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/vim-shotcut/</guid>
+      <guid>https://realjf.io/posts/vim-shortcut/</guid>
       <description>1. vim 1.1 Vim的几种模式  正常模式：可以使用快捷键命令，或按:输入命令行。插入模式：可以输入文本，在正常模式下，按i、a、o等都可以进入插入模式。可视模式：正常模式下按v可以进入可视模式， 在可视模式下，移动光标可以选择文本。按V进入可视行模式， 总是整行整行的选中。ctrl+v进入可视块模式，之后使用 j/k/h/l键可以选中一块替换模式：正常模式下，按R进入。2. 启动Vim  vim -c cmd file: 在打开文件前，先执行指定的命令；vim -r file: 恢复上次异常退出的文件；vim -R file: 以只读的方式打开文件，但可以强制保存；vim -M file: 以只读的方式打开文件，不可以强制保存；vim -y num file: 将编辑窗口的大小设为num行；vim + file: 从文件的末尾开始；vim +num file: 从第num行开始；vim +/string file: 打开file，并将光标停留在第一个找到的string上。vim --remote file: 用已有的vim进程打开指定的文件。 如果你不想启用多个vim会话，这个很有用。但要注意， 如果你用vim，会寻找名叫VIM的服务器；如果你已经有一个gvim在运行了， 你可以用gvim --remote file在已有的gvim中打开文件。3. 文档操作  :e file --关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi会警告。:e! file --放弃对当前文件的修改，编辑新的文件。:e+file -- 开始新的文件，并从文件尾开始编辑。:e+n file -- 开始新的文件，并从第n行开始编辑。:enew --编译一个未命名的新文档。(CTRL-W n):e -- 重新加载当前文档。:e!</description>
     </item>
     
