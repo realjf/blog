@@ -6,7 +6,16 @@
     <description>Recent content in cpp on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Jan 2021 18:45:16 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/cpp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Mar 2021 22:14:11 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/cpp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>const修饰指针 Const Modify Pointer</title>
+      <link>https://realjf.io/cpp/const-modify-pointer/</link>
+      <pubDate>Tue, 02 Mar 2021 22:14:11 +0800</pubDate>
+      
+      <guid>https://realjf.io/cpp/const-modify-pointer/</guid>
+      <description>const修饰指针 const int *p  可以修改p 不可以修改*p  int const *p  可以修改p 不可以修改*p （同上）  int * const p  可以修改 *p 不可以修改 p  const int * const p  不可以修改p 不可以修改*p  总结 const向右修饰，被修饰的部分即为只读</description>
+    </item>
+    
     <item>
       <title>C&#43;&#43;书籍阅读顺序 Reading Order of Cpp Books</title>
       <link>https://realjf.io/cpp/reading-order-of-cpp-books/</link>

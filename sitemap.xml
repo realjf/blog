@@ -4,7 +4,49 @@
     
     <url>
         <loc>https://realjf.io/categories/</loc>
-        <lastmod>2021-03-02T21:55:35+08:00</lastmod>
+        <lastmod>2021-03-02T22:14:11+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/cpp/const-modify-pointer/</loc>
+        <lastmod>2021-03-02T22:14:11+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/cpp/</loc>
+        <lastmod>2021-03-02T22:14:11+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/categories/cpp/</loc>
+        <lastmod>2021-03-02T22:14:11+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/cpp/</loc>
+        <lastmod>2021-03-02T22:14:11+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/</loc>
+        <lastmod>2021-03-02T22:14:11+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/</loc>
+        <lastmod>2021-03-02T22:14:11+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -38,20 +80,6 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/</loc>
-        <lastmod>2021-03-02T21:55:35+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/</loc>
-        <lastmod>2021-03-02T21:55:35+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/tags/vim/</loc>
         <lastmod>2021-02-28T14:44:38+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -67,27 +95,6 @@
     
     <url>
         <loc>https://realjf.io/cpp/reading-order-of-cpp-books/</loc>
-        <lastmod>2021-01-23T18:45:16+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/cpp/</loc>
-        <lastmod>2021-01-23T18:45:16+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/categories/cpp/</loc>
-        <lastmod>2021-01-23T18:45:16+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/cpp/</loc>
         <lastmod>2021-01-23T18:45:16+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
