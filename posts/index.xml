@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Feb 2021 14:44:38 +0800</lastBuildDate><atom:link href="https://realjf.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Mar 2021 21:55:35 +0800</lastBuildDate><atom:link href="https://realjf.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql多选平台查询条件生成实现 Multiple Choice Platform</title>
+      <link>https://realjf.io/posts/multiple-choice-platform/</link>
+      <pubDate>Tue, 02 Mar 2021 21:55:35 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/multiple-choice-platform/</guid>
+      <description>多选平台数值之和查询语句优化 /** * * mysql 数据库设计中，存在一个平台字段保存的是多个平台值相加的数值， * 查询的时候需要使用如下方法生成平台查询字段值即可快速查出对应平台的数据， * 而不必使用数据库按位与计算及or条件等降低查询速度的方式 * */ class plat{ const PLAT_ALL = 0; // 全部 0b 0  const PLAT_ANDROID = 1; // 1b 1&amp;lt;&amp;lt;0  const PLAT_IOS = 2; // 10b 1&amp;lt;&amp;lt;1  const PLAT_PC = 4; // 100b 1&amp;lt;&amp;lt;2  const PLAT_WAP = 8; // 1000b 1&amp;lt;&amp;lt;3  const PLAT_BOX_A = 16; // 10000 1&amp;lt;&amp;lt;4 安卓1  const PLAT_BOX_I = 32; // 10 0000 1&amp;lt;&amp;lt;5 ios1  const PLAT_ADMIN = 64; //100 0000 1&amp;lt;&amp;lt;6 后台  const PLAT_OBS = 128; // 1000 0000 1&amp;lt;&amp;lt;7 obs  const PLAT_IOS_TOOLS = 256; // 1000 0000 1&amp;lt;&amp;lt;8 助手  static $plats = [ self::PLAT_ALL =&amp;gt; &amp;#39;全部&amp;#39;, self::PLAT_ANDROID =&amp;gt; &amp;#39;安卓&amp;#39;, self::PLAT_IOS =&amp;gt; &amp;#39;IOS&amp;#39;, self::PLAT_PC =&amp;gt; &amp;#39;PC&amp;#39;, self::PLAT_WAP =&amp;gt; &amp;#39;WAP&amp;#39;, self::PLAT_BOX_A =&amp;gt; &amp;#39;安卓1&amp;#39;, self::PLAT_BOX_I =&amp;gt; &amp;#39;ios1&amp;#39;, self::PLAT_ADMIN =&amp;gt; &amp;#34;后台&amp;#34;, self::PLAT_OBS =&amp;gt; &amp;#39;OBS&amp;#39;, self::PLAT_IOS_TOOLS =&amp;gt; &amp;#39;助手&amp;#39; ]; function getPlatformCond($platform, $extCond = []) { $cond = &amp;#34;platform=0&amp;#34;; if (!</description>
+    </item>
+    
     <item>
       <title>VIM 快捷键 Vim Shortcut</title>
       <link>https://realjf.io/posts/vim-shortcut/</link>
