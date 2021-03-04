@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ncurses on Realjf&#39;s blog</title>
+    <link>https://realjf.io/ncurses/</link>
+    <description>Recent content in Ncurses on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 Mar 2021 00:07:39 +0800</lastBuildDate><atom:link href="https://realjf.io/ncurses/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NCURSES编程 之 5.关于Windows的一句话 5 a Word About Windows</title>
+      <link>https://realjf.io/ncurses/5-a-word-about-windows/</link>
+      <pubDate>Fri, 05 Mar 2021 00:07:39 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/5-a-word-about-windows/</guid>
+      <description>5. 关于Windows的一句话 在我们深入讨论无数的ncurses函数之前，让我先澄清一下windows的一些问题。窗口将在以下部分中详细说明
+窗口是由curses系统定义的假想屏幕。窗口并不意味着通常在Win9X平台上看到的有边框的窗口。初始化curses时，它会创建一个名为stdscr的默认窗口，该窗口表示80x25（或正在运行的窗口的大小）屏幕。如果您正在执行一些简单的任务，如打印一些字符串、读取输入等，那么您可以安全地将此窗口用于所有目的。您还可以创建窗口并调用显式在指定窗口上工作的函数。
+例如，如果你打调用
+printw(&amp;#34;Hi There !!!&amp;#34;); refresh(); 它在当前光标位置打印stdscr上的字符串。类似地，对refresh（）的调用仅适用于stdscr。 假设你已经创建了windows，那么你就必须调用一个在普通函数中加了w的函数。
+wprintw(win, &amp;#34;Hi There !!!&amp;#34;); wrefresh(win); 正如您将在文档的其余部分看到的，函数的命名遵循相同的约定。对于每个函数，通常还有三个以上的函数。
+printw(string); /* Print on stdscr at present cursor position */ mvprintw(y, x, string);/* Move to (y, x) then print string */ wprintw(win, string); /* Print on window win at present cursor position */ /* in the window */ mvwprintw(win, y, x, string); /* Move to (y, x) relative to window */ /* co-ordinates and then print */ 无w函数通常是以stdscr作为窗口参数展开为相应w函数的宏。</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 4.初始化 4 Initialization</title>
+      <link>https://realjf.io/ncurses/4-initialization/</link>
+      <pubDate>Thu, 04 Mar 2021 23:49:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/4-initialization/</guid>
+      <description>4. 初始化 我们现在知道，要初始化curses系统，必须调用initscr（）函数。在初始化之后可以调用一些函数来定制curses会话。我们可以要求curses系统将终端设置为原始模式或初始化颜色或初始化鼠标等。。让我们来讨论一些通常在initscr（）之后立即调用的函数；
+4.1. 初始化函数 4.2. raw（）和cbreak（） 通常，终端驱动程序缓冲用户键入的字符，直到遇到新行或回车符。但是大多数程序要求用户一输入字符就可以使用。以上两个函数用于禁用行缓冲。这两个函数之间的区别在于将suspend（CTRL-Z）、interrupt和quit（CTRL-C）等控制字符传递给程序的方式。在raw（）模式下，这些字符直接传递给程序而不生成信号。在cbreak（）模式下，终端驱动程序将这些控制字符解释为任何其他字符。我个人更喜欢使用raw（），因为我可以更好地控制用户的行为。
+4.3. echo（）和noecho（） 这些函数控制用户键入的字符回显到终端。noecho（）关闭回声。这样做的原因可能是为了更好地控制回音，或者在通过getch（）等函数获取用户的输入时抑制不必要的回音。大多数交互式程序在初始化时调用noecho（），并以可控的方式进行字符回音。它使程序员能够灵活地在窗口的任何位置回显字符，而无需更新当前（y，x）坐标。
+4.4. keypad（） 这是我最喜欢的初始化函数。它可以读取功能键，如F1、F2、箭头键等。几乎每个交互式程序都可以这样做，因为箭头键是任何用户界面的主要部分。设置 keypad（stdscr，TRUE）为常规屏幕（stdscr）启用此功能。您将在本文档后面的部分了解有关密钥管理的更多信息。
+4.5. halfdelay（） 这个函数虽然不经常使用，但有时还是很有用的。调用halfdelay（）以启用半延迟模式，这与cbreak（）模式类似，因为键入的字符可立即用于程序。但是，如果没有可用的输入，它会等待十分之一秒的“X”输入，然后返回ERR，X&amp;rsquo;是传递给函数halfdelay（）的超时值。当您想请求用户输入时，此函数非常有用，如果用户在某个时间内没有响应，我们可以执行其他操作。一个可能的例子是密码提示超时。
+4.6. 其他初始化函数 初始化时调用的函数很少，可以自定义curses行为。它们没有像上面提到的那样广泛使用。在适当的地方对其中的一些问题进行了解释。
+4.7. 一个例子 让我们写一个程序来阐明这些函数的用法。
+例2。初始化函数用法示例
+#include &amp;lt;ncurses.h&amp;gt; int main() {	int ch; initscr();	/* Start curses mode */ raw();	/* Line buffering disabled	*/ keypad(stdscr, TRUE);	/* We get F1, F2 etc..	*/ noecho();	/* Don&amp;#39;t echo() while we do getch */ printw(&amp;#34;Type any character to see it in bold\n&amp;#34;); ch = getch();	/* If raw() hadn&amp;#39;t been called * we have to press enter before it * gets to the program */ if(ch == KEY_F(1))	/* Without keypad enabled this will */ printw(&amp;#34;F1 Key pressed&amp;#34;);/* not get to us either	*/ /* Without noecho() some ugly escape * charachters might have been printed * on screen	*/ else {	printw(&amp;#34;The pressed key is &amp;#34;); attron(A_BOLD); printw(&amp;#34;%c&amp;#34;, ch); attroff(A_BOLD); } refresh();	/* Print it on to the real screen */ getch();	/* Wait for user input */ endwin();	/* End curses mode	*/ return 0; } 这个程序是不言自明的。但我使用的函数还没有解释。函数getch（）用于从用户获取字符。它相当于普通的getchar（），只是我们可以禁用行缓冲以避免在输入之后。有关getch（）和读取密钥的更多信息，请参阅密钥管理部分。函数attron和attroff分别用于打开和关闭某些属性。在这个例子中，我用它们以粗体打印字符。这些功能将在后面详细说明。</description>
+    </item>
+    
+    <item>
+      <title>3 the Gory Details</title>
+      <link>https://realjf.io/ncurses/3-the-gory-details/</link>
+      <pubDate>Thu, 04 Mar 2021 23:48:17 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/3-the-gory-details/</guid>
+      <description>3. 血淋淋的细节 现在我们已经看到了如何编写一个简单的curses程序，让我们进入细节。有许多功能可以帮助您自定义屏幕上看到的内容，还有许多功能可以充分利用。
+我们走吧。。。</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 2.Hell World 2 Hello World</title>
+      <link>https://realjf.io/ncurses/2-hello-world/</link>
+      <pubDate>Thu, 04 Mar 2021 23:34:00 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/2-hello-world/</guid>
+      <description>2 Hello World!!! 欢迎来到curses的世界。在我们深入到库中并研究它的各种特性之前，让我们编写一个简单的程序并向世界问好。
+2.1 编译NCURSES库 要使用ncurses库函数，必须在程序中包含ncurses.h。要将程序与ncurses链接，应添加标志-lncurses。
+#include &amp;lt;ncurses.h&amp;gt; . . . compile and link: gcc &amp;lt;program file&amp;gt; -lncurses 例子1. Hello World!!!程序
+#include &amp;lt;ncurses.h&amp;gt; int main() {	initscr();	/* Start curses mode */ printw(&amp;#34;Hello World !!!&amp;#34;);	/* Print Hello World	*/ refresh();	/* Print it on to the real screen */ getch();	/* Wait for user input */ endwin();	/* End curses mode	*/ return 0; } 2.2 解剖 上面的程序打印“你好，世界！！！”到屏幕和出口。这个程序显示如何初始化curses和做屏幕操作和结束curses模式。让我们一行一行地解剖它。</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 1.简介 1 Introduction</title>
+      <link>https://realjf.io/ncurses/1-introduction/</link>
+      <pubDate>Thu, 04 Mar 2021 22:53:29 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/1-introduction/</guid>
+      <description>1. 简介 在老式电传终端时代，终端远离计算机，通过串行电缆与计算机相连。终端可以通过发送一系列字节来配置。终端的所有功能（如将光标移动到新位置、擦除部分屏幕、滚动屏幕、更改模式等）都可以通过这些字节序列访问。这些控制序列通常称为转义序列，因为它们以转义（0x1B）字符开头。即使在今天，通过适当的仿真，我们也可以将转义序列发送到仿真器，并在终端窗口上实现相同的效果。
+假设你想用彩色打印一行。试着在你的控制台上输入这个。
+echo &amp;#34;^[[0;31;40mIn Color&amp;#34; 第一个字符是转义字符，看起来像两个字符^和[。要打印它，您必须按CTRL+V，然后按ESC键（或者直接用\033代替）。其他的都是普通的可打印字符。你应该可以看到红色的字符串“In Color”。它保持这种方式，并恢复到原来的模式类型。
+echo &amp;#34;^[[0;37;40m&amp;#34; 现在，这些神奇的字符是什么意思？难以理解？对于不同的终端，它们甚至可能是不同的。因此UNIX的设计者发明了一种叫做termcap的机制。它是一个文件，列出了特定终端的所有功能，以及实现特定效果所需的转义序列。在后来的几年里，它被terminfo所取代。这种机制不需要深入研究太多细节，它允许应用程序查询terminfo数据库并获取要发送到终端或终端仿真器的控制字符。
+1.1 什么是NCURSES？ 你可能想知道，这些技术上的胡言乱语有什么意义。在上述场景中，每个应用程序都应该查询terminfo并执行必要的操作（发送控制字符等）。很快就很难处理这种复杂性，这就产生了“CURSES”。Curses是“cursor optimization”这个名字的双关语。Curses库在使用原始终端代码时形成了一个包装器，并提供了高度灵活和高效的API（应用程序编程接口）。它提供了移动光标、创建窗口、生成颜色、玩鼠标等功能。应用程序不必担心底层的终端功能。
+那么什么是NCURSES？NCURSES是原始systemv 4.0版（SVr4）curses的克隆。它是一个可自由分发的库，与旧版本的curses完全兼容。简而言之，它是一个函数库，用于管理应用程序在字符单元终端上的显示。在本文档的其余部分中，术语“curses”和“ncurses”可以互换使用。
+NCURSES的详细历史记录可以在源发行版的新闻文件中找到。当前包由托马斯·迪基维护。你可以联系维修人员bug-ncurses@gnu.org。
+1.2 用NCURSES我们可以做什么？ NCURSES不仅在终端功能上创建了一个包装器，而且还提供了一个健壮的框架来在文本模式下创建美观的UI（用户界面）。它提供了创建窗口等函数。它的姊妹库面板、菜单和窗体提供了对基本curses库的扩展。这些库通常伴随着curses。可以创建包含多个窗口、菜单、面板和窗体的应用程序。窗口可以独立管理，可以提供“滚动性”，甚至可以隐藏。
+菜单为用户提供了一个简单的命令选择选项。窗体允许创建易于使用的数据输入和显示窗口。面板扩展了ncurses处理重叠和堆叠窗口的功能。
+这些只是我们可以用ncurses做的一些基本的事情。随着我们的讲述，我们将看到这些库的所有功能。
+1.3 哪里可以获取到？ 好吧，现在你知道你能用ncurses做什么了，你必须开始了。NCURSES通常随安装一起提供。如果你没有这个库或者想自己编译它，请继续阅读。
+编译包 NCURSES 可从ftp://ftp.gnu.org/pub/gnu/ncurses/ncurses.tar.gz或任何http://www.gnu.org/order/ftp.html中提到的ftp站点。
+阅读自述文件和安装文件，了解如何安装它的详细信息。它通常包括以下操作。
+# 解压 tar zxvf ncurses&amp;lt;version&amp;gt;.tar.gz # 进入目录 cd ncurses&amp;lt;version&amp;gt; # 配置构建信息 ./configure # 构建 make # 安装 make install 使用rpm NCURSES RPM 能在http://rpmfind.net中找到并下载，然后安装它
+rpm -i &amp;lt;downloaded rpm&amp;gt; 1.4 该文档的目的/范围 本文档旨在成为使用ncurses及其姊妹库进行编程的“一体式”指南。我们从一个简单的“helloworld”程序毕业到更复杂的表单操作。假设没有ncurses的经验。写作是非正式的，但是每一个例子都提供了很多细节。
+1.5 关于编程 文档中的所有程序都以压缩格式提供这里。解压缩和解压。目录结构如下所示。
+ncurses | |----&amp;gt; JustForFun -- just for fun programs |----&amp;gt; basics -- basic programs |----&amp;gt; demo -- output files go into this directory after make | | | |----&amp;gt; exe -- exe files of all example programs |----&amp;gt; forms -- programs related to form library |----&amp;gt; menus -- programs related to menus library |----&amp;gt; panels -- programs related to panels library |----&amp;gt; perl -- perl equivalents of the examples (contributed | by Anuradha Ratnaweera) |----&amp;gt; Makefile -- the top level Makefile |----&amp;gt; README -- the top level README file.</description>
+    </item>
+    
+  </channel>
+</rss>
