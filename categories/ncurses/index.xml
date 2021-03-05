@@ -1,12 +1,67 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ncurses on Realjf&#39;s blog</title>
+    <title>Ncurses on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/ncurses/</link>
-    <description>Recent content in ncurses on Realjf&#39;s blog</description>
+    <description>Recent content in Ncurses on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Mar 2021 00:23:31 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/ncurses/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 Mar 2021 10:20:17 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/categories/ncurses/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NCURSES编程 之 10.颜色 10 Colors</title>
+      <link>https://realjf.io/ncurses/10-colors/</link>
+      <pubDate>Fri, 05 Mar 2021 10:20:17 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/10-colors/</guid>
+      <description>10. 颜色 10.1. 基础知识 没有色彩的生活似乎单调乏味。诅咒有一个很好的机制来处理颜色。让我们用一个小程序来深入了解这些事情。
+#include &amp;lt;ncurses.h&amp;gt; void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string); int main(int argc, char *argv[]) { initscr(); /* Start curses mode */ if(has_colors() == FALSE) { endwin(); printf(&amp;quot;Your terminal does not support color\n&amp;quot;); exit(1); } start_color(); /* Start color */ init_pair(1, COLOR_RED, COLOR_BLACK); attron(COLOR_PAIR(1)); print_in_middle(stdscr, LINES / 2, 0, 0, &amp;quot;Viola !!! In color ...&amp;quot;); attroff(COLOR_PAIR(1)); getch(); endwin(); } void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string) { int length, x, y; float temp; if(win == NULL) win = stdscr; getyx(win, y, x); if(startx !</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 9.窗口 9 Windows</title>
+      <link>https://realjf.io/ncurses/9-windows/</link>
+      <pubDate>Fri, 05 Mar 2021 10:11:03 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/9-windows/</guid>
+      <description>9. 窗口 窗口是curses中最重要的概念。您已经看到了上面的标准窗口stdscr，其中所有函数都隐式地操作这个窗口。现在要使设计成为一个最简单的GUI，您需要借助windows。使用windows的主要原因可能是为了提高效率，通过只更新需要更改的窗口和更好的设计来分别操作部分屏幕。我想说，最后一个原因是最重要的，在去windows。你应该一直努力在你的程序中有一个更好的，易于管理的设计。如果您正在编写大型、复杂的gui，那么在开始做任何事情之前，这一点至关重要。
+9.1. 基础知识 可以通过调用函数newwin（）来创建窗口。实际上，它不会在屏幕上产生任何东西。它为一个结构分配内存来操作窗口，并用有关窗口的数据（如大小、beginy、beginx等）更新结构。。因此，在curses中，窗口只是一个虚构窗口的抽象，可以独立于屏幕的其他部分进行操作。函数newwin（）返回指向结构窗口的指针，该指针可以传递给与窗口相关的函数，如wprintw（）等。。最后，可以使用delwin（）销毁窗口。它将释放与窗口结构关联的内存。
+9.2. 让这里有一扇窗户！！！ 如果创建了一个窗口而我们看不到它，那有什么好玩的呢。所以有趣的部分从展示窗口开始。函数box（）可用于在窗口周围绘制边框。让我们在本例中更详细地探讨这些函数。
+例7。窗口边框示例
+#include &amp;lt;ncurses.h&amp;gt; WINDOW *create_newwin(int height, int width, int starty, int startx); void destroy_win(WINDOW *local_win); int main(int argc, char *argv[]) { WINDOW *my_win; int startx, starty, width, height; int ch; initscr(); /* Start curses mode */ cbreak(); /* Line buffering disabled, Pass on * everty thing to me */ keypad(stdscr, TRUE); /* I need that nifty F1 */ height = 3; width = 10; starty = (LINES - height) / 2; /* Calculating for a center placement */ startx = (COLS - width) / 2; /* of the window */ printw(&amp;quot;Press F1 to exit&amp;quot;); refresh(); my_win = create_newwin(height, width, starty, startx); while((ch = getch()) !</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 8.属性 8 Attributes</title>
+      <link>https://realjf.io/ncurses/8-attributes/</link>
+      <pubDate>Fri, 05 Mar 2021 09:43:14 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/8-attributes/</guid>
+      <description>8. 属性 我们已经看到了如何使用属性打印具有某些特殊效果的字符的示例。如果谨慎地设置属性，可以以简单易懂的方式呈现信息。下面的程序将一个C文件作为输入并打印带有粗体注释的文件。扫描代码。
+一个简单的属性例子：
+/* pager functionality by Joseph Spainhour&amp;quot; &amp;lt;spainhou@bellsouth.net&amp;gt; */ #include &amp;lt;ncurses.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; int main(int argc, char *argv[]) { int ch, prev, row, col; prev = EOF; FILE *fp; int y, x; if(argc != 2) { printf(&amp;quot;Usage: %s &amp;lt;a c file name&amp;gt;\n&amp;quot;, argv[0]); exit(1); } fp = fopen(argv[1], &amp;quot;r&amp;quot;); if(fp == NULL) { perror(&amp;quot;Cannot open input file&amp;quot;); exit(1); } initscr(); /* Start curses mode */ getmaxyx(stdscr, row, col); /* find the boundaries of the screeen */ while((ch = fgetc(fp)) !</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 7.输入函数 7 Input Functions</title>
+      <link>https://realjf.io/ncurses/7-input-functions/</link>
+      <pubDate>Fri, 05 Mar 2021 09:14:52 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/7-input-functions/</guid>
+      <description> 7. 输入函数 好吧，不用输入就打印，很无聊。让我们看看允许我们从用户那里获取输入的函数。这些功能也可以分为三类。 - getch（）类：获取字符 - scanw（）类：获取格式化输入 - getstr（）类：获取字符串
+7.1. getch（）函数类 这些函数从终端读取单个字符。但有一些微妙的事实需要考虑。例如，如果不使用函数cbreak（），curses将不会连续读取输入字符，而是仅在遇到新行或EOF后才开始读取。为了避免这种情况，必须使用cbreak（）函数，以便程序可以立即使用字符。另一个广泛使用的函数是noecho（）。顾名思义，当设置（使用）这个函数时，用户输入的字符不会显示在屏幕上。两个函数cbreak（）和noecho（）是密钥管理的典型示例。这一类型的功能在密钥管理部分进行了说明。
+7.2. scanw（）函数类 这些函数类似于scanf（），增加了从屏幕上任何位置获取输入的功能。
+7.2.1. scanw（）和mvscanw 这些函数的用法类似于sscanf（），其中要扫描的行由wgetstr（）函数提供。也就是说，这些函数调用wgetstr（）函数（如下所述），并使用结果行进行扫描。
+7.2.2. wscanw（）和mvwscanw（） 这些函数类似于上面的两个函数，只是它们从一个窗口中读取，该窗口作为这些函数的参数之一提供。
+7.2.3. vwscanw（） 此函数类似于vscanf（）。当要扫描的参数数目可变时，可以使用此选项。
+7.3. getstr（）函数类 这些函数用于从终端获取字符串。本质上，此函数执行的任务与对getch（）的一系列调用相同，直到收到换行符、回车符或文件结尾。结果字符串由str指向，str是用户提供的字符指针。
+7.4. 一些例子 例4。一个简单的scanw示例
+#include &amp;lt;ncurses.h&amp;gt; /* ncurses.h includes stdio.h */ #include &amp;lt;string.h&amp;gt; int main() { char mesg[]=&amp;quot;Enter a string: &amp;quot;; /* message to be appeared on the screen */ char str[80]; int row,col; /* to store the number of rows and * * the number of colums of the screen */ initscr(); /* start the curses mode */ getmaxyx(stdscr,row,col); /* get the number of rows and columns */ mvprintw(row/2,(col-strlen(mesg))/2,&amp;quot;%s&amp;quot;,mesg); /* print the message at the center of the screen */ getstr(str); mvprintw(LINES - 2, 0, &amp;quot;You Entered: %s&amp;quot;, str); getch(); endwin(); return 0; }  </description>
+    </item>
+    
     <item>
       <title>NCURSES编程 之 6.输出函数 6 Output Functions</title>
       <link>https://realjf.io/ncurses/6-output-functions/</link>
@@ -14,20 +69,20 @@
       
       <guid>https://realjf.io/ncurses/6-output-functions/</guid>
       <description>6. 输出函数 我想你已经等不及要看一些行动了。回到我们的curses之旅。现在curses已经初始化，让我们和世界互动。
-有三类函数可用于在屏幕上进行输出。
- addch（）类：打印带有属性的单个字符 printw（）类：类似printf（）的打印格式化输出 addstr（）类：打印字符串 这些函数可以互换使用，使用哪一个类是风格问题。让我们详细看看每一个。  6.1 addch() 类的函数 这些函数将单个字符放入当前光标位置，并推进光标的位置。您可以指定要打印的字符，但它们通常用于打印具有某些属性的字符。属性将在文档的后面部分详细解释。如果角色与属性（粗体、反转视频等）关联，则当curses打印角色时，它将在该属性中打印。
+有三类函数可用于在屏幕上进行输出。 - addch（）类：打印带有属性的单个字符 - printw（）类：类似printf（）的打印格式化输出 - addstr（）类：打印字符串 这些函数可以互换使用，使用哪一个类是风格问题。让我们详细看看每一个。
+6.1 addch() 类的函数 这些函数将单个字符放入当前光标位置，并推进光标的位置。您可以指定要打印的字符，但它们通常用于打印具有某些属性的字符。属性将在文档的后面部分详细解释。如果角色与属性（粗体、反转视频等）关联，则当curses打印角色时，它将在该属性中打印。
 要将角色与某些属性组合在一起，有两个选项：
- 通过使用所需的属性宏或单个字符。这些属性宏可以在头文件ncurses.h中找到。例如，要打印粗体加下划线的字符ch（char类型），可以调用addch（），如下所示。  addch(ch | A_BOLD | A_UNDERLINE);  通过使用类似attrset（）、attron（）、attroff（）的函数。这些函数在属性部分进行了说明。简单地说，它们操纵给定窗口的当前属性。设置后，窗口中打印的字符将与属性相关联，直到关闭为止。  此外，curses为基于字符的图形提供了一些特殊字符。可以绘制表格、水平线或垂直线等。可以在头文件ncurses.h中找到所有可用字符。请尝试在该文件中查找以ACS_开头的宏。
+ 通过使用所需的属性宏或单个字符。这些属性宏可以在头文件ncurses.h中找到。例如，要打印粗体加下划线的字符ch（char类型），可以调用addch（），如下所示。 cpp addch(ch | A_BOLD | A_UNDERLINE);  通过使用类似attrset（）、attron（）、attroff（）的函数。这些函数在属性部分进行了说明。简单地说，它们操纵给定窗口的当前属性。设置后，窗口中打印的字符将与属性相关联，直到关闭为止。  此外，curses为基于字符的图形提供了一些特殊字符。可以绘制表格、水平线或垂直线等。可以在头文件ncurses.h中找到所有可用字符。请尝试在该文件中查找以ACS_开头的宏。
 6.2 mvaddch(),waddch()和 mvwaddch() mvaddch()用于移动光标到指定点，然后打印，因此，如下调用：
-move(row,col); /* moves the cursor to rowth row and colth column */ addch(ch); 可以代替
-mvaddch(row,col,ch); waddch（）与addch（）类似，只是它将字符添加到给定的窗口中。（请注意，addch（）将一个字符添加到窗口stdscr中。）
+move(row,col); /* moves the cursor to rowth row and colth column */ addch(ch);  可以代替
+mvaddch(row,col,ch);  waddch（）与addch（）类似，只是它将字符添加到给定的窗口中。（请注意，addch（）将一个字符添加到窗口stdscr中。）
 以类似的方式，mvwaddch（）函数用于在给定的坐标处将字符添加到给定的窗口中。
 现在，我们熟悉了基本的输出函数addch（）。但是，如果我们想打印一个字符串，那么逐字打印会非常烦人。幸运的是，ncurses提供了printf-like或puts-like函数。
 6.3. printw（）函数类 这些函数类似于printf（），增加了在屏幕上任何位置打印的功能。
 6.3.1. printw（）和mvprintw 这两个函数的工作方式与printf（）非常相似。mvprintw（）可用于将光标移动到某个位置，然后打印。如果要先移动光标，然后使用printw（）函数打印，请先使用move（），然后使用printw（），尽管我看不出为什么要避免使用mvprintw（），但您可以灵活地进行操作。
 6.3.2. wprintw（）和mvwprintw 这两个函数与上述两个函数类似，只是它们打印在作为参数给出的相应窗口中。
 6.3.3. vwprintw（） 此函数类似于vprintf（）。当要打印可变数量的参数时，可以使用此选项。
-6.3.4. 一个简单的printw示例 #include &amp;lt;ncurses.h&amp;gt;	/* ncurses.h includes stdio.h */ #include &amp;lt;string.</description>
+6.3.4. 一个简单的printw示例 #include &amp;lt;ncurses.h&amp;gt; /* ncurses.</description>
     </item>
     
     <item>
@@ -39,9 +94,9 @@ mvaddch(row,col,ch); waddch（）与addch（）类似，只是它将字符添加
       <description>5. 关于Windows的一句话 在我们深入讨论无数的ncurses函数之前，让我先澄清一下windows的一些问题。窗口将在以下部分中详细说明
 窗口是由curses系统定义的假想屏幕。窗口并不意味着通常在Win9X平台上看到的有边框的窗口。初始化curses时，它会创建一个名为stdscr的默认窗口，该窗口表示80x25（或正在运行的窗口的大小）屏幕。如果您正在执行一些简单的任务，如打印一些字符串、读取输入等，那么您可以安全地将此窗口用于所有目的。您还可以创建窗口并调用显式在指定窗口上工作的函数。
 例如，如果你打调用
-printw(&amp;#34;Hi There !!!&amp;#34;); refresh(); 它在当前光标位置打印stdscr上的字符串。类似地，对refresh（）的调用仅适用于stdscr。 假设你已经创建了windows，那么你就必须调用一个在普通函数中加了w的函数。
-wprintw(win, &amp;#34;Hi There !!!&amp;#34;); wrefresh(win); 正如您将在文档的其余部分看到的，函数的命名遵循相同的约定。对于每个函数，通常还有三个以上的函数。
-printw(string); /* Print on stdscr at present cursor position */ mvprintw(y, x, string);/* Move to (y, x) then print string */ wprintw(win, string); /* Print on window win at present cursor position */ /* in the window */ mvwprintw(win, y, x, string); /* Move to (y, x) relative to window */ /* co-ordinates and then print */ 无w函数通常是以stdscr作为窗口参数展开为相应w函数的宏。</description>
+printw(&amp;quot;Hi There !!!&amp;quot;); refresh();  它在当前光标位置打印stdscr上的字符串。类似地，对refresh（）的调用仅适用于stdscr。 假设你已经创建了windows，那么你就必须调用一个在普通函数中加了w的函数。
+wprintw(win, &amp;quot;Hi There !!!&amp;quot;); wrefresh(win);  正如您将在文档的其余部分看到的，函数的命名遵循相同的约定。对于每个函数，通常还有三个以上的函数。
+printw(string); /* Print on stdscr at present cursor position */ mvprintw(y, x, string);/* Move to (y, x) then print string */ wprintw(win, string); /* Print on window win at present cursor position */ /* in the window */ mvwprintw(win, y, x, string); /* Move to (y, x) relative to window */ /* co-ordinates and then print */  无w函数通常是以stdscr作为窗口参数展开为相应w函数的宏。</description>
     </item>
     
     <item>
@@ -58,7 +113,7 @@ printw(string); /* Print on stdscr at present cursor position */ mvprintw(y, x, 
 4.6. 其他初始化函数 初始化时调用的函数很少，可以自定义curses行为。它们没有像上面提到的那样广泛使用。在适当的地方对其中的一些问题进行了解释。
 4.7. 一个例子 让我们写一个程序来阐明这些函数的用法。
 例2。初始化函数用法示例
-#include &amp;lt;ncurses.h&amp;gt; int main() {	int ch; initscr();	/* Start curses mode */ raw();	/* Line buffering disabled	*/ keypad(stdscr, TRUE);	/* We get F1, F2 etc..	*/ noecho();	/* Don&amp;#39;t echo() while we do getch */ printw(&amp;#34;Type any character to see it in bold\n&amp;#34;); ch = getch();	/* If raw() hadn&amp;#39;t been called * we have to press enter before it * gets to the program */ if(ch == KEY_F(1))	/* Without keypad enabled this will */ printw(&amp;#34;F1 Key pressed&amp;#34;);/* not get to us either	*/ /* Without noecho() some ugly escape * charachters might have been printed * on screen	*/ else {	printw(&amp;#34;The pressed key is &amp;#34;); attron(A_BOLD); printw(&amp;#34;%c&amp;#34;, ch); attroff(A_BOLD); } refresh();	/* Print it on to the real screen */ getch();	/* Wait for user input */ endwin();	/* End curses mode	*/ return 0; } 这个程序是不言自明的。但我使用的函数还没有解释。函数getch（）用于从用户获取字符。它相当于普通的getchar（），只是我们可以禁用行缓冲以避免在输入之后。有关getch（）和读取密钥的更多信息，请参阅密钥管理部分。函数attron和attroff分别用于打开和关闭某些属性。在这个例子中，我用它们以粗体打印字符。这些功能将在后面详细说明。</description>
+#include &amp;lt;ncurses.h&amp;gt; int main() { int ch; initscr(); /* Start curses mode */ raw(); /* Line buffering disabled */ keypad(stdscr, TRUE); /* We get F1, F2 etc.. */ noecho(); /* Don&#39;t echo() while we do getch */ printw(&amp;quot;Type any character to see it in bold\n&amp;quot;); ch = getch(); /* If raw() hadn&#39;t been called * we have to press enter before it * gets to the program */ if(ch == KEY_F(1)) /* Without keypad enabled this will */ printw(&amp;quot;F1 Key pressed&amp;quot;);/* not get to us either */ /* Without noecho() some ugly escape * charachters might have been printed * on screen */ else { printw(&amp;quot;The pressed key is &amp;quot;); attron(A_BOLD); printw(&amp;quot;%c&amp;quot;, ch); attroff(A_BOLD); } refresh(); /* Print it on to the real screen */ getch(); /* Wait for user input */ endwin(); /* End curses mode */ return 0; }  这个程序是不言自明的。但我使用的函数还没有解释。函数getch（）用于从用户获取字符。它相当于普通的getchar（），只是我们可以禁用行缓冲以避免在输入之后。有关getch（）和读取密钥的更多信息，请参阅密钥管理部分。函数attron和attroff分别用于打开和关闭某些属性。在这个例子中，我用它们以粗体打印字符。这些功能将在后面详细说明。</description>
     </item>
     
     <item>
@@ -79,8 +134,8 @@ printw(string); /* Print on stdscr at present cursor position */ mvprintw(y, x, 
       <guid>https://realjf.io/ncurses/2-hello-world/</guid>
       <description>2 Hello World!!! 欢迎来到curses的世界。在我们深入到库中并研究它的各种特性之前，让我们编写一个简单的程序并向世界问好。
 2.1 编译NCURSES库 要使用ncurses库函数，必须在程序中包含ncurses.h。要将程序与ncurses链接，应添加标志-lncurses。
-#include &amp;lt;ncurses.h&amp;gt; . . . compile and link: gcc &amp;lt;program file&amp;gt; -lncurses 例子1. Hello World!!!程序
-#include &amp;lt;ncurses.h&amp;gt; int main() {	initscr();	/* Start curses mode */ printw(&amp;#34;Hello World !!!&amp;#34;);	/* Print Hello World	*/ refresh();	/* Print it on to the real screen */ getch();	/* Wait for user input */ endwin();	/* End curses mode	*/ return 0; } 2.2 解剖 上面的程序打印“你好，世界！！！”到屏幕和出口。这个程序显示如何初始化curses和做屏幕操作和结束curses模式。让我们一行一行地解剖它。</description>
+#include &amp;lt;ncurses.h&amp;gt; . . . compile and link: gcc &amp;lt;program file&amp;gt; -lncurses  例子1. Hello World!!!程序
+#include &amp;lt;ncurses.h&amp;gt; int main() { initscr(); /* Start curses mode */ printw(&amp;quot;Hello World !!!&amp;quot;); /* Print Hello World */ refresh(); /* Print it on to the real screen */ getch(); /* Wait for user input */ endwin(); /* End curses mode */ return 0; }  2.</description>
     </item>
     
     <item>
@@ -91,8 +146,8 @@ printw(string); /* Print on stdscr at present cursor position */ mvprintw(y, x, 
       <guid>https://realjf.io/ncurses/1-introduction/</guid>
       <description>1. 简介 在老式电传终端时代，终端远离计算机，通过串行电缆与计算机相连。终端可以通过发送一系列字节来配置。终端的所有功能（如将光标移动到新位置、擦除部分屏幕、滚动屏幕、更改模式等）都可以通过这些字节序列访问。这些控制序列通常称为转义序列，因为它们以转义（0x1B）字符开头。即使在今天，通过适当的仿真，我们也可以将转义序列发送到仿真器，并在终端窗口上实现相同的效果。
 假设你想用彩色打印一行。试着在你的控制台上输入这个。
-echo &amp;#34;^[[0;31;40mIn Color&amp;#34; 第一个字符是转义字符，看起来像两个字符^和[。要打印它，您必须按CTRL+V，然后按ESC键（或者直接用\033代替）。其他的都是普通的可打印字符。你应该可以看到红色的字符串“In Color”。它保持这种方式，并恢复到原来的模式类型。
-echo &amp;#34;^[[0;37;40m&amp;#34; 现在，这些神奇的字符是什么意思？难以理解？对于不同的终端，它们甚至可能是不同的。因此UNIX的设计者发明了一种叫做termcap的机制。它是一个文件，列出了特定终端的所有功能，以及实现特定效果所需的转义序列。在后来的几年里，它被terminfo所取代。这种机制不需要深入研究太多细节，它允许应用程序查询terminfo数据库并获取要发送到终端或终端仿真器的控制字符。
+echo &amp;quot;^[[0;31;40mIn Color&amp;quot;  第一个字符是转义字符，看起来像两个字符^和[。要打印它，您必须按CTRL+V，然后按ESC键（或者直接用\033代替）。其他的都是普通的可打印字符。你应该可以看到红色的字符串“In Color”。它保持这种方式，并恢复到原来的模式类型。
+echo &amp;quot;^[[0;37;40m&amp;quot;  现在，这些神奇的字符是什么意思？难以理解？对于不同的终端，它们甚至可能是不同的。因此UNIX的设计者发明了一种叫做termcap的机制。它是一个文件，列出了特定终端的所有功能，以及实现特定效果所需的转义序列。在后来的几年里，它被terminfo所取代。这种机制不需要深入研究太多细节，它允许应用程序查询terminfo数据库并获取要发送到终端或终端仿真器的控制字符。
 1.1 什么是NCURSES？ 你可能想知道，这些技术上的胡言乱语有什么意义。在上述场景中，每个应用程序都应该查询terminfo并执行必要的操作（发送控制字符等）。很快就很难处理这种复杂性，这就产生了“CURSES”。Curses是“cursor optimization”这个名字的双关语。Curses库在使用原始终端代码时形成了一个包装器，并提供了高度灵活和高效的API（应用程序编程接口）。它提供了移动光标、创建窗口、生成颜色、玩鼠标等功能。应用程序不必担心底层的终端功能。
 那么什么是NCURSES？NCURSES是原始systemv 4.0版（SVr4）curses的克隆。它是一个可自由分发的库，与旧版本的curses完全兼容。简而言之，它是一个函数库，用于管理应用程序在字符单元终端上的显示。在本文档的其余部分中，术语“curses”和“ncurses”可以互换使用。
 NCURSES的详细历史记录可以在源发行版的新闻文件中找到。当前包由托马斯·迪基维护。你可以联系维修人员bug-ncurses@gnu.org。
@@ -102,8 +157,8 @@ NCURSES的详细历史记录可以在源发行版的新闻文件中找到。当�
 1.3 哪里可以获取到？ 好吧，现在你知道你能用ncurses做什么了，你必须开始了。NCURSES通常随安装一起提供。如果你没有这个库或者想自己编译它，请继续阅读。
 编译包 NCURSES 可从ftp://ftp.gnu.org/pub/gnu/ncurses/ncurses.tar.gz或任何http://www.gnu.org/order/ftp.html中提到的ftp站点。
 阅读自述文件和安装文件，了解如何安装它的详细信息。它通常包括以下操作。
-# 解压 tar zxvf ncurses&amp;lt;version&amp;gt;.tar.gz # 进入目录 cd ncurses&amp;lt;version&amp;gt; # 配置构建信息 ./configure # 构建 make # 安装 make install 使用rpm NCURSES RPM 能在http://rpmfind.net中找到并下载，然后安装它
-rpm -i &amp;lt;downloaded rpm&amp;gt; 1.4 该文档的目的/范围 本文档旨在成为使用ncurses及其姊妹库进行编程的“一体式”指南。我们从一个简单的“helloworld”程序毕业到更复杂的表单操作。假设没有ncurses的经验。写作是非正式的，但是每一个例子都提供了很多细节。
+# 解压 tar zxvf ncurses&amp;lt;version&amp;gt;.tar.gz # 进入目录 cd ncurses&amp;lt;version&amp;gt; # 配置构建信息 ./configure # 构建 make # 安装 make install  使用rpm NCURSES RPM 能在http://rpmfind.net中找到并下载，然后安装它
+rpm -i &amp;lt;downloaded rpm&amp;gt;  1.4 该文档的目的/范围 本文档旨在成为使用ncurses及其姊妹库进行编程的“一体式”指南。我们从一个简单的“helloworld”程序毕业到更复杂的表单操作。假设没有ncurses的经验。写作是非正式的，但是每一个例子都提供了很多细节。
 1.5 关于编程 文档中的所有程序都以压缩格式提供这里。解压缩和解压。目录结构如下所示。
 ncurses | |----&amp;gt; JustForFun -- just for fun programs |----&amp;gt; basics -- basic programs |----&amp;gt; demo -- output files go into this directory after make | | | |----&amp;gt; exe -- exe files of all example programs |----&amp;gt; forms -- programs related to form library |----&amp;gt; menus -- programs related to menus library |----&amp;gt; panels -- programs related to panels library |----&amp;gt; perl -- perl equivalents of the examples (contributed | by Anuradha Ratnaweera) |----&amp;gt; Makefile -- the top level Makefile |----&amp;gt; README -- the top level README file.</description>
     </item>

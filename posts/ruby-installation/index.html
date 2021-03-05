@@ -3,7 +3,7 @@
 <head>
     <title>Ruby 环境安装 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,26 +237,42 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ruby/">ruby</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ruby/">Ruby</a></div></div>
         </header>
         <div class="post-content">
-            <h1 id="centos7-下进行安装ruby">centos7 下进行安装ruby</h1>
+            
+
+<h1 id="centos7-下进行安装ruby">centos7 下进行安装ruby</h1>
+
 <h3 id="准备-下载ruby">准备 下载ruby</h3>
+
 <p>ruby下载地址：<a href="http://www.ruby-lang.org/en/downloads/">http://www.ruby-lang.org/en/downloads/</a></p>
+
 <p>这里以2.6.4版本为例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz
-</code></pre></div><h3 id="解压配置安装">解压配置安装</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar zxvf ruby-2.6.4.tar.gz -C /usr/local/
+
+<pre><code class="language-shell">wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz
+</code></pre>
+
+<h3 id="解压配置安装">解压配置安装</h3>
+
+<pre><code class="language-shell">tar zxvf ruby-2.6.4.tar.gz -C /usr/local/
 cd /usr/local/ruby-2.6.4/
 
 ./configure
-make <span style="color:#f92672">&amp;&amp;</span> make install
+make &amp;&amp; make install
 
-</code></pre></div><h3 id="添加到环境变量中">添加到环境变量中</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ln -s /usr/local/ruby-2.6.4/ruby /usr/bin/ruby
-</code></pre></div><h3 id="验证">验证</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ruby -v
-</code></pre></div>
+</code></pre>
+
+<h3 id="添加到环境变量中">添加到环境变量中</h3>
+
+<pre><code class="language-shell">ln -s /usr/local/ruby-2.6.4/ruby /usr/bin/ruby
+</code></pre>
+
+<h3 id="验证">验证</h3>
+
+<pre><code class="language-shell">ruby -v
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

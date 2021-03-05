@@ -3,7 +3,7 @@
 <head>
     <title>如何安装QEMU模拟器 How to Install Qemu // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,23 +237,35 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/linux/">linux</a><a class="tag" href="https://realjf.io/tags/qemu/">qemu</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/linux/">Linux</a><a class="tag" href="https://realjf.io/tags/qemu/">Qemu</a></div></div>
         </header>
         <div class="post-content">
-            <p>QEMU是一套由法布里斯·贝拉(Fabrice Bellard)所编写的以GPL许可证分发源码的模拟处理器，在GNU/Linux平台上使用广泛。
+            
+
+<p>QEMU是一套由法布里斯·贝拉(Fabrice Bellard)所编写的以GPL许可证分发源码的模拟处理器，在GNU/Linux平台上使用广泛。
 Bochs，PearPC等与其类似，但不具备其许多特性，比如高速度及跨平台的特性，通过KQEMU这个闭源的加速器，QEMU能模拟至接近真实电脑的速度</p>
+
 <h2 id="从源码安装">从源码安装</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone https://git.qemu.org/git/qemu.git
+
+<pre><code class="language-shell">git clone https://git.qemu.org/git/qemu.git
 cd qemu
 git submodule init
 git submodule update --recursive
 ./configure
 make
-</code></pre></div><h2 id="linux">Linux</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt-get install qemu
-</code></pre></div><p>如果要使用如qemu-system-i386这样的命令，可以运行如下命令安装</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt-get install qemu-system
-</code></pre></div><p><a href="https://download.qemu.org">QEMU官网</a></p>
+</code></pre>
+
+<h2 id="linux">Linux</h2>
+
+<pre><code class="language-shell">apt-get install qemu
+</code></pre>
+
+<p>如果要使用如qemu-system-i386这样的命令，可以运行如下命令安装</p>
+
+<pre><code class="language-shell">apt-get install qemu-system
+</code></pre>
+
+<p><a href="https://download.qemu.org">QEMU官网</a></p>
 
         </div>
         <div id="disqus_thread"></div>

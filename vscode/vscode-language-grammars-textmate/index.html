@@ -3,7 +3,7 @@
 <head>
     <title>VS Code语言语法分词引擎 TextMate语法解析 (Vscode Language Grammars Engine - TextMate) // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,330 +237,369 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/vscode/">vscode</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/vscode/">Vscode</a></div></div>
         </header>
         <div class="post-content">
-            <p>语言语法用于为文档元素（如关键字、注释、字符串或类似内容）指定名称。
+            
+
+<p>语言语法用于为文档元素（如关键字、注释、字符串或类似内容）指定名称。
 这样做的目的是允许设置样式（语法高亮显示），并使文本编辑器“智能”地了解插入符号所在的上下文。
 例如，您可能希望按键或制表符触发器根据上下文的不同而采取不同的操作，
 或者您可能希望在键入文本文档中不是散文的部分（例如HTML标记）时禁用拼写检查。</p>
+
 <p>语言语法仅用于分析文档并为该文档的子集分配名称。然后，范围选择器可以用于样式设置、
 首选项以及决定键和选项卡触发器应该如何展开。</p>
+
 <p>有关这个概念的更全面的介绍，请参阅<a href="https://macromates.com/blog/2005/introduction-to-scopes/">scopes简介</a>博客文章</p>
+
 <h2 id="语法示例">语法示例</h2>
+
 <p>先来看下以下示例</p>
-<pre><code class="language-textmate" data-lang="textmate">{
-	scopeName = 'source.untitled';
-	fileTypes = ();
-	foldingStartMarker = '\{\s*$';
-	foldingStopMarker = '^\s*\}';
-	patterns = ({
-		name = 'keyword.control.untitled';
-		match = '\b(if|while|for|return)\b';
 
-	}, {
-		name = 'string.quoted.double.untitled';
-		begin = '&quot;';
-		end = '&quot;';
-		patterns = ({
-			name = 'constant.character.escape.untitled';
-			match = '\\.';
+<pre><code class="language-textmate">{
+    scopeName = 'source.untitled';
+    fileTypes = ();
+    foldingStartMarker = '\{\s*$';
+    foldingStopMarker = '^\s*\}';
+    patterns = ({
+        name = 'keyword.control.untitled';
+        match = '\b(if|while|for|return)\b';
 
-		});
-	},
+    }, {
+        name = 'string.quoted.double.untitled';
+        begin = '&quot;';
+        end = '&quot;';
+        patterns = ({
+            name = 'constant.character.escape.untitled';
+            match = '\\.';
+
+        });
+    },
  );
 }
-</code></pre><p>格式是<a href="https://macromates.com/manual/en/appendix#property-list-format">属性列表格式</a>，在根级别有五个键/值对：</p>
+</code></pre>
+
+<p>格式是<a href="https://macromates.com/manual/en/appendix#property-list-format">属性列表格式</a>，在根级别有五个键/值对：</p>
+
 <ul>
-<li>
-<p>scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例，
+<li><p>scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例，
 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source，
 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。
 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails.
-从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。</p>
-</li>
-<li>
-<p>fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。
+从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。</p></li>
+
+<li><p>fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。
 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项，
-那么TextMate就会记住用户选择。</p>
-</li>
-<li>
-<p>foldingStartMarker/foldingStopMarker(第3-4行)：这些是（文档中）行匹配的正则表达式。
-如果一行匹配其中一个模式（但不是两个模式），它将成为折叠标记（有关更多信息，请参阅<a href="https://macromates.com/manual/en/navigation_overview#customizing-foldings">foldings</a>部分）。</p>
-</li>
-<li>
-<p>patterns(第5-18行)：这是一个数组，其中包含用于解析文档的实际规则。
-在这个例子中有两个规则（第6-8行和第9-17行）。规则将在下一节中解释。</p>
-</li>
+那么TextMate就会记住用户选择。</p></li>
+
+<li><p>foldingStartMarker/foldingStopMarker(第3-4行)：这些是（文档中）行匹配的正则表达式。
+如果一行匹配其中一个模式（但不是两个模式），它将成为折叠标记（有关更多信息，请参阅<a href="https://macromates.com/manual/en/navigation_overview#customizing-foldings">foldings</a>部分）。</p></li>
+
+<li><p>patterns(第5-18行)：这是一个数组，其中包含用于解析文档的实际规则。
+在这个例子中有两个规则（第6-8行和第9-17行）。规则将在下一节中解释。</p></li>
 </ul>
+
 <p>示例中没有使用两个附加（根级）键：</p>
+
 <ul>
-<li>
-<p>firstLineMatch：与文档第一行匹配的正则表达式（当它第一次加载时）。如果匹配，则语法将用于文档（除非有用户覆盖）。
-示例：^#!/.*\bruby\b。</p>
-</li>
-<li>
-<p>repository：一种包含规则的字典（即键/值对），它可以从语法中的其他地方包括进来。
-键是规则的名称，值是实际的规则。在后面描述的include rule key中有进一步的解释（和示例）。</p>
-</li>
+<li><p>firstLineMatch：与文档第一行匹配的正则表达式（当它第一次加载时）。如果匹配，则语法将用于文档（除非有用户覆盖）。
+示例：^#!/.*\bruby\b。</p></li>
+
+<li><p>repository：一种包含规则的字典（即键/值对），它可以从语法中的其他地方包括进来。
+键是规则的名称，值是实际的规则。在后面描述的include rule key中有进一步的解释（和示例）。</p></li>
 </ul>
+
 <h2 id="语言规则">语言规则</h2>
+
 <p>语言规则负责匹配文档的一部分。通常，规则会指定一个名称，该名称分配给与该规则匹配的文档部分。</p>
+
 <p>规则可以通过两种方式匹配文档。它可以提供一个正则表达式，也可以提供两个。
 与上面第一个规则（第6-8行）中的match键一样，匹配该正则表达式的所有内容都将获得该规则指定的名称。
 例如，上面的第一个规则指定名称keyword.control.untitled对以下关键字：
 if、while、for和return。然后我们可以使用范围选择器keyword.control让这些关键字有我们的主题风格。</p>
+
 <p>另一种类型的匹配是第二条规则使用的匹配（第9-17行）。这里使用begin和end键给出了两个正则表达式。
 规则的名称将从开始模式匹配的位置分配到结束模式匹配的位置（包括两个匹配项）。
 如果没有匹配的结束模式，则使用文档的结尾。</p>
+
 <p>在后一种形式中，规则可以包含子规则，这些子规则与开始匹配和结束匹配之间的部分匹配。
 在我们的示例中，我们匹配以引号字符开头和结尾的字符串，在匹配字符串中（第13-15行），
 转义字符标记为constant.character.escape.untitled。</p>
+
 <p>注意，正则表达式一次只与文档的一行匹配。这意味着不可能使用匹配多行的模式。
 这样做的原因是技术性的：能够在任意行重新启动解析器，并且只需要重新解析受编辑影响的最小行数。
 在大多数情况下，可以使用begin/end模型来克服这个限制。</p>
+
 <h2 id="rule-keys">Rule Keys</h2>
+
 <p>以下关键字被用于一条规则中：</p>
+
 <ul>
-<li>
-<p>name：分配给匹配部分的名称。这用于设置样式和范围特定的设置和操作，这意味着它通常应该从一个标准名称派生（请参见后面的命名约定）。</p>
-</li>
-<li>
-<p>match：一种正则表达式，用于标识应将名称分配给的文本部分。示例：'\b(true|false)\b'</p>
-</li>
-<li>
-<p>begin,end：这些键允许跨越多行的匹配，并且必须与match键互斥。每个都是正则表达式模式。
+<li><p>name：分配给匹配部分的名称。这用于设置样式和范围特定的设置和操作，这意味着它通常应该从一个标准名称派生（请参见后面的命名约定）。</p></li>
+
+<li><p>match：一种正则表达式，用于标识应将名称分配给的文本部分。示例：&rsquo;\b(true|false)\b&rsquo;</p></li>
+
+<li><p>begin,end：这些键允许跨越多行的匹配，并且必须与match键互斥。每个都是正则表达式模式。
 begin是启动块的模式，end是结束块的模式。通过使用普通正则表达式反向引用，
 可以在结束模式中引用来自开始模式的捕获。这通常与here-docs一起使用，例如：</p>
-</li>
+
+<pre><code class="language-textmate">{   name = 'string.unquoted.here-doc';
+ begin = '&lt;&lt;(\w+)';  // match here-doc token
+ end = '^\1$';       // match end of here-doc
+}
+</code></pre>
+
+<p>begin/end规则可以使用patterns键来嵌套模式。例如，我们可以：</p>
+
+<pre><code class="language-textmate">{  begin = '&lt;%'; end = '%&gt;'; patterns = (
+   { match = '\b(def|end)\b'; … },
+   …
+);
+};
+</code></pre>
+
+<p>上面的代码将匹配&lt;%…%&gt;块中的def和end关键字（不过对于嵌入式语言，请参见后面关于include键的信息）。</p></li>
+
+<li><p>contentName：此键类似于name键，但只将名称指定给与begin/end模式匹配的文本。例如，
+要将#if 0和#endif之间的文本标记为注释，我们可以这样做</p>
+
+<pre><code class="language-textmate">{  begin = '#if 0(\s.*)?$'; end = '#endif';
+contentName = 'comment.block.preprocessor';
+};
+</code></pre></li>
+
+<li><p>captures,beginCaptures,endCaptures：这些键允许您为match、begin或end模式的捕获分配属性。
+在begin/end规则中使用captures键是为beginCaptures和endCaptures提供相同值的简写方法。</p></li>
 </ul>
-<pre><code class="language-textmate" data-lang="textmate">{   name = 'string.unquoted.here-doc';
-     begin = '&lt;&lt;(\w+)';  // match here-doc token
-     end = '^\1$';       // match end of here-doc
- }
-</code></pre><p>begin/end规则可以使用patterns键来嵌套模式。例如，我们可以：</p>
-<pre><code class="language-textmate" data-lang="textmate">{  begin = '&lt;%'; end = '%&gt;'; patterns = (
-       { match = '\b(def|end)\b'; … },
-       …
-    );
- };
-</code></pre><p>上面的代码将匹配&lt;%…%&gt;块中的def和end关键字（不过对于嵌入式语言，请参见后面关于include键的信息）。</p>
-<ul>
-<li>contentName：此键类似于name键，但只将名称指定给与begin/end模式匹配的文本。例如，
-要将#if 0和#endif之间的文本标记为注释，我们可以这样做</li>
-</ul>
-<pre><code class="language-textmate" data-lang="textmate">{  begin = '#if 0(\s.*)?$'; end = '#endif';
-    contentName = 'comment.block.preprocessor';
- };
-</code></pre><ul>
-<li>captures,beginCaptures,endCaptures：这些键允许您为match、begin或end模式的捕获分配属性。
-在begin/end规则中使用captures键是为beginCaptures和endCaptures提供相同值的简写方法。</li>
-</ul>
+
 <p>这些键的值是一个字典，键是捕获号，值是分配给捕获文本的属性字典。当前只支持name属性。下面是一个例子：</p>
-<pre><code class="language-textmate" data-lang="textmate">{  match = '(@selector\()(.*?)(\))';
+
+<pre><code class="language-textmate">{  match = '(@selector\()(.*?)(\))';
     captures = {
        1 = { name = 'storage.type.objc'; };
        3 = { name = 'storage.type.objc'; };
     };
  };
-</code></pre><p>在这个例子中，我们匹配 @selector(windowWillClose:) 这样的文本，但是 storage.type.objc 名称将仅分配给 @selector( 和 )。</p>
+</code></pre>
+
+<p>在这个例子中，我们匹配 @selector(windowWillClose:) 这样的文本，但是 storage.type.objc 名称将仅分配给 @selector( 和 )。</p>
+
 <ul>
-<li>
-<p>include：这允许您引用其他语言，递归地引用语法本身或此文件存储库中声明的规则。</p>
+<li><p>include：这允许您引用其他语言，递归地引用语法本身或此文件存储库中声明的规则。</p>
+
 <ul>
-<li>1.为了引用其他语言，使用语言的域名称：</li>
+<li>1.为了引用其他语言，使用语言的域名称：
+<code>textmate
+{  begin = '&lt;\?(php|=)?'; end = '\?&gt;'; patterns = (
+{ include = &quot;source.php&quot;; }
+);
+}
+</code></li>
+
+<li><ol>
+<li>为其引用语法，使用$self
+<code>textmate
+{  begin = '\('; end = '\)'; patterns = (
+{ include = &quot;$self&quot;; }
+);
+}
+</code></li>
+</ol></li>
+
+<li><ol>
+<li>从当前的语法仓库中引用一个规则，在名称前面加一个井号（#）
+<code>textmate
+patterns = (
+{  begin = '&quot;'; end = '&quot;'; patterns = (
+{ include = &quot;#escaped-char&quot;; },
+{ include = &quot;#variable&quot;; }
+);
+},
+…
+); // end of patterns
+repository = {
+escaped-char = { match = '\\.'; };
+variable =     { match = '\$[a-zA-Z0-9_]+'; };
+};
+</code>
+这也能被用于递归匹配结构
+<code>textmate
+patterns = (
+{  name = 'string.unquoted.qq.perl';
+begin = 'qq\('; end = '\)'; patterns = (
+{ include = '#qq_string_content'; },
+);
+},
+…
+); // end of patterns
+repository = {
+qq_string_content = {
+begin = '\('; end = '\)'; patterns = (
+{ include = '#qq_string_content'; },
+);
+};
+};
+</code>
+以上能正确匹配出如qq( this (is (the) entire) string)的字符串</li>
+</ol></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<pre><code class="language-textmate" data-lang="textmate">{  begin = '&lt;\?(php|=)?'; end = '\?&gt;'; patterns = (
-       { include = &quot;source.php&quot;; }
-    );
- }
-</code></pre><pre><code>- 2. 为其引用语法，使用$self
-</code></pre>
-<pre><code class="language-textmate" data-lang="textmate">{  begin = '\('; end = '\)'; patterns = (
-       { include = &quot;$self&quot;; }
-    );
- }
-</code></pre><pre><code>- 3. 从当前的语法仓库中引用一个规则，在名称前面加一个井号（#）
-</code></pre>
-<pre><code class="language-textmate" data-lang="textmate">patterns = (
-    {  begin = '&quot;'; end = '&quot;'; patterns = (
-          { include = &quot;#escaped-char&quot;; },
-          { include = &quot;#variable&quot;; }
-       );
-    },
-    …
- ); // end of patterns
- repository = {
-    escaped-char = { match = '\\.'; };
-    variable =     { match = '\$[a-zA-Z0-9_]+'; };
- };
-</code></pre><pre><code>这也能被用于递归匹配结构
-</code></pre>
-<pre><code class="language-textmate" data-lang="textmate">patterns = (
-    {  name = 'string.unquoted.qq.perl';
-       begin = 'qq\('; end = '\)'; patterns = (
-          { include = '#qq_string_content'; },
-       );
-    },
-    …
- ); // end of patterns
- repository = {
-    qq_string_content = {
-       begin = '\('; end = '\)'; patterns = (
-          { include = '#qq_string_content'; },
-       );
-    };
- };
-</code></pre><p>以上能正确匹配出如qq( this (is (the) entire) string)的字符串</p>
+
 <h2 id="命名约定">命名约定</h2>
+
 <p>TextMate是自由格式的，从这个意义上说，您可以为文档的任何部分分配您希望的任何名称，这些部分可以用语法系统标记，
 然后在范围选择器中使用该名称。</p>
+
 <p>然而，也有一些约定，使得一个主题可以针对尽可能多的语言，而不必为每种语言指定几十个规则，
 并且可以跨语言重用功能（主要是首选项），例如，当插入字符串和注释时，您可能不希望撇号自动配对，
 不管您使用的是哪种语言，所以只设置一次是有意义的。</p>
+
 <p>在进行约定之前，请记住以下几点：</p>
+
 <ol>
-<li>
-<p>一个最小的主题只会将样式分配给下面11个根组中的10个（meta没有视觉样式），所以你应该“分散”你的命名，
+<li><p>一个最小的主题只会将样式分配给下面11个根组中的10个（meta没有视觉样式），所以你应该“分散”你的命名，
 也就是说，不要把所有的东西都放在keyword下面（正如你的正式语言定义所坚持的那样），
-你应该想“我希望这两个元素的样式不同吗？”？如果是这样的话，它们应该被分成不同的根组。</p>
-</li>
-<li>
-<p>即使您应该“分散”您的名称，但当您找到要放置元素的组（例如storage）时，您应该重新使用该组下面使用的现有名称
+你应该想“我希望这两个元素的样式不同吗？”？如果是这样的话，它们应该被分成不同的根组。</p></li>
+
+<li><p>即使您应该“分散”您的名称，但当您找到要放置元素的组（例如storage）时，您应该重新使用该组下面使用的现有名称
 （对于modifier或type的storage），而不是创建一个新的子类型。但是，您应该将尽可能多的信息附加到您选择的子类型中。
 例如，如果要匹配static存储修饰符，而不是仅仅使用storage.modifier.static.«language»命名storage.modifer。
-storage.modifier的作用域只是将两者都匹配，但名称中包含额外信息意味着有可能专门针对它而忽略其他存储修饰符。</p>
-</li>
+storage.modifier的作用域只是将两者都匹配，但名称中包含额外信息意味着有可能专门针对它而忽略其他存储修饰符。</p></li>
 </ol>
+
 <p>3.在名字后面加上语言名称。这似乎是多余的，因为您通常可以使用域选择器：source.«language».storage.modifier，
 但在嵌入语言时，这并不总是可能的。</p>
+
 <p>现在有11个根组正在使用，并对它们的预期用途做了一些解释。这是一个分层列表，
 但实际的作用域名称是通过将每个级别的名称与一个点连接起来获得的。例如，double-slash是comment.line.double-slash。</p>
+
 <ul>
-<li>
-<p>comment：注释</p>
+<li><p>comment：注释</p>
+
 <ul>
 <li>line：行注释，我们进一步专门化，以便可以从范围中提取注释开始字符的类型
+
 <ul>
 <li>double-slash：// 注释</li>
 <li>double-dash：&ndash; 注释</li>
 <li>number-sign：# 注释</li>
 <li>percentage：% 注释</li>
 <li>character：其他类型行注释</li>
-</ul>
-</li>
-<li>block：多行注释如/<em>&hellip;</em>/和<!-- raw HTML omitted -->
+</ul></li>
+<li>block：多行注释如/<em>&hellip;</em>/和<!--...-->
+
 <ul>
 <li>documentation：嵌入式文档</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>constant：各种形式的常量</p>
+</ul></li>
+</ul></li>
+
+<li><p>constant：各种形式的常量</p>
+
 <ul>
 <li>numeric：数字</li>
 <li>character：字符
+
 <ul>
 <li>escape：转义字符如\e将是constant.character.escape</li>
-</ul>
-</li>
+</ul></li>
 <li>language：由语言提供的常量，如true、false、nil、YES、NO等。</li>
 <li>other：其他常量，如颜色值</li>
-</ul>
-</li>
-<li>
-<p>entity：实体指文档的较大部分，例如章节、类、函数或标记。我们不把整个实体作为entity.*（我们使用meta.*来实现）。
+</ul></li>
+
+<li><p>entity：实体指文档的较大部分，例如章节、类、函数或标记。我们不把整个实体作为entity.*（我们使用meta.*来实现）。
 但我们确实使用entity.*作为较大实体中的“占位符”，例如，如果实体是一个章节，
 我们将使用entity.name.section对于章节标题</p>
+
 <ul>
 <li>name：较大实体的命名
+
 <ul>
 <li>function：函数名称</li>
 <li>type：类声明类型名称</li>
 <li>tag 标签名称</li>
 <li>section：名称是节/标题的名称。</li>
-</ul>
-</li>
+</ul></li>
 <li>other：其他实体
+
 <ul>
 <li>inherited-class：超类或基类名称</li>
-<li>attribute-name：属性名称</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>invalid：无效的一些东西</p>
+<li>attribute-name：属性名称
+<br /></li>
+</ul></li>
+</ul></li>
+
+<li><p>invalid：无效的一些东西</p>
+
 <ul>
 <li>illegal：非法，HTML中的与号或小于号字符（不是实体/标记的一部分）。</li>
-<li>deprecated：对于不推荐使用的内容，例如使用不推荐使用的API函数或使用严格的HTML进行样式设置。</li>
-</ul>
-</li>
-<li>
-<p>keyword：关键字</p>
+<li>deprecated：对于不推荐使用的内容，例如使用不推荐使用的API函数或使用严格的HTML进行样式设置。
+<br /></li>
+</ul></li>
+
+<li><p>keyword：关键字</p>
+
 <ul>
 <li>control：控制流程如：continue,while,return等</li>
 <li>operator：操作符文本或字符</li>
 <li>other：其他关键字</li>
-</ul>
-</li>
-<li>
-<p>markup：这适用于标记语言，通常适用于较大的文本子集</p>
+</ul></li>
+
+<li><p>markup：这适用于标记语言，通常适用于较大的文本子集</p>
+
 <ul>
 <li>underline：下划线文本
+
 <ul>
 <li>link：这是为了链接，为了方便起见，这是从markup.underline如果没有主题规则markup.underline.link，然后它将继承下划线样式。</li>
-</ul>
-</li>
+</ul></li>
 <li>bold：加粗文本</li>
-<li>heading：章节开头，可选地提供标题级别作为下一个元素，例如markup.heading.2.html用于html中的<!-- raw HTML omitted -->…<!-- raw HTML omitted -->。</li>
+<li>heading：章节开头，可选地提供标题级别作为下一个元素，例如markup.heading.2.html用于html中的<h2>…</h2>。</li>
 <li>italic：斜体文本</li>
 <li>list：列表项
+
 <ul>
 <li>numbered：数字式列表项</li>
 <li>unnumbered：非数字式列表项</li>
-</ul>
-</li>
+</ul></li>
 <li>quote：带引号（有时是块引号）的文本。</li>
 <li>raw：逐字记录的文本，例如代码列表。通常对禁用拼写检查markup.raw</li>
-<li>other：其他标记结构</li>
-</ul>
-</li>
-<li>
-<p>meta：元作用域通常用于标记文档的较大部分。例如，声明函数的整行将是meta.function而子集是storage.type,
+<li>other：其他标记结构
+<br /></li>
+</ul></li>
+
+<li><p>meta：元作用域通常用于标记文档的较大部分。例如，声明函数的整行将是meta.function而子集是storage.type,
 entity.name.function, variable.parameter等等，只有后者才会被设计。
 有时，作用域的元部分只用于限制样式更一般的元素，但是大多数时间元作用域都用于作用域选择器以激活捆绑项目。
-例如，在Objective-C中，类和实现的接口声明有一个元范围，允许相同的选项卡触发器根据上下文不同展开。</p>
-</li>
-<li>
-<p>storage：与“储存”有关的东西</p>
+例如，在Objective-C中，类和实现的接口声明有一个元范围，允许相同的选项卡触发器根据上下文不同展开。</p></li>
+
+<li><p>storage：与“储存”有关的东西</p>
+
 <ul>
 <li>type：类型相关，class、function、int、var等的类型</li>
-<li>modifier：存储修改器，如：static,final,abstract等</li>
-</ul>
-</li>
-<li>
-<p>string：字符串</p>
+<li>modifier：存储修改器，如：static,final,abstract等
+<br /></li>
+</ul></li>
+
+<li><p>string：字符串</p>
+
 <ul>
 <li>quoted：字符串引用
+
 <ul>
 <li>single：带单引号的字符串</li>
 <li>double：带双引号的字符串</li>
 <li>triple：三引号字符串</li>
 <li>other：其他字符串引用</li>
-</ul>
-</li>
+</ul></li>
 <li>unquoted：未带引用</li>
 <li>interpolated：求值字符串，如：<code>date</code>,$(pwd)等</li>
 <li>regexp：正则表达式</li>
-<li>other：其他类型字符串</li>
-</ul>
-</li>
-<li>
-<p>support：框架或库提供的东西应该低于support</p>
+<li>other：其他类型字符串
+<br /></li>
+</ul></li>
+
+<li><p>support：框架或库提供的东西应该低于support</p>
+
 <ul>
 <li>function：框架或库提供的函数</li>
 <li>class：框架或库提供的类</li>
@@ -568,16 +607,16 @@ entity.name.function, variable.parameter等等，只有后者才会被设计。
 <li>constant：框架或库提供的常量</li>
 <li>variable：框架或库提供的变量</li>
 <li>other： 以上内容应详尽无遗，但对于其他所有内容，请使用support.other</li>
-</ul>
-</li>
-<li>
-<p>variable：变量</p>
+</ul></li>
+
+<li><p>variable：变量</p>
+
 <ul>
 <li>parameter：参数声明</li>
 <li>language：语言自带的如：this,super,self等</li>
-<li>other：其他变量，如$some_variables</li>
-</ul>
-</li>
+<li>other：其他变量，如$some_variables
+<br /></li>
+</ul></li>
 </ul>
 
         </div>

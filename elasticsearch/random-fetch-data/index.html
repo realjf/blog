@@ -3,7 +3,7 @@
 <head>
     <title>elasticsearch随机获取数据 random Fetch Data // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,31 +237,33 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">elasticsearch</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">Elasticsearch</a></div></div>
         </header>
         <div class="post-content">
             <p>搜索的形式随机获取数据</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;query&#34;</span>: {
-    <span style="color:#f92672">&#34;bool&#34;</span>: {
-      <span style="color:#f92672">&#34;must&#34;</span>: [{
-        <span style="color:#f92672">&#34;term&#34;</span>: {
-          <span style="color:#f92672">&#34;game_id&#34;</span>: <span style="color:#ae81ff">132</span>
+
+<pre><code class="language-json">{
+  &quot;query&quot;: {
+    &quot;bool&quot;: {
+      &quot;must&quot;: [{
+        &quot;term&quot;: {
+          &quot;game_id&quot;: 132
         }
       }]
     }
   },
-  <span style="color:#f92672">&#34;from&#34;</span>: <span style="color:#ae81ff">1</span>,
-  <span style="color:#f92672">&#34;size&#34;</span>: <span style="color:#ae81ff">100</span>,
-  <span style="color:#f92672">&#34;sort&#34;</span>: {
-    <span style="color:#f92672">&#34;_script&#34;</span>: {
-      <span style="color:#f92672">&#34;script&#34;</span>: <span style="color:#e6db74">&#34;Math.random()&#34;</span>,
-      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;number&#34;</span>,
-      <span style="color:#f92672">&#34;order&#34;</span>: <span style="color:#e6db74">&#34;asc&#34;</span>
+  &quot;from&quot;: 1,
+  &quot;size&quot;: 100,
+  &quot;sort&quot;: {
+    &quot;_script&quot;: {
+      &quot;script&quot;: &quot;Math.random()&quot;,
+      &quot;type&quot;: &quot;number&quot;,
+      &quot;order&quot;: &quot;asc&quot;
     }
   }
 }
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

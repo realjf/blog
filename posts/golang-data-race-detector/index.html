@@ -3,7 +3,7 @@
 <head>
     <title>Golang 并发编程 之 数据竞态检测 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,191 +237,230 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/race/">race</a><a class="tag" href="https://realjf.io/tags/concurrency/">concurrency</a><a class="tag" href="https://realjf.io/tags/%E7%AB%9E%E6%80%81%E6%A3%80%E6%B5%8B/">竞态检测</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/race/">Race</a><a class="tag" href="https://realjf.io/tags/concurrency/">Concurrency</a><a class="tag" href="https://realjf.io/tags/%E7%AB%9E%E6%80%81%E6%A3%80%E6%B5%8B/">竞态检测</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="什么是数据争用或竞态">什么是数据争用或竞态</h2>
+            
+
+<h2 id="什么是数据争用或竞态">什么是数据争用或竞态</h2>
+
 <p>数据争用是并发系统中最常见且最难调试的错误类型之一。当两个goroutine并发访问同一变量并且至少其中之一是写操作时，就会发生数据争用。</p>
+
 <p>下面让我们来实际模拟一下数据争用问题。</p>
+
 <p>以下示例可能导致内存崩溃和损坏的数据争用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
-	<span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>)
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;1&#34;</span>] = <span style="color:#e6db74">&#34;a&#34;</span>
-		<span style="color:#a6e22e">c</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
-	}()
-	<span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;2&#34;</span>] = <span style="color:#e6db74">&#34;b&#34;</span>
-	<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">m</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span>)
-	}
+
+<pre><code class="language-go">func main() {
+    c := make(chan bool)
+    m := make(map[string]string)
+    go func() {
+        m[&quot;1&quot;] = &quot;a&quot;
+        c &lt;- true
+    }()
+    m[&quot;2&quot;] = &quot;b&quot;
+    &lt;-c
+    for k, v := range m {
+        fmt.Println(k, v)
+    }
 }
-</code></pre></div><p>运行go run -race main.go进行竞争检测，得到的结果如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#==================</span>
+</code></pre>
+
+<p>运行go run -race main.go进行竞争检测，得到的结果如下：</p>
+
+<pre><code class="language-bash">#==================
 WARNING: DATA RACE
 Write at 0x00c00008e150 by goroutine 6:
-  runtime.mapassign_faststr<span style="color:#f92672">()</span>
+  runtime.mapassign_faststr()
       /usr/local/go/src/runtime/map_faststr.go:202 +0x0
-  main.main.func1<span style="color:#f92672">()</span>
+  main.main.func1()
       /root/go_project/src/test/race.go:9 +0x5d
 
 Previous write at 0x00c00008e150 by main goroutine:
-  runtime.mapassign_faststr<span style="color:#f92672">()</span>
+  runtime.mapassign_faststr()
       /usr/local/go/src/runtime/map_faststr.go:202 +0x0
-  main.main<span style="color:#f92672">()</span>
+  main.main()
       /root/go_project/src/test/race.go:12 +0xc6
 
-Goroutine <span style="color:#ae81ff">6</span> <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> created at:
-  main.main<span style="color:#f92672">()</span>
+Goroutine 6 (running) created at:
+  main.main()
       /root/go_project/src/test/race.go:8 +0x97
-<span style="color:#75715e">#==================</span>
-<span style="color:#ae81ff">2</span> b
-<span style="color:#ae81ff">1</span> a
-Found <span style="color:#ae81ff">1</span> data race<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>
-</code></pre></div><h4 id="利用build-tag排除_testgo文件加入到-race标记的构建中">利用build tag排除*_test.go文件加入到-race标记的构建中</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// +build !race
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">foo</span>
+#==================
+2 b
+1 a
+Found 1 data race(s)
+</code></pre>
 
-<span style="color:#75715e">// The test contains a data race. See issue 123.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestFoo</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
-	<span style="color:#75715e">// ...
-</span><span style="color:#75715e"></span>}
+<h4 id="利用build-tag排除-test-go文件加入到-race标记的构建中">利用build tag排除*_test.go文件加入到-race标记的构建中</h4>
 
-<span style="color:#75715e">// The test fails under the race detector due to timeouts.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestBar</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
-	<span style="color:#75715e">// ...
-</span><span style="color:#75715e"></span>}
+<pre><code class="language-go">// +build !race
 
-<span style="color:#75715e">// The test takes too long under the race detector.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestBaz</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
-	<span style="color:#75715e">// ...
-</span><span style="color:#75715e"></span>}
-</code></pre></div><h3 id="典型示例">典型示例</h3>
+package foo
+
+// The test contains a data race. See issue 123.
+func TestFoo(t *testing.T) {
+    // ...
+}
+
+// The test fails under the race detector due to timeouts.
+func TestBar(t *testing.T) {
+    // ...
+}
+
+// The test takes too long under the race detector.
+func TestBaz(t *testing.T) {
+    // ...
+}
+</code></pre>
+
+<h3 id="典型示例">典型示例</h3>
+
 <h4 id="1-循环计数器的数据争用">1. 循环计数器的数据争用</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">5</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>)
-			<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
-		}() <span style="color:#75715e">// 这里没有传递值，所以所有goroutine共享i变量
-</span><span style="color:#75715e"></span>	}
-	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+
+<pre><code class="language-go">func main() {
+    var wg sync.WaitGroup
+    wg.Add(5)
+    for i := 0; i &lt; 5; i++ {
+        go func() {
+            fmt.Println(i)
+            wg.Done()
+        }() // 这里没有传递值，所以所有goroutine共享i变量
+    }
+    wg.Wait()
 }
 
-</code></pre></div><p>上面的打印结果是55555，而不是01234</p>
+</code></pre>
+
+<p>上面的打印结果是55555，而不是01234</p>
+
 <p><strong>解决方法</strong>是，将变量作为参数传递到goroutine中</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">5</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) {
-			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">j</span>)
-			<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
-		}(<span style="color:#a6e22e">i</span>)
-	}
-	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
-}
-</code></pre></div><h4 id="2-偶然的共享变量">2. 偶然的共享变量</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ParalleWrite</span>(<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">error</span> {
-	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">error</span>, <span style="color:#ae81ff">2</span>)
-	<span style="color:#a6e22e">f1</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#e6db74">&#34;file1&#34;</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">res</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">err</span>
-	}<span style="color:#66d9ef">else</span>{
-		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-			<span style="color:#75715e">// 与main goroutine共享err变量，所以可能出现写冲突
-</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">f1</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">data</span>)
-			<span style="color:#a6e22e">res</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">err</span>
-			<span style="color:#a6e22e">f1</span>.<span style="color:#a6e22e">Close</span>()
-		}()
-	}
-	<span style="color:#a6e22e">f2</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#e6db74">&#34;file2&#34;</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">res</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">err</span>
-	}<span style="color:#66d9ef">else</span>{
-		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-			<span style="color:#75715e">// 第2次写冲突
-</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">f2</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">data</span>)
-			<span style="color:#a6e22e">res</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">err</span>
-			<span style="color:#a6e22e">f2</span>.<span style="color:#a6e22e">Close</span>()
-		}()
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
-}
-</code></pre></div><p>解决方法：采用新变量（利用:=声明）</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">...</span>
- <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f1</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">data</span>)
- <span style="color:#f92672">...</span>
- <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f2</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">data</span>)
-<span style="color:#f92672">...</span>
-</code></pre></div><h4 id="3未保护的全局变量">3.未保护的全局变量</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">service</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Addr</span>
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">RegisterService</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">addr</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Addr</span>) {
-	<span style="color:#a6e22e">service</span>[<span style="color:#a6e22e">name</span>] = <span style="color:#a6e22e">addr</span>
+<pre><code class="language-go">func main() {
+    var wg sync.WaitGroup
+    wg.Add(5)
+    for i := 0; i &lt; 5; i++ {
+        go func(j int) {
+            fmt.Println(j)
+            wg.Done()
+        }(i)
+    }
+    wg.Wait()
 }
+</code></pre>
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">LookupService</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Addr</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">service</span>[<span style="color:#a6e22e">name</span>]
-}
-</code></pre></div><p>解决方法是对数据进行加锁</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Service</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">list</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Addr</span>
-	<span style="color:#a6e22e">mu</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
-}
+<h4 id="2-偶然的共享变量">2. 偶然的共享变量</h4>
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Service</span>) <span style="color:#a6e22e">RegisterService</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">addr</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Addr</span>) {
-	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
-	<span style="color:#a6e22e">service</span>[<span style="color:#a6e22e">name</span>] = <span style="color:#a6e22e">addr</span>
+<pre><code class="language-go">func ParalleWrite(data []byte) chan error {
+    res := make(chan error, 2)
+    f1, err := os.Create(&quot;file1&quot;)
+    if err != nil {
+        res &lt;- err
+    }else{
+        go func() {
+            // 与main goroutine共享err变量，所以可能出现写冲突
+            _, err = f1.Write(data)
+            res &lt;- err
+            f1.Close()
+        }()
+    }
+    f2, err := os.Create(&quot;file2&quot;)
+    if err != nil {
+        res &lt;- err
+    }else{
+        go func() {
+            // 第2次写冲突
+            _, err = f2.Write(data)
+            res &lt;- err
+            f2.Close()
+        }()
+    }
+    return res
+}
+</code></pre>
+
+<p>解决方法：采用新变量（利用:=声明）</p>
+
+<pre><code class="language-go">...
+ _, err := f1.Write(data)
+ ...
+ _, err := f2.Write(data)
+...
+</code></pre>
+
+<h4 id="3-未保护的全局变量">3.未保护的全局变量</h4>
+
+<pre><code class="language-go">var service map[string]net.Addr
+
+func RegisterService(name string, addr net.Addr) {
+    service[name] = addr
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Service</span>) <span style="color:#a6e22e">LookupService</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Addr</span> {
-	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">service</span>[<span style="color:#a6e22e">name</span>]
+func LookupService(name string) net.Addr {
+    return service[name]
 }
-</code></pre></div><h4 id="4-无保护的基本数据类型">4. 无保护的基本数据类型</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Watchdog</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">last</span> <span style="color:#66d9ef">int64</span>
+</code></pre>
+
+<p>解决方法是对数据进行加锁</p>
+
+<pre><code class="language-go">type Service struct {
+    list map[string]net.Addr
+    mu sync.Mutex
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Watchdog</span>) <span style="color:#a6e22e">KeepAlive</span>() {
-	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">last</span> = <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">UnixNano</span>()
+func (s *Service) RegisterService(name string, addr net.Addr) {
+    s.mu.Lock()
+    defer s.mu.Unlock()
+    service[name] = addr
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Watchdog</span>) <span style="color:#a6e22e">Start</span>() {
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#66d9ef">for</span> {
-			<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
-			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">last</span> &lt; <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">Add</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>).<span style="color:#a6e22e">UnixNano</span>() {
-				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;No keepalives for 10 seconds. Dying.&#34;</span>)
-				<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
-			}
-		}
-	}()
+func (s *Service) LookupService(name string) net.Addr {
+    s.mu.Lock()
+    defer s.mu.Unlock()
+    return service[name]
 }
-</code></pre></div><p>解决方法是利用原子操作sync/atomic</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Watchdog</span>) <span style="color:#a6e22e">KeepAlive_safe</span>() {
-	<span style="color:#a6e22e">atomic</span>.<span style="color:#a6e22e">StoreInt64</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">last</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">UnixNano</span>())
+</code></pre>
+
+<h4 id="4-无保护的基本数据类型">4. 无保护的基本数据类型</h4>
+
+<pre><code class="language-go">type Watchdog struct {
+    last int64
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Watchdog</span>) <span style="color:#a6e22e">Start_safe</span>() {
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#66d9ef">for</span> {
-			<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
-			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">atomic</span>.<span style="color:#a6e22e">LoadInt64</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">last</span>) &lt; <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">Add</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>).<span style="color:#a6e22e">UnixNano</span>() {
-				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;No keepalives for 10 seconds. Dying.&#34;</span>)
-				<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
-			}
-		}
-	}()
+func (w *Watchdog) KeepAlive() {
+    w.last = time.Now().UnixNano()
 }
-</code></pre></div>
+
+func (w *Watchdog) Start() {
+    go func() {
+        for {
+            time.Sleep(time.Second)
+            if w.last &lt; time.Now().Add(-10 * time.Second).UnixNano() {
+                fmt.Println(&quot;No keepalives for 10 seconds. Dying.&quot;)
+                os.Exit(1)
+            }
+        }
+    }()
+}
+</code></pre>
+
+<p>解决方法是利用原子操作sync/atomic</p>
+
+<pre><code class="language-go">func (w *Watchdog) KeepAlive_safe() {
+    atomic.StoreInt64(&amp;w.last, time.Now().UnixNano())
+}
+
+func (w *Watchdog) Start_safe() {
+    go func() {
+        for {
+            time.Sleep(time.Second)
+            if atomic.LoadInt64(&amp;w.last) &lt; time.Now().Add(-10 * time.Second).UnixNano() {
+                fmt.Println(&quot;No keepalives for 10 seconds. Dying.&quot;)
+                os.Exit(1)
+            }
+        }
+    }()
+}
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

@@ -1,0 +1,497 @@
+<!doctype html>
+<html>
+<head>
+    <title>NCURSES编程 之 8.属性 8 Attributes // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">NCURSES编程 之 8.属性 8 Attributes</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Mar 5, 2021
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    3 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h2 id="8-属性">8. 属性</h2>
+
+<p>我们已经看到了如何使用属性打印具有某些特殊效果的字符的示例。如果谨慎地设置属性，可以以简单易懂的方式呈现信息。下面的程序将一个C文件作为输入并打印带有粗体注释的文件。扫描代码。</p>
+
+<p>一个简单的属性例子：</p>
+
+<pre><code class="language-cpp">/* pager functionality by Joseph Spainhour&quot; &lt;spainhou@bellsouth.net&gt; */
+#include &lt;ncurses.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(int argc, char *argv[])
+{ 
+  int ch, prev, row, col;
+  prev = EOF;
+  FILE *fp;
+  int y, x;
+
+  if(argc != 2)
+  {
+    printf(&quot;Usage: %s &lt;a c file name&gt;\n&quot;, argv[0]);
+    exit(1);
+  }
+  fp = fopen(argv[1], &quot;r&quot;);
+  if(fp == NULL)
+  {
+    perror(&quot;Cannot open input file&quot;);
+    exit(1);
+  }
+  initscr();                /* Start curses mode */
+  getmaxyx(stdscr, row, col);       /* find the boundaries of the screeen */
+  while((ch = fgetc(fp)) != EOF)    /* read the file till we reach the end */
+  {
+    getyx(stdscr, y, x);        /* get the current curser position */
+    if(y == (row - 1))          /* are we are at the end of the screen */
+    {
+      printw(&quot;&lt;-Press Any Key-&gt;&quot;);  /* tell the user to press a key */
+      getch();
+      clear();              /* clear the screen */
+      move(0, 0);           /* start at the beginning of the screen */
+    }
+    if(prev == '/' &amp;&amp; ch == '*')        /* If it is / and * then only
+                                         * switch bold on */    
+    {
+      attron(A_BOLD);           /* cut bold on */
+      getyx(stdscr, y, x);      /* get the current curser position */
+      move(y, x - 1);           /* back up one space */
+      printw(&quot;%c%c&quot;, '/', ch);      /* The actual printing is done here */
+    }
+    else
+      printw(&quot;%c&quot;, ch);
+    refresh();
+    if(prev == '*' &amp;&amp; ch == '/')
+      attroff(A_BOLD);              /* Switch it off once we got *
+                                     * and then / */
+    prev = ch;
+  }
+  endwin();                         /* End curses mode */
+  fclose(fp);
+  return 0;
+}
+</code></pre>
+
+<p>别担心那些初始化之类的废话。专注于while循环。它读取文件中的每个字符并搜索模式/<em>。一旦它发现了模式，它就会用attron（）打开BOLD属性。当我们得到模式</em>/它被attroff（）关闭。</p>
+
+<p>上面的程序还向我们介绍了两个有用的函数getyx（）和move（）。第一个函数将当前光标的坐标输入变量y，x。由于getyx（）是一个宏，我们不必向变量传递指针。函数move（）将光标移动到给定的坐标。</p>
+
+<p>上面的程序其实很简单，做的不多。在这些行上，人们可以编写一个更有用的程序来读取C文件，解析它并以不同的颜色打印它。人们甚至可以把它扩展到其他语言。</p>
+
+<h3 id="8-1-细节">8.1. 细节</h3>
+
+<p>让我们深入了解属性的更多细节。函数attron（）、attroff（）、attrset（）及其姐妹函数attr_get（）等。。可用于打开/关闭属性、获取属性和生成彩色显示。</p>
+
+<p>函数attron和attroff获取属性的位掩码，并分别打开或关闭它们。<curses.h>中定义的以下视频属性可以传递给这些函数。</p>
+
+<pre><code class="language-text">    A_NORMAL        Normal display (no highlight)
+    A_STANDOUT      Best highlighting mode of the terminal.
+    A_UNDERLINE     Underlining
+    A_REVERSE       Reverse video
+    A_BLINK         Blinking
+    A_DIM           Half bright
+    A_BOLD          Extra bright or bold
+    A_PROTECT       Protected mode
+    A_INVIS         Invisible or blank mode
+    A_ALTCHARSET    Alternate character set
+    A_CHARTEXT      Bit-mask to extract a character
+    COLOR_PAIR(n)   Color-pair number n 
+</code></pre>
+
+<p>最后一个是最丰富多彩的颜色：-）颜色将在下一节中解释。</p>
+
+<p>我们可以使用或（|）任何数量的上述属性来获得组合效果。如果你想反向视频与闪烁的字符，你可以使用</p>
+
+<pre><code class="language-cpp">attron(A_REVERSE | A_BLINK);
+</code></pre>
+
+<h3 id="8-2-attron-与attrset">8.2. attron（）与attrset（）</h3>
+
+<p>那么attron（）和attrset（）之间有什么区别呢？attrset设置window的属性，而attron只打开给定给它的属性。因此attrset（）完全覆盖窗口以前拥有的任何属性，并将其设置为新属性。类似地，attroff（）只是关闭作为参数提供给它的属性。这给了我们管理属性的灵活性很容易，但是如果你不小心使用它们，你可能会忘记窗口有哪些属性，并使显示混乱。这在管理带有颜色和突出显示的菜单时尤其如此。所以决定一个一致的政策并坚持下去。您可以始终使用standend（），它相当于attrset（A_NORMAL），它关闭所有属性并将您带到NORMAL模式。</p>
+
+<h3 id="8-3-attr-get">8.3. attr_get（）</h3>
+
+<p>函数attr_get（）获取窗口的当前属性和颜色对。虽然我们可能不会像上面的函数那样经常使用它，但它在扫描屏幕区域时很有用。假设我们想在屏幕上做一些复杂的更新，但我们不确定每个角色与哪个属性相关。然后此函数可以与attrset或attron一起使用，以产生所需的效果。</p>
+
+<h3 id="8-4-attr-函数">8.4. attr_函数</h3>
+
+<p>有一系列函数，如attr_set（）、attr_on等。。这些函数与上述函数类似，只是它们采用attr_t类型的参数。</p>
+
+<h3 id="8-5-wattr函数">8.5. wattr函数</h3>
+
+<p>对于上述每一个函数，我们都有一个对应的函数，它在特定的窗口上运行。上述功能在stdscr上运行。</p>
+
+<h3 id="8-6-chgat-函数">8.6. chgat（）函数</h3>
+
+<p>函数chgat（）列在手册页curs_attr的末尾。它实际上是一个有用的。此函数可用于在不移动的情况下为一组字符设置属性。我是认真的！！！不移动光标：-）它从当前光标位置开始更改给定数量字符的属性。
+我们可以给-1作为字符计数，以更新到行尾。如果要将字符的属性从当前位置更改为行尾，只需使用以下命令。</p>
+
+<pre><code class="language-cpp"> chgat(-1, A_REVERSE, 0, NULL);
+</code></pre>
+
+<p>当更改屏幕上已有字符的属性时，此函数非常有用。移动到要从中更改的角色并更改属性。
+其他函数wchgat（）、mvchgat（）、wchgat（）的行为类似，只是w函数对特定窗口进行操作。mv函数首先移动光标，然后执行给定的工作。实际上chgat是一个宏，它被一个wchgat（）替换，stdscr作为窗口。大多数“无w”函数都是宏。</p>
+
+<p>chgat()使用示例</p>
+
+<pre><code class="language-cpp">#include &lt;ncurses.h&gt;
+
+int main(int argc, char *argv[])
+{   initscr();          /* Start curses mode        */
+    start_color();          /* Start color functionality    */
+    
+    init_pair(1, COLOR_CYAN, COLOR_BLACK);
+    printw(&quot;A Big string which i didn't care to type fully &quot;);
+    mvchgat(0, 0, -1, A_BLINK, 1, NULL);    
+    /* 
+     * First two parameters specify the position at which to start 
+     * Third parameter number of characters to update. -1 means till 
+     * end of line
+     * Forth parameter is the normal attribute you wanted to give 
+     * to the charcter
+     * Fifth is the color index. It is the index given during init_pair()
+     * use 0 if you didn't want color
+     * Sixth one is always NULL 
+     */
+    refresh();
+  getch();
+    endwin();           /* End curses mode        */
+    return 0;
+}
+</code></pre>
+
+<p>这个例子还向我们介绍了curses的颜色世界。颜色将在后面详细解释。使用0表示无颜色。</p>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/ncurses/7-input-functions/">NCURSES编程 之 7.输入函数 7 Input Functions</a></li>
+                
+                    <li><a href="/ncurses/6-output-functions/">NCURSES编程 之 6.输出函数 6 Output Functions</a></li>
+                
+                    <li><a href="/ncurses/5-a-word-about-windows/">NCURSES编程 之 5.关于Windows的一句话 5 a Word About Windows</a></li>
+                
+                    <li><a href="/ncurses/4-initialization/">NCURSES编程 之 4.初始化 4 Initialization</a></li>
+                
+                    <li><a href="/ncurses/3-the-gory-details/">3 the Gory Details</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
