@@ -6,10 +6,56 @@
     <description>Recent content in Ncurses on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Mar 2021 11:04:04 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 05 Mar 2021 14:36:09 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/categories/ncurses/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>NCURSES编程 之 19 工具和小部件库 19 Tools and Widget Libraries</title>
+      <link>https://realjf.io/ncurses/19-tools-and-widget-libraries/</link>
+      <pubDate>Fri, 05 Mar 2021 14:36:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/19-tools-and-widget-libraries/</guid>
+      <description>19 工具和小部件库 现在您已经看到了NCURSE及其姊妹库的功能，您将为一个严重操纵屏幕的项目卷起袖子，准备就绪。但是等等。。在普通的NCURSE中，甚至在附加库中编写和维护复杂的GUI小部件可能相当困难。有一些现成的工具和小部件库可以用来代替编写自己的小部件。您可以使用其中的一些，从代码中获取想法，甚至扩展它们。
+19.1. CDK（CUSSES开发工具包） 用作者的话说
+CDK代表“curses开发工具包”，目前它包含21个随时可用的小部件，这有助于全屏幕诅咒程序的快速开发。
+该工具包提供了一些有用的小部件，这些小部件可以直接用于程序中。它写得很好，文档也很好。示例目录中的示例可以是初学者的一个好开始。CDK可从中下载http://insigner-island.net/cdk/. 按照README文件中的说明安装。
+19.1.1。小部件列表 下面是cdk提供的小部件列表及其描述。
+Widget Type Quick Description =========================================================================== Alphalist Allows a user to select from a list of words, with the ability to narrow the search list by typing in a few characters of the desired word. Buttonbox This creates a multiple button widget. Calendar Creates a little simple calendar widget. Dialog Prompts the user with a message, and the user can pick an answer from the buttons provided.</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 18.表单库 18 Forms Library</title>
+      <link>https://realjf.io/ncurses/18-forms-library/</link>
+      <pubDate>Fri, 05 Mar 2021 14:35:46 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/18-forms-library/</guid>
+      <description>18 表单库 好。如果您在web页面上看到过这些表单，这些表单从用户那里获取输入并执行各种操作，您可能会想知道，任何人都会如何在文本模式显示中创建这样的表单。用平淡的语言写那些漂亮的表格是相当困难的。表单库试图提供一个基本的框架来轻松地构建和维护表单。它有很多特性（功能）来管理验证、字段的动态扩展等。。让我们看看它的全部流程。
+表单是字段的集合；每个字段可以是标签（静态文本）或数据输入位置。表单库还提供了将表单划分为多个页面的函数。
+18.1. 基础知识 表单的创建方式与菜单基本相同。首先，使用new_field（）创建与表单相关的字段。您可以为字段设置选项，以便它们可以显示一些奇特的属性，在字段失去焦点之前进行验证等。。然后字段被附加到窗体。在此之后，可以将表单发布到显示，并准备接收输入。在与menu_driver（）类似的行中，使用form_driver（）操作窗体。我们可以发送请求以形成驱动程序，将焦点移动到某个字段，将光标移动到字段的末尾等。。用户在字段中输入值并完成验证后，可以取消对窗体的过帐，并释放分配的内存。
+窗体程序的一般控制流如下所示。
+ 初始化curses 使用new_field（）创建字段。可以指定字段的高度和宽度及其在窗体上的位置。 通过指定要附加的字段，使用new_form（）创建表单。 使用form_Post（）发布表单并刷新屏幕。 使用循环处理用户请求，并使用表单驱动程序对表单进行必要的更新。 使用menu_Unpost（）取消菜单的粘贴 通过Free_form（）释放分配给菜单的内存 使用Free_field（）释放分配给项目的内存 结束curses  如您所见，使用表单库与处理菜单库非常相似。下面的例子将探讨表单处理的各个方面。让我们从一个简单的例子开始。第一。
+18.2. 用表单库编译 要使用表单库函数，必须包含form.h，并且要将程序与表单库链接，标志-lform应按顺序与-lncurs一起添加。
+#include &amp;lt;form.h&amp;gt; . . . compile and link: gcc &amp;lt;program file&amp;gt; -lform -lncurses  表单示例
+#include &amp;lt;form.h&amp;gt; int main() { FIELD *field[3]; FORM *my_form; int ch; /* Initialize curses */ initscr(); cbreak(); noecho(); keypad(stdscr, TRUE); /* Initialize the fields */ field[0] = new_field(1, 10, 4, 18, 0, 0); field[1] = new_field(1, 10, 6, 18, 0, 0); field[2] = NULL; /* Set field options */ set_field_back(field[0], A_UNDERLINE); /* Print a line for the option */ field_opts_off(field[0], O_AUTOSKIP); /* Don&#39;t go to next field when this */ /* Field is filled up */ set_field_back(field[1], A_UNDERLINE); field_opts_off(field[1], O_AUTOSKIP); /* Create the form and post it */ my_form = new_form(field); post_form(my_form); refresh(); mvprintw(4, 10, &amp;quot;Value 1:&amp;quot;); mvprintw(6, 10, &amp;quot;Value 2:&amp;quot;); refresh(); /* Loop through to get user requests */ while((ch = getch()) !</description>
+    </item>
+    
+    <item>
+      <title>NCURSES编程 之 17.菜单库 17 Menus Library</title>
+      <link>https://realjf.io/ncurses/17-menus-library/</link>
+      <pubDate>Fri, 05 Mar 2021 14:35:25 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/17-menus-library/</guid>
+      <description>17 菜单库 菜单库提供了基本curses的一个很好的扩展，通过它可以创建菜单。它提供了一组创建菜单的函数。但是，他们必须定制，以提供更好的外观，颜色等。让我们进入细节。
+菜单是一个屏幕显示，它帮助用户选择给定项目集的某些子集。简单地说，菜单是一个项目集合，其中一个或多个项目可以从中选择。有些读者可能不知道多个项目选择功能。菜单库提供了编写菜单的功能，用户可以从中选择多个项目作为首选选项。这将在后面的一节中讨论。现在是时候开始做一些基础知识了。
+17.1。基础知识 要创建菜单，首先创建项目，然后将菜单张贴到显示。之后，所有用户响应的处理都是在优雅的函数menu_driver（）中完成的，该菜单是任何菜单程序的工作马。
+菜单程序的控制流程如下所示。
+ 初始化curses 使用new炣item（）创建项目。可以为项目指定名称和说明。 通过指定要附加的项，使用new_menu（）创建菜单。 使用menu_Post（）发布”菜单，然后刷新屏幕。 使用循环处理用户请求，并使用菜单“驱动程序”对菜单进行必要的更新。 用menu_Unpost（）取消对菜单的选中” 释放由free_menu（）分配给菜单的内存 释放分配给项目的内存（使用free_item（） 结束curses  让我们看看一个程序，它打印一个简单的菜单，并用上下箭头更新当前选择。
+17.2. 使用菜单库编译 要使用菜单库函数，您必须包括menu.h，并且要将程序与菜单库链接，则应按此顺序添加标记-lmenu和-lncurs。
+#include &amp;lt;menu.h&amp;gt; . . . compile and link: gcc &amp;lt;program file&amp;gt; -lmenu -lncurses  菜单基础
+#include &amp;lt;curses.h&amp;gt; #include &amp;lt;menu.h&amp;gt; #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0])) #define CTRLD 4 char *choices[] = { &amp;quot;Choice 1&amp;quot;, &amp;quot;Choice 2&amp;quot;, &amp;quot;Choice 3&amp;quot;, &amp;quot;Choice 4&amp;quot;, &amp;quot;Exit&amp;quot;, }; int main() { ITEM **my_items; int c; MENU *my_menu; int n_choices, i; ITEM *cur_item; initscr(); cbreak(); noecho(); keypad(stdscr, TRUE); n_choices = ARRAY_SIZE(choices); my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *)); for(i = 0; i &amp;lt; n_choices; ++i) my_items[i] = new_item(choices[i], choices[i]); my_items[n_choices] = (ITEM *)NULL; my_menu = new_menu((ITEM **)my_items); mvprintw(LINES - 2, 0, &amp;quot;F1 to Exit&amp;quot;); post_menu(my_menu); refresh(); while((c = getch()) !</description>
+    </item>
     
     <item>
       <title>NCURSES编程 之 16 平面库 16 Panel Library</title>
