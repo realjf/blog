@@ -6,10 +6,28 @@
     <description>Recent content in Ncurses on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Mar 2021 11:01:11 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 05 Mar 2021 11:04:04 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/ncurses/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>NCURSES编程 之 16 平面库 16 Panel Library</title>
+      <link>https://realjf.io/ncurses/16-panel-library/</link>
+      <pubDate>Fri, 05 Mar 2021 11:04:04 +0800</pubDate>
+      
+      <guid>https://realjf.io/ncurses/16-panel-library/</guid>
+      <description>16 平面库 既然你精通curses，你就想做些大事。您创建了许多重叠的窗口，以提供专业的窗口类型外观。不幸的是，很快就很难管理这些。多次刷新、更新让你陷入噩梦。每当你忘记按正确的顺序刷新窗口时，重叠的窗口就会产生斑点。
+不要绝望。panels库提供了一个优雅的解决方案。用网络课程开发者的话说
+如果您的界面设计使得windows在运行时可能会深入可见性堆栈或弹出到顶层，那么所产生的簿记可能会很乏味，而且很难正确进行。因此，面板库。
+如果你有很多重叠的窗口，那么面板库是一个不错的选择。它消除了执行一系列wnoutrefresh（）、doupdate（）的需要，并且减轻了正确执行的负担（自下而上）。该库维护有关窗口顺序、重叠和正确更新屏幕的信息。为什么要等？让我们仔细看一下面板。
+16.1. 基础知识 面板对象是一个窗口，它被隐式地视为包含所有其他面板对象的面板的一部分。甲板被视为一个堆垛，顶部面板完全可见，其他面板根据其位置可能会或可能不会被遮挡。因此，基本思想是创建一个重叠面板的堆栈，并使用面板库来正确显示它们。有一个类似于refresh（）的函数，它在调用时按正确的顺序显示面板。提供隐藏或显示面板、移动面板、更改其大小等功能。在所有调用这些函数的过程中，重叠问题由panels库管理。
+面板程序的一般流程如下： - 创建要附加到面板的窗口（使用newwin（））。 - 使用选定的可见性顺序创建面板。根据需要的能见度把它们叠起来。函数new_panel（）用于创建面板。 - 调用update_panels（）将面板以正确的可见性顺序写入虚拟屏幕。执行doupdate（）以在屏幕上显示它。 - 用show_panel（）、hide_panel（）、move_panel（）等填充面板。使用panel_hidden（）和panel_window（）等辅助函数。使用用户指针存储面板的自定义数据。使用函数set_panel_userptr（）和panel_userptr（）设置并获取面板的用户指针。 - 完成面板操作后，请使用del_panel（）删除面板。
+让我们用一些程序把概念弄清楚。下面是一个简单的程序，它创建了3个重叠面板并在屏幕上显示它们。
+16.2. 使用面板库编译 要使用panels库函数，必须包含panel.h，并且要将程序与panels库链接起来，标志-lpanel应该按顺序与-lncurs一起添加。
+#include &amp;lt;panel.h&amp;gt; . . . compile and link: gcc &amp;lt;program file&amp;gt; -lpanel -lncurses  示例：
+#include &amp;lt;panel.h&amp;gt; int main() { WINDOW *my_wins[3]; PANEL *my_panels[3]; int lines = 10, cols = 40, y = 2, x = 4, i; initscr(); cbreak(); noecho(); /* Create windows for the panels */ my_wins[0] = newwin(lines, cols, y, x); my_wins[1] = newwin(lines, cols, y + 1, x + 5); my_wins[2] = newwin(lines, cols, y + 2, x + 10); /* * Create borders around the windows so that you can see the effect * of panels */ for(i = 0; i &amp;lt; 3; ++i) box(my_wins[i], 0, 0); /* Attach a panel to each window */ /* Order is bottom up */ my_panels[0] = new_panel(my_wins[0]); /* Push 0, order: stdscr-0 */ my_panels[1] = new_panel(my_wins[1]); /* Push 1, order: stdscr-0-1 */ my_panels[2] = new_panel(my_wins[2]); /* Push 2, order: stdscr-0-1-2 */ /* Update the stacking order.</description>
+    </item>
     
     <item>
       <title>NCURSES编程 之 15其他库 15 Other Libraries</title>
