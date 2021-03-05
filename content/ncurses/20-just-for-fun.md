@@ -5,7 +5,7 @@ keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 50
