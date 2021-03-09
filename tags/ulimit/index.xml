@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ulimit on Realjf&#39;s blog</title>
+    <title>Ulimit on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/ulimit/</link>
-    <description>Recent content in ulimit on Realjf&#39;s blog</description>
+    <description>Recent content in Ulimit on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Dec 2019 14:14:25 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/ulimit/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 10 Dec 2019 14:14:25 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/ulimit/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>linux系统资源设置 之 Ulimit 命令</title>
       <link>https://realjf.io/linux/command/ulimit/</link>
