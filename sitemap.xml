@@ -4,6 +4,13 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     
     <url>
+        <loc>https://realjf.io/cpp/enable-shared-from-this/</loc>
+        <lastmod>2021-03-10T16:05:21+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
         <loc>https://realjf.io/cpp/how-to-use-weak-pointer/</loc>
         <lastmod>2021-03-09T17:41:32+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -1362,15 +1369,15 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/</loc>
-        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
+        <loc>https://realjf.io/series/</loc>
+        <lastmod>2021-03-10T16:05:21+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/</loc>
-        <lastmod>2021-03-09T17:41:32+08:00</lastmod>
+        <loc>https://realjf.io/tags/</loc>
+        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -1390,14 +1397,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/algorithm/</loc>
+        <loc>https://realjf.io/categories/algorithm/</loc>
         <lastmod>2020-07-22T10:31:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/algorithm/</loc>
+        <loc>https://realjf.io/tags/algorithm/</loc>
         <lastmod>2020-07-22T10:31:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1439,14 +1446,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/assembly/</loc>
+        <loc>https://realjf.io/categories/assembly/</loc>
         <lastmod>2020-05-31T08:55:50+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/assembly/</loc>
+        <loc>https://realjf.io/tags/assembly/</loc>
         <lastmod>2020-05-31T08:55:50+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1474,13 +1481,6 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/ceph/</loc>
-        <lastmod>2019-03-19T14:57:12+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/categories/ceph/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -1488,7 +1488,7 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <loc>https://realjf.io/tags/ceph/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1496,6 +1496,13 @@
     
     <url>
         <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <lastmod>2019-03-19T14:57:12+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1516,14 +1523,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/chunk-file/</loc>
+        <loc>https://realjf.io/series/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/chunk-file/</loc>
+        <loc>https://realjf.io/tags/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1544,15 +1551,15 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/cpp/</loc>
-        <lastmod>2021-03-09T17:41:32+08:00</lastmod>
+        <loc>https://realjf.io/categories/cpp/</loc>
+        <lastmod>2021-03-10T16:05:21+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/cpp/</loc>
-        <lastmod>2021-03-09T17:41:32+08:00</lastmod>
+        <loc>https://realjf.io/tags/cpp/</loc>
+        <lastmod>2021-03-10T16:05:21+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -1566,20 +1573,20 @@
     
     <url>
         <loc>https://realjf.io/cpp/</loc>
-        <lastmod>2021-03-09T17:41:32+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/csharp/</loc>
-        <lastmod>2020-12-18T06:01:37+08:00</lastmod>
+        <lastmod>2021-03-10T16:05:21+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/categories/csharp/</loc>
+        <lastmod>2020-12-18T06:01:37+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/csharp/</loc>
         <lastmod>2020-12-18T06:01:37+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1614,13 +1621,6 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/devtools/</loc>
-        <lastmod>2020-11-04T09:24:08+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/categories/devtools/</loc>
         <lastmod>2020-11-04T09:24:08+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -1628,14 +1628,21 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/distributed/</loc>
-        <lastmod>2020-05-11T11:06:43+08:00</lastmod>
+        <loc>https://realjf.io/tags/devtools/</loc>
+        <lastmod>2020-11-04T09:24:08+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/categories/distributed/</loc>
+        <lastmod>2020-05-11T11:06:43+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/distributed/</loc>
         <lastmod>2020-05-11T11:06:43+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1663,14 +1670,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/docker/</loc>
+        <loc>https://realjf.io/categories/docker/</loc>
         <lastmod>2020-04-28T15:29:31+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/docker/</loc>
+        <loc>https://realjf.io/tags/docker/</loc>
         <lastmod>2020-04-28T15:29:31+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1684,14 +1691,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/elasticsearch/</loc>
+        <loc>https://realjf.io/categories/elasticsearch/</loc>
         <lastmod>2020-06-10T11:56:47+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/elasticsearch/</loc>
+        <loc>https://realjf.io/tags/elasticsearch/</loc>
         <lastmod>2020-06-10T11:56:47+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1705,14 +1712,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/etcd/</loc>
+        <loc>https://realjf.io/categories/etcd/</loc>
         <lastmod>2019-03-19T14:13:46+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/etcd/</loc>
+        <loc>https://realjf.io/tags/etcd/</loc>
         <lastmod>2019-03-19T14:13:46+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1754,14 +1761,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/flutter/</loc>
+        <loc>https://realjf.io/categories/flutter/</loc>
         <lastmod>2020-05-10T11:53:15+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/flutter/</loc>
+        <loc>https://realjf.io/tags/flutter/</loc>
         <lastmod>2020-05-10T11:53:15+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1803,14 +1810,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/golang/</loc>
+        <loc>https://realjf.io/categories/golang/</loc>
         <lastmod>2020-09-09T09:18:15+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/golang/</loc>
+        <loc>https://realjf.io/tags/golang/</loc>
         <lastmod>2020-09-09T09:18:15+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1859,14 +1866,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/grpc/</loc>
+        <loc>https://realjf.io/categories/grpc/</loc>
         <lastmod>2020-12-14T04:29:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/grpc/</loc>
+        <loc>https://realjf.io/tags/grpc/</loc>
         <lastmod>2020-12-14T04:29:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1880,14 +1887,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/hugo/</loc>
+        <loc>https://realjf.io/categories/hugo/</loc>
         <lastmod>2019-03-19T09:43:09+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/hugo/</loc>
+        <loc>https://realjf.io/tags/hugo/</loc>
         <lastmod>2019-03-19T09:43:09+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1957,14 +1964,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/kafka/</loc>
+        <loc>https://realjf.io/categories/kafka/</loc>
         <lastmod>2020-04-29T15:37:44+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/kafka/</loc>
+        <loc>https://realjf.io/tags/kafka/</loc>
         <lastmod>2020-04-29T15:37:44+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1985,14 +1992,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/kubernetes/</loc>
+        <loc>https://realjf.io/categories/kubernetes/</loc>
         <lastmod>2019-03-19T14:35:31+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/kubernetes/</loc>
+        <loc>https://realjf.io/tags/kubernetes/</loc>
         <lastmod>2019-03-19T14:35:31+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2020,14 +2027,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/linux/</loc>
+        <loc>https://realjf.io/categories/linux/</loc>
         <lastmod>2021-03-07T11:16:03+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/linux/</loc>
+        <loc>https://realjf.io/tags/linux/</loc>
         <lastmod>2021-03-07T11:16:03+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2125,14 +2132,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/mysql/</loc>
+        <loc>https://realjf.io/categories/mysql/</loc>
         <lastmod>2020-12-09T16:03:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/mysql/</loc>
+        <loc>https://realjf.io/tags/mysql/</loc>
         <lastmod>2020-12-09T16:03:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2188,13 +2195,6 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/ncurses/</loc>
-        <lastmod>2021-03-05T16:22:04+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/categories/ncurses/</loc>
         <lastmod>2021-03-05T16:22:04+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -2202,8 +2202,8 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/network/</loc>
-        <lastmod>2020-04-23T16:10:57+08:00</lastmod>
+        <loc>https://realjf.io/tags/ncurses/</loc>
+        <lastmod>2021-03-05T16:22:04+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -2211,6 +2211,13 @@
     <url>
         <loc>https://realjf.io/categories/network/</loc>
         <lastmod>2020-04-23T17:31:45+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/network/</loc>
+        <lastmod>2020-04-23T16:10:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -2230,14 +2237,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/nginx/</loc>
+        <loc>https://realjf.io/categories/nginx/</loc>
         <lastmod>2019-09-30T14:56:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/nginx/</loc>
+        <loc>https://realjf.io/tags/nginx/</loc>
         <lastmod>2019-09-30T14:56:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2258,14 +2265,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/opengl/</loc>
+        <loc>https://realjf.io/categories/opengl/</loc>
         <lastmod>2021-01-23T00:47:53+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/opengl/</loc>
+        <loc>https://realjf.io/tags/opengl/</loc>
         <lastmod>2021-01-23T00:47:53+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2293,14 +2300,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/php/</loc>
+        <loc>https://realjf.io/categories/php/</loc>
         <lastmod>2020-12-14T09:08:01+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/php/</loc>
+        <loc>https://realjf.io/tags/php/</loc>
         <lastmod>2020-12-14T09:08:01+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2321,14 +2328,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/posts/</loc>
+        <loc>https://realjf.io/categories/posts/</loc>
         <lastmod>2021-03-02T21:55:35+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/posts/</loc>
+        <loc>https://realjf.io/tags/posts/</loc>
         <lastmod>2021-03-02T21:55:35+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2356,14 +2363,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/python/</loc>
+        <loc>https://realjf.io/categories/python/</loc>
         <lastmod>2019-10-14T15:17:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/python/</loc>
+        <loc>https://realjf.io/tags/python/</loc>
         <lastmod>2019-10-14T15:17:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2377,14 +2384,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/rabbitmq/</loc>
+        <loc>https://realjf.io/categories/rabbitmq/</loc>
         <lastmod>2020-04-28T14:49:47+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/rabbitmq/</loc>
+        <loc>https://realjf.io/tags/rabbitmq/</loc>
         <lastmod>2020-04-28T14:49:47+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2406,7 +2413,7 @@
     
     <url>
         <loc>https://realjf.io/</loc>
-        <lastmod>2021-03-09T17:41:32+08:00</lastmod>
+        <lastmod>2021-03-10T16:05:21+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -2426,13 +2433,6 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/ruby/</loc>
-        <lastmod>2019-08-30T12:42:08+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/categories/ruby/</loc>
         <lastmod>2019-08-30T12:42:08+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -2440,8 +2440,15 @@
     </url>
     
     <url>
+        <loc>https://realjf.io/tags/ruby/</loc>
+        <lastmod>2019-08-30T12:42:08+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0</priority>
+    </url>
+    
+    <url>
         <loc>https://realjf.io/series/</loc>
-        <lastmod>2021-03-09T17:41:32+08:00</lastmod>
+        <lastmod>2021-03-10T16:05:21+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -2475,14 +2482,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/storm/</loc>
+        <loc>https://realjf.io/categories/storm/</loc>
         <lastmod>2020-04-28T15:31:08+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/storm/</loc>
+        <loc>https://realjf.io/tags/storm/</loc>
         <lastmod>2020-04-28T15:31:08+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2552,14 +2559,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/tools/</loc>
+        <loc>https://realjf.io/categories/tools/</loc>
         <lastmod>2020-12-09T04:08:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/tools/</loc>
+        <loc>https://realjf.io/tags/tools/</loc>
         <lastmod>2020-12-09T04:08:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2580,14 +2587,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/unix/</loc>
+        <loc>https://realjf.io/categories/unix/</loc>
         <lastmod>2019-11-23T09:20:03+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/unix/</loc>
+        <loc>https://realjf.io/tags/unix/</loc>
         <lastmod>2019-11-23T09:20:03+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2650,14 +2657,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/vscode/</loc>
+        <loc>https://realjf.io/categories/vscode/</loc>
         <lastmod>2020-11-24T15:44:23+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/vscode/</loc>
+        <loc>https://realjf.io/tags/vscode/</loc>
         <lastmod>2020-11-24T15:44:23+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2671,14 +2678,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/vue/</loc>
+        <loc>https://realjf.io/categories/vue/</loc>
         <lastmod>2019-10-14T15:17:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/vue/</loc>
+        <loc>https://realjf.io/tags/vue/</loc>
         <lastmod>2019-10-14T15:17:48+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2699,14 +2706,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/vuejs/</loc>
+        <loc>https://realjf.io/categories/vuejs/</loc>
         <lastmod>2020-11-30T10:14:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/vuejs/</loc>
+        <loc>https://realjf.io/tags/vuejs/</loc>
         <lastmod>2020-11-30T10:14:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2804,14 +2811,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</loc>
+        <loc>https://realjf.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</loc>
+        <loc>https://realjf.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2860,14 +2867,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</loc>
+        <loc>https://realjf.io/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</loc>
         <lastmod>2019-09-04T09:28:23+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</loc>
+        <loc>https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/</loc>
         <lastmod>2019-09-04T09:28:23+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -2881,14 +2888,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
+        <loc>https://realjf.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
         <lastmod>2019-10-28T15:31:06+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
+        <loc>https://realjf.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
         <lastmod>2019-10-28T15:31:06+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>

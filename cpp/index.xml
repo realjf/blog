@@ -6,10 +6,24 @@
     <description>Recent content in Cpps on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Mar 2021 17:41:32 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 10 Mar 2021 16:05:21 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/cpp/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>C&#43;&#43;如何在对象创建过程中使用this指针指向自己？ Enable Shared From This</title>
+      <link>https://realjf.io/cpp/enable-shared-from-this/</link>
+      <pubDate>Wed, 10 Mar 2021 16:05:21 +0800</pubDate>
+      
+      <guid>https://realjf.io/cpp/enable-shared-from-this/</guid>
+      <description>weak_ptr处理的是循环依赖造成的空荡指针问题，另一个问题是：必须保证某对象只被一组shared pointer拥有。
+下面代码是错的：
+int* p = new int; shared_ptr&amp;lt;int&amp;gt; sp1(p); shared_ptr&amp;lt;int&amp;gt; sp2(p);  两组拥有权意味着相应资源的释放会被执行两次。
+除了上述情况外，也可能间接出现该问题：
+shared_ptr&amp;lt;Person&amp;gt; mom(new Person(name+&amp;quot;&#39;s mom&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; dad(new Person(name+&amp;quot;&#39;s dad&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; kid(new Person(name)); kid-&amp;gt;setParentsAndTheirKids(mom, dad);  修改Person类，如下：
+class Person{ public: ... void setParentsAndTheirKids(shared_ptr&amp;lt;Person&amp;gt; m = nullptr, shared_ptr&amp;lt;Person&amp;gt; f = nullptr){ mother = m; father = f; if(m != nullptr){ m-&amp;gt;kids.push_back(shared_ptr&amp;lt;Person&amp;gt;(this)); // ERROR } if(f != nullptr){ f-&amp;gt;kids.push_back(shared_ptr&amp;lt;Person&amp;gt;(this)); // ERROR } } ... };  问题出在 “this的那个shared pointer”的建立。之所以这么做，是因为我们想设置mother和father这两个成员的kids。但为了保持创建的kid和mother以及father设置的kid为同一个指针对象，所以需要一个shared pointer指向这个kid，这样就能解决问题，但是我们目前没有，而通过this指针创建将会开启一个新的拥有者，即开启一个新的shared pointer。</description>
+    </item>
     
     <item>
       <title>如何使用weak_ptr? How to Use Weak Pointer</title>
