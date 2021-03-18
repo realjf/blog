@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 7.输入函数 7 Input Functions // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.79.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,68 +237,51 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="7-输入函数">7. 输入函数</h2>
-
-<p>好吧，不用输入就打印，很无聊。让我们看看允许我们从用户那里获取输入的函数。这些功能也可以分为三类。
-- getch（）类：获取字符
-- scanw（）类：获取格式化输入
-- getstr（）类：获取字符串</p>
-
-<h3 id="7-1-getch-函数类">7.1. getch（）函数类</h3>
-
+            <h2 id="7-输入函数">7. 输入函数</h2>
+<p>好吧，不用输入就打印，很无聊。让我们看看允许我们从用户那里获取输入的函数。这些功能也可以分为三类。</p>
+<ul>
+<li>getch（）类：获取字符</li>
+<li>scanw（）类：获取格式化输入</li>
+<li>getstr（）类：获取字符串</li>
+</ul>
+<h3 id="71-getch函数类">7.1. getch（）函数类</h3>
 <p>这些函数从终端读取单个字符。但有一些微妙的事实需要考虑。例如，如果不使用函数cbreak（），curses将不会连续读取输入字符，而是仅在遇到新行或EOF后才开始读取。为了避免这种情况，必须使用cbreak（）函数，以便程序可以立即使用字符。另一个广泛使用的函数是noecho（）。顾名思义，当设置（使用）这个函数时，用户输入的字符不会显示在屏幕上。两个函数cbreak（）和noecho（）是密钥管理的典型示例。这一类型的功能在密钥管理部分进行了说明。</p>
-
-<h3 id="7-2-scanw-函数类">7.2. scanw（）函数类</h3>
-
+<h3 id="72-scanw函数类">7.2. scanw（）函数类</h3>
 <p>这些函数类似于scanf（），增加了从屏幕上任何位置获取输入的功能。</p>
-
-<h3 id="7-2-1-scanw-和mvscanw">7.2.1. scanw（）和mvscanw</h3>
-
+<h3 id="721-scanw和mvscanw">7.2.1. scanw（）和mvscanw</h3>
 <p>这些函数的用法类似于sscanf（），其中要扫描的行由wgetstr（）函数提供。也就是说，这些函数调用wgetstr（）函数（如下所述），并使用结果行进行扫描。</p>
-
-<h3 id="7-2-2-wscanw-和mvwscanw">7.2.2. wscanw（）和mvwscanw（）</h3>
-
+<h3 id="722-wscanw和mvwscanw">7.2.2. wscanw（）和mvwscanw（）</h3>
 <p>这些函数类似于上面的两个函数，只是它们从一个窗口中读取，该窗口作为这些函数的参数之一提供。</p>
-
-<h3 id="7-2-3-vwscanw">7.2.3. vwscanw（）</h3>
-
+<h3 id="723-vwscanw">7.2.3. vwscanw（）</h3>
 <p>此函数类似于vscanf（）。当要扫描的参数数目可变时，可以使用此选项。</p>
-
-<h3 id="7-3-getstr-函数类">7.3. getstr（）函数类</h3>
-
+<h3 id="73-getstr函数类">7.3. getstr（）函数类</h3>
 <p>这些函数用于从终端获取字符串。本质上，此函数执行的任务与对getch（）的一系列调用相同，直到收到换行符、回车符或文件结尾。结果字符串由str指向，str是用户提供的字符指针。</p>
-
-<h3 id="7-4-一些例子">7.4. 一些例子</h3>
-
+<h3 id="74-一些例子">7.4. 一些例子</h3>
 <p>例4。一个简单的scanw示例</p>
-
-<pre><code class="language-cpp">#include &lt;ncurses.h&gt;            /* ncurses.h includes stdio.h */  
-#include &lt;string.h&gt; 
- 
-int main()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;			/* ncurses.h includes stdio.h */  </span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt; </span><span style="color:#75715e">
+</span><span style="color:#75715e"></span> 
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
 {
- char mesg[]=&quot;Enter a string: &quot;;        /* message to be appeared on the screen */
- char str[80];
- int row,col;               /* to store the number of rows and *
-                     * the number of colums of the screen */
- initscr();             /* start the curses mode */
- getmaxyx(stdscr,row,col);      /* get the number of rows and columns */
- mvprintw(row/2,(col-strlen(mesg))/2,&quot;%s&quot;,mesg);
-                            /* print the message at the center of the screen */
+ <span style="color:#66d9ef">char</span> mesg[]<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Enter a string: &#34;</span>;		<span style="color:#75715e">/* message to be appeared on the screen */</span>
+ <span style="color:#66d9ef">char</span> str[<span style="color:#ae81ff">80</span>];
+ <span style="color:#66d9ef">int</span> row,col;				<span style="color:#75715e">/* to store the number of rows and *
+</span><span style="color:#75715e">					 * the number of colums of the screen */</span>
+ initscr();				<span style="color:#75715e">/* start the curses mode */</span>
+ getmaxyx(stdscr,row,col);		<span style="color:#75715e">/* get the number of rows and columns */</span>
+ mvprintw(row<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>,(col<span style="color:#f92672">-</span>strlen(mesg))<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#34;%s&#34;</span>,mesg);
+                     		<span style="color:#75715e">/* print the message at the center of the screen */</span>
  getstr(str);
- mvprintw(LINES - 2, 0, &quot;You Entered: %s&quot;, str);
+ mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;You Entered: %s&#34;</span>, str);
  getch();
  endwin();
 
- return 0;
+ <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -330,7 +313,7 @@ int main()
                 
                     <li><a href="/ncurses/4-initialization/">NCURSES编程 之 4.初始化 4 Initialization</a></li>
                 
-                    <li><a href="/ncurses/3-the-gory-details/">3 the Gory Details</a></li>
+                    <li><a href="/ncurses/3-the-gory-details/">NCURSES编程 之 3 the Gory Details</a></li>
                 
                     <li><a href="/ncurses/2-hello-world/">NCURSES编程 之 2.Hell World 2 Hello World</a></li>
                 

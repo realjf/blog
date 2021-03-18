@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cpps on Realjf&#39;s blog</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Cpps on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Mar 2021 16:05:21 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/cpp/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 10 Mar 2021 16:05:21 +0800</lastBuildDate><atom:link href="https://realjf.io/cpp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>C&#43;&#43;如何在对象创建过程中使用this指针指向自己？ Enable Shared From This</title>
       <link>https://realjf.io/cpp/enable-shared-from-this/</link>
@@ -19,10 +15,10 @@
       <guid>https://realjf.io/cpp/enable-shared-from-this/</guid>
       <description>weak_ptr处理的是循环依赖造成的空荡指针问题，另一个问题是：必须保证某对象只被一组shared pointer拥有。
 下面代码是错的：
-int* p = new int; shared_ptr&amp;lt;int&amp;gt; sp1(p); shared_ptr&amp;lt;int&amp;gt; sp2(p);  两组拥有权意味着相应资源的释放会被执行两次。
+int* p = new int; shared_ptr&amp;lt;int&amp;gt; sp1(p); shared_ptr&amp;lt;int&amp;gt; sp2(p); 两组拥有权意味着相应资源的释放会被执行两次。
 除了上述情况外，也可能间接出现该问题：
-shared_ptr&amp;lt;Person&amp;gt; mom(new Person(name+&amp;quot;&#39;s mom&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; dad(new Person(name+&amp;quot;&#39;s dad&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; kid(new Person(name)); kid-&amp;gt;setParentsAndTheirKids(mom, dad);  修改Person类，如下：
-class Person{ public: ... void setParentsAndTheirKids(shared_ptr&amp;lt;Person&amp;gt; m = nullptr, shared_ptr&amp;lt;Person&amp;gt; f = nullptr){ mother = m; father = f; if(m != nullptr){ m-&amp;gt;kids.push_back(shared_ptr&amp;lt;Person&amp;gt;(this)); // ERROR } if(f != nullptr){ f-&amp;gt;kids.push_back(shared_ptr&amp;lt;Person&amp;gt;(this)); // ERROR } } ... };  问题出在 “this的那个shared pointer”的建立。之所以这么做，是因为我们想设置mother和father这两个成员的kids。但为了保持创建的kid和mother以及father设置的kid为同一个指针对象，所以需要一个shared pointer指向这个kid，这样就能解决问题，但是我们目前没有，而通过this指针创建将会开启一个新的拥有者，即开启一个新的shared pointer。</description>
+shared_ptr&amp;lt;Person&amp;gt; mom(new Person(name+&amp;#34;&amp;#39;s mom&amp;#34;)); shared_ptr&amp;lt;Person&amp;gt; dad(new Person(name+&amp;#34;&amp;#39;s dad&amp;#34;)); shared_ptr&amp;lt;Person&amp;gt; kid(new Person(name)); kid-&amp;gt;setParentsAndTheirKids(mom, dad); 修改Person类，如下：
+class Person{ public: ... void setParentsAndTheirKids(shared_ptr&amp;lt;Person&amp;gt; m = nullptr, shared_ptr&amp;lt;Person&amp;gt; f = nullptr){ mother = m; father = f; if(m != nullptr){ m-&amp;gt;kids.push_back(shared_ptr&amp;lt;Person&amp;gt;(this)); // ERROR  } if(f != nullptr){ f-&amp;gt;kids.push_back(shared_ptr&amp;lt;Person&amp;gt;(this)); // ERROR  } } ... }; 问题出在 “this的那个shared pointer”的建立。之所以这么做，是因为我们想设置mother和father这两个成员的kids。但为了保持创建的kid和mother以及father设置的kid为同一个指针对象，所以需要一个shared pointer指向这个kid，这样就能解决问题，但是我们目前没有，而通过this指针创建将会开启一个新的拥有者，即开启一个新的shared pointer。</description>
     </item>
     
     <item>
@@ -37,7 +33,7 @@ class Person{ public: ... void setParentsAndTheirKids(shared_ptr&amp;lt;Person&a
 你不能使用操作符*和-&amp;gt;访问weak_ptr指向的对象，而是必须另外建立一个shared pointer。理由如下：
  在weak pointer之外建立一个shared pointer可因此检查是否扔存在一个相应对象，如果不，操作会抛出异常或建立一个empty shared pointer（实际究竟哪种行为乃取决于你所执行的是哪一种操作）。 当指向的对象正被处理时，shared pointer无法被释放  基于以上理由，weak_ptr只提供小量操作，只够用来创建、复制、赋值weak pointer。以及转换为一个shared pointer，或检查自己是否指向某对象。
 weak_ptr使用示例 首先是使用shared_ptr构建环形指向引用。
-#include &amp;lt;iostream&amp;gt; #include &amp;lt;string&amp;gt; #include &amp;lt;vector&amp;gt; #include &amp;lt;memory&amp;gt; using namespace std; class Person { public: string name; shared_ptr&amp;lt;Person&amp;gt; mother; shared_ptr&amp;lt;Person&amp;gt; father; vector&amp;lt;shared_ptr&amp;lt;Person&amp;gt;&amp;gt; kids; Person(const string&amp;amp; n, shared_ptr&amp;lt;Person&amp;gt; m= nullptr, shared_ptr&amp;lt;Person&amp;gt; f =nullptr) : name(n), mother(m), father(f) { } ~Person(){ cout &amp;lt;&amp;lt; &amp;quot;delete &amp;quot; &amp;lt;&amp;lt; name &amp;lt;&amp;lt; endl; } }; shared_ptr&amp;lt;Person&amp;gt; initFamily(const string&amp;amp; name) { shared_ptr&amp;lt;Person&amp;gt; mom(new Person(name+&amp;quot;&#39;s mom&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; dad(new Person(name+&amp;quot;&#39;s dad&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; kid(new Person(name, mom, dad)); mom-&amp;gt;kids.</description>
+#include &amp;lt;iostream&amp;gt;#include &amp;lt;string&amp;gt;#include &amp;lt;vector&amp;gt;#include &amp;lt;memory&amp;gt;using namespace std; class Person { public: string name; shared_ptr&amp;lt;Person&amp;gt; mother; shared_ptr&amp;lt;Person&amp;gt; father; vector&amp;lt;shared_ptr&amp;lt;Person&amp;gt;&amp;gt; kids; Person(const string&amp;amp; n, shared_ptr&amp;lt;Person&amp;gt; m= nullptr, shared_ptr&amp;lt;Person&amp;gt; f =nullptr) : name(n), mother(m), father(f) { } ~Person(){ cout &amp;lt;&amp;lt; &amp;#34;delete &amp;#34; &amp;lt;&amp;lt; name &amp;lt;&amp;lt; endl; } }; shared_ptr&amp;lt;Person&amp;gt; initFamily(const string&amp;amp; name) { shared_ptr&amp;lt;Person&amp;gt; mom(new Person(name+&amp;#34;&amp;#39;s mom&amp;#34;)); shared_ptr&amp;lt;Person&amp;gt; dad(new Person(name+&amp;#34;&amp;#39;s dad&amp;#34;)); shared_ptr&amp;lt;Person&amp;gt; kid(new Person(name, mom, dad)); mom-&amp;gt;kids.</description>
     </item>
     
     <item>
@@ -55,7 +51,7 @@ weak_ptr使用示例 首先是使用shared_ptr构建环形指向引用。
       <pubDate>Sat, 23 Jan 2021 18:45:16 +0800</pubDate>
       
       <guid>https://realjf.io/cpp/reading-order-of-cpp-books/</guid>
-      <description> 书籍阅读顺序 C++书籍推荐阅读顺序，为有一定c/c++基础的读者推荐。
+      <description>书籍阅读顺序 C++书籍推荐阅读顺序，为有一定c/c++基础的读者推荐。
 第一级  essential c++： (侯婕翻译)，可以对c++特性有进一步的了解 c++ primer： 作为圣经读物，必不可少  第二级  effective c++： c++经典读物，改善程序与设计的55个具体做法 exceptional c++： 47个c++工程难题、编程问题和解决方案 more effective c++： 35个改善编程与设计的有效方法 more exceptional c++：40个新的工程难题、编程疑问及解决方法 effective modern c++：  第三级  insided the c++ object model：深度探索c++对象模型，可以对编译器做了什么有更深入的了解 the design and evolution of c++：c++语言的设计和演化，对c++的发展历程有个全面的了解  第四级  the c++ standard library：c++标准库，作为手册使用 generic programming and the stl：泛型编程与stl，让你从面向对象编程转变为面向泛型编程 stl源码剖析：了解stl模板编程的工作原理 深入应用c++11： 深入理解c++11： c++函数式编程：  第五级  exeptional c++ style： c++ templates： modern c++ design： c++ 并发编程实战：  </description>
     </item>
     
@@ -65,8 +61,8 @@ weak_ptr使用示例 首先是使用shared_ptr构建环形指向引用。
       <pubDate>Mon, 14 Sep 2020 16:30:24 +0800</pubDate>
       
       <guid>https://realjf.io/cpp/oatpp-project-start/</guid>
-      <description>准备  window10系统 已配置好c++开发环境的vscode visual studio 2019&amp;frasl;2017  方法一 开始 # 新建项目目录 mkdir oatpp_example cd oatpp_example mkdir src type null &amp;gt; CMakeLists.txt type null &amp;gt; src/main.cpp  写代码 src/main.cpp的内容如下：
-#include &amp;quot;oatpp/web/server/HttpConnectionHandler.hpp&amp;quot; #include &amp;quot;oatpp/network/server/Server.hpp&amp;quot; #include &amp;quot;oatpp/network/server/SimpleTCPConnectionProvider.hpp&amp;quot; class Handler : public oatpp::web::server::HttpRequestHandler { public: /** * Handle incoming request and return outgoing response. */ std::shared_ptr&amp;lt;OutgoingResponse&amp;gt; handle(const std::shared_ptr&amp;lt;IncomingRequest&amp;gt;&amp;amp; request) override { return ResponseFactory::createResponse(Status::CODE_200, &amp;quot;Hello World!&amp;quot;); } }; void run() { /* Create Router for HTTP requests routing */ auto router = oatpp::web::server::HttpRouter::createShared(); /* Route GET - &amp;quot;/hello&amp;quot; requests to Handler */ router-&amp;gt;route(&amp;quot;GET&amp;quot;, &amp;quot;/hello&amp;quot;, std::make_shared&amp;lt;Handler&amp;gt;()); /* Create HTTP connection handler with router */ auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router); /* Create TCP connection provider */ auto connectionProvider = oatpp::network::server::SimpleTCPConnectionProvider::createShared(8000 /*port*/); /* Create server which takes provided TCP connection and passes them to HTTP connection handler */ oatpp::network::server::Server server(connectionProvider, connectionHandler); /* Priny info about server port */ OATPP_LOGI(&amp;quot;MyApp&amp;quot;, &amp;quot;Server running on port %s&amp;quot;, connectionProvider-&amp;gt;getProperty(&amp;quot;port&amp;quot;).</description>
+      <description>准备  window10系统 已配置好c++开发环境的vscode visual studio 2019/2017  方法一 开始 # 新建项目目录 mkdir oatpp_example cd oatpp_example mkdir src type null &amp;gt; CMakeLists.txt type null &amp;gt; src/main.cpp 写代码 src/main.cpp的内容如下：
+#include &amp;#34;oatpp/web/server/HttpConnectionHandler.hpp&amp;#34; #include &amp;#34;oatpp/network/server/Server.hpp&amp;#34; #include &amp;#34;oatpp/network/server/SimpleTCPConnectionProvider.hpp&amp;#34; class Handler : public oatpp::web::server::HttpRequestHandler { public: /** * Handle incoming request and return outgoing response. */ std::shared_ptr&amp;lt;OutgoingResponse&amp;gt; handle(const std::shared_ptr&amp;lt;IncomingRequest&amp;gt;&amp;amp; request) override { return ResponseFactory::createResponse(Status::CODE_200, &amp;#34;Hello World!&amp;#34;); } }; void run() { /* Create Router for HTTP requests routing */ auto router = oatpp::web::server::HttpRouter::createShared(); /* Route GET - &amp;#34;/hello&amp;#34; requests to Handler */ router-&amp;gt;route(&amp;#34;GET&amp;#34;, &amp;#34;/hello&amp;#34;, std::make_shared&amp;lt;Handler&amp;gt;()); /* Create HTTP connection handler with router */ auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router); /* Create TCP connection provider */ auto connectionProvider = oatpp::network::server::SimpleTCPConnectionProvider::createShared(8000 /*port*/); /* Create server which takes provided TCP connection and passes them to HTTP connection handler */ oatpp::network::server::Server server(connectionProvider, connectionHandler); /* Priny info about server port */ OATPP_LOGI(&amp;#34;MyApp&amp;#34;, &amp;#34;Server running on port %s&amp;#34;, connectionProvider-&amp;gt;getProperty(&amp;#34;port&amp;#34;).</description>
     </item>
     
     <item>
@@ -80,8 +76,8 @@ weak_ptr使用示例 首先是使用shared_ptr构建环形指向引用。
  自动存储持续性 在默认情况下，在函数中声明的函数参数和变量的存储持续性为自动，作用域为局部，没有链接性。
 自动变量和栈 由于自动变量的数目随函数的开始和结束而增减，因此程序常留出一段内存对自动变量进行管理，通常将其视为栈。
 栈是后进先出的，这种设计简化了参数传递。函数调用将其参数的值放在栈顶，然后重新设置栈顶指针，被调用的函数根据其形参描述来确定每个参数的地址。
-静态持续变量 c++为静态存储持续性变量提供了3种链接性： - 外部链接性（可在其他文件中访问）、 - 内部链接性（只能在当前文件中访问） - 无连接性（只能在当前函数或代码中访问）
-这三种链接性都在整个程序执行期间存在。
+静态持续变量 c++为静态存储持续性变量提供了3种链接性：
+ 外部链接性（可在其他文件中访问）、 内部链接性（只能在当前文件中访问） 无连接性（只能在当前函数或代码中访问）  这三种链接性都在整个程序执行期间存在。
 编译器将分配固定的内存块来存储所有的静态变量。主要是.data段里
  如果没有显示地初始化静态变量，编译器将把它设置为0.
     存储描述 持续性 作用域 链接性 如何声明     自动 自动 代码块 无 在代码块中   寄存器 自动 代码块 无 在代码块中，使用关键字register   静态，无链接性 静态 代码块 无 在代码块中，使用关键字static   静态，外部链接性 静态 文件 外部 不在任何函数内   静态，内部链接性 静态 文件 内部 不在任何函数内，使用关键字static    静态持续性、外部链接性 外部变量的存储持续性为静态，作用域为整个文件。外部变量也称全局变量。</description>
@@ -94,12 +90,14 @@ weak_ptr使用示例 首先是使用shared_ptr构建环形指向引用。
       
       <guid>https://realjf.io/cpp/keyword/</guid>
       <description>static 修饰局部变量  静态局部变量只作用于其定义的函数期间，函数结束，其所占用的内存空间也被回收。 在静态存储区分配空间，只初始化一次  修饰全局变量  也称静态全局变量，其作用域在定义它的文件里，不能作用于其他文件。 静态全局变量在静态存储区分配空间，在程序开始运行时完成初始化，也是唯一的一次初始化  修饰函数  静态函数只在声明它的文件中可见，不能被其他文件使用。  修饰类成员  对于静态类成员，它属于类，而不属于某个对象实例，多个对象之间共享静态类成员 静态类成员存储于静态存储区，生命周期为整个程序执行期 静态类成员需要初始化，且在类外初始化，默认初始化为0  初始化方法：&amp;lt;数据类型&amp;gt; &amp;lt;类名&amp;gt;::&amp;lt;静态类成员&amp;gt;=&amp;lt;值&amp;gt;
-修饰类成员函数  同样静态类成员函数属于整个类，而非某个实例对象，也没有this指针，需要通过类名进行访问。 不能将静态类成员函数定义为虚函数 &amp;gt; 虚函数依赖vptr和vtable，vptr通过类的构造函数生成，且只能用this指针访问，这也就是为什么静态成员函数不能是虚函数的原因 由于静态成员函数没有this指针，所以就差不多等同于nonmember函数，结果就产生了一个意想不到的好处：成为一个callback函数，使得我们得以将C++和C-based X Window系统结合，同时也成功的应用于线程函数身上 为了防止父类的影响，可以在子类定义一个与父类相同的静态变量，以屏蔽父类的影响。  const 规则：const离谁近，谁就不能被修改，只读的意思，且需要初始化。
-修饰基本数据类型  修饰一般常量时，可以在类型说明符前也可以在其后，只要在使用时不改变常量即可。 const修饰指针变量*及引用变量&amp;amp; &amp;gt; 如果const位于星号*的左侧，则const就是用来修饰指针所指向的变量，即指针指向为常量 &amp;gt; 如果const位于星号的右侧，const就是修饰指针本身，即指针本身是常量  作为函数参数的修饰符 用相应的变量初始化const常量，则在函数体中，按照const所修饰的部分进行常量化，保护了原对象的属性不被修改
-void say(const char* str){...}  作为函数返回值的修饰符 声明了返回值后，对返回值起到保护作用，即使得其返回值不为“左值”，只能作为右值使用。
-const int add(int a, int b){...}  const修饰类成员 修饰的类成员的初始化只能在类的构造函数的初始化表中进行
+修饰类成员函数  同样静态类成员函数属于整个类，而非某个实例对象，也没有this指针，需要通过类名进行访问。 不能将静态类成员函数定义为虚函数   虚函数依赖vptr和vtable，vptr通过类的构造函数生成，且只能用this指针访问，这也就是为什么静态成员函数不能是虚函数的原因
+  由于静态成员函数没有this指针，所以就差不多等同于nonmember函数，结果就产生了一个意想不到的好处：成为一个callback函数，使得我们得以将C++和C-based X Window系统结合，同时也成功的应用于线程函数身上 为了防止父类的影响，可以在子类定义一个与父类相同的静态变量，以屏蔽父类的影响。  const 规则：const离谁近，谁就不能被修改，只读的意思，且需要初始化。
+修饰基本数据类型  修饰一般常量时，可以在类型说明符前也可以在其后，只要在使用时不改变常量即可。 const修饰指针变量*及引用变量&amp;amp;   如果const位于星号*的左侧，则const就是用来修饰指针所指向的变量，即指针指向为常量 如果const位于星号的右侧，const就是修饰指针本身，即指针本身是常量
+ 作为函数参数的修饰符 用相应的变量初始化const常量，则在函数体中，按照const所修饰的部分进行常量化，保护了原对象的属性不被修改
+void say(const char* str){...} 作为函数返回值的修饰符 声明了返回值后，对返回值起到保护作用，即使得其返回值不为“左值”，只能作为右值使用。
+const int add(int a, int b){...} const修饰类成员 修饰的类成员的初始化只能在类的构造函数的初始化表中进行
 const修饰类成员函数 作用是修饰的成员函数不能修改类的任何成员变量
-int funcA() const {}  const修饰类对象，定义常量对象 常量对象只能调用常量函数，别的成员函数都不能调用。</description>
+int funcA() const {} const修饰类对象，定义常量对象 常量对象只能调用常量函数，别的成员函数都不能调用。</description>
     </item>
     
     <item>
@@ -112,8 +110,8 @@ int funcA() const {}  const修饰类对象，定义常量对象 常量对象只�
  阻塞I/O （linux下默认都采用阻塞I/O） 非阻塞I/O （可以通过fcntl或者open设置使用O_NONBLOCK参数，将文件描述符设置为非阻塞） I/O多路复用 信号驱动I/O 异步I/O  其中前面四种被称为同步IO
 用户空间与内核空间 首先理解，当进程运行在内核空间时就处于内核态，而进程运行在用户空间时则处于用户态。 在内核态下，进程运行在内核地址空间中，此时的 CPU 可以执行任何指令。运行的代码也不受任何的限制，可以自由地访问任何有效地址，也可以直接进行端口的访问。 在用户态下，进程运行在用户地址空间中，被执行的代码要受到 CPU 的诸多检查，它们只能访问映射其地址空间的页表项中规定的在用户态下可访问页面的虚拟地址，且只能对任务状态段(TSS)中 I/O 许可位图(I/O Permission Bitmap)中规定的可访问端口进行直接访问。
 所以，区分内核空间和用户空间本质上是要提高操作系统的稳定性及可用性
-进程切换过程 从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化： - 保存上下文，包括程序计数器和其他寄存器 - 更新PCB信息(进程管理与控制信息) - 把进程pcb加入等待挂起等队列 - 选择另一个进程执行，并更新其pcb - 更新内存管理的数据结构 - 恢复上下文
-阻塞IO 同步阻塞IO，用户进程发起一个IO请求，内核查看数据是否就绪，如果没有，就等待数据就绪，而用户进程处于阻塞状态， 且交出cpu控制权，但数据就绪后，内核将数据拷贝到用户进程空间，并通知用户进程，用户进程解除阻塞状态，进入就绪状态，等待下一次运行。
+进程切换过程 从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化：
+ 保存上下文，包括程序计数器和其他寄存器 更新PCB信息(进程管理与控制信息) 把进程pcb加入等待挂起等队列 选择另一个进程执行，并更新其pcb 更新内存管理的数据结构 恢复上下文  阻塞IO 同步阻塞IO，用户进程发起一个IO请求，内核查看数据是否就绪，如果没有，就等待数据就绪，而用户进程处于阻塞状态， 且交出cpu控制权，但数据就绪后，内核将数据拷贝到用户进程空间，并通知用户进程，用户进程解除阻塞状态，进入就绪状态，等待下一次运行。
 非阻塞I/O 非阻塞IO，用户进程发起IO请求后，内核检查相应状态，无论就绪与否都返回结果给用户进程，用户进程无需等待就可以根据相应结果进行处理， 当然用户进程可以循环发起IO请求操作，这相当于一直占用CPU。
 I/O多路复用 多路IO复用是目前比较多的用于环节C10K问题的方案，采用select、poll、epoll等方式，其中epoll是linux特有的。 相比较非阻塞IO，多路复用的效率明显要高，且是在内核中进行的。
 下面分别简要说下select、poll和epoll的区别
@@ -132,13 +130,13 @@ epoll的两种触发模式  EPOLLLT （水平触发）当epoll_wait监听的事�
       
       <guid>https://realjf.io/cpp/polymorphism/</guid>
       <description>什么是多态？ C++的多态即针对同一事物对不同场景表现多种形态，称为c++的多态性
-多态分为静态多态和动态多态 - 静态多态又分为函数重载和泛型编程 - 动态多态则通过虚函数实现
-多态的作用  提供了接口与具体实现之间的另一层隔离， 改善了代码的组织结构和可读性以及可扩展性  静态多态 直接上代码
-int Add(int a, int b) { return a + b; } double Add(float a, float b) { return a + b; } // 调用的时候 int main() { Add(1, 2); // 调用的是第一个Add Add(1.5, 2.5); // 调用的是第二个Add return 0; }  可以看到，静态多态是在编译期间可以确定的，根据具体的了类型调用不同的函数
+多态分为静态多态和动态多态
+ 静态多态又分为函数重载和泛型编程 动态多态则通过虚函数实现  多态的作用  提供了接口与具体实现之间的另一层隔离， 改善了代码的组织结构和可读性以及可扩展性  静态多态 直接上代码
+int Add(int a, int b) { return a + b; } double Add(float a, float b) { return a + b; } // 调用的时候 int main() { Add(1, 2); // 调用的是第一个Add  Add(1.5, 2.5); // 调用的是第二个Add  return 0; } 可以看到，静态多态是在编译期间可以确定的，根据具体的了类型调用不同的函数
 动态多态 首先要理解，这里的动态是指在程序运行期间，所以动态多态只能在程序运行的时候确定。
 而要实现动态多态，这里需要用到关键字virtual，声明一个函数为虚函数
 具体代码：
-class Animal { public: virtual void Say() = 0; } class Cow : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;哞哞&amp;quot; &amp;lt;&amp;lt; endl; } } class Sheep : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;咩咩&amp;quot; &amp;lt;&amp;lt; endl; } } // 开始使用 int main() { Animal* cow = (Animal*)new Cow(); Animal* sheep = (Animal*)new Sheep(); cow-&amp;gt;Say(); sheep-&amp;gt;Say(); }  有上述代码可以看出，多态是基类中包含虚函数，而子类对其进行重写的，并且通过基类对象的指针或引用调用虚函数形成多态。</description>
+class Animal { public: virtual void Say() = 0; } class Cow : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;#34;哞哞&amp;#34; &amp;lt;&amp;lt; endl; } } class Sheep : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;#34;咩咩&amp;#34; &amp;lt;&amp;lt; endl; } } // 开始使用 int main() { Animal* cow = (Animal*)new Cow(); Animal* sheep = (Animal*)new Sheep(); cow-&amp;gt;Say(); sheep-&amp;gt;Say(); } 有上述代码可以看出，多态是基类中包含虚函数，而子类对其进行重写的，并且通过基类对象的指针或引用调用虚函数形成多态。</description>
     </item>
     
     <item>
@@ -147,11 +145,11 @@ class Animal { public: virtual void Say() = 0; } class Cow : public Animal { pub
       <pubDate>Fri, 17 Apr 2020 11:21:57 +0800</pubDate>
       
       <guid>https://realjf.io/cpp/smart-pointer/</guid>
-      <description> 智能指针 智能指针在C++11版本之后提供，包含在头文件中，包括三种： - shared_ptr - unique_ptr - weak_ptr
-智能指针的作用 由于C++没有垃圾回收机制，一切内存堆操作都是程序员自己管理，但对于程序员来说管理堆不胜麻烦，稍有不慎忘记释放就会造成内存泄露最终导致内存溢出等问题。 而智能指针则能有效避免此类问题发生。
+      <description>智能指针 智能指针在C++11版本之后提供，包含在头文件中，包括三种：
+ shared_ptr unique_ptr weak_ptr  智能指针的作用 由于C++没有垃圾回收机制，一切内存堆操作都是程序员自己管理，但对于程序员来说管理堆不胜麻烦，稍有不慎忘记释放就会造成内存泄露最终导致内存溢出等问题。 而智能指针则能有效避免此类问题发生。
 智能指针通过对普通指针进行类封装，使其表现的跟普通指针类似的行为。
 shared_ptr指针 shared_ptr 使用引用计数，每一个shared_ptr的拷贝都指向相同的内存地址，每使用一次，内部的引用计数加1， 每析构一次，内部的引用计数减1，减到0时，自动删除所指向的堆内存。shared_ptr内部的引用计数是线程安全的，但是对象的读取需要加锁。
- 初始化。std::shared_ptr n，也可以make_shared函数初始化。不能直接赋值一个指针，因为它是类。 拷贝和赋值，拷贝引用计数加1，赋值引用计数减1，当计数为0时，自动释放内存。 get函数获取原始指针 不要用一个原始指针初始化多个shared_ptr，否则会造成二次释放同一内存。 避免循环引用，循环引用会导致内存泄漏。  unique_ptr指针 unique_ptr 唯一拥有其所指对象，统一时刻只能有一个unique_ptr指向给定对象（通过禁止拷贝语义，只有移动语义实现）。 相比原始指针，unique_ptr的RAII特性，使得其在出现异常时，能自动释放指向对象占用资源。unique_ptr生命周期从创建到作用域结束， 离开作用域时，若其指向对象，则将其所指向对象销毁。
+ 初始化。std::shared_ptrn，也可以make_shared函数初始化。不能直接赋值一个指针，因为它是类。 拷贝和赋值，拷贝引用计数加1，赋值引用计数减1，当计数为0时，自动释放内存。 get函数获取原始指针 不要用一个原始指针初始化多个shared_ptr，否则会造成二次释放同一内存。 避免循环引用，循环引用会导致内存泄漏。  unique_ptr指针 unique_ptr 唯一拥有其所指对象，统一时刻只能有一个unique_ptr指向给定对象（通过禁止拷贝语义，只有移动语义实现）。 相比原始指针，unique_ptr的RAII特性，使得其在出现异常时，能自动释放指向对象占用资源。unique_ptr生命周期从创建到作用域结束， 离开作用域时，若其指向对象，则将其所指向对象销毁。
 unique_ptr在生命周期内，可以改变智能指针所指对象，通过release释放所有权，通过reset函数指定新对象，通过移动语义转移所有权。
 weak_ptr指针  weak_ptr作为一个辅助智能指针，配合shared_ptr可以对资源使用情况进行观测。 weak_ptr可以从一个shared_ptr或另一个weak_ptr对象中构造，以获得资源观测权，它不会使原对象引用计数增加，  智能指针的原理 智能指针：实际指行为类似于指针的类对象，是利用了一种叫做RAII（资源获取即初始化）的技术对普通的指针进行封装, 它的一种通用实现方法是采用引用计数的方法。
  1.智能指针将一个计数器与类指向的对象相关联，引用计数跟踪共有多少个类对象共享同一指针。 2.每次创建类的新对象时，初始化指针并将引用计数置为1； 3.当对象作为另一对象的副本而创建时，拷贝构造函数拷贝指针并增加与之相应的引用计数； 4.对一个对象进行赋值时，赋值操作符减少左操作数所指对象的引用计数（如果引用计数为减至0，则删除对象），并增加右操作数所指对象的引用计数；这是因为左侧的指针指向了右侧指针所指向的对象，因此右指针所指向的对象的引用计数+1； 5.调用析构函数时，构造函数减少引用计数（如果引用计数减至0，则删除基础对象）。 6.实现智能指针有两种经典策略：一是引入辅助类，二是使用句柄类。这里主要讲一下引入辅助类的方法  </description>
@@ -163,11 +161,11 @@ weak_ptr指针  weak_ptr作为一个辅助智能指针，配合shared_ptr可以�
       <pubDate>Sat, 22 Feb 2020 22:14:22 +0800</pubDate>
       
       <guid>https://realjf.io/cpp/struct-and-class-inherit/</guid>
-      <description> 关于c++的class和struct的不同可以简单归纳为以下几点： 内部成员变量及成员函数的默认防控属性不同 struct默认防控属性是public，而class默认的防控属性是Private
+      <description>关于c++的class和struct的不同可以简单归纳为以下几点： 内部成员变量及成员函数的默认防控属性不同 struct默认防控属性是public，而class默认的防控属性是Private
 继承关系中的默认防控属性的区别 在继承关系中，struct默认是public，而class是private
 在继承中的基类和子类之间的继承方式
    继承方式 基类的public成员 基类的protected成员 基类中的private成员     public继承 仍为public成员 仍为protected成员 不可见   protected继承 变为protected成员 变为protected成员 不可见   private继承 变为private成员 变为private成员 不可见    模板中使用 class关键字可以用于定义模板参数，但是struct不行
-template&amp;lt;template T, class Y&amp;gt; int Func(const T&amp;amp; t, const Y&amp;amp; y) { ... }  使用花括号{}赋值问题  struct如果没有定义构造函数，可以使用花括号对struct成员进行赋值。 struct中如果定义了一个构造函数，则不能使用花括号进行赋值  </description>
+template&amp;lt;template T, class Y&amp;gt; int Func(const T&amp;amp; t, const Y&amp;amp; y) { ... } 使用花括号{}赋值问题  struct如果没有定义构造函数，可以使用花括号对struct成员进行赋值。 struct中如果定义了一个构造函数，则不能使用花括号进行赋值  </description>
     </item>
     
   </channel>
