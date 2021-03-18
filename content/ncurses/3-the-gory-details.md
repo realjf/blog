@@ -1,5 +1,5 @@
 ---
-title: "3 the Gory Details"
+title: "NCURSES编程 之 3 the Gory Details"
 date: 2021-03-04T23:48:17+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
