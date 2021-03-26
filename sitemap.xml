@@ -4,6 +4,27 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     
     <url>
+        <loc>https://realjf.io/golang/10-million-concurrency/</loc>
+        <lastmod>2021-03-26T17:49:20+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/golang/concurrency-pub-and-sub/</loc>
+        <lastmod>2021-03-26T17:08:06+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/golang/concurrency-producer-and-consumer/</loc>
+        <lastmod>2021-03-26T17:06:34+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
         <loc>https://realjf.io/golang/print-natural-number/</loc>
         <lastmod>2021-03-26T15:25:15+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -1383,15 +1404,15 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/</loc>
-        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
+        <loc>https://realjf.io/series/</loc>
+        <lastmod>2021-03-26T17:49:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/</loc>
-        <lastmod>2021-03-26T15:25:15+08:00</lastmod>
+        <loc>https://realjf.io/tags/</loc>
+        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -1509,14 +1530,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1537,14 +1558,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/chunk-file/</loc>
+        <loc>https://realjf.io/series/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/chunk-file/</loc>
+        <loc>https://realjf.io/tags/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1825,21 +1846,21 @@
     
     <url>
         <loc>https://realjf.io/tags/golang/</loc>
-        <lastmod>2021-03-26T15:25:15+08:00</lastmod>
+        <lastmod>2021-03-26T17:49:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/categories/golang/</loc>
-        <lastmod>2021-03-26T15:25:15+08:00</lastmod>
+        <lastmod>2021-03-26T17:49:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/golang/</loc>
-        <lastmod>2021-03-26T15:25:15+08:00</lastmod>
+        <lastmod>2021-03-26T17:49:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -2427,7 +2448,7 @@
     
     <url>
         <loc>https://realjf.io/</loc>
-        <lastmod>2021-03-26T15:25:15+08:00</lastmod>
+        <lastmod>2021-03-26T17:49:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -2462,7 +2483,7 @@
     
     <url>
         <loc>https://realjf.io/series/</loc>
-        <lastmod>2021-03-26T15:25:15+08:00</lastmod>
+        <lastmod>2021-03-26T17:49:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>

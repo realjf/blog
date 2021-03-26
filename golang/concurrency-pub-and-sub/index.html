@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title> // Realjf&#39;s blog</title>
+    <title>go并发模式 之 发布订阅模型 Concurrency Pub and Sub // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -218,286 +218,240 @@
     }
 </script>
     
-  <article>
-    <h1></h1>
-    <ul class="posts-list">
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/linux/remove-disk-writing-protected/">Remove Disk Writing Protected</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">go并发模式 之 发布订阅模型 Concurrency Pub and Sub</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Mar 26, 2021
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 1 min read -
-            Dec 5, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/linux/grub-rescue/">Grub Rescue no such partition</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 1 min read -
-            Nov 30, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/linux/how-to-install-qemu/">如何安装QEMU模拟器 How to Install Qemu</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 1 min read -
-            Nov 28, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/linux/how-to-add-other-architecture/">如何为linux内核增加其他cpu架构支持 How to Add Other Architecture</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 1 min read -
-            Nov 28, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/linux/how-to-install-old-gcc-on-ubuntu/">如何安装低版本的gcc How to Install Old Gcc on Ubuntu</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 1 min read -
-            Nov 28, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/linux/how-to-switch-between-multiple-gcc-compiler-versions/">如何切换多个版本的gcc编译器 How to Switch Between Multiple Gcc Compiler Versions</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 2 min read -
-            Nov 28, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/vscode/vscode-language-grammars-textmate/">VS Code语言语法分词引擎 TextMate语法解析 (Vscode Language Grammars Engine - TextMate)</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 3 min read -
-            Nov 24, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/vscode/publishing-vscode-extensions/">VS Code扩展开发 之 发布扩展 Publishing Vscode Extensions</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 1 min read -
-            Nov 24, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/vscode/language-extension-syntax-highlight/">VS Code扩展开发 之 语言的语法高亮 Language Extension Syntax Highlight</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 4 min read -
-            Nov 24, 2020
-          </span>
-        </li>
-      
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="https://realjf.io/vscode/vscode-extension-wrapping-up/">VSCode扩展开发系列三 之 结束 Vscode Extension Wrapping Up</a>
-          <span class="posts-list-item-description">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
-  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-</svg> 1 min read -
-            Nov 24, 2020
-          </span>
-        </li>
-      
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a></div></div>
+        </header>
+        <div class="post-content">
+            <pre><code class="language-golang">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+    &quot;sync&quot;
+    &quot;strings&quot;
+)
+
+type (
+    subscriber chan interface{} // 订阅者
+    topicFunc func(v interface{}) bool // 主题
+)
+
+
+type Publisher struct {
+    m sync.RWMutex
+    buffer int // 订阅队列缓存大小
+    timeout time.Duration // 发布超时时间
+    subscribers map[subscriber]topicFunc // 订阅者信息
+}
+
+// 构建一个发布者对象，可以设置发布超时时间和缓存队列长度
+func NewPublisher(publishTimeout time.Duration, buffer int) *Publisher {
+    return &amp;Publisher{
+        buffer: buffer,
+        timeout: publishTimeout,
+        subscribers: make(map[subscriber]topicFunc),
+    }
+}
+
+// 添加新订阅者，订阅全部主题
+func (p *Publisher) Subscirbe() chan interface{} {
+    return p.SubscirbeTopic(nil)
+}
+
+// 添加一个新的订阅者，订阅过滤器筛选后的主题
+func (p *Publisher) SubscirbeTopic(topic topicFunc) chan interface{} {
+    ch := make(chan interface{}, p.buffer)
+    p.m.Lock()
+    defer p.m.Unlock()
+    p.subscribers[ch] = topic
+
+    return ch
+}
+
+// 退出订阅
+func (p *Publisher) Evict(sub chan interface{}) {
+    p.m.Lock()
+    defer p.m.Unlock()
+
+    delete(p.subscribers, sub)
+    close(sub)
+}
+
+// 发布一个主题
+func (p *Publisher) Publish(v interface{}) {
+    p.m.RLock()
+    defer p.m.RUnlock()
+
+    var wg sync.WaitGroup
+    for sub, topic := range p.subscribers {
+        wg.Add(1)
+        go p.sendTopic(sub, topic, v, &amp;wg)
+    }
+    wg.Wait()
+}
+
+// 发送主题
+func (p *Publisher) sendTopic(sub subscriber, topic topicFunc, v interface{}, wg *sync.WaitGroup) {
+    defer wg.Done()
+    if topic != nil &amp;&amp; !topic(v) {
+        return
+    }
+
+    select {
+    case sub &lt;- v:
+    case &lt;-time.After(p.timeout):
+    }
+}
+
+// 关闭发布者对象
+func (p *Publisher) Close() {
+    p.m.Lock()
+    defer p.m.Unlock()
+
+    for sub := range p.subscribers {
+        delete(p.subscribers, sub)
+        close(sub)
+    }
+}
+
+func main() {
+    p := NewPublisher(100* time.Millisecond, 10)
+    defer p.Close()
+
+    all := p.Subscirbe()
+    golang := p.SubscirbeTopic(func(v interface{}) bool {
+        if s, ok := v.(string); ok {
+            return strings.Contains(s, &quot;golang&quot;)
+        }
+        return false
+    })
+
+    p.Publish(&quot;hello, world!&quot;)
+    p.Publish(&quot;hello, golang!&quot;)
+
+    go func(){
+        for msg := range all {
+            fmt.Println(&quot;all:&quot;, msg)
+        }
+    }()
+
+    go func() {
+        for msg := range golang {
+            fmt.Println(&quot;golang:&quot;, msg)
+        }
+    }()
+
+    // 运行一定时间后退出
+    time.Sleep(3 * time.Second)
+}
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/golang/concurrency-producer-and-consumer/">go并发模式 之 生产者消费者模型  Concurrency Producer and Consumer</a></li>
+                
+                    <li><a href="/golang/print-natural-number/">按顺序打印自然数字 Print Natural Number</a></li>
+                
+                    <li><a href="/golang/go-mod-module-declares-error/">Go Mod Module Declares Its Path as: xxxx but was required as: xxxx</a></li>
+                
+                    <li><a href="/golang/slice/">golang Slice类型扩容机制</a></li>
+                
+                    <li><a href="/golang/channel-implement/">Channel 底层实现原理</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
     </ul>
-    
+</aside>
 
-<ul class="pagination">
     
-    <li class="page-item">
-        <a href="/series/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li class="page-item">
-    <a href="/series/page/4/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/series/">1</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/series/page/2/">2</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/series/page/3/">3</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/series/page/4/">4</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item active"><a class="page-link" href="/series/page/5/">5</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/series/page/6/">6</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item disabled"><span aria-hidden="true">&nbsp;&hellip;&nbsp;</span></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/series/page/15/">15</a></li>
-    
-    
-    <li class="page-item">
-    <a href="/series/page/6/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li class="page-item">
-        <a href="/series/page/15/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
-
-  </article>
 
 </main>
 

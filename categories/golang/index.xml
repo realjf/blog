@@ -6,10 +6,37 @@
     <description>Recent content in Golang on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 26 Mar 2021 15:25:15 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 26 Mar 2021 17:49:20 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>百万并发实现 10 Million Concurrency</title>
+      <link>https://realjf.io/golang/10-million-concurrency/</link>
+      <pubDate>Fri, 26 Mar 2021 17:49:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/10-million-concurrency/</guid>
+      <description>// 实现百万并发 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; &amp;quot;runtime&amp;quot; ) type Score struct { Num int } func (s *Score) Do() { fmt.Println(&amp;quot;num:&amp;quot;, s.Num) time.Sleep(1 * 1 * time.Second) } // job type Job interface { Do() } // worker type Worker struct { JobQueue chan Job } func NewWorker() Worker { return Worker{JobQueue: make(chan Job)} } func (w Worker) Run(wq chan chan Job) { go func() { for { wq &amp;lt;- w.</description>
+    </item>
+    
+    <item>
+      <title>go并发模式 之 发布订阅模型 Concurrency Pub and Sub</title>
+      <link>https://realjf.io/golang/concurrency-pub-and-sub/</link>
+      <pubDate>Fri, 26 Mar 2021 17:08:06 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/concurrency-pub-and-sub/</guid>
+      <description>package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; &amp;quot;sync&amp;quot; &amp;quot;strings&amp;quot; ) type ( subscriber chan interface{} // 订阅者 topicFunc func(v interface{}) bool // 主题 ) type Publisher struct { m sync.RWMutex buffer int // 订阅队列缓存大小 timeout time.Duration // 发布超时时间 subscribers map[subscriber]topicFunc // 订阅者信息 } // 构建一个发布者对象，可以设置发布超时时间和缓存队列长度 func NewPublisher(publishTimeout time.Duration, buffer int) *Publisher { return &amp;amp;Publisher{ buffer: buffer, timeout: publishTimeout, subscribers: make(map[subscriber]topicFunc), } } // 添加新订阅者，订阅全部主题 func (p *Publisher) Subscirbe() chan interface{} { return p.</description>
+    </item>
+    
+    <item>
+      <title>go并发模式 之 生产者消费者模型  Concurrency Producer and Consumer</title>
+      <link>https://realjf.io/golang/concurrency-producer-and-consumer/</link>
+      <pubDate>Fri, 26 Mar 2021 17:06:34 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/concurrency-producer-and-consumer/</guid>
+      <description>package main import ( &amp;quot;fmt&amp;quot; &amp;quot;os&amp;quot; &amp;quot;os/signal&amp;quot; &amp;quot;syscall&amp;quot; ) func Producer(factor int, out chan &amp;lt;- int) { for i := 0; ; i++ { out &amp;lt;- i*factor } } func Consumer(in &amp;lt;- chan int) { for v := range in { fmt.Println(v) } } func main() { ch := make(chan int, 64) go Producer(3, ch) go Producer(5, ch) go Consumer(ch) sig := make(chan os.Signal, 1) signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM) fmt.Printf(&amp;quot;quit (%v)\n&amp;quot;, &amp;lt;-sig) }  </description>
+    </item>
     
     <item>
       <title>按顺序打印自然数字 Print Natural Number</title>
