@@ -3,7 +3,7 @@
 <head>
     <title>Binary Search // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,25 +237,27 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/algorithm/">Algorithm</a></div></div>
         </header>
         <div class="post-content">
             <p>对于已排序的数组A进行二分查找，实现如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">binarySearch</span>(<span style="color:#66d9ef">int</span> key){
-    <span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">int</span> right <span style="color:#f92672">=</span> n;
-    <span style="color:#66d9ef">int</span> mid;
-    <span style="color:#66d9ef">while</span>(left <span style="color:#f92672">&lt;</span> right){
-        mid <span style="color:#f92672">=</span> (left<span style="color:#f92672">+</span>right)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>;
-        <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">==</span> A[mid]) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
-        <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">&gt;</span> A[mid]) left <span style="color:#f92672">=</span> mid<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
-        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(key <span style="color:#f92672">&lt;</span> A[mid]) right <span style="color:#f92672">=</span> mid;
+
+<pre><code class="language-c">int binarySearch(int key){
+    int left = 0;
+    int right = n;
+    int mid;
+    while(left &lt; right){
+        mid = (left+right)/2;
+        if(key == A[mid]) return 1;
+        if(key &gt; A[mid]) left = mid+1;
+        else if(key &lt; A[mid]) right = mid;
     }
 
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    return 0;
 }
 
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

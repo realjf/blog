@@ -3,7 +3,7 @@
 <head>
     <title>Namespace 资源隔离 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,10 +237,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/docker/">docker</a><a class="tag" href="https://realjf.io/tags/linux/">linux</a><a class="tag" href="https://realjf.io/tags/namespace/">namespace</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/docker/">Docker</a><a class="tag" href="https://realjf.io/tags/linux/">Linux</a><a class="tag" href="https://realjf.io/tags/namespace/">Namespace</a></div></div>
         </header>
         <div class="post-content">
-            <ul>
+            
+
+<ul>
 <li>资源隔离 - linux有个chroot命令，可以实现资源隔离</li>
 <li>主机隔离</li>
 <li>网络隔离</li>
@@ -248,7 +250,9 @@
 <li>用户和用户组权限隔离</li>
 <li>进程PID隔离</li>
 </ul>
+
 <h3 id="namespace-6项隔离">namespace 6项隔离</h3>
+
 <table>
 <thead>
 <tr>
@@ -257,32 +261,38 @@
 <th>隔离内容</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>UTS</td>
 <td>CLONE_NEWUTS</td>
 <td>主机名与域名</td>
 </tr>
+
 <tr>
 <td>IPC</td>
 <td>CLONE_NEWIPC</td>
 <td>信号量、消息队列和共享内存</td>
 </tr>
+
 <tr>
 <td>PID</td>
 <td>CLONE_NEWPID</td>
 <td>进程编号</td>
 </tr>
+
 <tr>
 <td>Network</td>
 <td>CLONE_NEWNET</td>
 <td>网络设备、网络栈、端口等</td>
 </tr>
+
 <tr>
 <td>Mount</td>
 <td>CLONE_NEWNS</td>
 <td>挂载点（文件系统）</td>
 </tr>
+
 <tr>
 <td>User</td>
 <td>CLONE_NEWUSER</td>
@@ -290,16 +300,26 @@
 </tr>
 </tbody>
 </table>
+
 <blockquote>
 <p>同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。</p>
 </blockquote>
+
 <h4 id="1-namespace-api-4种操作方式">1. namespace api 4种操作方式</h4>
+
 <p>namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，</p>
-<h5 id="通过clone在创建新进程的同时创建namespace">通过clone()在创建新进程的同时创建namespace</h5>
+
+<h5 id="通过clone-在创建新进程的同时创建namespace">通过clone()在创建新进程的同时创建namespace</h5>
+
 <p>使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：</p>
+
 <pre><code>int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);
-</code></pre><h5 id="查看procpidns文件">查看/proc/[pid]/ns文件</h5>
+</code></pre>
+
+<h5 id="查看-proc-pid-ns文件">查看/proc/[pid]/ns文件</h5>
+
 <p>用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</p>
+
 <pre><code>[root@localhost ~]# ls -l /proc/$$/ns
 total 0
 lrwxrwxrwx. 1 root root 0 Nov 25 21:21 ipc -&gt; ipc:[4026531839]
@@ -309,21 +329,37 @@ lrwxrwxrwx. 1 root root 0 Nov 25 21:21 pid -&gt; pid:[4026531836]
 lrwxrwxrwx. 1 root root 0 Nov 25 21:21 user -&gt; user:[4026531837]
 lrwxrwxrwx. 1 root root 0 Nov 25 21:21 uts -&gt; uts:[4026531838]
 
-</code></pre><blockquote>
+</code></pre>
+
+<blockquote>
 <p>上面的link文件一旦被打开，只要打开的文件描述符（fd）存在，那么就算该namespace下的所有进程都已经结束，这个namespace也会一直存在，后续进程也可以再加入进来。docker通过文件描述符定位和加入一个存在的namespace是最基本的方式。</p>
 </blockquote>
-<h5 id="通过setns加入一个已经存在的namespace">通过setns()加入一个已经存在的namespace</h5>
+
+<h5 id="通过setns-加入一个已经存在的namespace">通过setns()加入一个已经存在的namespace</h5>
+
 <p>可以通过挂载的形式把namespace保留下来。在docker中，使用docker exec命令在已经运行着的容器中执行一个新的命令，就需要用到这个方法。通过setns()系统调用，进程从原先的namespace加入某个已经存在的namespace。</p>
+
 <pre><code>int setns(int fd, int nstype);
-</code></pre><p>为了把新加入的namespace利用起来，需要引入execve()系列函数，该函数可以执行用户命令，最常用的就是调用/bin/bash并接受参数，运行起一个shell。</p>
+</code></pre>
+
+<p>为了把新加入的namespace利用起来，需要引入execve()系列函数，该函数可以执行用户命令，最常用的就是调用/bin/bash并接受参数，运行起一个shell。</p>
+
 <pre><code>fd = open(argv[1], O_RDONLY);
 setns(fd, 0);
 execvp(argv[2], &amp;argv[2]);
-</code></pre><h5 id="通过unshare在原先进程上进行namespace隔离">通过unshare()在原先进程上进行namespace隔离</h5>
+</code></pre>
+
+<h5 id="通过unshare-在原先进程上进行namespace隔离">通过unshare()在原先进程上进行namespace隔离</h5>
+
 <p>调用unshare就是不启动一个新进程就可以起到隔离的效果，相当于跳出原先的namespace进行操作。linux自带的unshare就是通过unshare系统调用实现。docker目前并没有这个系统调用。</p>
+
 <pre><code>int unshare(int flags);
-</code></pre><h4 id="uts-namespace">UTS namespace</h4>
+</code></pre>
+
+<h4 id="uts-namespace">UTS namespace</h4>
+
 <p>UTS(UNIX Time-sharing System) namespace提供了主机名和域名的隔离，这样每个docker就可以拥有独立的主机名和域名了。</p>
+
 <blockquote>
 <p>docker 每个镜像基本都以自身所提供的服务的名称来命名镜像的hostname，且不会对宿主机产生任何影响，其原理就是利用UTS namespace。</p>
 </blockquote>

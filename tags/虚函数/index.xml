@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>虚函数 on Realjf&#39;s blog</title>
@@ -6,7 +6,11 @@
     <description>Recent content in 虚函数 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Apr 2020 14:04:30 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/%E8%99%9A%E5%87%BD%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Apr 2020 14:04:30 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/%E8%99%9A%E5%87%BD%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>C&#43;&#43;多态与虚函数 （Polymorphism）</title>
       <link>https://realjf.io/cpp/polymorphism/</link>
@@ -14,13 +18,13 @@
       
       <guid>https://realjf.io/cpp/polymorphism/</guid>
       <description>什么是多态？ C++的多态即针对同一事物对不同场景表现多种形态，称为c++的多态性
-多态分为静态多态和动态多态
- 静态多态又分为函数重载和泛型编程 动态多态则通过虚函数实现  多态的作用  提供了接口与具体实现之间的另一层隔离， 改善了代码的组织结构和可读性以及可扩展性  静态多态 直接上代码
-int Add(int a, int b) { return a + b; } double Add(float a, float b) { return a + b; } // 调用的时候 int main() { Add(1, 2); // 调用的是第一个Add  Add(1.5, 2.5); // 调用的是第二个Add  return 0; } 可以看到，静态多态是在编译期间可以确定的，根据具体的了类型调用不同的函数
+多态分为静态多态和动态多态 - 静态多态又分为函数重载和泛型编程 - 动态多态则通过虚函数实现
+多态的作用  提供了接口与具体实现之间的另一层隔离， 改善了代码的组织结构和可读性以及可扩展性  静态多态 直接上代码
+int Add(int a, int b) { return a + b; } double Add(float a, float b) { return a + b; } // 调用的时候 int main() { Add(1, 2); // 调用的是第一个Add Add(1.5, 2.5); // 调用的是第二个Add return 0; }  可以看到，静态多态是在编译期间可以确定的，根据具体的了类型调用不同的函数
 动态多态 首先要理解，这里的动态是指在程序运行期间，所以动态多态只能在程序运行的时候确定。
 而要实现动态多态，这里需要用到关键字virtual，声明一个函数为虚函数
 具体代码：
-class Animal { public: virtual void Say() = 0; } class Cow : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;#34;哞哞&amp;#34; &amp;lt;&amp;lt; endl; } } class Sheep : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;#34;咩咩&amp;#34; &amp;lt;&amp;lt; endl; } } // 开始使用 int main() { Animal* cow = (Animal*)new Cow(); Animal* sheep = (Animal*)new Sheep(); cow-&amp;gt;Say(); sheep-&amp;gt;Say(); } 有上述代码可以看出，多态是基类中包含虚函数，而子类对其进行重写的，并且通过基类对象的指针或引用调用虚函数形成多态。</description>
+class Animal { public: virtual void Say() = 0; } class Cow : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;哞哞&amp;quot; &amp;lt;&amp;lt; endl; } } class Sheep : public Animal { public: void Say() { cout &amp;lt;&amp;lt; &amp;quot;咩咩&amp;quot; &amp;lt;&amp;lt; endl; } } // 开始使用 int main() { Animal* cow = (Animal*)new Cow(); Animal* sheep = (Animal*)new Sheep(); cow-&amp;gt;Say(); sheep-&amp;gt;Say(); }  有上述代码可以看出，多态是基类中包含虚函数，而子类对其进行重写的，并且通过基类对象的指针或引用调用虚函数形成多态。</description>
     </item>
     
   </channel>

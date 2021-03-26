@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 10.颜色 10 Colors // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,55 +237,65 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="10-颜色">10. 颜色</h2>
-<h3 id="101-基础知识">10.1. 基础知识</h3>
+            
+
+<h2 id="10-颜色">10. 颜色</h2>
+
+<h3 id="10-1-基础知识">10.1. 基础知识</h3>
+
 <p>没有色彩的生活似乎单调乏味。诅咒有一个很好的机制来处理颜色。让我们用一个小程序来深入了解这些事情。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string);
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
-{	initscr();			<span style="color:#75715e">/* Start curses mode 		*/</span>
-	<span style="color:#66d9ef">if</span>(has_colors() <span style="color:#f92672">==</span> FALSE)
-	{	endwin();
-		printf(<span style="color:#e6db74">&#34;Your terminal does not support color</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-		exit(<span style="color:#ae81ff">1</span>);
-	}
-	start_color();			<span style="color:#75715e">/* Start color 			*/</span>
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
 
-	attron(COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-	print_in_middle(stdscr, LINES <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Viola !!! In color ...&#34;</span>);
-	attroff(COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-    	getch();
-	endwin();
+<pre><code class="language-cpp">#include &lt;ncurses.h&gt;
+
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string);
+int main(int argc, char *argv[])
+{   initscr();          /* Start curses mode        */
+    if(has_colors() == FALSE)
+    {   endwin();
+        printf(&quot;Your terminal does not support color\n&quot;);
+        exit(1);
+    }
+    start_color();          /* Start color          */
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+
+    attron(COLOR_PAIR(1));
+    print_in_middle(stdscr, LINES / 2, 0, 0, &quot;Viola !!! In color ...&quot;);
+    attroff(COLOR_PAIR(1));
+        getch();
+    endwin();
 }
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string)
-{	<span style="color:#66d9ef">int</span> length, x, y;
-	<span style="color:#66d9ef">float</span> temp;
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string)
+{   int length, x, y;
+    float temp;
 
-	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
-		win <span style="color:#f92672">=</span> stdscr;
-	getyx(win, y, x);
-	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		x <span style="color:#f92672">=</span> startx;
-	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		y <span style="color:#f92672">=</span> starty;
-	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
+    if(win == NULL)
+        win = stdscr;
+    getyx(win, y, x);
+    if(startx != 0)
+        x = startx;
+    if(starty != 0)
+        y = starty;
+    if(width == 0)
+        width = 80;
 
-	length <span style="color:#f92672">=</span> strlen(string);
-	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
-	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
-	refresh();
+    length = strlen(string);
+    temp = (width - length)/ 2;
+    x = startx + (int)temp;
+    mvwprintw(win, y, x, &quot;%s&quot;, string);
+    refresh();
 }
-</code></pre></div><p>如您所见，要开始使用color，应该首先调用函数start_color（）。之后，您可以使用各种功能使用终端的颜色功能。若要确定终端是否具有颜色功能，可以使用has_colors（）函数，如果终端不支持颜色，该函数将返回FALSE。</p>
+</code></pre>
+
+<p>如您所见，要开始使用color，应该首先调用函数start_color（）。之后，您可以使用各种功能使用终端的颜色功能。若要确定终端是否具有颜色功能，可以使用has_colors（）函数，如果终端不支持颜色，该函数将返回FALSE。</p>
+
 <p>当调用start_color（）时，Curses初始化终端支持的所有颜色。这些可以通过define常量来访问，比如COLOR_BLACK等。现在要真正开始使用颜色，必须定义颜色对。颜色总是成对使用。这意味着您必须使用函数init_pair（）为给定的配对号定义前景和背景。之后，可以使用COLOR_PAIR()函数将该对编号用作普通属性。一开始这似乎很麻烦。但这种优雅的解决方案使我们能够非常轻松地管理颜色对。要理解它，您必须查看“dialog”的源代码，dialog是一个用于从shell脚本显示对话框的实用程序。开发人员已经为他们可能需要的所有颜色定义了前景和背景组合，并在开始时进行了初始化。这使得通过访问一个我们已经定义为常量的对来设置属性变得非常容易。</p>
+
 <p>以下颜色是在curses.h中定义的。您可以将它们用作各种颜色函数的参数。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">        COLOR_BLACK   0
+
+<pre><code class="language-text">        COLOR_BLACK   0
         COLOR_RED     1
         COLOR_GREEN   2
         COLOR_YELLOW  3
@@ -293,13 +303,21 @@
         COLOR_MAGENTA 5
         COLOR_CYAN    6
         COLOR_WHITE   7
-</code></pre></div><h3 id="102-更改颜色定义">10.2. 更改颜色定义</h3>
+</code></pre>
+
+<h3 id="10-2-更改颜色定义">10.2. 更改颜色定义</h3>
+
 <p>函数init_color（）可用于更改最初由curses定义的颜色的rgb值。假设你想把红色的强度减轻一点点。然后你可以用这个函数</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">init_color(COLOR_RED, <span style="color:#ae81ff">700</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-    <span style="color:#75715e">/* param 1     : color name
-</span><span style="color:#75715e">     * param 2, 3, 4 : rgb content min = 0, max = 1000 */</span>
-</code></pre></div><p>如果终端无法更改颜色定义，则函数返回ERR。函数can_change_color（）可用于确定终端是否具有更改颜色内容的功能。rgb内容从0缩放到1000。最初，红色的定义为含量1000（r）、0（g）、0（b）。</p>
-<h3 id="103-颜色含量">10.3. 颜色含量</h3>
+
+<pre><code class="language-cpp">init_color(COLOR_RED, 700, 0, 0);
+    /* param 1     : color name
+     * param 2, 3, 4 : rgb content min = 0, max = 1000 */
+</code></pre>
+
+<p>如果终端无法更改颜色定义，则函数返回ERR。函数can_change_color（）可用于确定终端是否具有更改颜色内容的功能。rgb内容从0缩放到1000。最初，红色的定义为含量1000（r）、0（g）、0（b）。</p>
+
+<h3 id="10-3-颜色含量">10.3. 颜色含量</h3>
+
 <p>函数color_content（）和pair_content（）可用于查找颜色内容和该对的前景、背景组合。</p>
 
         </div>

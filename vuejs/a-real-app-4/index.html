@@ -3,7 +3,7 @@
 <head>
     <title>vue.js 2 系列之八 运动商店A Real App 4 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.79.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,868 +237,956 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/vuejs/">vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">vue.js</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">Vue.js</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="基于之前一篇基础之上进行构建">基于之前一篇基础之上进行构建</h2>
+            
+
+<h2 id="基于之前一篇基础之上进行构建">基于之前一篇基础之上进行构建</h2>
+
 <p><a href="/vuejs/a-real-app-3/">/vuejs/a-real-app-3/</a></p>
+
 <p>首先，运行json web服务</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm run json
-</code></pre></div><p>然后运行运动商店http服务器</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm run serve
-</code></pre></div><h2 id="添加商品管理功能">添加商品管理功能</h2>
+
+<pre><code class="language-shell">npm run json
+</code></pre>
+
+<p>然后运行运动商店http服务器</p>
+
+<pre><code class="language-shell">npm run serve
+</code></pre>
+
+<h2 id="添加商品管理功能">添加商品管理功能</h2>
+
 <p>在src/store文件夹中的index.js文件中添加如下内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vuex</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vuex&#34;</span>;
 
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Axios</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;axios&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">CartModule</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;./cart&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">OrdersModule</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;./orders&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">AuthModule</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;./auth&#34;</span>;
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import Vuex from &quot;vuex&quot;;
 
-<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">Vuex</span>);
+import Axios from &quot;axios&quot;;
+import CartModule from &quot;./cart&quot;;
+import OrdersModule from &quot;./orders&quot;;
+import AuthModule from &quot;./auth&quot;;
 
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">baseUrl</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://localhost:3500&#34;</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">productsUrl</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">baseUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/products`</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">categoriesUrl</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">baseUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/categories`</span>;
+Vue.use(Vuex);
 
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">testData</span> <span style="color:#f92672">=</span> [];
+const baseUrl = &quot;http://localhost:3500&quot;;
+const productsUrl = `${baseUrl}/products`;
+const categoriesUrl = `${baseUrl}/categories`;
 
-<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>){
-    <span style="color:#a6e22e">testData</span>.<span style="color:#a6e22e">push</span>({
-        <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`Product #</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>, <span style="color:#a6e22e">category</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`Category </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
-        <span style="color:#a6e22e">description</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`This is Product #</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>, <span style="color:#a6e22e">price</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">50</span>
+const testData = [];
+
+for(let i = 1; i &lt;= 10; i++){
+    testData.push({
+        id: i, name: `Product #${i}`, category: `Category ${i % 3}`,
+        description: `This is Product #${i}`, price: i * 50
     })
 }
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Vuex</span>.<span style="color:#a6e22e">Store</span>({
-    <span style="color:#a6e22e">strict</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-    <span style="color:#a6e22e">modules</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">cart</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">CartModule</span>, <span style="color:#a6e22e">orders</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">OrdersModule</span>, <span style="color:#a6e22e">auth</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">AuthModule</span> }, <span style="color:#75715e">// 添加购物车模块
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">state</span><span style="color:#f92672">:</span> {
-        <span style="color:#75715e">// products: testData,
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">categoriesData</span><span style="color:#f92672">:</span> [],
-        <span style="color:#75715e">// productsTotal: testData.length,
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">currentPage</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
-        <span style="color:#a6e22e">pageSize</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">4</span>,
-        <span style="color:#a6e22e">currentCategory</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;All&#34;</span>,
-        <span style="color:#a6e22e">pages</span><span style="color:#f92672">:</span> [],
-        <span style="color:#a6e22e">serverPageCount</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
-        <span style="color:#a6e22e">searchTerm</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
-        <span style="color:#a6e22e">showSearch</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
+export default new Vuex.Store({
+    strict: true,
+    modules: {cart: CartModule, orders: OrdersModule, auth: AuthModule }, // 添加购物车模块
+    state: {
+        // products: testData,
+        categoriesData: [],
+        // productsTotal: testData.length,
+        currentPage: 1,
+        pageSize: 4,
+        currentCategory: &quot;All&quot;,
+        pages: [],
+        serverPageCount: 0,
+        searchTerm: &quot;&quot;,
+        showSearch: false
     },
-    <span style="color:#a6e22e">getters</span><span style="color:#f92672">:</span> {
-        <span style="color:#75715e">// productsFilteredByCategory: state =&gt; state.products.filter(p =&gt; state.currentCategory == &#34;All&#34; || p.category == state.currentCategory),
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 根据当前分页以及每页个数返回当前页面产品列表
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">processedProducts</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">state</span>) =&gt; {
-            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>];
+    getters: {
+        // productsFilteredByCategory: state =&gt; state.products.filter(p =&gt; state.currentCategory == &quot;All&quot; || p.category == state.currentCategory),
+        // 根据当前分页以及每页个数返回当前页面产品列表
+        processedProducts: (state) =&gt; {
+            return state.pages[state.currentPage];
         },
-        <span style="color:#75715e">// 计算分页总数
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">pageCount</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">state</span>) =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">serverPageCount</span>,
-        <span style="color:#a6e22e">categories</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">state</span> =&gt; [<span style="color:#e6db74">&#34;All&#34;</span>, ...<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">categoriesData</span>],
-        <span style="color:#a6e22e">productById</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">state</span>) =&gt; (<span style="color:#a6e22e">id</span>) =&gt; {
-            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>].<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">p</span> =&gt; <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">id</span>);
+        // 计算分页总数
+        pageCount: (state) =&gt; state.serverPageCount,
+        categories: state =&gt; [&quot;All&quot;, ...state.categoriesData],
+        productById:(state) =&gt; (id) =&gt; {
+            return state.pages[state.currentPage].find(p =&gt; p.id == id);
         }
     },
-    <span style="color:#a6e22e">mutations</span><span style="color:#f92672">:</span> {
-        <span style="color:#75715e">// 设置当前分页
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_setCurrentPage</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">page</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">page</span>;
+    mutations: {
+        // 设置当前分页
+        _setCurrentPage(state, page){
+            state.currentPage = page;
         },
-        <span style="color:#75715e">// 设置每页个数
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_setPageSize</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">size</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">size</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        // 设置每页个数
+        _setPageSize(state, size){
+            state.pageSize = size;
+            state.currentPage = 1;
         },
-        <span style="color:#75715e">// 设置当前分类
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_setCurrentCategory</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">category</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentCategory</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">category</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        // 设置当前分类
+        _setCurrentCategory(state, category){
+            state.currentCategory = category;
+            state.currentPage = 1;
         },
-        <span style="color:#75715e">// setData(state, data){
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//     state.products = data.pdata;
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//     state.productsTotal = data.pdata.length;
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//     state.categoriesData = data.cdata.sort();
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// },
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">addPage</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">page</span>){
-            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">pageCount</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>){
-                <span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>, <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">number</span> <span style="color:#f92672">+</span><span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">slice</span>(<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>, (<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>));
+        // setData(state, data){
+        //     state.products = data.pdata;
+        //     state.productsTotal = data.pdata.length;
+        //     state.categoriesData = data.cdata.sort();
+        // },
+        addPage(state, page){
+            for(let i=0; i&lt;page.pageCount; i++){
+                Vue.set(state.pages, page.number +i, page.data.slice(i*state.pageSize, (i*state.pageSize) + state.pageSize));
             }
         },
-        <span style="color:#a6e22e">clearPages</span>(<span style="color:#a6e22e">state</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>.<span style="color:#a6e22e">splice</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>.<span style="color:#a6e22e">length</span>);
+        clearPages(state){
+            state.pages.splice(0, state.pages.length);
         },
-        <span style="color:#a6e22e">setCategories</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">categories</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">categoriesData</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">categories</span>;
+        setCategories(state, categories){
+            state.categoriesData = categories;
         },
-        <span style="color:#a6e22e">setPageCount</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">count</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">serverPageCount</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">ceil</span>(Number(<span style="color:#a6e22e">count</span>)<span style="color:#f92672">/</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>);
+        setPageCount(state, count){
+            state.serverPageCount = Math.ceil(Number(count)/state.pageSize);
         },
-        <span style="color:#a6e22e">setShowSearch</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">show</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">showSearch</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">show</span>;
+        setShowSearch(state, show){
+            state.showSearch = show;
         },
-        <span style="color:#a6e22e">setSearchTerm</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">term</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">searchTerm</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">term</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        setSearchTerm(state, term){
+            state.searchTerm = term;
+            state.currentPage = 1;
         },
-        <span style="color:#75715e">// 添加商品
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_addProduct</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>].<span style="color:#a6e22e">unshift</span>(<span style="color:#a6e22e">product</span>);
+        // 添加商品
+        _addProduct(state, product){
+            state.pages[state.currentPage].unshift(product);
         },
-        <span style="color:#a6e22e">_updateProduct</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>];
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">findIndex</span>(<span style="color:#a6e22e">p</span> =&gt; <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span>);
-            <span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">page</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">product</span>);
+        _updateProduct(state, product){
+            let page = state.pages[state.currentPage];
+            let index = page.findIndex(p =&gt; p.id == product.id);
+            Vue.set(page, index, product);
         }
     },
-    <span style="color:#a6e22e">actions</span><span style="color:#f92672">:</span> {
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">getData</span>(<span style="color:#a6e22e">context</span>) {
-            <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setCategories&#34;</span>, (<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">Axios</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">categoriesUrl</span>)).<span style="color:#a6e22e">data</span>);
+    actions: {
+        async getData(context) {
+            await context.dispatch(&quot;getPage&quot;, 2);
+            context.commit(&quot;setCategories&quot;, (await Axios.get(categoriesUrl)).data);
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">getPage</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">getPageCount</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>){
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">productsUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">?_page=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">`&amp;_limit=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">getPageCount</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
-            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentCategory</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;All&#34;</span>){
-                <span style="color:#a6e22e">url</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&amp;category=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentCategory</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+        async getPage(context, getPageCount = 1){
+            let url = `${productsUrl}?_page=${context.state.currentPage}` + `&amp;_limit=${context.state.pageSize * getPageCount}`;
+            if(context.state.currentCategory != &quot;All&quot;){
+                url += `&amp;category=${context.state.currentCategory}`;
             }
-            <span style="color:#75715e">// 添加搜索词判断
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">searchTerm</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>){
-                <span style="color:#a6e22e">url</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&amp;q=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">searchTerm</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+            // 添加搜索词判断
+            if(context.state.searchTerm != &quot;&quot;){
+                url += `&amp;q=${context.state.searchTerm}`;
             }
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">Axios</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">url</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setPageCount&#34;</span>, <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">headers</span>[<span style="color:#e6db74">&#34;x-total-count&#34;</span>]);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;addPage&#34;</span>, {<span style="color:#a6e22e">number</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>, <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">pageCount</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">getPageCount</span>});
+            let response = await Axios.get(url);
+            context.commit(&quot;setPageCount&quot;, response.headers[&quot;x-total-count&quot;]);
+            context.commit(&quot;addPage&quot;, {number: context.state.currentPage, data: response.data, pageCount: getPageCount});
         },
-        <span style="color:#a6e22e">setCurrentPage</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">page</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_setCurrentPage&#34;</span>, <span style="color:#a6e22e">page</span>);
-            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">page</span>]){
-                <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>);
+        setCurrentPage(context, page){
+            context.commit(&quot;_setCurrentPage&quot;, page);
+            if(!context.state.pages[page]){
+                context.dispatch(&quot;getPage&quot;);
             }
         },
-        <span style="color:#a6e22e">setPageSize</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">size</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_setPageSize&#34;</span>, <span style="color:#a6e22e">size</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        setPageSize(context, size){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setPageSize&quot;, size);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#a6e22e">setCurrentCategory</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">category</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_setCurrentCategory&#34;</span>, <span style="color:#a6e22e">category</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        setCurrentCategory(context, category){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setCurrentCategory&quot;, category);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#a6e22e">search</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">term</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setSearchTerm&#34;</span>, <span style="color:#a6e22e">term</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        search(context, term){
+            context.commit(&quot;setSearchTerm&quot;, term);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#a6e22e">clearSearchTerm</span>(<span style="color:#a6e22e">context</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setSearchTerm&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        clearSearchTerm(context){
+            context.commit(&quot;setSearchTerm&quot;, &quot;&quot;);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#75715e">// 添加商品
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">addProduct</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> (<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">getters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#a6e22e">post</span>(<span style="color:#a6e22e">productsUrl</span>, <span style="color:#a6e22e">product</span>)).<span style="color:#a6e22e">data</span>;
-            <span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span>;
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_addProduct&#34;</span>, <span style="color:#a6e22e">product</span>);
+        // 添加商品
+        async addProduct(context, product){
+            let data = (await context.getters.authenticatedAxios.post(productsUrl, product)).data;
+            product.id = data.id;
+            this.commit(&quot;_addProduct&quot;, product);
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">removeProduct</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">getters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#66d9ef">delete</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">productsUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">1</span>);
+        async removeProduct(context, product){
+            await context.getters.authenticatedAxios.delete(`${productsUrl}/${product.id}`);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 1);
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">updateProduct</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">getters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">productsUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>, <span style="color:#a6e22e">product</span>);
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_updateProduct&#34;</span>, <span style="color:#a6e22e">product</span>);
+        async updateProduct(context, product){
+            await context.getters.authenticatedAxios.put(`${productsUrl}/${product.id}`, product);
+            this.commit(&quot;_updateProduct&quot;, product);
         }
     }
 })
 
-</code></pre></div><h3 id="显示商品列表">显示商品列表</h3>
+</code></pre>
+
+<h3 id="显示商品列表">显示商品列表</h3>
+
 <p>在src/components/admin文件夹的ProductAdmin.vue文件中添加如下内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">
-&lt;<span style="color:#f92672">template</span>&gt;
-&lt;<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">router-link</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/admin/products/create&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-primary my-2&#34;</span>&gt;
+
+<pre><code class="language-html">
+&lt;template&gt;
+&lt;div&gt;
+    &lt;router-link to=&quot;/admin/products/create&quot; class=&quot;btn btn-primary my-2&quot;&gt;
         Create Product
-    &lt;/<span style="color:#f92672">router-link</span>&gt;
-    &lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-sm table-bordered&#34;</span>&gt;
-        &lt;<span style="color:#f92672">thead</span>&gt;
-            &lt;<span style="color:#f92672">tr</span>&gt;
-                &lt;<span style="color:#f92672">th</span>&gt;ID&lt;/<span style="color:#f92672">th</span>&gt;
-                &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
-                &lt;<span style="color:#f92672">th</span>&gt;Category&lt;/<span style="color:#f92672">th</span>&gt;
-                &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-right&#34;</span>&gt;Price&lt;/<span style="color:#f92672">th</span>&gt;
-                &lt;<span style="color:#f92672">th</span>&gt;&lt;/<span style="color:#f92672">th</span>&gt;
-            &lt;/<span style="color:#f92672">tr</span>&gt;
-        &lt;/<span style="color:#f92672">thead</span>&gt;
-        &lt;<span style="color:#f92672">tbody</span>&gt;
-            &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p in products&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p.id&#34;</span>&gt;
-                &lt;<span style="color:#f92672">td</span>&gt;{{p.id}}&lt;/<span style="color:#f92672">td</span>&gt;
-                &lt;<span style="color:#f92672">td</span>&gt;{{p.name}}&lt;/<span style="color:#f92672">td</span>&gt;
-                &lt;<span style="color:#f92672">td</span>&gt;{{p.category}}&lt;/<span style="color:#f92672">td</span>&gt;
-                &lt;<span style="color:#f92672">td</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-right&#34;</span>&gt;{{p.price|currency}}&lt;/<span style="color:#f92672">td</span>&gt;
-                &lt;<span style="color:#f92672">td</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-center&#34;</span>&gt;
-                    &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-sm btn-danger mx-1&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;removeProduct(p)&#34;</span>&gt;Delete&lt;/<span style="color:#f92672">button</span>&gt;
-                    &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-sm btn-warning mx-1&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleEdit(p)&#34;</span>&gt;Edit&lt;/<span style="color:#f92672">button</span>&gt;
-                &lt;/<span style="color:#f92672">td</span>&gt;
-            &lt;/<span style="color:#f92672">tr</span>&gt;
-        &lt;/<span style="color:#f92672">tbody</span>&gt;
-    &lt;/<span style="color:#f92672">table</span>&gt;
-    &lt;<span style="color:#f92672">page-controls</span> /&gt;
-&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">template</span>&gt;
+    &lt;/router-link&gt;
+    &lt;table class=&quot;table table-sm table-bordered&quot;&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;ID&lt;/th&gt;
+                &lt;th&gt;Name&lt;/th&gt;
+                &lt;th&gt;Category&lt;/th&gt;
+                &lt;th class=&quot;text-right&quot;&gt;Price&lt;/th&gt;
+                &lt;th&gt;&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr v-for=&quot;p in products&quot; v-bind:key=&quot;p.id&quot;&gt;
+                &lt;td&gt;{{p.id}}&lt;/td&gt;
+                &lt;td&gt;{{p.name}}&lt;/td&gt;
+                &lt;td&gt;{{p.category}}&lt;/td&gt;
+                &lt;td class=&quot;text-right&quot;&gt;{{p.price|currency}}&lt;/td&gt;
+                &lt;td class=&quot;text-center&quot;&gt;
+                    &lt;button class=&quot;btn btn-sm btn-danger mx-1&quot; v-on:click=&quot;removeProduct(p)&quot;&gt;Delete&lt;/button&gt;
+                    &lt;button class=&quot;btn btn-sm btn-warning mx-1&quot; v-on:click=&quot;handleEdit(p)&quot;&gt;Edit&lt;/button&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;page-controls /&gt;
+&lt;/div&gt;
+&lt;/template&gt;
 
-&lt;<span style="color:#f92672">script</span>&gt;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">PageControls</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../PageControls&#34;</span>;
-<span style="color:#66d9ef">import</span> {
-    <span style="color:#a6e22e">mapGetters</span>,
-    <span style="color:#a6e22e">mapActions</span>
-} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vuex&#34;</span>;
+&lt;script&gt;
+import PageControls from &quot;../PageControls&quot;;
+import {
+    mapGetters,
+    mapActions
+} from &quot;vuex&quot;;
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-    <span style="color:#a6e22e">components</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">PageControls</span>
+export default {
+    components: {
+        PageControls
     },
-    <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
-        ...<span style="color:#a6e22e">mapGetters</span>({
-            <span style="color:#a6e22e">products</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;processedProducts&#34;</span>
+    computed: {
+        ...mapGetters({
+            products: &quot;processedProducts&quot;
         })
     },
-    <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
-        ...<span style="color:#a6e22e">mapActions</span>({
-            <span style="color:#a6e22e">removeProduct</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;removeProduct&#34;</span>
+    methods: {
+        ...mapActions({
+            removeProduct: &quot;removeProduct&quot;
         }),
-        <span style="color:#a6e22e">handleEdit</span>(<span style="color:#a6e22e">product</span>) {
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$router</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">`/admin/products/edit/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+        handleEdit(product) {
+            this.$router.push(`/admin/products/edit/${product.id}`);
         }
     }
 }
-&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;/script&gt;
 
-</code></pre></div><h3 id="添加编辑和路由">添加编辑和路由</h3>
+</code></pre>
+
+<h3 id="添加编辑和路由">添加编辑和路由</h3>
+
 <p>在src/components/admin文件夹的ProductEditor.vue文件中添加如下内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
-&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-info text-white text-center h4 p-2&#34;</span>&gt;Product Editor&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">template</span>&gt;
 
-</code></pre></div><p>在src/router的index.js中添加路由信息</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">VueRouter</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue-router&#34;</span>;
+<pre><code class="language-html">&lt;template&gt;
+&lt;div class=&quot;bg-info text-white text-center h4 p-2&quot;&gt;Product Editor&lt;/div&gt;
+&lt;/template&gt;
 
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Store</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/Store&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ShoppingCart</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/ShoppingCart&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Checkout</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/Checkout&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">OrderThanks</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/OrderThanks&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Authentication</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/admin/Authentication&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Admin</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/admin/Admin&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ProductAdmin</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/admin/ProductAdmin&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">OrderAdmin</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/admin/OrderAdmin&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ProductEditor</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/admin/ProductEditor&#34;</span>;
+</code></pre>
 
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">dataStore</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../store&#34;</span>;
+<p>在src/router的index.js中添加路由信息</p>
 
-<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">VueRouter</span>);
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import VueRouter from &quot;vue-router&quot;;
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">VueRouter</span>({
-    <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;history&#34;</span>,
-    <span style="color:#a6e22e">routes</span><span style="color:#f92672">:</span> [
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Store</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/cart&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ShoppingCart</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/checkout&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Checkout</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/thanks/:id&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">OrderThanks</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/login&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Authentication</span> },
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/admin&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Admin</span>, 
-        <span style="color:#a6e22e">beforeEnter</span>(<span style="color:#a6e22e">to</span>,<span style="color:#a6e22e">from</span>,<span style="color:#a6e22e">next</span>){
-            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">dataStore</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">auth</span>.<span style="color:#a6e22e">authenticated</span>){
-                <span style="color:#a6e22e">next</span>();
-            }<span style="color:#66d9ef">else</span>{
-                <span style="color:#a6e22e">next</span>(<span style="color:#e6db74">&#34;/login&#34;</span>);
+import Store from &quot;../components/Store&quot;;
+import ShoppingCart from &quot;../components/ShoppingCart&quot;;
+import Checkout from &quot;../components/Checkout&quot;;
+import OrderThanks from &quot;../components/OrderThanks&quot;;
+import Authentication from &quot;../components/admin/Authentication&quot;;
+import Admin from &quot;../components/admin/Admin&quot;;
+import ProductAdmin from &quot;../components/admin/ProductAdmin&quot;;
+import OrderAdmin from &quot;../components/admin/OrderAdmin&quot;;
+import ProductEditor from &quot;../components/admin/ProductEditor&quot;;
+
+import dataStore from &quot;../store&quot;;
+
+Vue.use(VueRouter);
+
+export default new VueRouter({
+    mode: &quot;history&quot;,
+    routes: [
+        {path:&quot;/&quot;, component: Store},
+        {path: &quot;/cart&quot;, component: ShoppingCart},
+        {path: &quot;/checkout&quot;, component: Checkout},
+        {path: &quot;/thanks/:id&quot;, component: OrderThanks},
+        {path: &quot;/login&quot;, component: Authentication },
+        {path: &quot;/admin&quot;, component: Admin, 
+        beforeEnter(to,from,next){
+            if(dataStore.state.auth.authenticated){
+                next();
+            }else{
+                next(&quot;/login&quot;);
             }
-        }, <span style="color:#a6e22e">children</span><span style="color:#f92672">:</span> [
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;products/:op(create|edit)/:id(\\d+)?&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ProductEditor</span>},
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;products&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ProductAdmin</span>},
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;orders&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">OrderAdmin</span>},
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">redirect</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/admin/products&#34;</span>}
+        }, children: [
+            {path: &quot;products/:op(create|edit)/:id(\\d+)?&quot;, component: ProductEditor},
+            {path: &quot;products&quot;, component: ProductAdmin},
+            {path: &quot;orders&quot;, component: OrderAdmin},
+            {path: &quot;&quot;, redirect: &quot;/admin/products&quot;}
         ]},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;*&#34;</span>, <span style="color:#a6e22e">redirect</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/&#34;</span>}
+        {path: &quot;*&quot;, redirect: &quot;/&quot;}
     ]
 })
 
 
-</code></pre></div><h3 id="实现编辑器功能">实现编辑器功能</h3>
+</code></pre>
+
+<h3 id="实现编辑器功能">实现编辑器功能</h3>
+
 <p>在src/components/admin文件夹的ProductEditor.vue文件中添加如下内容：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
-&lt;<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-center text-white p-2&#34;</span> <span style="color:#a6e22e">v-bind:class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;themeClass&#34;</span>&gt;
-        {{ editMode ?&#34;Edit&#34; : &#34;Create Product&#34;}}
-    &lt;/<span style="color:#f92672">h4</span>&gt;
-    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;$v.$invalid &amp;&amp; $v.dirty&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-danger text-white text-center p-2&#34;</span>&gt;Values Required for All Fields&lt;/<span style="color:#f92672">h4</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group&#34;</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;editMode&#34;</span>&gt;
-        &lt;<span style="color:#f92672">label</span>&gt;ID (Not Editable)&lt;/<span style="color:#f92672">label</span>&gt;
-        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">disabled</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;product.id&#34;</span> /&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group&#34;</span>&gt;
-        &lt;<span style="color:#f92672">label</span>&gt;Name&lt;/<span style="color:#f92672">label</span>&gt;
-        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;product.name&#34;</span> /&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group&#34;</span>&gt;
-        &lt;<span style="color:#f92672">label</span>&gt;Description&lt;/<span style="color:#f92672">label</span>&gt;
-        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;product.description&#34;</span> /&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group&#34;</span>&gt;
-        &lt;<span style="color:#f92672">label</span>&gt;Category&lt;/<span style="color:#f92672">label</span>&gt;
-        &lt;<span style="color:#f92672">select</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;product.category&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span>&gt;
-            &lt;<span style="color:#f92672">option</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c in categories&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c&#34;</span>&gt;{{c}}&lt;/<span style="color:#f92672">option</span>&gt;
-        &lt;/<span style="color:#f92672">select</span>&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group&#34;</span>&gt;
-        &lt;<span style="color:#f92672">label</span>&gt;Price&lt;/<span style="color:#f92672">label</span>&gt;
-        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;product.price&#34;</span> /&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-center&#34;</span>&gt;
-        &lt;<span style="color:#f92672">router-link</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/admin/products&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-secondary m-1&#34;</span>&gt;Cancel&lt;/<span style="color:#f92672">router-link</span>&gt;
-        &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn m-1&#34;</span> <span style="color:#a6e22e">v-bind:class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;themeClassButton&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleSave&#34;</span>&gt;{{editMode ? &#34;Save Changes&#34; : &#34;Store Product&#34;}}&lt;/<span style="color:#f92672">button</span>&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">template</span>&gt;
 
-&lt;<span style="color:#f92672">script</span>&gt;
-<span style="color:#66d9ef">import</span> {
-    <span style="color:#a6e22e">mapState</span>,
-    <span style="color:#a6e22e">mapActions</span>
-} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vuex&#34;</span>;
-<span style="color:#66d9ef">import</span> {
-    <span style="color:#a6e22e">required</span>
-} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vuelidate/lib/validators&#34;</span>;
+<pre><code class="language-html">&lt;template&gt;
+&lt;div&gt;
+    &lt;h4 class=&quot;text-center text-white p-2&quot; v-bind:class=&quot;themeClass&quot;&gt;
+        {{ editMode ?&quot;Edit&quot; : &quot;Create Product&quot;}}
+    &lt;/h4&gt;
+    &lt;h4 v-if=&quot;$v.$invalid &amp;&amp; $v.dirty&quot; class=&quot;bg-danger text-white text-center p-2&quot;&gt;Values Required for All Fields&lt;/h4&gt;
+    &lt;div class=&quot;form-group&quot; v-if=&quot;editMode&quot;&gt;
+        &lt;label&gt;ID (Not Editable)&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; disabled v-model=&quot;product.id&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;product.name&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Description&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;product.description&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Category&lt;/label&gt;
+        &lt;select v-model=&quot;product.category&quot; class=&quot;form-control&quot;&gt;
+            &lt;option v-for=&quot;c in categories&quot; v-bind:key=&quot;c&quot;&gt;{{c}}&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Price&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;product.price&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;text-center&quot;&gt;
+        &lt;router-link to=&quot;/admin/products&quot; class=&quot;btn btn-secondary m-1&quot;&gt;Cancel&lt;/router-link&gt;
+        &lt;button class=&quot;btn m-1&quot; v-bind:class=&quot;themeClassButton&quot; v-on:click=&quot;handleSave&quot;&gt;{{editMode ? &quot;Save Changes&quot; : &quot;Store Product&quot;}}&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/template&gt;
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-    <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> () {
-        <span style="color:#66d9ef">return</span> {
-            <span style="color:#a6e22e">product</span><span style="color:#f92672">:</span> {}
+&lt;script&gt;
+import {
+    mapState,
+    mapActions
+} from &quot;vuex&quot;;
+import {
+    required
+} from &quot;vuelidate/lib/validators&quot;;
+
+export default {
+    data: function () {
+        return {
+            product: {}
         }
     },
-    <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
-        ...<span style="color:#a6e22e">mapState</span>({
-            <span style="color:#a6e22e">pages</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">state</span> =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>,
-            <span style="color:#a6e22e">currentPage</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">state</span> =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>,
-            <span style="color:#a6e22e">categories</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">state</span> =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">categoriesData</span>
+    computed: {
+        ...mapState({
+            pages: state =&gt; state.pages,
+            currentPage: state =&gt; state.currentPage,
+            categories: state =&gt; state.categoriesData
         }),
-        <span style="color:#a6e22e">editMode</span>() {
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$route</span>.<span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;op&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;edit&#34;</span>;
+        editMode() {
+            return this.$route.params[&quot;op&quot;] == &quot;edit&quot;;
         },
-        <span style="color:#a6e22e">themeClass</span>() {
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">editMode</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;bg-info&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;bg-primary&#34;</span>;
+        themeClass() {
+            return this.editMode ? &quot;bg-info&quot; : &quot;bg-primary&quot;;
         },
-        <span style="color:#a6e22e">themeClassButton</span>() {
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">editMode</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;btn-info&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;btn-primary&#34;</span>;
+        themeClassButton() {
+            return this.editMode ? &quot;btn-info&quot; : &quot;btn-primary&quot;;
         }
     },
-    <span style="color:#a6e22e">validations</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">product</span><span style="color:#f92672">:</span> {
-            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> {
-                <span style="color:#a6e22e">required</span>
+    validations: {
+        product: {
+            name: {
+                required
             },
-            <span style="color:#a6e22e">description</span><span style="color:#f92672">:</span> {
-                <span style="color:#a6e22e">required</span>
+            description: {
+                required
             },
-            <span style="color:#a6e22e">category</span><span style="color:#f92672">:</span> {
-                <span style="color:#a6e22e">required</span>
+            category: {
+                required
             },
-            <span style="color:#a6e22e">price</span><span style="color:#f92672">:</span> {
-                <span style="color:#a6e22e">required</span>
+            price: {
+                required
             }
         }
     },
-    <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
-        ...<span style="color:#a6e22e">mapActions</span>({
-            <span style="color:#a6e22e">addProduct</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;addProduct&#34;</span>,
-            <span style="color:#a6e22e">updateProduct</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;updateProduct&#34;</span>
+    methods: {
+        ...mapActions({
+            addProduct: &quot;addProduct&quot;,
+            updateProduct: &quot;updateProduct&quot;
         }),
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">handleSave</span>() {
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$v</span>.<span style="color:#a6e22e">$touch</span>(); <span style="color:#75715e">// 触发验证
-</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$v</span>.<span style="color:#a6e22e">$invalid</span>);
-            <span style="color:#75715e">// $invalid -- 验证状态，true-验证不通过，false-验证通过
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$v</span>.<span style="color:#a6e22e">$invalid</span>) {
-                <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">editMode</span>) {
-                    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">product</span>);
-                    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">updateProduct</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">product</span>);
-                } <span style="color:#66d9ef">else</span> {
-                    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">addProduct</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">product</span>);
+        async handleSave() {
+            this.$v.$touch(); // 触发验证
+            console.log(this.$v.$invalid);
+            // $invalid -- 验证状态，true-验证不通过，false-验证通过
+            if (!this.$v.$invalid) {
+                if (this.editMode) {
+                    console.log(this.product);
+                    await this.updateProduct(this.product);
+                } else {
+                    await this.addProduct(this.product);
                 }
-                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$router</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#34;/admin/products&#34;</span>);
+                this.$router.push(&quot;/admin/products&quot;);
             }
         }
     },
-    <span style="color:#a6e22e">created</span>() {
-        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">editMode</span>) {
-            Object.<span style="color:#a6e22e">assign</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">product</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$store</span>.<span style="color:#a6e22e">getters</span>.<span style="color:#a6e22e">productById</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$route</span>.<span style="color:#a6e22e">params</span>[<span style="color:#e6db74">&#34;id&#34;</span>]))
+    created() {
+        if (this.editMode) {
+            Object.assign(this.product, this.$store.getters.productById(this.$route.params[&quot;id&quot;]))
         }
     }
 }
-&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;/script&gt;
 
-</code></pre></div><h2 id="部署商店">部署商店</h2>
+</code></pre>
+
+<h2 id="部署商店">部署商店</h2>
+
 <h3 id="准备开发应用">准备开发应用</h3>
+
 <h4 id="准备数据存储">准备数据存储</h4>
+
 <p>在src/store文件夹的index.js文件中，修改基础url地址</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vuex</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vuex&#34;</span>;
 
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Axios</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;axios&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">CartModule</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;./cart&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">OrdersModule</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;./orders&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">AuthModule</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;./auth&#34;</span>;
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import Vuex from &quot;vuex&quot;;
 
-<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">Vuex</span>);
+import Axios from &quot;axios&quot;;
+import CartModule from &quot;./cart&quot;;
+import OrdersModule from &quot;./orders&quot;;
+import AuthModule from &quot;./auth&quot;;
 
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">baseUrl</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/api&#34;</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">productsUrl</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">baseUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/products`</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">categoriesUrl</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">baseUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/categories`</span>;
+Vue.use(Vuex);
 
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">testData</span> <span style="color:#f92672">=</span> [];
+const baseUrl = &quot;/api&quot;;
+const productsUrl = `${baseUrl}/products`;
+const categoriesUrl = `${baseUrl}/categories`;
 
-<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>){
-    <span style="color:#a6e22e">testData</span>.<span style="color:#a6e22e">push</span>({
-        <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`Product #</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>, <span style="color:#a6e22e">category</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`Category </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
-        <span style="color:#a6e22e">description</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`This is Product #</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>, <span style="color:#a6e22e">price</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">50</span>
+const testData = [];
+
+for(let i = 1; i &lt;= 10; i++){
+    testData.push({
+        id: i, name: `Product #${i}`, category: `Category ${i % 3}`,
+        description: `This is Product #${i}`, price: i * 50
     })
 }
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Vuex</span>.<span style="color:#a6e22e">Store</span>({
-    <span style="color:#a6e22e">strict</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>, <span style="color:#75715e">// 修改检查模式
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">modules</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">cart</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">CartModule</span>, <span style="color:#a6e22e">orders</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">OrdersModule</span>, <span style="color:#a6e22e">auth</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">AuthModule</span> }, <span style="color:#75715e">// 添加购物车模块
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">state</span><span style="color:#f92672">:</span> {
-        <span style="color:#75715e">// products: testData,
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">categoriesData</span><span style="color:#f92672">:</span> [],
-        <span style="color:#75715e">// productsTotal: testData.length,
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">currentPage</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
-        <span style="color:#a6e22e">pageSize</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">4</span>,
-        <span style="color:#a6e22e">currentCategory</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;All&#34;</span>,
-        <span style="color:#a6e22e">pages</span><span style="color:#f92672">:</span> [],
-        <span style="color:#a6e22e">serverPageCount</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
-        <span style="color:#a6e22e">searchTerm</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
-        <span style="color:#a6e22e">showSearch</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
+export default new Vuex.Store({
+    strict: false, // 修改检查模式
+    modules: {cart: CartModule, orders: OrdersModule, auth: AuthModule }, // 添加购物车模块
+    state: {
+        // products: testData,
+        categoriesData: [],
+        // productsTotal: testData.length,
+        currentPage: 1,
+        pageSize: 4,
+        currentCategory: &quot;All&quot;,
+        pages: [],
+        serverPageCount: 0,
+        searchTerm: &quot;&quot;,
+        showSearch: false
     },
-    <span style="color:#a6e22e">getters</span><span style="color:#f92672">:</span> {
-        <span style="color:#75715e">// productsFilteredByCategory: state =&gt; state.products.filter(p =&gt; state.currentCategory == &#34;All&#34; || p.category == state.currentCategory),
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 根据当前分页以及每页个数返回当前页面产品列表
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">processedProducts</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">state</span>) =&gt; {
-            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>];
+    getters: {
+        // productsFilteredByCategory: state =&gt; state.products.filter(p =&gt; state.currentCategory == &quot;All&quot; || p.category == state.currentCategory),
+        // 根据当前分页以及每页个数返回当前页面产品列表
+        processedProducts: (state) =&gt; {
+            return state.pages[state.currentPage];
         },
-        <span style="color:#75715e">// 计算分页总数
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">pageCount</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">state</span>) =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">serverPageCount</span>,
-        <span style="color:#a6e22e">categories</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">state</span> =&gt; [<span style="color:#e6db74">&#34;All&#34;</span>, ...<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">categoriesData</span>],
-        <span style="color:#a6e22e">productById</span><span style="color:#f92672">:</span>(<span style="color:#a6e22e">state</span>) =&gt; (<span style="color:#a6e22e">id</span>) =&gt; {
-            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>].<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">p</span> =&gt; <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">id</span>);
+        // 计算分页总数
+        pageCount: (state) =&gt; state.serverPageCount,
+        categories: state =&gt; [&quot;All&quot;, ...state.categoriesData],
+        productById:(state) =&gt; (id) =&gt; {
+            return state.pages[state.currentPage].find(p =&gt; p.id == id);
         }
     },
-    <span style="color:#a6e22e">mutations</span><span style="color:#f92672">:</span> {
-        <span style="color:#75715e">// 设置当前分页
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_setCurrentPage</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">page</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">page</span>;
+    mutations: {
+        // 设置当前分页
+        _setCurrentPage(state, page){
+            state.currentPage = page;
         },
-        <span style="color:#75715e">// 设置每页个数
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_setPageSize</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">size</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">size</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        // 设置每页个数
+        _setPageSize(state, size){
+            state.pageSize = size;
+            state.currentPage = 1;
         },
-        <span style="color:#75715e">// 设置当前分类
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_setCurrentCategory</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">category</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentCategory</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">category</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        // 设置当前分类
+        _setCurrentCategory(state, category){
+            state.currentCategory = category;
+            state.currentPage = 1;
         },
-        <span style="color:#75715e">// setData(state, data){
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//     state.products = data.pdata;
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//     state.productsTotal = data.pdata.length;
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">//     state.categoriesData = data.cdata.sort();
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// },
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">addPage</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">page</span>){
-            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">pageCount</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>){
-                <span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>, <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">number</span> <span style="color:#f92672">+</span><span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">slice</span>(<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>, (<span style="color:#a6e22e">i</span><span style="color:#f92672">*</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>));
+        // setData(state, data){
+        //     state.products = data.pdata;
+        //     state.productsTotal = data.pdata.length;
+        //     state.categoriesData = data.cdata.sort();
+        // },
+        addPage(state, page){
+            for(let i=0; i&lt;page.pageCount; i++){
+                Vue.set(state.pages, page.number +i, page.data.slice(i*state.pageSize, (i*state.pageSize) + state.pageSize));
             }
         },
-        <span style="color:#a6e22e">clearPages</span>(<span style="color:#a6e22e">state</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>.<span style="color:#a6e22e">splice</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>.<span style="color:#a6e22e">length</span>);
+        clearPages(state){
+            state.pages.splice(0, state.pages.length);
         },
-        <span style="color:#a6e22e">setCategories</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">categories</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">categoriesData</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">categories</span>;
+        setCategories(state, categories){
+            state.categoriesData = categories;
         },
-        <span style="color:#a6e22e">setPageCount</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">count</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">serverPageCount</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">ceil</span>(Number(<span style="color:#a6e22e">count</span>)<span style="color:#f92672">/</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span>);
+        setPageCount(state, count){
+            state.serverPageCount = Math.ceil(Number(count)/state.pageSize);
         },
-        <span style="color:#a6e22e">setShowSearch</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">show</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">showSearch</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">show</span>;
+        setShowSearch(state, show){
+            state.showSearch = show;
         },
-        <span style="color:#a6e22e">setSearchTerm</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">term</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">searchTerm</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">term</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+        setSearchTerm(state, term){
+            state.searchTerm = term;
+            state.currentPage = 1;
         },
-        <span style="color:#75715e">// 添加商品
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_addProduct</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>].<span style="color:#a6e22e">unshift</span>(<span style="color:#a6e22e">product</span>);
+        // 添加商品
+        _addProduct(state, product){
+            state.pages[state.currentPage].unshift(product);
         },
-        <span style="color:#a6e22e">_updateProduct</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>];
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">findIndex</span>(<span style="color:#a6e22e">p</span> =&gt; <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span>);
-            <span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">page</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">product</span>);
+        _updateProduct(state, product){
+            let page = state.pages[state.currentPage];
+            let index = page.findIndex(p =&gt; p.id == product.id);
+            Vue.set(page, index, product);
         }
     },
-    <span style="color:#a6e22e">actions</span><span style="color:#f92672">:</span> {
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">getData</span>(<span style="color:#a6e22e">context</span>) {
-            <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setCategories&#34;</span>, (<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">Axios</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">categoriesUrl</span>)).<span style="color:#a6e22e">data</span>);
+    actions: {
+        async getData(context) {
+            await context.dispatch(&quot;getPage&quot;, 2);
+            context.commit(&quot;setCategories&quot;, (await Axios.get(categoriesUrl)).data);
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">getPage</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">getPageCount</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>){
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">productsUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">?_page=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">`&amp;_limit=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pageSize</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">getPageCount</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
-            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentCategory</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;All&#34;</span>){
-                <span style="color:#a6e22e">url</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&amp;category=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentCategory</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+        async getPage(context, getPageCount = 1){
+            let url = `${productsUrl}?_page=${context.state.currentPage}` + `&amp;_limit=${context.state.pageSize * getPageCount}`;
+            if(context.state.currentCategory != &quot;All&quot;){
+                url += `&amp;category=${context.state.currentCategory}`;
             }
-            <span style="color:#75715e">// 添加搜索词判断
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">searchTerm</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>){
-                <span style="color:#a6e22e">url</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&amp;q=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">searchTerm</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+            // 添加搜索词判断
+            if(context.state.searchTerm != &quot;&quot;){
+                url += `&amp;q=${context.state.searchTerm}`;
             }
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">Axios</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">url</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setPageCount&#34;</span>, <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">headers</span>[<span style="color:#e6db74">&#34;x-total-count&#34;</span>]);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;addPage&#34;</span>, {<span style="color:#a6e22e">number</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">currentPage</span>, <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">pageCount</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">getPageCount</span>});
+            let response = await Axios.get(url);
+            context.commit(&quot;setPageCount&quot;, response.headers[&quot;x-total-count&quot;]);
+            context.commit(&quot;addPage&quot;, {number: context.state.currentPage, data: response.data, pageCount: getPageCount});
         },
-        <span style="color:#a6e22e">setCurrentPage</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">page</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_setCurrentPage&#34;</span>, <span style="color:#a6e22e">page</span>);
-            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">pages</span>[<span style="color:#a6e22e">page</span>]){
-                <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>);
+        setCurrentPage(context, page){
+            context.commit(&quot;_setCurrentPage&quot;, page);
+            if(!context.state.pages[page]){
+                context.dispatch(&quot;getPage&quot;);
             }
         },
-        <span style="color:#a6e22e">setPageSize</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">size</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_setPageSize&#34;</span>, <span style="color:#a6e22e">size</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        setPageSize(context, size){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setPageSize&quot;, size);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#a6e22e">setCurrentCategory</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">category</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_setCurrentCategory&#34;</span>, <span style="color:#a6e22e">category</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        setCurrentCategory(context, category){
+            context.commit(&quot;clearPages&quot;);
+            context.commit(&quot;_setCurrentCategory&quot;, category);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#a6e22e">search</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">term</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setSearchTerm&#34;</span>, <span style="color:#a6e22e">term</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        search(context, term){
+            context.commit(&quot;setSearchTerm&quot;, term);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#a6e22e">clearSearchTerm</span>(<span style="color:#a6e22e">context</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setSearchTerm&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">2</span>);
+        clearSearchTerm(context){
+            context.commit(&quot;setSearchTerm&quot;, &quot;&quot;);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 2);
         },
-        <span style="color:#75715e">// 添加商品
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">addProduct</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> (<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">getters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#a6e22e">post</span>(<span style="color:#a6e22e">productsUrl</span>, <span style="color:#a6e22e">product</span>)).<span style="color:#a6e22e">data</span>;
-            <span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span>;
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_addProduct&#34;</span>, <span style="color:#a6e22e">product</span>);
+        // 添加商品
+        async addProduct(context, product){
+            let data = (await context.getters.authenticatedAxios.post(productsUrl, product)).data;
+            product.id = data.id;
+            this.commit(&quot;_addProduct&quot;, product);
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">removeProduct</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">getters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#66d9ef">delete</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">productsUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;clearPages&#34;</span>);
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">dispatch</span>(<span style="color:#e6db74">&#34;getPage&#34;</span>, <span style="color:#ae81ff">1</span>);
+        async removeProduct(context, product){
+            await context.getters.authenticatedAxios.delete(`${productsUrl}/${product.id}`);
+            context.commit(&quot;clearPages&quot;);
+            context.dispatch(&quot;getPage&quot;, 1);
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">updateProduct</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">product</span>){
-            <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">getters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">productsUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">product</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>, <span style="color:#a6e22e">product</span>);
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;_updateProduct&#34;</span>, <span style="color:#a6e22e">product</span>);
+        async updateProduct(context, product){
+            await context.getters.authenticatedAxios.put(`${productsUrl}/${product.id}`, product);
+            this.commit(&quot;_updateProduct&quot;, product);
         }
     }
 })
 
-</code></pre></div><p>修改 src/store目录下的auth.js文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Axios</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;axios&#34;</span>;
+</code></pre>
 
-<span style="color:#75715e">// 修改登录地址
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">loginUrl</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/api/login&#34;</span>;
+<p>修改 src/store目录下的auth.js文件：</p>
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-    <span style="color:#a6e22e">state</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">authenticated</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
-        <span style="color:#a6e22e">jwt</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>
+<pre><code class="language-javascript">import Axios from &quot;axios&quot;;
+
+// 修改登录地址
+const loginUrl = &quot;/api/login&quot;;
+
+export default {
+    state: {
+        authenticated: false,
+        jwt: null
     },
-    <span style="color:#a6e22e">getters</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">authenticatedAxios</span>(<span style="color:#a6e22e">state</span>){
-            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Axios</span>.<span style="color:#a6e22e">create</span>({
-                <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span>{
-                    <span style="color:#e6db74">&#34;Authorization&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">`Bearer&lt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">jwt</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&gt;`</span>
+    getters: {
+        authenticatedAxios(state){
+            return Axios.create({
+                headers:{
+                    &quot;Authorization&quot;:`Bearer&lt;${state.jwt}&gt;`
                 }
             });
         }
     },
-    <span style="color:#a6e22e">mutations</span><span style="color:#f92672">:</span>{
-        <span style="color:#a6e22e">setAuthenticated</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">header</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">jwt</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">header</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">authenticated</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+    mutations:{
+        setAuthenticated(state, header){
+            state.jwt = header;
+            state.authenticated = true;
         },
-        <span style="color:#a6e22e">clearAuthentication</span>(<span style="color:#a6e22e">state</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">authenticated</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">jwt</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+        clearAuthentication(state){
+            state.authenticated = false;
+            state.jwt = null;
         }
     },
-    <span style="color:#a6e22e">actions</span><span style="color:#f92672">:</span> {
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">authenticate</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">credentials</span>){
-            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">Axios</span>.<span style="color:#a6e22e">post</span>(<span style="color:#a6e22e">loginUrl</span>, <span style="color:#a6e22e">credentials</span>);
-            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">success</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">true</span>){
-                <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setAuthenticated&#34;</span>, <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">token</span>);
+    actions: {
+        async authenticate(context, credentials){
+            let response = await Axios.post(loginUrl, credentials);
+            if(response.data.success == true){
+                context.commit(&quot;setAuthenticated&quot;, response.data.token);
             }
         }
     }
 }
 
-</code></pre></div><p>修改src/store目录下的orders.js文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Axios</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;axios&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
+</code></pre>
 
-<span style="color:#75715e">// 修改地址
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ORDERS_URL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/api/orders&#34;</span>
+<p>修改src/store目录下的orders.js文件：</p>
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-    <span style="color:#a6e22e">state</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">orders</span><span style="color:#f92672">:</span> []
+<pre><code class="language-javascript">import Axios from &quot;axios&quot;;
+import Vue from &quot;vue&quot;;
+
+// 修改地址
+const ORDERS_URL = &quot;/api/orders&quot;
+
+export default {
+    state: {
+        orders: []
     },
-    <span style="color:#a6e22e">mutations</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">setOrders</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">data</span>){
-            <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">orders</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>;
+    mutations: {
+        setOrders(state, data){
+            state.orders = data;
         },
-        <span style="color:#a6e22e">changeOrderShipped</span>(<span style="color:#a6e22e">state</span>, <span style="color:#a6e22e">order</span>){
-            <span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">order</span>, <span style="color:#e6db74">&#34;shipped&#34;</span>, <span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">shipped</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">shipped</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">true</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>);
+        changeOrderShipped(state, order){
+            Vue.set(order, &quot;shipped&quot;, order.shipped == null || !order.shipped ? true : false);
         }
     },
-    <span style="color:#a6e22e">actions</span><span style="color:#f92672">:</span> {
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">storeOrder</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">order</span>){
-            <span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">cartLines</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">rootState</span>.<span style="color:#a6e22e">cart</span>.<span style="color:#a6e22e">lines</span>;
-            <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">Axios</span>.<span style="color:#a6e22e">post</span>(<span style="color:#a6e22e">ORDERS_URL</span>, <span style="color:#a6e22e">order</span>)).<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">id</span>;
+    actions: {
+        async storeOrder(context, order){
+            order.cartLines = context.rootState.cart.lines;
+            return (await Axios.post(ORDERS_URL, order)).data.id;
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">getOrders</span>(<span style="color:#a6e22e">context</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;setOrders&#34;</span>, (<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">rootGetters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">ORDERS_URL</span>)).<span style="color:#a6e22e">data</span>);
+        async getOrders(context){
+            context.commit(&quot;setOrders&quot;, (await context.rootGetters.authenticatedAxios.get(ORDERS_URL)).data);
         },
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">updateOrder</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">order</span>){
-            <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">commit</span>(<span style="color:#e6db74">&#34;changeOrderShipped&#34;</span>, <span style="color:#a6e22e">order</span>);
-            <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">rootGetters</span>.<span style="color:#a6e22e">authenticatedAxios</span>.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">ORDERS_URL</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>, <span style="color:#a6e22e">order</span>);
+        async updateOrder(context, order){
+            context.commit(&quot;changeOrderShipped&quot;, order);
+            await context.rootGetters.authenticatedAxios.put(`${ORDERS_URL}/${order.id}`, order);
         }
     }
 }
 
-</code></pre></div><p>移除认证组件中的认证信息，src/components/admin目录下的Authentication.vue文件</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
-&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;m-2&#34;</span>&gt;
-    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
+</code></pre>
+
+<p>移除认证组件中的认证信息，src/components/admin目录下的Authentication.vue文件</p>
+
+<pre><code class="language-html">&lt;template&gt;
+&lt;div class=&quot;m-2&quot;&gt;
+    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
         SportsStore Administration
-    &lt;/<span style="color:#f92672">h4</span>&gt;
-    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;showFailureMessage&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-danger text-white text-center p-2 my-2&#34;</span>&gt;
+    &lt;/h4&gt;
+    &lt;h4 v-if=&quot;showFailureMessage&quot; class=&quot;bg-danger text-white text-center p-2 my-2&quot;&gt;
         Authentication Failed. Please try again.
-    &lt;/<span style="color:#f92672">h4</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group&#34;</span>&gt;
-        &lt;<span style="color:#f92672">label</span>&gt;Username&lt;/<span style="color:#f92672">label</span>&gt;
-        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;$v.username.$model&#34;</span>&gt;
-        &lt;<span style="color:#f92672">validation-error</span> <span style="color:#a6e22e">v-bind:validation</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;$v.username&#34;</span> /&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-group&#34;</span>&gt;
-        &lt;<span style="color:#f92672">label</span>&gt;Password&lt;/<span style="color:#f92672">label</span>&gt;
-        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;$v.password.$model&#34;</span>&gt;
-        &lt;<span style="color:#f92672">validation-error</span> <span style="color:#a6e22e">v-bind:validation</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;$v.password&#34;</span> /&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-center&#34;</span>&gt;
-        &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-primary&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleAuth&#34;</span>&gt;Log In&lt;/<span style="color:#f92672">button</span>&gt;
-    &lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">template</span>&gt;
+    &lt;/h4&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Username&lt;/label&gt;
+        &lt;input class=&quot;form-control&quot; v-model=&quot;$v.username.$model&quot;&gt;
+        &lt;validation-error v-bind:validation=&quot;$v.username&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input type=&quot;password&quot; class=&quot;form-control&quot; v-model=&quot;$v.password.$model&quot;&gt;
+        &lt;validation-error v-bind:validation=&quot;$v.password&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;text-center&quot;&gt;
+        &lt;button class=&quot;btn btn-primary&quot; v-on:click=&quot;handleAuth&quot;&gt;Log In&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/template&gt;
 
-&lt;<span style="color:#f92672">script</span>&gt;
-<span style="color:#66d9ef">import</span> {
-    <span style="color:#a6e22e">required</span>
-} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vuelidate/lib/validators&#39;</span>;
-<span style="color:#66d9ef">import</span> {
-    <span style="color:#a6e22e">mapActions</span>,
-    <span style="color:#a6e22e">mapState</span>
-} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vuex&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ValidationError</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../ValidationError&#34;</span>;
+&lt;script&gt;
+import {
+    required
+} from 'vuelidate/lib/validators';
+import {
+    mapActions,
+    mapState
+} from &quot;vuex&quot;;
+import ValidationError from &quot;../ValidationError&quot;;
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-    <span style="color:#a6e22e">components</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">ValidationError</span>
+export default {
+    components: {
+        ValidationError
     },
-    <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> () {
-        <span style="color:#66d9ef">return</span> {
-            <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
-            <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
-            <span style="color:#a6e22e">showFailureMessage</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+    data: function () {
+        return {
+            username: null,
+            password: null,
+            showFailureMessage: false,
         }
     },
-    <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
-        ...<span style="color:#a6e22e">mapState</span>({
-            <span style="color:#a6e22e">authenticated</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">state</span> =&gt; <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">auth</span>.<span style="color:#a6e22e">authenticated</span>
+    computed: {
+        ...mapState({
+            authenticated: state =&gt; state.auth.authenticated
         })
     },
-    <span style="color:#a6e22e">validations</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> {
-            <span style="color:#a6e22e">required</span>
+    validations: {
+        username: {
+            required
         },
-        <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> {
-            <span style="color:#a6e22e">required</span>
+        password: {
+            required
         }
     },
-    <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
-        ...<span style="color:#a6e22e">mapActions</span>([<span style="color:#e6db74">&#34;authenticate&#34;</span>]),
-        <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">handleAuth</span>() {
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$v</span>.<span style="color:#a6e22e">$touch</span>();
-            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$v</span>.<span style="color:#a6e22e">$invalid</span>) {
-                <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">authenticate</span>({
-                    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">username</span>,
-                    <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">password</span>
+    methods: {
+        ...mapActions([&quot;authenticate&quot;]),
+        async handleAuth() {
+            this.$v.$touch();
+            if (!this.$v.$invalid) {
+                await this.authenticate({
+                    name: this.username,
+                    password: this.password
                 });
-                <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">authenticated</span>) {
-                    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$router</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#34;/admin&#34;</span>);
-                } <span style="color:#66d9ef">else</span> {
-                    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">showFailureMessage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+                if (this.authenticated) {
+                    this.$router.push(&quot;/admin&quot;);
+                } else {
+                    this.showFailureMessage = true;
                 }
             }
         }
     }
 }
-&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;/script&gt;
 
 
-</code></pre></div><h4 id="随请求加载管理功能">随请求加载管理功能</h4>
+</code></pre>
+
+<h4 id="随请求加载管理功能">随请求加载管理功能</h4>
+
 <p>在src/router文件夹的index.js文件中添加如下内容：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">VueRouter</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue-router&#34;</span>;
 
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Store</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/Store&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ShoppingCart</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/ShoppingCart&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Checkout</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/Checkout&#34;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">OrderThanks</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/OrderThanks&#34;</span>;
-<span style="color:#75715e">// import Authentication from &#34;../components/admin/Authentication&#34;;
-</span><span style="color:#75715e">// import Admin from &#34;../components/admin/Admin&#34;;
-</span><span style="color:#75715e">// import ProductAdmin from &#34;../components/admin/ProductAdmin&#34;;
-</span><span style="color:#75715e">// import OrderAdmin from &#34;../components/admin/OrderAdmin&#34;;
-</span><span style="color:#75715e">// import ProductEditor from &#34;../components/admin/ProductEditor&#34;;
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Authentication</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#66d9ef">import</span>(<span style="color:#75715e">/* webpackChunkName: &#34;admin&#34; */</span> <span style="color:#e6db74">&#34;../components/admin/Authentication&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Admin</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#66d9ef">import</span>(<span style="color:#75715e">/* webpackChunkName: &#34;admin&#34; */</span> <span style="color:#e6db74">&#34;../components/admin/Admin&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ProductAdmin</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#66d9ef">import</span>(<span style="color:#75715e">/* webpackChunkName: &#34;admin&#34; */</span> <span style="color:#e6db74">&#34;../components/admin/ProductAdmin&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">OrderAdmin</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#66d9ef">import</span>(<span style="color:#75715e">/* webpackChunkName: &#34;admin&#34; */</span> <span style="color:#e6db74">&#34;../components/admin/OrderAdmin&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ProductEditor</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#66d9ef">import</span>(<span style="color:#75715e">/* webpackChunkName: &#34;admin&#34; */</span> <span style="color:#e6db74">&#34;../components/admin/ProductEditor&#34;</span>);
+<pre><code class="language-javascript">import Vue from &quot;vue&quot;;
+import VueRouter from &quot;vue-router&quot;;
 
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">dataStore</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../store&#34;</span>;
+import Store from &quot;../components/Store&quot;;
+import ShoppingCart from &quot;../components/ShoppingCart&quot;;
+import Checkout from &quot;../components/Checkout&quot;;
+import OrderThanks from &quot;../components/OrderThanks&quot;;
+// import Authentication from &quot;../components/admin/Authentication&quot;;
+// import Admin from &quot;../components/admin/Admin&quot;;
+// import ProductAdmin from &quot;../components/admin/ProductAdmin&quot;;
+// import OrderAdmin from &quot;../components/admin/OrderAdmin&quot;;
+// import ProductEditor from &quot;../components/admin/ProductEditor&quot;;
 
-<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">VueRouter</span>);
+const Authentication = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/Authentication&quot;);
+const Admin = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/Admin&quot;);
+const ProductAdmin = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/ProductAdmin&quot;);
+const OrderAdmin = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/OrderAdmin&quot;);
+const ProductEditor = () =&gt; import(/* webpackChunkName: &quot;admin&quot; */ &quot;../components/admin/ProductEditor&quot;);
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">VueRouter</span>({
-    <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;history&#34;</span>,
-    <span style="color:#a6e22e">routes</span><span style="color:#f92672">:</span> [
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Store</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/cart&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ShoppingCart</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/checkout&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Checkout</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/thanks/:id&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">OrderThanks</span>},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/login&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Authentication</span> },
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/admin&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Admin</span>, 
-        <span style="color:#a6e22e">beforeEnter</span>(<span style="color:#a6e22e">to</span>,<span style="color:#a6e22e">from</span>,<span style="color:#a6e22e">next</span>){
-            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">dataStore</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">auth</span>.<span style="color:#a6e22e">authenticated</span>){
-                <span style="color:#a6e22e">next</span>();
-            }<span style="color:#66d9ef">else</span>{
-                <span style="color:#a6e22e">next</span>(<span style="color:#e6db74">&#34;/login&#34;</span>);
+import dataStore from &quot;../store&quot;;
+
+Vue.use(VueRouter);
+
+export default new VueRouter({
+    mode: &quot;history&quot;,
+    routes: [
+        {path:&quot;/&quot;, component: Store},
+        {path: &quot;/cart&quot;, component: ShoppingCart},
+        {path: &quot;/checkout&quot;, component: Checkout},
+        {path: &quot;/thanks/:id&quot;, component: OrderThanks},
+        {path: &quot;/login&quot;, component: Authentication },
+        {path: &quot;/admin&quot;, component: Admin, 
+        beforeEnter(to,from,next){
+            if(dataStore.state.auth.authenticated){
+                next();
+            }else{
+                next(&quot;/login&quot;);
             }
-        }, <span style="color:#a6e22e">children</span><span style="color:#f92672">:</span> [
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;products/:op(create|edit)/:id(\\d+)?&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ProductEditor</span>},
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;products&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ProductAdmin</span>},
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;orders&#34;</span>, <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">OrderAdmin</span>},
-            {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">redirect</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/admin/products&#34;</span>}
+        }, children: [
+            {path: &quot;products/:op(create|edit)/:id(\\d+)?&quot;, component: ProductEditor},
+            {path: &quot;products&quot;, component: ProductAdmin},
+            {path: &quot;orders&quot;, component: OrderAdmin},
+            {path: &quot;&quot;, redirect: &quot;/admin/products&quot;}
         ]},
-        {<span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;*&#34;</span>, <span style="color:#a6e22e">redirect</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/&#34;</span>}
+        {path: &quot;*&quot;, redirect: &quot;/&quot;}
     ]
 })
 
 
-</code></pre></div><h4 id="创建数据文件">创建数据文件</h4>
+</code></pre>
+
+<h4 id="创建数据文件">创建数据文件</h4>
+
 <p>在 data.json文件中展示商品内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;products&#34;</span>: [
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Kayak&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Watersports&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;A boat for one person&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">275</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Lifejacket&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Watersports&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;Protective and fashionable&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">48.95</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">3</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Soccer Ball&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Soccer&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;FIFA-approved size and weight&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">19.50</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">4</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Corner Flags&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Soccer&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;Give your playing field a professional touch&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">34.95</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">5</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Stadium&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Soccer&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;Flat-packed 35,000-seat stadium&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">79500</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">6</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Thinking Cap&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Chess&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;Improve brain efficiency by 75%&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">16</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">7</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Unsteady Chair&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Chess&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;Secretly give your opponent a disadvantage&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">29.95</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">8</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Human Chess Board&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Chess&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;A fun game for the family&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">75</span>},
-      {<span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">9</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Bling Bling King&#34;</span>, <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;Chess&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;Gold-plated, diamond-studded King&#34;</span>, <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">1200</span>}
+
+<pre><code class="language-json">{
+    &quot;products&quot;: [
+      {&quot;id&quot;: 1, &quot;name&quot;: &quot;Kayak&quot;, &quot;category&quot;: &quot;Watersports&quot;, &quot;description&quot;: &quot;A boat for one person&quot;, &quot;price&quot;: 275},
+      {&quot;id&quot;: 2, &quot;name&quot;: &quot;Lifejacket&quot;, &quot;category&quot;: &quot;Watersports&quot;, &quot;description&quot;: &quot;Protective and fashionable&quot;, &quot;price&quot;: 48.95},
+      {&quot;id&quot;: 3, &quot;name&quot;: &quot;Soccer Ball&quot;, &quot;category&quot;: &quot;Soccer&quot;, &quot;description&quot;: &quot;FIFA-approved size and weight&quot;, &quot;price&quot;: 19.50},
+      {&quot;id&quot;: 4, &quot;name&quot;: &quot;Corner Flags&quot;, &quot;category&quot;: &quot;Soccer&quot;, &quot;description&quot;: &quot;Give your playing field a professional touch&quot;, &quot;price&quot;: 34.95},
+      {&quot;id&quot;: 5, &quot;name&quot;: &quot;Stadium&quot;, &quot;category&quot;: &quot;Soccer&quot;, &quot;description&quot;: &quot;Flat-packed 35,000-seat stadium&quot;, &quot;price&quot;: 79500},
+      {&quot;id&quot;: 6, &quot;name&quot;: &quot;Thinking Cap&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;Improve brain efficiency by 75%&quot;, &quot;price&quot;: 16},
+      {&quot;id&quot;: 7, &quot;name&quot;: &quot;Unsteady Chair&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;Secretly give your opponent a disadvantage&quot;, &quot;price&quot;: 29.95},
+      {&quot;id&quot;: 8, &quot;name&quot;: &quot;Human Chess Board&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;A fun game for the family&quot;, &quot;price&quot;: 75},
+      {&quot;id&quot;: 9, &quot;name&quot;: &quot;Bling Bling King&quot;, &quot;category&quot;: &quot;Chess&quot;, &quot;description&quot;: &quot;Gold-plated, diamond-studded King&quot;, &quot;price&quot;: 1200}
     ],
-    <span style="color:#f92672">&#34;categories&#34;</span>: [<span style="color:#e6db74">&#34;Watersports&#34;</span>, <span style="color:#e6db74">&#34;Soccer&#34;</span>, <span style="color:#e6db74">&#34;Chess&#34;</span>],
-    <span style="color:#f92672">&#34;orders&#34;</span>: []
+    &quot;categories&quot;: [&quot;Watersports&quot;, &quot;Soccer&quot;, &quot;Chess&quot;],
+    &quot;orders&quot;: []
   }
-</code></pre></div><h3 id="构建应用">构建应用</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm run build
-</code></pre></div><h3 id="测试待发布应用">测试待发布应用</h3>
+</code></pre>
+
+<h3 id="构建应用">构建应用</h3>
+
+<pre><code class="language-shell">npm run build
+</code></pre>
+
+<h3 id="测试待发布应用">测试待发布应用</h3>
+
 <p>添加一些包</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm install --save-dev express@4.16.3
+
+<pre><code class="language-shell">npm install --save-dev express@4.16.3
 npm install --save-dev connect-history-api-fallback@1.5.0
-</code></pre></div><p>在项目根目录下的server.js文件中添加如下内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;express&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">history</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;connect-history-api-fallback&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">jsonServer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;json-server&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bodyParser</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;body-parser&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">auth</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;./authMiddleware&#34;</span>);
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">router</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">jsonServer</span>.<span style="color:#a6e22e">router</span>(<span style="color:#e6db74">&#34;data.json&#34;</span>);
+</code></pre>
 
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>();
-<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">bodyParser</span>.<span style="color:#a6e22e">json</span>());
-<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">auth</span>);
-<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#34;/api&#34;</span>, <span style="color:#a6e22e">router</span>);
-<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">history</span>());
-<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#34;/&#34;</span>, <span style="color:#a6e22e">express</span>.<span style="color:#66d9ef">static</span>(<span style="color:#e6db74">&#34;./dist&#34;</span>));
+<p>在项目根目录下的server.js文件中添加如下内容</p>
 
-<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">80</span>, <span style="color:#66d9ef">function</span>(){
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;HTTP Server running on port 80&#34;</span>);
+<pre><code class="language-javascript">const express = require(&quot;express&quot;);
+const history = require(&quot;connect-history-api-fallback&quot;);
+const jsonServer = require(&quot;json-server&quot;);
+const bodyParser = require(&quot;body-parser&quot;);
+const auth = require(&quot;./authMiddleware&quot;);
+const router = jsonServer.router(&quot;data.json&quot;);
+
+const app = express();
+app.use(bodyParser.json());
+app.use(auth);
+app.use(&quot;/api&quot;, router);
+app.use(history());
+app.use(&quot;/&quot;, express.static(&quot;./dist&quot;));
+
+app.listen(80, function(){
+    console.log(&quot;HTTP Server running on port 80&quot;);
 });
 
-</code></pre></div><p>测试发布构建</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">node server.js
-</code></pre></div><p>然后直接在浏览器中访问http://localhost查看效果</p>
+</code></pre>
+
+<p>测试发布构建</p>
+
+<pre><code class="language-shell">node server.js
+</code></pre>
+
+<p>然后直接在浏览器中访问<a href="http://localhost查看效果">http://localhost查看效果</a></p>
+
 <h3 id="部署应用">部署应用</h3>
+
 <h4 id="创建package文件">创建package文件</h4>
+
 <p>为了部署应用到Docker，需要创建一个package.js的版本文件，
 在根目录下添加一个deploy-package.json文件，其内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;store-vuejs&#34;</span>,
-    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.0.0&#34;</span>,
-    <span style="color:#f92672">&#34;private&#34;</span>: <span style="color:#66d9ef">true</span>,
 
-    <span style="color:#f92672">&#34;dependencies&#34;</span>: {
-        <span style="color:#f92672">&#34;faker&#34;</span>: <span style="color:#e6db74">&#34;^4.1.0&#34;</span>,
-        <span style="color:#f92672">&#34;json-server&#34;</span>: <span style="color:#e6db74">&#34;^0.12.1&#34;</span>,
-        <span style="color:#f92672">&#34;jsonwebtoken&#34;</span>: <span style="color:#e6db74">&#34;^8.1.1&#34;</span>,
-        <span style="color:#f92672">&#34;express&#34;</span>: <span style="color:#e6db74">&#34;4.16.3&#34;</span>,
-        <span style="color:#f92672">&#34;connect-history-api-fallback&#34;</span>: <span style="color:#e6db74">&#34;1.5.0&#34;</span>
+<pre><code class="language-json">{
+    &quot;name&quot;: &quot;store-vuejs&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;private&quot;: true,
+
+    &quot;dependencies&quot;: {
+        &quot;faker&quot;: &quot;^4.1.0&quot;,
+        &quot;json-server&quot;: &quot;^0.12.1&quot;,
+        &quot;jsonwebtoken&quot;: &quot;^8.1.1&quot;,
+        &quot;express&quot;: &quot;4.16.3&quot;,
+        &quot;connect-history-api-fallback&quot;: &quot;1.5.0&quot;
     }
 }
-</code></pre></div><h4 id="创建docker容器">创建Docker容器</h4>
+</code></pre>
+
+<h4 id="创建docker容器">创建Docker容器</h4>
+
 <p>在项目根目录下的Dockerfile文件中添加如下内容：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> node:8.11.2</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /usr/src/store-vuejs<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> dist /usr/src/store-vuejs/dist<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> authMiddleware.js /usr/src/store-vuejs/<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> data.json /usr/src/store-vuejs/<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> server.js /usr/src/store-vuejs/server.js<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> deploy-package.json /usr/src/store-vuejs/package.json<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/store-vuejs</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> npm install<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;node&#34;</span>, <span style="color:#e6db74">&#34;server.js&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>构建docker镜像</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker build . -t store-vuejs -f Dockerfile
-</code></pre></div><h4 id="运行应用">运行应用</h4>
+
+<pre><code class="language-dockerfile">FROM node:8.11.2
+RUN mkdir -p /usr/src/store-vuejs
+
+COPY dist /usr/src/store-vuejs/dist
+
+COPY authMiddleware.js /usr/src/store-vuejs/
+COPY data.json /usr/src/store-vuejs/
+COPY server.js /usr/src/store-vuejs/server.js
+COPY deploy-package.json /usr/src/store-vuejs/package.json
+
+WORKDIR /usr/src/store-vuejs
+
+RUN npm install
+
+CMD [&quot;node&quot;, &quot;server.js&quot;]
+</code></pre>
+
+<p>构建docker镜像</p>
+
+<pre><code class="language-shell">docker build . -t store-vuejs -f Dockerfile
+</code></pre>
+
+<h4 id="运行应用">运行应用</h4>
+
 <p>创建一个docker容器</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -p 80:80 store-vuejs
-</code></pre></div><p>现在就可以在浏览器中访问http://localhost了</p>
+
+<pre><code class="language-shell">docker run -p 80:80 store-vuejs
+</code></pre>
+
+<p>现在就可以在浏览器中访问<a href="http://localhost了">http://localhost了</a></p>
+
 <p>查看当前正在运行的docker</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker ps
-</code></pre></div><p>停止docker容器</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker stop <span style="color:#f92672">{</span>CONTAINER_ID<span style="color:#f92672">}</span>
-</code></pre></div>
+
+<pre><code class="language-shell">docker ps
+</code></pre>
+
+<p>停止docker容器</p>
+
+<pre><code class="language-shell">docker stop {CONTAINER_ID}
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>
