@@ -267,7 +267,7 @@ func main() {
     ch := make(chan int)
     for i := 0; i &lt; maxInt; i++ {
         go print(&amp;ch, i)
-        fmt.Println(&lt;-ch)
+        fmt.Println(&lt;-ch) // 这里卡住等待第i个goroutine运行，然后打印
     }
     
     wg.Wait()

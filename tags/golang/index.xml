@@ -17,7 +17,7 @@
       <pubDate>Fri, 26 Mar 2021 15:25:15 +0800</pubDate>
       
       <guid>https://realjf.io/golang/print-natural-number/</guid>
-      <description> 题目：按照顺序打印自然数字 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) var ( wg sync.WaitGroup ) func print(ch *chan int, i int) { defer wg.Done() *ch &amp;lt;- i } func main() { maxInt := 7 wg.Add(maxInt) ch := make(chan int) for i := 0; i &amp;lt; maxInt; i++ { go print(&amp;amp;ch, i) fmt.Println(&amp;lt;-ch) } wg.Wait() fmt.Println(&amp;quot;done&amp;quot;) }  </description>
+      <description> 题目：按照顺序打印自然数字 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) var ( wg sync.WaitGroup ) func print(ch *chan int, i int) { defer wg.Done() *ch &amp;lt;- i } func main() { maxInt := 7 wg.Add(maxInt) ch := make(chan int) for i := 0; i &amp;lt; maxInt; i++ { go print(&amp;amp;ch, i) fmt.Println(&amp;lt;-ch) // 这里卡住等待第i个goroutine运行，然后打印 } wg.Wait() fmt.Println(&amp;quot;done&amp;quot;) }  </description>
     </item>
     
     <item>
