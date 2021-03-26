@@ -1,5 +1,5 @@
 ---
-title: "百万并发实现 10 Million Concurrency"
+title: "百万并发实现 1 Million Concurrency"
 date: 2021-03-26T17:49:20+08:00
 keywords: ["golang"]
 categories: ["golang"]
@@ -123,3 +123,6 @@ func main() {
 
 }
 ```
+
+**参考文献**
+[http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/](http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/)
