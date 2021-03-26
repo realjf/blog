@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>百万并发实现 10 Million Concurrency</title>
-      <link>https://realjf.io/golang/10-million-concurrency/</link>
+      <title>百万并发实现 1 Million Concurrency</title>
+      <link>https://realjf.io/golang/1-million-concurrency/</link>
       <pubDate>Fri, 26 Mar 2021 17:49:20 +0800</pubDate>
       
-      <guid>https://realjf.io/golang/10-million-concurrency/</guid>
+      <guid>https://realjf.io/golang/1-million-concurrency/</guid>
       <description>// 实现百万并发 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; &amp;quot;runtime&amp;quot; ) type Score struct { Num int } func (s *Score) Do() { fmt.Println(&amp;quot;num:&amp;quot;, s.Num) time.Sleep(1 * 1 * time.Second) } // job type Job interface { Do() } // worker type Worker struct { JobQueue chan Job } func NewWorker() Worker { return Worker{JobQueue: make(chan Job)} } func (w Worker) Run(wq chan chan Job) { go func() { for { wq &amp;lt;- w.</description>
     </item>
     
