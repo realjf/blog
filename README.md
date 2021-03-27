@@ -5,6 +5,11 @@
 go get -u -v github.com/gohugoio/hugo
 ```
 
+## git下载submodule
+```sh
+git submodule update --init --recursive
+```
+
 ## hugo命令
 | 命令 | 说明 |
 | ---| --- |
