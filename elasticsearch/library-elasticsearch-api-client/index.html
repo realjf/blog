@@ -3,7 +3,7 @@
 <head>
     <title>简单的基于Elasticsearch-php API的封装 Library Elasticsearch Api Client // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,489 +237,488 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">Elasticsearch</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">elasticsearch</a></div></div>
         </header>
         <div class="post-content">
-            <pre><code class="language-php">abstract class libEsBase
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">libEsBase</span>
 {
-    protected $__index = &quot;&quot;;
-    protected $__type = &quot;&quot;;
+    <span style="color:#66d9ef">protected</span> $__index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+    <span style="color:#66d9ef">protected</span> $__type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
 
-    const MAX_RESULT_WINDOW = 10000; // from + size &lt;= max_result_window
+    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">MAX_RESULT_WINDOW</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10000</span>; <span style="color:#75715e">// from + size &lt;= max_result_window
+</span><span style="color:#75715e"></span>
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 定义结构
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">__getMapping</span>();
 
-    /**
-     * 定义结构
-     * @return array
-     */
-    abstract protected function __getMapping();
 
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * @var \Elasticsearch\Client
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">protected</span> $_es <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
 
-    /**
-     * @var \Elasticsearch\Client
-     */
-    protected $_es = null;
-
-    public function __construct()
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __construct()
     {
-        $this-&gt;_es = &quot;your elasticsearch-php api client&quot;;
+        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;your elasticsearch-php api client&#34;</span>;
     }
 
-    /**
-     * @return array
-     */
-    protected function __runBefore()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">__runBefore</span>()
     {
-        if(!$this-&gt;checkEsAlive()){
-            return [FALSE, &quot;Elasticsearch not alive&quot;];
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">checkEsAlive</span>()){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, <span style="color:#e6db74">&#34;Elasticsearch not alive&#34;</span>];
         }
-        list($check, $msg) = $this-&gt;checkIndex();
-        if(!$check){
-            // 索引不存在
-            list($check, $msg) = $this-&gt;createIndex();
-            if(!$check){
-                return [FALSE, $msg];
+        <span style="color:#66d9ef">list</span>($check, $msg) <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">checkIndex</span>();
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$check){
+            <span style="color:#75715e">// 索引不存在
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">list</span>($check, $msg) <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">createIndex</span>();
+            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$check){
+                <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $msg];
             }
-            sleep(3); // 等待index状态更新
-        }
-        list($check, $msg) = $this-&gt;getMapping();
-        if(!$check){
-            // 创建mapping
-            list($check, $msg) = $this-&gt;createMapping();
-            if(!$check){
-                return [FALSE, $msg];
+            <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">3</span>); <span style="color:#75715e">// 等待index状态更新
+</span><span style="color:#75715e"></span>        }
+        <span style="color:#66d9ef">list</span>($check, $msg) <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMapping</span>();
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$check){
+            <span style="color:#75715e">// 创建mapping
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">list</span>($check, $msg) <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">createMapping</span>();
+            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$check){
+                <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $msg];
             }
         }
 
-        return [TRUE, &quot;&quot;];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, <span style="color:#e6db74">&#34;&#34;</span>];
     }
 
-    /**
-     * @return string
-     */
-    protected function _getIndex()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * @return string
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_getIndex</span>()
     {
-        return $this-&gt;__index;
+        <span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__index</span>;
     }
 
-    /**
-     * 创建索引
-     * @return array
-     */
-    public function createIndex()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 创建索引
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createIndex</span>()
     {
-        try{
-            $param = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'body' =&gt; [],
+        <span style="color:#66d9ef">try</span>{
+            $param <span style="color:#f92672">=</span> [
+                <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+                <span style="color:#e6db74">&#39;body&#39;</span> <span style="color:#f92672">=&gt;</span> [],
             ];
-            $result = $this-&gt;_es-&gt;indices()-&gt;create($param);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">indices</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">create</span>($param);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        return [$result['acknowledged'], $result];
+        <span style="color:#66d9ef">return</span> [$result[<span style="color:#e6db74">&#39;acknowledged&#39;</span>], $result];
     }
 
-    /**
-     * 创建mapping
-     * @return array
-     */
-    public function createMapping()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 创建mapping
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createMapping</span>()
     {
-        try{
-            $param = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'type' =&gt; $this-&gt;__type,
-                'body' =&gt; [
-                    $this-&gt;__type =&gt; $this-&gt;__getMapping(),
+        <span style="color:#66d9ef">try</span>{
+            $param <span style="color:#f92672">=</span> [
+                <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+                <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
+                <span style="color:#e6db74">&#39;body&#39;</span> <span style="color:#f92672">=&gt;</span> [
+                    $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__getMapping</span>(),
                 ],
             ];
-            $result = $this-&gt;_es-&gt;indices()-&gt;putMapping($param);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">indices</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">putMapping</span>($param);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        return [$result['acknowledged'], $result];
+        <span style="color:#66d9ef">return</span> [$result[<span style="color:#e6db74">&#39;acknowledged&#39;</span>], $result];
     }
 
-    /**
-     * 删除索引
-     * @return array
-     */
-    public function deleteIndex($index = &quot;&quot;)
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 删除索引
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">deleteIndex</span>($index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>)
     {
-        try{
-            $param = [
-                'index' =&gt; $index ?: $this-&gt;_getIndex(),
+        <span style="color:#66d9ef">try</span>{
+            $param <span style="color:#f92672">=</span> [
+                <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $index <span style="color:#f92672">?:</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
             ];
-            $result = $this-&gt;_es-&gt;indices()-&gt;delete($param);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">indices</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">delete</span>($param);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        return [$result['acknowledged'], $result];
+        <span style="color:#66d9ef">return</span> [$result[<span style="color:#e6db74">&#39;acknowledged&#39;</span>], $result];
     }
 
-    /**
-     * 获取mapping
-     * @return array
-     */
-    public function getMapping()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 获取mapping
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getMapping</span>()
     {
-        try{
-            $param = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'type' =&gt; $this-&gt;__type,
+        <span style="color:#66d9ef">try</span>{
+            $param <span style="color:#f92672">=</span> [
+                <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+                <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
             ];
-            $result = $this-&gt;_es-&gt;indices()-&gt;getMapping($param);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">indices</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMapping</span>($param);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        if(!$result){
-            return [FALSE, $result];
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$result){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $result];
         }
-        return [TRUE, $result];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $result];
     }
 
-    /**
-     * 查询单条数据
-     * @param $id
-     * @return array
-     */
-    public function getById($id)
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 查询单条数据
+</span><span style="color:#e6db74">     * @param $id
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getById</span>($id)
     {
-        if(!$id){
-            return [FALSE, &quot;&quot;];
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$id){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, <span style="color:#e6db74">&#34;&#34;</span>];
         }
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            'id' =&gt; $id,
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
+            <span style="color:#e6db74">&#39;id&#39;</span> <span style="color:#f92672">=&gt;</span> $id,
         ];
-        try{
-            $result = $this-&gt;_es-&gt;get($params);
-        } catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">get</span>($params);
+        } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        $data = [];
-        if($result['hits']){
-            $data = $result['hits'];
+        $data <span style="color:#f92672">=</span> [];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;hits&#39;</span>]){
+            $data <span style="color:#f92672">=</span> $result[<span style="color:#e6db74">&#39;hits&#39;</span>];
         }
-        return [TRUE, $data];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $data];
     }
 
-    public function scroll($query, $page, $limit)
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">scroll</span>($query, $page, $limit)
     {
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            'size' =&gt; $limit,
-            'scroll' =&gt; &quot;1m&quot;, // 存活时间
-        ];
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
+            <span style="color:#e6db74">&#39;size&#39;</span> <span style="color:#f92672">=&gt;</span> $limit,
+            <span style="color:#e6db74">&#39;scroll&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;1m&#34;</span>, <span style="color:#75715e">// 存活时间
+</span><span style="color:#75715e"></span>        ];
 
-        if(!$query){
-            $params['body']['query'] = [
-                'match_all' =&gt; new \stdClass(),
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$query){
+            $params[<span style="color:#e6db74">&#39;body&#39;</span>][<span style="color:#e6db74">&#39;query&#39;</span>] <span style="color:#f92672">=</span> [
+                <span style="color:#e6db74">&#39;match_all&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">\stdClass</span>(),
             ];
-        }else{
-            $params['body']['query'] = $query;
+        }<span style="color:#66d9ef">else</span>{
+            $params[<span style="color:#e6db74">&#39;body&#39;</span>][<span style="color:#e6db74">&#39;query&#39;</span>] <span style="color:#f92672">=</span> $query;
         }
-        $data = [
-            'total' =&gt; 0,
-            'data' =&gt; [],
+        $data <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;total&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>,
+            <span style="color:#e6db74">&#39;data&#39;</span> <span style="color:#f92672">=&gt;</span> [],
         ];
-        try{
-            $result = $this-&gt;_es-&gt;search($params);
-            $scroll_id = $result[&quot;_scroll_id&quot;];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">search</span>($params);
+            $scroll_id <span style="color:#f92672">=</span> $result[<span style="color:#e6db74">&#34;_scroll_id&#34;</span>];
 
-            if($page != 1){
-                $i = 1;
-                while($i &lt; $page) {
-                    $result = [];
-                    $response = $this-&gt;_es-&gt;scroll([
-                        &quot;scroll_id&quot; =&gt; $scroll_id,
-                        &quot;scroll&quot; =&gt; &quot;1m&quot;
+            <span style="color:#66d9ef">if</span>($page <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>){
+                $i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+                <span style="color:#66d9ef">while</span>($i <span style="color:#f92672">&lt;</span> $page) {
+                    $result <span style="color:#f92672">=</span> [];
+                    $response <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">scroll</span>([
+                        <span style="color:#e6db74">&#34;scroll_id&#34;</span> <span style="color:#f92672">=&gt;</span> $scroll_id,
+                        <span style="color:#e6db74">&#34;scroll&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;1m&#34;</span>
                     ]);
-                    if(count($response['hits']['hits']) &gt; 0){
-                        $scroll_id = $response[&quot;_scroll_id&quot;];
-                        $result = $response;
-                    }else{
-                        break;
+                    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">count</span>($response[<span style="color:#e6db74">&#39;hits&#39;</span>][<span style="color:#e6db74">&#39;hits&#39;</span>]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>){
+                        $scroll_id <span style="color:#f92672">=</span> $response[<span style="color:#e6db74">&#34;_scroll_id&#34;</span>];
+                        $result <span style="color:#f92672">=</span> $response;
+                    }<span style="color:#66d9ef">else</span>{
+                        <span style="color:#66d9ef">break</span>;
                     }
-                    $i++;
+                    $i<span style="color:#f92672">++</span>;
                 }
             }
-        } catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
 
-        if($result['hits']['total'] &gt; 0){
-            $data['total'] = $result['hits']['total'];
-            foreach ($result['hits']['hits'] as $v){
-                $data['data'][] = $v['_source'];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;hits&#39;</span>][<span style="color:#e6db74">&#39;total&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>){
+            $data[<span style="color:#e6db74">&#39;total&#39;</span>] <span style="color:#f92672">=</span> $result[<span style="color:#e6db74">&#39;hits&#39;</span>][<span style="color:#e6db74">&#39;total&#39;</span>];
+            <span style="color:#66d9ef">foreach</span> ($result[<span style="color:#e6db74">&#39;hits&#39;</span>][<span style="color:#e6db74">&#39;hits&#39;</span>] <span style="color:#66d9ef">as</span> $v){
+                $data[<span style="color:#e6db74">&#39;data&#39;</span>][] <span style="color:#f92672">=</span> $v[<span style="color:#e6db74">&#39;_source&#39;</span>];
             }
         }
-        return [TRUE, $data];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $data];
     }
 
-    /**
-     * 统计总条数
-     * @return array
-     */
-    public function count()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 统计总条数
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">count</span>()
     {
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
         ];
-        try{
-            $result = $this-&gt;_es-&gt;count($params);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">count</span>($params);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        $data['total'] = 0;
-        if($result['count'] &gt;= 0){
-            return [TRUE, $result['count']];
+        $data[<span style="color:#e6db74">&#39;total&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;count&#39;</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $result[<span style="color:#e6db74">&#39;count&#39;</span>]];
         }
-        return [FALSE, $result];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $result];
     }
 
-    /**
-     * 查询
-     * @param $query
-     * @param int $page
-     * @param int $limit
-     * @param array $order
-     * @return array
-     */
-    public function search($query, $page = 1, $limit = 20, $order = ['date' =&gt; 'desc'], $aggs = [])
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 查询
+</span><span style="color:#e6db74">     * @param $query
+</span><span style="color:#e6db74">     * @param int $page
+</span><span style="color:#e6db74">     * @param int $limit
+</span><span style="color:#e6db74">     * @param array $order
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">search</span>($query, $page <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, $limit <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, $order <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;date&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;desc&#39;</span>], $aggs <span style="color:#f92672">=</span> [])
     {
-        list($check, $msg) = $this-&gt;__runBefore();
-        if(!$check){
-            return [FALSE, $msg];
+        <span style="color:#66d9ef">list</span>($check, $msg) <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__runBefore</span>();
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$check){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $msg];
         }
-        $from = max(0, $page * $limit - $limit);
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
+        $from <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(<span style="color:#ae81ff">0</span>, $page <span style="color:#f92672">*</span> $limit <span style="color:#f92672">-</span> $limit);
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
         ];
-        $params['body']['sort'] = $order;
-        $params['body']['from'] = $from;
-        $params['body']['size'] = $limit;
-        if(!$query){
-            $params['body']['query'] = [
-                'match_all' =&gt; new \stdClass(),
+        $params[<span style="color:#e6db74">&#39;body&#39;</span>][<span style="color:#e6db74">&#39;sort&#39;</span>] <span style="color:#f92672">=</span> $order;
+        $params[<span style="color:#e6db74">&#39;body&#39;</span>][<span style="color:#e6db74">&#39;from&#39;</span>] <span style="color:#f92672">=</span> $from;
+        $params[<span style="color:#e6db74">&#39;body&#39;</span>][<span style="color:#e6db74">&#39;size&#39;</span>] <span style="color:#f92672">=</span> $limit;
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$query){
+            $params[<span style="color:#e6db74">&#39;body&#39;</span>][<span style="color:#e6db74">&#39;query&#39;</span>] <span style="color:#f92672">=</span> [
+                <span style="color:#e6db74">&#39;match_all&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">\stdClass</span>(),
             ];
-        }else{
-            $params['body']['query'] = $query;
+        }<span style="color:#66d9ef">else</span>{
+            $params[<span style="color:#e6db74">&#39;body&#39;</span>][<span style="color:#e6db74">&#39;query&#39;</span>] <span style="color:#f92672">=</span> $query;
         }
-        if($aggs){
-            $params['body'] = array_merge($params['body'], $aggs);
+        <span style="color:#66d9ef">if</span>($aggs){
+            $params[<span style="color:#e6db74">&#39;body&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">array_merge</span>($params[<span style="color:#e6db74">&#39;body&#39;</span>], $aggs);
         }
-        if($from + $limit &gt; self::MAX_RESULT_WINDOW){
-            return [FALSE, &quot;超出限制范围&quot;];
+        <span style="color:#66d9ef">if</span>($from <span style="color:#f92672">+</span> $limit <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">MAX_RESULT_WINDOW</span>){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, <span style="color:#e6db74">&#34;超出限制范围&#34;</span>];
         }
-        try{
-            $result = $this-&gt;_es-&gt;search($params);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">search</span>($params);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        $data = [
-            'total' =&gt; 0,
-            'data' =&gt; [],
-            'aggs' =&gt; [],
+        $data <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;total&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>,
+            <span style="color:#e6db74">&#39;data&#39;</span> <span style="color:#f92672">=&gt;</span> [],
+            <span style="color:#e6db74">&#39;aggs&#39;</span> <span style="color:#f92672">=&gt;</span> [],
         ];
-        if($result['hits']['total'] &gt; 0){
-            $data['total'] = $result['hits']['total'];
-            foreach ($result['hits']['hits'] as $v){
-                $data['data'][] = $v['_source'];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;hits&#39;</span>][<span style="color:#e6db74">&#39;total&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>){
+            $data[<span style="color:#e6db74">&#39;total&#39;</span>] <span style="color:#f92672">=</span> $result[<span style="color:#e6db74">&#39;hits&#39;</span>][<span style="color:#e6db74">&#39;total&#39;</span>];
+            <span style="color:#66d9ef">foreach</span> ($result[<span style="color:#e6db74">&#39;hits&#39;</span>][<span style="color:#e6db74">&#39;hits&#39;</span>] <span style="color:#66d9ef">as</span> $v){
+                $data[<span style="color:#e6db74">&#39;data&#39;</span>][] <span style="color:#f92672">=</span> $v[<span style="color:#e6db74">&#39;_source&#39;</span>];
             }
         }
-        if($aggs){
-            $data['aggs'] = $result['aggregations'];
+        <span style="color:#66d9ef">if</span>($aggs){
+            $data[<span style="color:#e6db74">&#39;aggs&#39;</span>] <span style="color:#f92672">=</span> $result[<span style="color:#e6db74">&#39;aggregations&#39;</span>];
         }
-        return [TRUE, $data];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $data];
     }
 
 
 
-    /**
-     * 检查索引是否存在
-     * @return array
-     */
-    public function checkIndex()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 检查索引是否存在
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">checkIndex</span>()
     {
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
         ];
-        try{
-            $data = $this-&gt;_es-&gt;indices()-&gt;exists($params);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $data <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">indices</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">exists</span>($params);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        return [$data, &quot;&quot;];
+        <span style="color:#66d9ef">return</span> [$data, <span style="color:#e6db74">&#34;&#34;</span>];
     }
 
-    /**
-     * 检查es是否存活
-     * @return bool
-     */
-    public function checkEsAlive()
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 检查es是否存活
+</span><span style="color:#e6db74">     * @return bool
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">checkEsAlive</span>()
     {
-        return $this-&gt;_es-&gt;ping();
+        <span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">ping</span>();
     }
 
-    /**
-     * 插入单条数据
-     * @param $id
-     * @param $data
-     * @return array
-     */
-    public function insert($id, $data)
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 插入单条数据
+</span><span style="color:#e6db74">     * @param $id
+</span><span style="color:#e6db74">     * @param $data
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">insert</span>($id, $data)
     {
-        list($check, $msg) = $this-&gt;__runBefore();
-        if(!$check){
-            return [FALSE, $msg];
+        <span style="color:#66d9ef">list</span>($check, $msg) <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__runBefore</span>();
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$check){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $msg];
         }
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
         ];
-        if($id){    // 如果不设置 id，则es会自动生成，建议设置id
-            $params['id'] = intval($id);
+        <span style="color:#66d9ef">if</span>($id){    <span style="color:#75715e">// 如果不设置 id，则es会自动生成，建议设置id
+</span><span style="color:#75715e"></span>            $params[<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">intval</span>($id);
         }
-        $params['body'] = $data;
-        try{
-            $result = $this-&gt;_es-&gt;index($params);
-        } catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        $params[<span style="color:#e6db74">&#39;body&#39;</span>] <span style="color:#f92672">=</span> $data;
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">index</span>($params);
+        } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        return [TRUE, $result];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $result];
     }
 
-    /**
-     * 批量插入数据
-     * @param $data
-     * @return array
-     */
-    abstract public function bulk($data);
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 批量插入数据
+</span><span style="color:#e6db74">     * @param $data
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">bulk</span>($data);
 
-    /**
-     * 根据id批量获取
-     * @param $ids
-     * @return array|bool
-     */
-    public function getByIds($ids)
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 根据id批量获取
+</span><span style="color:#e6db74">     * @param $ids
+</span><span style="color:#e6db74">     * @return array|bool
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getByIds</span>($ids)
     {
-        $ids = \clsTools::filterIds($ids, 0);
-        if(!$ids){
-            return [FALSE, &quot;empty ids&quot;];
+        $ids <span style="color:#f92672">=</span> <span style="color:#a6e22e">\clsTools</span><span style="color:#f92672">::</span><span style="color:#a6e22e">filterIds</span>($ids, <span style="color:#ae81ff">0</span>);
+        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$ids){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, <span style="color:#e6db74">&#34;empty ids&#34;</span>];
         }
-        $params = [
-            &quot;docs&quot; =&gt; [],
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#34;docs&#34;</span> <span style="color:#f92672">=&gt;</span> [],
         ];
-        foreach ($ids as $id){
-            $params[&quot;docs&quot;][] = [
-                'index' =&gt; $this-&gt;_getIndex(),
-                'type' =&gt; $this-&gt;__type,
-                &quot;id&quot; =&gt; $id,
+        <span style="color:#66d9ef">foreach</span> ($ids <span style="color:#66d9ef">as</span> $id){
+            $params[<span style="color:#e6db74">&#34;docs&#34;</span>][] <span style="color:#f92672">=</span> [
+                <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+                <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
+                <span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#f92672">=&gt;</span> $id,
             ];
         }
 
-        try{
-            $result = $this-&gt;_es-&gt;mget($params);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">mget</span>($params);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        $data = [];
-        if($result['hits']){
-            $data = $result['hits'];
+        $data <span style="color:#f92672">=</span> [];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;hits&#39;</span>]){
+            $data <span style="color:#f92672">=</span> $result[<span style="color:#e6db74">&#39;hits&#39;</span>];
         }
-        return [TRUE, $data];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $data];
     }
 
-    /**
-     * 根据id删除
-     * @param $id
-     * @return array|bool
-     */
-    public function deleteById($id)
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 根据id删除
+</span><span style="color:#e6db74">     * @param $id
+</span><span style="color:#e6db74">     * @return array|bool
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">deleteById</span>($id)
     {
-        $id = intval($id);
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            &quot;id&quot; =&gt; $id,
+        $id <span style="color:#f92672">=</span> <span style="color:#a6e22e">intval</span>($id);
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
+            <span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#f92672">=&gt;</span> $id,
         ];
-        try{
-            $result = $this-&gt;_es-&gt;delete($params);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">delete</span>($params);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
 
-        if($result['found']){
-            return [TRUE, $result];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;found&#39;</span>]){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $result];
         }
-        return [FALSE, $result];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $result];
     }
 
-    /**
-     * 根据查询条件删除
-     * @param $query
-     * @return array
-     */
-    public function deleteByQuery($query)
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 根据查询条件删除
+</span><span style="color:#e6db74">     * @param $query
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">deleteByQuery</span>($query)
     {
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            &quot;body&quot; =&gt; [
-                'query' =&gt; $query,
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
+            <span style="color:#e6db74">&#34;body&#34;</span> <span style="color:#f92672">=&gt;</span> [
+                <span style="color:#e6db74">&#39;query&#39;</span> <span style="color:#f92672">=&gt;</span> $query,
             ],
         ];
-        try{
-            $result = $this-&gt;_es-&gt;deleteByQuery($params);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">deleteByQuery</span>($params);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
-        if($result['found']){
-            return [TRUE, $result];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;found&#39;</span>]){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $result];
         }
-        return [FALSE, $result];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $result];
     }
 
-    /**
-     * 根据id更新
-     * @param $id
-     * @param $data
-     * @return array
-     */
-    public function updateById($id, $data)
+    <span style="color:#e6db74">/**
+</span><span style="color:#e6db74">     * 根据id更新
+</span><span style="color:#e6db74">     * @param $id
+</span><span style="color:#e6db74">     * @param $data
+</span><span style="color:#e6db74">     * @return array
+</span><span style="color:#e6db74">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">updateById</span>($id, $data)
     {
-        $id = intval($id);
-        $params = [
-            'index' =&gt; $this-&gt;_getIndex(),
-            'type' =&gt; $this-&gt;__type,
-            &quot;id&quot; =&gt; $id,
-            &quot;body&quot; =&gt; [
-                &quot;doc&quot; =&gt; $data,
+        $id <span style="color:#f92672">=</span> <span style="color:#a6e22e">intval</span>($id);
+        $params <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;index&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getIndex</span>(),
+            <span style="color:#e6db74">&#39;type&#39;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">__type</span>,
+            <span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#f92672">=&gt;</span> $id,
+            <span style="color:#e6db74">&#34;body&#34;</span> <span style="color:#f92672">=&gt;</span> [
+                <span style="color:#e6db74">&#34;doc&#34;</span> <span style="color:#f92672">=&gt;</span> $data,
             ],
         ];
-        try{
-            $result = $this-&gt;_es-&gt;update($params);
-        }catch (\Exception $e){
-            return [FALSE, $e-&gt;getMessage()];
+        <span style="color:#66d9ef">try</span>{
+            $result <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_es</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">update</span>($params);
+        }<span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">\Exception</span> $e){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $e<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getMessage</span>()];
         }
 
-        if($result['result'] == &quot;updated&quot;){
-            return [TRUE, $result];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#39;result&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;updated&#34;</span>){
+            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $result];
         }
-        if($result[&quot;result&quot;] == &quot;noop&quot;){
-            // 空操作
-            return [TRUE, $result];
+        <span style="color:#66d9ef">if</span>($result[<span style="color:#e6db74">&#34;result&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;noop&#34;</span>){
+            <span style="color:#75715e">// 空操作
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">TRUE</span>, $result];
         }
-        return [FALSE, $result];
+        <span style="color:#66d9ef">return</span> [<span style="color:#66d9ef">FALSE</span>, $result];
     }
 }
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
