@@ -6,7 +6,21 @@
     <description>Recent content in k8s on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Mar 2019 14:35:31 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 03 Apr 2021 13:59:47 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>k8s集群 之一 创建集群 minikube安装使用 Minikube Start</title>
+      <link>https://realjf.io/k8s/minikube-start/</link>
+      <pubDate>Sat, 03 Apr 2021 13:59:47 +0800</pubDate>
+      
+      <guid>https://realjf.io/k8s/minikube-start/</guid>
+      <description>使用Minikube部署本地k8s集群相对比较简单，非常推荐将其用于本地k8s开发环境，唯一麻烦点的仅仅是网络问题
+实验环境  CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2  什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
+Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！
+minikube安装 可以参考minikube 安装的网站minikube安装
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
+安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
+    </item>
+    
     <item>
       <title>Kubernetes集群下 Traefik安装和使用</title>
       <link>https://realjf.io/posts/k8s-plugins-traefik/</link>
