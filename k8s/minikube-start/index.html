@@ -290,7 +290,7 @@ su <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 需要添加当前用户到docker group中</span>
 sudo usermod -aG docker $USER <span style="color:#f92672">&amp;&amp;</span> newgrp docker
 </code></pre></div><p>成功之后，我们就可以使用kubectl来操作集群了，比如查看当前所有pod的状态</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube kubectl get pods -A
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube kubectl -- get pods -A
 minikube kubectl get deployment
 minikube kubectl get nodes
 minikube kubectl get services
@@ -306,6 +306,36 @@ minikube kubectl describe services
 </blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube delete
 rm ~/.minikube
+</code></pre></div><h3 id="部署应用">部署应用</h3>
+<p>创建一个应用，并暴露端口于8080</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create deployment hello-minikube --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4
+kubectl expose deployment hello-minikube --type<span style="color:#f92672">=</span>NodePort --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
+</code></pre></div><p>获取服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl get services hello-minikube
+</code></pre></div><p>提供web服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube service hello-minikube
+</code></pre></div><p>设置端口转发</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl port-forward service/hello-minikube 7080:8080
+</code></pre></div><p>然后就可以用浏览器浏览地址 http://localhost:7080/</p>
+<h4 id="负载均衡部署">负载均衡部署</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create deployment balanced --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4  
+kubectl expose deployment balanced --type<span style="color:#f92672">=</span>LoadBalancer --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
+</code></pre></div><p>在另外一个窗口运行tunnel，创建一个可路由的ip负载均衡器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube tunnel
+</code></pre></div><p>可以使用如下命令查看负载均衡器</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl get services balanced
+</code></pre></div><p>现在你的deployment在<!-- raw HTML omitted -->:8080上可用</p>
+<h3 id="管理你的集群">管理你的集群</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 暂停集群</span>
+minikube pause
+<span style="color:#75715e">#停止集群</span>
+minikube stop
+
+<span style="color:#75715e"># 查看安装的服务</span>
+minikube addons list
+
+<span style="color:#75715e"># 删除所有minikube集群</span>
+minikube delete --all
 </code></pre></div>
         </div>
         <div id="disqus_thread"></div>
