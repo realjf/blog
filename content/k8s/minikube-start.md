@@ -40,8 +40,17 @@ Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，�
 可以参考minikube 安装的网站[minikube安装](https://minikube.sigs.k8s.io/docs/start/)
 
 ```sh
+# RPM package
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
 sudo rpm -ivh minikube-latest.x86_64.rpm
+
+# Debian package
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
+
+# Binary download/amd64/x86_64
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
 minikube二进制下载地址：[https://github.com/kubernetes/minikube/releases](https://github.com/kubernetes/minikube/releases)
@@ -77,7 +86,7 @@ minikube start --registry-mirror=https://registry.docker-cn.com --vm-driver="doc
 > 在中国，由于网络和防火墙的原因，通常会无法拉取k8s相关镜像或者下载速度过于缓慢，因此，我们可以通过参数--image-repository来设置Minikube使用阿里云镜像。
 
 ```sh
-minikube start --registry-mirror=https://registry.docker-cn.com --vm-driver="docker"  --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
+minikube start --registry-mirror=https://registry.docker-cn.com --vm-driver="docker" --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
 ```
 
 > 记住，运行上面的命令不应该在root权限下运行
@@ -89,7 +98,7 @@ sudo usermod -aG docker $USER && newgrp docker
 成功之后，我们就可以使用kubectl来操作集群了，比如查看当前所有pod的状态
 
 ```sh
-minikube kubectl get pods -A
+minikube kubectl -- get pods -A
 minikube kubectl get deployment
 minikube kubectl get nodes
 minikube kubectl get services
@@ -112,5 +121,54 @@ minikube dashboard
 ```sh
 minikube delete
 rm ~/.minikube
+minikube start --registry-mirror=https://registry.docker-cn.com --vm-driver="docker" --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --docker-env HTTP_PROXY=http://myproxy.com:8080 --docker-env HTTPS_PROXY=http://myproxy.com:8080 --docker-env NO_PROXY=127.0.0.1
 ```
 
+### 部署应用
+创建一个应用，并暴露端口于8080
+```sh
+kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
+```
+获取服务
+```sh
+kubectl get services hello-minikube
+```
+提供web服务
+```sh
+minikube service hello-minikube
+```
+设置端口转发
+```sh
+kubectl port-forward service/hello-minikube 7080:8080
+```
+然后就可以用浏览器浏览地址 http://localhost:7080/
+
+#### 负载均衡部署
+```sh
+kubectl create deployment balanced --image=k8s.gcr.io/echoserver:1.4  
+kubectl expose deployment balanced --type=LoadBalancer --port=8080
+```
+在另外一个窗口运行tunnel，创建一个可路由的ip负载均衡器：
+```sh
+minikube tunnel
+```
+可以使用如下命令查看负载均衡器
+```sh
+kubectl get services balanced
+```
+现在你的deployment在<EXTERNAL-IP>:8080上可用
+
+### 管理你的集群
+```sh
+# 暂停集群
+minikube pause
+#停止集群
+minikube stop
+
+# 查看安装的服务
+minikube addons list
+
+# 删除所有minikube集群
+minikube delete --all
+```
