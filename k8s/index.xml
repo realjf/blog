@@ -6,7 +6,24 @@
     <description>Recent content in K8s on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Apr 2021 13:59:47 +0800</lastBuildDate><atom:link href="https://realjf.io/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Apr 2021 10:26:27 +0800</lastBuildDate><atom:link href="https://realjf.io/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>k8s 之 Operator模式 Operator Pattern</title>
+      <link>https://realjf.io/k8s/operator-pattern/</link>
+      <pubDate>Sun, 04 Apr 2021 10:26:27 +0800</pubDate>
+      
+      <guid>https://realjf.io/k8s/operator-pattern/</guid>
+      <description>Operator模式介绍https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/
+Operator 模式旨在捕获（正在管理一个或一组服务的）运维人员的关键目标。 负责特定应用和 service 的运维人员，在系统应该如何运行、如何部署以及出现问题时如何处理等方面有深入的了解。
+在 Kubernetes 上运行工作负载的人们都喜欢通过自动化来处理重复的任务。 Operator 模式会封装你编写的（Kubernetes 本身提供功能以外的）任务自动化代码。
+Operator 是 Kubernetes API 的客户端，充当定制资源的控制器。
+使用operator可以自动化的事情：
+ 按需部署应用 获取/还原应用状态的备份 处理应用代码的升级以及相关改动。例如，数据库 schema 或额外的配置设置 发布一个 service，要求不支持 Kubernetes API 的应用也能发现它 模拟整个或部分集群中的故障以测试其稳定性 在没有内部成员选举程序的情况下，为分布式应用选择首领角色  部署 Operator 最常见的方法是将自定义资源及其关联的控制器添加到你的集群中。 跟运行容器化应用一样，控制器通常会运行在 控制平面 之外。
+部署 Operator 后，你可以对 Operator 所使用的资源执行添加、修改或删除操作。
+编写自己的operator 以下是一些库和工具，你可以用于编写自己的云原生operator
+ kubebuilder https://book.kubebuilder.io/ KUDO https://kudo.dev/ Metacontroller https://metacontroller.app/ Operator Framework https://operatorframework.io/  当然也可以在OperatorHub.io上找到现成的、适合你的operator</description>
+    </item>
+    
     <item>
       <title>k8s集群 之一 创建集群 minikube安装使用 Minikube Start</title>
       <link>https://realjf.io/k8s/minikube-start/</link>
@@ -17,7 +34,7 @@
 实验环境  CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2  什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
 Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！
 minikube安装 可以参考minikube 安装的网站minikube安装
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
+# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
 安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
     </item>
     
