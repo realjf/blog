@@ -6,7 +6,18 @@
     <description>Recent content in golang on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 26 Mar 2021 17:49:20 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Apr 2021 22:15:42 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang调度模型 Golang Scheduling Model</title>
+      <link>https://realjf.io/golang/golang-scheduling-model/</link>
+      <pubDate>Mon, 05 Apr 2021 22:15:42 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/golang-scheduling-model/</guid>
+      <description>go实现的是M个用户线程（协程）运行在N个内核线程上的模型，其能充分利用cpu资源的同时，保持高度处理效率。
+golang的调度模型可以用processor(简称P)、machine(简称M)、goroutine(简称G)来描述。
+ P (processor)：golang调度模型里的处理器P，包含运行goroutine协程所必须的资源以及相应的调度功能 G (groutine)：即go协程，通过go关键字创建 M (machine)：系统线程或内核线程，由操作系统调度  其中，M必须与P结合才能执行代码（可以理解为运行go协程代码段），同时M也受系统调度影响。 而每个P带有一个go协程待运行队列，同时调度器还保持一个全局go协程待调度队列，供全部处理器共享。</description>
+    </item>
+    
     <item>
       <title>百万并发实现 1 Million Concurrency</title>
       <link>https://realjf.io/golang/1-million-concurrency/</link>
