@@ -1,25 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>grpc on Realjf&#39;s blog</title>
+    <title>Grpc on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/grpc/</link>
-    <description>Recent content in grpc on Realjf&#39;s blog</description>
+    <description>Recent content in Grpc on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Dec 2020 04:29:57 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Dec 2020 04:29:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>grpc 安装 Set Up</title>
       <link>https://realjf.io/grpc/set-up/</link>
       <pubDate>Mon, 14 Dec 2020 04:29:57 +0800</pubDate>
       
       <guid>https://realjf.io/grpc/set-up/</guid>
-      <description>C++语言grpc安装 安装必要软件  cmake  apt install -y cmake 安装基础工具
-apt install -y build-essential autoconf libtool pkg-config clone grpc仓库及其子模块代码
-git clone --recurse-submodules -b v1.34.0 https://github.com/grpc/grpc 如果期间子模块出错，可以通过如下命令更新
-cd grpc git submodule update --init 现在开始本地构建和安装grpc及其所有工具
-$ mkdir -p cmake/build $ pushd cmake/build $ cmake -DgRPC_INSTALL=ON \  -DgRPC_BUILD_TESTS=OFF \  -DCMAKE_INSTALL_PREFIX=/your/grpc/path \  ../.. $ make -j $ make install $ popd 最后将grpc/bin目录添加到环境变量PATH中即可使用protoc了
-export PATH=$PATH:/your/grpc/path/bin 使用 在源码下载目录的grpc/examples/cpp/helloworld目录下运行如下命令
-cd grpc/examples/cpp/helloworld $ mkdir -p cmake/build $ pushd cmake/build $ cmake -DCMAKE_PREFIX_PATH=/usr/local/grp .</description>
+      <description>C++语言grpc安装 安装必要软件  cmake shell script apt install -y cmake   安装基础工具
+apt install -y build-essential autoconf libtool pkg-config  clone grpc仓库及其子模块代码
+git clone --recurse-submodules -b v1.34.0 https://github.com/grpc/grpc  如果期间子模块出错，可以通过如下命令更新
+cd grpc git submodule update --init  现在开始本地构建和安装grpc及其所有工具
+$ mkdir -p cmake/build $ pushd cmake/build $ cmake -DgRPC_INSTALL=ON \ -DgRPC_BUILD_TESTS=OFF \ -DCMAKE_INSTALL_PREFIX=/your/grpc/path \ ../.. $ make -j $ make install $ popd  最后将grpc/bin目录添加到环境变量PATH中即可使用protoc了
+export PATH=$PATH:/your/grpc/path/bin  使用 在源码下载目录的grpc/examples/cpp/helloworld目录下运行如下命令</description>
     </item>
     
   </channel>

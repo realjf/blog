@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 17.菜单库 17 Menus Library // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,15 +237,23 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="17-菜单库">17 菜单库</h2>
+            
+
+<h2 id="17-菜单库">17 菜单库</h2>
+
 <p>菜单库提供了基本curses的一个很好的扩展，通过它可以创建菜单。它提供了一组创建菜单的函数。但是，他们必须定制，以提供更好的外观，颜色等。让我们进入细节。</p>
+
 <p>菜单是一个屏幕显示，它帮助用户选择给定项目集的某些子集。简单地说，菜单是一个项目集合，其中一个或多个项目可以从中选择。有些读者可能不知道多个项目选择功能。菜单库提供了编写菜单的功能，用户可以从中选择多个项目作为首选选项。这将在后面的一节中讨论。现在是时候开始做一些基础知识了。</p>
-<h3 id="171基础知识">17.1。基础知识</h3>
+
+<h3 id="17-1-基础知识">17.1。基础知识</h3>
+
 <p>要创建菜单，首先创建项目，然后将菜单张贴到显示。之后，所有用户响应的处理都是在优雅的函数menu_driver（）中完成的，该菜单是任何菜单程序的工作马。</p>
+
 <p>菜单程序的控制流程如下所示。</p>
+
 <ul>
 <li>初始化curses</li>
 <li>使用new炣item（）创建项目。可以为项目指定名称和说明。</li>
@@ -257,74 +265,85 @@
 <li>释放分配给项目的内存（使用free_item（）</li>
 <li>结束curses</li>
 </ul>
+
 <p>让我们看看一个程序，它打印一个简单的菜单，并用上下箭头更新当前选择。</p>
-<h3 id="172-使用菜单库编译">17.2. 使用菜单库编译</h3>
+
+<h3 id="17-2-使用菜单库编译">17.2. 使用菜单库编译</h3>
+
 <p>要使用菜单库函数，您必须包括menu.h，并且要将程序与菜单库链接，则应按此顺序添加标记-lmenu和-lncurs。</p>
+
 <pre><code>#include &lt;menu.h&gt;
     .
     .
     .
 
     compile and link: gcc &lt;program file&gt; -lmenu -lncurses
-</code></pre><p>菜单基础</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</code></pre>
+
+<p>菜单基础</p>
+
+<pre><code class="language-cpp">#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+                        &quot;Choice 1&quot;,
+                        &quot;Choice 2&quot;,
+                        &quot;Choice 3&quot;,
+                        &quot;Choice 4&quot;,
+                        &quot;Exit&quot;,
                   };
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-	<span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	
-	initscr();
-	cbreak();
-	noecho();
-	keypad(stdscr, TRUE);
-	
-	n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-	my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+int main()
+{   ITEM **my_items;
+    int c;              
+    MENU *my_menu;
+    int n_choices, i;
+    ITEM *cur_item;
+    
+    
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    
+    n_choices = ARRAY_SIZE(choices);
+    my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 
-	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-	        my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
+    for(i = 0; i &lt; n_choices; ++i)
+            my_items[i] = new_item(choices[i], choices[i]);
+    my_items[n_choices] = (ITEM *)NULL;
 
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;F1 to Exit&#34;</span>);
-	post_menu(my_menu);
-	refresh();
+    my_menu = new_menu((ITEM **)my_items);
+    mvprintw(LINES - 2, 0, &quot;F1 to Exit&quot;);
+    post_menu(my_menu);
+    refresh();
 
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{   <span style="color:#66d9ef">switch</span>(c)
-	    {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-		        menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-		}
-	}	
+    while((c = getch()) != KEY_F(1))
+    {   switch(c)
+        {   case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                break;
+        }
+    }   
 
-	free_item(my_items[<span style="color:#ae81ff">0</span>]);
-	free_item(my_items[<span style="color:#ae81ff">1</span>]);
-	free_menu(my_menu);
-	endwin();
+    free_item(my_items[0]);
+    free_item(my_items[1]);
+    free_menu(my_menu);
+    endwin();
 }
-</code></pre></div><p>此程序演示了使用菜单库创建菜单所涉及的基本概念。首先，我们使用new_item（）创建项目，然后使用new_menu（）函数将它们附加到菜单中。在张贴菜单并刷新屏幕后，主处理循环开始。它读取用户输入并采取相应的操作。函数menu_driver（）是菜单系统的主要工作马。此函数的第二个参数告诉您要对菜单执行什么操作。根据参数,menu_driver（）执行相应的任务。该值可以是菜单导航请求、ascii字符或与鼠标事件关联的KEY_MOUSE专用键。</p>
+</code></pre>
+
+<p>此程序演示了使用菜单库创建菜单所涉及的基本概念。首先，我们使用new_item（）创建项目，然后使用new_menu（）函数将它们附加到菜单中。在张贴菜单并刷新屏幕后，主处理循环开始。它读取用户输入并采取相应的操作。函数menu_driver（）是菜单系统的主要工作马。此函数的第二个参数告诉您要对菜单执行什么操作。根据参数,menu_driver（）执行相应的任务。该值可以是菜单导航请求、ascii字符或与鼠标事件关联的KEY_MOUSE专用键。</p>
+
 <p>menu_driver接受以下导航请求。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">     REQ_LEFT_ITEM         Move left to an item.
+
+<pre><code class="language-text">     REQ_LEFT_ITEM         Move left to an item.
      REQ_RIGHT_ITEM      Move right to an item.
      REQ_UP_ITEM         Move up to an item.
      REQ_DOWN_ITEM       Move down to an item.
@@ -341,39 +360,37 @@
      REQ_BACK_PATTERN      Delete the previous character from the pattern buffer.
      REQ_NEXT_MATCH     Move to the next item matching the pattern match.
      REQ_PREV_MATCH     Move to the previous item matching the pattern match.
-</code></pre></div><p>别被这么多选择弄得不知所措。我们将一个接一个地慢慢地看到他们。本例中感兴趣的选项是REQ_UP_ITEM和REQ_DOWN_ITEM。这两个选项传递给菜单驱动程序时，菜单驱动程序将分别向上或向下更新当前项。</p>
-<h3 id="173-菜单驱动程序菜单系统的工作马">17.3. 菜单驱动程序：菜单系统的工作马</h3>
+</code></pre>
+
+<p>别被这么多选择弄得不知所措。我们将一个接一个地慢慢地看到他们。本例中感兴趣的选项是REQ_UP_ITEM和REQ_DOWN_ITEM。这两个选项传递给菜单驱动程序时，菜单驱动程序将分别向上或向下更新当前项。</p>
+
+<h3 id="17-3-菜单驱动程序-菜单系统的工作马">17.3. 菜单驱动程序：菜单系统的工作马</h3>
+
 <p>正如您在上面的示例中所看到的，菜单驱动程序在更新菜单中起着重要的作用。这是非常重要的，了解各种选择，它需要和他们做什么。如上所述，menu_driver（）的第二个参数可以是导航请求、可打印字符或KEY_MOUSE 键。让我们分析一下不同的导航请求。</p>
+
 <ul>
-<li>
-<p>REQ_LEFT_ITEM 和REQ_RIGHT_ITEM
-一个菜单可以为多个项目显示多个列。这可以通过使用menu_format（）函数来完成。当显示多列菜单时，这些请求会导致菜单驱动程序将当前选择向左或向右移动。</p>
-</li>
-<li>
-<p>REQ_UP_ITEM 和REQ_DOWN_ITEM
-您在上面的示例中看到了这两个选项。这些选项在给定时，使菜单驱动程序向上或向下移动当前选择项。</p>
-</li>
-<li>
-<p>REQ_SCR_*选项
-四个选项REQ_SCR_ULINE、REQ_SCR_DLINE、REQ_SCR_DPAGE、REQ_SCR_UPAGE 与滚动相关。如果菜单子窗口中无法显示菜单中的所有项目，则菜单可滚动。可以将这些请求提供给menu_driver ，以便分别向上、向下或向下或向上滚动一行。</p>
-</li>
-<li>
-<p>REQ_FIRST_ITEM、REQ_LAST_ITEM、REQ_NEXT_ITEM 和REQ_PREV_ITEM
-这些要求不言自明。</p>
-</li>
-<li>
-<p>REQ_TOGGLE_ITEM
-给出此请求时，切换当前选择。此选项仅在多值菜单中使用。因此，要使用此请求，必须禁用选项O_ONEVALUE 。此选项可通过set_menu_opts（）关闭或打开。</p>
-</li>
-<li>
-<p>模式请求
-每个菜单都有一个关联的模式缓冲区，用于查找与用户输入的ascii字符最接近的匹配项。每当ascii字符被赋予menu_driver时，它就会放入模式缓冲区。它还尝试在项目列表中查找与模式最接近的匹配项，并将当前选择移动到该项目。请求REQ_CLEAR_PATTERN 清除模式缓冲区。请求 REQ_BACK_PATTERN 删除模式缓冲区中的前一个字符。如果模式匹配多个项目，那么匹配的项目可以通过REQ_NEXT_MATCH 和REQ_PREV_MATCH 循环，REQ_NEXT_MATCH 和REQ_PREV_MATCH 分别将当前选择移动到下一个和上一个匹配。</p>
-</li>
-<li>
-<p>鼠标请求</p>
-</li>
+<li>REQ_LEFT_ITEM 和REQ_RIGHT_ITEM
+一个菜单可以为多个项目显示多个列。这可以通过使用menu_format（）函数来完成。当显示多列菜单时，这些请求会导致菜单驱动程序将当前选择向左或向右移动。</li>
+<li>REQ_UP_ITEM 和REQ_DOWN_ITEM
+您在上面的示例中看到了这两个选项。这些选项在给定时，使菜单驱动程序向上或向下移动当前选择项。</li>
+
+<li><p>REQ<em>SCR</em>*选项
+四个选项REQ_SCR_ULINE、REQ_SCR_DLINE、REQ_SCR_DPAGE、REQ_SCR_UPAGE 与滚动相关。如果菜单子窗口中无法显示菜单中的所有项目，则菜单可滚动。可以将这些请求提供给menu_driver ，以便分别向上、向下或向下或向上滚动一行。</p></li>
+
+<li><p>REQ_FIRST_ITEM、REQ_LAST_ITEM、REQ_NEXT_ITEM 和REQ_PREV_ITEM
+这些要求不言自明。</p></li>
+
+<li><p>REQ_TOGGLE_ITEM
+给出此请求时，切换当前选择。此选项仅在多值菜单中使用。因此，要使用此请求，必须禁用选项O_ONEVALUE 。此选项可通过set_menu_opts（）关闭或打开。</p></li>
+
+<li><p>模式请求
+每个菜单都有一个关联的模式缓冲区，用于查找与用户输入的ascii字符最接近的匹配项。每当ascii字符被赋予menu_driver时，它就会放入模式缓冲区。它还尝试在项目列表中查找与模式最接近的匹配项，并将当前选择移动到该项目。请求REQ_CLEAR_PATTERN 清除模式缓冲区。请求 REQ_BACK_PATTERN 删除模式缓冲区中的前一个字符。如果模式匹配多个项目，那么匹配的项目可以通过REQ_NEXT_MATCH 和REQ_PREV_MATCH 循环，REQ_NEXT_MATCH 和REQ_PREV_MATCH 分别将当前选择移动到下一个和上一个匹配。</p></li>
+
+<li><p>鼠标请求</p></li>
 </ul>
+
 <p>在按键鼠标请求的情况下，根据鼠标位置采取相应的操作。手册页中解释了要采取的措施：，</p>
+
 <pre><code>If  the  second argument is the KEY_MOUSE special key, the
        associated mouse event is translated into one of the above
        pre-defined  requests.   Currently only clicks in the user
@@ -387,623 +404,658 @@
        and  if  you  tripleclick a REQ_LAST_ITEM is generated. If
        you click at an item inside the display area of the  menu,
        the menu cursor is positioned to that item.
-</code></pre><p>以上每一项请求都将在以下几行中解释，并在适当的时候举例说明。</p>
-<h3 id="174-菜单窗口">17.4. 菜单窗口</h3>
+</code></pre>
+
+<p>以上每一项请求都将在以下几行中解释，并在适当的时候举例说明。</p>
+
+<h3 id="17-4-菜单窗口">17.4. 菜单窗口</h3>
+
 <p>创建的每个菜单都与一个窗口和一个子窗口相关联。菜单窗口显示与菜单关联的任何标题或边框。菜单子窗口显示当前可供选择的菜单项。但在这个简单的示例中，我们没有指定任何窗口或子窗口。如果没有指定窗口，则将stdscr作为主窗口，然后菜单系统计算显示项目所需的子窗口大小。然后项目将显示在计算子窗口中。所以让我们玩这些窗口，并显示一个带有边框和标题的菜单。</p>
+
 <p>例19。菜单窗口使用示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
-                  };
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color);
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        WINDOW <span style="color:#f92672">*</span>my_menu_win;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>
-	initscr();
-	start_color();
+<pre><code class="language-cpp">#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+                        &quot;Choice 1&quot;,
+                        &quot;Choice 2&quot;,
+                        &quot;Choice 3&quot;,
+                        &quot;Choice 4&quot;,
+                        &quot;Exit&quot;,
+                        (char *)NULL,
+                  };
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color);
+
+int main()
+{   ITEM **my_items;
+    int c;              
+    MENU *my_menu;
+        WINDOW *my_menu_win;
+        int n_choices, i;
+    
+    /* Initialize curses */
+    initscr();
+    start_color();
         cbreak();
         noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
+    keypad(stdscr, TRUE);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
 
-	<span style="color:#75715e">/* Create items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+    /* Create items */
+        n_choices = ARRAY_SIZE(choices);
+        my_items = (ITEM **)calloc(n_choices, sizeof(ITEM *));
+        for(i = 0; i &lt; n_choices; ++i)
+                my_items[i] = new_item(choices[i], choices[i]);
 
-	<span style="color:#75715e">/* Crate menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+    /* Crate menu */
+    my_menu = new_menu((ITEM **)my_items);
 
-	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
-        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
+    /* Create the window to be associated with the menu */
+        my_menu_win = newwin(10, 40, 4, 4);
         keypad(my_menu_win, TRUE);
      
-	<span style="color:#75715e">/* Set main window and sub window */</span>
+    /* Set main window and sub window */
         set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
+        set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
 
-	<span style="color:#75715e">/* Set menu mark to the string &#34; * &#34; */</span>
-        set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
+    /* Set menu mark to the string &quot; * &quot; */
+        set_menu_mark(my_menu, &quot; * &quot;);
 
-	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
-        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-	print_in_middle(my_menu_win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">40</span>, <span style="color:#e6db74">&#34;My Menu&#34;</span>, COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
-	mvwhline(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, <span style="color:#ae81ff">38</span>);
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">39</span>, ACS_RTEE);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;F1 to exit&#34;</span>);
-	refresh();
+    /* Print a border around the main window and print a title */
+        box(my_menu_win, 0, 0);
+    print_in_middle(my_menu_win, 1, 0, 40, &quot;My Menu&quot;, COLOR_PAIR(1));
+    mvwaddch(my_menu_win, 2, 0, ACS_LTEE);
+    mvwhline(my_menu_win, 2, 1, ACS_HLINE, 38);
+    mvwaddch(my_menu_win, 2, 39, ACS_RTEE);
+    mvprintw(LINES - 2, 0, &quot;F1 to exit&quot;);
+    refresh();
         
-	<span style="color:#75715e">/* Post the menu */</span>
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
+    /* Post the menu */
+    post_menu(my_menu);
+    wrefresh(my_menu_win);
 
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-		}
+    while((c = wgetch(my_menu_win)) != KEY_F(1))
+    {       switch(c)
+            {   case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                break;
+        }
                 wrefresh(my_menu_win);
-	}	
+    }   
 
-	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
+    /* Unpost and free all the memory taken up */
         unpost_menu(my_menu);
         free_menu(my_menu);
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+        for(i = 0; i &lt; n_choices; ++i)
                 free_item(my_items[i]);
-	endwin();
+    endwin();
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color)
-{	<span style="color:#66d9ef">int</span> length, x, y;
-	<span style="color:#66d9ef">float</span> temp;
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color)
+{   int length, x, y;
+    float temp;
 
-	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
-		win <span style="color:#f92672">=</span> stdscr;
-	getyx(win, y, x);
-	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		x <span style="color:#f92672">=</span> startx;
-	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		y <span style="color:#f92672">=</span> starty;
-	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
+    if(win == NULL)
+        win = stdscr;
+    getyx(win, y, x);
+    if(startx != 0)
+        x = startx;
+    if(starty != 0)
+        y = starty;
+    if(width == 0)
+        width = 80;
 
-	length <span style="color:#f92672">=</span> strlen(string);
-	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
-	wattron(win, color);
-	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
-	wattroff(win, color);
-	refresh();
+    length = strlen(string);
+    temp = (width - length)/ 2;
+    x = startx + (int)temp;
+    wattron(win, color);
+    mvwprintw(win, y, x, &quot;%s&quot;, string);
+    wattroff(win, color);
+    refresh();
 }
-</code></pre></div><p>本示例创建一个菜单，其中包含标题、边框、分隔标题和项目的花哨行。如您所见，为了将窗口附加到菜单，必须使用函数set_menu_win（）。然后我们还附加了子窗口。这将显示子窗口中的项目。您还可以设置标记字符串，该字符串将显示在所选项目的左侧，并设置为set_menu_mark（）。</p>
-<h3 id="175-滚动菜单">17.5. 滚动菜单</h3>
-<p>如果为窗口指定的子窗口不够大，无法显示所有项目，则该菜单将可滚动。当您处于当前列表中的最后一个项目时，如果您将REQ_DOWN_ITEM发送，则它将转换为REQ_SCR_DLINE，菜单按一个项目滚动。您可以手动执行REQ_SCR_ 操作来执行滚动。让我们看看怎么做。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 8&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 9&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 10&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
+</code></pre>
+
+<p>本示例创建一个菜单，其中包含标题、边框、分隔标题和项目的花哨行。如您所见，为了将窗口附加到菜单，必须使用函数set_menu_win（）。然后我们还附加了子窗口。这将显示子窗口中的项目。您还可以设置标记字符串，该字符串将显示在所选项目的左侧，并设置为set_menu_mark（）。</p>
+
+<h3 id="17-5-滚动菜单">17.5. 滚动菜单</h3>
+
+<p>如果为窗口指定的子窗口不够大，无法显示所有项目，则该菜单将可滚动。当您处于当前列表中的最后一个项目时，如果您将REQ_DOWN_ITEM发送，则它将转换为REQ_SCR_DLINE，菜单按一个项目滚动。您可以手动执行REQ<em>SCR</em> 操作来执行滚动。让我们看看怎么做。</p>
+
+<pre><code class="language-cpp">#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+                        &quot;Choice 1&quot;,
+                        &quot;Choice 2&quot;,
+                        &quot;Choice 3&quot;,
+                        &quot;Choice 4&quot;,
+            &quot;Choice 5&quot;,
+            &quot;Choice 6&quot;,
+            &quot;Choice 7&quot;,
+            &quot;Choice 8&quot;,
+            &quot;Choice 9&quot;,
+            &quot;Choice 10&quot;,
+                        &quot;Exit&quot;,
+                        (char *)NULL,
                   };
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color);
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color);
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        WINDOW <span style="color:#f92672">*</span>my_menu_win;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>
-	initscr();
-	start_color();
+int main()
+{   ITEM **my_items;
+    int c;              
+    MENU *my_menu;
+        WINDOW *my_menu_win;
+        int n_choices, i;
+    
+    /* Initialize curses */
+    initscr();
+    start_color();
         cbreak();
         noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_CYAN, COLOR_BLACK);
+    keypad(stdscr, TRUE);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_CYAN, COLOR_BLACK);
 
-	<span style="color:#75715e">/* Create items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+    /* Create items */
+        n_choices = ARRAY_SIZE(choices);
+        my_items = (ITEM **)calloc(n_choices, sizeof(ITEM *));
+        for(i = 0; i &lt; n_choices; ++i)
+                my_items[i] = new_item(choices[i], choices[i]);
 
-	<span style="color:#75715e">/* Crate menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+    /* Crate menu */
+    my_menu = new_menu((ITEM **)my_items);
 
-	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
-        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
+    /* Create the window to be associated with the menu */
+        my_menu_win = newwin(10, 40, 4, 4);
         keypad(my_menu_win, TRUE);
      
-	<span style="color:#75715e">/* Set main window and sub window */</span>
+    /* Set main window and sub window */
         set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
-	set_menu_format(my_menu, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">1</span>);
-			
-	<span style="color:#75715e">/* Set menu mark to the string &#34; * &#34; */</span>
-        set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
+        set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
+    set_menu_format(my_menu, 5, 1);
+            
+    /* Set menu mark to the string &quot; * &quot; */
+        set_menu_mark(my_menu, &quot; * &quot;);
 
-	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
-        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-	print_in_middle(my_menu_win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">40</span>, <span style="color:#e6db74">&#34;My Menu&#34;</span>, COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
-	mvwhline(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, <span style="color:#ae81ff">38</span>);
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">39</span>, ACS_RTEE);
+    /* Print a border around the main window and print a title */
+        box(my_menu_win, 0, 0);
+    print_in_middle(my_menu_win, 1, 0, 40, &quot;My Menu&quot;, COLOR_PAIR(1));
+    mvwaddch(my_menu_win, 2, 0, ACS_LTEE);
+    mvwhline(my_menu_win, 2, 1, ACS_HLINE, 38);
+    mvwaddch(my_menu_win, 2, 39, ACS_RTEE);
         
-	<span style="color:#75715e">/* Post the menu */</span>
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
-	
-	attron(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use PageUp and PageDown to scoll down or up a page of items&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Arrow Keys to navigate (F1 to Exit)&#34;</span>);
-	attroff(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	refresh();
+    /* Post the menu */
+    post_menu(my_menu);
+    wrefresh(my_menu_win);
+    
+    attron(COLOR_PAIR(2));
+    mvprintw(LINES - 2, 0, &quot;Use PageUp and PageDown to scoll down or up a page of items&quot;);
+    mvprintw(LINES - 1, 0, &quot;Arrow Keys to navigate (F1 to Exit)&quot;);
+    attroff(COLOR_PAIR(2));
+    refresh();
 
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_NPAGE:
-				menu_driver(my_menu, REQ_SCR_DPAGE);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_PPAGE:
-				menu_driver(my_menu, REQ_SCR_UPAGE);
-				<span style="color:#66d9ef">break</span>;
-		}
+    while((c = wgetch(my_menu_win)) != KEY_F(1))
+    {       switch(c)
+            {   case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                break;
+            case KEY_NPAGE:
+                menu_driver(my_menu, REQ_SCR_DPAGE);
+                break;
+            case KEY_PPAGE:
+                menu_driver(my_menu, REQ_SCR_UPAGE);
+                break;
+        }
                 wrefresh(my_menu_win);
-	}	
+    }   
 
-	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
+    /* Unpost and free all the memory taken up */
         unpost_menu(my_menu);
         free_menu(my_menu);
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+        for(i = 0; i &lt; n_choices; ++i)
                 free_item(my_items[i]);
-	endwin();
+    endwin();
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color)
-{	<span style="color:#66d9ef">int</span> length, x, y;
-	<span style="color:#66d9ef">float</span> temp;
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color)
+{   int length, x, y;
+    float temp;
 
-	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
-		win <span style="color:#f92672">=</span> stdscr;
-	getyx(win, y, x);
-	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		x <span style="color:#f92672">=</span> startx;
-	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		y <span style="color:#f92672">=</span> starty;
-	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
+    if(win == NULL)
+        win = stdscr;
+    getyx(win, y, x);
+    if(startx != 0)
+        x = startx;
+    if(starty != 0)
+        y = starty;
+    if(width == 0)
+        width = 80;
 
-	length <span style="color:#f92672">=</span> strlen(string);
-	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
-	wattron(win, color);
-	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
-	wattroff(win, color);
-	refresh();
+    length = strlen(string);
+    temp = (width - length)/ 2;
+    x = startx + (int)temp;
+    wattron(win, color);
+    mvwprintw(win, y, x, &quot;%s&quot;, string);
+    wattroff(win, color);
+    refresh();
 }
-</code></pre></div><p>这个程序是不言自明的。在这个例子中，选择的数量增加到了10个，这比我们的子窗口大，子窗口可以容纳6个项目。必须使用功能set_menu_format（）将此消息显式传送到菜单系统。在这里，我们指定要为单个页面显示的行数和列数。我们可以在rows变量中指定要显示的任意数量的项，如果它小于子窗口的高度。如果用户按下的键是PAGE UP（向上翻页）或PAGE DOWN（向下翻页），则菜单会根据向菜单驱动程序（）发出的请求（REQ_SCR_DPAGE 和REQ_SCR_UPAGE）滚动一页。</p>
-<h3 id="176-多列菜单">17.6. 多列菜单</h3>
+</code></pre>
+
+<p>这个程序是不言自明的。在这个例子中，选择的数量增加到了10个，这比我们的子窗口大，子窗口可以容纳6个项目。必须使用功能set_menu_format（）将此消息显式传送到菜单系统。在这里，我们指定要为单个页面显示的行数和列数。我们可以在rows变量中指定要显示的任意数量的项，如果它小于子窗口的高度。如果用户按下的键是PAGE UP（向上翻页）或PAGE DOWN（向下翻页），则菜单会根据向菜单驱动程序（）发出的请求（REQ_SCR_DPAGE 和REQ_SCR_UPAGE）滚动一页。</p>
+
+<h3 id="17-6-多列菜单">17.6. 多列菜单</h3>
+
 <p>在上面的示例中，您已经了解了如何使用函数set_menu_format（）。我没有提到cols变量（第三个参数）的作用。如果子窗口足够宽，可以选择每行显示多个项。这可以在cols变量中指定。为了使事情更简单，下面的示例不显示这些项的描述。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>, <span style="color:#e6db74">&#34;Choice 2&#34;</span>, <span style="color:#e6db74">&#34;Choice 3&#34;</span>, <span style="color:#e6db74">&#34;Choice 4&#34;</span>, <span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>, <span style="color:#e6db74">&#34;Choice 7&#34;</span>, <span style="color:#e6db74">&#34;Choice 8&#34;</span>, <span style="color:#e6db74">&#34;Choice 9&#34;</span>, <span style="color:#e6db74">&#34;Choice 10&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 11&#34;</span>, <span style="color:#e6db74">&#34;Choice 12&#34;</span>, <span style="color:#e6db74">&#34;Choice 13&#34;</span>, <span style="color:#e6db74">&#34;Choice 14&#34;</span>, <span style="color:#e6db74">&#34;Choice 15&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 16&#34;</span>, <span style="color:#e6db74">&#34;Choice 17&#34;</span>, <span style="color:#e6db74">&#34;Choice 18&#34;</span>, <span style="color:#e6db74">&#34;Choice 19&#34;</span>, <span style="color:#e6db74">&#34;Choice 20&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
+
+<pre><code class="language-cpp">#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+                        &quot;Choice 1&quot;, &quot;Choice 2&quot;, &quot;Choice 3&quot;, &quot;Choice 4&quot;, &quot;Choice 5&quot;,
+            &quot;Choice 6&quot;, &quot;Choice 7&quot;, &quot;Choice 8&quot;, &quot;Choice 9&quot;, &quot;Choice 10&quot;,
+            &quot;Choice 11&quot;, &quot;Choice 12&quot;, &quot;Choice 13&quot;, &quot;Choice 14&quot;, &quot;Choice 15&quot;,
+            &quot;Choice 16&quot;, &quot;Choice 17&quot;, &quot;Choice 18&quot;, &quot;Choice 19&quot;, &quot;Choice 20&quot;,
+                        &quot;Exit&quot;,
+                        (char *)NULL,
                   };
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        WINDOW <span style="color:#f92672">*</span>my_menu_win;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>
-	initscr();
-	start_color();
+int main()
+{   ITEM **my_items;
+    int c;              
+    MENU *my_menu;
+        WINDOW *my_menu_win;
+        int n_choices, i;
+    
+    /* Initialize curses */
+    initscr();
+    start_color();
         cbreak();
         noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_CYAN, COLOR_BLACK);
+    keypad(stdscr, TRUE);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_CYAN, COLOR_BLACK);
 
-	<span style="color:#75715e">/* Create items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+    /* Create items */
+        n_choices = ARRAY_SIZE(choices);
+        my_items = (ITEM **)calloc(n_choices, sizeof(ITEM *));
+        for(i = 0; i &lt; n_choices; ++i)
+                my_items[i] = new_item(choices[i], choices[i]);
 
-	<span style="color:#75715e">/* Crate menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+    /* Crate menu */
+    my_menu = new_menu((ITEM **)my_items);
 
-	<span style="color:#75715e">/* Set menu option not to show the description */</span>
-	menu_opts_off(my_menu, O_SHOWDESC);
+    /* Set menu option not to show the description */
+    menu_opts_off(my_menu, O_SHOWDESC);
 
-	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
-        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">70</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
+    /* Create the window to be associated with the menu */
+        my_menu_win = newwin(10, 70, 4, 4);
         keypad(my_menu_win, TRUE);
      
-	<span style="color:#75715e">/* Set main window and sub window */</span>
+    /* Set main window and sub window */
         set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">68</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
-	set_menu_format(my_menu, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>);
-	set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
+        set_menu_sub(my_menu, derwin(my_menu_win, 6, 68, 3, 1));
+    set_menu_format(my_menu, 5, 3);
+    set_menu_mark(my_menu, &quot; * &quot;);
 
-	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
-        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-	
-	attron(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use PageUp and PageDown to scroll&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use Arrow Keys to navigate (F1 to Exit)&#34;</span>);
-	attroff(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	refresh();
+    /* Print a border around the main window and print a title */
+        box(my_menu_win, 0, 0);
+    
+    attron(COLOR_PAIR(2));
+    mvprintw(LINES - 3, 0, &quot;Use PageUp and PageDown to scroll&quot;);
+    mvprintw(LINES - 2, 0, &quot;Use Arrow Keys to navigate (F1 to Exit)&quot;);
+    attroff(COLOR_PAIR(2));
+    refresh();
 
-	<span style="color:#75715e">/* Post the menu */</span>
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
-	
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_LEFT:
-				menu_driver(my_menu, REQ_LEFT_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_RIGHT:
-				menu_driver(my_menu, REQ_RIGHT_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_NPAGE:
-				menu_driver(my_menu, REQ_SCR_DPAGE);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_PPAGE:
-				menu_driver(my_menu, REQ_SCR_UPAGE);
-				<span style="color:#66d9ef">break</span>;
-		}
+    /* Post the menu */
+    post_menu(my_menu);
+    wrefresh(my_menu_win);
+    
+    while((c = wgetch(my_menu_win)) != KEY_F(1))
+    {       switch(c)
+            {   case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                break;
+            case KEY_LEFT:
+                menu_driver(my_menu, REQ_LEFT_ITEM);
+                break;
+            case KEY_RIGHT:
+                menu_driver(my_menu, REQ_RIGHT_ITEM);
+                break;
+            case KEY_NPAGE:
+                menu_driver(my_menu, REQ_SCR_DPAGE);
+                break;
+            case KEY_PPAGE:
+                menu_driver(my_menu, REQ_SCR_UPAGE);
+                break;
+        }
                 wrefresh(my_menu_win);
-	}	
+    }   
 
-	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
+    /* Unpost and free all the memory taken up */
         unpost_menu(my_menu);
         free_menu(my_menu);
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+        for(i = 0; i &lt; n_choices; ++i)
                 free_item(my_items[i]);
-	endwin();
+    endwin();
 }
-</code></pre></div><p>观察函数调用以set_menu_format（）。它将列数指定为3，因此每行显示3项。我们还关闭了功能menu_opts_off（）的显示说明。有两个函数set_menu_opts（）、menu_opts_on（）和menu_opts（），可用于操作菜单选项。可以指定以下菜单选项。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">      O_ONEVALUE
-            Only one item can be selected <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">this</span> menu.
+</code></pre>
+
+<p>观察函数调用以set_menu_format（）。它将列数指定为3，因此每行显示3项。我们还关闭了功能menu_opts_off（）的显示说明。有两个函数set_menu_opts（）、menu_opts_on（）和menu_opts（），可用于操作菜单选项。可以指定以下菜单选项。</p>
+
+<pre><code class="language-cpp">      O_ONEVALUE
+            Only one item can be selected for this menu.
 
        O_SHOWDESC
             Display  the  item  descriptions  when  the  menu  is
             posted.
 
        O_ROWMAJOR
-            Display the menu in row<span style="color:#f92672">-</span>major order.
+            Display the menu in row-major order.
 
        O_IGNORECASE
-            Ignore the <span style="color:#66d9ef">case</span> when pattern<span style="color:#f92672">-</span>matching.
+            Ignore the case when pattern-matching.
 
        O_SHOWMATCH
-            Move the cursor to within the item  name  <span style="color:#66d9ef">while</span>  pat<span style="color:#960050;background-color:#1e0010">­</span>
-            tern<span style="color:#f92672">-</span>matching.
+            Move the cursor to within the item  name  while  pat­
+            tern-matching.
 
        O_NONCYCLIC
-            Don<span style="color:#960050;background-color:#1e0010">&#39;</span>t   wrap   around  next<span style="color:#f92672">-</span>item  and  previous<span style="color:#f92672">-</span>item,
+            Don't   wrap   around  next-item  and  previous-item,
             requests to the other end of the menu.
-</code></pre></div><p>默认情况下，所有选项都处于启用状态。可以使用menu_opts_on（）和menu_opts_off（）函数打开或关闭特定属性。您还可以使用set_menu_opts（）直接指定选项。此函数的参数应该是上述某些常量的OR ed值。函数menu_opts（）可用于查找菜单的当前选项。</p>
-<h3 id="177-多值菜单">17.7. 多值菜单</h3>
+</code></pre>
+
+<p>默认情况下，所有选项都处于启用状态。可以使用menu_opts_on（）和menu_opts_off（）函数打开或关闭特定属性。您还可以使用set_menu_opts（）直接指定选项。此函数的参数应该是上述某些常量的OR ed值。函数menu_opts（）可用于查找菜单的当前选项。</p>
+
+<h3 id="17-7-多值菜单">17.7. 多值菜单</h3>
+
 <p>您可能想知道，如果您关闭了O_ONEVALUE选项会怎么样。然后菜单变为多值菜单。这意味着您可以选择多个项目。这将带我们到请求REQ_TOGGLE_ITEM。让我们看看它的实际效果。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+
+<pre><code class="language-cpp">#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+                        &quot;Choice 1&quot;,
+                        &quot;Choice 2&quot;,
+                        &quot;Choice 3&quot;,
+                        &quot;Choice 4&quot;,
+            &quot;Choice 5&quot;,
+            &quot;Choice 6&quot;,
+            &quot;Choice 7&quot;,
+                        &quot;Exit&quot;,
                   };
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>	
-	initscr();
+int main()
+{   ITEM **my_items;
+    int c;              
+    MENU *my_menu;
+        int n_choices, i;
+    ITEM *cur_item;
+    
+    /* Initialize curses */ 
+    initscr();
         cbreak();
         noecho();
-	keypad(stdscr, TRUE);
+    keypad(stdscr, TRUE);
 
-	<span style="color:#75715e">/* Initialize items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
+    /* Initialize items */
+        n_choices = ARRAY_SIZE(choices);
+        my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+        for(i = 0; i &lt; n_choices; ++i)
+                my_items[i] = new_item(choices[i], choices[i]);
+    my_items[n_choices] = (ITEM *)NULL;
 
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+    my_menu = new_menu((ITEM **)my_items);
 
-	<span style="color:#75715e">/* Make the menu multi valued */</span>
-	menu_opts_off(my_menu, O_ONEVALUE);
+    /* Make the menu multi valued */
+    menu_opts_off(my_menu, O_ONEVALUE);
 
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use &lt;SPACE&gt; to select or unselect an item.&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;&lt;ENTER&gt; to see presently selected items(F1 to Exit)&#34;</span>);
-	post_menu(my_menu);
-	refresh();
+    mvprintw(LINES - 3, 0, &quot;Use &lt;SPACE&gt; to select or unselect an item.&quot;);
+    mvprintw(LINES - 2, 0, &quot;&lt;ENTER&gt; to see presently selected items(F1 to Exit)&quot;);
+    post_menu(my_menu);
+    refresh();
 
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">:</span>
-				menu_driver(my_menu, REQ_TOGGLE_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span>	<span style="color:#75715e">/* Enter */</span>
-			{	<span style="color:#66d9ef">char</span> temp[<span style="color:#ae81ff">200</span>];
-				ITEM <span style="color:#f92672">**</span>items;
+    while((c = getch()) != KEY_F(1))
+    {       switch(c)
+            {   case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                break;
+            case ' ':
+                menu_driver(my_menu, REQ_TOGGLE_ITEM);
+                break;
+            case 10:    /* Enter */
+            {   char temp[200];
+                ITEM **items;
 
-				items <span style="color:#f92672">=</span> menu_items(my_menu);
-				temp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
-				<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> item_count(my_menu); <span style="color:#f92672">++</span>i)
-					<span style="color:#66d9ef">if</span>(item_value(items[i]) <span style="color:#f92672">==</span> TRUE)
-					{	strcat(temp, item_name(items[i]));
-						strcat(temp, <span style="color:#e6db74">&#34; &#34;</span>);
-					}
-				move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
-				clrtoeol();
-				mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, temp);
-				refresh();
-			}
-			<span style="color:#66d9ef">break</span>;
-		}
-	}	
+                items = menu_items(my_menu);
+                temp[0] = '\0';
+                for(i = 0; i &lt; item_count(my_menu); ++i)
+                    if(item_value(items[i]) == TRUE)
+                    {   strcat(temp, item_name(items[i]));
+                        strcat(temp, &quot; &quot;);
+                    }
+                move(20, 0);
+                clrtoeol();
+                mvprintw(20, 0, temp);
+                refresh();
+            }
+            break;
+        }
+    }   
 
-	free_item(my_items[<span style="color:#ae81ff">0</span>]);
-        free_item(my_items[<span style="color:#ae81ff">1</span>]);
-	free_menu(my_menu);
-	endwin();
+    free_item(my_items[0]);
+        free_item(my_items[1]);
+    free_menu(my_menu);
+    endwin();
 }
-	
-</code></pre></div><p>哇，很多新功能。让我们一个接一个地吃吧。首先，REQ_TOGGLE_ITEM。在多值菜单中，应允许用户选择或取消选择多个项目。请求 REQ_TOGGLE_ITEM 用于切换当前选择。在这种情况下，当按下空格时，请求REQ_TOGGLE_ITEM 请求被发送到menu_driver以实现结果。</p>
-<p>现在，当用户按下<!-- raw HTML omitted -->时，我们显示他当前选择的项目。首先，我们使用函数menu_items（）找出与菜单关联的项。然后我们循环遍历这些项，以确定是否选中了该项。如果选择了项，函数item_value（）将返回TRUE。函数item_count（）返回菜单中的项数。可以使用item_name（）找到项名称。您还可以使用item_description（）查找与项关联的描述。</p>
-<h3 id="178-菜单选项">17.8. 菜单选项</h3>
+    
+</code></pre>
+
+<p>哇，很多新功能。让我们一个接一个地吃吧。首先，REQ_TOGGLE_ITEM。在多值菜单中，应允许用户选择或取消选择多个项目。请求 REQ_TOGGLE_ITEM 用于切换当前选择。在这种情况下，当按下空格时，请求REQ_TOGGLE_ITEM 请求被发送到menu_driver以实现结果。</p>
+
+<p>现在，当用户按下<ENTER>时，我们显示他当前选择的项目。首先，我们使用函数menu_items（）找出与菜单关联的项。然后我们循环遍历这些项，以确定是否选中了该项。如果选择了项，函数item_value（）将返回TRUE。函数item_count（）返回菜单中的项数。可以使用item_name（）找到项名称。您还可以使用item_description（）查找与项关联的描述。</p>
+
+<h3 id="17-8-菜单选项">17.8. 菜单选项</h3>
+
 <p>嗯，这个时候你一定很想在菜单上有所不同，有很多功能。我知道。你想要颜色！！！。你想创建类似于那些文本模式dos游戏的漂亮菜单。函数set_menu_fore（）和set_menu_back（）可用于更改选定项和未选定项的属性。这些名字有误导性。他们不会改变菜单的前景或背景，这将是无用的。
 函数set_menu_grey（）可用于设置菜单中不可选择项的显示属性。这就给我们带来了一个有趣的选项，它是唯一一个O_SELECTABLE的选项。我们可以通过函数item_opts_off（）将其关闭，然后该项就不可选择了。就像那些花哨的窗口菜单中的灰色项目。让我们用这个例子来实践这些概念</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+
+<pre><code class="language-cpp">#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+                        &quot;Choice 1&quot;,
+                        &quot;Choice 2&quot;,
+                        &quot;Choice 3&quot;,
+                        &quot;Choice 4&quot;,
+            &quot;Choice 5&quot;,
+            &quot;Choice 6&quot;,
+            &quot;Choice 7&quot;,
+                        &quot;Exit&quot;,
                   };
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>	
-	initscr();
-	start_color();
+int main()
+{   ITEM **my_items;
+    int c;              
+    MENU *my_menu;
+        int n_choices, i;
+    ITEM *cur_item;
+    
+    /* Initialize curses */ 
+    initscr();
+    start_color();
         cbreak();
         noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_GREEN, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">3</span>, COLOR_MAGENTA, COLOR_BLACK);
+    keypad(stdscr, TRUE);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
 
-	<span style="color:#75715e">/* Initialize items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
-	item_opts_off(my_items[<span style="color:#ae81ff">3</span>], O_SELECTABLE);
-	item_opts_off(my_items[<span style="color:#ae81ff">6</span>], O_SELECTABLE);
+    /* Initialize items */
+        n_choices = ARRAY_SIZE(choices);
+        my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+        for(i = 0; i &lt; n_choices; ++i)
+                my_items[i] = new_item(choices[i], choices[i]);
+    my_items[n_choices] = (ITEM *)NULL;
+    item_opts_off(my_items[3], O_SELECTABLE);
+    item_opts_off(my_items[6], O_SELECTABLE);
 
-	<span style="color:#75715e">/* Create menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+    /* Create menu */
+    my_menu = new_menu((ITEM **)my_items);
 
-	<span style="color:#75715e">/* Set fore ground and back ground of the menu */</span>
-	set_menu_fore(my_menu, COLOR_PAIR(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">|</span> A_REVERSE);
-	set_menu_back(my_menu, COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	set_menu_grey(my_menu, COLOR_PAIR(<span style="color:#ae81ff">3</span>));
+    /* Set fore ground and back ground of the menu */
+    set_menu_fore(my_menu, COLOR_PAIR(1) | A_REVERSE);
+    set_menu_back(my_menu, COLOR_PAIR(2));
+    set_menu_grey(my_menu, COLOR_PAIR(3));
 
-	<span style="color:#75715e">/* Post the menu */</span>
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Press &lt;ENTER&gt; to see the option selected&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Up and Down arrow keys to naviage (F1 to Exit)&#34;</span>);
-	post_menu(my_menu);
-	refresh();
+    /* Post the menu */
+    mvprintw(LINES - 3, 0, &quot;Press &lt;ENTER&gt; to see the option selected&quot;);
+    mvprintw(LINES - 2, 0, &quot;Up and Down arrow keys to naviage (F1 to Exit)&quot;);
+    post_menu(my_menu);
+    refresh();
 
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span> <span style="color:#75715e">/* Enter */</span>
-				move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
-				clrtoeol();
-				mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Item selected is : %s&#34;</span>, 
-						item_name(current_item(my_menu)));
-				pos_menu_cursor(my_menu);
-				<span style="color:#66d9ef">break</span>;
-		}
-	}	
-	unpost_menu(my_menu);
-	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-		free_item(my_items[i]);
-	free_menu(my_menu);
-	endwin();
+    while((c = getch()) != KEY_F(1))
+    {       switch(c)
+            {   case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                break;
+            case 10: /* Enter */
+                move(20, 0);
+                clrtoeol();
+                mvprintw(20, 0, &quot;Item selected is : %s&quot;, 
+                        item_name(current_item(my_menu)));
+                pos_menu_cursor(my_menu);
+                break;
+        }
+    }   
+    unpost_menu(my_menu);
+    for(i = 0; i &lt; n_choices; ++i)
+        free_item(my_items[i]);
+    free_menu(my_menu);
+    endwin();
 }
-</code></pre></div><h3 id="179-有用的用户指针">17.9. 有用的用户指针</h3>
-<p>我们可以将用户指针与菜单中的每个项目相关联。它的工作方式与面板中的用户指针相同。菜单系统不会碰它。你可以在里面存放任何你喜欢的东西。我通常使用它来存储在选择菜单选项时要执行的功能（它被选中，可能是用户按下的<!-- raw HTML omitted -->）；</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</code></pre>
+
+<h3 id="17-9-有用的用户指针">17.9. 有用的用户指针</h3>
+
+<p>我们可以将用户指针与菜单中的每个项目相关联。它的工作方式与面板中的用户指针相同。菜单系统不会碰它。你可以在里面存放任何你喜欢的东西。我通常使用它来存储在选择菜单选项时要执行的功能（它被选中，可能是用户按下的<ENTER>）；</p>
+
+<pre><code class="language-cpp">#include &lt;curses.h&gt;
+#include &lt;menu.h&gt;
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD   4
+
+char *choices[] = {
+                        &quot;Choice 1&quot;,
+                        &quot;Choice 2&quot;,
+                        &quot;Choice 3&quot;,
+                        &quot;Choice 4&quot;,
+            &quot;Choice 5&quot;,
+            &quot;Choice 6&quot;,
+            &quot;Choice 7&quot;,
+                        &quot;Exit&quot;,
                   };
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name);
+void func(char *name);
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>	
-	initscr();
-	start_color();
+int main()
+{   ITEM **my_items;
+    int c;              
+    MENU *my_menu;
+        int n_choices, i;
+    ITEM *cur_item;
+    
+    /* Initialize curses */ 
+    initscr();
+    start_color();
         cbreak();
         noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_GREEN, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">3</span>, COLOR_MAGENTA, COLOR_BLACK);
+    keypad(stdscr, TRUE);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
 
-	<span style="color:#75715e">/* Initialize items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-	{       my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-		<span style="color:#75715e">/* Set the user pointer */</span>
-		set_item_userptr(my_items[i], func);
-	}
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
+    /* Initialize items */
+        n_choices = ARRAY_SIZE(choices);
+        my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+        for(i = 0; i &lt; n_choices; ++i)
+    {       my_items[i] = new_item(choices[i], choices[i]);
+        /* Set the user pointer */
+        set_item_userptr(my_items[i], func);
+    }
+    my_items[n_choices] = (ITEM *)NULL;
 
-	<span style="color:#75715e">/* Create menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+    /* Create menu */
+    my_menu = new_menu((ITEM **)my_items);
 
-	<span style="color:#75715e">/* Post the menu */</span>
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Press &lt;ENTER&gt; to see the option selected&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Up and Down arrow keys to naviage (F1 to Exit)&#34;</span>);
-	post_menu(my_menu);
-	refresh();
+    /* Post the menu */
+    mvprintw(LINES - 3, 0, &quot;Press &lt;ENTER&gt; to see the option selected&quot;);
+    mvprintw(LINES - 2, 0, &quot;Up and Down arrow keys to naviage (F1 to Exit)&quot;);
+    post_menu(my_menu);
+    refresh();
 
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span> <span style="color:#75715e">/* Enter */</span>
-			{	ITEM <span style="color:#f92672">*</span>cur;
-				<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>p)(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
+    while((c = getch()) != KEY_F(1))
+    {       switch(c)
+            {   case KEY_DOWN:
+                menu_driver(my_menu, REQ_DOWN_ITEM);
+                break;
+            case KEY_UP:
+                menu_driver(my_menu, REQ_UP_ITEM);
+                break;
+            case 10: /* Enter */
+            {   ITEM *cur;
+                void (*p)(char *);
 
-				cur <span style="color:#f92672">=</span> current_item(my_menu);
-				p <span style="color:#f92672">=</span> item_userptr(cur);
-				p((<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)item_name(cur));
-				pos_menu_cursor(my_menu);
-				<span style="color:#66d9ef">break</span>;
-			}
-			<span style="color:#66d9ef">break</span>;
-		}
-	}	
-	unpost_menu(my_menu);
-	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-		free_item(my_items[i]);
-	free_menu(my_menu);
-	endwin();
+                cur = current_item(my_menu);
+                p = item_userptr(cur);
+                p((char *)item_name(cur));
+                pos_menu_cursor(my_menu);
+                break;
+            }
+            break;
+        }
+    }   
+    unpost_menu(my_menu);
+    for(i = 0; i &lt; n_choices; ++i)
+        free_item(my_items[i]);
+    free_menu(my_menu);
+    endwin();
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name)
-{	move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
-	clrtoeol();
-	mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Item selected is : %s&#34;</span>, name);
-</code></pre></div>
+void func(char *name)
+{   move(20, 0);
+    clrtoeol();
+    mvprintw(20, 0, &quot;Item selected is : %s&quot;, name);
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

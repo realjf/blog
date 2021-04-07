@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>qemu on Realjf&#39;s blog</title>
+    <title>Qemu on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/qemu/</link>
-    <description>Recent content in qemu on Realjf&#39;s blog</description>
+    <description>Recent content in Qemu on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 Nov 2020 21:46:47 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/qemu/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 Nov 2020 21:46:47 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/qemu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>如何安装QEMU模拟器 How to Install Qemu</title>
       <link>https://realjf.io/linux/how-to-install-qemu/</link>
@@ -14,8 +18,8 @@
       
       <guid>https://realjf.io/linux/how-to-install-qemu/</guid>
       <description>QEMU是一套由法布里斯·贝拉(Fabrice Bellard)所编写的以GPL许可证分发源码的模拟处理器，在GNU/Linux平台上使用广泛。 Bochs，PearPC等与其类似，但不具备其许多特性，比如高速度及跨平台的特性，通过KQEMU这个闭源的加速器，QEMU能模拟至接近真实电脑的速度
-从源码安装 git clone https://git.qemu.org/git/qemu.git cd qemu git submodule init git submodule update --recursive ./configure make Linux apt-get install qemu 如果要使用如qemu-system-i386这样的命令，可以运行如下命令安装
-apt-get install qemu-system QEMU官网</description>
+从源码安装 git clone https://git.qemu.org/git/qemu.git cd qemu git submodule init git submodule update --recursive ./configure make  Linux apt-get install qemu  如果要使用如qemu-system-i386这样的命令，可以运行如下命令安装
+apt-get install qemu-system  QEMU官网</description>
     </item>
     
   </channel>

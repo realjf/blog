@@ -3,7 +3,7 @@
 <head>
     <title>git批量删除远程分支 Multi Delete Remote Branch // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,25 +237,32 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/tools/">tools</a><a class="tag" href="https://realjf.io/tags/git/">git</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/tools/">Tools</a><a class="tag" href="https://realjf.io/tags/git/">Git</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="批量删除本地分支">批量删除本地分支</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git branch -a| grep -v -E <span style="color:#e6db74">&#39;master|develop&#39;</span> | xargs git branch -D
-<span style="color:#75715e"># -v 排除</span>
-<span style="color:#75715e"># -E 使用正则表达式</span>
-</code></pre></div><h3 id="批量删除远程分支">批量删除远程分支</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 方法一</span>
-git branch -r | grep -v -E <span style="color:#e6db74">&#39;master|dev&#39;</span> | sed <span style="color:#e6db74">&#39;s/origin\///g&#39;</span> | xargs -I <span style="color:#f92672">{}</span> git push origin :<span style="color:#f92672">{}</span>
-<span style="color:#75715e"># -I {} 使用占位符来构造后面的命令</span>
-<span style="color:#75715e"># 保留master和dev远程分支</span>
+            
 
-<span style="color:#75715e"># 方法二</span>
-git branch -r| awk -F <span style="color:#e6db74">&#39;[/]&#39;</span> <span style="color:#e6db74">&#39;/origin\/dev/ {printf &#34;%s\n&#34;, $2}&#39;</span> |xargs -I<span style="color:#f92672">{}</span> git push origin :<span style="color:#f92672">{}</span>
+<h3 id="批量删除本地分支">批量删除本地分支</h3>
 
-<span style="color:#75715e"># 方法三</span>
-git branch -r| grep -E <span style="color:#e6db74">&#39;develop_|fix_&#39;</span> |xargs -I<span style="color:#f92672">{}</span> git push origin :<span style="color:#f92672">{}</span>
-</code></pre></div>
+<pre><code class="language-shell">git branch -a| grep -v -E 'master|develop' | xargs git branch -D
+# -v 排除
+# -E 使用正则表达式
+</code></pre>
+
+<h3 id="批量删除远程分支">批量删除远程分支</h3>
+
+<pre><code class="language-shell"># 方法一
+git branch -r | grep -v -E 'master|dev' | sed 's/origin\///g' | xargs -I {} git push origin :{}
+# -I {} 使用占位符来构造后面的命令
+# 保留master和dev远程分支
+
+# 方法二
+git branch -r| awk -F '[/]' '/origin\/dev/ {printf &quot;%s\n&quot;, $2}' |xargs -I{} git push origin :{}
+
+# 方法三
+git branch -r| grep -E 'develop_|fix_' |xargs -I{} git push origin :{}
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

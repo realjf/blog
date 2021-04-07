@@ -3,7 +3,7 @@
 <head>
     <title>VSCode扩展开发系列二 之 扩展解析 Vscode Extension Anatomy // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,49 +237,66 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/vscode/">vscode</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/vscode/">Vscode</a></div></div>
         </header>
         <div class="post-content">
-            <p>在上一节中我们创建了一个hello world扩展，那么他的工作原理是什么呢？</p>
+            
+
+<p>在上一节中我们创建了一个hello world扩展，那么他的工作原理是什么呢？</p>
+
 <ul>
 <li>注册onCommand激活事件：onCommand:extension.helloWorld，以便在用户运行Hello World命令时，扩展可激活</li>
 <li>使用 contributes.commands Contribution Point使命令Hello World在命令调色板中可用，并且绑定一个命令id:extension.helloWorld</li>
 <li>使用commands.registerCommand vscode api去绑定一个已经被extension.helloWorld的命令id注册的函数绑定</li>
 </ul>
+
 <p>这里需要理解以下概念</p>
+
 <ul>
 <li>Activation Event：设置扩展激活的时机。位于 package.json 中。</li>
 <li>Contribution Point：设置在 VSCode 中哪些地方添加新功能，也就是这个扩展增强了哪些功能。位于 package.json 中。</li>
 <li>Register：在 extension.ts 中给要写的功能用 vscode.commands.register&hellip; 给 Activation Event 或 Contribution Point 中配置的事件绑定方法或者设置监听器。位于入口文件（默认是 extension.ts）的 activate() 函数中。</li>
 <li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a>：你可以在扩展代码中调用的javascript api功能集合</li>
 </ul>
+
 <h2 id="扩展文件结构">扩展文件结构</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">.
+
+<pre><code class="language-shell">.
 ├── .vscode
-│   ├── launch.json     // Config <span style="color:#66d9ef">for</span> launching and debugging the extension
-│   └── tasks.json      // Config <span style="color:#66d9ef">for</span> build task that compiles TypeScript
+│   ├── launch.json     // Config for launching and debugging the extension
+│   └── tasks.json      // Config for build task that compiles TypeScript
 ├── .gitignore          // Ignore build output and node_modules
-├── README.md           // Readable description of your extension<span style="color:#960050;background-color:#1e0010">&#39;</span>s functionality
+├── README.md           // Readable description of your extension's functionality
 ├── src
 │   └── extension.ts    // Extension source code
 ├── package.json        // Extension manifest
 ├── tsconfig.json       // TypeScript configuration
-</code></pre></div><ul>
+</code></pre>
+
+<ul>
 <li>launch.json 用于配置vs code调试</li>
 <li>tasks.json 用于定义 vs code Tasks</li>
 <li>tsconfig.json 咨询TypeScript<a href="https://www.typescriptlang.org/docs/handbook/tsconfig-json.html">手册</a></li>
 </ul>
+
 <h2 id="扩展入口文件">扩展入口文件</h2>
+
 <p>扩展入口文件(extension.ts)导出两个函数：activate和deactivate(停用)</p>
+
 <ul>
 <li>activate 在你的注册Activation Event发生时执行</li>
 <li>deactivate 在你的扩展变成停用之前给你机会清理</li>
 </ul>
+
 <h2 id="附录">附录</h2>
+
 <h3 id="主要配置和apis">主要配置和APIs</h3>
+
 <h4 id="activation-events">Activation Events</h4>
+
 <p>Activation Events
 这个项目定义的是插件打开的时机，可以在以下情况时打开：</p>
+
 <ul>
 <li>onLanguage： 在打开对应语言文件时</li>
 <li>onCommand： 在执行对应命令时</li>
@@ -293,15 +310,23 @@
 <li>onWebviewPanel： 在打开设置的 webview 时</li>
 <li>*： 在打开 vscode 的时候，如果不是必须一般不建议这么设置</li>
 </ul>
+
 <p>官方文档：<a href="https://code.visualstudio.com/api/references/activation-events">activation-events</a></p>
+
 <h4 id="contribution-points">Contribution Points</h4>
+
 <p>官方文档：<a href="https://code.visualstudio.com/api/references/contribution-points">contribution-points</a></p>
+
 <p>这个是用来用来描述你所写的插件在哪些地方添加了功能，是什么样的功能，添加的内容会显示到界面上，
 前面的 hello world 示例就是在 commands 中添加了相应的 hello world 命令，
 然后这个命令就可以在命令窗口执行了</p>
+
 <h4 id="apis">APIs</h4>
+
 <p>所有的API定义在<a href="https://github.com/Microsoft/vscode/blob/master/src/vs/vscode.d.ts">vscode.d.ts</a>中</p>
+
 <p>主要有以下各类API:</p>
+
 <ul>
 <li><a href="https://code.visualstudio.com/api/references/vscode-api%23commands">commands</a></li>
 <li><a href="https://code.visualstudio.com/api/references/vscode-api%23comments">comments</a></li>
@@ -314,34 +339,39 @@
 <li><a href="https://code.visualstudio.com/api/references/vscode-api%23window">window</a></li>
 <li><a href="https://code.visualstudio.com/api/references/vscode-api%23workspace">workspace</a></li>
 </ul>
+
 <h4 id="unit-test">Unit Test</h4>
+
 <p>具体文档可以参考<a href="https://code.visualstudio.com/api/working-with-extensions/testing-extension">testing-extension</a></p>
-<p>测试插件可以使用 vscode-test API 来做测试。需要给它的 runTests 提供 extensionDevelopmentPath, 
+
+<p>测试插件可以使用 vscode-test API 来做测试。需要给它的 runTests 提供 extensionDevelopmentPath,
 extensionTestsPath 即开发目录和测试文件目录。测试则使用习惯的单元测试框架即可</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">as</span> <span style="color:#a6e22e">path</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;path&#34;</span>;
 
-<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">runTests</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vscode-test&#34;</span>;
+<pre><code class="language-javascript">import * as path from &quot;path&quot;;
 
-<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">main</span>() {
-  <span style="color:#66d9ef">try</span> {
-    <span style="color:#75715e">// The folder containing the Extension Manifest package.json
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Passed to `--extensionDevelopmentPath`
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">extensionDevelopmentPath</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#34;../../&#34;</span>);
+import { runTests } from &quot;vscode-test&quot;;
 
-    <span style="color:#75715e">// The path to the extension test script
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Passed to --extensionTestsPath
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">extensionTestsPath</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#34;./suite/index&#34;</span>);
+async function main() {
+  try {
+    // The folder containing the Extension Manifest package.json
+    // Passed to `--extensionDevelopmentPath`
+    const extensionDevelopmentPath = path.resolve(__dirname, &quot;../../&quot;);
 
-    <span style="color:#75715e">// Download VS Code, unzip it and run the integration test
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">runTests</span>({ <span style="color:#a6e22e">extensionDevelopmentPath</span>, <span style="color:#a6e22e">extensionTestsPath</span> });
-  } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
-    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;Failed to run tests&#34;</span>);
-    <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+    // The path to the extension test script
+    // Passed to --extensionTestsPath
+    const extensionTestsPath = path.resolve(__dirname, &quot;./suite/index&quot;);
+
+    // Download VS Code, unzip it and run the integration test
+    await runTests({ extensionDevelopmentPath, extensionTestsPath });
+  } catch (err) {
+    console.error(&quot;Failed to run tests&quot;);
+    process.exit(1);
   }
 }
 
-<span style="color:#a6e22e">main</span>();
-</code></pre></div>
+main();
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

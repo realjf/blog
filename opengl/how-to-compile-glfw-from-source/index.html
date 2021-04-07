@@ -3,7 +3,7 @@
 <head>
     <title>如何从源码构建GLFW How to Compile Glfw From Source // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,109 +237,147 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/opengl/">opengl</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="首先glfw下载">首先glfw下载</h2>
+            
+
+<h2 id="首先glfw下载">首先glfw下载</h2>
+
 <p><a href="https://www.glfw.org/download.html">https://www.glfw.org/download.html</a></p>
+
 <p>下载源码包后，开始安装</p>
+
 <ul>
 <li>环境：debian-10</li>
 </ul>
+
 <h2 id="构建">构建</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">unzip glfw-3.3.2.zip
+
+<pre><code class="language-sh">unzip glfw-3.3.2.zip
 
 mkdir glfw-build
 
 cd glfw-build
 
 cmake ..
-</code></pre></div><p>报错如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">-- The C compiler identification is GNU 10.2.0
+</code></pre>
+
+<p>报错如下：</p>
+
+<pre><code class="language-sh">-- The C compiler identification is GNU 10.2.0
 -- Detecting C compiler ABI info
--- Detecting C compiler ABI info - <span style="color:#66d9ef">done</span>
--- Check <span style="color:#66d9ef">for</span> working C compiler: /usr/bin/cc - skipped
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
 -- Detecting C compile features
--- Detecting C compile features - <span style="color:#66d9ef">done</span>
--- Looking <span style="color:#66d9ef">for</span> pthread.h
--- Looking <span style="color:#66d9ef">for</span> pthread.h - found
+-- Detecting C compile features - done
+-- Looking for pthread.h
+-- Looking for pthread.h - found
 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
--- Looking <span style="color:#66d9ef">for</span> pthread_create in pthreads
--- Looking <span style="color:#66d9ef">for</span> pthread_create in pthreads - not found
--- Looking <span style="color:#66d9ef">for</span> pthread_create in pthread
--- Looking <span style="color:#66d9ef">for</span> pthread_create in pthread - found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
 -- Found Threads: TRUE  
--- Found Doxygen: /usr/bin/doxygen <span style="color:#f92672">(</span>found version <span style="color:#e6db74">&#34;1.8.20&#34;</span><span style="color:#f92672">)</span> found components: doxygen 
--- Using X11 <span style="color:#66d9ef">for</span> window creation
+-- Found Doxygen: /usr/bin/doxygen (found version &quot;1.8.20&quot;) found components: doxygen 
+-- Using X11 for window creation
 -- Found X11: /usr/include   
--- Looking <span style="color:#66d9ef">for</span> XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so
--- Looking <span style="color:#66d9ef">for</span> XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found
--- Looking <span style="color:#66d9ef">for</span> gethostbyname
--- Looking <span style="color:#66d9ef">for</span> gethostbyname - found
--- Looking <span style="color:#66d9ef">for</span> connect
--- Looking <span style="color:#66d9ef">for</span> connect - found
--- Looking <span style="color:#66d9ef">for</span> remove
--- Looking <span style="color:#66d9ef">for</span> remove - found
--- Looking <span style="color:#66d9ef">for</span> shmat
--- Looking <span style="color:#66d9ef">for</span> shmat - found
--- Looking <span style="color:#66d9ef">for</span> IceConnectionNumber in ICE
--- Looking <span style="color:#66d9ef">for</span> IceConnectionNumber in ICE - found
-CMake Error at CMakeLists.txt:206 <span style="color:#f92672">(</span>message<span style="color:#f92672">)</span>:
+-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so
+-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for connect
+-- Looking for connect - found
+-- Looking for remove
+-- Looking for remove - found
+-- Looking for shmat
+-- Looking for shmat - found
+-- Looking for IceConnectionNumber in ICE
+-- Looking for IceConnectionNumber in ICE - found
+CMake Error at CMakeLists.txt:206 (message):
   RandR headers not found; install libxrandr development package
 
 
 -- Configuring incomplete, errors occurred!
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&#34;</span>.
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&#34;</span>.
-</code></pre></div><h4 id="解决">解决</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">apt-get install libxrandr-dev -y
-</code></pre></div><h4 id="报错">报错</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">-- Using X11 <span style="color:#66d9ef">for</span> window creation
-CMake Error at CMakeLists.txt:211 <span style="color:#f92672">(</span>message<span style="color:#f92672">)</span>:
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&quot;.
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&quot;.
+</code></pre>
+
+<h4 id="解决">解决</h4>
+
+<pre><code class="language-sh">apt-get install libxrandr-dev -y
+</code></pre>
+
+<h4 id="报错">报错</h4>
+
+<pre><code class="language-sh">-- Using X11 for window creation
+CMake Error at CMakeLists.txt:211 (message):
   Xinerama headers not found; install libxinerama development package
 
 
 -- Configuring incomplete, errors occurred!
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&#34;</span>.
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&#34;</span>.
-</code></pre></div><h4 id="解决-1">解决</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">apt-get install libxinerama-dev -y
-</code></pre></div><h4 id="报错-1">报错</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">-- Using X11 <span style="color:#66d9ef">for</span> window creation
-CMake Error at CMakeLists.txt:221 <span style="color:#f92672">(</span>message<span style="color:#f92672">)</span>:
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&quot;.
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&quot;.
+</code></pre>
+
+<h4 id="解决-1">解决</h4>
+
+<pre><code class="language-sh">apt-get install libxinerama-dev -y
+</code></pre>
+
+<h4 id="报错-1">报错</h4>
+
+<pre><code class="language-sh">-- Using X11 for window creation
+CMake Error at CMakeLists.txt:221 (message):
   Xcursor headers not found; install libxcursor development package
 
 
 -- Configuring incomplete, errors occurred!
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&#34;</span>.
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&#34;</span>.
-</code></pre></div><h4 id="解决-2">解决</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">apt-get install libxcursor-dev -y
-</code></pre></div><h4 id="报错-2">报错</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">-- Using X11 <span style="color:#66d9ef">for</span> window creation
-CMake Error at CMakeLists.txt:226 <span style="color:#f92672">(</span>message<span style="color:#f92672">)</span>:
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&quot;.
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&quot;.
+</code></pre>
+
+<h4 id="解决-2">解决</h4>
+
+<pre><code class="language-sh">apt-get install libxcursor-dev -y
+</code></pre>
+
+<h4 id="报错-2">报错</h4>
+
+<pre><code class="language-sh">-- Using X11 for window creation
+CMake Error at CMakeLists.txt:226 (message):
   XInput headers not found; install libxi development package
 
 
 -- Configuring incomplete, errors occurred!
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&#34;</span>.
-See also <span style="color:#e6db74">&#34;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&#34;</span>.
-</code></pre></div><h4 id="解决-3">解决</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">apt-get install libxi-dev -y
-</code></pre></div><h4 id="最后构建成功">最后构建成功</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 构建静态库</span>
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeOutput.log&quot;.
+See also &quot;/opt/shared/vscode_projects/glfw-3.3.2/glfw-build/CMakeFiles/CMakeError.log&quot;.
+</code></pre>
+
+<h4 id="解决-3">解决</h4>
+
+<pre><code class="language-sh">apt-get install libxi-dev -y
+</code></pre>
+
+<h4 id="最后构建成功">最后构建成功</h4>
+
+<pre><code class="language-sh"># 构建静态库
 cmake ..
--- Using X11 <span style="color:#66d9ef">for</span> window creation
--- Configuring <span style="color:#66d9ef">done</span>
--- Generating <span style="color:#66d9ef">done</span>
+-- Using X11 for window creation
+-- Configuring done
+-- Generating done
 -- Build files have been written to: /opt/shared/vscode_projects/glfw-3.3.2/glfw-build
 
-<span style="color:#75715e"># 构建动态库</span>
-cmake -DBUILD_SHARED_LIBS<span style="color:#f92672">=</span>ON ..
-</code></pre></div><h2 id="安装">安装</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">make <span style="color:#f92672">&amp;&amp;</span> make install
-</code></pre></div>
+# 构建动态库
+cmake -DBUILD_SHARED_LIBS=ON ..
+</code></pre>
+
+<h2 id="安装">安装</h2>
+
+<pre><code class="language-sh">make &amp;&amp; make install
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

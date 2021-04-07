@@ -3,7 +3,7 @@
 <head>
     <title>汇编语言之linux系统调用接口 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,189 +237,243 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/assembly/">assembly</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/assembly/">Assembly</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="syscalls">syscalls</h3>
+            
+
+<h3 id="syscalls">syscalls</h3>
+
 <p>Syscall是用户程序和Linux内核之间的接口。它们用于让内核执行各种系统任务，例如文件访问，进程管理和联网。
 在C编程语言中，您通常会调用包装函数，该函数执行所有必需的步骤，甚至使用高级功能（例如标准IO库）。</p>
+
 <p>在Linux上，有几种方法可以进行系统调用。该页面将重点介绍通过使用int $ 0x80或syscall调用软件中断来进行syscall。这是在仅汇编程序中进行系统调用的简单直观的方法</p>
+
 <h3 id="系统调用">系统调用</h3>
+
 <p>为了使用中断进行系统调用，您必须通过将所有必需的信息复制到通用寄存器中来将其传递给内核</p>
+
 <p>每个系统调用都有一个固定的数字（注意：数字在int $ 0x80和系统调用之间有所不同！）。您可以通过将数字写入eax / rax寄存器来指定系统调用。</p>
+
 <p>大多数系统调用都使用参数来执行其任务。通过在进行实际调用之前将它们写入适当的寄存器中来传递这些参数。
 每个参数索引都有一个特定的寄存器。请参阅小节中的表，因为int $ 0x80和syscall之间的映射不同。参数按照它们在相应C包装函数的函数签名中出现的顺序传递
 您可以在每个Linux API文档中找到syscall函数及其签名，例如参考手册（键入man 2 open以查看打开的syscall的签名）。</p>
+
 <p>一切设置正确后，您可以使用int $ 0x80或syscall调用中断，内核将执行任务</p>
+
 <p>系统调用的返回/错误值被写入eax / rax。</p>
+
 <blockquote>
 <p>内核使用自己的堆栈来执行操作。不会以任何方式触摸用户堆栈。</p>
 </blockquote>
+
 <h4 id="int-0x80">int 0x80</h4>
+
 <p>在Linux x86和Linux x86_64系统上，都可以使用int $ 0x80命令调用中断0x80进行系统调用。通过如下设置通用寄存器来传递参数：</p>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">Syscall #</th>
-<th style="text-align:center">Param 1</th>
-<th style="text-align:center">Param 2</th>
-<th style="text-align:center">Param 3</th>
-<th style="text-align:center">Param 4</th>
-<th style="text-align:center">Param 5</th>
-<th style="text-align:center">Param 6</th>
+<th align="center">Syscall #</th>
+<th align="center">Param 1</th>
+<th align="center">Param 2</th>
+<th align="center">Param 3</th>
+<th align="center">Param 4</th>
+<th align="center">Param 5</th>
+<th align="center">Param 6</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">eax</td>
-<td style="text-align:center">ebx</td>
-<td style="text-align:center">ecx</td>
-<td style="text-align:center">edx</td>
-<td style="text-align:center">esi</td>
-<td style="text-align:center">edi</td>
-<td style="text-align:center">ebp</td>
+<td align="center">eax</td>
+<td align="center">ebx</td>
+<td align="center">ecx</td>
+<td align="center">edx</td>
+<td align="center">esi</td>
+<td align="center">edi</td>
+<td align="center">ebp</td>
 </tr>
 </tbody>
 </table>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">Return value</th>
+<th align="center">Return value</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">eax</td>
+<td align="center">eax</td>
 </tr>
 </tbody>
 </table>
+
 <p>系统调用号在Linux生成的文件$ build / arch / x86 / include / generated / uapi / asm / unistd_32.h或$ build / usr / include / asm / unistd_32.h中进行了描述。
 后者也可以出现在您的Linux系统上，只是省略$ build。</p>
-<p>在系统调用期间，所有寄存器都将保留</p>
-<h4 id="syscall">syscall</h4>
-<p>x86_64体系结构引入了进行系统调用的专用指令。它不访问中断描述符表，并且速度更快。通过如下设置通用寄存器来传递参数：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Syscall #</th>
-<th style="text-align:center">Param 1</th>
-<th style="text-align:center">Param 2</th>
-<th style="text-align:center">Param 3</th>
-<th style="text-align:center">Param 4</th>
-<th style="text-align:center">Param 5</th>
-<th style="text-align:center">Param 6</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">rax</td>
-<td style="text-align:center">rdi</td>
-<td style="text-align:center">rsi</td>
-<td style="text-align:center">rdx</td>
-<td style="text-align:center">r10</td>
-<td style="text-align:center">r8</td>
-<td style="text-align:center">r9</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Return value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">rax</td>
-</tr>
-</tbody>
-</table>
-<p>Linux生成的文件$ build / usr / include / asm / unistd_64.h中描述了系统调用号。该文件也可以出现在Linux系统上，只是省略$ build。</p>
-<p>除rcx和r11（以及返回值rax）外，所有寄存器都在系统调用期间保留。</p>
-<h4 id="library-call">library call</h4>
-<p>在调用Linux的库函数时，将参数4传递给RCX，并将其他参数传递到堆栈上。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Param 1</th>
-<th style="text-align:center">Param 2</th>
-<th style="text-align:center">Param 3</th>
-<th style="text-align:center">Param 4</th>
-<th style="text-align:center">Param 5</th>
-<th style="text-align:center">Param 6</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">rdi</td>
-<td style="text-align:center">rsi</td>
-<td style="text-align:center">rdx</td>
-<td style="text-align:center">rcx</td>
-<td style="text-align:center">r8</td>
-<td style="text-align:center">r9</td>
-</tr>
-</tbody>
-</table>
-<h3 id="示例">示例</h3>
-<p>一个简单的helloworld程序</p>
-<p>开始都一样</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">.data</span>
-msg: <span style="color:#a6e22e">.ascii</span> <span style="color:#e6db74">&#34;Hello World\n&#34;</span>
 
-<span style="color:#a6e22e">.text</span>
-<span style="color:#a6e22e">.global</span> <span style="color:#66d9ef">_start</span>
-</code></pre></div><p>接下来不一样</p>
+<p>在系统调用期间，所有寄存器都将保留</p>
+
+<h4 id="syscall">syscall</h4>
+
+<p>x86_64体系结构引入了进行系统调用的专用指令。它不访问中断描述符表，并且速度更快。通过如下设置通用寄存器来传递参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Syscall #</th>
+<th align="center">Param 1</th>
+<th align="center">Param 2</th>
+<th align="center">Param 3</th>
+<th align="center">Param 4</th>
+<th align="center">Param 5</th>
+<th align="center">Param 6</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">rax</td>
+<td align="center">rdi</td>
+<td align="center">rsi</td>
+<td align="center">rdx</td>
+<td align="center">r10</td>
+<td align="center">r8</td>
+<td align="center">r9</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th align="center">Return value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">rax</td>
+</tr>
+</tbody>
+</table>
+
+<p>Linux生成的文件$ build / usr / include / asm / unistd_64.h中描述了系统调用号。该文件也可以出现在Linux系统上，只是省略$ build。</p>
+
+<p>除rcx和r11（以及返回值rax）外，所有寄存器都在系统调用期间保留。</p>
+
+<h4 id="library-call">library call</h4>
+
+<p>在调用Linux的库函数时，将参数4传递给RCX，并将其他参数传递到堆栈上。</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">Param 1</th>
+<th align="center">Param 2</th>
+<th align="center">Param 3</th>
+<th align="center">Param 4</th>
+<th align="center">Param 5</th>
+<th align="center">Param 6</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">rdi</td>
+<td align="center">rsi</td>
+<td align="center">rdx</td>
+<td align="center">rcx</td>
+<td align="center">r8</td>
+<td align="center">r9</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="示例">示例</h3>
+
+<p>一个简单的helloworld程序</p>
+
+<p>开始都一样</p>
+
+<pre><code class="language-asm">.data
+msg: .ascii &quot;Hello World\n&quot;
+
+.text
+.global _start
+</code></pre>
+
+<p>接下来不一样</p>
+
 <h5 id="int-0x80-1">int 0x80</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm">_start:
-    <span style="color:#a6e22e">movl</span> <span style="color:#66d9ef">$4</span>, %eax   <span style="color:#75715e">; use the write syscall
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movl</span> <span style="color:#66d9ef">$1</span>, %ebx   <span style="color:#75715e">; write to stdout
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movl</span> <span style="color:#66d9ef">$msg</span>, %ecx <span style="color:#75715e">; use string &#34;Hello World&#34;
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movl</span> <span style="color:#66d9ef">$12</span>, %edx  <span style="color:#75715e">; write 12 characters
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">$0x80</span>       <span style="color:#75715e">; make syscall
-</span><span style="color:#75715e"></span>    
-    <span style="color:#66d9ef">movl</span> <span style="color:#66d9ef">$1</span>, %eax   <span style="color:#75715e">; use the _exit syscall
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movl</span> <span style="color:#66d9ef">$0</span>, %ebx   <span style="color:#75715e">; error code 0
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">$0x80</span>       <span style="color:#75715e">; make syscall
-</span></code></pre></div><h5 id="syscall-1">syscall</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm">_start:
-    <span style="color:#a6e22e">movq</span> <span style="color:#66d9ef">$1</span>, %rax   <span style="color:#75715e">; use the write syscall
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movq</span> <span style="color:#66d9ef">$1</span>, %rdi   <span style="color:#75715e">; write to stdout
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movq</span> <span style="color:#66d9ef">$msg</span>, %rsi <span style="color:#75715e">; use string &#34;Hello World&#34;
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movq</span> <span style="color:#66d9ef">$12</span>, %rdx  <span style="color:#75715e">; write 12 characters
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">syscall</span>         <span style="color:#75715e">; make syscall
-</span><span style="color:#75715e"></span>    
-    <span style="color:#66d9ef">movq</span> <span style="color:#66d9ef">$60</span>, %rax  <span style="color:#75715e">; use the _exit syscall
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">movq</span> <span style="color:#66d9ef">$0</span>, %rdi   <span style="color:#75715e">; error code 0
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">syscall</span>         <span style="color:#75715e">; make syscall
-</span></code></pre></div><h5 id="library-call-1">library call</h5>
+
+<pre><code class="language-asm">_start:
+    movl $4, %eax   ; use the write syscall
+    movl $1, %ebx   ; write to stdout
+    movl $msg, %ecx ; use string &quot;Hello World&quot;
+    movl $12, %edx  ; write 12 characters
+    int $0x80       ; make syscall
+    
+    movl $1, %eax   ; use the _exit syscall
+    movl $0, %ebx   ; error code 0
+    int $0x80       ; make syscall
+</code></pre>
+
+<h5 id="syscall-1">syscall</h5>
+
+<pre><code class="language-asm">_start:
+    movq $1, %rax   ; use the write syscall
+    movq $1, %rdi   ; write to stdout
+    movq $msg, %rsi ; use string &quot;Hello World&quot;
+    movq $12, %rdx  ; write 12 characters
+    syscall         ; make syscall
+    
+    movq $60, %rax  ; use the _exit syscall
+    movq $0, %rdi   ; error code 0
+    syscall         ; make syscall
+</code></pre>
+
+<h5 id="library-call-1">library call</h5>
+
 <p>这是示例库函数的C原型。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Window XCreateWindow(display, parent, x, y, width, height, border_width, depth, 
+
+<pre><code class="language-c">Window XCreateWindow(display, parent, x, y, width, height, border_width, depth, 
                        class, visual, valuemask, attributes)
-</code></pre></div><p>参数的传递与int $ 0x80示例中的传递相同，不同之处在于寄存器的顺序不同。</p>
+</code></pre>
+
+<p>参数的传递与int $ 0x80示例中的传递相同，不同之处在于寄存器的顺序不同。</p>
+
 <p>库函数在源文件的开始处声明（以及在编译链接时库的路径）。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">extern</span> <span style="color:#66d9ef">XCreateWindow</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdi</span>, [<span style="color:#66d9ef">xserver_pdisplay</span>]
-		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rsi</span>, [<span style="color:#66d9ef">xwin_parent</span>]
-		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rdx</span>, [<span style="color:#66d9ef">xwin_x</span>]
-		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rcx</span>, [<span style="color:#66d9ef">xwin_y</span>]
-		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">r8</span>, [<span style="color:#66d9ef">xwin_width</span>]
-		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">r9</span>, [<span style="color:#66d9ef">xwin_height</span>]
-		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, <span style="color:#66d9ef">attributes</span>
-		<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">rax</span>				<span style="color:#75715e">; ARG 12
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">sub</span> <span style="color:#66d9ef">rax</span>, <span style="color:#66d9ef">rax</span>
-		<span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">xwin_valuemask</span>]
-		<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">rax</span>				<span style="color:#75715e">; ARG 11
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rax</span>, [<span style="color:#66d9ef">xwin_visual</span>]
-		<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">rax</span>				<span style="color:#75715e">; ARG 10
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rax</span>, [<span style="color:#66d9ef">xwin_class</span>]
-		<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">rax</span>				<span style="color:#75715e">; ARG 9
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rax</span>, [<span style="color:#66d9ef">xwin_depth</span>]
-		<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">rax</span>				<span style="color:#75715e">; ARG 8
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">rax</span>, [<span style="color:#66d9ef">xwin_border_width</span>]
-		<span style="color:#a6e22e">push</span> <span style="color:#66d9ef">rax</span>				<span style="color:#75715e">; ARG 7
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">call</span> <span style="color:#66d9ef">XCreateWindow</span>
-		<span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">xwin_window</span>], <span style="color:#66d9ef">rax</span>
-</code></pre></div><p>请注意，将函数的最后一个参数压入堆栈是按相反的顺序进行的。</p>
+
+<pre><code class="language-asm">extern XCreateWindow
+</code></pre>
+
+<pre><code class="language-asm">mov rdi, [xserver_pdisplay]
+        mov rsi, [xwin_parent]
+        mov rdx, [xwin_x]
+        mov rcx, [xwin_y]
+        mov r8, [xwin_width]
+        mov r9, [xwin_height]
+        mov rax, attributes
+        push rax                ; ARG 12
+        sub rax, rax
+        mov eax, [xwin_valuemask]
+        push rax                ; ARG 11
+        mov rax, [xwin_visual]
+        push rax                ; ARG 10
+        mov rax, [xwin_class]
+        push rax                ; ARG 9
+        mov rax, [xwin_depth]
+        push rax                ; ARG 8
+        mov rax, [xwin_border_width]
+        push rax                ; ARG 7
+        call XCreateWindow
+        mov [xwin_window], rax
+</code></pre>
+
+<p>请注意，将函数的最后一个参数压入堆栈是按相反的顺序进行的。</p>
 
         </div>
         <div id="disqus_thread"></div>
