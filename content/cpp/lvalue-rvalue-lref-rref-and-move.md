@@ -108,3 +108,5 @@ std::move可以理解成：系统希望/建议在调用move时，程序员自己
 - 该对象没有其他用户
 
 
+**参考文献**
+[https://www.jianshu.com/p/d19fc8447eaa](https://www.jianshu.com/p/d19fc8447eaa)
