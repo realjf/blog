@@ -3,7 +3,7 @@
 <head>
     <title>storm安装 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,24 +237,18 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/storm/">Storm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/storm/">storm</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="一-需要安装的工具">一、需要安装的工具</h3>
-
+            <h3 id="一需要安装的工具">一、需要安装的工具</h3>
 <pre><code>    python、zookeeper、storm（如果是storm0.9以前的版本，则需要安装zeromq、jzmq）
 </code></pre>
-
-<h3 id="二-开始安装">二、开始安装</h3>
-
-<h4 id="第一步-安装python2-7-2">第一步：安装Python2.7.2</h4>
-
-<pre><code class="language-shell">wget http://www.python.org/ftp/python/2.7.2/Python-2.7.2.tgz
+<h3 id="二开始安装">二、开始安装</h3>
+<h4 id="第一步安装python272">第一步：安装Python2.7.2</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget http://www.python.org/ftp/python/2.7.2/Python-2.7.2.tgz
 tar zxvf Python-2.7.2.tgz
 cd Python-2.7.2
-./configure --prefix=/usr/local/python2.7
+./configure --prefix<span style="color:#f92672">=</span>/usr/local/python2.7
 make
 make install
 vi /etc/ld.so.conf
@@ -262,91 +256,69 @@ vi /etc/ld.so.conf
 追加/usr/local/lib/
 sudo ldconfig
 
-</code></pre>
-
-<h4 id="第二步-安装zookeeper">第二步：安装zookeeper</h4>
-
-<pre><code class="language-shell">wget http://mirrors.cnnic.cn/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz
+</code></pre></div><h4 id="第二步安装zookeeper">第二步：安装zookeeper</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget http://mirrors.cnnic.cn/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz
 tar -zxvf zookeeper-3.3.5.tar.gz 
 cp  -R zookeeper-3.3.5  /usr/local/zookeeper
-vim /etc/profile (设置ZOOKEEPER_HOME和ZOOKEEPER_HOME/bin) 
-export ZOOKEEPER_HOME=&quot;/usr/local/zookeeper&quot;
-export PATH=$PATH:$ZOOKEEPER_HOME/bin
-cp /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg (用zoo_sample.cfg制作$ZOOKEEPER_HOME/conf/zoo.cfg)
+vim /etc/profile <span style="color:#f92672">(</span>设置ZOOKEEPER_HOME和ZOOKEEPER_HOME/bin<span style="color:#f92672">)</span> 
+export ZOOKEEPER_HOME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/zookeeper&#34;</span>
+export PATH<span style="color:#f92672">=</span>$PATH:$ZOOKEEPER_HOME/bin
+cp /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg <span style="color:#f92672">(</span>用zoo_sample.cfg制作$ZOOKEEPER_HOME/conf/zoo.cfg<span style="color:#f92672">)</span>
 mkdir /tmp/zookeeper
 mkdir /var/log/zookeeper
-</code></pre>
-
-<p>zookeeper的单机安装已经完成了。</p>
-
-<h4 id="第三步-安装zeromq">第三步：安装zeromq</h4>
-
-<pre><code class="language-shell">wget http://download.zeromq.org/zeromq-4.1.0-rc1.tar.gz
+</code></pre></div><p>zookeeper的单机安装已经完成了。</p>
+<h4 id="第三步安装zeromq">第三步：安装zeromq</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget http://download.zeromq.org/zeromq-4.1.0-rc1.tar.gz
 tar zxf zeromq-2.2.0.tar.gz 
 cd zeromq-2.2.0
-./configure     //因为jzmq的安装时依赖于zeromq的，所以./configure的时候不能指定zeromq的安装目录，如果指定了，则jzmq的安装会出错（即不能指定--prefix=...）。
+./configure     //因为jzmq的安装时依赖于zeromq的，所以./configure的时候不能指定zeromq的安装目录，如果指定了，则jzmq的安装会出错（即不能指定--prefix<span style="color:#f92672">=</span>...）。
 make
 make install
-sudo ldconfig (更新LD_LIBRARY_PATH)
-</code></pre>
-
-<p>zeromq安装完成。
+sudo ldconfig <span style="color:#f92672">(</span>更新LD_LIBRARY_PATH<span style="color:#f92672">)</span>
+</code></pre></div><p>zeromq安装完成。
 注意：如有有依赖报错，需要安装：
 jzmq dependencies 依赖包
 sudo yum install uuid*
 sudo yum install libtool
-sudo yum install libuuid
+sudo yum install libuuid 
 sudo yum install libuuid-devel</p>
-
-<h4 id="第四步-安装jzmq">第四步：安装jzmq</h4>
-
+<h4 id="第四步安装jzmq">第四步：安装jzmq</h4>
 <p>jzmq的安装是依赖zeromq的，所以应该先装zeromq，再装jzmq</p>
-
-<pre><code class="language-shell">git clone git://github.com/nathanmarz/jzmq.git(需先安装git，才能git clone文件)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone git://github.com/nathanmarz/jzmq.git<span style="color:#f92672">(</span>需先安装git，才能git clone文件<span style="color:#f92672">)</span>
 cd jzmq
 ./autogen.sh
 ./configure
 make
 make install
-</code></pre>
-
-<p>报错修复：
-- 1、在./autogen.sh这步如果报错：autogen.sh:error:could not find libtool is required to run autogen.sh，这是因为缺少了libtool。解决方法：yum install libtool
-- 2、make[1]: *** 没有规则可以创建“org/zeromq/ZMQ.class”需要的目标“classdist_noinst.stamp”。 停止
-   修正方法，创建classdist_noinst.stamp文件。解决方法：touch src/classdist_noinst.stamp
-- 3、无法访问 org.zeromq.ZMQ 。解决方法：进入src目录，手动编译相关java代码：javac -d . org/zeromq/*.java
-          4、在./configure的时候报,not include “zmf.c.。解决方案：看自己的zeromq是否安装在默认目录了，如果没有，重新安装</p>
-
-<h4 id="第五步-安装storm">第五步，安装Storm</h4>
-
-<pre><code class="language-shell">wget http://mirrors.cnnic.cn/apache/storm/apache-storm-0.9.4/apache-storm-0.9.4.tar.gz
+</code></pre></div><p>报错修复：</p>
+<ul>
+<li>1、在./autogen.sh这步如果报错：autogen.sh:error:could not find libtool is required to run autogen.sh，这是因为缺少了libtool。解决方法：yum install libtool</li>
+<li>2、make[1]: *** 没有规则可以创建“org/zeromq/ZMQ.class”需要的目标“classdist_noinst.stamp”。 停止
+修正方法，创建classdist_noinst.stamp文件。解决方法：touch src/classdist_noinst.stamp</li>
+<li>3、无法访问 org.zeromq.ZMQ 。解决方法：进入src目录，手动编译相关java代码：javac -d . org/zeromq/*.java
+4、在./configure的时候报,not include “zmf.c.。解决方案：看自己的zeromq是否安装在默认目录了，如果没有，重新安装</li>
+</ul>
+<h4 id="第五步安装storm">第五步，安装Storm</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget http://mirrors.cnnic.cn/apache/storm/apache-storm-0.9.4/apache-storm-0.9.4.tar.gz
 unzip  apache-storm-0.9.4.zip
 mv storm-0.8.1 /usr/local/storm
 ln -s /usr/local/storm-0.8.1/ /usr/local/storm
 vim /etc/profile
-export STORM_HOME=/usr/local/storm-0.8.1
-export PATH=$PATH:$STORM_HOME/bin
+export STORM_HOME<span style="color:#f92672">=</span>/usr/local/storm-0.8.1
+export PATH<span style="color:#f92672">=</span>$PATH:$STORM_HOME/bin
 
-</code></pre>
-
-<p>到此为止单机版的Storm就安装完毕了。</p>
-
-<h3 id="三-测试运行">三、测试运行</h3>
-
-<h4 id="一-运行storm的官方demo">一、运行storm的官方demo</h4>
-
+</code></pre></div><p>到此为止单机版的Storm就安装完毕了。</p>
+<h3 id="三测试运行">三、测试运行</h3>
+<h4 id="一运行storm的官方demo">一、运行storm的官方demo</h4>
 <ul>
 <li>a：在eclipse里面创建一个java项目</li>
 <li>b：将storm安装路径的lib中的jar包导入夏目</li>
 <li>c：将storm安装路径中的/examples/storm-starter/src/jvm 里面的storm文件夹直接拷贝到java项目的src路径下</li>
 <li>d：看是否有报错，如果有报错，解决一下报错（如果jdk版本是1.8的，则会报一些错误，主要是@override）</li>
-
-<li><p>f：运行包storm.starter中的topology例子</p>
-
-<h4 id="二-配置及启动zookeeper">二、配置及启动zookeeper</h4>
-
+<li>f：运行包storm.starter中的topology例子</li>
+</ul>
+<h4 id="二配置及启动zookeeper">二、配置及启动zookeeper</h4>
 <p>配置内容：</p>
-
 <pre><code># The number of milliseconds of each tick  
 tickTime=2000  
 # The number of ticks that the initial   
@@ -362,44 +334,34 @@ dataDir=/home/username/zookeeper-3.4.5/tmp/zookeeper-data
 dataLogDir=/home/username/zookeeper-3.4.5/tmp/logs  
 # the port at which the clients will connect  
 clientPort=2181 
-</code></pre>
-
-<p>单机版直接启动：  /usr/local/zookeeper/bin/zkServer.sh start</p>
-
-<h4 id="三-配置storm">三、配置storm</h4>
-
+</code></pre><p>单机版直接启动：  /usr/local/zookeeper/bin/zkServer.sh start</p>
+<h4 id="三配置storm">三、配置storm</h4>
 <p>文件在/usr/local/storm/conf/storm.yaml
-配置内容如下：
-```shell
-storm.zookeeper.servers:</p>
-
+配置内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">storm.zookeeper.servers:
+  - 127.0.0.1
+ storm.zookeeper.port: <span style="color:#ae81ff">2181</span>
+ nimbus.host: <span style="color:#e6db74">&#34;127.0.0.1&#34;</span>
+ ui.port: <span style="color:#ae81ff">9098</span>
+ storm.local.dir: <span style="color:#e6db74">&#34;/tmp/storm&#34;</span>
+</code></pre></div><blockquote>
+<p>注意：在配置时一定注意在每一项的开始时要加空格，冒号后也必须要加空格，否则storm就不认识这个配置文件了。</p>
+</blockquote>
+<p>说明：</p>
 <ul>
-<li>127.0.0.1
-storm.zookeeper.port: 2181
-nimbus.host: &ldquo;127.0.0.1&rdquo;
-ui.port: 9098
-storm.local.dir: &ldquo;/tmp/storm&rdquo;
-```
-&gt; 注意：在配置时一定注意在每一项的开始时要加空格，冒号后也必须要加空格，否则storm就不认识这个配置文件了。</li>
-</ul></li>
+<li>storm.local.dir表示storm需要用到的本地目录。</li>
+<li>nimbus.host表示那一台机器是master机器，即 nimbus。</li>
+<li>storm.zookeeper.servers表示哪几台机器是zookeeper服务器。</li>
+<li>storm.zookeeper.port表 示zookeeper的端口号，这里一定要与zookeeper配置的端口号一致，否则会出现通信错误，切记切记。</li>
+<li>superevisor.slot.port和supervisor.slots.ports表示supervisor节点的槽数，就是最多能跑几个 worker进程（每个sprout或bolt默认只启动一个worker，但是可以通过conf修改成多个）。</li>
 </ul>
-
-<p>说明：
-- storm.local.dir表示storm需要用到的本地目录。
-- nimbus.host表示那一台机器是master机器，即 nimbus。
-- storm.zookeeper.servers表示哪几台机器是zookeeper服务器。
-- storm.zookeeper.port表 示zookeeper的端口号，这里一定要与zookeeper配置的端口号一致，否则会出现通信错误，切记切记。
-- superevisor.slot.port和supervisor.slots.ports表示supervisor节点的槽数，就是最多能跑几个 worker进程（每个sprout或bolt默认只启动一个worker，但是可以通过conf修改成多个）。</p>
-
-<h4 id="四-执行">四、执行</h4>
-
-<pre><code class="language-shell"># bin/storm nimbus（启动主节点）
-# bin/storm supervisor（启动从节点）
+<h4 id="四执行">四、执行</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># bin/storm nimbus（启动主节点）</span>
+<span style="color:#75715e"># bin/storm supervisor（启动从节点）</span>
 执行命令：# storm jar StormStarter.jar storm.starter.WordCountTopology test  //此命令的作用就是用storm将jar发送给storm去执行，后面的test是定义的toplogy名称。
-# bin/storm ui （启动ui，可以通过 ip:8080/ 查看运行i情况）
-# bin/storm logviewer 启动Log Viewer进程
-</code></pre>
-
+<span style="color:#75715e"># bin/storm ui （启动ui，可以通过 ip:8080/ 查看运行i情况）</span>
+<span style="color:#75715e"># bin/storm logviewer 启动Log Viewer进程</span>
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

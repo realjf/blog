@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Traefik on Realjf&#39;s blog</title>
+    <title>traefik on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/traefik/</link>
-    <description>Recent content in Traefik on Realjf&#39;s blog</description>
+    <description>Recent content in traefik on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Mar 2019 14:35:31 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/tags/traefik/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 19 Mar 2019 14:35:31 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/traefik/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kubernetes集群下 Traefik安装和使用</title>
       <link>https://realjf.io/posts/k8s-plugins-traefik/</link>
@@ -20,7 +16,7 @@
       <description>前提：安装好kubernetes集群情况下
   run traefik and let it do the work for you!
  traefik官方地址：http://traefik.cn/
-方法一：使用k8s安装 准备 # 创建目录 mkdir traefik cd traefik # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git # 检查traefik配置 ll traefik/example/k8s/ -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.yaml -rw-r--r-- 1 root root 509 Sep 11 16:53 cheese-services.</description>
+方法一：使用k8s安装 准备 # 创建目录 mkdir traefik cd traefik # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git # 检查traefik配置  ll traefik/example/k8s/ -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.yaml -rw-r--r-- 1 root root 509 Sep 11 16:53 cheese-services.</description>
     </item>
     
   </channel>

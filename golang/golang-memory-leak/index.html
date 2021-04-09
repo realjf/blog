@@ -3,7 +3,7 @@
 <head>
     <title>Go内存泄漏分析 Golang Memory Leak // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,76 +237,62 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="环境">环境</h2>
-
+            <h2 id="环境">环境</h2>
 <ul>
 <li>go v1.14.4</li>
 </ul>
-
 <h3 id="什么是-pprof">什么是 Pprof</h3>
-
 <p>首先，不得不提的就是go分析利器pprof。pprof记录程序在运行过程中的cpu使用情况、内存使用情况、
 goroutine运行情况、阻塞状况等，是定位bug和性能分析的利器。</p>
-
 <h3 id="如何开启pprof">如何开启pprof</h3>
-
 <p>go中有两个地方有：</p>
-
 <ul>
 <li>net/http/pprof</li>
 <li>runtime/pprof</li>
 </ul>
-
 <p>差别只是runtime/pprof通过封装暴露http端口后就是net/http/pprof</p>
-
 <p>开启pprof很简单，只需导入net/http/pprof包，并开启一个goroutine去监听http端口6060就可以了，具体代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<pre><code class="language-golang">package main
 
-
-import (
-    &quot;fmt&quot;
-    &quot;net/http&quot;
-    _ &quot;net/http/pprof&quot;
-    
-    &quot;github.com/gorilla/mux&quot;
-    &quot;time&quot;
-    &quot;log&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;net/http&#34;</span>
+	<span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;net/http/pprof&#34;</span>
+	
+	<span style="color:#e6db74">&#34;github.com/gorilla/mux&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+	<span style="color:#e6db74">&#34;log&#34;</span>
 )
 
-func hello(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte(&quot;hello world&quot;))
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">hello</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#e6db74">&#34;hello world&#34;</span>))
 }
 
-func main() {
-    go func() {
-        ip := &quot;:6060&quot;
-        if err := http.ListenAndServe(ip, nil); err != nil {
-            fmt.Printf(&quot;start pprof failed on %s\n&quot;, ip)
-        }
-    }()
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">ip</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;:6060&#34;</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#a6e22e">ip</span>, <span style="color:#66d9ef">nil</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;start pprof failed on %s\n&#34;</span>, <span style="color:#a6e22e">ip</span>)
+		}
+	}()
 
-    r := mux.NewRouter()
-    r.HandleFunc(&quot;/hello&quot;, hello)
-    srv := &amp;http.Server{
-        Handler:      r,
-        Addr:         &quot;:8080&quot;,
-        WriteTimeout: 15 * time.Second,
-        ReadTimeout:  15 * time.Second,
+	<span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">NewRouter</span>()
+	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/hello&#34;</span>, <span style="color:#a6e22e">hello</span>)
+	<span style="color:#a6e22e">srv</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span>{
+        <span style="color:#a6e22e">Handler</span>:      <span style="color:#a6e22e">r</span>,
+        <span style="color:#a6e22e">Addr</span>:         <span style="color:#e6db74">&#34;:8080&#34;</span>,
+        <span style="color:#a6e22e">WriteTimeout</span>: <span style="color:#ae81ff">15</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+        <span style="color:#a6e22e">ReadTimeout</span>:  <span style="color:#ae81ff">15</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
     }
 
-    log.Fatal(srv.ListenAndServe())
+    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">ListenAndServe</span>())
 }
 
-</code></pre>
-
-<p>运行之后，可以在浏览器中打开ip:6060/debug/pprof页面，其中的信息大致如下：</p>
-
+</code></pre></div><p>运行之后，可以在浏览器中打开ip:6060/debug/pprof页面，其中的信息大致如下：</p>
 <ul>
 <li>allocs：所有过去内存分配的抽样</li>
 <li>block：groutine阻塞的堆栈信息</li>
@@ -319,156 +305,137 @@ func main() {
 <li>trace: 当前程序的执行痕迹。您可以在seconds GET参数中指定持续时间。获取跟踪文件后，使用go tool trace命令来调查跟踪。</li>
 <li>full groutine stack dump: goroutine调用栈信息</li>
 </ul>
-
 <h3 id="命令行交互方式访问">命令行交互方式访问</h3>
-
-<pre><code class="language-sh"># 可以获取指定的profile文件，此命令会发起http请求，并下载数据到本地，之后进入交互模式
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 可以获取指定的profile文件，此命令会发起http请求，并下载数据到本地，之后进入交互模式</span>
 go tool pprof url
-# url可以是：http://127.0.0.1:6060/debug/pprof/heap之类
-# 进入交互终端后，可以执行help查看命令说明
-# 如：go tool pprof http://127.0.0.1:6060/debug/pprof/goroutine之后运行top命令，结果如下：
-(pprof) top
-Showing nodes accounting for 4, 100% of 4 total
-Showing top 10 nodes out of 26
+<span style="color:#75715e"># url可以是：http://127.0.0.1:6060/debug/pprof/heap之类</span>
+<span style="color:#75715e"># 进入交互终端后，可以执行help查看命令说明</span>
+<span style="color:#75715e"># 如：go tool pprof http://127.0.0.1:6060/debug/pprof/goroutine之后运行top命令，结果如下：</span>
+<span style="color:#f92672">(</span>pprof<span style="color:#f92672">)</span> top
+Showing nodes accounting <span style="color:#66d9ef">for</span> 4, 100% of <span style="color:#ae81ff">4</span> total
+Showing top <span style="color:#ae81ff">10</span> nodes out of <span style="color:#ae81ff">26</span>
       flat  flat%   sum%        cum   cum%
-         2 50.00% 50.00%          2 50.00%  runtime.gopark
-         1 25.00% 75.00%          1 25.00%  net/http.(*connReader).backgroundRead
-         1 25.00%   100%          1 25.00%  runtime/pprof.writeRuntimeProfile
-         0     0%   100%          2 50.00%  internal/poll.(*FD).Accept
-         0     0%   100%          2 50.00%  internal/poll.(*FD).acceptOne
-         0     0%   100%          2 50.00%  internal/poll.(*ioSrv).ExecIO
-         0     0%   100%          2 50.00%  internal/poll.(*pollDesc).wait
-         0     0%   100%          2 50.00%  internal/poll.runtime_pollWait
-         0     0%   100%          1 25.00%  main.main
-         0     0%   100%          1 25.00%  main.main.func1
+         <span style="color:#ae81ff">2</span> 50.00% 50.00%          <span style="color:#ae81ff">2</span> 50.00%  runtime.gopark
+         <span style="color:#ae81ff">1</span> 25.00% 75.00%          <span style="color:#ae81ff">1</span> 25.00%  net/http.<span style="color:#f92672">(</span>*connReader<span style="color:#f92672">)</span>.backgroundRead
+         <span style="color:#ae81ff">1</span> 25.00%   100%          <span style="color:#ae81ff">1</span> 25.00%  runtime/pprof.writeRuntimeProfile
+         <span style="color:#ae81ff">0</span>     0%   100%          <span style="color:#ae81ff">2</span> 50.00%  internal/poll.<span style="color:#f92672">(</span>*FD<span style="color:#f92672">)</span>.Accept
+         <span style="color:#ae81ff">0</span>     0%   100%          <span style="color:#ae81ff">2</span> 50.00%  internal/poll.<span style="color:#f92672">(</span>*FD<span style="color:#f92672">)</span>.acceptOne
+         <span style="color:#ae81ff">0</span>     0%   100%          <span style="color:#ae81ff">2</span> 50.00%  internal/poll.<span style="color:#f92672">(</span>*ioSrv<span style="color:#f92672">)</span>.ExecIO
+         <span style="color:#ae81ff">0</span>     0%   100%          <span style="color:#ae81ff">2</span> 50.00%  internal/poll.<span style="color:#f92672">(</span>*pollDesc<span style="color:#f92672">)</span>.wait
+         <span style="color:#ae81ff">0</span>     0%   100%          <span style="color:#ae81ff">2</span> 50.00%  internal/poll.runtime_pollWait
+         <span style="color:#ae81ff">0</span>     0%   100%          <span style="color:#ae81ff">1</span> 25.00%  main.main
+         <span style="color:#ae81ff">0</span>     0%   100%          <span style="color:#ae81ff">1</span> 25.00%  main.main.func1
 
-# - flat: 给定函数上运行goroutine数量
-# - flat%: 给定函数上goroutine运行数量总占比
-# - sum%: 给定函数累计goroutine数量总占比
-# - cum: 当前函数加上它之前的调用中goroutine运行总数量
-# - cum%: 当前函数及之前调用中goroutine数量总占比
-# 最后一列是函数名称
-</code></pre>
-
-<p>运行go tool pprof <a href="http://127.0.0.1:6060/debug/pprof/heap命令可以加上一些参数：">http://127.0.0.1:6060/debug/pprof/heap命令可以加上一些参数：</a></p>
-
+<span style="color:#75715e"># - flat: 给定函数上运行goroutine数量</span>
+<span style="color:#75715e"># - flat%: 给定函数上goroutine运行数量总占比</span>
+<span style="color:#75715e"># - sum%: 给定函数累计goroutine数量总占比</span>
+<span style="color:#75715e"># - cum: 当前函数加上它之前的调用中goroutine运行总数量</span>
+<span style="color:#75715e"># - cum%: 当前函数及之前调用中goroutine数量总占比</span>
+<span style="color:#75715e"># 最后一列是函数名称</span>
+</code></pre></div><p>运行go tool pprof http://127.0.0.1:6060/debug/pprof/heap命令可以加上一些参数：</p>
 <ul>
 <li>-inuse_space: 分析应用程序的常驻内存占用情况，通常用来检测有没有不符合预期的内存 对象引用</li>
 <li>-alloc_objects: 分析应用程序的内存临时分配情况</li>
 </ul>
-
-<pre><code class="language-sh"># go tool pprof http://127.0.0.1:6060/debug/pprof/goroutine之后运行list main命令，结果如下：
-(pprof) list main
-Total: 4
-ROUTINE ======================== main.main in F:\shared\gopath\src\test_pprof\main.go
-         0          1 (flat, cum) 25.00% of Total
-         .          .     30:        Addr:         &quot;:8080&quot;,
-         .          .     31:        WriteTimeout: 15 * time.Second,
-         .          .     32:        ReadTimeout:  15 * time.Second,
-         .          .     33:    }
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># go tool pprof http://127.0.0.1:6060/debug/pprof/goroutine之后运行list main命令，结果如下：</span>
+<span style="color:#f92672">(</span>pprof<span style="color:#f92672">)</span> list main
+Total: <span style="color:#ae81ff">4</span>
+ROUTINE <span style="color:#f92672">========================</span> main.main in F:<span style="color:#ae81ff">\s</span>hared<span style="color:#ae81ff">\g</span>opath<span style="color:#ae81ff">\s</span>rc<span style="color:#ae81ff">\t</span>est_pprof<span style="color:#ae81ff">\m</span>ain.go
+         <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>flat, cum<span style="color:#f92672">)</span> 25.00% of Total
+         .          .     30:        Addr:         <span style="color:#e6db74">&#34;:8080&#34;</span>,
+         .          .     31:        WriteTimeout: <span style="color:#ae81ff">15</span> * time.Second,
+         .          .     32:        ReadTimeout:  <span style="color:#ae81ff">15</span> * time.Second,
+         .          .     33:    <span style="color:#f92672">}</span>
          .          .     34:
-         .          1     35:    log.Fatal(srv.ListenAndServe())
-         .          .     36:}
-ROUTINE ======================== main.main.func1 in F:\shared\gopath\src\test_pprof\main.go
-         0          1 (flat, cum) 25.00% of Total
-         .          .     16:}
+         .          <span style="color:#ae81ff">1</span>     35:    log.Fatal<span style="color:#f92672">(</span>srv.ListenAndServe<span style="color:#f92672">())</span>
+         .          .     36:<span style="color:#f92672">}</span>
+ROUTINE <span style="color:#f92672">========================</span> main.main.func1 in F:<span style="color:#ae81ff">\s</span>hared<span style="color:#ae81ff">\g</span>opath<span style="color:#ae81ff">\s</span>rc<span style="color:#ae81ff">\t</span>est_pprof<span style="color:#ae81ff">\m</span>ain.go
+         <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>flat, cum<span style="color:#f92672">)</span> 25.00% of Total
+         .          .     16:<span style="color:#f92672">}</span>
          .          .     17:
-         .          .     18:func main() {
-         .          .     19:   go func() {
-         .          .     20:           ip := &quot;:6060&quot;
-         .          1     21:           if err := http.ListenAndServe(ip, nil); err != nil {
-         .          .     22:                   fmt.Printf(&quot;start pprof failed on %s\n&quot;, ip)
-         .          .     23:           }
-         .          .     24:   }()
+         .          .     18:func main<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+         .          .     19:   go func<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+         .          .     20:           ip :<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;:6060&#34;</span>
+         .          <span style="color:#ae81ff">1</span>     21:           <span style="color:#66d9ef">if</span> err :<span style="color:#f92672">=</span> http.ListenAndServe<span style="color:#f92672">(</span>ip, nil<span style="color:#f92672">)</span>; err !<span style="color:#f92672">=</span> nil <span style="color:#f92672">{</span>
+         .          .     22:                   fmt.Printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;start pprof failed on %s\n&#34;</span>, ip<span style="color:#f92672">)</span>
+         .          .     23:           <span style="color:#f92672">}</span>
+         .          .     24:   <span style="color:#f92672">}()</span>
          .          .     25:
-         .          .     26:   r := mux.NewRouter()
-ROUTINE ======================== runtime.main in E:\Go\src\runtime\proc.go
-         0          1 (flat, cum) 25.00% of Total
-         .          .    198:           // A program compiled with -buildmode=c-archive or c-shared
+         .          .     26:   r :<span style="color:#f92672">=</span> mux.NewRouter<span style="color:#f92672">()</span>
+ROUTINE <span style="color:#f92672">========================</span> runtime.main in E:<span style="color:#ae81ff">\G</span>o<span style="color:#ae81ff">\s</span>rc<span style="color:#ae81ff">\r</span>untime<span style="color:#ae81ff">\p</span>roc.go
+         <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>flat, cum<span style="color:#f92672">)</span> 25.00% of Total
+         .          .    198:           // A program compiled with -buildmode<span style="color:#f92672">=</span>c-archive or c-shared
          .          .    199:           // has a main, but it is not executed.
-         .          .    200:           return
-         .          .    201:   }
-         .          .    202:   fn := main_main // make an indirect call, as the linker doesn't know the address of the main package when laying down the runtime
-         .          1    203:   fn()
-         .          .    204:   if raceenabled {
-         .          .    205:           racefini()
-         .          .    206:   }
+         .          .    200:           <span style="color:#66d9ef">return</span>
+         .          .    201:   <span style="color:#f92672">}</span>
+         .          .    202:   fn :<span style="color:#f92672">=</span> main_main // make an indirect call, as the linker doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t know the address of the main package when laying down the runtime
+         .          <span style="color:#ae81ff">1</span>    203:   fn<span style="color:#f92672">()</span>
+         .          .    204:   <span style="color:#66d9ef">if</span> raceenabled <span style="color:#f92672">{</span>
+         .          .    205:           racefini<span style="color:#f92672">()</span>
+         .          .    206:   <span style="color:#f92672">}</span>
          .          .    207:
-         .          .    208:   // Make racy client program work: if panicking on
-</code></pre>
-
-<p>list main查看main函数的代码以及该函数每行代码的指标信息，当然list参数可以进行模糊匹配。</p>
-
-<pre><code class="language-sh"># traces命令可以打印所有调用栈信息
-(pprof) traces
+         .          .    208:   // Make racy client program work: <span style="color:#66d9ef">if</span> panicking on
+</code></pre></div><p>list main查看main函数的代码以及该函数每行代码的指标信息，当然list参数可以进行模糊匹配。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># traces命令可以打印所有调用栈信息</span>
+<span style="color:#f92672">(</span>pprof<span style="color:#f92672">)</span> traces
 Type: goroutine
-Time: Apr 9, 2021 at 2:46pm (CST)
+Time: Apr 9, <span style="color:#ae81ff">2021</span> at 2:46pm <span style="color:#f92672">(</span>CST<span style="color:#f92672">)</span>
 -----------+-------------------------------------------------------
-         1   runtime.gopark
+         <span style="color:#ae81ff">1</span>   runtime.gopark
              runtime.netpollblock
              internal/poll.runtime_pollWait
-             internal/poll.(*pollDesc).wait
-             internal/poll.(*ioSrv).ExecIO
-             internal/poll.(*FD).acceptOne
-             internal/poll.(*FD).Accept
-             net.(*netFD).accept
-             net.(*TCPListener).accept
-             net.(*TCPListener).Accept
-             net/http.(*Server).Serve
-             net/http.(*Server).ListenAndServe
+             internal/poll.<span style="color:#f92672">(</span>*pollDesc<span style="color:#f92672">)</span>.wait
+             internal/poll.<span style="color:#f92672">(</span>*ioSrv<span style="color:#f92672">)</span>.ExecIO
+             internal/poll.<span style="color:#f92672">(</span>*FD<span style="color:#f92672">)</span>.acceptOne
+             internal/poll.<span style="color:#f92672">(</span>*FD<span style="color:#f92672">)</span>.Accept
+             net.<span style="color:#f92672">(</span>*netFD<span style="color:#f92672">)</span>.accept
+             net.<span style="color:#f92672">(</span>*TCPListener<span style="color:#f92672">)</span>.accept
+             net.<span style="color:#f92672">(</span>*TCPListener<span style="color:#f92672">)</span>.Accept
+             net/http.<span style="color:#f92672">(</span>*Server<span style="color:#f92672">)</span>.Serve
+             net/http.<span style="color:#f92672">(</span>*Server<span style="color:#f92672">)</span>.ListenAndServe
              main.main
              runtime.main
 -----------+-------------------------------------------------------
-         1   runtime.gopark
+         <span style="color:#ae81ff">1</span>   runtime.gopark
              runtime.netpollblock
              internal/poll.runtime_pollWait
-             internal/poll.(*pollDesc).wait
-             internal/poll.(*ioSrv).ExecIO
-             internal/poll.(*FD).acceptOne
-             internal/poll.(*FD).Accept
-             net.(*netFD).accept
-             net.(*TCPListener).accept
-             net.(*TCPListener).Accept
-             net/http.(*Server).Serve
-             net/http.(*Server).ListenAndServe
+             internal/poll.<span style="color:#f92672">(</span>*pollDesc<span style="color:#f92672">)</span>.wait
+             internal/poll.<span style="color:#f92672">(</span>*ioSrv<span style="color:#f92672">)</span>.ExecIO
+             internal/poll.<span style="color:#f92672">(</span>*FD<span style="color:#f92672">)</span>.acceptOne
+             internal/poll.<span style="color:#f92672">(</span>*FD<span style="color:#f92672">)</span>.Accept
+             net.<span style="color:#f92672">(</span>*netFD<span style="color:#f92672">)</span>.accept
+             net.<span style="color:#f92672">(</span>*TCPListener<span style="color:#f92672">)</span>.accept
+             net.<span style="color:#f92672">(</span>*TCPListener<span style="color:#f92672">)</span>.Accept
+             net/http.<span style="color:#f92672">(</span>*Server<span style="color:#f92672">)</span>.Serve
+             net/http.<span style="color:#f92672">(</span>*Server<span style="color:#f92672">)</span>.ListenAndServe
              net/http.ListenAndServe
              main.main.func1
 -----------+-------------------------------------------------------
-         1   net/http.(*connReader).backgroundRead
+         <span style="color:#ae81ff">1</span>   net/http.<span style="color:#f92672">(</span>*connReader<span style="color:#f92672">)</span>.backgroundRead
 -----------+-------------------------------------------------------
-         1   runtime/pprof.writeRuntimeProfile
+         <span style="color:#ae81ff">1</span>   runtime/pprof.writeRuntimeProfile
              runtime/pprof.writeGoroutine
-             runtime/pprof.(*Profile).WriteTo
+             runtime/pprof.<span style="color:#f92672">(</span>*Profile<span style="color:#f92672">)</span>.WriteTo
              net/http/pprof.handler.ServeHTTP
              net/http/pprof.Index
              net/http.HandlerFunc.ServeHTTP
-             net/http.(*ServeMux).ServeHTTP
+             net/http.<span style="color:#f92672">(</span>*ServeMux<span style="color:#f92672">)</span>.ServeHTTP
              net/http.serverHandler.ServeHTTP
-             net/http.(*conn).serve
+             net/http.<span style="color:#f92672">(</span>*conn<span style="color:#f92672">)</span>.serve
 -----------+-------------------------------------------------------
 
-</code></pre>
-
-<h3 id="pprof可视化界面">pprof可视化界面</h3>
-
-<p>首先，运行go tool pprof <a href="http://127.0.0.1:6060/debug/pprof/profile获取profile文件">http://127.0.0.1:6060/debug/pprof/profile获取profile文件</a></p>
-
+</code></pre></div><h3 id="pprof可视化界面">pprof可视化界面</h3>
+<p>首先，运行go tool pprof http://127.0.0.1:6060/debug/pprof/profile获取profile文件</p>
 <p>启动可视化界面方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 方法一</span>
+go tool pprof -http<span style="color:#f92672">=</span>:8080 profile
 
-<pre><code class="language-sh"># 方法一
-go tool pprof -http=:8080 profile
-
-# 方法二
+<span style="color:#75715e"># 方法二</span>
 go tool pprof profile
-(pprof) web
-</code></pre>
-
-<h3 id="内存泄漏">内存泄漏</h3>
-
+<span style="color:#f92672">(</span>pprof<span style="color:#f92672">)</span> web
+</code></pre></div><h3 id="内存泄漏">内存泄漏</h3>
 <p>使用监控工具可以发现：随着时间的推进，内存的占用率在不断的提高，这是内存泄露的最明显现象。</p>
-
 <h3 id="参考文献">参考文献</h3>
-
 <ul>
 <li><a href="https://software.intel.com/content/www/us/en/develop/blogs/debugging-performance-issues-in-go-programs.html">https://software.intel.com/content/www/us/en/develop/blogs/debugging-performance-issues-in-go-programs.html</a></li>
 <li><a href="https://studygolang.com/articles/20519">https://studygolang.com/articles/20519</a></li>
