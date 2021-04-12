@@ -113,3 +113,4 @@ TGC是CAS服务器通过SSL方式发送给终端用户，因此，要截取TGC�
 
 **参考文献**
 - [http://www.360doc.com/content/15/0204/17/21706453_446251626.shtml](http://www.360doc.com/content/15/0204/17/21706453_446251626.shtml)
+- [https://www.cnblogs.com/lyzg/p/6132801.html](https://www.cnblogs.com/lyzg/p/6132801.html)
