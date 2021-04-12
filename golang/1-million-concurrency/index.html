@@ -3,7 +3,7 @@
 <head>
     <title>百万并发实现 1 Million Concurrency // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,109 +237,111 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a></div></div>
         </header>
         <div class="post-content">
-            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// 实现百万并发
-</span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span> 
+            <pre><code class="language-golang">// 实现百万并发
+package main 
 
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;fmt&#34;</span>
-	<span style="color:#e6db74">&#34;time&#34;</span>
-	<span style="color:#e6db74">&#34;runtime&#34;</span>
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+    &quot;runtime&quot;
 )
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Score</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">Num</span> <span style="color:#66d9ef">int</span>
+type Score struct {
+    Num int
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Score</span>) <span style="color:#a6e22e">Do</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;num:&#34;</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">Num</span>)
-	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+func (s *Score) Do() {
+    fmt.Println(&quot;num:&quot;, s.Num)
+    time.Sleep(1 * 1 * time.Second)
 }
 
 
-<span style="color:#75715e">// job
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Job</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">Do</span>()
+// job
+type Job interface {
+    Do()
 }
 
-<span style="color:#75715e">// worker
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Worker</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">JobQueue</span> <span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>
+// worker
+type Worker struct {
+    JobQueue chan Job
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewWorker</span>() <span style="color:#a6e22e">Worker</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Worker</span>{<span style="color:#a6e22e">JobQueue</span>: make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>)}
+func NewWorker() Worker {
+    return Worker{JobQueue: make(chan Job)}
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">Worker</span>) <span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">wq</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>) {
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#66d9ef">for</span> {
-			<span style="color:#a6e22e">wq</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">JobQueue</span>
-			<span style="color:#66d9ef">select</span> {
-			<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">JobQueue</span>:
-				<span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">Do</span>()
-			}
-		}
-	}()
+func (w Worker) Run(wq chan chan Job) {
+    go func() {
+        for {
+            wq &lt;- w.JobQueue
+            select {
+            case job := &lt;-w.JobQueue:
+                job.Do()
+            }
+        }
+    }()
 }
 
-<span style="color:#75715e">// workerpool
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">WorkerPool</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">workerlen</span> <span style="color:#66d9ef">int</span>
-	<span style="color:#a6e22e">JobQueue</span> <span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>
-	<span style="color:#a6e22e">WorkerQueue</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>
+// workerpool
+type WorkerPool struct {
+    workerlen int
+    JobQueue chan Job
+    WorkerQueue chan chan Job
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewWorkerPool</span>(<span style="color:#a6e22e">workerlen</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">WorkerPool</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">WorkerPool</span>{
-		<span style="color:#a6e22e">workerlen</span>: <span style="color:#a6e22e">workerlen</span>,
-		<span style="color:#a6e22e">JobQueue</span>: make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>),
-		<span style="color:#a6e22e">WorkerQueue</span>: make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">Job</span>, <span style="color:#a6e22e">workerlen</span>),
-	}
+func NewWorkerPool(workerlen int) *WorkerPool {
+    return &amp;WorkerPool{
+        workerlen: workerlen,
+        JobQueue: make(chan Job),
+        WorkerQueue: make(chan chan Job, workerlen),
+    }
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">wp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">WorkerPool</span>) <span style="color:#a6e22e">Run</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;init worker&#34;</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">wp</span>.<span style="color:#a6e22e">workerlen</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">worker</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewWorker</span>()
-		<span style="color:#a6e22e">worker</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">wp</span>.<span style="color:#a6e22e">WorkerQueue</span>)
-	}
+func (wp *WorkerPool) Run() {
+    fmt.Println(&quot;init worker&quot;)
+    for i := 0; i &lt; wp.workerlen; i++ {
+        worker := NewWorker()
+        worker.Run(wp.WorkerQueue)
+    }
 
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#66d9ef">for</span> {
-			<span style="color:#66d9ef">select</span> {
-			<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">wp</span>.<span style="color:#a6e22e">JobQueue</span>:
-				<span style="color:#a6e22e">worker</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">wp</span>.<span style="color:#a6e22e">WorkerQueue</span>
-				<span style="color:#a6e22e">worker</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">job</span>
-			}
-		}
-	}()
+    go func() {
+        for {
+            select {
+            case job := &lt;- wp.JobQueue:
+                worker := &lt;- wp.WorkerQueue
+                worker &lt;- job
+            }
+        }
+    }()
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">num</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">20</span>
-	<span style="color:#75715e">// debug.SetMaxThreads(num + 1000) // 设置最大线程数
-</span><span style="color:#75715e"></span>
-	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewWorkerPool</span>(<span style="color:#a6e22e">num</span>)
-	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Run</span>()
+func main() {
+    num := 100 * 100 * 20
+    // debug.SetMaxThreads(num + 1000) // 设置最大线程数
 
-	<span style="color:#a6e22e">datanum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">datanum</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-			<span style="color:#a6e22e">sc</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Score</span>{<span style="color:#a6e22e">Num</span>: <span style="color:#a6e22e">i</span>}
-			<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">JobQueue</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sc</span>
-		}
-	}()
+    p := NewWorkerPool(num)
+    p.Run()
 
-	<span style="color:#66d9ef">for</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;runtime.NumGoroutine(): &#34;</span>, <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">NumGoroutine</span>())
-		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
-	}
+    datanum := 100 * 100 * 100 * 100
+    go func() {
+        for i := 1; i &lt;= datanum; i++ {
+            sc := &amp;Score{Num: i}
+            p.JobQueue &lt;- sc
+        }
+    }()
+
+    for {
+        fmt.Println(&quot;runtime.NumGoroutine(): &quot;, runtime.NumGoroutine())
+        time.Sleep(2 * time.Second)
+    }
 
 }
-</code></pre></div><p><strong>参考文献</strong>
+</code></pre>
+
+<p><strong>参考文献</strong>
 <a href="http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/">http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/</a></p>
 
         </div>

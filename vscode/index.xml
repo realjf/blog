@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Vscodes on Realjf&#39;s blog</title>
@@ -6,7 +6,11 @@
     <description>Recent content in Vscodes on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Nov 2020 15:44:23 +0800</lastBuildDate><atom:link href="https://realjf.io/vscode/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Nov 2020 15:44:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/vscode/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>VS Code语言语法分词引擎 TextMate语法解析 (Vscode Language Grammars Engine - TextMate)</title>
       <link>https://realjf.io/vscode/vscode-language-grammars-textmate/</link>
@@ -17,9 +21,9 @@
 语言语法仅用于分析文档并为该文档的子集分配名称。然后，范围选择器可以用于样式设置、 首选项以及决定键和选项卡触发器应该如何展开。
 有关这个概念的更全面的介绍，请参阅scopes简介博客文章
 语法示例 先来看下以下示例
-{scopeName = &#39;source.untitled&#39;;fileTypes = ();foldingStartMarker = &#39;\{\s*$&#39;;foldingStopMarker = &#39;^\s*\}&#39;;patterns = ({name = &#39;keyword.control.untitled&#39;;match = &#39;\b(if|while|for|return)\b&#39;;}, {name = &#39;string.quoted.double.untitled&#39;;begin = &#39;&amp;quot;&#39;;end = &#39;&amp;quot;&#39;;patterns = ({name = &#39;constant.character.escape.untitled&#39;;match = &#39;\\.&#39;;});},);}格式是属性列表格式，在根级别有五个键/值对：
-  scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例， 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source， 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails. 从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。
-  fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项， 那么TextMate就会记住用户选择。</description>
+{ scopeName = &#39;source.untitled&#39;; fileTypes = (); foldingStartMarker = &#39;\{\s*$&#39;; foldingStopMarker = &#39;^\s*\}&#39;; patterns = ({ name = &#39;keyword.control.untitled&#39;; match = &#39;\b(if|while|for|return)\b&#39;; }, { name = &#39;string.quoted.double.untitled&#39;; begin = &#39;&amp;quot;&#39;; end = &#39;&amp;quot;&#39;; patterns = ({ name = &#39;constant.character.escape.untitled&#39;; match = &#39;\\.&#39;; }); }, ); }  格式是属性列表格式，在根级别有五个键/值对：
+ scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例， 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source， 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails. 从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。
+ fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项， 那么TextMate就会记住用户选择。</description>
     </item>
     
     <item>
@@ -32,14 +36,14 @@
 本节将包括以下内容：
  使用vsce，这个是管理VS Code扩展的CLI工具 打包、发布以及取消发布扩展 注册一个发布者id用于发布扩展  vsce vsce，是Visual Studio Code Extensions的简称，是一个打包，发布和管理vscode扩展的命令行工具
 安装 请确保你已经安装了node.js
-npm install -g vsce 使用 cd myExtension vsce package # myExtension.vsix generated vsce publish # &amp;lt;publisherID&amp;gt;.myExtension published to VS Code MarketPlace 更多的命令请使用vsce &amp;ndash;help查看
+npm install -g vsce  使用 cd myExtension vsce package # myExtension.vsix generated vsce publish # &amp;lt;publisherID&amp;gt;.myExtension published to VS Code MarketPlace  更多的命令请使用vsce &amp;ndash;help查看
 发布扩展  由于安全考虑，vsce不会发布包含用户提供的svg图片的扩展
  发布工具检查如下内容：
  package.json中提供的icon图标可能不是一个svg package.json中提供的徽章可能不是svg，除非他们来自可信的徽章提供商 README.md和CHANGELOG.md中的图片地址需要处理成https路径 README.md中和CHANGELOG.md中的图片可能不是svg除非他们来自可信的徽章提供商  visualstudio代码利用Azure DevOps提供其Marketplace服务。 这意味着扩展的身份验证、托管和管理是通过azuredevops提供的。
 vsce只能使用Personal access tokens发布扩展。要发布扩展，至少需要创建一个，
 获取个人access token 首先，确保你有Azure DevOps组织
-  在下面的示例中，组织的名称是realjf。从组织的主页（例如：https://dev.azure.com/realjf)下一步， 打开“个人图像设置”下拉菜单，选择Personal access tokens：
-  在Personal Access Tokens页面，点击New Token创建一个新的Personal Access Token</description>
+ 在下面的示例中，组织的名称是realjf。从组织的主页（例如：https://dev.azure.com/realjf)下一步， 打开“个人图像设置”下拉菜单，选择Personal access tokens：
+ 在Personal Access Tokens页面，点击New Token创建一个新的Personal Access Token</description>
     </item>
     
     <item>
@@ -66,7 +70,7 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
 父范围信息也用于创建主题。当主题以某个范围为目标时，所有具有该父作用域的标记都将被着色， 除非该主题还为其各自的作用域提供了更具体的着色
 添加 基本语法 VS代码支持json TextMate语法。这些都是通过grammars贡献点贡献的。
 每个语法贡献都指定：语法应用于的语言的标识符、语法标记的顶级作用域名称以及语法文件的相对路径。 下面的示例显示了虚构的abc语言的语法贡献：
-{ &amp;#34;contributes&amp;#34;: { &amp;#34;languages&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;extensions&amp;#34;: [&amp;#34;.abc&amp;#34;] } ], &amp;#34;grammars&amp;#34;: [ { &amp;#34;language&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;scopeName&amp;#34;: &amp;#34;source.</description>
+{ &amp;quot;contributes&amp;quot;: { &amp;quot;languages&amp;quot;: [ { &amp;quot;id&amp;quot;: &amp;quot;abc&amp;quot;, &amp;quot;extensions&amp;quot;: [&amp;quot;.abc&amp;quot;] } ], &amp;quot;grammars&amp;quot;: [ { &amp;quot;language&amp;quot;: &amp;quot;abc&amp;quot;, &amp;quot;scopeName&amp;quot;: &amp;quot;source.</description>
     </item>
     
     <item>
@@ -75,7 +79,7 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
       <pubDate>Tue, 24 Nov 2020 11:33:17 +0800</pubDate>
       
       <guid>https://realjf.io/vscode/vscode-extension-wrapping-up/</guid>
-      <description>扩展的能力  VS Code APIs Contribution Points  详见扩展的能力
+      <description> 扩展的能力  VS Code APIs Contribution Points  详见扩展的能力
 指南和例子  Extension Guide Listing vscode-extension-example  测试和发布  如何在你的扩展中添加集成测试 如何发布你的扩展到vs code市场 如何为你的扩展建立持续集成  </description>
     </item>
     
@@ -96,8 +100,8 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
       <pubDate>Tue, 24 Nov 2020 10:18:41 +0800</pubDate>
       
       <guid>https://realjf.io/vscode/your-first-vscode-extension/</guid>
-      <description>准备  node.js git  安装yeoman和vscode扩展生成器 npm install -g yo generator-code 用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
-yo code ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
+      <description>准备  node.js git  安装yeoman和vscode扩展生成器 npm install -g yo generator-code  用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
+yo code ? What type of extension do you want to create? New Extension (TypeScript) ? What&#39;s the name of your extension? HelloWorld ? What&#39;s the identifier of your extension? helloworld ? What&#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
     </item>
     
   </channel>

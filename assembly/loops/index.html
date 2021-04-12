@@ -3,7 +3,7 @@
 <head>
     <title>nasm汇编之循环 Loops // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,50 +237,59 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/assembly/">assembly</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/assembly/">Assembly</a></div></div>
         </header>
         <div class="post-content">
             <p>JMP指令可用于实现循环。例如，以下代码段可用于执行循环主体10次</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span>	<span style="color:#66d9ef">CL</span>, <span style="color:#ae81ff">10</span>
+
+<pre><code class="language-asm">MOV CL, 10
 L1:
-<span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#a6e22e">LOOP-BODY</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
-<span style="color:#a6e22e">DEC</span>	<span style="color:#66d9ef">CL</span>
-<span style="color:#a6e22e">JNZ</span>	<span style="color:#66d9ef">L1</span>
-</code></pre></div><p>但是，处理器指令集包括一组用于实现迭代的循环指令。基本的LOOP指令具有以下语法</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">LOOP</span> 	<span style="color:#66d9ef">label</span>
-</code></pre></div><p>其中，label是标识目标指令的目标标签，如跳转指令中所述。 LOOP指令假定ECX寄存器包含循环计数。
+&lt;LOOP-BODY&gt;
+DEC CL
+JNZ L1
+</code></pre>
+
+<p>但是，处理器指令集包括一组用于实现迭代的循环指令。基本的LOOP指令具有以下语法</p>
+
+<pre><code class="language-asm">LOOP    label
+</code></pre>
+
+<p>其中，label是标识目标指令的目标标签，如跳转指令中所述。 LOOP指令假定ECX寄存器包含循环计数。
 当执行循环指令时，ECX寄存器递减，并且控制跳至目标标签，直到ECX寄存器的值（即计数器达到零）为止。</p>
+
 <p>示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">Live</span> <span style="color:#66d9ef">Demo</span>
-<span style="color:#a6e22e">section</span>	<span style="color:#66d9ef">.text</span>
-   <span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>        <span style="color:#75715e">;must be declared for using gcc
-</span><span style="color:#75715e"></span>	
-<span style="color:#66d9ef">_start</span>:	                <span style="color:#75715e">;tell linker entry point
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ecx</span>,<span style="color:#ae81ff">10</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-	
+
+<pre><code class="language-asm">Live Demo
+section .text
+   global _start        ;must be declared for using gcc
+    
+_start:                 ;tell linker entry point
+   mov ecx,10
+   mov eax, '1'
+    
 l1:
-   <span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">num</span>], <span style="color:#66d9ef">eax</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">4</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">1</span>
-   <span style="color:#a6e22e">push</span> <span style="color:#66d9ef">ecx</span>
-	
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">num</span>        
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#ae81ff">1</span>        
-   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>
-	
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">num</span>]
-   <span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">eax</span>, <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-   <span style="color:#a6e22e">inc</span> <span style="color:#66d9ef">eax</span>
-   <span style="color:#a6e22e">add</span> <span style="color:#66d9ef">eax</span>, <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-   <span style="color:#a6e22e">pop</span> <span style="color:#66d9ef">ecx</span>
-   <span style="color:#a6e22e">loop</span> <span style="color:#66d9ef">l1</span>
-	
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">1</span>             <span style="color:#75715e">;system call number (sys_exit)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">0x80</span>              <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">section</span>	<span style="color:#66d9ef">.bss</span>
-<span style="color:#a6e22e">num</span> <span style="color:#66d9ef">resb</span> <span style="color:#ae81ff">1</span>
-</code></pre></div>
+   mov [num], eax
+   mov eax, 4
+   mov ebx, 1
+   push ecx
+    
+   mov ecx, num        
+   mov edx, 1        
+   int 0x80
+    
+   mov eax, [num]
+   sub eax, '0'
+   inc eax
+   add eax, '0'
+   pop ecx
+   loop l1
+    
+   mov eax,1             ;system call number (sys_exit)
+   int 0x80              ;call kernel
+section .bss
+num resb 1
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

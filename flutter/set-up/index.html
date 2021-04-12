@@ -3,7 +3,7 @@
 <head>
     <title>安装flutter开发环境 Set Up flutter // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,30 +237,53 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/flutter/">flutter</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/flutter/">Flutter</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="获取安装flutter-sdk">获取安装flutter sdk</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.17.0-stable.tar.xz
+            
+
+<h3 id="获取安装flutter-sdk">获取安装flutter sdk</h3>
+
+<pre><code class="language-shell">wget https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.17.0-stable.tar.xz
 
 tar xf ~/Downloads/flutter_linux_1.17.0-stable.tar.xz
-</code></pre></div><p>或者直接从github下载也可以</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone https://github.com/flutter/flutter.git -b stable
-</code></pre></div><p>添加flutter到你的path环境变量</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$PATH<span style="color:#e6db74">:`pwd`/flutter/bin&#34;</span>
-</code></pre></div><p>最后提前预下载相关依赖包</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flutter precache
-</code></pre></div><p>下载完成后，检查相关环境是否安装成功</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flutter doctor
-</code></pre></div><p>检查过程中可能遇到的问题</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>-<span style="color:#f92672">]</span> Android toolchain - develop <span style="color:#66d9ef">for</span> Android devices
+</code></pre>
+
+<p>或者直接从github下载也可以</p>
+
+<pre><code class="language-shell">git clone https://github.com/flutter/flutter.git -b stable
+</code></pre>
+
+<p>添加flutter到你的path环境变量</p>
+
+<pre><code class="language-shell">export PATH=&quot;$PATH:`pwd`/flutter/bin&quot;
+</code></pre>
+
+<p>最后提前预下载相关依赖包</p>
+
+<pre><code class="language-shell">flutter precache
+</code></pre>
+
+<p>下载完成后，检查相关环境是否安装成功</p>
+
+<pre><code class="language-shell">flutter doctor
+</code></pre>
+
+<p>检查过程中可能遇到的问题</p>
+
+<pre><code class="language-shell">[-] Android toolchain - develop for Android devices
     • Android SDK at /Users/obiwan/Library/Android/sdk
     ✗ Android SDK is missing command line tools; download from https://goo.gl/XxQghQ
     • Try re-installing or updating your Android SDK,
-      visit https://flutter.dev/setup/#android-setup <span style="color:#66d9ef">for</span> detailed instructions.
-</code></pre></div><p>这是android sdk未安装，可以直接下载安装，然后通过以下命令更新</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">flutter doctor --android-licenses
-</code></pre></div><p>最后，如果你使用android studio或者vscode，需要提前下载相应的插件dart和flutter以及kotlin，
+      visit https://flutter.dev/setup/#android-setup for detailed instructions.
+</code></pre>
+
+<p>这是android sdk未安装，可以直接下载安装，然后通过以下命令更新</p>
+
+<pre><code class="language-shell">flutter doctor --android-licenses
+</code></pre>
+
+<p>最后，如果你使用android studio或者vscode，需要提前下载相应的插件dart和flutter以及kotlin，
 同时，android studio还需要在settings里配置flutter sdk路径，同时需要安装相应的安卓模拟器</p>
 
         </div>

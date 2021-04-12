@@ -3,7 +3,7 @@
 <head>
     <title>C&#43;&#43;之内存模型 Memory Model // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,106 +237,141 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">内存模型</a><a class="tag" href="https://realjf.io/tags/cpp/">cpp</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">内存模型</a><a class="tag" href="https://realjf.io/tags/cpp/">Cpp</a></div></div>
         </header>
         <div class="post-content">
-            <p>C++使用三种不同方案（C++11是四种）来存储数据：</p>
+            
+
+<p>C++使用三种不同方案（C++11是四种）来存储数据：</p>
+
 <ul>
 <li>自动存储持续性 在函数定义中声明的变量（包括函数参数）的持续性为自动的。他们在程序开始执行其所属的函数或代码块时被创建，在执行完函数或代码块时，他们使用的内存将被释放。</li>
 <li>静态存储持续性 在函数定义外定义的变量和使用关键字static定义的变量存储的持续性都为静态，他们在程序整个运行过程中都存在。</li>
 <li>线程储存持续性（C++11）多核处理器很常见，如果变量是使用关键字thread_local声明的，则其生命周期与所属的线程一样长。</li>
 <li>动态存储持续性 用new运算符分配的内存将一直存在，知道使用delete运算符将其释放或程序结束位置。这种内存的存储持续性为动态，有时被称为自由存储或堆</li>
 </ul>
+
 <blockquote>
 <p>作用域描述了名称在文件的多大范围可见
 链接性描述了名称如何在不同单元间共享。链接性为外部的名称可在文件间共享，链接性为内存的名称只能由一个文件中的函数共享。自动变量的名称没有链接性，因为它们不能共享。</p>
 </blockquote>
+
 <h3 id="自动存储持续性">自动存储持续性</h3>
+
 <p>在默认情况下，在函数中声明的函数参数和变量的存储持续性为自动，作用域为局部，没有链接性。</p>
+
 <h4 id="自动变量和栈">自动变量和栈</h4>
+
 <p>由于自动变量的数目随函数的开始和结束而增减，因此程序常留出一段内存对自动变量进行管理，通常将其视为栈。</p>
+
 <p>栈是后进先出的，这种设计简化了参数传递。函数调用将其参数的值放在栈顶，然后重新设置栈顶指针，被调用的函数根据其形参描述来确定每个参数的地址。</p>
+
 <h3 id="静态持续变量">静态持续变量</h3>
-<p>c++为静态存储持续性变量提供了3种链接性：</p>
-<ul>
-<li>外部链接性（可在其他文件中访问）、</li>
-<li>内部链接性（只能在当前文件中访问）</li>
-<li>无连接性（只能在当前函数或代码中访问）</li>
-</ul>
+
+<p>c++为静态存储持续性变量提供了3种链接性：
+- 外部链接性（可在其他文件中访问）、
+- 内部链接性（只能在当前文件中访问）
+- 无连接性（只能在当前函数或代码中访问）</p>
+
 <p>这三种链接性都在整个程序执行期间存在。</p>
+
 <p>编译器将分配固定的内存块来存储所有的静态变量。主要是.data段里</p>
+
 <blockquote>
 <p>如果没有显示地初始化静态变量，编译器将把它设置为0.</p>
 </blockquote>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">存储描述</th>
-<th style="text-align:center">持续性</th>
-<th style="text-align:center">作用域</th>
-<th style="text-align:center">链接性</th>
-<th style="text-align:center">如何声明</th>
+<th align="center">存储描述</th>
+<th align="center">持续性</th>
+<th align="center">作用域</th>
+<th align="center">链接性</th>
+<th align="center">如何声明</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">自动</td>
-<td style="text-align:center">自动</td>
-<td style="text-align:center">代码块</td>
-<td style="text-align:center">无</td>
-<td style="text-align:center">在代码块中</td>
+<td align="center">自动</td>
+<td align="center">自动</td>
+<td align="center">代码块</td>
+<td align="center">无</td>
+<td align="center">在代码块中</td>
 </tr>
+
 <tr>
-<td style="text-align:center">寄存器</td>
-<td style="text-align:center">自动</td>
-<td style="text-align:center">代码块</td>
-<td style="text-align:center">无</td>
-<td style="text-align:center">在代码块中，使用关键字register</td>
+<td align="center">寄存器</td>
+<td align="center">自动</td>
+<td align="center">代码块</td>
+<td align="center">无</td>
+<td align="center">在代码块中，使用关键字register</td>
 </tr>
+
 <tr>
-<td style="text-align:center">静态，无链接性</td>
-<td style="text-align:center">静态</td>
-<td style="text-align:center">代码块</td>
-<td style="text-align:center">无</td>
-<td style="text-align:center">在代码块中，使用关键字static</td>
+<td align="center">静态，无链接性</td>
+<td align="center">静态</td>
+<td align="center">代码块</td>
+<td align="center">无</td>
+<td align="center">在代码块中，使用关键字static</td>
 </tr>
+
 <tr>
-<td style="text-align:center">静态，外部链接性</td>
-<td style="text-align:center">静态</td>
-<td style="text-align:center">文件</td>
-<td style="text-align:center">外部</td>
-<td style="text-align:center">不在任何函数内</td>
+<td align="center">静态，外部链接性</td>
+<td align="center">静态</td>
+<td align="center">文件</td>
+<td align="center">外部</td>
+<td align="center">不在任何函数内</td>
 </tr>
+
 <tr>
-<td style="text-align:center">静态，内部链接性</td>
-<td style="text-align:center">静态</td>
-<td style="text-align:center">文件</td>
-<td style="text-align:center">内部</td>
-<td style="text-align:center">不在任何函数内，使用关键字static</td>
+<td align="center">静态，内部链接性</td>
+<td align="center">静态</td>
+<td align="center">文件</td>
+<td align="center">内部</td>
+<td align="center">不在任何函数内，使用关键字static</td>
 </tr>
 </tbody>
 </table>
-<h4 id="静态持续性外部链接性">静态持续性、外部链接性</h4>
+
+<h4 id="静态持续性-外部链接性">静态持续性、外部链接性</h4>
+
 <p>外部变量的存储持续性为静态，作用域为整个文件。外部变量也称全局变量。</p>
+
 <h5 id="单定义规则">单定义规则</h5>
+
 <p>变量只能有一次定义。</p>
+
 <p>c++提供两种变量声明。</p>
+
 <ul>
 <li>一种是定义声明。简称定义，它给变量分配存储空间</li>
 <li>一种是引用声明，简称声明，它不给变量分配存储空间，因为它引用已有的变量</li>
 </ul>
+
 <p>引用声明使用关键字<strong>extern</strong>，且不进行初始化，否则声明为定义，导致分配存储空间</p>
+
 <p>如果要在多个文件中使用外部变量，只需在一个文件中包含该变量的定义，但在使用该变量的其他所有文件中，都必须使用关键字extern声明它</p>
+
 <blockquote>
 <p>单定义规则并非意味着不能有多个变量的名称相同</p>
 </blockquote>
-<h4 id="静态持续性内部链接性">静态持续性、内部链接性</h4>
+
+<h4 id="静态持续性-内部链接性">静态持续性、内部链接性</h4>
+
 <p>将static限定符用于作用域为整个文件的变量时，该变量的链接性将为内部。链接性为内部的变量只能在其所属的文件中使用。</p>
+
 <p>内部链接性使其不必担心该变量名称与其他文件中的作用域为整个文件的变量发生冲突。</p>
-<h4 id="静态存储持续性无链接性">静态存储持续性、无链接性</h4>
+
+<h4 id="静态存储持续性-无链接性">静态存储持续性、无链接性</h4>
+
 <p>无链接性的局部变量，通过将static限定符用于在代码块中定义的变量。</p>
+
 <p>如果初始化了静态局部变量，则程序只在启动时进行一次初始化。以后在调用，将不会像自动变量那样再次被初始化。</p>
+
 <h3 id="说明符和限定符">说明符和限定符</h3>
+
 <ul>
 <li>auto</li>
 <li>register</li>
@@ -345,25 +380,43 @@
 <li>thread_local(c++11新增)</li>
 <li>mutable</li>
 </ul>
+
 <p>关键字register用于在声明中指示寄存器存储，而在c++11中，它只是显示地指出变量是自动的。</p>
+
 <p>关键字thread_local之于线程，犹如常规静态变量之于整个程序。</p>
+
 <h4 id="cv-限定符">cv-限定符</h4>
+
 <ul>
 <li>const</li>
 <li>volatile</li>
 </ul>
+
 <p>const 表明，内存被初始化后，程序便不能再对它进行修改。</p>
+
 <p>关键字volatile表明，即使程序代码没有对内存单元进行修改，其值也可能发生变化。</p>
+
 <h4 id="mutable">mutable</h4>
+
 <p>mutable表明，即使结构变量为const，其某个成员也可以被修改</p>
+
 <h4 id="const全局变量">const全局变量</h4>
+
 <p>const全局变量的链接性为内部的，意味着每个文件都有自己的一组常量，而不是所有文件共享一组常量</p>
+
 <p>如果处于某种原因，希望某个常量的链接性为外部的，则可以使用extern关键字覆盖默认的内部链接性：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">extern</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> STATE <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-</code></pre></div><p>这种情况下，必须在所有使用该常量的文件中使用extern关键字来声明它。</p>
+
+<pre><code class="language-c">extern const int STATE = 1;
+</code></pre>
+
+<p>这种情况下，必须在所有使用该常量的文件中使用extern关键字来声明它。</p>
+
 <p>在函数或代码块中声明const时，其作用域为代码块。</p>
+
 <h3 id="动态分配">动态分配</h3>
+
 <p>使用运算符new（或c函数malloc）分配的内存，这种内存被称为动态内存。</p>
+
 <p>动态内存作用域由运算符new和delete控制。</p>
 
         </div>

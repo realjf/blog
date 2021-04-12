@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>K8s on Realjf&#39;s blog</title>
@@ -6,7 +6,11 @@
     <description>Recent content in K8s on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Apr 2021 10:26:27 +0800</lastBuildDate><atom:link href="https://realjf.io/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Apr 2021 10:26:27 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/k8s/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>k8s 之 Operator模式 Operator Pattern</title>
       <link>https://realjf.io/k8s/operator-pattern/</link>
@@ -34,8 +38,8 @@ Operator 是 Kubernetes API 的客户端，充当定制资源的控制器。
 实验环境  CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2  什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
 Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！
 minikube安装 可以参考minikube 安装的网站minikube安装
-# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
-安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
+# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube  minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
+安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER}  minikube开始 minikube start --registry-mirror=https://registry.</description>
     </item>
     
   </channel>

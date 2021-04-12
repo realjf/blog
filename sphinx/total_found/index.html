@@ -3,7 +3,7 @@
 <head>
     <title>sphinx的 total 和 total_found的区别 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,15 +237,20 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/">Tags</a></div></div>
+                        </div></div>
         </header>
         <div class="post-content">
             <p>sphinx.conf文件里面有一个配制最大匹配数的参数max_matches ,默认值是1000假如一次搜索里应该查询到2000个匹配,但是在sphinx结果集中只会返回1000个匹配，因为受到max_matches=1000的限制,这时候,结果集里,
 total=1000,total_found=2000,假设一页显示20条,那么如果用total_found做为分页的总数来设定,在第51页之后的数据都将显示为空白,因为操过了1000条记录.</p>
+
 <p>于是,我修改了sphinx.conf里的max_matches=2000,结果发现,改成2000之后还是没有取到2000条记录,在第51页之后都是空白数据,为什么?</p>
+
 <p>这时候我又去网上查了资料,发现,$s-&gt;SetLimits($start, $limit)的第三个参数,默认为1000,这个参数也是用来设定返回的最大匹配数的,所以这就是这为什么配制文件里改成2000后还是只取到1000条记录的原因&hellip;</p>
+
 <p>还有一点,就是setLimits的第三个参数的值不能超过max_matches的值,否则将取不到记录</p>
+
 <p>所以,total_found返回的是所有的匹配数,不受max_matches和setLimits的第三个参数的限制,而total返回的匹配数最大不超过max_matches和setLimits里的最小值</p>
+
 <p>比如我们经常看到的,淘宝搜索返回的页面最多只返回100页的数据,这时候,total和total_found就能很好的起到作用</p>
 
         </div>

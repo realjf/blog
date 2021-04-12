@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Golangs on Realjf&#39;s blog</title>
@@ -6,7 +6,11 @@
     <description>Recent content in Golangs on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 09 Apr 2021 13:57:59 +0800</lastBuildDate><atom:link href="https://realjf.io/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 09 Apr 2021 13:57:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Go内存泄漏分析 Golang Memory Leak</title>
       <link>https://realjf.io/golang/golang-memory-leak/</link>
@@ -17,7 +21,7 @@
 如何开启pprof go中有两个地方有：
  net/http/pprof runtime/pprof  差别只是runtime/pprof通过封装暴露http端口后就是net/http/pprof
 开启pprof很简单，只需导入net/http/pprof包，并开启一个goroutine去监听http端口6060就可以了，具体代码如下：
-package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; _ &amp;#34;net/http/pprof&amp;#34; &amp;#34;github.com/gorilla/mux&amp;#34; &amp;#34;time&amp;#34; &amp;#34;log&amp;#34; ) func hello(w http.ResponseWriter, r *http.Request) { w.Write([]byte(&amp;#34;hello world&amp;#34;)) } func main() { go func() { ip := &amp;#34;:6060&amp;#34; if err := http.ListenAndServe(ip, nil); err != nil { fmt.Printf(&amp;#34;start pprof failed on %s\n&amp;#34;, ip) } }() r := mux.NewRouter() r.HandleFunc(&amp;#34;/hello&amp;#34;, hello) srv := &amp;amp;http.</description>
+package main import ( &amp;quot;fmt&amp;quot; &amp;quot;net/http&amp;quot; _ &amp;quot;net/http/pprof&amp;quot; &amp;quot;github.com/gorilla/mux&amp;quot; &amp;quot;time&amp;quot; &amp;quot;log&amp;quot; ) func hello(w http.ResponseWriter, r *http.Request) { w.Write([]byte(&amp;quot;hello world&amp;quot;)) } func main() { go func() { ip := &amp;quot;:6060&amp;quot; if err := http.ListenAndServe(ip, nil); err != nil { fmt.Printf(&amp;quot;start pprof failed on %s\n&amp;quot;, ip) } }() r := mux.NewRouter() r.HandleFunc(&amp;quot;/hello&amp;quot;, hello) srv := &amp;amp;http.</description>
     </item>
     
     <item>
@@ -26,7 +30,7 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; _ &amp;#3
       <pubDate>Mon, 05 Apr 2021 22:32:42 +0800</pubDate>
       
       <guid>https://realjf.io/golang/golang-scheduling-policy/</guid>
-      <description>go运行调度策略  P包含了运行G所需的上下文资源以及部分调度代码 每个P维护一个本地G队列 P需要结合G并绑定到M上才能运行 P最多有GOMAXPROCS个，并且从程序启动开始就创建好并保持不变 当一个P运行的G额外创建一个G时，会进入P的本地G队列中 当一个G运行结束后，根据是否需要运行确定是否进入本地队列进行轮转，等待重新运行 当P运行的本地队列中没有G，且全局队列中也没有可运行的G时，P会随机选择一个运行中的P的本地G队列偷一半G过来运行（也称抢占式调度） 创建的系统线程M多于P的原因是：在M遇到系统中断进入阻塞状态时，会与当前的P解绑，而空闲的M能继续与当前的P绑定并继续提供服务  </description>
+      <description> go运行调度策略  P包含了运行G所需的上下文资源以及部分调度代码 每个P维护一个本地G队列 P需要结合G并绑定到M上才能运行 P最多有GOMAXPROCS个，并且从程序启动开始就创建好并保持不变 当一个P运行的G额外创建一个G时，会进入P的本地G队列中 当一个G运行结束后，根据是否需要运行确定是否进入本地队列进行轮转，等待重新运行 当P运行的本地队列中没有G，且全局队列中也没有可运行的G时，P会随机选择一个运行中的P的本地G队列偷一半G过来运行（也称抢占式调度） 创建的系统线程M多于P的原因是：在M遇到系统中断进入阻塞状态时，会与当前的P解绑，而空闲的M能继续与当前的P绑定并继续提供服务  </description>
     </item>
     
     <item>
@@ -47,7 +51,7 @@ golang的调度模型可以用processor(简称P)、machine(简称M)、goroutine(
       <pubDate>Fri, 26 Mar 2021 17:49:20 +0800</pubDate>
       
       <guid>https://realjf.io/golang/1-million-concurrency/</guid>
-      <description>// 实现百万并发 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; &amp;#34;runtime&amp;#34; ) type Score struct { Num int } func (s *Score) Do() { fmt.Println(&amp;#34;num:&amp;#34;, s.Num) time.Sleep(1 * 1 * time.Second) } // job type Job interface { Do() } // worker type Worker struct { JobQueue chan Job } func NewWorker() Worker { return Worker{JobQueue: make(chan Job)} } func (w Worker) Run(wq chan chan Job) { go func() { for { wq &amp;lt;- w.</description>
+      <description>// 实现百万并发 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; &amp;quot;runtime&amp;quot; ) type Score struct { Num int } func (s *Score) Do() { fmt.Println(&amp;quot;num:&amp;quot;, s.Num) time.Sleep(1 * 1 * time.Second) } // job type Job interface { Do() } // worker type Worker struct { JobQueue chan Job } func NewWorker() Worker { return Worker{JobQueue: make(chan Job)} } func (w Worker) Run(wq chan chan Job) { go func() { for { wq &amp;lt;- w.</description>
     </item>
     
     <item>
@@ -56,7 +60,7 @@ golang的调度模型可以用processor(简称P)、machine(简称M)、goroutine(
       <pubDate>Fri, 26 Mar 2021 17:08:06 +0800</pubDate>
       
       <guid>https://realjf.io/golang/concurrency-pub-and-sub/</guid>
-      <description>package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;strings&amp;#34; ) type ( subscriber chan interface{} // 订阅者 	topicFunc func(v interface{}) bool // 主题 ) type Publisher struct { m sync.RWMutex buffer int // 订阅队列缓存大小 	timeout time.Duration // 发布超时时间 	subscribers map[subscriber]topicFunc // 订阅者信息 } // 构建一个发布者对象，可以设置发布超时时间和缓存队列长度 func NewPublisher(publishTimeout time.Duration, buffer int) *Publisher { return &amp;amp;Publisher{ buffer: buffer, timeout: publishTimeout, subscribers: make(map[subscriber]topicFunc), } } // 添加新订阅者，订阅全部主题 func (p *Publisher) Subscirbe() chan interface{} { return p.</description>
+      <description>package main import ( &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; &amp;quot;sync&amp;quot; &amp;quot;strings&amp;quot; ) type ( subscriber chan interface{} // 订阅者 topicFunc func(v interface{}) bool // 主题 ) type Publisher struct { m sync.RWMutex buffer int // 订阅队列缓存大小 timeout time.Duration // 发布超时时间 subscribers map[subscriber]topicFunc // 订阅者信息 } // 构建一个发布者对象，可以设置发布超时时间和缓存队列长度 func NewPublisher(publishTimeout time.Duration, buffer int) *Publisher { return &amp;amp;Publisher{ buffer: buffer, timeout: publishTimeout, subscribers: make(map[subscriber]topicFunc), } } // 添加新订阅者，订阅全部主题 func (p *Publisher) Subscirbe() chan interface{} { return p.</description>
     </item>
     
     <item>
@@ -65,7 +69,7 @@ golang的调度模型可以用processor(简称P)、machine(简称M)、goroutine(
       <pubDate>Fri, 26 Mar 2021 17:06:34 +0800</pubDate>
       
       <guid>https://realjf.io/golang/concurrency-producer-and-consumer/</guid>
-      <description>package main import ( &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; &amp;#34;os/signal&amp;#34; &amp;#34;syscall&amp;#34; ) func Producer(factor int, out chan &amp;lt;- int) { for i := 0; ; i++ { out &amp;lt;- i*factor } } func Consumer(in &amp;lt;- chan int) { for v := range in { fmt.Println(v) } } func main() { ch := make(chan int, 64) go Producer(3, ch) go Producer(5, ch) go Consumer(ch) sig := make(chan os.Signal, 1) signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM) fmt.Printf(&amp;#34;quit (%v)\n&amp;#34;, &amp;lt;-sig) } </description>
+      <description>package main import ( &amp;quot;fmt&amp;quot; &amp;quot;os&amp;quot; &amp;quot;os/signal&amp;quot; &amp;quot;syscall&amp;quot; ) func Producer(factor int, out chan &amp;lt;- int) { for i := 0; ; i++ { out &amp;lt;- i*factor } } func Consumer(in &amp;lt;- chan int) { for v := range in { fmt.Println(v) } } func main() { ch := make(chan int, 64) go Producer(3, ch) go Producer(5, ch) go Consumer(ch) sig := make(chan os.Signal, 1) signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM) fmt.Printf(&amp;quot;quit (%v)\n&amp;quot;, &amp;lt;-sig) }  </description>
     </item>
     
     <item>
@@ -74,7 +78,7 @@ golang的调度模型可以用processor(简称P)、machine(简称M)、goroutine(
       <pubDate>Fri, 26 Mar 2021 15:25:15 +0800</pubDate>
       
       <guid>https://realjf.io/golang/print-natural-number/</guid>
-      <description>题目：按照顺序打印自然数字 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; ) var ( wg sync.WaitGroup ) func print(ch *chan int, i int) { defer wg.Done() *ch &amp;lt;- i } func main() { maxInt := 7 wg.Add(maxInt) ch := make(chan int) for i := 0; i &amp;lt; maxInt; i++ { go print(&amp;amp;ch, i) fmt.Println(&amp;lt;-ch) // 这里卡住等待第i个goroutine运行，然后打印 	} wg.Wait() fmt.Println(&amp;#34;done&amp;#34;) } </description>
+      <description> 题目：按照顺序打印自然数字 package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) var ( wg sync.WaitGroup ) func print(ch *chan int, i int) { defer wg.Done() *ch &amp;lt;- i } func main() { maxInt := 7 wg.Add(maxInt) ch := make(chan int) for i := 0; i &amp;lt; maxInt; i++ { go print(&amp;amp;ch, i) fmt.Println(&amp;lt;-ch) // 这里卡住等待第i个goroutine运行，然后打印 } wg.Wait() fmt.Println(&amp;quot;done&amp;quot;) }  </description>
     </item>
     
     <item>
@@ -83,13 +87,13 @@ golang的调度模型可以用processor(简称P)、machine(简称M)、goroutine(
       <pubDate>Wed, 09 Sep 2020 09:18:15 +0800</pubDate>
       
       <guid>https://realjf.io/golang/go-mod-module-declares-error/</guid>
-      <description>背景 今天在一个新项目文件下执行了go mod init初始化后，进行go build，报如下错误：
-go: example imports github.com/realjf/goframe: github.com/realjf/goframe@v0.0.0-20200908085940-3b9391b761c4: parsing go.mod: module declares its path as: goframe but was required as: github.com/realjf/goframe 意思是，模块声明为goframe，但是却使用github.com/realjf/goframe作为包引入
+      <description> 背景 今天在一个新项目文件下执行了go mod init初始化后，进行go build，报如下错误：
+go: example imports github.com/realjf/goframe: github.com/realjf/goframe@v0.0.0-20200908085940-3b9391b761c4: parsing go.mod: module declares its path as: goframe but was required as: github.com/realjf/goframe  意思是，模块声明为goframe，但是却使用github.com/realjf/goframe作为包引入
 解决方法 首先确认引入的包的go.mod文件里的module名称是否为github.com/realjf/goframe,
 如果是，则进行下一步，如果不是，则需要修改为module github.com/realjf/goframe
 然后是在新项目的go.mod文件中新增一行如下内容：
-# 格式为：replace (module declares its path as:后边那部分) =&amp;gt; (but was required as:后边那部分) 版本号 replace goframe =&amp;gt; github.com/realjf/goframe v0.0.0 // indirect 之后重新执行go build，可以发现问题解决，并且在go.mod文件中多了一行：
-require github.com/realjf/goframe v0.0.0-20200908095551-2f2da0b85d99 </description>
+# 格式为：replace (module declares its path as:后边那部分) =&amp;gt; (but was required as:后边那部分) 版本号 replace goframe =&amp;gt; github.com/realjf/goframe v0.0.0 // indirect  之后重新执行go build，可以发现问题解决，并且在go.mod文件中多了一行：
+require github.com/realjf/goframe v0.0.0-20200908095551-2f2da0b85d99  </description>
     </item>
     
     <item>
@@ -98,17 +102,17 @@ require github.com/realjf/goframe v0.0.0-20200908095551-2f2da0b85d99 </descripti
       <pubDate>Tue, 28 Apr 2020 15:10:49 +0800</pubDate>
       
       <guid>https://realjf.io/golang/slice/</guid>
-      <description>一个slice是一个数组某个部分的引用。在内存中，他是一个包含3个域的结构体：指向slice中第一个元素的指针，slice的长度，以及slice的容量。长度是下标操作的上界，容量是分割操作的上界
+      <description> 一个slice是一个数组某个部分的引用。在内存中，他是一个包含3个域的结构体：指向slice中第一个元素的指针，slice的长度，以及slice的容量。长度是下标操作的上界，容量是分割操作的上界
 数组的slice并不会实际复制一份数据，他只是创建一个新的数据结构，包含了另外的一个指针，一个长度和一个容量数据。如同分割字符串，分割数组也不涉及复制操作：它只是新建了一个结构来放置一个不同的指针，长度和容量。
 由于slice是不同于指针的多字长结构，分割操作并不需要分配内存，甚至没有通常被保存在堆中的slice头部，这种表示方法使slice操作和在c中传递指针、长度对一样廉价。移除间接引用及分配操作可以让slice足够廉价，以避免传递显式索引。
-slice的扩容 在对slice进行append等操作时，可能会造成slice的自动扩容。其扩容时的大小增长规则是：
- 如果新的大小是当前大小2倍以上，则大小增长为新大小 否则循环以下操作：如果当前大小小于1024，按每次2倍增长，否则每次按当前大小1/4增长。直到增长的大小超过或等于新大小。  make和new 有两个数据结构创建函数：new和make，基本区别是new（T）返回一个*T，返回的这个指针可以被隐式地消除索引，而make(T, args)返回一个 普通的T，通常情况下，T内部有一些隐式的指针，一句话，new返回一个指向已清零内存的指针，而make返回一个复杂的结构。
+slice的扩容 在对slice进行append等操作时，可能会造成slice的自动扩容。其扩容时的大小增长规则是： - 如果新的大小是当前大小2倍以上，则大小增长为新大小 - 否则循环以下操作：如果当前大小小于1024，按每次2倍增长，否则每次按当前大小1/4增长。直到增长的大小超过或等于新大小。
+make和new 有两个数据结构创建函数：new和make，基本区别是new（T）返回一个*T，返回的这个指针可以被隐式地消除索引，而make(T, args)返回一个 普通的T，通常情况下，T内部有一些隐式的指针，一句话，new返回一个指向已清零内存的指针，而make返回一个复杂的结构。
 slice与unsafe.Pointer相互转换 有时候可能需要使用一些比较tricky的技巧，比如利用make弄一块内存自己管理，或者用cgo之类的方式得到的内存，转换为Go类型使用。 从slice中得到一块内存地址是很容易的：
-s := make([]byte, 200) ptr := unsafe.Pointer(&amp;amp;s[0]) 从一个内存指针构造出go语言的slice结构相对麻烦些，比如：
-var ptr unsafe.Pointer s := ((*[1&amp;lt;&amp;lt;10]byte)(ptr))[:200] 先将ptr强制类型转换为另外一种指针，一个指向[1&amp;laquo;10]byte数组的指针，这里数组大小其实是假的，然后用slice操作取出这个数组的前200个，于是s就是一个200个元素的slice
+s := make([]byte, 200) ptr := unsafe.Pointer(&amp;amp;s[0])  从一个内存指针构造出go语言的slice结构相对麻烦些，比如：
+var ptr unsafe.Pointer s := ((*[1&amp;lt;&amp;lt;10]byte)(ptr))[:200]  先将ptr强制类型转换为另外一种指针，一个指向[1&amp;lt;&amp;lt;10]byte数组的指针，这里数组大小其实是假的，然后用slice操作取出这个数组的前200个，于是s就是一个200个元素的slice
 或者：
-var ptr unsafe.Pointer var s1 = struct { addr uintptr len int cap int }{ptr, length, length} s := *(*[]byte)(unsafe.Pointer(&amp;amp;s1)) 或者使用reflect.SliceHeader的方式构造slice，比较推荐这种：
-var o []byte sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&amp;amp;o))) sliceHeader.Cap = length sliceHeader.Len = length sliceHeader.Data = uintptr(ptr) </description>
+var ptr unsafe.Pointer var s1 = struct { addr uintptr len int cap int }{ptr, length, length} s := *(*[]byte)(unsafe.Pointer(&amp;amp;s1))  或者使用reflect.SliceHeader的方式构造slice，比较推荐这种：
+var o []byte sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&amp;amp;o))) sliceHeader.Cap = length sliceHeader.Len = length sliceHeader.Data = uintptr(ptr)  </description>
     </item>
     
     <item>
@@ -120,7 +124,7 @@ var o []byte sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&amp;amp;o)))
       <description>channel是golang的一大特色，golang的goroutine之间的通信也建议通过channel机制实现。 那么我们有必要探讨下，channel的底层实现机制，以便我们更好的应用channel。
  本次探讨版本为go v1.13
  channel的实现原理 go中实现channel的文件包含在/runtime/chan.go中
-type hchan struct { qcount uint // total data in the queue 	dataqsiz uint // size of the circular queue 	buf unsafe.Pointer // points to an array of dataqsiz elements 	elemsize uint16 closed uint32 elemtype *_type // element type 	sendx uint // send index 	recvx uint // receive index 	recvq waitq // list of recv waiters 	sendq waitq // list of send waiters  // lock protects all fields in hchan, as well as several 	// fields in sudogs blocked on this channel.</description>
+type hchan struct { qcount uint // total data in the queue dataqsiz uint // size of the circular queue buf unsafe.Pointer // points to an array of dataqsiz elements elemsize uint16 closed uint32 elemtype *_type // element type sendx uint // send index recvx uint // receive index recvq waitq // list of recv waiters sendq waitq // list of send waiters // lock protects all fields in hchan, as well as several // fields in sudogs blocked on this channel.</description>
     </item>
     
     <item>
@@ -131,8 +135,8 @@ type hchan struct { qcount uint // total data in the queue 	dataqsiz uint // siz
       <guid>https://realjf.io/golang/how-to-write-benchmarks-in-go/</guid>
       <description>简介 Go标准库中test包包含一个基准测试工具，可用于检查Go代码的性能。 接下来将介绍如何使用测试包编写一个简单的基准测试。
 一个基准测试示例 我们以斐波那契数列计算来做测试
-func Fib(n int) int { if n &amp;lt; 2 { return n } return Fib(n-1) + Fib(n-2) } 创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
-func BenchmarkFib20(b *testing.B) { for n := 0; n &amp;lt; b.N; n++ { Fib(20) } } 编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
+func Fib(n int) int { if n &amp;lt; 2 { return n } return Fib(n-1) + Fib(n-2) }  创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
+func BenchmarkFib20(b *testing.B) { for n := 0; n &amp;lt; b.N; n++ { Fib(20) } }  编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
  基准测试功能以Benchmark而不是Test开头 基准功能由测试包运行多次。 b.N的值每次都会增加，直到基准运行者对基准的稳定性感到满意为止。 每个基准测试必须执行b.N次测试代码。 BenchmarkFib20中的for循环将出现在每个基准测试函数中。  运行基准测试 我们可以使用go test -bench=. 调用基准测试
 go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchmark BenchmarkFib-4 30000 44684 ns/op PASS ok test/benchmark 1.</description>
     </item>

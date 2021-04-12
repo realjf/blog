@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>nginx on Realjf&#39;s blog</title>
+    <title>Nginx on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/nginx/</link>
-    <description>Recent content in nginx on Realjf&#39;s blog</description>
+    <description>Recent content in Nginx on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Sep 2019 14:56:20 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Sep 2019 14:56:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Nginx服务的基本配置</title>
       <link>https://realjf.io/posts/nginx-base-setting/</link>
@@ -30,11 +34,10 @@ level是日志的输出级别，取值范围是debug、info、notice、warn、er
 通常不会使用这个配置项。
 5. 仅对指定的客户端输出debug级别的日志 语法：debug_connection [IP|CIDR]
 这个配置项实际上属于事件类配置，因此，他必须放在events{&amp;hellip;}中才有效，他的值可以是ip地址或cidr地址，如：
-events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; } 这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
+events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; }  这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
 这个配置对修复bug很有用，特别是定位高并发请求下才会发生的问题。
  在debug_connection前，需要确保在执行configure时已经加入了&amp;ndash;with-debug参数，否则不会生效。
- 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;
-在Linux系统中，当进程发生错误或收到信号而终止时，系统会将进程执行时的内存内容（核心映像）写入一个文件（core文件），以作为调试之用，这就是所谓的核心转储（coredumps）。 当nginx进程出现一些非法操作导致进程直接被操作系统强制结束时，会生成核心转储文件，可以从文件获取当时的堆栈、寄存器信息，从而帮助我们定位问题。但 这种文件中的许多信息不一定是用户需要的，如果不加以限制，那么可能一个coredump文件会达到几个gb，引发严重问题。通过worker_rlimit_core配置可以限制core文件的大小， 从而有效帮助用户定位问题。</description>
+ 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;</description>
     </item>
     
     <item>
@@ -47,7 +50,7 @@ events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; } 这样
 根据不同的业务特点，nginx作为静态web内容服务器、反向代理服务器或者提供图片缩略图功能（实时亚索图片）的服务器时， 其内核参数调整是不同的。
 这里只针对最通用，使nginx支持更多并发请求的tcp网络参数做简单说明。
 需要修改/etc/sysctl.conf来更改内核参数。
-fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600 net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_max_tw_buckets = 5000 net.ipv4.ip_local_port_range = 1024 61000 net.ipv4.tcp_rmem = 4096 32768 262142 net.ipv4.tcp_wmem = 4096 32768 262142 net.core.netdev_max_backlog = 8096 net.core.rmem_default = 262144 net.core.wmem_default = 262144 net.rmem_max = 2097152 net.wmem_max = 2097152 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_max_syn.backlog = 1024 参数说明
+fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600 net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_max_tw_buckets = 5000 net.ipv4.ip_local_port_range = 1024 61000 net.ipv4.tcp_rmem = 4096 32768 262142 net.ipv4.tcp_wmem = 4096 32768 262142 net.core.netdev_max_backlog = 8096 net.core.rmem_default = 262144 net.core.wmem_default = 262144 net.rmem_max = 2097152 net.wmem_max = 2097152 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_max_syn.backlog = 1024  参数说明
  file-max: 这个参数表示进程可以同时打开的最大句柄数，这个参数直接限制最大并发连接数，需要根据实际情况配置 tcp_tw_reuse: 这个参数设置为1，表示允许将TIME_WAIT状态的socket重新用于新的tcp连接，这对于服务器来说很有意义，因为服务器上总会有大量TIME-WAIT状态的连接 tcp_keepalive_time: 这个参数表示当keepalive启用时，tcp发送keepalive消息的频度。默认是2小时，若将其设置的小一些，可以更快地清理无效的连接 tcp_fin_timeout: 这个参数表示当服务器主动关闭连接时，socket保持在FIN-WAIT-2状态的最大时间。 tcp_max_tw_buckets: 这个参数表示操作系统允许TIME-WAIT套接字数量的最大值，如果超过这个数字，TIME-WAIT套接字将立刻被清除并打印警告信息。这个参数默认为180000，过多的TIME-WAIT套接字会使web服务器变慢。 tcp_max_syn_backlog: 这个参数表示TCP三次握手建立阶段接收syn请求队列的最大长度，默认为1024，将其设置得大一些可以使出现nginx繁忙来不及accept新连接的情况时，linux不至于丢失客户端发起的连接请求。 ip_local_port_range: 这个参数定义了在udp和tcp连接中本地（不包括连接的远端）端口的取值范围。 net.</description>
     </item>
     
