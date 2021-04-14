@@ -13,10 +13,10 @@
     
     <item>
       <title>Golang GC 实现原理</title>
-      <link>https://realjf.io/posts/how-golang-garbage-collection-works/</link>
+      <link>https://realjf.io/golang/how-golang-garbage-collection-works/</link>
       <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/how-golang-garbage-collection-works/</guid>
+      <guid>https://realjf.io/golang/how-golang-garbage-collection-works/</guid>
       <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;rdquo;最大响应时间&amp;rdquo;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
 基础概念 内存结构 go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：
 这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:

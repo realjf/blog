@@ -13,10 +13,10 @@
     
     <item>
       <title>Golang语言标准库之 sync/atomic原子操作</title>
-      <link>https://realjf.io/posts/sync-atomic/</link>
+      <link>https://realjf.io/golang/sync-atomic/</link>
       <pubDate>Thu, 17 Oct 2019 17:37:02 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/sync-atomic/</guid>
+      <guid>https://realjf.io/golang/sync-atomic/</guid>
       <description>原子操作，顾名思义是不可分割的，他可以是一个步骤，也可以是多个步骤，其执行过程不会被线程调度机制打断的操作。
  原子性不可能由软件单独保证，需要硬件的支持，因此和架构有关。在x86架构平台下，cpu提供了在指令执行期间对总线加锁的手段。
 CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;rdquo;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，

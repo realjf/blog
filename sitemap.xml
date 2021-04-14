@@ -1180,28 +1180,28 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/golang-concurrency-mutexorchannel/</loc>
+        <loc>https://realjf.io/golang/golang-concurrency-mutexorchannel/</loc>
         <lastmod>2019-11-21T18:01:02+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/golang-concurrency-lockosthread/</loc>
+        <loc>https://realjf.io/golang/golang-concurrency-lockosthread/</loc>
         <lastmod>2019-11-21T17:10:37+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/golang-concurrency-timeout/</loc>
+        <loc>https://realjf.io/golang/golang-concurrency-timeout/</loc>
         <lastmod>2019-11-21T17:10:13+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/golang-data-race-detector/</loc>
+        <loc>https://realjf.io/golang/golang-data-race-detector/</loc>
         <lastmod>2019-11-21T16:41:31+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -1215,14 +1215,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/golang-micro-usage/</loc>
+        <loc>https://realjf.io/golang/golang-micro-usage/</loc>
         <lastmod>2019-10-22T09:50:59+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/sync-atomic/</loc>
+        <loc>https://realjf.io/golang/sync-atomic/</loc>
         <lastmod>2019-10-17T17:37:02+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -1313,7 +1313,7 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/pprof/</loc>
+        <loc>https://realjf.io/golang/pprof/</loc>
         <lastmod>2019-03-19T15:14:16+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -1341,14 +1341,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/how-golang-garbage-collection-works/</loc>
+        <loc>https://realjf.io/golang/how-golang-garbage-collection-works/</loc>
         <lastmod>2019-03-19T14:49:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/goroutine-principle/</loc>
+        <loc>https://realjf.io/golang/goroutine-principle/</loc>
         <lastmod>2019-03-19T14:45:21+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -1369,84 +1369,84 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-plugins-traefik/</loc>
+        <loc>https://realjf.io/k8s/k8s-plugins-traefik/</loc>
         <lastmod>2019-03-19T14:35:31+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-core-principle-network-model/</loc>
+        <loc>https://realjf.io/k8s/k8s-core-principle-network-model/</loc>
         <lastmod>2019-03-19T14:30:13+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-core-principle-security/</loc>
+        <loc>https://realjf.io/k8s/k8s-core-principle-security/</loc>
         <lastmod>2019-03-19T14:29:44+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-core-principle-kube-proxy/</loc>
+        <loc>https://realjf.io/k8s/k8s-core-principle-kube-proxy/</loc>
         <lastmod>2019-03-19T14:26:43+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-core-principle-kubelet/</loc>
+        <loc>https://realjf.io/k8s/k8s-core-principle-kubelet/</loc>
         <lastmod>2019-03-19T14:26:28+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-core-principle-sheduler/</loc>
+        <loc>https://realjf.io/k8s/k8s-core-principle-sheduler/</loc>
         <lastmod>2019-03-19T14:26:15+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-core-principle-controller-manager/</loc>
+        <loc>https://realjf.io/k8s/k8s-core-principle-controller-manager/</loc>
         <lastmod>2019-03-19T14:26:00+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-core-principle-apiserver/</loc>
+        <loc>https://realjf.io/k8s/k8s-core-principle-apiserver/</loc>
         <lastmod>2019-03-19T14:25:43+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-basic-concepts-and-terminology/</loc>
+        <loc>https://realjf.io/k8s/k8s-basic-concepts-and-terminology/</loc>
         <lastmod>2019-03-19T14:21:00+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-cluster-set-up-3/</loc>
+        <loc>https://realjf.io/k8s/k8s-cluster-set-up-3/</loc>
         <lastmod>2019-03-19T14:13:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-cluster-set-up-2/</loc>
+        <loc>https://realjf.io/k8s/k8s-cluster-set-up-2/</loc>
         <lastmod>2019-03-19T14:13:53+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/posts/k8s-cluster-set-up-1/</loc>
+        <loc>https://realjf.io/k8s/k8s-cluster-set-up-1/</loc>
         <lastmod>2019-03-19T14:13:46+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -1460,15 +1460,15 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/</loc>
-        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
+        <loc>https://realjf.io/series/</loc>
+        <lastmod>2021-04-12T13:32:01+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/</loc>
-        <lastmod>2021-04-12T13:32:01+08:00</lastmod>
+        <loc>https://realjf.io/tags/</loc>
+        <lastmod>2020-04-28T14:26:34+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
@@ -1593,14 +1593,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <loc>https://realjf.io/tags/ceph%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
         <lastmod>2019-03-19T14:57:12+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
@@ -1621,14 +1621,14 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/tags/chunk-file/</loc>
+        <loc>https://realjf.io/series/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>
     </url>
     
     <url>
-        <loc>https://realjf.io/series/chunk-file/</loc>
+        <loc>https://realjf.io/tags/chunk-file/</loc>
         <lastmod>2020-04-13T14:00:07+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0</priority>

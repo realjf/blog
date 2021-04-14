@@ -13,10 +13,10 @@
     
     <item>
       <title>Kubernetes集群下 Traefik安装和使用</title>
-      <link>https://realjf.io/posts/k8s-plugins-traefik/</link>
+      <link>https://realjf.io/k8s/k8s-plugins-traefik/</link>
       <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-plugins-traefik/</guid>
+      <guid>https://realjf.io/k8s/k8s-plugins-traefik/</guid>
       <description>前提：安装好kubernetes集群情况下
   run traefik and let it do the work for you!
  traefik官方地址：http://traefik.cn/

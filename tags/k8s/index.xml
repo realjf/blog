@@ -44,10 +44,10 @@ minikube安装 可以参考minikube 安装的网站minikube安装
     
     <item>
       <title>Kubernetes集群下 Traefik安装和使用</title>
-      <link>https://realjf.io/posts/k8s-plugins-traefik/</link>
+      <link>https://realjf.io/k8s/k8s-plugins-traefik/</link>
       <pubDate>Tue, 19 Mar 2019 14:35:31 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-plugins-traefik/</guid>
+      <guid>https://realjf.io/k8s/k8s-plugins-traefik/</guid>
       <description>前提：安装好kubernetes集群情况下
   run traefik and let it do the work for you!
  traefik官方地址：http://traefik.cn/
@@ -56,10 +56,10 @@ minikube安装 可以参考minikube 安装的网站minikube安装
     
     <item>
       <title>kubernetes 核心原理之 网络模型</title>
-      <link>https://realjf.io/posts/k8s-core-principle-network-model/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-network-model/</link>
       <pubDate>Tue, 19 Mar 2019 14:30:13 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-network-model/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-network-model/</guid>
       <description>主要解决以下问题： - 容器与容器之间的直接通信 - pod与pod之间的通信 - pod到service之间的通信 - 集群外部与集群内部组件之间的通信
 容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
 pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） - 不同node上的pod之间</description>
@@ -67,10 +67,10 @@ pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个no
     
     <item>
       <title>kubernetes 核心原理之 集群安全机制</title>
-      <link>https://realjf.io/posts/k8s-core-principle-security/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-security/</link>
       <pubDate>Tue, 19 Mar 2019 14:29:44 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-security/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-security/</guid>
       <description> 安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
 k8s提供3种级别的客户端身份认证方式： - 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 - http token认证：通过一个token来识别合法用户
  http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
@@ -84,10 +84,10 @@ ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访�
     
     <item>
       <title>kubernetes 核心原理之 Kube-Proxy</title>
-      <link>https://realjf.io/posts/k8s-core-principle-kube-proxy/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-kube-proxy/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:43 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-kube-proxy/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-kube-proxy/</guid>
       <description>service是一个抽象的概念，类似一个反向代理，将请求转发到后端的pod上。真正实现service作用的是kube-proxy服务进程。
 在每个node上都会运行一个kube-proxy的服务进程，这个进程可以看做service的透明代理兼负载均衡器，其核心功能是将到某个service的访问请求转发到后端的多个pod实例上。
 kube-proxy会在本地node上简历一个socketserver来负责接收请求，然后均匀发送到后端某个pod端口上，这个过程默认采用round robin负载均衡算法。
@@ -103,10 +103,10 @@ service类型为NodePort kube-proxy在iptables中除了添加上面提及的规�
     
     <item>
       <title>kubernetes 核心原理之 Kubelet</title>
-      <link>https://realjf.io/posts/k8s-core-principle-kubelet/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-kubelet/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:28 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-kubelet/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-kubelet/</guid>
       <description>在每个Node节点上都会启动一个kubelet服务进程，该进程负责处理master节点下发到本节点的任务，管理Pod和pod中的容器。
 每个kubelet进程会在api server上注册节点自身信息，定期向master节点汇报节点资源的使用情况，并通过cAdvisor监控容器和节点资源。
 节点管理 节点通过设置kubelet的启动参数“&amp;ndash;register-node”，来决定是否向api server注册自己，如果该参数为true，则会向api server注册自己。
@@ -120,10 +120,10 @@ LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如�
     
     <item>
       <title>kubernetes 核心原理之 Sheduler</title>
-      <link>https://realjf.io/posts/k8s-core-principle-sheduler/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-sheduler/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:15 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-sheduler/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-sheduler/</guid>
       <description>作用是将待调度的pod按照特定的调度算法和调度策略绑定到集群中的某个合适的Node上，并将绑定信息写入etcd中。
 目标节点上的kubelet通过api server监听到schduler产生的pod绑定事件，然后获取对应的pod清单，下载image镜像，并启动容器。
 Scheduler默认调度流程分为以下两步  预调度过程，即遍历所有目标node，筛选出符合要求的候选节点 确定最优节点，在上一步基础上，采用优选策略计算出每个候选节点的积分，积分高者胜出。  Scheduler调度流程是通过插件方式加载的“调度算法提供者”（AlgorithmProvider）具体实现的。一个AlgorithmProvider其实是一组预选策略与一组优先选择策略的结构体。
@@ -132,10 +132,10 @@ Scheduler中可选的预选策略  NoDiskConflict PodFitsResources PodSelectorMa
     
     <item>
       <title>kubernetes 核心原理之 Controller Manager</title>
-      <link>https://realjf.io/posts/k8s-core-principle-controller-manager/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-controller-manager/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:00 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-controller-manager/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-controller-manager/</guid>
       <description>controller manager作为集群内部的管理控制中心，负责集群内的Node、pod副本、服务端（Endpoint）、命名空间（Namespace）、服务账号（ServiceAccount）、资源定额（ResourceQuota）等的管理。
 controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。 &amp;gt; 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
 RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
@@ -147,20 +147,20 @@ node controller节点信息更新机制 比较节点信息和node controller的n
     
     <item>
       <title>kubernetes 核心原理之 Apiserver</title>
-      <link>https://realjf.io/posts/k8s-core-principle-apiserver/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-apiserver/</link>
       <pubDate>Tue, 19 Mar 2019 14:25:43 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-apiserver/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-apiserver/</guid>
       <description>API Server的核心功能提供了kubernetes各类资源对象（如pod、rc、service等）的增删改查以及watch等http rest接口，是集群内各个功能模块之间数据交互和通信的中心枢纽，是整个系统的数据总线和数据中心。
  是集群管理的api入口 是资源配额控制的入口 提供了完备的集群安全机制  </description>
     </item>
     
     <item>
       <title>kubernetes 基本概念和术语</title>
-      <link>https://realjf.io/posts/k8s-basic-concepts-and-terminology/</link>
+      <link>https://realjf.io/k8s/k8s-basic-concepts-and-terminology/</link>
       <pubDate>Tue, 19 Mar 2019 14:21:00 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-basic-concepts-and-terminology/</guid>
+      <guid>https://realjf.io/k8s/k8s-basic-concepts-and-terminology/</guid>
       <description>kubernetes中大部分概念，如node、pod、replication、controller、service等都可以看作是一种“资源对象”，几乎所有的资源对象都可以通过kubernetes提供的kubectl工具执行增、删、改、查等操作并保存在etcd中持久化存储。
 k8s里所有资源对象都可以采用yaml或者json格式的文件来定义或描述
  1. Master（主节点、集群控制节点）  每个kubernets集群里需要有一个master节点来负责整个集群管理和控制 所有控制命令都发给它 占据一个独立的服务器 如果宕机或不可用，整个集群内容器应用的管理都将失效  master节点运行一组以下关键进程  kubernetes api server(kube-apiserver)：提供http rest接口，是k8s所有资源增删改查等操作的唯一入口，也是集群控制入口进程 kubernetes controller manager(kube-controller-manager)：k8s所有资源对象的自动化控制中心 kubernetes scheduler(kube-scheduler)：负责资源调度（pod调度）的进程 etcd服务：保存k8s所有资源对象的数据  相关命令  kubectl get nodes：查看集群有多少个node kubectl describe node ：查看某个node详细信息  2. Node（较早版本也叫minion）  节点既可以是物理机，也可以是私有云或者公有云中的一个虚拟机，通常在一个节点上运行几百个pod kubernetes集群中的工作负载节点，当某个node宕机，其上的工作负载会被master自动转移到其他节点上  每个node节点运行一组以下关键进程  kubelet：负责pod对应的容器的创建、启停等，同时与master节点密切协作，实现集群管理的基本功能 kube-proxy：实现kubernetes service的通信与负载均衡机制 docker engine：docker引擎，负责本机的容器创建和管理工作  3. Pod 是k8s最重要也是最基本概念 - 每个Pod都有一个特殊的被称为“根容器”的Pause容器，Pause容器对应的镜像属于k8s平台的一部分（gcr.io/google_containers/pause-amd64） - pod对象将每个服务进程包装到相应的pod中，使其成为pod中运行的一个容器 - 根容器不易死亡 - pod里的多个业务容器共享pause容器的ip，共享pause容器挂接的volume（解决Pod直接拿文件共享问题） - k8s为每个pod都分配唯一的ip地址，称之为pod ip，一个Pod里的多个容器共享pod ip地址 - 集群内任意两个pod之间的tcp/ip可以直接通信，通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等。
@@ -169,10 +169,10 @@ pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放�
     
     <item>
       <title>Kubernetes集群搭建三 之 docker镜像配置</title>
-      <link>https://realjf.io/posts/k8s-cluster-set-up-3/</link>
+      <link>https://realjf.io/k8s/k8s-cluster-set-up-3/</link>
       <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-cluster-set-up-3/</guid>
+      <guid>https://realjf.io/k8s/k8s-cluster-set-up-3/</guid>
       <description> 1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
 运行以下命令，启动一个本地镜像仓库 docker 1.6以上版本可以直接运行以下命令
 docker run -d -p 5000:5000 --restart=always --name registry registry:2  停止本地仓库
@@ -186,10 +186,10 @@ systemctl restart kubelet  </description>
     
     <item>
       <title>Kubernetes集群搭建二 之 k8s集群</title>
-      <link>https://realjf.io/posts/k8s-cluster-set-up-2/</link>
+      <link>https://realjf.io/k8s/k8s-cluster-set-up-2/</link>
       <pubDate>Tue, 19 Mar 2019 14:13:53 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-cluster-set-up-2/</guid>
+      <guid>https://realjf.io/k8s/k8s-cluster-set-up-2/</guid>
       <description>方式1：基于CA签名的双向数字证书认证方式 过程如下： - 为kube-apiserver生成一个数字证书，并用CA证书进行签名 - 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 - 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数
 1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
 openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crt openssl genrsa -out server.key 2048  注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
@@ -200,10 +200,10 @@ openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj 
     
     <item>
       <title>Kubernetes集群搭建一 之 etcd集群</title>
-      <link>https://realjf.io/posts/k8s-cluster-set-up-1/</link>
+      <link>https://realjf.io/k8s/k8s-cluster-set-up-1/</link>
       <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-cluster-set-up-1/</guid>
+      <guid>https://realjf.io/k8s/k8s-cluster-set-up-1/</guid>
       <description>系统要求    软硬件 最低配置 推荐配置     cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置   linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7   Docker 1.9版本以上 1.12版本   etcd 2.0版本及以上 3.0版本    本次实验选用的是centos7 1804版本
  需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
 #关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled   这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数

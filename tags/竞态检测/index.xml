@@ -13,10 +13,10 @@
     
     <item>
       <title>Golang 并发编程 之 数据竞态检测</title>
-      <link>https://realjf.io/posts/golang-data-race-detector/</link>
+      <link>https://realjf.io/golang/golang-data-race-detector/</link>
       <pubDate>Thu, 21 Nov 2019 16:41:31 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/golang-data-race-detector/</guid>
+      <guid>https://realjf.io/golang/golang-data-race-detector/</guid>
       <description>什么是数据争用或竞态 数据争用是并发系统中最常见且最难调试的错误类型之一。当两个goroutine并发访问同一变量并且至少其中之一是写操作时，就会发生数据争用。
 下面让我们来实际模拟一下数据争用问题。
 以下示例可能导致内存崩溃和损坏的数据争用

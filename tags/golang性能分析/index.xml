@@ -13,10 +13,10 @@
     
     <item>
       <title>golang性能分析利器之Pprof</title>
-      <link>https://realjf.io/posts/pprof/</link>
+      <link>https://realjf.io/golang/pprof/</link>
       <pubDate>Tue, 19 Mar 2019 15:14:16 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/pprof/</guid>
+      <guid>https://realjf.io/golang/pprof/</guid>
       <description>简介 pprof是golang程序一个性能分析的工具，可以查看堆栈、cpu信息等
 pprof有2个包：net/http/pprof以及runtime/pprof
 二者之间的关系：net/http/pprof包只是使用runtime/pprof包来进行封装了一下，并在http端口上暴露出来

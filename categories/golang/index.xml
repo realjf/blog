@@ -143,10 +143,10 @@ go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchm
     
     <item>
       <title>Golang 并发编程 之 sync.Mutex 或 channel（通道）</title>
-      <link>https://realjf.io/posts/golang-concurrency-mutexorchannel/</link>
+      <link>https://realjf.io/golang/golang-concurrency-mutexorchannel/</link>
       <pubDate>Thu, 21 Nov 2019 18:01:02 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/golang-concurrency-mutexorchannel/</guid>
+      <guid>https://realjf.io/golang/golang-concurrency-mutexorchannel/</guid>
       <description>并发控制中sync.Mutex 与 channel 的使用？ go的创建者建议“通过通信共享内存，不通过共享内存进行通信”。
 也就是说，Go确实在sync包中提供了传统的锁定机制。大多数锁定问题可以使用通道锁定或传统锁定来解决
 使用锁机制和通道的优劣分析 Go新手常见的错误是仅仅因为可能和/或很有趣而过度使用通道和goroutine。如果最适合您的问题，请不要害怕使用sync.Mutex。 Go务实的做法是让您使用能够最好地解决问题的工具，而不用强迫您使用一种代码风格.
@@ -158,30 +158,30 @@ go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchm
     
     <item>
       <title>Golang 并发编程 之 runtime.LockOSThread</title>
-      <link>https://realjf.io/posts/golang-concurrency-lockosthread/</link>
+      <link>https://realjf.io/golang/golang-concurrency-lockosthread/</link>
       <pubDate>Thu, 21 Nov 2019 17:10:37 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/golang-concurrency-lockosthread/</guid>
+      <guid>https://realjf.io/golang/golang-concurrency-lockosthread/</guid>
       <description>背景介绍 一些库（尤其是图形框架和库（例如Cocoa，OpenGL和libSDL））使用线程局部状态，并且可能要求仅从特定OS线程（通常是“主”线程）调用函数。 Go为此提供了runtime.LockOSThread函数，接下来通过示例说明如何正确使用它。
 package dl import ( &amp;quot;fmt&amp;quot; &amp;quot;runtime&amp;quot; ) // 安排main.main在主线程上运行 func init() { runtime.LockOSThread() } // 在主线程main.main中调用Main循环 func Main() { for f := range mainfunc { // 取出工作队列中的函数进行调用 f() } } var mainfunc = make(chan func()) func do(f func()) { done := make(chan bool, 1) // 将整个函数加入到工作队列中 mainfunc &amp;lt;- func() { f() fmt.Println(&amp;quot;add queue&amp;quot;) done &amp;lt;- true } &amp;lt;-done } func Beep() { do(func() { // 无论什么时候都运行在主线程 fmt.</description>
     </item>
     
     <item>
       <title>Golang 并发编程 之 超时处理</title>
-      <link>https://realjf.io/posts/golang-concurrency-timeout/</link>
+      <link>https://realjf.io/golang/golang-concurrency-timeout/</link>
       <pubDate>Thu, 21 Nov 2019 17:10:13 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/golang-concurrency-timeout/</guid>
+      <guid>https://realjf.io/golang/golang-concurrency-timeout/</guid>
       <description>并发编程中的超时处理 在并发编程中，要放弃运行时间太长的同步调用，请使用带有time.After的select语句，如下：
 import ( &amp;quot;errors&amp;quot; &amp;quot;fmt&amp;quot; &amp;quot;time&amp;quot; ) func main() { var timeoutNanoseconds time.Duration = 5 * time.Second c := make(chan error, 1) go func() { time.Sleep(20 * time.Second) c &amp;lt;- errors.New(&amp;quot;error&amp;quot;) } () select { case err := &amp;lt;-c: // use err and reply fmt.Println(err) case &amp;lt;-time.After(timeoutNanoseconds): // call timed out fmt.Println(&amp;quot;timeout...&amp;quot;) } }  以上代码在超时5秒后退出</description>
     </item>
     
     <item>
       <title>Golang 并发编程 之 数据竞态检测</title>
-      <link>https://realjf.io/posts/golang-data-race-detector/</link>
+      <link>https://realjf.io/golang/golang-data-race-detector/</link>
       <pubDate>Thu, 21 Nov 2019 16:41:31 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/golang-data-race-detector/</guid>
+      <guid>https://realjf.io/golang/golang-data-race-detector/</guid>
       <description>什么是数据争用或竞态 数据争用是并发系统中最常见且最难调试的错误类型之一。当两个goroutine并发访问同一变量并且至少其中之一是写操作时，就会发生数据争用。
 下面让我们来实际模拟一下数据争用问题。
 以下示例可能导致内存崩溃和损坏的数据争用
@@ -191,10 +191,10 @@ func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&a
     
     <item>
       <title>Golang Micro 微服务框架使用</title>
-      <link>https://realjf.io/posts/golang-micro-usage/</link>
+      <link>https://realjf.io/golang/golang-micro-usage/</link>
       <pubDate>Tue, 22 Oct 2019 09:50:59 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/golang-micro-usage/</guid>
+      <guid>https://realjf.io/golang/golang-micro-usage/</guid>
       <description>准备  搭建好golang开发环境 安装git等相关工具  开始 一、安装protobuf protobuf用于生成微服务代码
 go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go   如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
 关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
@@ -208,10 +208,10 @@ syntax = &amp;quot;proto3&amp;quot;; service Greeter { rpc Hello(HelloRequest) r
     
     <item>
       <title>Golang语言标准库之 sync/atomic原子操作</title>
-      <link>https://realjf.io/posts/sync-atomic/</link>
+      <link>https://realjf.io/golang/sync-atomic/</link>
       <pubDate>Thu, 17 Oct 2019 17:37:02 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/sync-atomic/</guid>
+      <guid>https://realjf.io/golang/sync-atomic/</guid>
       <description>原子操作，顾名思义是不可分割的，他可以是一个步骤，也可以是多个步骤，其执行过程不会被线程调度机制打断的操作。
  原子性不可能由软件单独保证，需要硬件的支持，因此和架构有关。在x86架构平台下，cpu提供了在指令执行期间对总线加锁的手段。
 CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;rdquo;LOCK&amp;rdquo;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
@@ -225,10 +225,10 @@ package main import ( &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; &amp;quot
     
     <item>
       <title>golang性能分析利器之Pprof</title>
-      <link>https://realjf.io/posts/pprof/</link>
+      <link>https://realjf.io/golang/pprof/</link>
       <pubDate>Tue, 19 Mar 2019 15:14:16 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/pprof/</guid>
+      <guid>https://realjf.io/golang/pprof/</guid>
       <description>简介 pprof是golang程序一个性能分析的工具，可以查看堆栈、cpu信息等
 pprof有2个包：net/http/pprof以及runtime/pprof
 二者之间的关系：net/http/pprof包只是使用runtime/pprof包来进行封装了一下，并在http端口上暴露出来
@@ -244,10 +244,10 @@ var cpuprofile = flag.String(&amp;quot;cpuprofile&amp;quot;, &amp;quot;&amp;quot
     
     <item>
       <title>Golang GC 实现原理</title>
-      <link>https://realjf.io/posts/how-golang-garbage-collection-works/</link>
+      <link>https://realjf.io/golang/how-golang-garbage-collection-works/</link>
       <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/how-golang-garbage-collection-works/</guid>
+      <guid>https://realjf.io/golang/how-golang-garbage-collection-works/</guid>
       <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;rdquo;最大响应时间&amp;rdquo;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
 基础概念 内存结构 go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：
 这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:
@@ -265,10 +265,10 @@ GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提
     
     <item>
       <title>Goroutine 运行原理</title>
-      <link>https://realjf.io/posts/goroutine-principle/</link>
+      <link>https://realjf.io/golang/goroutine-principle/</link>
       <pubDate>Tue, 19 Mar 2019 14:45:21 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/goroutine-principle/</guid>
+      <guid>https://realjf.io/golang/goroutine-principle/</guid>
       <description>Golang最大的特色可以说是协程(goroutine)了, 协程让本来很复杂的异步编程变得简单, 让程序员不再需要面对回调地狱, 虽然现在引入了协程的语言越来越多, 但go中的协程仍然是实现的是最彻底的.
 核心概念 要理解协程的实现，需要理解三个重要概念，P、G和M。
 G（goroutine） G是goroutine的简写，goroutine可以解释为受管理的轻量级线程，goroutine使用go关键字创建。

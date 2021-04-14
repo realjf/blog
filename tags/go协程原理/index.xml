@@ -13,10 +13,10 @@
     
     <item>
       <title>Goroutine 运行原理</title>
-      <link>https://realjf.io/posts/goroutine-principle/</link>
+      <link>https://realjf.io/golang/goroutine-principle/</link>
       <pubDate>Tue, 19 Mar 2019 14:45:21 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/goroutine-principle/</guid>
+      <guid>https://realjf.io/golang/goroutine-principle/</guid>
       <description>Golang最大的特色可以说是协程(goroutine)了, 协程让本来很复杂的异步编程变得简单, 让程序员不再需要面对回调地狱, 虽然现在引入了协程的语言越来越多, 但go中的协程仍然是实现的是最彻底的.
 核心概念 要理解协程的实现，需要理解三个重要概念，P、G和M。
 G（goroutine） G是goroutine的简写，goroutine可以解释为受管理的轻量级线程，goroutine使用go关键字创建。

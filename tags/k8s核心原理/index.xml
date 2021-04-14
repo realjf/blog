@@ -13,10 +13,10 @@
     
     <item>
       <title>kubernetes 核心原理之 网络模型</title>
-      <link>https://realjf.io/posts/k8s-core-principle-network-model/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-network-model/</link>
       <pubDate>Tue, 19 Mar 2019 14:30:13 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-network-model/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-network-model/</guid>
       <description>主要解决以下问题： - 容器与容器之间的直接通信 - pod与pod之间的通信 - pod到service之间的通信 - 集群外部与集群内部组件之间的通信
 容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
 pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） - 不同node上的pod之间</description>
@@ -24,10 +24,10 @@ pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个no
     
     <item>
       <title>kubernetes 核心原理之 集群安全机制</title>
-      <link>https://realjf.io/posts/k8s-core-principle-security/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-security/</link>
       <pubDate>Tue, 19 Mar 2019 14:29:44 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-security/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-security/</guid>
       <description> 安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
 k8s提供3种级别的客户端身份认证方式： - 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 - http token认证：通过一个token来识别合法用户
  http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
@@ -41,10 +41,10 @@ ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访�
     
     <item>
       <title>kubernetes 核心原理之 Kube-Proxy</title>
-      <link>https://realjf.io/posts/k8s-core-principle-kube-proxy/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-kube-proxy/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:43 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-kube-proxy/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-kube-proxy/</guid>
       <description>service是一个抽象的概念，类似一个反向代理，将请求转发到后端的pod上。真正实现service作用的是kube-proxy服务进程。
 在每个node上都会运行一个kube-proxy的服务进程，这个进程可以看做service的透明代理兼负载均衡器，其核心功能是将到某个service的访问请求转发到后端的多个pod实例上。
 kube-proxy会在本地node上简历一个socketserver来负责接收请求，然后均匀发送到后端某个pod端口上，这个过程默认采用round robin负载均衡算法。
@@ -60,10 +60,10 @@ service类型为NodePort kube-proxy在iptables中除了添加上面提及的规�
     
     <item>
       <title>kubernetes 核心原理之 Kubelet</title>
-      <link>https://realjf.io/posts/k8s-core-principle-kubelet/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-kubelet/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:28 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-kubelet/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-kubelet/</guid>
       <description>在每个Node节点上都会启动一个kubelet服务进程，该进程负责处理master节点下发到本节点的任务，管理Pod和pod中的容器。
 每个kubelet进程会在api server上注册节点自身信息，定期向master节点汇报节点资源的使用情况，并通过cAdvisor监控容器和节点资源。
 节点管理 节点通过设置kubelet的启动参数“&amp;ndash;register-node”，来决定是否向api server注册自己，如果该参数为true，则会向api server注册自己。
@@ -77,10 +77,10 @@ LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如�
     
     <item>
       <title>kubernetes 核心原理之 Sheduler</title>
-      <link>https://realjf.io/posts/k8s-core-principle-sheduler/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-sheduler/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:15 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-sheduler/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-sheduler/</guid>
       <description>作用是将待调度的pod按照特定的调度算法和调度策略绑定到集群中的某个合适的Node上，并将绑定信息写入etcd中。
 目标节点上的kubelet通过api server监听到schduler产生的pod绑定事件，然后获取对应的pod清单，下载image镜像，并启动容器。
 Scheduler默认调度流程分为以下两步  预调度过程，即遍历所有目标node，筛选出符合要求的候选节点 确定最优节点，在上一步基础上，采用优选策略计算出每个候选节点的积分，积分高者胜出。  Scheduler调度流程是通过插件方式加载的“调度算法提供者”（AlgorithmProvider）具体实现的。一个AlgorithmProvider其实是一组预选策略与一组优先选择策略的结构体。
@@ -89,10 +89,10 @@ Scheduler中可选的预选策略  NoDiskConflict PodFitsResources PodSelectorMa
     
     <item>
       <title>kubernetes 核心原理之 Controller Manager</title>
-      <link>https://realjf.io/posts/k8s-core-principle-controller-manager/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-controller-manager/</link>
       <pubDate>Tue, 19 Mar 2019 14:26:00 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-controller-manager/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-controller-manager/</guid>
       <description>controller manager作为集群内部的管理控制中心，负责集群内的Node、pod副本、服务端（Endpoint）、命名空间（Namespace）、服务账号（ServiceAccount）、资源定额（ResourceQuota）等的管理。
 controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。 &amp;gt; 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
 RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
@@ -104,10 +104,10 @@ node controller节点信息更新机制 比较节点信息和node controller的n
     
     <item>
       <title>kubernetes 核心原理之 Apiserver</title>
-      <link>https://realjf.io/posts/k8s-core-principle-apiserver/</link>
+      <link>https://realjf.io/k8s/k8s-core-principle-apiserver/</link>
       <pubDate>Tue, 19 Mar 2019 14:25:43 +0800</pubDate>
       
-      <guid>https://realjf.io/posts/k8s-core-principle-apiserver/</guid>
+      <guid>https://realjf.io/k8s/k8s-core-principle-apiserver/</guid>
       <description>API Server的核心功能提供了kubernetes各类资源对象（如pod、rc、service等）的增删改查以及watch等http rest接口，是集群内各个功能模块之间数据交互和通信的中心枢纽，是整个系统的数据总线和数据中心。
  是集群管理的api入口 是资源配额控制的入口 提供了完备的集群安全机制  </description>
     </item>
