@@ -1,5 +1,5 @@
 ---
-title: "Go内存泄漏分析 Golang Memory Leak"
+title: "Go内存泄漏 Golang Memory Leak"
 date: 2021-04-09T13:57:59+08:00
 keywords: ["golang"]
 categories: ["golang"]
