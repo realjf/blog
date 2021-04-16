@@ -5,7 +5,7 @@ keywords: ["etcd"]
 categories: ["etcd"]
 tags: ["etcd"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 50
@@ -106,7 +106,12 @@ lease 694d78c50e58ef1a keepalived with TTL(30)
 
 ```
 
+### golang操作etcd
 
+#### 执行get/put/delete
+```golang
+
+```
 
 
 
