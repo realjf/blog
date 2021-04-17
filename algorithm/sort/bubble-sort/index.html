@@ -3,7 +3,7 @@
 <head>
     <title>排序算法之冒泡排序 Bubble Sort // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,42 +237,40 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/algorithm/">Algorithm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
         </header>
         <div class="post-content">
             <p>冒泡排序算法很简单，对相邻的元素进行两两比较，顺序相反则进行交换，这样，每一趟会将最小或最大的元素“浮”到顶端，最终达到完全有序。</p>
-
-<p>基本思想：
-1.</p>
-
-<pre><code class="language-c">#include &lt;stdio.h&gt;
-void swap(int* a, int* b){
-    if(*a &gt; &amp;b){
-        *a = *a+*b;
-        *b = *a-*b;
-        *a = *a-*b;
+<p>基本思想：</p>
+<ol>
+<li></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> a, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> b){
+    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">*</span>a <span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>b){
+        <span style="color:#f92672">*</span>a <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>a<span style="color:#f92672">+*</span>b;
+        <span style="color:#f92672">*</span>b <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>a<span style="color:#f92672">-*</span>b;
+        <span style="color:#f92672">*</span>a <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>a<span style="color:#f92672">-*</span>b;
     }
-    return;
+    <span style="color:#66d9ef">return</span>;
 }
-int main(){
-    int a[10],i,j;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+    <span style="color:#66d9ef">int</span> a[<span style="color:#ae81ff">10</span>],i,j;
 
-    for(i=0;i&lt;10;i++){scanf(&quot;%d&quot;, &amp;a[i]);}
+    <span style="color:#66d9ef">for</span>(i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">10</span>;i<span style="color:#f92672">++</span>){scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>a[i]);}
 
-    for (i=0;i&lt;10;i++){
-        for(j=0; j&lt;i; j++){
-            swap(&amp;a[i], &amp;a[j]);
+    <span style="color:#66d9ef">for</span> (i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">10</span>;i<span style="color:#f92672">++</span>){
+        <span style="color:#66d9ef">for</span>(j<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; j<span style="color:#f92672">&lt;</span>i; j<span style="color:#f92672">++</span>){
+            swap(<span style="color:#f92672">&amp;</span>a[i], <span style="color:#f92672">&amp;</span>a[j]);
         }
     }
 
-   for(i=0; i&lt;10;i++){
-    printf(&quot;%d&quot;, a[i]);
+   <span style="color:#66d9ef">for</span>(i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">10</span>;i<span style="color:#f92672">++</span>){
+    printf(<span style="color:#e6db74">&#34;%d&#34;</span>, a[i]);
   }
 }
 
-</code></pre>
-
-<p>由以上程序可以看出，程序的时间复杂度是O(n^2)</p>
+</code></pre></div><p>由以上程序可以看出，程序的时间复杂度是O(n^2)</p>
 
         </div>
         <div id="disqus_thread"></div>

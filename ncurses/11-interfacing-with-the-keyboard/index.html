@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 11.键盘接口 11 Interfacing With the Keyboard // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,132 +237,116 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="11-键盘接口">11. 键盘接口</h2>
-
-<h3 id="11-1-基础知识">11.1. 基础知识</h3>
-
+            <h2 id="11-键盘接口">11. 键盘接口</h2>
+<h3 id="111-基础知识">11.1. 基础知识</h3>
 <p>没有强大的用户界面就没有完整的GUI，要与用户交互，curses程序应该对用户的按键或鼠标动作敏感。我们先来处理按键吧。</p>
-
 <p>正如您在上面几乎所有的示例中所看到的，从用户那里获取按键输入非常容易。获取按键的一种简单方法是使用getch（）函数。当您对读取单个按键点击而不是完整的文本行（通常以回车结束）感兴趣时，应启用cbreak模式来读取按键。应启用键盘以获取功能键、箭头键等。有关详细信息，请参阅初始化部分。</p>
-
 <p>getch（）返回与按下的键对应的整数。如果是普通字符，则整数值将与字符等效。否则，它将返回一个可以与curses.h中定义的常量匹配的数字。例如，如果用户按F1，则返回的整数为265。可以使用curses.h中定义的宏KEY_F()来检查这一点。这使得读取键便于携带和管理。
 例如，如果像这样调用getch（）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> ch;
 
-<pre><code class="language-cpp">int ch;
-
-ch = getch();
-</code></pre>
-
-<p>getch（）将等待用户按键（除非指定了超时），当用户按键时，将返回相应的整数。然后，您可以使用curses.h中定义的常量检查返回的值，以便与所需的键匹配。</p>
-
+ch <span style="color:#f92672">=</span> getch();
+</code></pre></div><p>getch（）将等待用户按键（除非指定了超时），当用户按键时，将返回相应的整数。然后，您可以使用curses.h中定义的常量检查返回的值，以便与所需的键匹配。</p>
 <p>下面的代码段将完成这项工作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"> <span style="color:#66d9ef">if</span>(ch <span style="color:#f92672">==</span> KEY_LEFT)
+        printw(<span style="color:#e6db74">&#34;Left arrow is pressed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</code></pre></div><p>让我们编写一个小程序，创建一个菜单，可以通过上下箭头导航。</p>
+<h3 id="112-一个简单的按键使用示例">11.2 一个简单的按键使用示例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#define WIDTH 30
+</span><span style="color:#75715e">#define HEIGHT 10 
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> startx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">int</span> starty <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
 
-<pre><code class="language-cpp"> if(ch == KEY_LEFT)
-        printw(&quot;Left arrow is pressed\n&quot;);
-</code></pre>
+<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> { 
+			<span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+			<span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+			<span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+			<span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+			<span style="color:#e6db74">&#34;Exit&#34;</span>,
+		  };
+<span style="color:#66d9ef">int</span> n_choices <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(choices) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_menu</span>(WINDOW <span style="color:#f92672">*</span>menu_win, <span style="color:#66d9ef">int</span> highlight);
 
-<p>让我们编写一个小程序，创建一个菜单，可以通过上下箭头导航。</p>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{	WINDOW <span style="color:#f92672">*</span>menu_win;
+	<span style="color:#66d9ef">int</span> highlight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+	<span style="color:#66d9ef">int</span> choice <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">int</span> c;
 
-<h3 id="11-2-一个简单的按键使用示例">11.2 一个简单的按键使用示例</h3>
-
-<pre><code class="language-cpp">#include &lt;stdio.h&gt;
-#include &lt;ncurses.h&gt;
-
-#define WIDTH 30
-#define HEIGHT 10 
-
-int startx = 0;
-int starty = 0;
-
-char *choices[] = { 
-            &quot;Choice 1&quot;,
-            &quot;Choice 2&quot;,
-            &quot;Choice 3&quot;,
-            &quot;Choice 4&quot;,
-            &quot;Exit&quot;,
-          };
-int n_choices = sizeof(choices) / sizeof(char *);
-void print_menu(WINDOW *menu_win, int highlight);
-
-int main()
-{   WINDOW *menu_win;
-    int highlight = 1;
-    int choice = 0;
-    int c;
-
-    initscr();
-    clear();
-    noecho();
-    cbreak();   /* Line buffering disabled. pass on everything */
-    startx = (80 - WIDTH) / 2;
-    starty = (24 - HEIGHT) / 2;
-        
-    menu_win = newwin(HEIGHT, WIDTH, starty, startx);
-    keypad(menu_win, TRUE);
-    mvprintw(0, 0, &quot;Use arrow keys to go up and down, Press enter to select a choice&quot;);
-    refresh();
-    print_menu(menu_win, highlight);
-    while(1)
-    {   c = wgetch(menu_win);
-        switch(c)
-        {   case KEY_UP:
-                if(highlight == 1)
-                    highlight = n_choices;
-                else
-                    --highlight;
-                break;
-            case KEY_DOWN:
-                if(highlight == n_choices)
-                    highlight = 1;
-                else 
-                    ++highlight;
-                break;
-            case 10:
-                choice = highlight;
-                break;
-            default:
-                mvprintw(24, 0, &quot;Charcter pressed is = %3d Hopefully it can be printed as '%c'&quot;, c, c);
-                refresh();
-                break;
-        }
-        print_menu(menu_win, highlight);
-        if(choice != 0) /* User did a choice come out of the infinite loop */
-            break;
-    }   
-    mvprintw(23, 0, &quot;You chose choice %d with choice string %s\n&quot;, choice, choices[choice - 1]);
-    clrtoeol();
-    refresh();
-    endwin();
-    return 0;
+	initscr();
+	clear();
+	noecho();
+	cbreak();	<span style="color:#75715e">/* Line buffering disabled. pass on everything */</span>
+	startx <span style="color:#f92672">=</span> (<span style="color:#ae81ff">80</span> <span style="color:#f92672">-</span> WIDTH) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+	starty <span style="color:#f92672">=</span> (<span style="color:#ae81ff">24</span> <span style="color:#f92672">-</span> HEIGHT) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+		
+	menu_win <span style="color:#f92672">=</span> newwin(HEIGHT, WIDTH, starty, startx);
+	keypad(menu_win, TRUE);
+	mvprintw(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use arrow keys to go up and down, Press enter to select a choice&#34;</span>);
+	refresh();
+	print_menu(menu_win, highlight);
+	<span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+	{	c <span style="color:#f92672">=</span> wgetch(menu_win);
+		<span style="color:#66d9ef">switch</span>(c)
+		{	<span style="color:#66d9ef">case</span> KEY_UP:
+				<span style="color:#66d9ef">if</span>(highlight <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+					highlight <span style="color:#f92672">=</span> n_choices;
+				<span style="color:#66d9ef">else</span>
+					<span style="color:#f92672">--</span>highlight;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> KEY_DOWN:
+				<span style="color:#66d9ef">if</span>(highlight <span style="color:#f92672">==</span> n_choices)
+					highlight <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+				<span style="color:#66d9ef">else</span> 
+					<span style="color:#f92672">++</span>highlight;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span>
+				choice <span style="color:#f92672">=</span> highlight;
+				<span style="color:#66d9ef">break</span>;
+			<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+				mvprintw(<span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Charcter pressed is = %3d Hopefully it can be printed as &#39;%c&#39;&#34;</span>, c, c);
+				refresh();
+				<span style="color:#66d9ef">break</span>;
+		}
+		print_menu(menu_win, highlight);
+		<span style="color:#66d9ef">if</span>(choice <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)	<span style="color:#75715e">/* User did a choice come out of the infinite loop */</span>
+			<span style="color:#66d9ef">break</span>;
+	}	
+	mvprintw(<span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;You chose choice %d with choice string %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, choice, choices[choice <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+	clrtoeol();
+	refresh();
+	endwin();
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 
 
-void print_menu(WINDOW *menu_win, int highlight)
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_menu</span>(WINDOW <span style="color:#f92672">*</span>menu_win, <span style="color:#66d9ef">int</span> highlight)
 {
-    int x, y, i;    
+	<span style="color:#66d9ef">int</span> x, y, i;	
 
-    x = 2;
-    y = 2;
-    box(menu_win, 0, 0);
-    for(i = 0; i &lt; n_choices; ++i)
-    {   if(highlight == i + 1) /* High light the present choice */
-        {   wattron(menu_win, A_REVERSE); 
-            mvwprintw(menu_win, y, x, &quot;%s&quot;, choices[i]);
-            wattroff(menu_win, A_REVERSE);
-        }
-        else
-            mvwprintw(menu_win, y, x, &quot;%s&quot;, choices[i]);
-        ++y;
-    }
-    wrefresh(menu_win);
+	x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+	y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+	box(menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+	{	<span style="color:#66d9ef">if</span>(highlight <span style="color:#f92672">==</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#75715e">/* High light the present choice */</span>
+		{	wattron(menu_win, A_REVERSE); 
+			mvwprintw(menu_win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, choices[i]);
+			wattroff(menu_win, A_REVERSE);
+		}
+		<span style="color:#66d9ef">else</span>
+			mvwprintw(menu_win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, choices[i]);
+		<span style="color:#f92672">++</span>y;
+	}
+	wrefresh(menu_win);
 }
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

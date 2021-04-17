@@ -3,7 +3,7 @@
 <head>
     <title>Golang 并发编程 之 runtime.LockOSThread // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,71 +237,63 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/concurrency/">Concurrency</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/concurrency/">concurrency</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="背景介绍">背景介绍</h2>
-
+            <h2 id="背景介绍">背景介绍</h2>
 <p>一些库（尤其是图形框架和库（例如Cocoa，OpenGL和libSDL））使用线程局部状态，并且可能要求仅从特定OS线程（通常是“主”线程）调用函数。
 Go为此提供了runtime.LockOSThread函数，接下来通过示例说明如何正确使用它。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">dl</span>
 
-<pre><code class="language-go">package dl
-
-import (
-    &quot;fmt&quot;
-    &quot;runtime&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;runtime&#34;</span>
 )
 
-// 安排main.main在主线程上运行
-func init() {
-    runtime.LockOSThread()
+<span style="color:#75715e">// 安排main.main在主线程上运行
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+	<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">LockOSThread</span>()
 }
 
-// 在主线程main.main中调用Main循环
-func Main() {
-    for f := range mainfunc {
-        // 取出工作队列中的函数进行调用
-        f()
-    }
+<span style="color:#75715e">// 在主线程main.main中调用Main循环
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Main</span>() {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">mainfunc</span> {
+		<span style="color:#75715e">// 取出工作队列中的函数进行调用
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">f</span>()
+	}
 }
 
-var mainfunc = make(chan func())
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mainfunc</span> = make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">func</span>())
 
-func do(f func()) {
-    done := make(chan bool, 1)
-    // 将整个函数加入到工作队列中
-    mainfunc &lt;- func() {
-        f()
-        fmt.Println(&quot;add queue&quot;)
-        done &lt;- true
-    }
-    &lt;-done
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">do</span>(<span style="color:#a6e22e">f</span> <span style="color:#66d9ef">func</span>()) {
+	<span style="color:#a6e22e">done</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>, <span style="color:#ae81ff">1</span>)
+	<span style="color:#75715e">// 将整个函数加入到工作队列中
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mainfunc</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">f</span>()
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;add queue&#34;</span>)
+		<span style="color:#a6e22e">done</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+	}
+	<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">done</span>
 }
 
-func Beep() {
-    do(func() {
-        // 无论什么时候都运行在主线程
-        fmt.Println(&quot;beep&quot;)
-    })
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Beep</span>() {
+	<span style="color:#a6e22e">do</span>(<span style="color:#66d9ef">func</span>() {
+		<span style="color:#75715e">// 无论什么时候都运行在主线程
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;beep&#34;</span>)
+	})
 }
 
-</code></pre>
+</code></pre></div><p>main包示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">for</span> {
+			<span style="color:#a6e22e">dl</span>.<span style="color:#a6e22e">Beep</span>()
+		}
+	}()
 
-<p>main包示例：</p>
-
-<pre><code class="language-go">func main(){
-    go func() {
-        for {
-            dl.Beep()
-        }
-    }()
-
-    dl.Main()
+	<span style="color:#a6e22e">dl</span>.<span style="color:#a6e22e">Main</span>()
 }
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

@@ -3,7 +3,7 @@
 <head>
     <title>解决方案 之 用jwt实现CAS单点登录方案 SSO // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,121 +237,83 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/solutions/">Solutions</a><a class="tag" href="https://realjf.io/tags/sso/">Sso</a><a class="tag" href="https://realjf.io/tags/cas/">Cas</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/solutions/">solutions</a><a class="tag" href="https://realjf.io/tags/sso/">sso</a><a class="tag" href="https://realjf.io/tags/cas/">cas</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="什么是单点登录-sso">什么是单点登录(SSO)？</h3>
-
+            <h3 id="什么是单点登录sso">什么是单点登录(SSO)？</h3>
 <p>单点登录译作：Single Sign On（简称SSO）。其旨在用户通过一次登录即可在多个应用系统之间，访问所有互相信任的应用系统的服务，
 而提供这种访问方式的技术就是SSO技术。</p>
-
 <p>要实现SSO，需要以下主要功能：</p>
-
 <ul>
 <li>所有应用系统共享一个身份认证系统。统一的认证系统是SSO的前提之一，认证系统的主要功能是对用户登录信息进行校验，校验通过后生成统一的认证标志返回给用户。当然认证系统还需要对认证标志进行校验。</li>
 <li>所有应用系统能够识别和提取认证标志信息，即所有应用系统必须能识别用户是否已登录过，且通过与认证系统通信，判断登录信息是否有效，而从完成单点登录功能。</li>
 </ul>
-
 <p>SSO的实现大致可以分成Cookie和Session机制两大类。</p>
-
 <ul>
 <li>Session是一种服务器端机制，当客户端访问服务器时，服务器为客户端创建一个惟一的SessionID，以使在整个交互过程中始终保持状态，而交互的信息则可由应用自行指定，因此用Session方式实现SSO，不能在多个浏览器之间实现单点登录，但却可以跨域。</li>
 <li>Cookie是一种客户端机制，它存储的内容主要包括：名称、值、过期时间、路径和域，路径与域合在一起就构成了Cookie的作用范围，因此用Cookie方式可实现SSO，但域名必须相同。</li>
 </ul>
-
 <h3 id="什么是cas">什么是CAS？</h3>
-
 <p>CAS是Central Authentiction Service 的缩写,中央认证服务。
 CAS是耶鲁大学发起的企业级的、开源的项目，旨在为Web应用系统提供一种可靠的单点登录解决方案。</p>
-
 <h4 id="cas原理">CAS原理</h4>
-
 <p>CAS包含CAS Server和CAS Client两个部分。</p>
-
 <ul>
 <li>CAS Server 负责完成对用户的认证工作，需要独立部署，CAS Server 会处理用户名/ 密码等凭证(Credentials)，并生成统一的认证票据Ticket。</li>
 <li>CAS Client 负责处理对客户端受保护资源的访问请求，需要对请求方进行身份认证时，重定向到CAS Server进行认证。原则上，客户端应用不再接受任何的用户名密码等。CAS Client与受保护的客户端应用部署在一起，通过确认登录认证有效的方式保护受保护的资源。</li>
 </ul>
-
 <h4 id="cas协议">CAS协议</h4>
-
 <h5 id="基础协议">基础协议</h5>
-
-<p>CAS 基础协议按照如下步骤进行：
-- 访问资源：用户发起请求访问应用系统（即CAS客户端）受保护的资源
-- 重定向认证：CAS客户端通过分析请求中得出没有认证票据，说明用户没有进行身份认证，于是，重定向请求到CAS服务器进行身份认证，并把用户访问CAS客户端的URL作为参数传递给CAS服务器
-- 用户认证：CAS服务器接收到身份认证请求后转向登录页面，用户提供认证信息后进行身份认证。身份认证成功后，CAS服务器以SSL方式给浏览器返回一个TGC(用户身份信息凭证，用于以后在CAS服务器获取身份认证信息)
-- 发放票据：CAS服务器会生成一个随机的票据，然后让浏览器重定向到CAS客户端
-- 验证票据：CAS客户端接收到用户提交的票据后，向CAS服务器验证票据是否有效，验证通过后，允许用户访问受保护资源
-- 传输用户信息系：CAS服务器验证票据通过后，传输用户认证结果信息给CAS客户端</p>
-
+<p>CAS 基础协议按照如下步骤进行：</p>
+<ul>
+<li>访问资源：用户发起请求访问应用系统（即CAS客户端）受保护的资源</li>
+<li>重定向认证：CAS客户端通过分析请求中得出没有认证票据，说明用户没有进行身份认证，于是，重定向请求到CAS服务器进行身份认证，并把用户访问CAS客户端的URL作为参数传递给CAS服务器</li>
+<li>用户认证：CAS服务器接收到身份认证请求后转向登录页面，用户提供认证信息后进行身份认证。身份认证成功后，CAS服务器以SSL方式给浏览器返回一个TGC(用户身份信息凭证，用于以后在CAS服务器获取身份认证信息)</li>
+<li>发放票据：CAS服务器会生成一个随机的票据，然后让浏览器重定向到CAS客户端</li>
+<li>验证票据：CAS客户端接收到用户提交的票据后，向CAS服务器验证票据是否有效，验证通过后，允许用户访问受保护资源</li>
+<li>传输用户信息系：CAS服务器验证票据通过后，传输用户认证结果信息给CAS客户端</li>
+</ul>
 <h5 id="代理协议">代理协议</h5>
-
 <p>CAS基础协议已经基本上满足大部分简单的SSO应用，现在讨论更复杂一点的情况：用户访问服务A，服务A又依赖于服务B来获取一些信息，如：</p>
-
-<pre><code class="language-sh">User --&gt; ServiceA --&gt; ServiceB
-</code></pre>
-
-<p>这种情况，假设服务B也是需要对用户进行身份验证才能访问的，那么，为了不影响用户体验，CAS引入了一种Proxy认证机制，即CAS Client可以代理用户去访问其他web应用系统。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">User --&gt; ServiceA --&gt; ServiceB
+</code></pre></div><p>这种情况，假设服务B也是需要对用户进行身份验证才能访问的，那么，为了不影响用户体验，CAS引入了一种Proxy认证机制，即CAS Client可以代理用户去访问其他web应用系统。</p>
 <p>代理的前提是CAS客户端要拥有用户的身份信息（类似前面的TGC），而PGT(由CAS Server颁发给拥有票据的服务，PGT绑定一个用户的特定服务，使其拥有向CAS Server申请，获得PT的能力)，凭借TGC，用户可以获取访问其他web服务的票据，所以，凭借PGT，CAS客户端可以从CAS服务器获取访问代理应用的PT（是应用程序代理用户身份对目标程序进行访问的凭证），于是web应用系统可以代理用户去实现后端的认证，而无需前端用户的参与。</p>
-
 <h4 id="cas的安全性">CAS的安全性</h4>
-
 <p>CAS的安全性依赖于SSL，并且其安全性要求远高于普通的应用系统。</p>
-
-<h5 id="tgc-pgt-安全性">TGC/PGT 安全性</h5>
-
+<h5 id="tgcpgt-安全性">TGC/PGT 安全性</h5>
 <p>对于一个CAS用户来说，最重要的是保护它的TGC，如果TGC不慎被CAS服务端以外的实体获取，其可以通过该TGC，然后冒充用户访问所有授权资源。</p>
-
 <p>PGT跟TGC的角色一样，如果被其他实体截取，其后果如上。</p>
-
 <p>TGC是CAS服务器通过SSL方式发送给终端用户，因此，要截取TGC的难度非常大。另外，TGC也有自己的存活周期，设置其在合适的范围内，可以在不影响SSO体验的前提下增加安全性，默认是120分钟。</p>
-
 <h5 id="票据和pt-安全性">票据和PT 安全性</h5>
-
 <p>票据是通过http传送的，所以票据可以被截取到，CAS协议从以下几个方面增加安全性：</p>
-
 <ul>
 <li>票据只能使用一次，CAS协议规定，无论票据验证是否成功，CAS服务端都会将服务端的缓存中清除该票据，从而确认票据仅被使用一次</li>
 <li>票据在一段时间内失效，默认5分钟</li>
 <li>票据是随机产生的</li>
 </ul>
-
 <h3 id="使用jwt实现cas方案流程图介绍">使用jwt实现CAS方案流程图介绍</h3>
-
 <p>下面的时序图，分别模拟了用户访问系统A和系统B时的五种场景</p>
-
-<p><img src="/image/sso-cas-1.png" alt="sso-cas-1" /></p>
-
+<p><img src="/image/sso-cas-1.png" alt="sso-cas-1"></p>
 <p>在场景一里：</p>
-
 <ul>
 <li>在验证的jwt的时候，通过jwt的payload里面存储的之前创建的SSO的会话id, 可以通过会话id验证用户会话是否有效，有效则返回存储在会话里的用户信息等</li>
 <li>CAS服务里面的session id需要考虑唯一性以及session共享的问题（假如CAS采用集群部署的话）。session共享可以通过redis或者memcached等进行管理，设置其有效期正好可以实现到期自动销毁。</li>
 </ul>
-
-<p><img src="/image/sso-cas-2.png" alt="sso-cas-2" /></p>
-
-<p><img src="/image/sso-cas-3.png" alt="sso-cas-3" /></p>
-
-<p><img src="/image/sso-cas-4.png" alt="sso-cas-4" /></p>
-
-<p><img src="/image/sso-cas-5.png" alt="sso-cas-5" /></p>
-
+<p><img src="/image/sso-cas-2.png" alt="sso-cas-2"></p>
+<p><img src="/image/sso-cas-3.png" alt="sso-cas-3"></p>
+<p><img src="/image/sso-cas-4.png" alt="sso-cas-4"></p>
+<p><img src="/image/sso-cas-5.png" alt="sso-cas-5"></p>
 <p>为了让方案安全性更高，如下方式一定要设置：</p>
-
 <ul>
 <li>使用https</li>
 <li>cookie设置http only</li>
 <li>注意防范CSRF攻击，可以在jwt里面加入一个系统标识，添加一个验证，只有传过来的jwt内的系统标识与发起jwt验证请求的服务一致的情况下，才允许验证通过</li>
 </ul>
-
-<p><strong>参考文献</strong>
-- <a href="http://www.360doc.com/content/15/0204/17/21706453_446251626.shtml">http://www.360doc.com/content/15/0204/17/21706453_446251626.shtml</a>
-- <a href="https://www.cnblogs.com/lyzg/p/6132801.html">https://www.cnblogs.com/lyzg/p/6132801.html</a></p>
+<p><strong>参考文献</strong></p>
+<ul>
+<li><a href="http://www.360doc.com/content/15/0204/17/21706453_446251626.shtml">http://www.360doc.com/content/15/0204/17/21706453_446251626.shtml</a></li>
+<li><a href="https://www.cnblogs.com/lyzg/p/6132801.html">https://www.cnblogs.com/lyzg/p/6132801.html</a></li>
+</ul>
 
         </div>
         <div id="disqus_thread"></div>
