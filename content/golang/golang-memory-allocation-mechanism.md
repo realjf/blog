@@ -51,7 +51,7 @@ golang内存分配器原理与tcmalloc类似，通过维护一块大的全局内
 - mstats: 分配统计信息
 
 
-
+![go内存分配机制](/image/golang-memory-allocation-mechanism.png)
 
 
 ### 分配流程
