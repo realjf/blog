@@ -59,6 +59,48 @@
     </url>
     
     <url>
+        <loc>https://realjf.io/tags/gc/</loc>
+        <lastmod>2021-04-18T11:11:57+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/series/gc/</loc>
+        <lastmod>2021-04-18T11:11:57+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/categories/gc/</loc>
+        <lastmod>2021-04-18T11:11:57+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/gc/</loc>
+        <lastmod>2021-04-18T11:11:57+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/gc/mark-sweep/</loc>
+        <lastmod>2021-04-18T11:11:57+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/series/</loc>
+        <lastmod>2021-04-18T11:11:57+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
         <loc>https://realjf.io/tags/golang/</loc>
         <lastmod>2021-04-14T11:40:54+08:00</lastmod>
         <changefreq>monthly</changefreq>
@@ -823,13 +865,6 @@
     
     <url>
         <loc>https://realjf.io/series/pro-vue.js2/</loc>
-        <lastmod>2020-11-30T10:14:57+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/series/</loc>
         <lastmod>2020-11-30T10:14:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -2889,13 +2924,6 @@
     <url>
         <loc>https://realjf.io/posts/setup-ceph-cluster-1/</loc>
         <lastmod>2019-03-19T14:57:05+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/gc/</loc>
-        <lastmod>2019-03-19T14:49:57+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
