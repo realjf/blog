@@ -1,6 +1,6 @@
 ---
 title: "gc垃圾回收算法之一 标记-清除算法（Mark-Sweep）"
-date: 2021-04-18T11:11:57+08:00
+date: 2021-04-18T20:11:57+08:00
 keywords: ["gc"]
 categories: ["gc"]
 tags: ["gc"]
