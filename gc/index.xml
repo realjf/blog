@@ -6,11 +6,11 @@
     <description>Recent content in Gcs on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 18 Apr 2021 11:11:57 +0800</lastBuildDate><atom:link href="https://realjf.io/gc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Apr 2021 20:11:57 +0800</lastBuildDate><atom:link href="https://realjf.io/gc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>gc垃圾回收算法之一 标记-清除算法（Mark-Sweep）</title>
       <link>https://realjf.io/gc/mark-sweep/</link>
-      <pubDate>Sun, 18 Apr 2021 11:11:57 +0800</pubDate>
+      <pubDate>Sun, 18 Apr 2021 20:11:57 +0800</pubDate>
       
       <guid>https://realjf.io/gc/mark-sweep/</guid>
       <description>什么是标记-清除算法？ GC标记-清理算法由标记阶段和清理阶段组成。标记阶段是把所有活动对象都做上标记的阶段。清理阶段是把没有标记的对象，即非活动对象回收的阶段。 通过这两个阶段，就可以重复利用内存空间了。
