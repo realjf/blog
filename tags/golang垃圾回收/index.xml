@@ -1,19 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>golang垃圾回收 on Realjf&#39;s blog</title>
+    <title>Golang垃圾回收 on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</link>
-    <description>Recent content in golang垃圾回收 on Realjf&#39;s blog</description>
+    <description>Recent content in Golang垃圾回收 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Mar 2019 14:49:57 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 Mar 2019 14:49:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Golang GC 实现原理</title>
       <link>https://realjf.io/golang/how-golang-garbage-collection-works/</link>
       <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
       
       <guid>https://realjf.io/golang/how-golang-garbage-collection-works/</guid>
-      <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;quot;最大响应时间&amp;quot;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
+      <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;rdquo;最大响应时间&amp;rdquo;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
 基础概念 内存结构 go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：
 这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:
 arena arena区域就是我们通常说的heap, go从heap分配的内存都在这个区域中.
@@ -24,7 +28,7 @@ spans spans区域用于表示arena区中的某一页(Page)属于哪个span, 什�
 spans区域的一个指针对应arena区域的一页的结构如下, 和bitmap不一样的是对应关系会从开头开始:
 什么时候从heap分配对象 go对自动确定哪些对象应该放在栈上，哪些对象应该放在堆上。 简单说，当一个对象的内容可能在生成该对象的函数结束后被访问，那么这个对象就会分配到堆上
 在堆上分配的对象的情况包括：
- 返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new  在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;quot;逃逸分析&amp;quot;.
+ 返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new  在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;rdquo;逃逸分析&amp;rdquo;.
 GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提到的bitmap区域涵盖了arena区域中的指针信息. 除此之外, GC还需要知道栈空间上哪些地方包含了指针, 因为栈空间不属于arena区域, 栈空间的指针信息将会在函数信息里面.</description>
     </item>
     

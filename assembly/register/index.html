@@ -3,7 +3,7 @@
 <head>
     <title>nasm汇编之寄存器 Register // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,60 +237,87 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/assembly/">assembly</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/assembly/">Assembly</a></div></div>
         </header>
         <div class="post-content">
-            <p>处理器操作主要涉及处理数据。该数据可以存储在存储器中并从其访问。
+            
+
+<p>处理器操作主要涉及处理数据。该数据可以存储在存储器中并从其访问。
 然而，从存储器中读取数据并将数据存储到存储器中会减慢处理器的速度，因为这涉及到通过控制总线发送数据请求并进入存储器存储单元并通过同一通道获取数据的复杂过程。</p>
+
 <p>为了加速处理器的运行，处理器包括一些内部存储器存储位置，称为寄存器。</p>
+
 <h3 id="处理器寄存器">处理器寄存器</h3>
+
 <p>IA-32体系结构中有10个32位和6个16位处理器寄存器。寄存器分为三类</p>
+
 <ul>
 <li>通用寄存器</li>
 <li>控制寄存器</li>
 <li>段寄存器</li>
 </ul>
+
 <p>通用寄存器进一步分为以下几类</p>
+
 <ul>
 <li>数据寄存器</li>
 <li>指针寄存器</li>
 <li>索引寄存器</li>
 </ul>
+
 <h3 id="数据寄存器">数据寄存器</h3>
+
 <p>四个32位数据寄存器用于算术，逻辑和其他操作。这些32位寄存器可以三种方式使用-</p>
+
 <ul>
 <li>作为完整的32位数据寄存器：EAX，EBX，ECX，EDX。</li>
 <li>下半部分的32位寄存器可用作四个16位数据寄存器：AX，BX，CX和DX。</li>
 <li>上述四个16位寄存器的上半部分和下半部分可以用作八个8位数据寄存器：AH，AL，BH，BL，CH，CL，DH和DL。</li>
 </ul>
-<p><img src="/image/register1.jpg" alt="/image/register1.jpg">
+
+<p><img src="/image/register1.jpg" alt="/image/register1.jpg" />
 其中一些数据寄存器在算术运算中有特定用途。</p>
+
 <ul>
 <li>AX是主要的累加器 ; 它用于输入/输出和大多数算术指令。例如，在乘法运算中，一个操作数根据操作数的大小存储在EAX或AX或AL寄存器中。</li>
 <li>BX被称为基址寄存器，因为它可以用于索引寻址。</li>
 <li>CX被称为计数寄存器，因为ECX，CX寄存器在迭代操作中存储循环计数。</li>
 <li>DX被称为数据寄存器。它也用于输入/输出操作。它还与AX寄存器以及DX一起使用，用于涉及大数值的乘法和除法运算。</li>
 </ul>
+
 <h3 id="指针寄存器">指针寄存器</h3>
+
 <p>指针寄存器是32位EIP，ESP和EBP寄存器以及相应的16位右部分IP，SP和BP。</p>
+
 <p>指针寄存器分为三类</p>
+
 <ul>
 <li>指令指针（IP） -16位IP寄存器存储要执行的下一条指令的偏移地址。与CS寄存器关联的IP（作为CS：IP）给出了代码段中当前指令的完整地址。</li>
 <li>堆栈指针（SP） -16位SP寄存器提供程序堆栈内的偏移值。与SS寄存器（SS：SP）关联的SP是指程序堆栈中数据或地址的当前位置。</li>
 <li>基本指针（BP） -16位BP寄存器主要帮助参考传递给子例程的参数变量。SS寄存器中的地址与BP中的偏移量相结合，以获取参数的位置。BP也可以与DI和SI组合用作特殊寻址的基址寄存器。</li>
 </ul>
-<p><img src="/image/register3.jpg" alt="/image/register3.jpg"></p>
+
+<p><img src="/image/register3.jpg" alt="/image/register3.jpg" /></p>
+
 <h3 id="索引寄存器">索引寄存器</h3>
+
 <p>32位索引寄存器ESI和EDI及其最右边的16位部分。SI和DI用于索引寻址，有时用于加法和减法。有两组索引指针-</p>
+
 <ul>
 <li>源索引（SI） -用作字符串操作的源索引。</li>
 <li>目的索引（DI） -用作字符串操作的目标索引。</li>
 </ul>
-<p><img src="/image/register2.jpg" alt="/image/register2.jpg"></p>
+
+<p><img src="/image/register2.jpg" alt="/image/register2.jpg" /></p>
+
 <h3 id="控制寄存器">控制寄存器</h3>
+
 <p>将32位指令指针寄存器和32位标志寄存器组合起来视为控制寄存器。</p>
+
 <p>许多指令涉及比较和数学计算，并更改标志的状态，而其他一些条件指令则测试这些状态标志的值，以将控制流带到其他位置。</p>
+
 <p>通用标志位是：</p>
+
 <ul>
 <li>溢出标志（OF） -指示有符号算术运算后数据的高阶位（最左位）的溢出。</li>
 <li>方向标记（DF） -它确定向左或向右移动或比较字符串数据的方向。DF值为0时，字符串操作为从左至右的方向；当DF值为1时，字符串操作为从右至左的方向。</li>
@@ -302,61 +329,70 @@
 <li>奇偶校验标志（PF） -指示从算术运算获得的结果中1位的总数。偶数个1位将奇偶校验标志清为0，奇数个1位将奇偶校验标志清为1。</li>
 <li>进位标志（CF） -在算术运算后，它包含一个高位（最左边）的0或1进位。它还存储移位或旋转操作的最后一位的内容。</li>
 </ul>
+
 <p>下表列出了16位标志寄存器中标志位的位置：</p>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">Flag:</th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center"></th>
-<th style="text-align:center">O</th>
-<th style="text-align:center">D</th>
-<th style="text-align:center">I</th>
-<th style="text-align:center">T</th>
-<th style="text-align:center">S</th>
-<th style="text-align:center">Z</th>
-<th style="text-align:center"></th>
-<th style="text-align:center">A</th>
-<th style="text-align:center"></th>
-<th style="text-align:center">P</th>
-<th style="text-align:center"></th>
-<th style="text-align:center">C</th>
+<th align="center">Flag:</th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center">O</th>
+<th align="center">D</th>
+<th align="center">I</th>
+<th align="center">T</th>
+<th align="center">S</th>
+<th align="center">Z</th>
+<th align="center"></th>
+<th align="center">A</th>
+<th align="center"></th>
+<th align="center">P</th>
+<th align="center"></th>
+<th align="center">C</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">Bit no:</td>
-<td style="text-align:center">15</td>
-<td style="text-align:center">14</td>
-<td style="text-align:center">13</td>
-<td style="text-align:center">12</td>
-<td style="text-align:center">11</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">9</td>
-<td style="text-align:center">8</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">0</td>
+<td align="center">Bit no:</td>
+<td align="center">15</td>
+<td align="center">14</td>
+<td align="center">13</td>
+<td align="center">12</td>
+<td align="center">11</td>
+<td align="center">10</td>
+<td align="center">9</td>
+<td align="center">8</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">4</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
 </tr>
 </tbody>
 </table>
+
 <h3 id="段寄存器">段寄存器</h3>
+
 <p>段是程序中定义的用于包含数据，代码和堆栈的特定区域。有三个主要部分-</p>
+
 <ul>
 <li>代码段 -它包含所有要执行的指令。16位代码段寄存器或CS寄存器存储代码段的起始地址。</li>
 <li>数据段 -它包含数据，常量和工作区。16位数据段寄存器或DS寄存器存储数据段的起始地址。</li>
 <li>堆栈段 -包含数据或过程或子例程的返回地址。它被实现为“堆栈”数据结构。堆栈段寄存器或SS寄存器存储堆栈的起始地址。</li>
 </ul>
+
 <p>除DS，CS和SS寄存器外，还有其他段寄存器-ES（额外段），FS和GS，它们提供了用于存储数据的其他段。</p>
+
 <p>在汇编编程中，程序需要访问存储器位置。段中的所有存储位置都相对于段的起始地址。段的起始地址可以是16或十六进制的整数，
 因此，所有此类存储器地址中最右边的十六进制数字为0，通常不存储在段寄存器中。</p>
+
 <p>段寄存器存储段的起始地址。为了获得数据或指令在段中的确切位置，需要一个偏移值（或位移）。
 为了引用段中的任何存储位置，处理器将段寄存器中的段地址与该位置的偏移值进行组合。</p>
 

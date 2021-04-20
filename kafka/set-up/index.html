@@ -3,7 +3,7 @@
 <head>
     <title>Kafka快速开始 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,73 +237,114 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/kafka/">kafka</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/kafka/">Kafka</a></div></div>
         </header>
         <div class="post-content">
-            <p>下载地址：<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz">https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz</a></p>
+            
+
+<p>下载地址：<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz">https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz</a></p>
+
 <h3 id="下载">下载</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://www.apache.org/dyn/closer.cgi?path<span style="color:#f92672">=</span>/kafka/2.5.0/kafka_2.12-2.5.0.tgz
+
+<pre><code class="language-bash">wget https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz
 tar zxvf kafka_2.12-2.5.0.tgz
 cd kafka_2.12-2.5.0
 
-</code></pre></div><h3 id="开启服务器">开启服务器</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 开启zookeeper</span>
+</code></pre>
+
+<h3 id="开启服务器">开启服务器</h3>
+
+<pre><code class="language-bash"># 开启zookeeper
 bin/zookeeper-server-start.sh config/zookeeper.properties
 
-<span style="color:#75715e"># 开启kafka</span>
+# 开启kafka
 bin/kafka-server-start.sh config/server.properties
 
-</code></pre></div><h3 id="创建一个topic">创建一个topic</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor <span style="color:#ae81ff">1</span> --partitions <span style="color:#ae81ff">1</span> --topic test
-</code></pre></div><p>上面创建了一个叫test的topic</p>
+</code></pre>
+
+<h3 id="创建一个topic">创建一个topic</h3>
+
+<pre><code class="language-bash">bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
+</code></pre>
+
+<p>上面创建了一个叫test的topic</p>
+
 <p>我们现在可以运行list topic命令查看刚才创建的topic</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/kafka-topics.sh --list --bootstrap-server localhost:9092
-</code></pre></div><h3 id="发送消息">发送消息</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test
+
+<pre><code class="language-bash">bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+</code></pre>
+
+<h3 id="发送消息">发送消息</h3>
+
+<pre><code class="language-bash">bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test
 这是一条信息
 这是另外一条消息
 
-</code></pre></div><h3 id="开启一个消费者consumer">开启一个消费者consumer</h3>
+</code></pre>
+
+<h3 id="开启一个消费者consumer">开启一个消费者consumer</h3>
+
 <p>接收消息</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+
+<pre><code class="language-bash">bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 这是一条信息
 这是另一条信息
 
-</code></pre></div><h3 id="安装一个多broker集群即kafka集群">安装一个多broker集群，即kafka集群</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 首先为每个broker创建一个配置</span>
+</code></pre>
+
+<h3 id="安装一个多broker集群-即kafka集群">安装一个多broker集群，即kafka集群</h3>
+
+<pre><code class="language-bash"># 首先为每个broker创建一个配置
 cp config/server.properties config/server-1.properties
 cp config/server.properties config/server-2.properties
 
-<span style="color:#75715e"># 然后为每个配置文件设置</span>
+# 然后为每个配置文件设置
 config/server-1.properties:
-    broker.id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-    listeners<span style="color:#f92672">=</span>PLAINTEXT://:9093
-    log.dirs<span style="color:#f92672">=</span>/tmp/kafka-logs-1
+    broker.id=1
+    listeners=PLAINTEXT://:9093
+    log.dirs=/tmp/kafka-logs-1
    
 config/server-2.properties:
-    broker.id<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
-    listeners<span style="color:#f92672">=</span>PLAINTEXT://:9094
-    log.dirs<span style="color:#f92672">=</span>/tmp/kafka-logs-2
+    broker.id=2
+    listeners=PLAINTEXT://:9094
+    log.dirs=/tmp/kafka-logs-2
 
-</code></pre></div><p>broker.id是broker的唯一标识</p>
+</code></pre>
+
+<p>broker.id是broker的唯一标识</p>
+
 <p>现在启动另外两个节点</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/kafka-server-start.sh config/server-1.properties &amp;
+
+<pre><code class="language-bash">bin/kafka-server-start.sh config/server-1.properties &amp;
 
 ...
 
 bin/kafka-server-start.sh config/server-2.properties &amp;
 
-</code></pre></div><p>现在创建一个新的topic用三个副本</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor <span style="color:#ae81ff">3</span> --partitions <span style="color:#ae81ff">1</span> --topic my-replicated-topic
-</code></pre></div><p>可以查看topic的描述</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/kafka-topics.sh --describe --bootstrap-server localhost:9092 --topic my-replicated-topic
+</code></pre>
 
-</code></pre></div><h3 id="制作systemd启动服务脚本">制作systemd启动服务脚本</h3>
+<p>现在创建一个新的topic用三个副本</p>
+
+<pre><code class="language-bash">bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 3 --partitions 1 --topic my-replicated-topic
+</code></pre>
+
+<p>可以查看topic的描述</p>
+
+<pre><code class="language-bash">bin/kafka-topics.sh --describe --bootstrap-server localhost:9092 --topic my-replicated-topic
+
+</code></pre>
+
+<h3 id="制作systemd启动服务脚本">制作systemd启动服务脚本</h3>
+
 <h4 id="zookeeper启动服务脚本">zookeeper启动服务脚本</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mv /path/to/kafka_2.12-2.5.0 /usr/local/kafka
+
+<pre><code class="language-shell">mv /path/to/kafka_2.12-2.5.0 /usr/local/kafka
 vim /etc/systemd/system/zookeeper.service
-</code></pre></div><p>内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[Unit]
+</code></pre>
+
+<p>内容如下：</p>
+
+<pre><code class="language-text">[Unit]
 Description=Apache Zookeeper server
 Documentation=http://zookeeper.apache.org
 Requires=network.target remote-fs.target
@@ -317,25 +358,36 @@ Restart=on-abnormal
 
 [Install]
 WantedBy=multi-user.target
-</code></pre></div><h4 id="kafka启动服务脚本">kafka启动服务脚本</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim /etc/systemd/system/kafka.service
-</code></pre></div><p>内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[Unit]
+</code></pre>
+
+<h4 id="kafka启动服务脚本">kafka启动服务脚本</h4>
+
+<pre><code class="language-shell">vim /etc/systemd/system/kafka.service
+</code></pre>
+
+<p>内容如下：</p>
+
+<pre><code class="language-text">[Unit]
 Description=Apache Kafka Server
 Documentation=http://kafka.apache.org/documentation.html
 Requires=zookeeper.service
 
 [Service]
 Type=simple
-Environment=&#34;JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64&#34;
+Environment=&quot;JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64&quot;
 ExecStart=/usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties
 ExecStop=/usr/local/kafka/bin/kafka-server-stop.sh
 
 [Install]
 WantedBy=multi-user.target
-</code></pre></div><p>最后reload</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl daemon-reload
-</code></pre></div><p>之后就可以通过systemctl控制kafka的启动和停止了</p>
+</code></pre>
+
+<p>最后reload</p>
+
+<pre><code class="language-shell">systemctl daemon-reload
+</code></pre>
+
+<p>之后就可以通过systemctl控制kafka的启动和停止了</p>
 
         </div>
         <div id="disqus_thread"></div>

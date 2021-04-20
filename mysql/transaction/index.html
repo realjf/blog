@@ -3,7 +3,7 @@
 <head>
     <title>mysql 事务 Transaction // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,131 +237,174 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/sql/">sql</a><a class="tag" href="https://realjf.io/tags/%E4%BA%8B%E5%8A%A1/">事务</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/sql/">Sql</a><a class="tag" href="https://realjf.io/tags/%E4%BA%8B%E5%8A%A1/">事务</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="mysql存储引擎与事务">mysql存储引擎与事务：</h3>
+            
+
+<h3 id="mysql存储引擎与事务">mysql存储引擎与事务：</h3>
+
 <ul>
 <li>1.myisam：不支持事务，用于只读程序提高性能</li>
-<li>
-<ol start="2">
-<li>innodb：支持acid事务、行级锁、并发</li>
-</ol>
-</li>
-<li>
-<ol start="3">
-<li>berkeley db：支持事务。</li>
-</ol>
-</li>
+<li>2. innodb：支持acid事务、行级锁、并发</li>
+<li>3. berkeley db：支持事务。</li>
 </ul>
+
 <p>一个事务是一个连续的一组数据库操作，就好像一个单一的工作单元进行。
 如果在事务的任何操作失败，则整个事务将失败。</p>
+
 <h3 id="事务的特性">事务的特性：</h3>
+
 <p>事务有以下四个标准属性的缩写acid，通常被称为：</p>
+
 <ul>
 <li>原子性：确保工作单元内的所有操作都完成，否则事务将被终止在故障点，和以前的操作将回滚到以前的状态。</li>
 <li>一致性：确保数据库正确地改变状态后，成功提交的事务。</li>
 <li>隔离性：使事务操作彼此独立的和透明的。</li>
 <li>持久性：确保提交的事务的结果或效果的系统出现故障的情况下仍然存在。</li>
 </ul>
+
 <p>在MySQL中，事务开始使用COMMIT或ROLLBACK语句开始工作和结束。开始和结束语句的SQL命令之间形成了大量的事务。</p>
+
 <p>COMMIT &amp; ROLLBACK:
 这两个关键字提交和回滚主要用于MySQL的事务。</p>
+
 <p>当一个成功的事务完成后，发出COMMIT命令应使所有参与表的更改才会生效。</p>
+
 <p>如果发生故障时，应发出一个ROLLBACK命令返回的事务中引用的每一个表到以前的状态。</p>
+
 <p>可以控制的事务行为称为AUTOCOMMIT设置会话变量。如果AUTOCOMMIT设置为1（默认值），然后每一个SQL语句（在事务与否）被认为是一个完整的事务，并承诺在默认情况下，当它完成。 AUTOCOMMIT设置为0时，发出SET AUTOCOMMIT =0命令，在随后的一系列语句的作用就像一个事务，直到一个明确的COMMIT语句时，没有活动的提交。</p>
+
 <p>可以通过使用mysql_query()函数在PHP中执行这些SQL命令。</p>
-<h3 id="事务-acid-atomicity原子性consistency稳定性isolation隔离性durability可靠性">事务 ACID Atomicity（原子性）、Consistency（稳定性）、Isolation（隔离性）、Durability（可靠性）</h3>
-<h4 id="1事务的原子性">1、事务的原子性</h4>
+
+<h3 id="事务-acid-atomicity-原子性-consistency-稳定性-isolation-隔离性-durability-可靠性">事务 ACID Atomicity（原子性）、Consistency（稳定性）、Isolation（隔离性）、Durability（可靠性）</h3>
+
+<h4 id="1-事务的原子性">1、事务的原子性</h4>
+
 <p>一组事务，要么成功；要么撤回。</p>
-<h4 id="2稳定性">2、稳定性</h4>
+
+<h4 id="2-稳定性">2、稳定性</h4>
+
 <p>有非法数据（外键约束之类），事务撤回。</p>
-<h4 id="3隔离性">3、隔离性</h4>
+
+<h4 id="3-隔离性">3、隔离性</h4>
+
 <p>事务独立运行。
 一个事务处理后的结果，影响了其他事务，那么其他事务会撤回。
 事务的100%隔离，需要牺牲速度。</p>
-<h4 id="4可靠性">4、可靠性</h4>
+
+<h4 id="4-可靠性">4、可靠性</h4>
+
 <p>软、硬件崩溃后，InnoDB数据表驱动会利用日志文件重构修改。
 可靠性和高速度不可兼得， innodb_flush_log_at_trx_commit选项 决定什么时候吧事务保存到日志里。</p>
+
 <p>开启事务
 START TRANSACTION 或 BEGIN</p>
+
 <p>提交事务（关闭事务）
 COMMIT</p>
+
 <p>放弃事务（关闭事务）
 ROLLBACK</p>
+
 <p>折返点
 SAVEPOINT adqoo_1
 ROLLBACK TO SAVEPOINT adqoo_1
 发生在折返点 adqoo_1 之前的事务被提交，之后的被忽略</p>
+
 <p>事务的终止</p>
+
 <p>设置“自动提交”模式
 SET AUTOCOMMIT = 0
 每条SQL都是同一个事务的不同命令，之间由 COMMIT 或 ROLLBACK隔开
 掉线后，没有 COMMIT 的事务都被放弃
 事务锁定模式</p>
+
 <blockquote>
 <p>系统默认： 不需要等待某事务结束，可直接查询到结果，但不能再进行修改、删除。
 缺点：查询到的结果，可能是已经过期的。
 优点：不需要等待某事务结束，可直接查询到结果。</p>
 </blockquote>
-<h3 id="1select--lock-in-share-mode共享锁">1、SELECT …… LOCK IN SHARE MODE（共享锁）</h3>
+
+<h3 id="1-select-lock-in-share-mode-共享锁">1、SELECT …… LOCK IN SHARE MODE（共享锁）</h3>
+
 <p>查询到的数据，就是数据库在这一时刻的数据（其他已commit事务的结果，已经反应到这里了）
 SELECT 必须等待，某个事务结束后才能执行</p>
-<h3 id="2select--for-update排它锁">2、SELECT …… FOR UPDATE（排它锁）</h3>
+
+<h3 id="2-select-for-update-排它锁">2、SELECT …… FOR UPDATE（排它锁）</h3>
+
 <p>例如 SELECT * FROM tablename WHERE id&lt;200
 那么id&lt;200的数据，被查询到的数据，都将不能再进行修改、删除、SELECT …… LOCK IN SHARE MODE操作
 一直到此事务结束</p>
+
 <p>共享锁 和 排它锁 的区别：在于是否阻断其他客户发出的 SELECT …… LOCK IN SHARE MODE命令</p>
-<h3 id="3insert--update--delete">3、INSERT / UPDATE / DELETE</h3>
+
+<h3 id="3-insert-update-delete">3、INSERT / UPDATE / DELETE</h3>
+
 <p>所有关联数据都会被锁定，加上排它锁</p>
-<h3 id="4防插入锁">4、防插入锁</h3>
+
+<h3 id="4-防插入锁">4、防插入锁</h3>
+
 <p>例如 SELECT * FROM tablename WHERE id&gt;200
 那么id&gt;200的记录无法被插入</p>
-<h3 id="5死锁">5、死锁</h3>
+
+<h3 id="5-死锁">5、死锁</h3>
+
 <p>自动识别死锁
 先进来的进程被执行，后来的进程收到出错消息，并按ROLLBACK方式回滚
 innodb_lock_wait_timeout = n 来设置最长等待时间，默认是50秒</p>
+
 <p>事务隔离模式</p>
+
 <p>SET [SESSION|GLOBAL] TRANSACTION ISOLATION LEVEL
 READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE</p>
+
 <ul>
-<li>
-<p>1、不带SESSION、GLOBAL的SET命令
-只对下一个事务有效</p>
-</li>
-<li>
-<p>2、SET SESSION
-为当前会话设置隔离模式</p>
-</li>
-<li>
-<p>3、SET GLOBAL
-为以后新建的所有MYSQL连接设置隔离模式（当前连接不包括在内）</p>
-</li>
+<li><p>1、不带SESSION、GLOBAL的SET命令
+只对下一个事务有效</p></li>
+
+<li><p>2、SET SESSION
+为当前会话设置隔离模式</p></li>
+
+<li><p>3、SET GLOBAL
+为以后新建的所有MYSQL连接设置隔离模式（当前连接不包括在内）</p></li>
 </ul>
+
 <h3 id="隔离模式">隔离模式</h3>
+
 <h4 id="read-uncommitted">READ UNCOMMITTED</h4>
+
 <p>不隔离SELECT
 其他事务未完成的修改（未COMMIT），其结果也考虑在内</p>
+
 <h4 id="read-committed">READ COMMITTED</h4>
+
 <p>把其他事务的 COMMIT 修改考虑在内
 同一个事务中，同一 SELECT 可能返回不同结果</p>
-<h4 id="repeatable-read默认">REPEATABLE READ（默认）</h4>
+
+<h4 id="repeatable-read-默认">REPEATABLE READ（默认）</h4>
+
 <p>不把其他事务的修改考虑在内，无论其他事务是否用COMMIT命令提交过
 同一个事务中，同一 SELECT 返回同一结果（前提是本事务，不修改）</p>
+
 <h4 id="serializable">SERIALIZABLE</h4>
+
 <p>和REPEATABLE READ类似，给所有的SELECT都加上了 共享锁</p>
+
 <p>出错处理
 根据出错信息，执行相应的处理</p>
+
 <p>mysql事物处理实例</p>
+
 <p>MYSQL的事务处理主要有两种方法
 1.用begin,rollback,commit来实现
-begin开始一个事务
-rollback事务回滚
-commit 事务确认
+    begin开始一个事务
+    rollback事务回滚
+    commit 事务确认
 2.直接用set来改变mysql的自动提交模式
-mysql默认是自动提交的，也就是你提交一个query，就直接执行！可以通过
-set autocommit = 0 禁止自动提交
-set autocommit = 1 开启自动提交</p>
+    mysql默认是自动提交的，也就是你提交一个query，就直接执行！可以通过
+    set autocommit = 0 禁止自动提交
+    set autocommit = 1 开启自动提交</p>
 
         </div>
         <div id="disqus_thread"></div>
