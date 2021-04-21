@@ -25,12 +25,42 @@ related:
 ### 环境准备
 - centos-7 x86_64 2009
 - vmware 16 虚拟机 
+- kubernetes: v1.21.0
+- docker-ce: 20.10.5
 - cpu最少：4核
 - 内存最少：4GB
 - swap：禁用
 - 最小磁盘：100GB
 
-请先在vmware虚拟机中安装好centos7,
+请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
+
+```sh
+# 关闭防火墙
+sed -ri 's#(SELINUX=).*#\1disabled#' /etc/selinux/config
+setenforce 0
+systemctl disable firewalld
+systemctl stop firewalld
+
+# 禁用swap
+# 注释/etc/fstab关于swap的配置
+# 然后执行如下命令
+echo vm.swappiness=0 >> /etc/sysctl.conf 
+# 重启
+reboot
+# 查看是否禁用
+free -m
+# 如果swap全部是0表示成功
+```
+docker-ce安装
+```sh
+# 安装yum源
+yum install -y wget && wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+# 安装docker
+yum install docker-ce
+# 设置开机自启
+systemctl enable docker && systemctl start docker
+docker version
+```
 
 
 ### 第一步：安装kubeadm和相关工具
@@ -278,6 +308,15 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubeadm join 192.168.37.150:6443 --token abcdef.0123456789abcdef \
 	--discovery-token-ca-cert-hash sha256:b90b7155024b10d3ff27d91bba2f3caef6fff492f866728b01514ee1ae9bb349
 ```
+如果你没有token信息，可以执行如下命令获取：
+```sh
+kubeadm token list
+
+TOKEN                     TTL         EXPIRES                     USAGES                   DESCRIPTION                                                EXTRA GROUPS
+abcdef.0123456789abcdef   3h          2021-04-21T12:50:13+08:00   authentication,signing   <none>                                                     system:bootstrappers:kubeadm:default-node-token
+
+```
+
 
 此时，可以用kubectl命令验证前面提到的ConfigMap：
 ```sh
@@ -298,6 +337,15 @@ kubelet-config-1.21                  1      11m
 ```
 #### 安装node节点，加入集群
 在新节点，系统准备和kubernetes yum源的配置过程和master节点一致，在node节点上执行如下安装命令：
+yum源
+```sh
+[kubernetes]
+name=Kubernetes Repository
+baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+enabled=1
+gpgcheck=0
+```
+安装kubeadm、kubelet
 ```sh
 yum install kubelet kubeadm --disableexcludes=kubernetes
 ```
@@ -359,8 +407,9 @@ daemonset.apps/kube-flannel-ds created
 ```sh
 kubectl get nodes
 
-NAME   STATUS   ROLES                  AGE   VERSION
-node   Ready    control-plane,master   52m   v1.21.0
+NAME    STATUS   ROLES                  AGE    VERSION
+bogon   Ready    <none>                 2m6s   v1.21.0
+node    Ready    control-plane,master   21h    v1.21.0
 ```
 可以看到状态已经变为Ready了。
 
@@ -372,3 +421,64 @@ kubectl get pods --all-namespaces
 如果有状态错误的pod，可以执行kubectl --namespace=kube-system describe pod<pod_name>查看错误原因。
 
 记得，如果安装失败，则可以执行kubeadm reset命令将主机恢复原状，重新执行kubeadm init命令，再次进行安装。
+
+#### 测试集群是否可用
+创建一个pod容器，验证是否正常运行
+```sh
+# 创建一个nginx容器
+kubectl create deployment nginx --image=nginx
+# 暴露对外端口
+kubectl expose deployment nginx --port=80 --type=NodePort
+# 查看nginx是否正常运行
+kubectl get pod,svc
+
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-6799fc88d8-phqfk   0/1     ContainerCreating   0          17s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+service/kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP        21h
+service/nginx        NodePort    10.108.143.57   <none>        80:32711/TCP   7s
+
+# 查看 nginx容器运行状态，如果为Running，则表示可以访问
+kubectl get pods
+
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-6799fc88d8-phqfk   1/1     Running   0          2m5s
+# 在浏览器中访问 192.168.37.151:32711 即可访问nginx服务
+# 扩容nginx副本到3个
+kubectl scale deployment nginx --replicas=3
+kubectl get pods
+```
+
+#### 部署dashboard
+略
+
+### kubeadm升级集群
+
+首先要升级的是kubeadm
+```sh
+yum install -y kubeadm-1.22.0 --disableexcludes=kubernetes
+
+kubeadm version
+```
+接下来查看kubeadm的升级计划
+```sh
+kubeadm upgrade plan
+```
+按照任务指引进行升级
+```sh
+kubeadm upgrade apply 1.22.0
+```
+输入y确认后，开始进行升级，运行完成之后，再次查看版本
+```sh
+kubectl version
+```
+查看node版本，发现node版本滞后，对node节点配置进行升级
+```sh
+kubeadm upgrade node config --kubelet-version 1.22.0
+```
+
+
+**参考文献**
+
+- [https://blog.csdn.net/xtjatswc/article/details/109234575](https://blog.csdn.net/xtjatswc/article/details/109234575)
