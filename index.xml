@@ -6,10 +6,21 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Apr 2021 10:07:28 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 21 Apr 2021 11:23:18 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>golang垃圾回收机制 Go Gc Mechanism</title>
+      <link>https://realjf.io/golang/go-gc-mechanism/</link>
+      <pubDate>Wed, 21 Apr 2021 11:23:18 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/go-gc-mechanism/</guid>
+      <description>GC三色标记流程说明 1. GC执行扫描(sweep)终止  stop the world（简称STW），这将导致所有P达到GC安全点 扫描所有未清扫的span，只有在以下情况下才会出现未扫描的span：此GC周期在预期时间之前被强制执行  2. GC执行标记(mark)阶段  通过将gcphase设置为_GCmark来准备标记阶段（来自_GCoff），启用写屏障，启用mutator协助和加入根标记作业。不得有物体扫描直到所有P都启用了写屏障，即使用STW完成。 start the world，从这一点来说，GC工作是由调度器启动mark工人完成的，以及作为分配的一部分。写屏障屏蔽了重写指针和任何指针的新指针值写入（请参阅mbarrier.go 详细信息）。新分配的对象立即标记为黑色。 GC执行根标记作业。这包括扫描所有堆栈，着色所有全局变量，着色中的所有堆指针堆外运行时数据结构。扫描堆栈停止goroutine，隐藏堆栈上的指针，然后恢复goroutine。 GC将灰色对象的工作队列清空，扫描每个灰色对象变为黑色，并对对象中找到的所有指针进行着色（这反过来可能会将这些指针添加到工作队列）。 因为GC工作分布在本地缓存中，所以GC使用分布式终止算法，用于检测没有更多根标记作业或灰色对象（请参见gcMarkDone）。在这刻，GC转换到标记终止。  3. GC执行标记终止  STW 将gcphase设置为_GCmarktermination，并禁用worker和辅助 执行像刷新mcaches一样的内务处理  4. GC执行扫描阶段  通过将gcphase设置为_GCoff来准备扫描阶段，设置扫描状态并禁用写屏障 start the world。从这一刻开始，新分配的对象为白色，必要时在使用前分配扫描span GC在后台进行并发清除和在响应中进行分配  5. 完成足够的分配后，从上面的1重新开始清扫标记过程 GC过程图解  从根节点开始遍历对象，包括全局指针和goroutine栈上的指针 标记（mark）阶段  从根节点遍历到的对象标记为灰色，然后遍历灰色对象直至灰色队列为空 re-scan，重新扫描全局指针和栈上指针，因为mark和用户程序是并行的，所以在1过程中，可能会有新对象分配，这时需要写屏障记录下来，re-scan再重新检查一遍  STW有两次，分别是  GC将要开始的时候，这时主要做一些准备工作，比如启用写屏障等 第二次就是在re-scan时候，如果这时没有STW，那么mark将无休止   其中：GCphase状态值在以下几个中转换
+ _GCoff：gc关闭阶段 _GCmark: gc标记清扫阶段 _GCmarktermination：mark termination阶段  写屏障 假设开始的引用关系是：
+root-&amp;gt;A-&amp;gt;B , root-&amp;gt;A-&amp;gt;C, root-&amp;gt;D-&amp;gt;E  在进行三色标记阶段，扫描了A对象，并标记A，这时，如果一个goroutine修改了D-&amp;gt;E的引用关系为A-&amp;gt;E， 此时是这样的：</description>
+    </item>
     
     <item>
       <title>使用kubeadm工具安装 kubernetes Use Kubeadm Install K8s</title>
