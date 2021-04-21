@@ -343,6 +343,26 @@ node   NotReady   control-plane,master   24m   v1.21.0
 ```sh
 kubectl apply -f <add-on.yaml>
 ```
+例如：目前最流行的Kubernetes网络插件有Flannel、Calico、Canal、Weave这里选择使用flannel，部署网络插件flannel
+```sh
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+Warning: policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+podsecuritypolicy.policy/psp.flannel.unprivileged created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds created
+```
+然后运行kubectl get nodes查看pod状态
+```sh
+kubectl get nodes
+
+NAME   STATUS   ROLES                  AGE   VERSION
+node   Ready    control-plane,master   52m   v1.21.0
+```
+可以看到状态已经变为Ready了。
 
 #### 验证集群是否安装完成
 执行如下命令，查看相关pod是否都正常创建并运行：
