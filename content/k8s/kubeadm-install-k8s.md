@@ -482,3 +482,4 @@ kubeadm upgrade node config --kubelet-version 1.22.0
 **参考文献**
 
 - [https://blog.csdn.net/xtjatswc/article/details/109234575](https://blog.csdn.net/xtjatswc/article/details/109234575)
+- [https://www.cnblogs.com/cptao/p/10912644.html](https://www.cnblogs.com/cptao/p/10912644.html)
