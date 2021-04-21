@@ -17,13 +17,9 @@
       <pubDate>Tue, 20 Apr 2021 10:07:28 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/kubeadm-install-k8s/</guid>
-      <description>环境准备  centos-7 x86_64 2009 vmware 16 虚拟机 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB  请先在vmware虚拟机中安装好centos7,
-第一步：安装kubeadm和相关工具 官网yum源：https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64。 如果无法访问，可以使用国内阿里云的yum源，地址是：http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/ ，具体的yum配置文件/etc/yum.repos.d/kubernetes.repo内容如下：
-[kubernetes] name=Kubernetes Repository baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/ enabled=1 gpgcheck=0  然后运行安装kubeadm命令：
-yum install -y kubelet kubeadm --disableexcludes=kubernetes  本次实验安装的版本分别如下：
- kubeadm 1.21.0 kubelet 1.21.0 kubectl 1.21.0 kubernetes-cni 0.8.7  然后在启动docker服务和kubelet服务
-systemctl enable docker &amp;amp;&amp;amp; systemctl start docker systemctl enable kubelet &amp;amp;&amp;amp; systemctl start kubelet  kubeadm config配置 kubeadm config子命令解释
-kubeadm config upload from-file # 由配置文件上传到集群中生成ConfigMap kubeadm config upload from-flags # 由配置参数生成ConfigMap kubeadm config view # 查看当前集群中的配置值 kubeadm config print init-defaults # 输出kubeadm init默认参数文件的内容 kubeadm config print join-defaults # 输出kubeadm join默认参数文件的内容 kubeadm config migrate # 在新旧版本之间进行配置转换 kubeadm config images list # 列出所需的镜像列表 kubeadm config images pull # 拉取镜像到本地  可以执行kubeadm config print init-defaults取得默认的初始化参数文件：</description>
+      <description>环境准备  centos-7 x86_64 2009 vmware 16 虚拟机 kubernetes: v1.21.0 docker-ce: 20.10.5 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB  请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
+# 关闭防火墙 sed -ri &#39;s#(SELINUX=).*#\1disabled#&#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功  docker-ce安装
+# 安装yum源 yum install -y wget &amp;amp;&amp;amp; wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo # 安装docker yum install docker-ce # 设置开机自启 systemctl enable docker &amp;amp;&amp;amp; systemctl start docker docker version  第一步：安装kubeadm和相关工具 官网yum源：https://packages.</description>
     </item>
     
     <item>

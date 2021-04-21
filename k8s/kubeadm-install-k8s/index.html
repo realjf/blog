@@ -232,7 +232,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-                    5 min read
+                    6 min read
                 </div><div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
@@ -247,13 +247,43 @@
 <ul>
 <li>centos-7 x86_64 2009</li>
 <li>vmware 16 虚拟机</li>
+<li>kubernetes: v1.21.0</li>
+<li>docker-ce: 20.10.5</li>
 <li>cpu最少：4核</li>
 <li>内存最少：4GB</li>
 <li>swap：禁用</li>
 <li>最小磁盘：100GB</li>
 </ul>
 
-<p>请先在vmware虚拟机中安装好centos7,</p>
+<p>请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux</p>
+
+<pre><code class="language-sh"># 关闭防火墙
+sed -ri 's#(SELINUX=).*#\1disabled#' /etc/selinux/config
+setenforce 0
+systemctl disable firewalld
+systemctl stop firewalld
+
+# 禁用swap
+# 注释/etc/fstab关于swap的配置
+# 然后执行如下命令
+echo vm.swappiness=0 &gt;&gt; /etc/sysctl.conf 
+# 重启
+reboot
+# 查看是否禁用
+free -m
+# 如果swap全部是0表示成功
+</code></pre>
+
+<p>docker-ce安装</p>
+
+<pre><code class="language-sh"># 安装yum源
+yum install -y wget &amp;&amp; wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+# 安装docker
+yum install docker-ce
+# 设置开机自启
+systemctl enable docker &amp;&amp; systemctl start docker
+docker version
+</code></pre>
 
 <h3 id="第一步-安装kubeadm和相关工具">第一步：安装kubeadm和相关工具</h3>
 
@@ -520,6 +550,15 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
     --discovery-token-ca-cert-hash sha256:b90b7155024b10d3ff27d91bba2f3caef6fff492f866728b01514ee1ae9bb349
 </code></pre>
 
+<p>如果你没有token信息，可以执行如下命令获取：</p>
+
+<pre><code class="language-sh">kubeadm token list
+
+TOKEN                     TTL         EXPIRES                     USAGES                   DESCRIPTION                                                EXTRA GROUPS
+abcdef.0123456789abcdef   3h          2021-04-21T12:50:13+08:00   authentication,signing   &lt;none&gt;                                                     system:bootstrappers:kubeadm:default-node-token
+
+</code></pre>
+
 <p>此时，可以用kubectl命令验证前面提到的ConfigMap：</p>
 
 <pre><code class="language-sh">kubectl get -n kube-system configmap
@@ -540,7 +579,17 @@ kubelet-config-1.21                  1      11m
 
 <h4 id="安装node节点-加入集群">安装node节点，加入集群</h4>
 
-<p>在新节点，系统准备和kubernetes yum源的配置过程和master节点一致，在node节点上执行如下安装命令：</p>
+<p>在新节点，系统准备和kubernetes yum源的配置过程和master节点一致，在node节点上执行如下安装命令：
+yum源</p>
+
+<pre><code class="language-sh">[kubernetes]
+name=Kubernetes Repository
+baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+enabled=1
+gpgcheck=0
+</code></pre>
+
+<p>安装kubeadm、kubelet</p>
 
 <pre><code class="language-sh">yum install kubelet kubeadm --disableexcludes=kubernetes
 </code></pre>
@@ -591,6 +640,30 @@ node   NotReady   control-plane,master   24m   v1.21.0
 <pre><code class="language-sh">kubectl apply -f &lt;add-on.yaml&gt;
 </code></pre>
 
+<p>例如：目前最流行的Kubernetes网络插件有Flannel、Calico、Canal、Weave这里选择使用flannel，部署网络插件flannel</p>
+
+<pre><code class="language-sh">kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+Warning: policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+podsecuritypolicy.policy/psp.flannel.unprivileged created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds created
+</code></pre>
+
+<p>然后运行kubectl get nodes查看pod状态</p>
+
+<pre><code class="language-sh">kubectl get nodes
+
+NAME    STATUS   ROLES                  AGE    VERSION
+bogon   Ready    &lt;none&gt;                 2m6s   v1.21.0
+node    Ready    control-plane,master   21h    v1.21.0
+</code></pre>
+
+<p>可以看到状态已经变为Ready了。</p>
+
 <h4 id="验证集群是否安装完成">验证集群是否安装完成</h4>
 
 <p>执行如下命令，查看相关pod是否都正常创建并运行：</p>
@@ -601,6 +674,75 @@ node   NotReady   control-plane,master   24m   v1.21.0
 <p>如果有状态错误的pod，可以执行kubectl &ndash;namespace=kube-system describe pod<pod_name>查看错误原因。</p>
 
 <p>记得，如果安装失败，则可以执行kubeadm reset命令将主机恢复原状，重新执行kubeadm init命令，再次进行安装。</p>
+
+<h4 id="测试集群是否可用">测试集群是否可用</h4>
+
+<p>创建一个pod容器，验证是否正常运行</p>
+
+<pre><code class="language-sh"># 创建一个nginx容器
+kubectl create deployment nginx --image=nginx
+# 暴露对外端口
+kubectl expose deployment nginx --port=80 --type=NodePort
+# 查看nginx是否正常运行
+kubectl get pod,svc
+
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-6799fc88d8-phqfk   0/1     ContainerCreating   0          17s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+service/kubernetes   ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP        21h
+service/nginx        NodePort    10.108.143.57   &lt;none&gt;        80:32711/TCP   7s
+
+# 查看 nginx容器运行状态，如果为Running，则表示可以访问
+kubectl get pods
+
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-6799fc88d8-phqfk   1/1     Running   0          2m5s
+# 在浏览器中访问 192.168.37.151:32711 即可访问nginx服务
+# 扩容nginx副本到3个
+kubectl scale deployment nginx --replicas=3
+kubectl get pods
+</code></pre>
+
+<h4 id="部署dashboard">部署dashboard</h4>
+
+<p>略</p>
+
+<h3 id="kubeadm升级集群">kubeadm升级集群</h3>
+
+<p>首先要升级的是kubeadm</p>
+
+<pre><code class="language-sh">yum install -y kubeadm-1.22.0 --disableexcludes=kubernetes
+
+kubeadm version
+</code></pre>
+
+<p>接下来查看kubeadm的升级计划</p>
+
+<pre><code class="language-sh">kubeadm upgrade plan
+</code></pre>
+
+<p>按照任务指引进行升级</p>
+
+<pre><code class="language-sh">kubeadm upgrade apply 1.22.0
+</code></pre>
+
+<p>输入y确认后，开始进行升级，运行完成之后，再次查看版本</p>
+
+<pre><code class="language-sh">kubectl version
+</code></pre>
+
+<p>查看node版本，发现node版本滞后，对node节点配置进行升级</p>
+
+<pre><code class="language-sh">kubeadm upgrade node config --kubelet-version 1.22.0
+</code></pre>
+
+<p><strong>参考文献</strong></p>
+
+<ul>
+<li><a href="https://blog.csdn.net/xtjatswc/article/details/109234575">https://blog.csdn.net/xtjatswc/article/details/109234575</a></li>
+<li><a href="https://www.cnblogs.com/cptao/p/10912644.html">https://www.cnblogs.com/cptao/p/10912644.html</a></li>
+</ul>
 
         </div>
         <div id="disqus_thread"></div>
