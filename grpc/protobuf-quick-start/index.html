@@ -1,0 +1,758 @@
+<!doctype html>
+<html>
+<head>
+    <title>grpc应用之一 使用protobuf Protobuf Quick Start // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">grpc应用之一 使用protobuf Protobuf Quick Start</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Apr 25, 2021
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    4 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/grpc/">Grpc</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<p>protoc 是 Protobuf 的编译器，是用 C++ 所编写的，其主要功能是用于编译.proto 文件</p>
+
+<h3 id="下载安装protobuf编译器protoc">下载安装protobuf编译器protoc</h3>
+
+<pre><code class="language-sh">wget https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protobuf-all-3.15.8.zip
+unzip protobuf-all-3.15.8.zip &amp;&amp; cd protobuf-3.15.8/
+./configure
+make
+make install
+
+# 检查是否安装成功
+protoc --version
+
+</code></pre>
+
+<p>Protocol Buffers Libraries 的默认安装路径在 /usr/local/lib 下</p>
+
+<h3 id="protoc插件安装">protoc插件安装</h3>
+
+<pre><code class="language-sh">go get -u github.com/golang/protobuf/protoc-gen-go@latest
+
+# 将所编译安装的 Protoc Plugin 的可执行文件中移动到相应的 bin 目录下，让其可以直接运行protoc-gen-go
+export PATH=$PATH:$GOPATH/bin
+</code></pre>
+
+<h3 id="初始化项目">初始化项目</h3>
+
+<pre><code class="language-sh">mkdir -p $GOPATH/src/grpc-demo
+cd $GOPATH/src/grpc-demo
+go mod init github.com/realjf/grpc-demo
+</code></pre>
+
+<p>初始化后，新建server、client、proto目录，最终目录结构如下：</p>
+
+<pre><code class="language-sh">.
+├── client
+├── go.mod
+├── proto
+└── server
+</code></pre>
+
+<h3 id="编译和生成proto文件">编译和生成proto文件</h3>
+
+<h4 id="创建proto文件">创建proto文件</h4>
+
+<p>在项目的proto文件夹下新建helloworld.proto文件，其内容如下：</p>
+
+<pre><code class="language-proto">syntax = &quot;proto3&quot;;
+
+package helloworld;
+
+service Greeter {
+    rpc SayHello (HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloResponse {
+    int64 code = 1;
+    string message = 2;
+}
+</code></pre>
+
+<h4 id="生成proto文件">生成proto文件</h4>
+
+<p>在项目根目录下执行如下命令，生成对应.pb.go文件：</p>
+
+<pre><code class="language-sh">protoc --go_out=plugins=grpc:. ./proto/*.proto
+</code></pre>
+
+<ul>
+<li>&ndash;go_out: 设置生成的go代码的输出目录，该指令通过加载protoc-gen-go插件达到生成go代码的目的，生成的文件以.pb.go为文件后缀，在这里冒号充当分隔符作用，后面跟命令所需的参数集，在这里代表要将所生成的go代码输出到所指向的protoc编译的当前目录</li>
+<li>plugins=plugin1+plugin2: 指定要加载的子插件列表，我们定义的 proto 文件是涉及了 RPC 服务的，而默认是不会生成 RPC 代码的，因此需要在 go_out 中给出 plugins 参数传递给 protoc-gen-go，告诉编译器，请支持 RPC</li>
+</ul>
+
+<p>执行结束后，就会生成proto文件对应的.pb.go文件</p>
+
+<h4 id="生成的-pb-go文件">生成的.pb.go文件</h4>
+
+<p>查看生成的helloworld.pb.go文件，代码如下：</p>
+
+<pre><code class="language-golang">...
+type HelloRequest struct {
+    Name                 string   `protobuf:&quot;bytes,1,opt,name=name,proto3&quot; json:&quot;name,omitempty&quot;`
+    XXX_NoUnkeyedLiteral struct{} `json:&quot;-&quot;`
+    XXX_unrecognized     []byte   `json:&quot;-&quot;`
+    XXX_sizecache        int32    `json:&quot;-&quot;`
+}
+
+func (m *HelloRequest) Reset()         { *m = HelloRequest{} }
+func (m *HelloRequest) String() string { return proto.CompactTextString(m) }
+func (*HelloRequest) ProtoMessage()    {}
+func (*HelloRequest) Descriptor() ([]byte, []int) {
+    return fileDescriptor_4d53fe9c48eadaad, []int{0}
+}
+
+func (m *HelloRequest) XXX_Unmarshal(b []byte) error {
+    return xxx_messageInfo_HelloRequest.Unmarshal(m, b)
+}
+func (m *HelloRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+    return xxx_messageInfo_HelloRequest.Marshal(b, m, deterministic)
+}
+func (m *HelloRequest) XXX_Merge(src proto.Message) {
+    xxx_messageInfo_HelloRequest.Merge(m, src)
+}
+func (m *HelloRequest) XXX_Size() int {
+    return xxx_messageInfo_HelloRequest.Size(m)
+}
+func (m *HelloRequest) XXX_DiscardUnknown() {
+    xxx_messageInfo_HelloRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_HelloRequest proto.InternalMessageInfo
+
+func (m *HelloRequest) GetName() string {
+    if m != nil {
+        return m.Name
+    }
+    return &quot;&quot;
+}
+...
+</code></pre>
+
+<p>HelloRequest其包含了一组Getters方法，能提供取值的方式，并处理了一些空指针取值的情况，还能通过Reset方法重置该参数，而通过ProtoMessage方法，表示这是一个实现了proto.Message的接口，HelloResponse类型也类似。</p>
+
+<p>接下来我们看到.pb.go 文件的初始化方法，其中比较特殊的就是 fileDescriptor 的相关语句，如下：</p>
+
+<pre><code class="language-golang">func init() {
+    proto.RegisterType((*HelloRequest)(nil), &quot;helloworld.HelloRequest&quot;)
+    proto.RegisterType((*HelloResponse)(nil), &quot;helloworld.HelloResponse&quot;)
+}
+
+func init() { proto.RegisterFile(&quot;proto/helloworld.proto&quot;, fileDescriptor_4d53fe9c48eadaad) }
+
+var fileDescriptor_4d53fe9c48eadaad = []byte{
+    // 160 bytes of a gzipped FileDescriptorProto
+    0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2b, 0x28, 0xca, 0x2f,
+    0xc9, 0xd7, 0xcf, 0x48, 0xcd, 0xc9, 0xc9, 0x2f, 0xcf, 0x2f, 0xca, 0x49, 0xd1, 0x03, 0x0b, 0x08,
+    0x71, 0x21, 0x44, 0x94, 0x94, 0xb8, 0x78, 0x3c, 0x40, 0xbc, 0xa0, 0xd4, 0xc2, 0xd2, 0xd4, 0xe2,
+    0x12, 0x21, 0x21, 0x2e, 0x96, 0xbc, 0xc4, 0xdc, 0x54, 0x09, 0x46, 0x05, 0x46, 0x0d, 0xce, 0x20,
+    0x30, 0x5b, 0xc9, 0x96, 0x8b, 0x17, 0xaa, 0xa6, 0xb8, 0x20, 0x3f, 0xaf, 0x38, 0x15, 0xa4, 0x28,
+    0x39, 0x3f, 0x05, 0xa2, 0x88, 0x39, 0x08, 0xcc, 0x16, 0x92, 0xe0, 0x62, 0xcf, 0x4d, 0x2d, 0x2e,
+    0x4e, 0x4c, 0x4f, 0x95, 0x60, 0x02, 0xeb, 0x85, 0x71, 0x8d, 0x7c, 0xb8, 0xd8, 0xdd, 0x8b, 0x52,
+    0x53, 0x4b, 0x52, 0x8b, 0x84, 0x1c, 0xb9, 0x38, 0x82, 0x13, 0x2b, 0xc1, 0x86, 0x09, 0x49, 0xe8,
+    0x21, 0x39, 0x0c, 0xd9, 0x0d, 0x52, 0x92, 0x58, 0x64, 0x20, 0x36, 0x2b, 0x31, 0x24, 0xb1, 0x81,
+    0xfd, 0x60, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0xe6, 0x1d, 0xd3, 0xd5, 0xdd, 0x00, 0x00, 0x00,
+}
+</code></pre>
+
+<p>实际上我们所看到的 fileDescriptor_4d53fe9c48eadaad 表示的是一个经过编译后的 proto 文件，是对 proto 文件的整体描述，其包含了 proto 文件名、引用（import）内容、包（package）名、选项设置、所有定义的消息体（message）、所有定义的枚举（enum）、所有定义的服务（ service）、所有定义的方法（rpc method）等等内容，可以认为就是整个 proto 文件的信息你都能够取到</p>
+
+<p>接下来我们再往下看可以看到 GreeterClient 接口，因为 Protobuf 是客户端和服务端可共用一份.proto 文件的，因此除了存在数据描述的信息以外，还会存在客户端和服务端的相关内部调用的接口约束和调用方式的实现，在后续我们在多服务内部调用的时候会经常用到，如下：</p>
+
+<pre><code class="language-golang">// 客户端接口
+type GreeterClient interface {
+    SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloResponse, error)
+}
+
+type greeterClient struct {
+    cc *grpc.ClientConn
+}
+
+func NewGreeterClient(cc *grpc.ClientConn) GreeterClient {
+    return &amp;greeterClient{cc}
+}
+
+func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloResponse, error) {
+    out := new(HelloResponse)
+    err := c.cc.Invoke(ctx, &quot;/helloworld.Greeter/SayHello&quot;, in, out, opts...)
+    if err != nil {
+        return nil, err
+    }
+    return out, nil
+}
+// 服务端注册接口
+type GreeterServer interface {
+    SayHello(context.Context, *HelloRequest) (*HelloResponse, error)
+}
+
+func RegisterGreeterServer(s *grpc.Server, srv GreeterServer) {
+    s.RegisterService(&amp;_Greeter_serviceDesc, srv)
+}
+
+func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+    in := new(HelloRequest)
+    if err := dec(in); err != nil {
+        return nil, err
+    }
+    if interceptor == nil {
+        return srv.(GreeterServer).SayHello(ctx, in)
+    }
+    info := &amp;grpc.UnaryServerInfo{
+        Server:     srv,
+        FullMethod: &quot;/helloworld.Greeter/SayHello&quot;,
+    }
+    handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+        return srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))
+    }
+    return interceptor(ctx, in, info, handler)
+}
+</code></pre>
+
+<h3 id="更多数据类型支持">更多数据类型支持</h3>
+
+<h4 id="通用类型">通用类型</h4>
+
+<p>在 Protobuf 中一共支持 double、float、int32、int64、uint32、uint64、sint32、sint64、fixed32、fixed64、sfixed32、sfixed64、bool、string、bytes 类型</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">.proto Type</th>
+<th align="center">C++ Type</th>
+<th align="center">Java Type</th>
+<th align="center">Go Type</th>
+<th align="center">PHP Type</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">double</td>
+<td align="center">double</td>
+<td align="center">double</td>
+<td align="center">float64</td>
+<td align="center">float</td>
+</tr>
+
+<tr>
+<td align="center">float</td>
+<td align="center">float</td>
+<td align="center">float</td>
+<td align="center">float32</td>
+<td align="center">float</td>
+</tr>
+
+<tr>
+<td align="center">int32</td>
+<td align="center">int32</td>
+<td align="center">int</td>
+<td align="center">int32</td>
+<td align="center">integer</td>
+</tr>
+
+<tr>
+<td align="center">int64</td>
+<td align="center">int64</td>
+<td align="center">long</td>
+<td align="center">int64</td>
+<td align="center">integer/string</td>
+</tr>
+
+<tr>
+<td align="center">uint32</td>
+<td align="center">uint32</td>
+<td align="center">int</td>
+<td align="center">uint32</td>
+<td align="center">integer</td>
+</tr>
+
+<tr>
+<td align="center">uint64</td>
+<td align="center">uint64</td>
+<td align="center">long</td>
+<td align="center">uint64</td>
+<td align="center">integer/string</td>
+</tr>
+
+<tr>
+<td align="center">sint32</td>
+<td align="center">int32</td>
+<td align="center">int</td>
+<td align="center">int32</td>
+<td align="center">integer</td>
+</tr>
+
+<tr>
+<td align="center">sint64</td>
+<td align="center">int64</td>
+<td align="center">long</td>
+<td align="center">int64</td>
+<td align="center">integer/string</td>
+</tr>
+
+<tr>
+<td align="center">fixed32</td>
+<td align="center">uint32</td>
+<td align="center">int</td>
+<td align="center">uint32</td>
+<td align="center">integer</td>
+</tr>
+
+<tr>
+<td align="center">fixed64</td>
+<td align="center">uint64</td>
+<td align="center">long</td>
+<td align="center">uint64</td>
+<td align="center">integer/string</td>
+</tr>
+
+<tr>
+<td align="center">sfixed32</td>
+<td align="center">int32</td>
+<td align="center">int</td>
+<td align="center">int32</td>
+<td align="center">integer</td>
+</tr>
+
+<tr>
+<td align="center">sfixed64</td>
+<td align="center">int64</td>
+<td align="center">long</td>
+<td align="center">int64</td>
+<td align="center">integer/string</td>
+</tr>
+
+<tr>
+<td align="center">bool</td>
+<td align="center">bool</td>
+<td align="center">boolean</td>
+<td align="center">bool</td>
+<td align="center">boolean</td>
+</tr>
+
+<tr>
+<td align="center">string</td>
+<td align="center">string</td>
+<td align="center">String</td>
+<td align="center">string</td>
+<td align="center">string</td>
+</tr>
+
+<tr>
+<td align="center">bytes</td>
+<td align="center">string</td>
+<td align="center">ByteString</td>
+<td align="center">[]byte</td>
+<td align="center">string</td>
+</tr>
+</tbody>
+</table>
+
+<p>常常会遇到需要传递动态数组的情况，在 protobuf 中，我们可以使用 repeated 关键字，如果一个字段被声明为 repeated，那么该字段可以重复任意次（包括零次），重复值的顺序将保留在 protobuf 中，将重复字段视为动态大小的数组，如下:</p>
+
+<pre><code class="language-proto">message HelloRequest {
+  repeated string name = 1;
+}
+</code></pre>
+
+<h4 id="嵌套类型">嵌套类型</h4>
+
+<p>嵌套类型，一共有两种模式，如下：</p>
+
+<pre><code class="language-proto">message HelloRequest {
+    message World {
+        string name = 1;
+    }
+    
+    repeated World worlds = 1;
+}
+</code></pre>
+
+<ul>
+<li><p>第一种是将 World 消息体定义在 HelloRequest 消息体中，也就是其归属在消息体 HelloRequest 下，若要调用则需要使用 HelloRequest.World 的方式，外部才能引用成功。</p></li>
+
+<li><p>第二种是将 World 消息体定义在外部，一般比较推荐使用这种方式，清晰、方便，如下：
+```proto
+message World {
+string name = 1;
+}</p></li>
+</ul>
+
+<p>message HelloRequest {
+    repeated World worlds = 1;
+}</p>
+
+<pre><code>#### oneof 类似union
+如果你希望你的消息体可以包含多个字段，但前提条件是最多同时只允许设置一个字段，那么就可以使用 oneof 关键字来实现这个功能，如下：
+```proto
+message HelloRequest {
+    oneof name {
+        string nick_name = 1;
+        string true_name = 2;
+    }
+}
+</code></pre>
+
+<h4 id="enum枚举类型">Enum枚举类型</h4>
+
+<p>枚举类型，限定你所传入的字段值必须是预定义的值列表之一，如下：</p>
+
+<pre><code class="language-proto">enum NameType {
+    NickName = 0;
+    TrueName = 1;
+}
+
+message HelloRequest {
+    string name = 1;
+    NameType nameType = 2;
+}
+</code></pre>
+
+<h4 id="map类型">Map类型</h4>
+
+<p>map 类型，需要设置键和值的类型，格式为 map<key_type, value_type> map_field = N;，示例如下：</p>
+
+<pre><code class="language-proto">message HelloRequest {
+    map&lt;string, string&gt; names = 2;
+}
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/golang/go-gc-mechanism/">golang垃圾回收机制 Go Gc Mechanism</a></li>
+                
+                    <li><a href="/golang/golang-memory-allocation-mechanism/">golang内存分配机制(Golang Memory Allocation Mechanism)</a></li>
+                
+                    <li><a href="/golang/golang-memory-leak/">Go内存泄漏 Golang Memory Leak</a></li>
+                
+                    <li><a href="/golang/golang-scheduling-policy/">Golang调度策略 Golang Scheduling Policy</a></li>
+                
+                    <li><a href="/golang/golang-scheduling-model/">Golang调度模型 Golang Scheduling Model</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

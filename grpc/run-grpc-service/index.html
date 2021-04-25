@@ -1,0 +1,710 @@
+<!doctype html>
+<html>
+<head>
+    <title>grpc应用之三 运行一个grpc服务 Run Grpc Service // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">grpc应用之三 运行一个grpc服务 Run Grpc Service</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Apr 25, 2021
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    4 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/grpc/">Grpc</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<h3 id="初始化项目">初始化项目</h3>
+
+<pre><code class="language-sh">mkdir $GOPATH/src/tag-service
+cd $GOPATH/src/tag-service
+go mod init github.com/realjf/tag-service
+</code></pre>
+
+<p>最终目录结构如下：</p>
+
+<pre><code class="language-sh">.
+├── go.mod
+├── internal
+├── main.go
+├── pkg
+├── proto
+├── server
+└── third_party
+</code></pre>
+
+<p>运行grpc安装命令</p>
+
+<pre><code class="language-sh">go get -u google.golang.org/grpc
+</code></pre>
+
+<h3 id="编译和生成proto文件">编译和生成proto文件</h3>
+
+<p>在proto目录下新建common.proto文件</p>
+
+<pre><code class="language-proto">syntax = &quot;proto3&quot;;
+
+package proto;
+
+message Pager {
+    int64 page = 1;
+    int64 page_size = 2;
+    int64 total_rows = 3;
+}
+</code></pre>
+
+<p>再新建tag.proto文件，内容如下：</p>
+
+<pre><code class="language-proto">syntax = &quot;proto3&quot;;
+
+package proto;
+
+import &quot;proto/common.proto&quot;;
+
+service TagService {
+    rpc GetTagList (GetTagListRequest) returns (GetTagListReply) {}
+}
+
+message GetTagListRequest {
+    string name = 1;
+    uint32 state = 2;
+}
+
+message Tag {
+    int64 id = 1;
+    string name = 2;
+    uint32 state = 3;
+}
+
+message GetTagListReply {
+    repeated Tag list = 1;
+    Pager pager = 2;
+}
+</code></pre>
+
+<p>在项目根目录下运行如下命令：</p>
+
+<pre><code class="language-sh">protoc --go_out=plugins=grpc:. ./proto/*.proto 
+</code></pre>
+
+<p>需要注意的一点是，我们在 tag.proto 文件中 import 了 common.proto，因此在执行 protoc 命令生成时，如果你只执行命令 protoc &ndash;go_out=plugins=grpc:. ./proto/tag.proto 是会存在问题的。</p>
+
+<p>因此建议若所需生成的 proto 文件和所依赖的 proto 文件都在同一目录下，可以直接执行 ./proto/*.proto 命令来解决，又或是指定所有含关联的 proto 引用 ./proto/common.proto ./proto/tag.proto ，这样子就可以成功生成.pb.go 文件，并且避免了很多的编译麻烦</p>
+
+<p>但若实在是存在多层级目录的情况，可以利用 protoc 命令的 -I 和 M 指令来进行特定处理。</p>
+
+<h3 id="编写grpc方法">编写gRPC方法</h3>
+
+<h4 id="获取博客api数据">获取博客api数据</h4>
+
+<p>在pkg/bapi目录下，新建文件api.go，其内容如下：</p>
+
+<pre><code class="language-golang">package bapi
+
+import (
+    &quot;context&quot;
+    &quot;encoding/json&quot;
+    &quot;fmt&quot;
+    &quot;io/ioutil&quot;
+    &quot;net/http&quot;
+)
+
+const (
+    APP_KEY    = &quot;realjf&quot;
+    APP_SECRET = &quot;go-language&quot;
+)
+
+type AccessToken struct {
+    Token string `json:&quot;token&quot;`
+}
+
+func (a *API) getAccessToken(ctx context.Context) (string, error) {
+    body, err := a.httpGet(ctx, fmt.Sprintf(&quot;%s?app_key=%s&amp;app_secret=%s&quot;, &quot;auth&quot;, APP_KEY, APP_SECRET))
+    if err != nil {
+        return &quot;&quot;, err
+    }
+
+    var accessToken AccessToken
+    _ = json.Unmarshal(body, &amp;accessToken)
+    return accessToken.Token, nil
+}
+
+func (a *API) httpGet(ctx context.Context, path string) ([]byte, error) {
+    resp, err := http.Get(fmt.Sprintf(&quot;%s/%s&quot;, a.URL, path))
+    if err != nil {
+        return nil, err
+    }
+    defer resp.Body.Close()
+    body, _ := ioutil.ReadAll(resp.Body)
+    return body, nil
+}
+
+type API struct {
+    URL string
+}
+
+func NewAPI(url string) *API {
+    return &amp;API{URL: url}
+}
+
+func (a *API) GetTagList(ctx context.Context, name string) ([]byte, error) {
+    token, err := a.getAccessToken(ctx)
+    if err != nil {
+        return nil, err
+    }
+
+    body, err := a.httpGet(ctx, fmt.Sprintf(&quot;%s?token=%s&amp;name=%s&quot;, &quot;api/v1/tags&quot;, token, name))
+    if err != nil {
+        return nil, err
+    }
+
+    return body, nil
+}
+
+</code></pre>
+
+<h4 id="编写grpc-server端">编写gRPC Server端</h4>
+
+<p>在项目的server目录下新建tag.go文件，内容如下：</p>
+
+<pre><code class="language-golang">package server
+
+import (
+    &quot;context&quot;
+    &quot;encoding/json&quot;
+
+    &quot;github.com/realjf/tag-service/pkg/bapi&quot;
+    pb &quot;github.com/realjf/tag-service/proto&quot;
+)
+
+type TagServer struct{}
+
+func NewTagServer() *TagServer {
+    return &amp;TagServer{}
+}
+
+func (t *TagServer) GetTagList(ctx context.Context, r *pb.GetTagListRequest) (*pb.GetTagListResponse, error) {
+    api := bapi.NewAPI(&quot;http://127.0.0.1:8000&quot;)
+    body, err := api.GetTagList(ctx, r.GetName())
+    if err != nil {
+        return nil, err
+    }
+
+    tagList := pb.GetTagListResponse{}
+    err = json.Unmarshal(body, &amp;tagList)
+    if err != nil {
+        return nil, errcode.TogRPCError(errcode.Fail)
+    }
+
+    return &amp;tagList, nil
+}
+
+</code></pre>
+
+<p>在pkg/errcode目录下新建errcode.go文件，其内容如下</p>
+
+<pre><code class="language-golang">package errcode
+
+import &quot;fmt&quot;
+
+type Error struct {
+    code int
+    msg  string
+}
+
+var _codes = map[int]string{}
+
+func NewError(code int, msg string) *Error {
+    if _, ok := _codes[code]; ok {
+        panic(fmt.Sprintf(&quot;错误码 %d 已经存在，请更换一个&quot;, code))
+    }
+    _codes[code] = msg
+    return &amp;Error{code: code, msg: msg}
+}
+
+func (e *Error) Error() string {
+    return fmt.Sprintf(&quot;错误码：%d, 错误信息:：%s&quot;, e.Code(), e.Msg())
+}
+
+func (e *Error) Code() int {
+    return e.code
+}
+
+func (e *Error) Msg() string {
+    return e.msg
+}
+
+</code></pre>
+
+<p>在pkg/errcode目录下新建common_error.go文件，内容如下：</p>
+
+<pre><code class="language-golang">package errcode
+
+var (
+    Success          = NewError(0, &quot;成功&quot;)
+    Fail             = NewError(10000000, &quot;内部错误&quot;)
+    InvalidParams    = NewError(10000001, &quot;无效参数&quot;)
+    Unauthorized     = NewError(10000002, &quot;认证错误&quot;)
+    NotFound         = NewError(10000003, &quot;没有找到&quot;)
+    Unknown          = NewError(10000004, &quot;未知&quot;)
+    DeadlineExceeded = NewError(10000005, &quot;超出最后截止期限&quot;)
+    AccessDenied     = NewError(10000006, &quot;访问被拒绝&quot;)
+    LimitExceed      = NewError(10000007, &quot;访问限制&quot;)
+    MethodNotAllowed = NewError(10000008, &quot;不支持该方法&quot;)
+)
+</code></pre>
+
+<p>在pkg/errcode目录下新建rpc_error.go文件，其内容如下：</p>
+
+<pre><code class="language-golang">package errcode
+
+func TogRPCError(err *Error) error {
+    s := status.New(ToRPCCode(err.Code()), err.Msg())
+    return s.Err()
+}
+
+func ToRPCCode(code int) codes.Code {
+    var statusCode codes.Code
+    switch code {
+    case Fail.Code():
+        statusCode = codes.Internal
+    case InvalidParams.Code():
+        statusCode = codes.InvalidArgument
+    case Unauthorized.Code():
+        statusCode = codes.Unauthenticated
+    case AccessDenied.Code():
+        statusCode = codes.PermissionDenied
+    case DeadlineExceeded.Code():
+        statusCode = codes.DeadlineExceeded
+    case NotFound.Code():
+        statusCode = codes.NotFound
+    case LimitExceed.Code():
+        statusCode = codes.ResourceExhausted
+    case MethodNotAllowed.Code():
+        statusCode = codes.Unimplemented
+    default:
+        statusCode = codes.Unknown
+    }
+
+    return statusCode
+}
+</code></pre>
+
+<h3 id="编写启动文件">编写启动文件</h3>
+
+<p>main.go文件内容如下：</p>
+
+<pre><code class="language-golang">package main
+
+import (
+    &quot;flag&quot;
+    &quot;log&quot;
+    &quot;net&quot;
+
+    pb &quot;github.com/realjf/tag-service/proto&quot;
+    &quot;google.golang.org/grpc&quot;
+    &quot;github.com/realjf/tag-service/server&quot;
+)
+
+var port string
+
+func init() {
+    flag.StringVar(&amp;port, &quot;p&quot;, &quot;8000&quot;, &quot;端口&quot;)
+    flag.Parse()
+}
+
+func main() {
+    s := grpc.NewServer()
+    pb.RegisterTagServiceServer(s, server.NewTagServer())
+
+    lis, err := net.Listen(&quot;tcp&quot;, &quot;:&quot;+port)
+    if err != nil {
+        log.Fatalf(&quot;net.Listen err: %v&quot;, err)
+    }
+
+    err = s.Serve(lis)
+    if err != nil {
+        log.Fatalf(&quot;server.Serve err: %v&quot;, err)
+    }
+}
+
+</code></pre>
+
+<p>现在可以运行go run main.go，查看服务是否运行正常</p>
+
+<h3 id="调试grpc接口">调试gRPC接口</h3>
+
+<p>在服务启动后，我们除了要验证服务是否正常运行，还要调试或验证 RPC 方法是否运行正常，而 gRPC 是基于 HTTP/2 协议的，因此不像普通的 HTTP/1.1 接口可以直接通过 postman 或普通的 curl 进行调用。但目前开源社区也有一些方案，例如像 grpcurl，grpcurl 是一个命令行工具，可让你与 gRPC 服务器进行交互，安装命令如下：</p>
+
+<pre><code class="language-sh">go get github.com/fullstorydev/grpcurl
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl
+</code></pre>
+
+<p>windows下可以直接到github<a href="https://github.com/fullstorydev/grpcurl/releases/download/v1.8.0/grpcurl_1.8.0_windows_x86_64.zip">https://github.com/fullstorydev/grpcurl/releases/download/v1.8.0/grpcurl_1.8.0_windows_x86_64.zip</a>上下载二进制版本</p>
+
+<p>但使用该工具的前提是 gRPC Server 已经注册了反射服务，因此我们需要修改上述服务的启动文件</p>
+
+<pre><code class="language-golang">import (
+    &quot;google.golang.org/grpc/reflection&quot;
+    ...
+)
+
+func main() {
+    s := grpc.NewServer()
+    pb.RegisterTagServiceServer(s, server.NewTagServer())
+    reflection.Register(s)
+    ...
+}
+</code></pre>
+
+<p>reflection 包是 gRPC 官方所提供的反射服务，我们在启动文件新增了 reflection.Register 方法的调用后，我们需要重新启动服务，反射服务才可用。</p>
+
+<p>接下来我们可以使用grpcurl工具进行调试，一般我们可以首先执行list命令：</p>
+
+<pre><code class="language-sh">grpcurl -plaintext localhost:8000 list
+
+grpc.reflection.v1alpha.ServerReflection
+proto.TagService
+
+# list指令
+grpcurl -plaintext localhost:8000 list proto.TagService
+
+proto.TagService.GetTagList
+</code></pre>
+
+<ul>
+<li>plaintext：grpcurl默认使用TLS认证（可通过-cert和-key设置），我们这里指定这个选项来忽略TLS认证</li>
+<li>localhost:8000 指定我们运行的服务host</li>
+<li>list：指定所执行的命令，list子命令可获取该服务的RPC方法列表信息</li>
+</ul>
+
+<p>在了解了该服务具体有什么RPC方法后，我们可以执行下面的命令去调用RPC方法：</p>
+
+<pre><code class="language-sh">grpcurl -plaintext -d '{&quot;name&quot;:&quot;Go&quot;}' localhost:8000 proto.TagService.GetTagList
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/grpc/grpc-quick-start/">grpc应用之二 gRPC使用 grpc Quick Start</a></li>
+                
+                    <li><a href="/grpc/protobuf-quick-start/">grpc应用之一 使用protobuf Protobuf Quick Start</a></li>
+                
+                    <li><a href="/grpc/set-up/">grpc 安装 Set Up</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
