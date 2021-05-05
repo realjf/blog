@@ -1,6 +1,6 @@
 ---
 title: "Golang 隐藏编译指令"
-date: 2019-11-25T00:34:47+08:00
+date: 2021-05-05T00:34:47+08:00
 keywords: ["golang", "golang pragmas", "go编译指令"]
 categories: ["golang"]
 tags: ["golang", "golang pragmas", "go编译指令"]
