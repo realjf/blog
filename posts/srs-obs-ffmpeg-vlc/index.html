@@ -3,7 +3,7 @@
 <head>
     <title>Srs Obs FFmpeg Vlc搭建rtmp直播服务，并实现推流拉流 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,71 +237,54 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/%E7%9B%B4%E6%92%AD/">直播</a><a class="tag" href="https://realjf.io/tags/srs/">Srs</a><a class="tag" href="https://realjf.io/tags/obs/">Obs</a><a class="tag" href="https://realjf.io/tags/ffmpeg/">Ffmpeg</a><a class="tag" href="https://realjf.io/tags/vlc/">Vlc</a><a class="tag" href="https://realjf.io/tags/rtmp/">Rtmp</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/%E7%9B%B4%E6%92%AD/">直播</a><a class="tag" href="https://realjf.io/tags/srs/">srs</a><a class="tag" href="https://realjf.io/tags/obs/">obs</a><a class="tag" href="https://realjf.io/tags/ffmpeg/">ffmpeg</a><a class="tag" href="https://realjf.io/tags/vlc/">vlc</a><a class="tag" href="https://realjf.io/tags/rtmp/">rtmp</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="rtmp-srs直播服务器搭建">rtmp srs直播服务器搭建</h2>
-
+            <h2 id="rtmp-srs直播服务器搭建">rtmp srs直播服务器搭建</h2>
 <h3 id="准备">准备</h3>
-
 <ul>
 <li>srs 提供直播流服务器</li>
 <li>obs 提供推流服务</li>
 <li>ffmpeg 强大的软件，可作为推流端使用</li>
 <li>vlc 用于播放rtmp直播</li>
 </ul>
-
 <h3 id="1-首先搭建rtmp-srs服务器">1. 首先搭建rtmp srs服务器</h3>
-
-<pre><code class="language-bash">git clone https://github.com/ossrs/srs
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/ossrs/srs
 cd srs/trunk
 
-# 构建srs
-./configure &amp;&amp; make
+<span style="color:#75715e"># 构建srs</span>
+./configure <span style="color:#f92672">&amp;&amp;</span> make
 
-# 开启服务
+<span style="color:#75715e"># 开启服务</span>
 ./objs/srs -c conf/srs.conf
 
-# 停止服务
+<span style="color:#75715e"># 停止服务</span>
 ./objs/srs stop
 
-# 重启服务
+<span style="color:#75715e"># 重启服务</span>
 ./objs/srs restart
 
-</code></pre>
-
-<h3 id="2-安装obs">2. 安装obs</h3>
-
-<pre><code class="language-bash">apt-get install obs-studio
-</code></pre>
-
-<p>关于obs推流设置<a href="https://obsproject.com/wiki/OBS-Studio-Quickstart">https://obsproject.com/wiki/OBS-Studio-Quickstart</a></p>
-
+</code></pre></div><h3 id="2-安装obs">2. 安装obs</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install obs-studio
+</code></pre></div><p>关于obs推流设置<a href="https://obsproject.com/wiki/OBS-Studio-Quickstart">https://obsproject.com/wiki/OBS-Studio-Quickstart</a></p>
 <h3 id="3-安装vlc">3. 安装vlc</h3>
-
-<pre><code class="language-bash">apt-get install vlc
-</code></pre>
-
-<p>在推流设置完成后，测试推流效果步骤如下：
-1. 打开VLC，选择open media-&gt;network
-2. 在网络协议中输入推流地址，点击play即可</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install vlc
+</code></pre></div><p>在推流设置完成后，测试推流效果步骤如下：</p>
+<ol>
+<li>打开VLC，选择open media-&gt;network</li>
+<li>在网络协议中输入推流地址，点击play即可</li>
+</ol>
 <h3 id="4-安装ffmpeg">4. 安装ffmpeg</h3>
-
-<pre><code class="language-bash">git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
 cd ffmpeg
 
-# 编译ffmpeg
-./configure &amp;&amp; make
+<span style="color:#75715e"># 编译ffmpeg</span>
+./configure <span style="color:#f92672">&amp;&amp;</span> make
 
-# 使用ffmpeg推流
+<span style="color:#75715e"># 使用ffmpeg推流</span>
 ./ffmpeg -re -i /path/to/media_file.mp4 -f flv -y rtmp://DOMAIN:PORT/yourpath
 
-</code></pre>
-
-<p>关于ffmpeg更多命令<a href="http://ffmpeg.org/documentation.html">http://ffmpeg.org/documentation.html</a></p>
+</code></pre></div><p>关于ffmpeg更多命令<a href="http://ffmpeg.org/documentation.html">http://ffmpeg.org/documentation.html</a></p>
 
         </div>
         <div id="disqus_thread"></div>

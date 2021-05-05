@@ -3,7 +3,7 @@
 <head>
     <title>mysql多选平台查询条件生成实现 Multiple Choice Platform // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,139 +237,135 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/posts/">Posts</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/posts/">posts</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="多选平台数值之和查询语句优化">多选平台数值之和查询语句优化</h3>
-
-<pre><code class="language-php">/** 
- *  
- * mysql 数据库设计中，存在一个平台字段保存的是多个平台值相加的数值， 
- * 查询的时候需要使用如下方法生成平台查询字段值即可快速查出对应平台的数据， 
- * 而不必使用数据库按位与计算及or条件等降低查询速度的方式 
- * 
- */
-class plat{    
-    const PLAT_ALL = 0; // 全部 0b 0    
-    const PLAT_ANDROID = 1; // 1b 1&lt;&lt;0    
-    const PLAT_IOS = 2; // 10b 1&lt;&lt;1    
-    const PLAT_PC = 4; // 100b 1&lt;&lt;2    
-    const PLAT_WAP = 8; // 1000b 1&lt;&lt;3    
-    const PLAT_BOX_A = 16; // 10000 1&lt;&lt;4 安卓1   
-    const PLAT_BOX_I = 32; // 10 0000 1&lt;&lt;5 ios1   
-    const PLAT_ADMIN = 64; //100 0000 1&lt;&lt;6 后台    
-    const PLAT_OBS = 128; // 1000 0000 1&lt;&lt;7 obs    
-    const PLAT_IOS_TOOLS = 256; // 1000 0000 1&lt;&lt;8 助手    
-    
-    static   $plats = [        
-        self::PLAT_ALL       =&gt; '全部',        
-        self::PLAT_ANDROID   =&gt; '安卓',        
-        self::PLAT_IOS       =&gt; 'IOS',        
-        self::PLAT_PC        =&gt; 'PC',        
-        self::PLAT_WAP       =&gt; 'WAP',        
-        self::PLAT_BOX_A     =&gt; '安卓1',        
-        self::PLAT_BOX_I     =&gt; 'ios1',        
-        self::PLAT_ADMIN     =&gt; &quot;后台&quot;,        
-        self::PLAT_OBS       =&gt; 'OBS',        
-        self::PLAT_IOS_TOOLS =&gt; '助手'    
+            <h3 id="多选平台数值之和查询语句优化">多选平台数值之和查询语句优化</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#e6db74">/** 
+</span><span style="color:#e6db74"> *  
+</span><span style="color:#e6db74"> * mysql 数据库设计中，存在一个平台字段保存的是多个平台值相加的数值， 
+</span><span style="color:#e6db74"> * 查询的时候需要使用如下方法生成平台查询字段值即可快速查出对应平台的数据， 
+</span><span style="color:#e6db74"> * 而不必使用数据库按位与计算及or条件等降低查询速度的方式 
+</span><span style="color:#e6db74"> * 
+</span><span style="color:#e6db74"> */</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">plat</span>{    
+    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_ALL</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// 全部 0b 0    
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_ANDROID</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// 1b 1&lt;&lt;0    
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_IOS</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; <span style="color:#75715e">// 10b 1&lt;&lt;1    
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_PC</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>; <span style="color:#75715e">// 100b 1&lt;&lt;2    
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_WAP</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>; <span style="color:#75715e">// 1000b 1&lt;&lt;3    
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_BOX_A</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>; <span style="color:#75715e">// 10000 1&lt;&lt;4 安卓1   
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_BOX_I</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>; <span style="color:#75715e">// 10 0000 1&lt;&lt;5 ios1   
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_ADMIN</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">64</span>; <span style="color:#75715e">//100 0000 1&lt;&lt;6 后台    
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_OBS</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">128</span>; <span style="color:#75715e">// 1000 0000 1&lt;&lt;7 obs    
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PLAT_IOS_TOOLS</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">256</span>; <span style="color:#75715e">// 1000 0000 1&lt;&lt;8 助手    
+</span><span style="color:#75715e"></span>    
+    <span style="color:#66d9ef">static</span>   $plats <span style="color:#f92672">=</span> [        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_ALL</span>       <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;全部&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_ANDROID</span>   <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;安卓&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_IOS</span>       <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;IOS&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_PC</span>        <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;PC&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_WAP</span>       <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;WAP&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_BOX_A</span>     <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;安卓1&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_BOX_I</span>     <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;ios1&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_ADMIN</span>     <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;后台&#34;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_OBS</span>       <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;OBS&#39;</span>,        
+        <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PLAT_IOS_TOOLS</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;助手&#39;</span>    
     ];    
     
-    function getPlatformCond($platform, $extCond = []) {        
-        $cond = &quot;platform=0&quot;;        
-        if (!$platform) {            
-            return $cond;        
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getPlatformCond</span>($platform, $extCond <span style="color:#f92672">=</span> []) {        
+        $cond <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;platform=0&#34;</span>;        
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$platform) {            
+            <span style="color:#66d9ef">return</span> $cond;        
         }        
-        $cond = &quot;platform in (0,{$platform})&quot;;        
-        if ($extCond) {            
-            $cond .= &quot; and &quot; . implode(&quot; and &quot;, $extCond);        
+        $cond <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;platform in (0,</span><span style="color:#e6db74">{</span>$platform<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#34;</span>;        
+        <span style="color:#66d9ef">if</span> ($extCond) {            
+            $cond <span style="color:#f92672">.=</span> <span style="color:#e6db74">&#34; and &#34;</span> <span style="color:#f92672">.</span> <span style="color:#a6e22e">implode</span>(<span style="color:#e6db74">&#34; and &#34;</span>, $extCond);        
         } 
 
-        $platsNum = array_keys(self::$plats);        
-        unset($platsNum[0]);        
+        $platsNum <span style="color:#f92672">=</span> <span style="color:#a6e22e">array_keys</span>(<span style="color:#a6e22e">self</span><span style="color:#f92672">::</span>$plats);        
+        <span style="color:#a6e22e">unset</span>($platsNum[<span style="color:#ae81ff">0</span>]);        
             
-        $platArray = [];        
-        // 获取platform平台下的组合数        
-        // C(9,1) = $platform        
-        $platArray[] = $platform;        
-        // C(9,2) = $platform + (1...9)        
-        foreach($platsNum as $v){            
-            if($platform != $v){                
-                $platArray[] = $v+$platform;            
+        $platArray <span style="color:#f92672">=</span> [];        
+        <span style="color:#75715e">// 获取platform平台下的组合数        
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// C(9,1) = $platform        
+</span><span style="color:#75715e"></span>        $platArray[] <span style="color:#f92672">=</span> $platform;        
+        <span style="color:#75715e">// C(9,2) = $platform + (1...9)        
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            <span style="color:#66d9ef">if</span>($platform <span style="color:#f92672">!=</span> $v){                
+                $platArray[] <span style="color:#f92672">=</span> $v<span style="color:#f92672">+</span>$platform;            
             }        
         }        
-        // C(9,3) = $platform + (1...9) + (1...9)        
-        foreach($platsNum as $v){            
-            foreach($platsNum as $vv){                
-                if(count(array_unique([$v, $vv, $platform])) == 3){                    
-                    $platArray[] = $platform + $v + $vv;                
+        <span style="color:#75715e">// C(9,3) = $platform + (1...9) + (1...9)        
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vv){                
+                <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">count</span>(<span style="color:#a6e22e">array_unique</span>([$v, $vv, $platform])) <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>){                    
+                    $platArray[] <span style="color:#f92672">=</span> $platform <span style="color:#f92672">+</span> $v <span style="color:#f92672">+</span> $vv;                
                 }            
             }        
         }        
-        // C(9,4) = $platform + (1...9) + (1...9) + (1...9)        
-        foreach($platsNum as $v){            
-            foreach($platsNum as $vv){                
-                foreach($platsNum as $vvv){                    
-                    if(count(array_unique([$v, $vv, $vvv, $platform])) == 4){                        
-                        $platArray[] = $platform + $v + $vv + $vvv;                    
+        <span style="color:#75715e">// C(9,4) = $platform + (1...9) + (1...9) + (1...9)        
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vv){                
+                <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vvv){                    
+                    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">count</span>(<span style="color:#a6e22e">array_unique</span>([$v, $vv, $vvv, $platform])) <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>){                        
+                        $platArray[] <span style="color:#f92672">=</span> $platform <span style="color:#f92672">+</span> $v <span style="color:#f92672">+</span> $vv <span style="color:#f92672">+</span> $vvv;                    
                     }                
                 }            
             }        
         }        
-        // C(9,5) = $platform + (1...9) + (1...9) + (1...9) + (1...9)        
-        foreach($platsNum as $v){            
-            foreach($platsNum as $vv){                
-                foreach($platsNum as $vv){                    
-                    foreach($platsNum as $vvvv){                        
-                        if(count(array_unique([$v, $vv, $vvv, $vvvv, $platform])) == 5){                            
-                            $platArray[] = $platform + $v + $vv + $vvv + $vvvv;                        
+        <span style="color:#75715e">// C(9,5) = $platform + (1...9) + (1...9) + (1...9) + (1...9)        
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vv){                
+                <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vv){                    
+                    <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vvvv){                        
+                        <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">count</span>(<span style="color:#a6e22e">array_unique</span>([$v, $vv, $vvv, $vvvv, $platform])) <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>){                            
+                            $platArray[] <span style="color:#f92672">=</span> $platform <span style="color:#f92672">+</span> $v <span style="color:#f92672">+</span> $vv <span style="color:#f92672">+</span> $vvv <span style="color:#f92672">+</span> $vvvv;                        
                         }                    
                     }                
                 }           
             }        
         }               
-        // C(9,9) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
-        $C99 = 0;        
-        foreach($platsNum as $v){            
-            $C99 += $v;        
+        <span style="color:#75715e">// C(9,9) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
+</span><span style="color:#75715e"></span>        $C99 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;        
+        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            $C99 <span style="color:#f92672">+=</span> $v;        
         }        
-        $platArray[] = $C99;        
-        // C(9,8) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
-        foreach($platsNum as $v){            
-            if(count(array_unique([$v, $platform])) == 2){                
-                $platArray[] = $C99 - $v;            
+        $platArray[] <span style="color:#f92672">=</span> $C99;        
+        <span style="color:#75715e">// C(9,8) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">count</span>(<span style="color:#a6e22e">array_unique</span>([$v, $platform])) <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>){                
+                $platArray[] <span style="color:#f92672">=</span> $C99 <span style="color:#f92672">-</span> $v;            
             }        
         }        
-        // C(9,7) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
-        foreach($platsNum as $v){            
-            foreach($platsNum as $vv){                
-                if(count(array_unique([$v, $vv, $platform])) == 3){                    
-                    $platArray[] = $C99 - $v - $vv;                
+        <span style="color:#75715e">// C(9,7) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vv){                
+                <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">count</span>(<span style="color:#a6e22e">array_unique</span>([$v, $vv, $platform])) <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>){                    
+                    $platArray[] <span style="color:#f92672">=</span> $C99 <span style="color:#f92672">-</span> $v <span style="color:#f92672">-</span> $vv;                
                 }            
             }        
         }        
-        // C(9,6) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
-        foreach($platsNum as $v){            
-            foreach($platsNum as $vv){                
-                foreach($platsNum as $vvv){                    
-                    if(count(array_unique([$v, $vv, $vvv, $platform])) == 4){                        
-                        $platArray[] = $C99 - $v - $vv - $vvv;                    
+        <span style="color:#75715e">// C(9,6) = $platform + (1...9) + (1...9) + (1...9) + (1...9) + (1...9)        
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $v){            
+            <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vv){                
+                <span style="color:#66d9ef">foreach</span>($platsNum <span style="color:#66d9ef">as</span> $vvv){                    
+                    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">count</span>(<span style="color:#a6e22e">array_unique</span>([$v, $vv, $vvv, $platform])) <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>){                        
+                        $platArray[] <span style="color:#f92672">=</span> $C99 <span style="color:#f92672">-</span> $v <span style="color:#f92672">-</span> $vv <span style="color:#f92672">-</span> $vvv;                    
                     }                
                 }            
             }        
         }        
-        $platArray = array_values(array_unique($platArray));        
-        sort($platArray);
+        $platArray <span style="color:#f92672">=</span> <span style="color:#a6e22e">array_values</span>(<span style="color:#a6e22e">array_unique</span>($platArray));        
+        <span style="color:#a6e22e">sort</span>($platArray);
         
         
-        return $platArray;    
+        <span style="color:#66d9ef">return</span> $platArray;    
     }
 }
 
-print_r((new plat)-&gt;getPlatformCond(64));
-</code></pre>
-
+<span style="color:#a6e22e">print_r</span>((<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">plat</span>)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPlatformCond</span>(<span style="color:#ae81ff">64</span>));
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

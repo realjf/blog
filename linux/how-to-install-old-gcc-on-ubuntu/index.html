@@ -3,7 +3,7 @@
 <head>
     <title>如何安装低版本的gcc How to Install Old Gcc on Ubuntu // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,15 +237,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/linux/">Linux</a><a class="tag" href="https://realjf.io/tags/gcc/">Gcc</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/linux/">linux</a><a class="tag" href="https://realjf.io/tags/gcc/">gcc</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="提供如下gcc版本">提供如下gcc版本</h2>
-
-<pre><code class="language-shell"># provides
-# lucid
+            <h2 id="提供如下gcc版本">提供如下gcc版本</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># provides</span>
+<span style="color:#75715e"># lucid</span>
 /usr/bin/gcc-3.3
 /usr/bin/g++-3.3
 /usr/bin/gcc-3.4
@@ -256,44 +253,39 @@
 /usr/bin/g++-4.1
 /usr/bin/gcc-4.2
 /usr/bin/g++-4.2
-# precise
+<span style="color:#75715e"># precise</span>
 /usr/bin/gcc-3.3
 /usr/bin/g++-3.3
 /usr/bin/gcc-4.5
 /usr/bin/g++-4.5
-# trusty
+<span style="color:#75715e"># trusty</span>
 /usr/bin/gcc-3.3
 /usr/bin/g++-3.3
 /usr/bin/gcc-4.5
 /usr/bin/g++-4.5
-</code></pre>
-
-<h2 id="安装">安装</h2>
-
-<pre><code class="language-shell"># get old gcc, compiler tools only ...
+</code></pre></div><h2 id="安装">安装</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># get old gcc, compiler tools only ...</span>
 sudo add-apt-repository ppa:h-rayflood/gcc-lower
 sudo apt-get update
 sudo apt-get dist-upgrade 
 sudo apt-get install gcc-N.N
 sudo apt-get install g++-N.N
-</code></pre>
-
-<ul>
+</code></pre></div><ul>
 <li>update：当执行apt-get update时，update重点更新的是来自软件源的软件包的索引记录（即index files）</li>
 <li>upgrade: 当执行apt-get upgrade时，upgrade是根据update更新的索引记录来下载并更新软件包，在以下几种情况，某个待升级的软件包不会被升级。
-
 <ul>
 <li>新软件包和系统的某个软件包有冲突</li>
 <li>新软件包有新的依赖，但系统不满足依赖</li>
 <li>安装新软件包时，要求先移除旧的软件包</li>
-</ul></li>
+</ul>
+</li>
 <li>dist-upgrade: 当执行apt-get dist-upgrade时，除了拥有upgrade的全部功能外，dist-upgrade会比upgrade更智能地处理需要更新的软件包的依赖关系
-
 <ul>
 <li>可以智能处理新软件包的依赖</li>
 <li>智能冲突解决系统</li>
 <li>安装新软件包时，可以移除旧软件包，但不是所有软件都可以</li>
-</ul></li>
+</ul>
+</li>
 <li>full-upgrade：在执行full-upgrade 之前也要先执行update ，升级整个系统，必要时可以移除旧软件包</li>
 </ul>
 
