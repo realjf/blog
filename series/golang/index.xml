@@ -6,11 +6,11 @@
     <description>Recent content in golang on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 May 2021 00:34:47 +0800</lastBuildDate><atom:link href="https://realjf.io/series/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 May 2021 08:34:47 +0800</lastBuildDate><atom:link href="https://realjf.io/series/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Golang 隐藏编译指令</title>
+      <title>Golang 隐藏编译指令 Golang Hidden Pragmas</title>
       <link>https://realjf.io/golang/golang-hidden-pragmas/</link>
-      <pubDate>Wed, 05 May 2021 00:34:47 +0800</pubDate>
+      <pubDate>Wed, 05 May 2021 08:34:47 +0800</pubDate>
       
       <guid>https://realjf.io/golang/golang-hidden-pragmas/</guid>
       <description>说到编译指令，许多语言支持，如rust,c,javascript等，这里必须要提及下c语言的编译指令#pragma，它的作用是设定编译器的状态或者是指示编译器完成一些特定的动作, 如：
