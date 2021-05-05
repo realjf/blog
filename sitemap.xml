@@ -4,7 +4,77 @@
     
     <url>
         <loc>https://realjf.io/categories/</loc>
-        <lastmod>2021-04-25T14:51:48+08:00</lastmod>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/golang/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/series/golang/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/categories/golang/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/golang-pragmas/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/golang/golang-hidden-pragmas/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/golang/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/go%E7%BC%96%E8%AF%91%E6%8C%87%E4%BB%A4/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/series/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/</loc>
+        <lastmod>2021-05-05T00:34:47+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -38,36 +108,8 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/</loc>
-        <lastmod>2021-04-25T14:51:48+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/</loc>
-        <lastmod>2021-04-25T14:51:48+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/grpc/grpc-quick-start/</loc>
         <lastmod>2021-04-25T12:41:57+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/golang/</loc>
-        <lastmod>2021-04-25T10:59:04+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/categories/golang/</loc>
-        <lastmod>2021-04-25T10:59:04+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -87,28 +129,7 @@
     </url>
     
     <url>
-        <loc>https://realjf.io/series/golang/</loc>
-        <lastmod>2021-04-21T11:23:18+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/golang/</loc>
-        <lastmod>2021-04-21T11:23:18+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
         <loc>https://realjf.io/golang/go-gc-mechanism/</loc>
-        <lastmod>2021-04-21T11:23:18+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/series/</loc>
         <lastmod>2021-04-21T11:23:18+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -2294,27 +2315,6 @@
     <url>
         <loc>https://realjf.io/golang/how-to-write-benchmarks-in-go/</loc>
         <lastmod>2019-11-25T15:08:36+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/golang-pragmas/</loc>
-        <lastmod>2019-11-25T00:34:47+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/golang/golang-hidden-pragmas/</loc>
-        <lastmod>2019-11-25T00:34:47+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/tags/go%E7%BC%96%E8%AF%91%E6%8C%87%E4%BB%A4/</loc>
-        <lastmod>2019-11-25T00:34:47+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
