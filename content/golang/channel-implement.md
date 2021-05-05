@@ -125,7 +125,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 }
 ```
 由上述代码可以看到，如果队列空闲，则元素直接入队，即把数据复制到缓存队列中。
-发送成功后，sendx会自增1，而qcount页自增1，然后解除互斥锁。
+发送成功后，sendx会自增1，而qcount也自增1，然后解除互斥锁。
 
 在缓存队列满了之后，将处于阻塞状态，等待接收操作以空出冗余空间。
 
