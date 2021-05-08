@@ -3,7 +3,7 @@
 <head>
     <title>vue.js 2 系列之十三 使用转发器指令 Using the Repeater Directive // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,10 +237,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/vuejs/">vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">vue.js</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">Vue.js</a></div></div>
         </header>
         <div class="post-content">
-            <p>本节将介绍</p>
+            
+
+<p>本节将介绍</p>
+
 <ul>
 <li>v-for指令</li>
 <li>v-for指令的alias特性</li>
@@ -249,21 +252,23 @@
 <li>使用Vue.set方法</li>
 <li>在v-for指令的表达式中使用data中预置的一个数值</li>
 </ul>
-<h2 id="v-for指令枚举一个数组">v-for指令，枚举一个数组</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">...
-&lt;<span style="color:#f92672">h2</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-3&#34;</span>&gt;Products&lt;/<span style="color:#f92672">h2</span>&gt;
-&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-sm table-bordered table-striped text-left&#34;</span>&gt;
-    &lt;<span style="color:#f92672">tr</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Price&lt;/<span style="color:#f92672">th</span>&gt;
-    &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;<span style="color:#f92672">tbody</span>&gt;
-        &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p in products&#34;</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;Name&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;Category&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;/<span style="color:#f92672">tbody</span>&gt;
-&lt;/<span style="color:#f92672">table</span>&gt;
+
+<h2 id="v-for指令-枚举一个数组">v-for指令，枚举一个数组</h2>
+
+<pre><code class="language-html">...
+&lt;h2 class=&quot;bg-primary text-white text-center p-3&quot;&gt;Products&lt;/h2&gt;
+&lt;table class=&quot;table table-sm table-bordered table-striped text-left&quot;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Price&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tbody&gt;
+        &lt;tr v-for=&quot;p in products&quot;&gt;
+        &lt;td&gt;Name&lt;/td&gt;
+        &lt;td&gt;Category&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
 ...
 
@@ -272,27 +277,30 @@
 data: function() {
     return {
         products: [
-            {name: &#34;Kayak&#34;, price: 275}
+            {name: &quot;Kayak&quot;, price: 275}
         ]
     }
 }
 
 ...
 
-</code></pre></div><h3 id="v-for指令的alias">v-for指令的alias</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h2</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-3&#34;</span>&gt;Products&lt;/<span style="color:#f92672">h2</span>&gt;
-&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-sm table-bordered table-striped text-left&#34;</span>&gt;
-    &lt;<span style="color:#f92672">tr</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Price&lt;/<span style="color:#f92672">th</span>&gt;
-    &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;<span style="color:#f92672">tbody</span>&gt;
-        &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p in products&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p.name&#34;</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.name }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.price | currency }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;/<span style="color:#f92672">tbody</span>&gt;
-&lt;/<span style="color:#f92672">table</span>&gt;
+</code></pre>
+
+<h3 id="v-for指令的alias">v-for指令的alias</h3>
+
+<pre><code class="language-html">&lt;h2 class=&quot;bg-primary text-white text-center p-3&quot;&gt;Products&lt;/h2&gt;
+&lt;table class=&quot;table table-sm table-bordered table-striped text-left&quot;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Price&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tbody&gt;
+        &lt;tr v-for=&quot;p in products&quot; v-bind:key=&quot;p.name&quot;&gt;
+        &lt;td&gt;{{ p.name }}&lt;/td&gt;
+        &lt;td&gt;{{ p.price | currency }}&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
 ...
 
@@ -301,166 +309,201 @@ data: function() {
 data: function() {
     return {
         products: [
-            {name: &#34;Kayak&#34;, price: 275},
-            {name: &#34;Lifejacket&#34;, price: 48.86},
-            {name: &#34;Soccer Ball&#34;, price: 19.50}
+            {name: &quot;Kayak&quot;, price: 275},
+            {name: &quot;Lifejacket&quot;, price: 48.86},
+            {name: &quot;Soccer Ball&quot;, price: 19.50}
         ]
     }
 },
 filters: {
     currency(value){
-        return new Intl.NumberFormat(&#34;en-US&#34;, {style: &#34;currency&#34;, currency: &#34;USD&#34;}).format(value);
+        return new Intl.NumberFormat(&quot;en-US&quot;, {style: &quot;currency&quot;, currency: &quot;USD&quot;}).format(value);
     },
 },
 ...
-</code></pre></div><h3 id="v-for指令下定义key">v-for指令下，定义key</h3>
+</code></pre>
+
+<h3 id="v-for指令下-定义key">v-for指令下，定义key</h3>
+
 <p>默认情况下，v-for指令响应其处理的对象顺序的更改通过更新它所创建的每个元素所显示的内容。在这个例子中，这意味着
 重新检查已创建的每个tr元素并更新td元素中包含的文本。向指令提供有关哪个对象与哪个元素相关的提示意味着选择
 一个属性，并将其用作唯一键，然后使用v-bind指令标识该键。</p>
+
 <p>v-bind指令用于设置名为key的属性，其值使用在v-for指令表达式中定义的alias表示。在本例中，我使用p作为v-for指令的alias，我想使用
 name属性作为数据对象的键，因此我使用p.name作为v-bind表达式</p>
-<h3 id="获取v-for下一个项的索引">获取v-for下一个项的索引</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-sm table-bordered table-striped text-left&#34;</span>&gt;
-    &lt;<span style="color:#f92672">tr</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Index&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Price&lt;/<span style="color:#f92672">th</span>&gt;
-    &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;<span style="color:#f92672">tbody</span>&gt;
-        &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;(p, i) in products&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p.name&#34;</span> <span style="color:#a6e22e">v-bind:odd</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;i%2==0&#34;</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ i+1 }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.name }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.price | currency }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;/<span style="color:#f92672">tbody</span>&gt;
-&lt;/<span style="color:#f92672">table</span>&gt;
 
-&lt;<span style="color:#f92672">style</span>&gt;
-<span style="color:#f92672">[</span><span style="color:#f92672">odd</span><span style="color:#f92672">]</span>{ <span style="color:#66d9ef">background-color</span>: <span style="color:#66d9ef">lightblue</span>;}
-&lt;/<span style="color:#f92672">style</span>&gt;
-</code></pre></div><ul>
+<h3 id="获取v-for下一个项的索引">获取v-for下一个项的索引</h3>
+
+<pre><code class="language-html">&lt;table class=&quot;table table-sm table-bordered table-striped text-left&quot;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Index&lt;/th&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Price&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tbody&gt;
+        &lt;tr v-for=&quot;(p, i) in products&quot; v-bind:key=&quot;p.name&quot; v-bind:odd=&quot;i%2==0&quot;&gt;
+        &lt;td&gt;{{ i+1 }}&lt;/td&gt;
+        &lt;td&gt;{{ p.name }}&lt;/td&gt;
+        &lt;td&gt;{{ p.price | currency }}&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+[odd]{ background-color: lightblue;}
+&lt;/style&gt;
+</code></pre>
+
+<ul>
 <li>i索引值从0开始</li>
 </ul>
+
 <h3 id="理解数组改变检测">理解数组改变检测</h3>
+
 <h4 id="理解更新问题">理解更新问题</h4>
+
 <p>有两种类型的数组改变，vue.js不能检测并且不会响应。</p>
+
 <ul>
 <li>当一个数组项被替换时</li>
 <li>当通过改变数组长度属性值缩短数组时</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- 情况1 --&gt;</span>
+
+<pre><code class="language-html">&lt;!-- 情况1 --&gt;
 handleClick() {
-    this.products[1] = {name: &#34;Running Shoes&#34;, price: 100};
+    this.products[1] = {name: &quot;Running Shoes&quot;, price: 100};
 }
-</code></pre></div><p>解决方法是通过Vue.set方法进行设置。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">handleClick() {
-    Vue.set(this.products, 1, {name: &#34;Running Shoes&#34;, price: 100});
+</code></pre>
+
+<p>解决方法是通过Vue.set方法进行设置。</p>
+
+<pre><code class="language-html">handleClick() {
+    Vue.set(this.products, 1, {name: &quot;Running Shoes&quot;, price: 100});
 }
-</code></pre></div><blockquote>
+</code></pre>
+
+<blockquote>
 <p>Vue.set方法也能通过this.$set访问。</p>
 </blockquote>
+
 <h2 id="枚举对象自有属性">枚举对象自有属性</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-sm table-bordered table-striped text-left&#34;</span>&gt;
-    &lt;<span style="color:#f92672">tr</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Index&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Price&lt;/<span style="color:#f92672">th</span>&gt;
-    &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;<span style="color:#f92672">tbody</span>&gt;
-        &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;(p, key, i) in products&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p.name&#34;</span> <span style="color:#a6e22e">v-bind:odd</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;i%2==0&#34;</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ i+1 }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.name }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.price | currency }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;/<span style="color:#f92672">tbody</span>&gt;
-&lt;/<span style="color:#f92672">table</span>&gt;
+
+<pre><code class="language-html">&lt;table class=&quot;table table-sm table-bordered table-striped text-left&quot;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Index&lt;/th&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Price&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tbody&gt;
+        &lt;tr v-for=&quot;(p, key, i) in products&quot; v-bind:key=&quot;p.name&quot; v-bind:odd=&quot;i%2==0&quot;&gt;
+        &lt;td&gt;{{ i+1 }}&lt;/td&gt;
+        &lt;td&gt;{{ p.name }}&lt;/td&gt;
+        &lt;td&gt;{{ p.price | currency }}&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
 ...
 data: function() {
     return {
         products: {
-            1: {name: &#34;Kayak&#34;, price: 275},
-            2: {name: &#34;Lifejacket&#34;, price: 48.86},
-            3: {name: &#34;Soccer Ball&#34;, price: 19.50}
+            1: {name: &quot;Kayak&quot;, price: 275},
+            2: {name: &quot;Lifejacket&quot;, price: 48.86},
+            3: {name: &quot;Soccer Ball&quot;, price: 19.50}
         }
     }
 },
 methods:{
     handleClick() {
-        Vue.set(this.products, 4, {name: &#34;Running Shoes&#34;, price: 100});
+        Vue.set(this.products, 4, {name: &quot;Running Shoes&quot;, price: 100});
     }
 }
 ...
 
-</code></pre></div><p>当处理一个对象时，v-for指令提供了一个alias，一个包含了key的新变量，和一个索引变量。
+</code></pre>
+
+<p>当处理一个对象时，v-for指令提供了一个alias，一个包含了key的新变量，和一个索引变量。
 当一个自有属性被修改时，Vue.js能检测到，但是当一个新的自有属性被添加到对象中时,Vue.js却不能提示，
 这就是为什么使用Vue.set方法的原因。</p>
+
 <h3 id="理解对象自有属性排序">理解对象自有属性排序</h3>
+
 <p>自有属性值是JS的Object.keys方法的按照一定顺序返回被枚举的，以下是通常自有属性值的排序如下：</p>
+
 <ol>
 <li>键是整数值的，包括能被转换成整数的，按照升序排列</li>
 <li>键是字符串的，按照它们定义的顺序排列</li>
 <li>所有其他键，按照它们定义的顺序排列</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-sm table-bordered table-striped text-left&#34;</span>&gt;
-    &lt;<span style="color:#f92672">tr</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Index&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Key&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Price&lt;/<span style="color:#f92672">th</span>&gt;
-    &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;<span style="color:#f92672">tbody</span>&gt;
-        &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;(p, key, i) in products&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p.name&#34;</span> <span style="color:#a6e22e">v-bind:odd</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;i%2==0&#34;</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ i+1 }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ key }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.name }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.price | currency }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;/<span style="color:#f92672">tbody</span>&gt;
-&lt;/<span style="color:#f92672">table</span>&gt;
+
+<pre><code class="language-html">&lt;table class=&quot;table table-sm table-bordered table-striped text-left&quot;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Index&lt;/th&gt;
+        &lt;th&gt;Key&lt;/th&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Price&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tbody&gt;
+        &lt;tr v-for=&quot;(p, key, i) in products&quot; v-bind:key=&quot;p.name&quot; v-bind:odd=&quot;i%2==0&quot;&gt;
+        &lt;td&gt;{{ i+1 }}&lt;/td&gt;
+        &lt;td&gt;{{ key }}&lt;/td&gt;
+        &lt;td&gt;{{ p.name }}&lt;/td&gt;
+        &lt;td&gt;{{ p.price | currency }}&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
 ...
 data: function() {
     return {
         products: {
-            &#34;realjf&#34;: {name: &#34;realjf&#34;, price: 275},
-            22: {name: &#34;Kayak&#34;, price: 275},
-            3: {name: &#34;Lifejacket&#34;, price: 48.86},
-            4: {name: &#34;Soccer Ball&#34;, price: 19.50}
+            &quot;realjf&quot;: {name: &quot;realjf&quot;, price: 275},
+            22: {name: &quot;Kayak&quot;, price: 275},
+            3: {name: &quot;Lifejacket&quot;, price: 48.86},
+            4: {name: &quot;Soccer Ball&quot;, price: 19.50}
         }
     }
 },
 methods:{
     handleClick() {
-        Vue.set(this.products, 5, {name: &#34;Running Shoes&#34;, price: 100});
+        Vue.set(this.products, 5, {name: &quot;Running Shoes&quot;, price: 100});
     }
 }
 ...
-</code></pre></div><p>其排序结果的key值依次时：3, 4, 5, 22, realjf</p>
+</code></pre>
+
+<p>其排序结果的key值依次时：3, 4, 5, 22, realjf</p>
+
 <h2 id="重复没有数据源的html元素">重复没有数据源的HTML元素</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;table table-sm table-bordered table-striped text-left&#34;</span>&gt;
-    &lt;<span style="color:#f92672">tr</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Index&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Key&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
-        &lt;<span style="color:#f92672">th</span>&gt;Price&lt;/<span style="color:#f92672">th</span>&gt;
-    &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;<span style="color:#f92672">tbody</span>&gt;
-        &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;(p, key, i) in products&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;p.name&#34;</span> <span style="color:#a6e22e">v-bind:odd</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;i%2==0&#34;</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ i+1 }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ key }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.name }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;<span style="color:#f92672">td</span>&gt;{{ p.price | currency }}&lt;/<span style="color:#f92672">td</span>&gt;
-        &lt;/<span style="color:#f92672">tr</span>&gt;
-    &lt;/<span style="color:#f92672">tbody</span>&gt;
-&lt;/<span style="color:#f92672">table</span>&gt;
-&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-center&#34;</span>&gt;
-    &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;i in 5&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleClick(i)&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-primary m-2&#34;</span>&gt;{{i}}&lt;/<span style="color:#f92672">button</span>&gt;
-&lt;/<span style="color:#f92672">div</span>&gt;
-</code></pre></div><p>上面的button中的v-for指令将生成5格按钮，并且其按钮文本依次显示 1, 2, 3, 4, 5</p>
+
+<pre><code class="language-html">&lt;table class=&quot;table table-sm table-bordered table-striped text-left&quot;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Index&lt;/th&gt;
+        &lt;th&gt;Key&lt;/th&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Price&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tbody&gt;
+        &lt;tr v-for=&quot;(p, key, i) in products&quot; v-bind:key=&quot;p.name&quot; v-bind:odd=&quot;i%2==0&quot;&gt;
+        &lt;td&gt;{{ i+1 }}&lt;/td&gt;
+        &lt;td&gt;{{ key }}&lt;/td&gt;
+        &lt;td&gt;{{ p.name }}&lt;/td&gt;
+        &lt;td&gt;{{ p.price | currency }}&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&quot;text-center&quot;&gt;
+    &lt;button v-for=&quot;i in 5&quot; v-on:click=&quot;handleClick(i)&quot; class=&quot;btn btn-primary m-2&quot;&gt;{{i}}&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>上面的button中的v-for指令将生成5格按钮，并且其按钮文本依次显示 1, 2, 3, 4, 5</p>
+
 <h2 id="使用计算属性值与v-for指令">使用计算属性值与v-for指令</h2>
+
 <h3 id="分页数据">分页数据</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;i in pageCount&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;selectPage(i)&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-secondary m-1&#34;</span> <span style="color:#a6e22e">v-bind:class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{&#39;bg-primary&#39;: currentPage == i}&#34;</span>&gt;{{i}}&lt;/<span style="color:#f92672">button</span>&gt;
+
+<pre><code class="language-html">&lt;button v-for=&quot;i in pageCount&quot; v-on:click=&quot;selectPage(i)&quot; class=&quot;btn btn-secondary m-1&quot; v-bind:class=&quot;{'bg-primary': currentPage == i}&quot;&gt;{{i}}&lt;/button&gt;
 
 ...
 data: function() {
@@ -468,10 +511,10 @@ data: function() {
         pageSize: 3,
         currentPage: 1,
         products: [
-            {name: &#34;realjf&#34;, price: 275},
-            {name: &#34;Kayak&#34;, price: 275},
-            {name: &#34;Lifejacket&#34;, price: 48.86},
-            {name: &#34;Soccer Ball&#34;, price: 19.50}
+            {name: &quot;realjf&quot;, price: 275},
+            {name: &quot;Kayak&quot;, price: 275},
+            {name: &quot;Lifejacket&quot;, price: 48.86},
+            {name: &quot;Soccer Ball&quot;, price: 19.50}
         ]
     }
 },
@@ -490,7 +533,10 @@ methods:{
     }
 }
 ...
-</code></pre></div><h3 id="数据过滤和排序">数据过滤和排序</h3>
+</code></pre>
+
+<h3 id="数据过滤和排序">数据过滤和排序</h3>
+
 <p>在计算属性值返回前可以对其进行排序和过滤。</p>
 
         </div>

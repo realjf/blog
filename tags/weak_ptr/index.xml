@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>weak_ptr on Realjf&#39;s blog</title>
+    <title>Weak_ptr on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/weak_ptr/</link>
-    <description>Recent content in weak_ptr on Realjf&#39;s blog</description>
+    <description>Recent content in Weak_ptr on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 09 Mar 2021 17:41:32 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/weak_ptr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Mar 2021 17:41:32 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/weak_ptr/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>如何使用weak_ptr? How to Use Weak Pointer</title>
       <link>https://realjf.io/cpp/how-to-use-weak-pointer/</link>
@@ -19,7 +23,7 @@
 你不能使用操作符*和-&amp;gt;访问weak_ptr指向的对象，而是必须另外建立一个shared pointer。理由如下：
  在weak pointer之外建立一个shared pointer可因此检查是否扔存在一个相应对象，如果不，操作会抛出异常或建立一个empty shared pointer（实际究竟哪种行为乃取决于你所执行的是哪一种操作）。 当指向的对象正被处理时，shared pointer无法被释放  基于以上理由，weak_ptr只提供小量操作，只够用来创建、复制、赋值weak pointer。以及转换为一个shared pointer，或检查自己是否指向某对象。
 weak_ptr使用示例 首先是使用shared_ptr构建环形指向引用。
-#include &amp;lt;iostream&amp;gt;#include &amp;lt;string&amp;gt;#include &amp;lt;vector&amp;gt;#include &amp;lt;memory&amp;gt;using namespace std; class Person { public: string name; shared_ptr&amp;lt;Person&amp;gt; mother; shared_ptr&amp;lt;Person&amp;gt; father; vector&amp;lt;shared_ptr&amp;lt;Person&amp;gt;&amp;gt; kids; Person(const string&amp;amp; n, shared_ptr&amp;lt;Person&amp;gt; m= nullptr, shared_ptr&amp;lt;Person&amp;gt; f =nullptr) : name(n), mother(m), father(f) { } ~Person(){ cout &amp;lt;&amp;lt; &amp;#34;delete &amp;#34; &amp;lt;&amp;lt; name &amp;lt;&amp;lt; endl; } }; shared_ptr&amp;lt;Person&amp;gt; initFamily(const string&amp;amp; name) { shared_ptr&amp;lt;Person&amp;gt; mom(new Person(name+&amp;#34;&amp;#39;s mom&amp;#34;)); shared_ptr&amp;lt;Person&amp;gt; dad(new Person(name+&amp;#34;&amp;#39;s dad&amp;#34;)); shared_ptr&amp;lt;Person&amp;gt; kid(new Person(name, mom, dad)); mom-&amp;gt;kids.</description>
+#include &amp;lt;iostream&amp;gt; #include &amp;lt;string&amp;gt; #include &amp;lt;vector&amp;gt; #include &amp;lt;memory&amp;gt; using namespace std; class Person { public: string name; shared_ptr&amp;lt;Person&amp;gt; mother; shared_ptr&amp;lt;Person&amp;gt; father; vector&amp;lt;shared_ptr&amp;lt;Person&amp;gt;&amp;gt; kids; Person(const string&amp;amp; n, shared_ptr&amp;lt;Person&amp;gt; m= nullptr, shared_ptr&amp;lt;Person&amp;gt; f =nullptr) : name(n), mother(m), father(f) { } ~Person(){ cout &amp;lt;&amp;lt; &amp;quot;delete &amp;quot; &amp;lt;&amp;lt; name &amp;lt;&amp;lt; endl; } }; shared_ptr&amp;lt;Person&amp;gt; initFamily(const string&amp;amp; name) { shared_ptr&amp;lt;Person&amp;gt; mom(new Person(name+&amp;quot;&#39;s mom&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; dad(new Person(name+&amp;quot;&#39;s dad&amp;quot;)); shared_ptr&amp;lt;Person&amp;gt; kid(new Person(name, mom, dad)); mom-&amp;gt;kids.</description>
     </item>
     
   </channel>

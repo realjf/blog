@@ -3,7 +3,7 @@
 <head>
     <title>golang垃圾回收机制 Go Gc Mechanism // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,16 +237,22 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/gc/">gc</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/gc/">Gc</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="gc三色标记流程说明">GC三色标记流程说明</h2>
-<h3 id="1-gc执行扫描sweep终止">1. GC执行扫描(sweep)终止</h3>
+            
+
+<h2 id="gc三色标记流程说明">GC三色标记流程说明</h2>
+
+<h3 id="1-gc执行扫描-sweep-终止">1. GC执行扫描(sweep)终止</h3>
+
 <ul>
 <li>stop the world（简称STW），这将导致所有P达到GC安全点</li>
 <li>扫描所有未清扫的span，只有在以下情况下才会出现未扫描的span：此GC周期在预期时间之前被强制执行</li>
 </ul>
-<h3 id="2-gc执行标记mark阶段">2. GC执行标记(mark)阶段</h3>
+
+<h3 id="2-gc执行标记-mark-阶段">2. GC执行标记(mark)阶段</h3>
+
 <ul>
 <li>通过将gcphase设置为_GCmark来准备标记阶段（来自_GCoff），启用写屏障，启用mutator协助和加入根标记作业。不得有物体扫描直到所有P都启用了写屏障，即使用STW完成。</li>
 <li>start the world，从这一点来说，GC工作是由调度器启动mark工人完成的，以及作为分配的一部分。写屏障屏蔽了重写指针和任何指针的新指针值写入（请参阅mbarrier.go 详细信息）。新分配的对象立即标记为黑色。</li>
@@ -254,51 +260,71 @@
 <li>GC将灰色对象的工作队列清空，扫描每个灰色对象变为黑色，并对对象中找到的所有指针进行着色（这反过来可能会将这些指针添加到工作队列）。</li>
 <li>因为GC工作分布在本地缓存中，所以GC使用分布式终止算法，用于检测没有更多根标记作业或灰色对象（请参见gcMarkDone）。在这刻，GC转换到标记终止。</li>
 </ul>
+
 <h3 id="3-gc执行标记终止">3. GC执行标记终止</h3>
+
 <ul>
 <li>STW</li>
 <li>将gcphase设置为_GCmarktermination，并禁用worker和辅助</li>
 <li>执行像刷新mcaches一样的内务处理</li>
 </ul>
+
 <h3 id="4-gc执行扫描阶段">4. GC执行扫描阶段</h3>
+
 <ul>
 <li>通过将gcphase设置为_GCoff来准备扫描阶段，设置扫描状态并禁用写屏障</li>
 <li>start the world。从这一刻开始，新分配的对象为白色，必要时在使用前分配扫描span</li>
 <li>GC在后台进行并发清除和在响应中进行分配</li>
 </ul>
-<h3 id="5-完成足够的分配后从上面的1重新开始清扫标记过程">5. 完成足够的分配后，从上面的1重新开始清扫标记过程</h3>
+
+<h3 id="5-完成足够的分配后-从上面的1重新开始清扫标记过程">5. 完成足够的分配后，从上面的1重新开始清扫标记过程</h3>
+
 <h2 id="gc过程图解">GC过程图解</h2>
-<p><img src="/image/golang-gc.png" alt="gc过程"></p>
+
+<p><img src="/image/golang-gc.png" alt="gc过程" /></p>
+
 <ol>
 <li>从根节点开始遍历对象，包括全局指针和goroutine栈上的指针</li>
-<li>标记（mark）阶段</li>
-</ol>
+<li>标记（mark）阶段
+
 <ul>
 <li>从根节点遍历到的对象标记为灰色，然后遍历灰色对象直至灰色队列为空</li>
 <li>re-scan，重新扫描全局指针和栈上指针，因为mark和用户程序是并行的，所以在1过程中，可能会有新对象分配，这时需要写屏障记录下来，re-scan再重新检查一遍</li>
-</ul>
-<ol start="3">
-<li>STW有两次，分别是</li>
-</ol>
+</ul></li>
+<li>STW有两次，分别是
+
 <ul>
 <li>GC将要开始的时候，这时主要做一些准备工作，比如启用写屏障等</li>
 <li>第二次就是在re-scan时候，如果这时没有STW，那么mark将无休止</li>
-</ul>
+</ul></li>
+</ol>
+
 <p>其中：GCphase状态值在以下几个中转换</p>
+
 <ul>
 <li>_GCoff：gc关闭阶段</li>
 <li>_GCmark: gc标记清扫阶段</li>
 <li>_GCmarktermination：mark termination阶段</li>
 </ul>
+
 <h3 id="写屏障">写屏障</h3>
+
 <p>假设开始的引用关系是：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root-&gt;A-&gt;B , root-&gt;A-&gt;C, root-&gt;D-&gt;E
-</code></pre></div><p>在进行三色标记阶段，扫描了A对象，并标记A，这时，如果一个goroutine修改了D-&gt;E的引用关系为A-&gt;E，
+
+<pre><code class="language-sh">root-&gt;A-&gt;B , root-&gt;A-&gt;C, root-&gt;D-&gt;E
+</code></pre>
+
+<p>在进行三色标记阶段，扫描了A对象，并标记A，这时，如果一个goroutine修改了D-&gt;E的引用关系为A-&gt;E，
 此时是这样的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">root-&gt;A-&gt;B, root-&gt;A-&gt;C, root-&gt;A-&gt;E, root-&gt;D
-</code></pre></div><p>出现这种情况，如何解决E的标记问题？写屏障就是记录下这一过程，并将E标记为存活状态，这样即使后面A-&gt;E的引用
+
+<pre><code class="language-sh">root-&gt;A-&gt;B, root-&gt;A-&gt;C, root-&gt;A-&gt;E, root-&gt;D
+</code></pre>
+
+<p>出现这种情况，如何解决E的标记问题？写屏障就是记录下这一过程，并将E标记为存活状态，这样即使后面A-&gt;E的引用
 关系解除，E也会在下一轮GC中被回收了。</p>
+
 <p><strong>参考文献</strong></p>
+
 <ul>
 <li><a href="http://legendtkl.com/2017/04/28/golang-gc/">http://legendtkl.com/2017/04/28/golang-gc/</a></li>
 <li><a href="https://mp.weixin.qq.com/s?__biz=MzUzMjk0ODI0OA==&amp;mid=2247483727&amp;idx=1&amp;sn=abe1e6896cb398bde2517b469d07afa0&amp;chksm=faaa3538cdddbc2e81e146f74fd7050a6ac9a89a13b024717c9d56888de4a19cb0973f6bbe94&amp;mpshare=1&amp;scene=24&amp;srcid=04105l1DG5QXbS4dfUB6aWeX&amp;key=fb1dd35c5489928a678ed39df498f0d7f7ce5ef29135addb7c0573a4d19220f05d9c2522d44eb6315eaa9b6590d1f3afaaf06a3e96a1abeb1fb22d2870f9185f446a1e704aa2b16bd0775cd7be370a43&amp;ascene=14&amp;uin=Mjg4MTE5ODIzMA%3D%3D&amp;devicetype=Windows+10&amp;version=62060739&amp;lang=zh_CN&amp;pass_ticket=bqbjocTiytbymxqE%2FkEqbcTWuMs1uh6W%2BK2eHz3sKwLI%2BWRx6of4k%2BmAlALLk8iH">https://mp.weixin.qq.com/s?__biz=MzUzMjk0ODI0OA==&amp;mid=2247483727&amp;idx=1&amp;sn=abe1e6896cb398bde2517b469d07afa0&amp;chksm=faaa3538cdddbc2e81e146f74fd7050a6ac9a89a13b024717c9d56888de4a19cb0973f6bbe94&amp;mpshare=1&amp;scene=24&amp;srcid=04105l1DG5QXbS4dfUB6aWeX&amp;key=fb1dd35c5489928a678ed39df498f0d7f7ce5ef29135addb7c0573a4d19220f05d9c2522d44eb6315eaa9b6590d1f3afaaf06a3e96a1abeb1fb22d2870f9185f446a1e704aa2b16bd0775cd7be370a43&amp;ascene=14&amp;uin=Mjg4MTE5ODIzMA%3D%3D&amp;devicetype=Windows+10&amp;version=62060739&amp;lang=zh_CN&amp;pass_ticket=bqbjocTiytbymxqE%2FkEqbcTWuMs1uh6W%2BK2eHz3sKwLI%2BWRx6of4k%2BmAlALLk8iH</a></li>

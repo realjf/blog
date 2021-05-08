@@ -3,7 +3,7 @@
 <head>
     <title>安装rabbitmq // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,29 +237,33 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/rabbitmq/">rabbitmq</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/rabbitmq/">Rabbitmq</a></div></div>
         </header>
         <div class="post-content">
-            <ul>
-<li>
-<p>Erlang下载地址：<a href="http://www.erlang.org/downloads">http://www.erlang.org/downloads</a></p>
-</li>
-<li>
-<p>rabbitmq官网下载地址：<a href="http://www.rabbitmq.com/download.html">http://www.rabbitmq.com/download.html</a></p>
-</li>
+            
+
+<ul>
+<li><p>Erlang下载地址：<a href="http://www.erlang.org/downloads">http://www.erlang.org/downloads</a></p></li>
+
+<li><p>rabbitmq官网下载地址：<a href="http://www.rabbitmq.com/download.html">http://www.rabbitmq.com/download.html</a></p></li>
 </ul>
-<h4 id="centos7x安装">CentOS7.x安装</h4>
+
+<h4 id="centos7-x安装">CentOS7.x安装</h4>
+
 <ol>
-<li>下载rabbitmq</li>
-</ol>
-<pre><code>wget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.4/rabbitmq-server-3.7.4-1.el7.noarch.rpm
-</code></pre><ol start="2">
-<li>安装erlang</li>
-</ol>
+<li>下载rabbitmq
+<code>
+wget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.4/rabbitmq-server-3.7.4-1.el7.noarch.rpm
+</code></li>
+
+<li><p>安装erlang</p>
+
 <pre><code>yum install erlang
-</code></pre><blockquote>
+</code></pre>
+
+<blockquote>
 <p>需要先安装yum EPEL源</p>
-</blockquote>
+
 <pre><code>yum install epel-release -y
 # 或
 rpm -vih http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm
@@ -268,10 +272,14 @@ wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm
 rpm -vih epel-release-7-2.noarch.rpm
 # 更新数据
 yum clean all &amp;&amp; yum makecache
-</code></pre><blockquote>
+</code></pre>
+</blockquote></li>
+</ol>
+
+<blockquote>
 <p>erlang下载地址<a href="http://erlang.org/download/">http://erlang.org/download/</a>
 源码安装：</p>
-</blockquote>
+
 <pre><code>wget http://erlang.org/download/otp_src_20.2.tar.gz
 
 # 解压
@@ -295,22 +303,33 @@ export PATH
 
 # 保存退出
 source ~/.bash_profile
-</code></pre><ol start="3">
-<li>安装rabbitmq server</li>
-</ol>
-<pre><code># 导入
-rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
-
-# 安装
-yum install rabbitmq-server-3.7.4-1.el7.noarch.rpm
-
-# 或者直接用yum源安装，但可能不是最新版本
-yum -y install rabbitmq-server
-</code></pre><ol start="4">
-<li>启动/停止rabbitmq服务器</li>
-</ol>
-<pre><code>service rabbitmq-server start/stop
 </code></pre>
+</blockquote>
+
+<ol>
+<li><p>安装rabbitmq server
+```</p>
+
+<h1 id="导入">导入</h1>
+
+<p>rpm &ndash;import <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">https://www.rabbitmq.com/rabbitmq-release-signing-key.asc</a></p></li>
+</ol>
+
+<h1 id="安装">安装</h1>
+
+<p>yum install rabbitmq-server-3.7.4-1.el7.noarch.rpm</p>
+
+<h1 id="或者直接用yum源安装-但可能不是最新版本">或者直接用yum源安装，但可能不是最新版本</h1>
+
+<p>yum -y install rabbitmq-server</p>
+
+<pre><code>
+4. 启动/停止rabbitmq服务器
+</code></pre>
+
+<p>service rabbitmq-server start/stop
+```</p>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

@@ -1,0 +1,657 @@
+<!doctype html>
+<html>
+<head>
+    <title>画一个三角形快速开始 Draw Triangles Quick Start // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
+  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">画一个三角形快速开始 Draw Triangles Quick Start</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    May 8, 2021
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<p>在上一篇 <a href="https://realjf.io/opengl/opengl-quick-start/">opengl 快速开始</a> 的基础上，我们画一个三角形，并着色。</p>
+
+<h2 id="opengl渲染过程">opengl渲染过程</h2>
+
+<h3 id="了解三种缓冲对象">了解三种缓冲对象</h3>
+
+<ul>
+<li>顶点数组对象：Vertex Array Object，VAO</li>
+<li>顶点缓冲对象：Vertex Buffer Object，VBO</li>
+<li>索引缓冲对象：Element Buffer Object，EBO或Index Buffer Object，IBO</li>
+</ul>
+
+<h3 id="图形渲染管线">图形渲染管线</h3>
+
+<p>图形渲染管线实际上是一堆原始图形数据途径一个输送管道，期间经过各种变化处理最终出现在屏幕的过程。</p>
+
+<p>图形渲染管线分为两部分：</p>
+
+<ul>
+<li>第一部分把你的3d坐标转换为2d坐标</li>
+<li>第二部分把2d坐标转变为实际的有颜色的像素</li>
+</ul>
+
+<blockquote>
+<p>2D坐标和像素也是不同的，2D坐标精确表示一个点在2D空间中的位置，而2D像素是这个点的近似值，2D像素受到你的屏幕/窗口分辨率的限制。</p>
+</blockquote>
+
+<h3 id="着色器">着色器</h3>
+
+<p>图形渲染管线可以被划分为几个阶段，每个阶段将会把前一个阶段的输出作为输入。所有这些阶段都是高度专门化的（它们都有一个特定的函数），并且很容易并行执行。
+GPU为每个（渲染管线）阶段运行各自的小程序，这个小程序叫做着色器。opengl着色器用opengl着色器语言（OpenGL Shading Language, GLSL）写成。</p>
+
+<h3 id="渲染过程各个阶段">渲染过程各个阶段</h3>
+
+<p><img src="/image/opengl_pipeline.png" alt="pipeline" /></p>
+
+<blockquote>
+<p>要注意蓝色部分代表的是我们可以注入自定义的着色器的部分</p>
+</blockquote>
+
+<h4 id="顶点数据">顶点数据</h4>
+
+<p>首先用包含3个3d坐标的数组作为数据输入，这个数组叫顶点数据（Vertex Data），顶点数据使用顶点属性表示的。</p>
+
+<h4 id="顶点着色器">顶点着色器</h4>
+
+<p>顶点着色器主要的目的是把3D坐标转为另一种3D坐标，同时顶点着色器允许我们对顶点属性进行一些基本处理。</p>
+
+<h4 id="图元装配">图元装配</h4>
+
+<p>图元装配(Primitive Assembly)阶段将顶点着色器输出的所有顶点作为输入（如果是GL_POINTS，那么就是一个顶点），并所有的点装配成指定图元的形状；</p>
+
+<h4 id="几何着色器">几何着色器</h4>
+
+<p>几何着色器把图元形式的一系列顶点的集合作为输入，它可以通过产生新顶点构造出新的（或是其它的）图元来生成其他形状</p>
+
+<h4 id="光栅化阶段">光栅化阶段</h4>
+
+<p>这里它会把图元映射为最终屏幕上相应的像素，生成供片段着色器(Fragment Shader)使用的片段(Fragment)。在片段着色器运行之前会执行裁切(Clipping)。裁切会丢弃超出你的视图以外的所有像素，用来提升执行效率</p>
+
+<h4 id="片段着色器">片段着色器</h4>
+
+<p>主要目的是计算一个像素的最终颜色，这也是所有OpenGL高级效果产生的地方。通常，片段着色器包含3D场景的数据（比如光照、阴影、光的颜色等等），这些数据可以被用来计算最终像素的颜色。</p>
+
+<h4 id="alpha测试和混合阶段">alpha测试和混合阶段</h4>
+
+<p>这个阶段检测片段的对应的深度（和模板(Stencil)）值，用它们来判断这个像素是其它物体的前面还是后面，决定是否应该丢弃。这个阶段也会检查alpha值（alpha值定义了一个物体的透明度）并对物体进行混合(Blend)。</p>
+
+<h2 id="准备">准备</h2>
+
+<p>main.cpp原始内容如下：</p>
+
+<pre><code class="language-cpp">#include &lt;glad/glad.h&gt;
+#include &lt;GLFW/glfw3.h&gt;
+#include &lt;iostream&gt;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
+
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+int main()
+{
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    // create window
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, &quot;LearnOpenGL&quot;, NULL, NULL);
+    if (window == NULL)
+    {
+        std::cout &lt;&lt; &quot;Failed to create GLFW window&quot; &lt;&lt; std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+
+    // viewport size
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    // init glad
+    if(!gladLoadGL()) { 
+        exit(-1);
+    }
+
+    while (!glfwWindowShouldClose(window))
+    {
+        // input
+        // -----
+        processInput(window);
+
+        // render
+        // ------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);  
+
+
+         // 画三角形
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}
+
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+
+</code></pre>
+
+<h2 id="代码实现">代码实现</h2>
+
+<h3 id="首先是顶点输入">首先是顶点输入，</h3>
+
+<p>OpenGL仅当3D坐标在3个轴（x、y和z）上都为-1.0到1.0的范围内时才处理它。所有在所谓的标准化设备坐标(Normalized Device Coordinates)范围内的坐标才会最终呈现在屏幕上（在这个范围以外的坐标都不会显示）</p>
+
+<pre><code class="language-cpp">...
+if(!gladLoadGL()) { 
+  exit(-1);
+}
+
+// 顶点输入
+float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+};
+
+while (!glfwWindowShouldClose(window))
+{
+...
+
+</code></pre>
+
+<p>定义这样的顶点数据以后，我们会把它作为输入发送给图形渲染管线的第一个处理阶段：顶点着色器。它会在GPU上创建内存用于储存我们的顶点数据，还要配置OpenGL如何解释这些内存，并且指定其如何发送给显卡。顶点着色器接着会处理我们在内存中指定数量的顶点。</p>
+
+<p>通过顶点缓冲对象(Vertex Buffer Objects, VBO)管理这个内存，它会在GPU内存（通常被称为显存）中储存大量顶点。使用这些缓冲对象的好处是我们可以一次性的发送一大批数据到显卡上，而不是每个顶点发送一次。从CPU把数据发送到显卡相对较慢，所以只要可能我们都要尝试尽量一次性发送尽可能多的数据。当数据发送至显卡的内存中后，顶点着色器几乎能立即访问顶点，这是个非常快的过程。</p>
+
+<p>顶点缓冲对象有一个独一无二的ID，所以我们可以使用glGenBuffers函数和一个缓冲ID生成一个VBO对象：</p>
+
+<pre><code class="language-cpp">unsigned int VBO;
+glGenBuffers(1, &amp;VBO);
+</code></pre>
+
+<p>OpenGL有很多缓冲对象类型，顶点缓冲对象的缓冲类型是GL_ARRAY_BUFFER。OpenGL允许我们同时绑定多个缓冲，只要它们是不同的缓冲类型。我们可以使用glBindBuffer函数把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上</p>
+
+<pre><code class="language-cpp">glBindBuffer(GL_ARRAY_BUFFER, VBO);
+</code></pre>
+
+<p><strong>从这一刻起</strong>，我们使用的任何（在GL_ARRAY_BUFFER目标上的）缓冲调用都会用来配置当前绑定的缓冲(VBO)。然后我们可以调用glBufferData函数，它会把之前定义的顶点数据复制到缓冲的内存中</p>
+
+<pre><code class="language-cpp">glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+</code></pre>
+
+<p>glBufferData是一个专门用来把用户定义的数据复制到当前绑定缓冲的函数。
+它的第一个参数是目标缓冲的类型：顶点缓冲对象当前绑定到GL_ARRAY_BUFFER目标上。第二个参数指定传输数据的大小(以字节为单位)；用一个简单的sizeof计算出顶点数据大小就行。第三个参数是我们希望发送的实际数据。</p>
+
+<p>第四个参数指定了我们希望显卡如何管理给定的数据。它有三种形式：</p>
+
+<ul>
+<li>GL_STATIC_DRAW ：数据不会或几乎不会改变。</li>
+<li>GL_DYNAMIC_DRAW：数据会被改变很多。</li>
+<li>GL_STREAM_DRAW ：数据每次绘制时都会改变。</li>
+</ul>
+
+<p>三角形的位置数据不会改变，每次渲染调用时都保持原样，所以它的使用类型最好是GL_STATIC_DRAW。如果，比如说一个缓冲中的数据将频繁被改变，那么使用的类型就是GL_DYNAMIC_DRAW或GL_STREAM_DRAW，这样就能确保显卡把数据放在能够高速写入的内存部分</p>
+
+<h3 id="顶点着色器-1">顶点着色器</h3>
+
+<p>暂时将顶点着色器的源代码硬编码在代码文件顶部的C风格字符串中</p>
+
+<pre><code class="language-cpp">const char *vertexShaderSource = &quot;#version 330 core\n&quot;
+    &quot;layout (location = 0) in vec3 aPos;\n&quot;
+    &quot;void main()\n&quot;
+    &quot;{\n&quot;
+    &quot;   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n&quot;
+    &quot;}\0&quot;;
+</code></pre>
+
+<p>首先要做的是创建一个着色器对象，注意还是用ID来引用的。所以我们储存这个顶点着色器为unsigned int，然后用glCreateShader创建这个着色器</p>
+
+<pre><code class="language-cpp">unsigned int vertexShader;
+vertexShader = glCreateShader(GL_VERTEX_SHADER);
+</code></pre>
+
+<p>把这个着色器源码附加到着色器对象上，然后编译它</p>
+
+<pre><code class="language-cpp">glShaderSource(vertexShader, 1, &amp;vertexShaderSource, NULL);
+glCompileShader(vertexShader);
+</code></pre>
+
+<h3 id="片段着色器-1">片段着色器</h3>
+
+<p>片段着色器所做的是计算像素最后的颜色输出。</p>
+
+<pre><code class="language-cpp">const char *fragmentShaderSource = &quot;#version 330 core\n&quot;
+    &quot;out vec4 FragColor;\n&quot;
+    &quot;void main()\n&quot;
+    &quot;{\n&quot;
+    &quot;   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n&quot;
+    &quot;}\n\0&quot;;
+</code></pre>
+
+<p>声明输出变量可以使用out关键字</p>
+
+<p>编译片段着色器的过程与顶点着色器类似，只不过我们使用GL_FRAGMENT_SHADER常量作为着色器类型</p>
+
+<pre><code class="language-cpp">unsigned int fragmentShader;
+fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+glShaderSource(fragmentShader, 1, &amp;fragmentShaderSource, NULL);
+glCompileShader(fragmentShader);
+</code></pre>
+
+<h3 id="着色器程序">着色器程序</h3>
+
+<p>着色器程序对象(Shader Program Object)是多个着色器合并之后并最终链接完成的版本。如果要使用刚才编译的着色器我们必须把它们链接(Link)为一个着色器程序对象，然后在渲染对象的时候激活这个着色器程序。已激活着色器程序的着色器将在我们发送渲染调用的时候被使用。</p>
+
+<p>当链接着色器至一个程序的时候，它会把每个着色器的输出链接到下个着色器的输入。当输出和输入不匹配的时候，你会得到一个连接错误。</p>
+
+<pre><code class="language-cpp">// 创建程序对象
+unsigned int shaderProgram;
+shaderProgram = glCreateProgram();
+</code></pre>
+
+<p>把之前编译的着色器附加到程序对象上，然后用glLinkProgram链接它们</p>
+
+<pre><code class="language-cpp">glAttachShader(shaderProgram, vertexShader);
+glAttachShader(shaderProgram, fragmentShader);
+glLinkProgram(shaderProgram);
+</code></pre>
+
+<p>得到的结果就是一个程序对象，在需要画图时，可以调用glUseProgram函数，用刚创建的程序对象作为它的参数，以激活这个程序对象</p>
+
+<pre><code class="language-cpp">glUseProgram(shaderProgram);
+</code></pre>
+
+<p>在glUseProgram函数调用之后，每个着色器调用和渲染调用都会使用这个程序对象（也就是之前写的着色器)了。</p>
+
+<p>对了，在把着色器对象链接到程序对象以后，记得删除着色器对象，我们不再需要它们了</p>
+
+<pre><code class="language-cpp">glDeleteShader(vertexShader);
+glDeleteShader(fragmentShader);
+</code></pre>
+
+<h3 id="链接顶点属性">链接顶点属性</h3>
+
+<p>顶点着色器允许我们指定任何以顶点属性为形式的输入。这使其具有很强的灵活性的同时，它还的确意味着我们必须手动指定输入数据的哪一个部分对应顶点着色器的哪一个顶点属性。所以，我们必须在渲染前指定OpenGL该如何解释顶点数据。</p>
+
+<pre><code class="language-cpp">glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+</code></pre>
+
+<p>glVertexAttribPointer函数的参数非常多，所以我会逐一介绍它们：</p>
+
+<ul>
+<li>第一个参数指定我们要配置的顶点属性。还记得我们在顶点着色器中使用layout(location = 0)定义了position顶点属性的位置值(Location)吗？它可以把顶点属性的位置值设置为0。因为我们希望把数据传递到这一个顶点属性中，所以这里我们传入0。</li>
+<li>第二个参数指定顶点属性的大小。顶点属性是一个vec3，它由3个值组成，所以大小是3。</li>
+<li>第三个参数指定数据的类型，这里是GL_FLOAT(GLSL中vec*都是由浮点数值组成的)。</li>
+<li>下个参数定义我们是否希望数据被标准化(Normalize)。如果我们设置为GL_TRUE，所有数据都会被映射到0（对于有符号型signed数据是-1）到1之间。我们把它设置为GL_FALSE。</li>
+<li>第五个参数叫做步长(Stride)，它告诉我们在连续的顶点属性组之间的间隔。由于下个组位置数据在3个float之后，我们把步长设置为3 * sizeof(float)。要注意的是由于我们知道这个数组是紧密排列的（在两个顶点属性之间没有空隙）我们也可以设置为0来让OpenGL决定具体步长是多少（只有当数值是紧密排列时才可用）。一旦我们有更多的顶点属性，我们就必须更小心地定义每个顶点属性之间的间隔，我们在后面会看到更多的例子（译注: 这个参数的意思简单说就是从这个属性第二次出现的地方到整个数组0位置之间有多少字节）。</li>
+<li>最后一个参数的类型是void*，所以需要我们进行这个奇怪的强制类型转换。它表示位置数据在缓冲中起始位置的偏移量(Offset)。由于位置数据在数组的开头，所以这里是0。</li>
+</ul>
+
+<p><strong>现在我们已经定义了OpenGL该如何解释顶点数据，我们现在应该使用glEnableVertexAttribArray，以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的。</strong></p>
+
+<blockquote>
+<p>每个顶点属性从一个VBO管理的内存中获得它的数据，而具体是从哪个VBO（程序中可以有多个VBO）获取则是通过在调用glVertexAttribPointer时绑定到GL_ARRAY_BUFFER的VBO决定的。由于在调用glVertexAttribPointer之前绑定的是先前定义的VBO对象，顶点属性0现在会链接到它的顶点数据</p>
+</blockquote>
+
+<p>最终代码可能是这样的：</p>
+
+<pre><code class="language-cpp">// 0. 复制顶点数组到缓冲中供OpenGL使用
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+// 1. 设置顶点属性指针
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+// 2. 当我们渲染一个物体时要使用着色器程序
+glUseProgram(shaderProgram);
+// 3. 绘制物体
+someOpenGLFunctionThatDrawsOurTriangle();
+</code></pre>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/opengl/opengl-quick-start/">opengl快速开始 Opengl Quick Start</a></li>
+                
+                    <li><a href="/opengl/how-to-compile-glfw-from-source/">如何从源码构建GLFW How to Compile Glfw From Source</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

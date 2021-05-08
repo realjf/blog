@@ -3,7 +3,7 @@
 <head>
     <title>phpExcel导出excel文件内存溢出问题 Php Excel Memory Overflow // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,105 +237,131 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/php/">php</a><a class="tag" href="https://realjf.io/tags/excel/">excel</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/php/">Php</a><a class="tag" href="https://realjf.io/tags/excel/">Excel</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="背景">背景</h3>
-<p>今天在使用phpexcel导出数据为excel格式的时候，遇到一个问题，由于数据量比较大，所以，一次性缓存在内存中导致超出php的内存限制，Excel中一个单元格在不启用缓存的情况下大概占用内存是1K。我的数据是大概31万行、9列的表格（大概279万个单元格），需要2.66GB的内存。启用缓存的话，则会降到900MB，感觉还是太大。先试下看看</p>
-<h3 id="解决">解决</h3>
-<p>phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$cacheMethod <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_phpTemp</span>;
-$cacheSettings <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>( <span style="color:#e6db74">&#39;memoryCacheSize&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;950MB&#39;</span>);
-<span style="color:#a6e22e">PHPExcel_Settings</span><span style="color:#f92672">::</span><span style="color:#a6e22e">setCacheStorageMethod</span>($cacheMethod,$cacheSettings);
+            
 
-$oExcel <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PHPExcel</span>();
-</code></pre></div><p>PHPExcel_Settings::setCacheStorageMethod() 的几个参数</p>
+<h3 id="背景">背景</h3>
+
+<p>今天在使用phpexcel导出数据为excel格式的时候，遇到一个问题，由于数据量比较大，所以，一次性缓存在内存中导致超出php的内存限制，Excel中一个单元格在不启用缓存的情况下大概占用内存是1K。我的数据是大概31万行、9列的表格（大概279万个单元格），需要2.66GB的内存。启用缓存的话，则会降到900MB，感觉还是太大。先试下看看</p>
+
+<h3 id="解决">解决</h3>
+
+<p>phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置</p>
+
+<pre><code class="language-php">$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
+$cacheSettings = array( 'memoryCacheSize' =&gt; '950MB');
+PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings);
+
+$oExcel = new PHPExcel();
+</code></pre>
+
+<p>PHPExcel_Settings::setCacheStorageMethod() 的几个参数</p>
+
 <ul>
-<li>将单元格数据序列化后保存到内存中</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_in_memory_serialized</span>; 
-</code></pre></div><ul>
-<li>将单元格序列化后再进行gzip压缩，然后保存到内存中</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_in_memory_gzip</span>; 
-</code></pre></div><ul>
-<li>缓存在临时的磁盘文件中，速度可能会慢一些</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_discISAM</span>;
-</code></pre></div><ul>
-<li>保存在php://temp</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_phpTemp</span>; 
-</code></pre></div><ul>
-<li>保存在memcache中</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$cacheMethod <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_CachedObjectStorageFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">cache_to_memcache</span>;  
-$cacheSettings <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>( <span style="color:#e6db74">&#39;memcacheServer&#39;</span>  <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;localhost&#39;</span>,  
-    <span style="color:#e6db74">&#39;memcachePort&#39;</span>    <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">11211</span>,  
-    <span style="color:#e6db74">&#39;cacheTime&#39;</span>       <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">600</span>  
+<li>将单元格数据序列化后保存到内存中
+<code>php
+PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized; 
+</code></li>
+<li>将单元格序列化后再进行gzip压缩，然后保存到内存中
+<code>php
+PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip; 
+</code></li>
+<li>缓存在临时的磁盘文件中，速度可能会慢一些
+<code>php
+PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;
+</code></li>
+<li>保存在php://temp
+<code>php
+PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp; 
+</code></li>
+<li>保存在memcache中
+<code>php
+$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_memcache;  
+$cacheSettings = array( 'memcacheServer'  =&gt; 'localhost',  
+'memcachePort'    =&gt; 11211,  
+'cacheTime'       =&gt; 600  
 );  
-<span style="color:#a6e22e">PHPExcel_Settings</span><span style="color:#f92672">::</span><span style="color:#a6e22e">setCacheStorageMethod</span>($cacheMethod, $cacheSettings);
-</code></pre></div><h3 id="其它降低内存使用的方法">其它降低内存使用的方法</h3>
+PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
+</code></li>
+</ul>
+
+<h3 id="其它降低内存使用的方法">其它降低内存使用的方法</h3>
+
 <p>如果不需要读取Excel单元格格式，可以设置为只读取数据。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$objReader <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_IOFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">createReader</span>(<span style="color:#e6db74">&#39;Excel2007&#39;</span>);
-$objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setReadDataOnly</span>(<span style="color:#66d9ef">true</span>);
-$objPHPExcel <span style="color:#f92672">=</span> $objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;test.xlsx”);
-</span></code></pre></div><p>如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$objReader <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_IOFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">createReader</span>(<span style="color:#e6db74">&#39;Excel2007&#39;</span>);
-$objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setLoadSheetsOnly</span>( <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;Worksheet1&#34;</span>, <span style="color:#e6db74">&#34;Worksheet2&#34;</span>) );
-$objPHPExcel <span style="color:#f92672">=</span> $objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;test.xlsx”);
-</span></code></pre></div><p>如果只需要读取Sheet中一定区域，也可以设置过滤器。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyReadFilter</span> <span style="color:#66d9ef">implements</span> <span style="color:#a6e22e">PHPExcel_Reader_IReadFilter</span>
+
+<pre><code class="language-php">$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+$objReader-&gt;setReadDataOnly(true);
+$objPHPExcel = $objReader-&gt;load(&quot;test.xlsx”);
+</code></pre>
+
+<p>如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。</p>
+
+<pre><code class="language-php">$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+$objReader-&gt;setLoadSheetsOnly( array(&quot;Worksheet1&quot;, &quot;Worksheet2&quot;) );
+$objPHPExcel = $objReader-&gt;load(&quot;test.xlsx”);
+</code></pre>
+
+<p>如果只需要读取Sheet中一定区域，也可以设置过滤器。</p>
+
+<pre><code class="language-php">class MyReadFilter implements PHPExcel_Reader_IReadFilter
 {
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">readCell</span>($column, $row, $worksheetName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>) {
-        <span style="color:#75715e">// Read title row and rows 20 - 30
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> ($row <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> ($row <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">20</span> <span style="color:#f92672">&amp;&amp;</span> $row <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">30</span>)) {
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+    public function readCell($column, $row, $worksheetName = '') {
+        // Read title row and rows 20 - 30
+        if ($row == 1 || ($row &gt;= 20 &amp;&amp; $row &lt;= 30)) {
+            return true;
         }
 
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+        return false;
     }
 }
 
-$objReader <span style="color:#f92672">=</span> <span style="color:#a6e22e">PHPExcel_IOFactory</span><span style="color:#f92672">::</span><span style="color:#a6e22e">createReader</span>(<span style="color:#e6db74">&#39;Excel2007&#39;</span>);
-$objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">setReadFilter</span>( <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MyReadFilter</span>() );
-$objPHPExcel <span style="color:#f92672">=</span> $objReader<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;test.xlsx”);
-</span></code></pre></div><h3 id="我的解决方案">我的解决方案</h3>
+$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+$objReader-&gt;setReadFilter( new MyReadFilter() );
+$objPHPExcel = $objReader-&gt;load(&quot;test.xlsx”);
+</code></pre>
+
+<h3 id="我的解决方案">我的解决方案</h3>
+
 <p>我试了上面所有的方法还是不行，因为生产环境特殊要求，不能把php的内存设置过大，所以最后我只能把数据按照csv格式写入文件了，然后再用excel导入csv文件即可。</p>
+
 <p>这里只列出写每一行数据的函数，其他自行完成即可</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_writeLine</span>($pFileHandle <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>, $pValues <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>) {
-		<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">is_array</span>($pValues)) {
-			<span style="color:#75715e">// No leading delimiter
-</span><span style="color:#75715e"></span>			$writeDelimiter <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
 
-			<span style="color:#75715e">// Build the line
-</span><span style="color:#75715e"></span>			$line <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+<pre><code class="language-php">private function _writeLine($pFileHandle = null, $pValues = null) {
+        if (is_array($pValues)) {
+            // No leading delimiter
+            $writeDelimiter = false;
 
-			<span style="color:#66d9ef">foreach</span> ($pValues <span style="color:#66d9ef">as</span> $element) {
-				<span style="color:#75715e">// Escape enclosures
-</span><span style="color:#75715e"></span>				$element <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span> <span style="color:#f92672">.</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span>, $element);
+            // Build the line
+            $line = '';
 
-				<span style="color:#75715e">// Add delimiter
-</span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span> ($writeDelimiter) {
-					$line <span style="color:#f92672">.=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_delimiter</span>;
-				} <span style="color:#66d9ef">else</span> {
-					$writeDelimiter <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
-				}
+            foreach ($pValues as $element) {
+                // Escape enclosures
+                $element = str_replace($this-&gt;_enclosure, $this-&gt;_enclosure . $this-&gt;_enclosure, $element);
 
-				<span style="color:#75715e">// Add enclosed string
-</span><span style="color:#75715e"></span>				$line <span style="color:#f92672">.=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span> <span style="color:#f92672">.</span> $element <span style="color:#f92672">.</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_enclosure</span>;
-			}
+                // Add delimiter
+                if ($writeDelimiter) {
+                    $line .= $this-&gt;_delimiter;
+                } else {
+                    $writeDelimiter = true;
+                }
 
-			<span style="color:#75715e">// Add line ending
-</span><span style="color:#75715e"></span>			$line <span style="color:#f92672">.=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_lineEnding</span>;
+                // Add enclosed string
+                $line .= $this-&gt;_enclosure . $element . $this-&gt;_enclosure;
+            }
 
-			<span style="color:#75715e">// Write to file
-</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">fwrite</span>($pFileHandle, $line);
-		} <span style="color:#66d9ef">else</span> {
-			<span style="color:#a6e22e">__d</span>(<span style="color:#e6db74">&#34;Invalid data row passed to CSV writer.&#34;</span>);
-		}
-	}
-</code></pre></div>
+            // Add line ending
+            $line .= $this-&gt;_lineEnding;
+
+            // Write to file
+            fwrite($pFileHandle, $line);
+        } else {
+            __d(&quot;Invalid data row passed to CSV writer.&quot;);
+        }
+    }
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>
