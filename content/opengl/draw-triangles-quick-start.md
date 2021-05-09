@@ -498,6 +498,18 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 99)
 
+# glfw header files
+set( GLFW_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glfw/include )
+set( GLFW_DEPS_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glfw/deps )
+# glad header files
+set( GLAD_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glad/include )
+
+
+list( APPEND opengl_INCLUDE ${GLFW_INCLUDE_DIR})
+list( APPEND opengl_INCLUDE ${GLFW_DEPS_INCLUDE_DIR})
+list( APPEND opengl_INCLUDE ${GLAD_INCLUDE_DIR})
+include_directories( ${opengl_INCLUDE} )
+
 set(COMMON_LIBS glfw X11 GL GLEW Xrandr Xi Xxf86vm Xcursor Xinerama pthread GLU dl GLU)
 
 set(SOURCE_FILES main.cpp ../glad.c)
@@ -507,6 +519,13 @@ add_executable(example ${SOURCE_FILES})
 target_link_libraries(example
     PUBLIC 
     ${COMMON_LIBS})
+```
+把glad和glfw下载到deps目录下，然后运行如下命令进行构建
+```sh
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 
