@@ -3,7 +3,7 @@
 <head>
     <title>golang性能分析利器之Pprof // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,113 +237,81 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/pprof/">Pprof</a><a class="tag" href="https://realjf.io/tags/golang%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">Golang性能分析</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/pprof/">pprof</a><a class="tag" href="https://realjf.io/tags/golang%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/">golang性能分析</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="简介">简介</h3>
-
+            <h3 id="简介">简介</h3>
 <p>pprof是golang程序一个性能分析的工具，可以查看堆栈、cpu信息等</p>
-
 <p>pprof有2个包：net/http/pprof以及runtime/pprof</p>
-
 <p>二者之间的关系：net/http/pprof包只是使用runtime/pprof包来进行封装了一下，并在http端口上暴露出来</p>
-
 <h4 id="性能分析利器-pprof">性能分析利器 pprof</h4>
-
-<p>go本身提供的工具链有：
-- runtime/pprof：采集程序的运行数据进行分析
-- net/http/pprof：采集HTTP Server的运行时数据进行分析</p>
-
+<p>go本身提供的工具链有：</p>
+<ul>
+<li>runtime/pprof：采集程序的运行数据进行分析</li>
+<li>net/http/pprof：采集HTTP Server的运行时数据进行分析</li>
+</ul>
 <p>pprof以profile.proto读取分析样本的集合，并生成报告以可视化并帮助分析数据</p>
-
 <blockquote>
 <p>profile.proto是一个Protocol Buffer v3的描述文件，它描述了一组callstack和symbolization信息，作用是表示统计分析的一组采样的调用栈，是很常见的stacktrace配置文件格式</p>
 </blockquote>
-
 <h4 id="使用方式">使用方式</h4>
-
 <ul>
 <li>Report generation：报告生成</li>
 <li>Interactive terminal use：交互式终端使用</li>
 <li>Web interface：Web界面</li>
 </ul>
-
 <h5 id="1-web服务器方式">1. web服务器方式</h5>
-
 <p>假如你的go呈现的是用http包启动的web服务器，当想要看web服务器的状态时，选择【net/http/pprof】，使用方法如下：</p>
-
-<pre><code class="language-golang">&quot;net/http&quot;
-_ &quot;net/http/pprof&quot;
-</code></pre>
-
-<p>查看结果：通过访问：<a href="http://domain:port/debug/pprof查看当前web服务的状态">http://domain:port/debug/pprof查看当前web服务的状态</a></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#e6db74">&#34;net/http&#34;</span>
+<span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;net/http/pprof&#34;</span>
+</code></pre></div><p>查看结果：通过访问：http://domain:port/debug/pprof查看当前web服务的状态</p>
 <h5 id="2-服务进程">2. 服务进程</h5>
-
 <p>如果你go程序是一个服务进程，同样可以选择【net/http/pprof】包，然后开启另外一个goroutine来开启端口监听</p>
-
-<pre><code class="language-golang">// 远程获取pprof数据
-go func() {
-    log.Println(http.ListenAndServe(&quot;localhost:8080&quot;, nil))
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// 远程获取pprof数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;localhost:8080&#34;</span>, <span style="color:#66d9ef">nil</span>))
 }
-</code></pre>
-
-<h5 id="3-应用程序">3. 应用程序</h5>
-
+</code></pre></div><h5 id="3-应用程序">3. 应用程序</h5>
 <p>如果你的go程序只是一个应用程序，那就直接使用runtime/pprof包，具体用法是用pprof.StartCPUProfile和pprof.StopCPUProfile。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cpuprofile</span> = <span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;cpuprofile&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;write cpu profile to file&#34;</span>)
 
-<pre><code class="language-golang">var cpuprofile = flag.String(&quot;cpuprofile&quot;, &quot;&quot;, &quot;write cpu profile to file&quot;)
-
-func main() {
-    flag.Parse()
-    if *cpuprofile != &quot;&quot; {
-        f, err := os.Create(*cpuprofile)
-        if err != nil {
-            log.Fatal(err)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">Parse</span>()
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">cpuprofile</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">cpuprofile</span>)
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
         }
-        pprof.StartCPUProfile(f)
-        defer pprof.StopCPUProfile()
+        <span style="color:#a6e22e">pprof</span>.<span style="color:#a6e22e">StartCPUProfile</span>(<span style="color:#a6e22e">f</span>)
+        <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">pprof</span>.<span style="color:#a6e22e">StopCPUProfile</span>()
     }
 }
-</code></pre>
-
-<h4 id="作用场景">作用场景</h4>
-
+</code></pre></div><h4 id="作用场景">作用场景</h4>
 <ul>
 <li>CPU Profiling：CPU分析，按照一定的频率采集所监听的应用程序CPU（含寄存器）的使用情况，可用于确定应用程序消耗cpu周期时花费时间的位置</li>
 <li>Memory Profiling：内存分析，在应用程序进行堆分配时记录堆栈跟踪，用于监视当前和历史内存使用情况，以及检查内存泄漏。</li>
 <li>Block Profiling：阻塞分析，记录goroutine阻塞等待同步（包括定时器通道）的位置</li>
 <li>Mutex Profiling：互斥锁分析，报告互斥锁的竞争情况</li>
 </ul>
-
 <h3 id="分析">分析</h3>
-
 <h4 id="通过web界面分析">通过web界面分析</h4>
-
-<pre><code class="language-sh">http://localhost:8080/debug/pprof/
-</code></pre>
-
-<p>结果如下：</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">http://localhost:8080/debug/pprof/
+</code></pre></div><p>结果如下：</p>
 <pre><code>/debug/pprof/
 
 Types of profiles available:
-Count   Profile
-1   allocs
-0   block
-0   cmdline
-14  goroutine
-1   heap
-0   mutex
-0   profile
-11  threadcreate
-0   trace
+Count	Profile
+1	allocs
+0	block
+0	cmdline
+14	goroutine
+1	heap
+0	mutex
+0	profile
+11	threadcreate
+0	trace
 full goroutine stack dump 
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>allocs：过去所有的内存分配采样</li>
 <li>block：Stack traces that led to blocking on synchronization primitives</li>
 <li>cmdline：当前程序的命令行调用</li>
@@ -355,52 +323,49 @@ full goroutine stack dump
 <li>trace：对当前程序执行的跟踪。可以在seconds get参数中指定持续时间。获取跟踪文件后，使用go tool trace命令调查跟踪</li>
 <li>full groutine stack dump：</li>
 </ul>
-
 <h4 id="实例分析">实例分析</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<pre><code class="language-golang">package main
-
-import (
-    &quot;flag&quot;
-    &quot;log&quot;
-    &quot;net/http&quot;
-    _ &quot;net/http/pprof&quot;
-    &quot;sync&quot;
-    &quot;time&quot;
+<span style="color:#f92672">import</span> (
+    <span style="color:#e6db74">&#34;flag&#34;</span>
+    <span style="color:#e6db74">&#34;log&#34;</span>
+    <span style="color:#e6db74">&#34;net/http&#34;</span>
+    <span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;net/http/pprof&#34;</span>
+    <span style="color:#e6db74">&#34;sync&#34;</span>
+    <span style="color:#e6db74">&#34;time&#34;</span>
 )
 
-func Counter(wg *sync.WaitGroup) {
-    time.Sleep(time.Second)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Counter</span>(<span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {
+    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
 
-    var counter int
-    for i := 0; i &lt; 1000000; i++ {
-        time.Sleep(time.Millisecond * 200)
-        counter++
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">counter</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">1000000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">200</span>)
+        <span style="color:#a6e22e">counter</span><span style="color:#f92672">++</span>
     }
-    wg.Done()
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
 }
 
-func main() {
-    flag.Parse()
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">Parse</span>()
 
-    //远程获取pprof数据
-    go func() {
-        log.Println(http.ListenAndServe(&quot;localhost:8080&quot;, nil))
+    <span style="color:#75715e">//远程获取pprof数据
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;localhost:8080&#34;</span>, <span style="color:#66d9ef">nil</span>))
     }()
 
-    var wg sync.WaitGroup
-    wg.Add(10)
-    for i := 0; i &lt; 10; i++ {
-        go Counter(&amp;wg)
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">10</span>)
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">Counter</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>)
     }
-    wg.Wait()
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
 
-    // sleep 10mins, 在程序退出之前可以查看性能参数.
-    time.Sleep(60 * time.Second)
+    <span style="color:#75715e">// sleep 10mins, 在程序退出之前可以查看性能参数.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
 }
 
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -486,30 +451,14 @@ func main() {
     <div class="content-toc">
         
         <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="https://realjf.io/golang/pprof/#简介">简介</a>
-<ul>
-<li><a href="https://realjf.io/golang/pprof/#性能分析利器-pprof">性能分析利器 pprof</a></li>
-<li><a href="https://realjf.io/golang/pprof/#使用方式">使用方式</a>
-<ul>
-<li><a href="https://realjf.io/golang/pprof/#1-web服务器方式">1. web服务器方式</a></li>
-<li><a href="https://realjf.io/golang/pprof/#2-服务进程">2. 服务进程</a></li>
-<li><a href="https://realjf.io/golang/pprof/#3-应用程序">3. 应用程序</a></li>
-</ul></li>
-<li><a href="https://realjf.io/golang/pprof/#作用场景">作用场景</a></li>
-</ul></li>
-<li><a href="https://realjf.io/golang/pprof/#分析">分析</a>
-<ul>
-<li><a href="https://realjf.io/golang/pprof/#通过web界面分析">通过web界面分析</a></li>
-<li><a href="https://realjf.io/golang/pprof/#实例分析">实例分析</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="https://realjf.io/golang/pprof/#简介">简介</a></li>
+        <li><a href="https://realjf.io/golang/pprof/#分析">分析</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
     </div>
 

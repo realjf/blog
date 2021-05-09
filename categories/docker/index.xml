@@ -1,27 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Docker on Realjf&#39;s blog</title>
+    <title>docker on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/docker/</link>
-    <description>Recent content in Docker on Realjf&#39;s blog</description>
+    <description>Recent content in docker on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Apr 2020 15:29:31 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 28 Apr 2020 15:29:31 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>docker error creating overlay mount to invalid argument 解决方法</title>
       <link>https://realjf.io/docker/docker-create-layer-error/</link>
       <pubDate>Tue, 28 Apr 2020 15:29:31 +0800</pubDate>
       
       <guid>https://realjf.io/docker/docker-create-layer-error/</guid>
-      <description> 原因 由于docker的不同版本在centos上产生的mount问题，1.2.x没有出现这个问题，当使用yum install时，安装的最新版本(1.3.x)，会导致overlay2的错误。
+      <description>原因 由于docker的不同版本在centos上产生的mount问题，1.2.x没有出现这个问题，当使用yum install时，安装的最新版本(1.3.x)，会导致overlay2的错误。
 解决方法 修改docker启动参数storage-driver
-vim /etc/sysconfig/docker-storage # 将文件中的DOCKER_STORAGE_OPTIONS=&amp;quot;-s overlay2&amp;quot;修改为DOCKER_STORAGE_OPTIONS=&amp;quot;-s overlay&amp;quot;  然后重新加载daemon
-systemctl daemon-reload  重启docker
-systemctl restart docker  </description>
+vim /etc/sysconfig/docker-storage# 将文件中的DOCKER_STORAGE_OPTIONS=&amp;quot;-s overlay2&amp;quot;修改为DOCKER_STORAGE_OPTIONS=&amp;quot;-s overlay&amp;quot;然后重新加载daemon
+systemctl daemon-reload重启docker
+systemctl restart docker</description>
     </item>
     
     <item>
@@ -32,10 +28,12 @@ systemctl restart docker  </description>
       <guid>https://realjf.io/docker/docker-modify-hosts/</guid>
       <description>场景 今天突然遇到一个问题，需要向容器的/etc/hosts文件追加自定义的内容，直接的做法的是，进入容器，直接修改/etc/hosts文件，但是，这种做法在容器重新启动后就失效，而且容器启动实例一多，就会带来繁琐的手动操作。
 为了能让同一个镜像启动的容器每次启动的时候都能自动更新成我们需要的/etc/hosts文件，现有以下几种方法：
-1. 在docker run的时候增加参数&amp;ndash;add-host进行添加（官方给的方法） # 添加单个hosts docker run -it nginx --add-host=localhost:127.0.0.1 # 添加多个hosts docker run -it nginx --add-host=localhost:127.0.0.1 --add-host=example.com:127.0.0.1 # 一个ip对应多个hosts docker run -it nginx --add-host=&amp;quot;localhost example.com&amp;quot;:127.0.0.1  2. 在dockerfile中，使用脚本作为镜像入口，再利用脚本运行修改hosts文件的命令以及真正的应用程序入口 文件说明 - myhosts：需要追加到/etc/hosts中的内容 - run.sh：容器的入口执行脚本 - dockerfile：构建镜像的dockerfile文件
-dockerfile示例如下：
-FROM centos:6 MAINTAINER chenjiefeng COPY run.sh ~/run.sh COPY myhosts ~/myhosts RUN chmod +x ~/run.sh ENTRYPOINT /bin/sh -c ~/run.sh  run.sh示例如下：
-#!/bin/bash # 向hosts文件追加内容 cat ~/myhosts &amp;gt;&amp;gt; /etc/hosts # 其他命令 # 保留终端，防止容器自动退出 /bin/bash  myhosts示例如下：</description>
+1. 在docker run的时候增加参数&amp;ndash;add-host进行添加（官方给的方法） # 添加单个hostsdocker run -it nginx --add-host=localhost:127.0.0.1# 添加多个hostsdocker run -it nginx --add-host=localhost:127.0.0.1 --add-host=example.com:127.0.0.1 # 一个ip对应多个hostsdocker run -it nginx --add-host=&amp;quot;localhost example.com&amp;quot;:127.0.0.12. 在dockerfile中，使用脚本作为镜像入口，再利用脚本运行修改hosts文件的命令以及真正的应用程序入口 文件说明
+ myhosts：需要追加到/etc/hosts中的内容 run.sh：容器的入口执行脚本 dockerfile：构建镜像的dockerfile文件  dockerfile示例如下：
+FROMcentos:6MAINTAINERchenjiefengCOPY run.sh ~/run.shCOPY myhosts ~/myhostsRUN chmod +x ~/run.shENTRYPOINT /bin/sh -c ~/run.shrun.sh示例如下：
+#!/bin/bash # 向hosts文件追加内容 cat ~/myhosts &amp;gt;&amp;gt; /etc/hosts # 其他命令 # 保留终端，防止容器自动退出 /bin/bash myhosts示例如下：
+127.0.0.1 localhost example.com镜像构建完成后，执行docker run 指令运行容器，查看/etc/hosts配置
+$ cat /etc/hosts127.</description>
     </item>
     
     <item>
@@ -44,9 +42,9 @@ FROM centos:6 MAINTAINER chenjiefeng COPY run.sh ~/run.sh COPY myhosts ~/myhosts
       <pubDate>Tue, 28 Apr 2020 15:26:29 +0800</pubDate>
       
       <guid>https://realjf.io/docker/docker-time-sync/</guid>
-      <description> 1. 在Dockerfile中解决（永久性，推荐） 在Dockerfile文件中加上如下：
-ENV TZ=Asia/Shanghai # 添加你需要的时区 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;amp;&amp;amp; echo $TZ &amp;gt; /etc/timezone  2. 临时性设置 在container的shell交互里输入
-TZ=Asia/Shanghai ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;amp;&amp;amp; echo $TZ &amp;gt; /etc/timezone ## 检查时间 date  </description>
+      <description>1. 在Dockerfile中解决（永久性，推荐） 在Dockerfile文件中加上如下：
+ENV TZ=Asia/Shanghai # 添加你需要的时区RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;amp;&amp;amp; echo $TZ &amp;gt; /etc/timezone2. 临时性设置 在container的shell交互里输入
+TZ=Asia/Shanghailn -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;amp;&amp;amp; echo $TZ &amp;gt; /etc/timezone## 检查时间date</description>
     </item>
     
     <item>
@@ -55,7 +53,7 @@ TZ=Asia/Shanghai ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;amp;&amp;am
       <pubDate>Tue, 19 Mar 2019 14:40:53 +0800</pubDate>
       
       <guid>https://realjf.io/posts/what-docker-is/</guid>
-      <description>官方定义 Develop, Ship and Run Any Application, Anywhere Docker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.  Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
+      <description>官方定义 Develop, Ship and Run Any Application, AnywhereDocker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
  LXC linux container容器是一种内核虚拟化技术，可以提供轻量级的虚拟化，以便隔离进程和资源。与kvm之类最明显的区别在于启动快，资源占用小。</description>
     </item>
     
@@ -68,7 +66,7 @@ TZ=Asia/Shanghai ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;amp;&amp;am
       <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
  1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
 通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
-int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);  查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
+int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
     </item>
     
   </channel>

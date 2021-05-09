@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Opengls on Realjf&#39;s blog</title>
@@ -6,13 +6,9 @@
     <description>Recent content in Opengls on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 08 May 2021 16:04:07 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/opengl/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 08 May 2021 16:04:07 +0800</lastBuildDate><atom:link href="https://realjf.io/opengl/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>画一个三角形快速开始 Draw Triangles Quick Start</title>
+      <title>使用Opengl画一个三角形快速开始 Draw Triangles Quick Start</title>
       <link>https://realjf.io/opengl/draw-triangles-quick-start/</link>
       <pubDate>Sat, 08 May 2021 16:04:07 +0800</pubDate>
       
@@ -31,7 +27,7 @@ opengl渲染过程 了解三种缓冲对象  顶点数组对象：Vertex Array O
 片段着色器 主要目的是计算一个像素的最终颜色，这也是所有OpenGL高级效果产生的地方。通常，片段着色器包含3D场景的数据（比如光照、阴影、光的颜色等等），这些数据可以被用来计算最终像素的颜色。
 alpha测试和混合阶段 这个阶段检测片段的对应的深度（和模板(Stencil)）值，用它们来判断这个像素是其它物体的前面还是后面，决定是否应该丢弃。这个阶段也会检查alpha值（alpha值定义了一个物体的透明度）并对物体进行混合(Blend)。
 准备 main.cpp原始内容如下：
-#include &amp;lt;glad/glad.h&amp;gt; #include &amp;lt;GLFW/glfw3.h&amp;gt; #include &amp;lt;iostream&amp;gt; void framebuffer_size_callback(GLFWwindow* window, int width, int height); void processInput(GLFWwindow *window); const unsigned int SCR_WIDTH = 800; const unsigned int SCR_HEIGHT = 600; int main() { glfwInit(); glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // create window GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, &amp;quot;LearnOpenGL&amp;quot;, NULL, NULL); if (window == NULL) { std::cout &amp;lt;&amp;lt; &amp;quot;Failed to create GLFW window&amp;quot; &amp;lt;&amp;lt; std::endl; glfwTerminate(); return -1; } glfwMakeContextCurrent(window); // viewport size glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); // init glad if(!</description>
+#include &amp;lt;glad/glad.h&amp;gt;#include &amp;lt;GLFW/glfw3.h&amp;gt;#include &amp;lt;iostream&amp;gt; void framebuffer_size_callback(GLFWwindow* window, int width, int height); void processInput(GLFWwindow *window); const unsigned int SCR_WIDTH = 800; const unsigned int SCR_HEIGHT = 600; int main() { glfwInit(); glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // create window  GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, &amp;#34;LearnOpenGL&amp;#34;, NULL, NULL); if (window == NULL) { std::cout &amp;lt;&amp;lt; &amp;#34;Failed to create GLFW window&amp;#34; &amp;lt;&amp;lt; std::endl; glfwTerminate(); return -1; } glfwMakeContextCurrent(window); // viewport size  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); // init glad  if(!</description>
     </item>
     
     <item>
@@ -40,7 +36,7 @@ alpha测试和混合阶段 这个阶段检测片段的对应的深度（和模�
       <pubDate>Fri, 07 May 2021 19:45:37 +0800</pubDate>
       
       <guid>https://realjf.io/opengl/opengl-quick-start/</guid>
-      <description>准备  Ubuntu OS v20.04 glfw v3.3.4 glad  gl v4.6 core  cmake v3.18.4  目录结构 . ├── CMakeLists.txt ├── deps │ ├── glad │ │ ├── include │ │ │ ├── glad │ │ │ │ └── glad.h │ │ │ └── KHR │ │ │ └── khrplatform.h │ │ └── src │ │ └── glad.c │ └── glfw ├── preinstall.sh ├── src │ ├── CMakeLists.txt │ ├── glad.</description>
+      <description>准备  Ubuntu OS v20.04 glfw v3.3.4 glad  gl v4.6 core   cmake v3.18.4  目录结构 . ├── CMakeLists.txt ├── deps │ ├── glad │ │ ├── include │ │ │ ├── glad │ │ │ │ └── glad.h │ │ │ └── KHR │ │ │ └── khrplatform.h │ │ └── src │ │ └── glad.c │ └── glfw ├── preinstall.sh ├── src │ ├── CMakeLists.txt │ ├── glad.</description>
     </item>
     
     <item>
@@ -51,8 +47,8 @@ alpha测试和混合阶段 这个阶段检测片段的对应的深度（和模�
       <guid>https://realjf.io/opengl/how-to-compile-glfw-from-source/</guid>
       <description>首先glfw下载 https://www.glfw.org/download.html
 下载源码包后，开始安装
- 环境：debian-10  构建 unzip glfw-3.3.2.zip mkdir glfw-build cd glfw-build cmake ..  报错如下：
--- The C compiler identification is GNU 10.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Looking for pthread.h -- Looking for pthread.h - found -- Performing Test CMAKE_HAVE_LIBC_PTHREAD -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed -- Looking for pthread_create in pthreads -- Looking for pthread_create in pthreads - not found -- Looking for pthread_create in pthread -- Looking for pthread_create in pthread - found -- Found Threads: TRUE -- Found Doxygen: /usr/bin/doxygen (found version &amp;quot;1.</description>
+ 环境：debian-10  构建 unzip glfw-3.3.2.zip mkdir glfw-build cd glfw-build cmake .. 报错如下：
+-- The C compiler identification is GNU 10.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Looking for pthread.h -- Looking for pthread.h - found -- Performing Test CMAKE_HAVE_LIBC_PTHREAD -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed -- Looking for pthread_create in pthreads -- Looking for pthread_create in pthreads - not found -- Looking for pthread_create in pthread -- Looking for pthread_create in pthread - found -- Found Threads: TRUE -- Found Doxygen: /usr/bin/doxygen (found version &amp;#34;1.</description>
     </item>
     
   </channel>

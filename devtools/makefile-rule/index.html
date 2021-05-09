@@ -3,7 +3,7 @@
 <head>
     <title>Makefile 基本语法和规则 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,26 +237,18 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/devtools/">Devtools</a><a class="tag" href="https://realjf.io/tags/make/">Make</a><a class="tag" href="https://realjf.io/tags/makefile/">Makefile</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/devtools/">devtools</a><a class="tag" href="https://realjf.io/tags/make/">make</a><a class="tag" href="https://realjf.io/tags/makefile/">makefile</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="基本语法">基本语法</h2>
-
-<pre><code class="language-makefile">target1 target2 target3: prerequisite1 prerequisite2
+            <h2 id="基本语法">基本语法</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#a6e22e">target1 target2 target3</span><span style="color:#f92672">:</span> prerequisite1 prerequisite2
     command1
     command2
     command3
-</code></pre>
-
-<p>冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。
+</code></pre></div><p>冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。
 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。</p>
-
 <p>每个命令必须以跳格符开头，这个语法用来要求make将紧跟在跳格符之后的内容传给subshell来执行。</p>
-
 <p>make会将#号视为注释字符，从井号开始到该行结束之间的所有文字都会被make忽略。你可以使用反斜线，来延续过长的文本行。</p>
-
 <h2 id="规则">规则</h2>
 
         </div>

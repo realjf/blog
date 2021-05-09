@@ -3,7 +3,7 @@
 <head>
     <title>Mysql 5.7.27源码安装教程 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,212 +237,178 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/mysql/">Mysql</a><a class="tag" href="https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/">Mysql安装</a><a class="tag" href="https://realjf.io/tags/mysql5.7/">Mysql5.7</a><a class="tag" href="https://realjf.io/tags/mysql%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/">Mysql源码安装</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/mysql/">mysql</a><a class="tag" href="https://realjf.io/tags/mysql%E5%AE%89%E8%A3%85/">mysql安装</a><a class="tag" href="https://realjf.io/tags/mysql5.7/">mysql5.7</a><a class="tag" href="https://realjf.io/tags/mysql%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/">mysql源码安装</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="准备">准备</h2>
-
+            <h2 id="准备">准备</h2>
 <ul>
 <li>debian 9操作系统</li>
 <li>mysql下载地址：<a href="https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz">https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz</a></li>
 <li>boost下载地址：<a href="http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz">http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz</a></li>
 </ul>
-
 <h2 id="下载安装">下载安装</h2>
-
 <h3 id="1-下载安装boost">1. 下载安装boost</h3>
-
-<pre><code class="language-bash">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
 wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
 
 tar zxvf boost_1_59_0.tar.gz
 mv boost_1_59_0 /usr/local/boost
 
-</code></pre>
-
-<h3 id="2-下载安装mysql">2. 下载安装mysql</h3>
-
-<pre><code class="language-bash"># 安装依赖包
+</code></pre></div><h3 id="2-下载安装mysql">2. 下载安装mysql</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 安装依赖包</span>
 apt-get install libncurses-dev
 
 
-# 创建mysql用户组和用户
+<span style="color:#75715e"># 创建mysql用户组和用户</span>
 groupadd mysql
 useradd mysql -s /sbin/nologin -M -g mysql
 
-# 下载mysql
+<span style="color:#75715e"># 下载mysql</span>
 wget https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz
 
 tar zxvf mysql-5.7.27.tar.gz
 cd mysql-5.7.27
 
-# 创建必要的文件夹
+<span style="color:#75715e"># 创建必要的文件夹</span>
 mkdir /usr/local/mysql
-mkdir /usr/local/mysql/data # 数据库文件
-mkdir /usr/local/mysql/tmp # sock文件
-mkdir /usr/local/mysql/logs # 错误日志文件
-mkdir /usr/local/mysql/binlog # binlog日志文件
+mkdir /usr/local/mysql/data <span style="color:#75715e"># 数据库文件</span>
+mkdir /usr/local/mysql/tmp <span style="color:#75715e"># sock文件</span>
+mkdir /usr/local/mysql/logs <span style="color:#75715e"># 错误日志文件</span>
+mkdir /usr/local/mysql/binlog <span style="color:#75715e"># binlog日志文件</span>
 
-# 编译mysql
-cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
- -DMYSQL_DATADIR=/usr/local/mysql/data \
- -DMYSQL_UNIX_ADDR=/usr/local/mysql/tmp/mysql.sock \
- -DDEFAULT_CHARSET=utf8 \
- -DDEFAULT_COLLATION=utf8_general_ci \
- -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
- -DENABLED_LOCAL_INFILE=ON \
- -DWITH_INNOBASE_STORAGE_ENGINE=1 \
- -DWITH_FEDERATED_STORAGE_ENGINE=1 \
- -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
- -DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \
- -DWITHOUT_PARTITION_STORAGE_ENGINE=1 \
- -DWITH_ZLIB=bundled \
- -DWITH_EMBEDDED_SERVER=1 \
- -DWITH_DEBUG=0 \
- -DWITH_BOOST=/usr/local/boost
+<span style="color:#75715e"># 编译mysql</span>
+cmake . -DCMAKE_INSTALL_PREFIX<span style="color:#f92672">=</span>/usr/local/mysql <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DMYSQL_DATADIR<span style="color:#f92672">=</span>/usr/local/mysql/data <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DMYSQL_UNIX_ADDR<span style="color:#f92672">=</span>/usr/local/mysql/tmp/mysql.sock <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DDEFAULT_CHARSET<span style="color:#f92672">=</span>utf8 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DDEFAULT_COLLATION<span style="color:#f92672">=</span>utf8_general_ci <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DEXTRA_CHARSETS<span style="color:#f92672">=</span>gbk,gb2312,utf8,ascii <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DENABLED_LOCAL_INFILE<span style="color:#f92672">=</span>ON <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITH_INNOBASE_STORAGE_ENGINE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITH_FEDERATED_STORAGE_ENGINE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITH_BLACKHOLE_STORAGE_ENGINE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITHOUT_EXAMPLE_STORAGE_ENGINE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITHOUT_PARTITION_STORAGE_ENGINE<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITH_ZLIB<span style="color:#f92672">=</span>bundled <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITH_EMBEDDED_SERVER<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITH_DEBUG<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> -DWITH_BOOST<span style="color:#f92672">=</span>/usr/local/boost
  
 
-# 如果看到如下信息表示编译完成
--- Configuring done
--- Generating done
+<span style="color:#75715e"># 如果看到如下信息表示编译完成</span>
+-- Configuring <span style="color:#66d9ef">done</span>
+-- Generating <span style="color:#66d9ef">done</span>
 -- Build files have been written to: /path/to/mysql
 
-# 执行make安装
-make &amp;&amp; make install
+<span style="color:#75715e"># 执行make安装</span>
+make <span style="color:#f92672">&amp;&amp;</span> make install
 
-# 安装完成
+<span style="color:#75715e"># 安装完成</span>
 
-</code></pre>
+</code></pre></div><h3 id="3-配置mysql系统环境变量">3. 配置mysql系统环境变量</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/profile
 
-<h3 id="3-配置mysql系统环境变量">3. 配置mysql系统环境变量</h3>
+PATH<span style="color:#f92672">=</span>$PATH:/usr/local/mysql/bin
 
-<pre><code class="language-bash">vim /etc/profile
-
-PATH=$PATH:/usr/local/mysql/bin
-
-# 使其生效
+<span style="color:#75715e"># 使其生效</span>
 source /etc/profile
 
-</code></pre>
-
-<h3 id="4-配置my-cnf文件">4. 配置my.cnf文件</h3>
-
-<pre><code class="language-bash"># 更改mysql安装目录的属主和属组
+</code></pre></div><h3 id="4-配置mycnf文件">4. 配置my.cnf文件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 更改mysql安装目录的属主和属组</span>
 chown -R mysql:mysql /usr/local/mysql
 
-# 修改my.cnf文件的组和用户
+<span style="color:#75715e"># 修改my.cnf文件的组和用户</span>
 chown mysql:mysql /etc/my.cnf
 
-# 修改my.cnf配置
+<span style="color:#75715e"># 修改my.cnf配置</span>
 vim /etc/my.cnf
 
-[client]
-port = 3306
-socket = /usr/local/mysql/tmp/mysql.sock
-default-character-set = utf8
+<span style="color:#f92672">[</span>client<span style="color:#f92672">]</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">3306</span>
+socket <span style="color:#f92672">=</span> /usr/local/mysql/tmp/mysql.sock
+default-character-set <span style="color:#f92672">=</span> utf8
 
-[mysqld]
-port = 3306
-user = mysql
-basedir = /usr/local/mysql
-datadir = /usr/local/mysql/data
-pid-file = /usr/local/mysql/mysqld.pid
-socket = /usr/local/mysql/tmp/mysql.sock
-tmpdir = /usr/local/mysql/tmp
-character_set_server = utf8
-server-id = 1
-max_connections = 100
-max_connect_errors = 10
-sql_mode = NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,PIPES_AS_CONCAT,ANSI_QUOTES
-log-bin = /usr/local/mysql/binlog/mysql-bin
-log-error = /usr/local/mysql/logs/mysql_5_7_27.err
+<span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">3306</span>
+user <span style="color:#f92672">=</span> mysql
+basedir <span style="color:#f92672">=</span> /usr/local/mysql
+datadir <span style="color:#f92672">=</span> /usr/local/mysql/data
+pid-file <span style="color:#f92672">=</span> /usr/local/mysql/mysqld.pid
+socket <span style="color:#f92672">=</span> /usr/local/mysql/tmp/mysql.sock
+tmpdir <span style="color:#f92672">=</span> /usr/local/mysql/tmp
+character_set_server <span style="color:#f92672">=</span> utf8
+server-id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+max_connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+max_connect_errors <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+sql_mode <span style="color:#f92672">=</span> NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,PIPES_AS_CONCAT,ANSI_QUOTES
+log-bin <span style="color:#f92672">=</span> /usr/local/mysql/binlog/mysql-bin
+log-error <span style="color:#f92672">=</span> /usr/local/mysql/logs/mysql_5_7_27.err
 
-</code></pre>
+</code></pre></div><h3 id="5-初始化数据库">5. 初始化数据库</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /usr/local/mysql
+./bin/mysqld --initialize-insecure --user<span style="color:#f92672">=</span>mysql --basedir<span style="color:#f92672">=</span>/usr/local/mysql --datadir<span style="color:#f92672">=</span>/usr/local/mysql/data
 
-<h3 id="5-初始化数据库">5. 初始化数据库</h3>
+</code></pre></div><h3 id="6-开启ssl连接">6. 开启ssl连接</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /usr/local/mysql
+./bin/mysql_ssl_rsa_setup --initialize-insecure --user<span style="color:#f92672">=</span>mysql --basedir<span style="color:#f92672">=</span>/usr/local/mysql --datadir<span style="color:#f92672">=</span>/usr/local/mysql/data
 
-<pre><code class="language-bash">cd /usr/local/mysql
-./bin/mysqld --initialize-insecure --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data
-
-</code></pre>
-
-<h3 id="6-开启ssl连接">6. 开启ssl连接</h3>
-
-<pre><code class="language-bash">cd /usr/local/mysql
-./bin/mysql_ssl_rsa_setup --initialize-insecure --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data
-
-Generating a 2048 bit RSA private key
+Generating a <span style="color:#ae81ff">2048</span> bit RSA private key
 ............+++
 .............................................+++
-writing new private key to 'ca-key.pem'
+writing new private key to <span style="color:#e6db74">&#39;ca-key.pem&#39;</span>
 -----
-Generating a 2048 bit RSA private key   
+Generating a <span style="color:#ae81ff">2048</span> bit RSA private key   
 ......+++
 ...................................+++
-writing new private key to 'server-key.pem'
+writing new private key to <span style="color:#e6db74">&#39;server-key.pem&#39;</span>
 -----
-Generating a 2048 bit RSA private key
+Generating a <span style="color:#ae81ff">2048</span> bit RSA private key
 .....................................................................................................+++
 ........................+++
-writing new private key to 'client-key.pem'
+writing new private key to <span style="color:#e6db74">&#39;client-key.pem&#39;</span>
 -----
 
-</code></pre>
-
-<h3 id="7-启动mysql数据库">7. 启动mysql数据库</h3>
-
-<pre><code class="language-bash"># 拷贝启动脚本到/etc/init.d/目录下，并改名mysqld
+</code></pre></div><h3 id="7-启动mysql数据库">7. 启动mysql数据库</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 拷贝启动脚本到/etc/init.d/目录下，并改名mysqld</span>
 cp support-files/mysql.server /etc/init.d/mysqld
 
-# 重新加载系统服务，将mysql数据库加入开机启动
+<span style="color:#75715e"># 重新加载系统服务，将mysql数据库加入开机启动</span>
 /bin/systemctl daemon-reload
 /bin/systemctl enable mysqld.service
 
-# 启动mysql数据库，并检查端口监听状态
+<span style="color:#75715e"># 启动mysql数据库，并检查端口监听状态</span>
 /etc/init.d/mysqld start
 
-</code></pre>
+</code></pre></div><h3 id="8-mysql数据库基本优化安全">8. mysql数据库基本优化（安全）</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 删除全部用户，添加额外管理员，重新加载mysql授权表</span>
 
-<h3 id="8-mysql数据库基本优化-安全">8. mysql数据库基本优化（安全）</h3>
+mysql&gt; <span style="color:#66d9ef">select</span> user,host from mysql.user;
 
-<pre><code class="language-bash"># 删除全部用户，添加额外管理员，重新加载mysql授权表
+<span style="color:#75715e"># 授权新账号</span>
+mysql&gt; grant all privileges on *.* to username@<span style="color:#e6db74">&#39;localhost&#39;</span> identified by <span style="color:#e6db74">&#39;password&#39;</span> with grant option;
 
-mysql&gt; select user,host from mysql.user;
+<span style="color:#75715e"># 删除新账号</span>
+mysql&gt; delete from mysql.user where user<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mysql.session&#39;</span>;
+mysql&gt; delete from mysql.user where user<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mysql.sys&#39;</span>;
 
-# 授权新账号
-mysql&gt; grant all privileges on *.* to username@'localhost' identified by 'password' with grant option;
+<span style="color:#75715e"># 删除root账号</span>
+mysql&gt; delete from mysql.user where user<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;root&#39;</span>;
 
-# 删除新账号
-mysql&gt; delete from mysql.user where user='mysql.session';
-mysql&gt; delete from mysql.user where user='mysql.sys';
-
-# 删除root账号
-mysql&gt; delete from mysql.user where user='root';
-
-# 刷新权限
+<span style="color:#75715e"># 刷新权限</span>
 mysql&gt;flush privileges;
 
-</code></pre>
-
-<h3 id="9-优雅关闭mysql数据库的方法">9. 优雅关闭mysql数据库的方法</h3>
-
-<pre><code class="language-bash"># 使用mysql自带脚本
+</code></pre></div><h3 id="9-优雅关闭mysql数据库的方法">9. 优雅关闭mysql数据库的方法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用mysql自带脚本</span>
 /etc/init.d/mysqld stop
-# 使用mysqladmin
+<span style="color:#75715e"># 使用mysqladmin</span>
 mysqladmin -uusername -ppassword shutdown
 
-</code></pre>
-
-<h3 id="10-授权远程用户连接mysql数据库的方法">10. 授权远程用户连接mysql数据库的方法</h3>
-
-<pre><code class="language-bash">mysql&gt; grant all privileges on *.* to username@'ip address' identified by 'password' with grant option;
+</code></pre></div><h3 id="10-授权远程用户连接mysql数据库的方法">10. 授权远程用户连接mysql数据库的方法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mysql&gt; grant all privileges on *.* to username@<span style="color:#e6db74">&#39;ip address&#39;</span> identified by <span style="color:#e6db74">&#39;password&#39;</span> with grant option;
 
 mysql&gt; flush privileges;
 
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

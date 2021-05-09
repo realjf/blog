@@ -3,7 +3,7 @@
 <head>
     <title>k8s集群 之一 创建集群 minikube安装使用 Minikube Start // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -237,180 +237,116 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/k8s/">K8s</a><a class="tag" href="https://realjf.io/tags/minikube/">Minikube</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/k8s/">k8s</a><a class="tag" href="https://realjf.io/tags/minikube/">minikube</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<p>使用Minikube部署本地k8s集群相对比较简单，非常推荐将其用于本地k8s开发环境，唯一麻烦点的仅仅是网络问题</p>
-
+            <p>使用Minikube部署本地k8s集群相对比较简单，非常推荐将其用于本地k8s开发环境，唯一麻烦点的仅仅是网络问题</p>
 <h2 id="实验环境">实验环境</h2>
-
 <ul>
 <li>CentOS 7.9.2009</li>
 <li>minikube v1.18</li>
 <li>Docker v1.13.1</li>
 <li>Kubernetes v1.20.2</li>
 </ul>
-
 <h3 id="什么是minikube">什么是minikube？</h3>
-
 <p>Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。</p>
-
 <p>Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！</p>
-
 <h3 id="minikube安装">minikube安装</h3>
-
 <p>可以参考minikube 安装的网站<a href="https://minikube.sigs.k8s.io/docs/start/">minikube安装</a></p>
-
-<pre><code class="language-sh"># RPM package
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># RPM package</span>
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
 sudo rpm -ivh minikube-latest.x86_64.rpm
 
-# Debian package
+<span style="color:#75715e"># Debian package</span>
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
 sudo dpkg -i minikube_latest_amd64.deb
 
-# Binary download/amd64/x86_64
+<span style="color:#75715e"># Binary download/amd64/x86_64</span>
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
-</code></pre>
-
-<p>minikube二进制下载地址：<a href="https://github.com/kubernetes/minikube/releases">https://github.com/kubernetes/minikube/releases</a></p>
-
+</code></pre></div><p>minikube二进制下载地址：<a href="https://github.com/kubernetes/minikube/releases">https://github.com/kubernetes/minikube/releases</a></p>
 <h3 id="安装docker">安装docker</h3>
-
-<pre><code class="language-sh">yum update
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">yum update
 yum install docker -y
 systemctl enable docker 
 systemctl start docker 
 
-# 检查docker版本
+<span style="color:#75715e"># 检查docker版本</span>
 docker version
 
-# 添加docker组，将当前用户加入该组（需要在非root用户下执行）
+<span style="color:#75715e"># 添加docker组，将当前用户加入该组（需要在非root用户下执行）</span>
 sudo groupadd docker
-sudo usermod -aG docker ${USER}
+sudo usermod -aG docker <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
 sudo systemctl restart docker
-su root # 需要切换下用户，让配置生效
-su ${USER}
-</code></pre>
-
-<h3 id="minikube开始">minikube开始</h3>
-
-<pre><code class="language-sh">minikube start --registry-mirror=https://registry.docker-cn.com --vm-driver=&quot;docker&quot; --memory=4096
-</code></pre>
-
-<ul>
+su root <span style="color:#75715e"># 需要切换下用户，让配置生效</span>
+su <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
+</code></pre></div><h3 id="minikube开始">minikube开始</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --memory<span style="color:#f92672">=</span><span style="color:#ae81ff">4096</span>
+</code></pre></div><ul>
 <li>&ndash;registry-mirror参数用于设置镜像服务地址，这里设置为国内镜像服务地址。</li>
 <li>&ndash;vm-driver参数设置了虚拟机类型，这里我们使用Docker，默认是VirtualBox。参数–vm-driver=none表示minikube运行在宿主机，不需要提前安装VirtualBox或者KVM</li>
 <li>&ndash;memory参数设置了虚拟机内存大小。</li>
 <li>&ndash;base-image该参数指定依赖下载国内镜像地址，如：&ndash;base-image registry.cn-hangzhou.aliyuncs.com/google_containers/kicbase:v0.0.10</li>
 <li>&ndash;image-repository来设置Minikube指定镜像仓库地址。如：&ndash;image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers</li>
 </ul>
-
 <blockquote>
 <p>在中国，由于网络和防火墙的原因，通常会无法拉取k8s相关镜像或者下载速度过于缓慢，因此，我们可以通过参数&ndash;image-repository来设置Minikube使用阿里云镜像。</p>
 </blockquote>
-
-<pre><code class="language-sh">minikube start --registry-mirror=https://registry.docker-cn.com --vm-driver=&quot;docker&quot; --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers
+</code></pre></div><blockquote>
 <p>记住，运行上面的命令不应该在root权限下运行</p>
-
-<pre><code class="language-sh"># 需要添加当前用户到docker group中
-sudo usermod -aG docker $USER &amp;&amp; newgrp docker
-</code></pre>
 </blockquote>
-
-<p>成功之后，我们就可以使用kubectl来操作集群了，比如查看当前所有pod的状态</p>
-
-<pre><code class="language-sh">minikube kubectl -- get pods -A
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 需要添加当前用户到docker group中</span>
+sudo usermod -aG docker $USER <span style="color:#f92672">&amp;&amp;</span> newgrp docker
+</code></pre></div><p>成功之后，我们就可以使用kubectl来操作集群了，比如查看当前所有pod的状态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube kubectl -- get pods -A
 minikube kubectl get deployment
 minikube kubectl get nodes
 minikube kubectl get services
-# 查看nodes信息
+<span style="color:#75715e"># 查看nodes信息</span>
 minikube kubectl describe nodes 
 minikube kubectl describe services
-</code></pre>
-
-<p>刚才我们使用Minikube创建了默认的集群，我们还可以使用Minikube创建新的集群，比如：</p>
-
-<pre><code class="language-sh">minikube start -p mycluster
-</code></pre>
-
-<h3 id="打开minikube可视化面板">打开minikube可视化面板</h3>
-
-<pre><code class="language-sh">minikube dashboard
-</code></pre>
-
-<blockquote>
+</code></pre></div><p>刚才我们使用Minikube创建了默认的集群，我们还可以使用Minikube创建新的集群，比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube start -p mycluster
+</code></pre></div><h3 id="打开minikube可视化面板">打开minikube可视化面板</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube dashboard
+</code></pre></div><blockquote>
 <p>安装过程中如出现问题，可以执行以下命令之后再重新尝试：</p>
-
-<pre><code class="language-sh">minikube delete
-rm ~/.minikube
-minikube start --registry-mirror=https://registry.docker-cn.com --vm-driver=&quot;docker&quot; --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --docker-env HTTP_PROXY=http://myproxy.com:8080 --docker-env HTTPS_PROXY=http://myproxy.com:8080 --docker-env NO_PROXY=127.0.0.1
-</code></pre>
 </blockquote>
-
-<h3 id="部署应用">部署应用</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube delete
+rm ~/.minikube
+minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers --docker-env HTTP_PROXY<span style="color:#f92672">=</span>http://myproxy.com:8080 --docker-env HTTPS_PROXY<span style="color:#f92672">=</span>http://myproxy.com:8080 --docker-env NO_PROXY<span style="color:#f92672">=</span>127.0.0.1
+</code></pre></div><h3 id="部署应用">部署应用</h3>
 <p>创建一个应用，并暴露端口于8080</p>
-
-<pre><code class="language-sh">kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
-kubectl expose deployment hello-minikube --type=NodePort --port=8080
-</code></pre>
-
-<p>获取服务</p>
-
-<pre><code class="language-sh">kubectl get services hello-minikube
-</code></pre>
-
-<p>提供web服务</p>
-
-<pre><code class="language-sh">minikube service hello-minikube
-</code></pre>
-
-<p>设置端口转发</p>
-
-<pre><code class="language-sh">kubectl port-forward service/hello-minikube 7080:8080
-</code></pre>
-
-<p>然后就可以用浏览器浏览地址 <a href="http://localhost:7080/">http://localhost:7080/</a></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create deployment hello-minikube --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4
+kubectl expose deployment hello-minikube --type<span style="color:#f92672">=</span>NodePort --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
+</code></pre></div><p>获取服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl get services hello-minikube
+</code></pre></div><p>提供web服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube service hello-minikube
+</code></pre></div><p>设置端口转发</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl port-forward service/hello-minikube 7080:8080
+</code></pre></div><p>然后就可以用浏览器浏览地址 http://localhost:7080/</p>
 <h4 id="负载均衡部署">负载均衡部署</h4>
-
-<pre><code class="language-sh">kubectl create deployment balanced --image=k8s.gcr.io/echoserver:1.4  
-kubectl expose deployment balanced --type=LoadBalancer --port=8080
-</code></pre>
-
-<p>在另外一个窗口运行tunnel，创建一个可路由的ip负载均衡器：</p>
-
-<pre><code class="language-sh">minikube tunnel
-</code></pre>
-
-<p>可以使用如下命令查看负载均衡器</p>
-
-<pre><code class="language-sh">kubectl get services balanced
-</code></pre>
-
-<p>现在你的deployment在<EXTERNAL-IP>:8080上可用</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create deployment balanced --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4  
+kubectl expose deployment balanced --type<span style="color:#f92672">=</span>LoadBalancer --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
+</code></pre></div><p>在另外一个窗口运行tunnel，创建一个可路由的ip负载均衡器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube tunnel
+</code></pre></div><p>可以使用如下命令查看负载均衡器</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl get services balanced
+</code></pre></div><p>现在你的deployment在<!-- raw HTML omitted -->:8080上可用</p>
 <h3 id="管理你的集群">管理你的集群</h3>
-
-<pre><code class="language-sh"># 暂停集群
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 暂停集群</span>
 minikube pause
-#停止集群
+<span style="color:#75715e">#停止集群</span>
 minikube stop
 
-# 查看安装的服务
+<span style="color:#75715e"># 查看安装的服务</span>
 minikube addons list
 
-# 删除所有minikube集群
+<span style="color:#75715e"># 删除所有minikube集群</span>
 minikube delete --all
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
