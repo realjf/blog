@@ -175,7 +175,7 @@ glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 - 离我们有一些距离。
 - 有透视效果（顶点越远，变得越小）。
 
-### 完整代码
+完整代码
 [github.com/realjf/opengl/src/recipe-07](https://github.com/realjf/opengl/tree/master/src/recipe-07)
 
 ### 更多的3D
