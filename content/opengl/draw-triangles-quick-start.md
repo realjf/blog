@@ -1,5 +1,5 @@
 ---
-title: "使用Opengl画一个三角形快速开始 Draw Triangles Quick Start"
+title: "opengl之二使用Opengl画一个三角形快速开始 Draw Triangles Quick Start"
 date: 2021-05-08T16:04:07+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
@@ -512,7 +512,7 @@ include_directories( ${opengl_INCLUDE} )
 
 set(COMMON_LIBS glfw X11 GL GLEW Xrandr Xi Xxf86vm Xcursor Xinerama pthread GLU dl GLU)
 
-set(SOURCE_FILES main.cpp ../glad.c)
+set(SOURCE_FILES main.cpp glad.c)
 add_executable(example ${SOURCE_FILES})
 
 
@@ -520,7 +520,7 @@ target_link_libraries(example
     PUBLIC 
     ${COMMON_LIBS})
 ```
-把glad和glfw下载到deps目录下，然后运行如下命令进行构建
+把glad和glfw下载到deps目录下，复制glad/src/glad.c到main.cpp目录下，然后运行如下命令进行构建
 ```sh
 mkdir build
 cd build

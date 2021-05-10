@@ -25,9 +25,9 @@ paginate = "10"
   [[params.social]]
     name = "twitter"
     url = "https://twitter.com/realjf2"
-  [[params.social]]
-    name = "pen-tool"
-    url = "http://bbs.realjf.com"
+  # [[params.social]]
+  #   name = "pen-tool"
+  #   url = "http://bbs.realjf.com"
 
 [menu]
   [[menu.main]]
