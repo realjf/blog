@@ -89,5 +89,68 @@ view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::ve
 完整代码如下：[github.com/realjf/opengl/src/recipe-09](https://github.com/realjf/opengl/tree/master/src/recipe-09)
 
 ## 自由移动
+首先设置一个摄像机系统，
+```cpp
+glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+```
+LookAt函数现在成了
+```cpp
+view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+```
+首先将摄像机位置设置为之前定义的cameraPos。方向是当前的位置加上刚刚定义的方向向量。这样能保证无论怎么移动，摄像机都会注视着目标方向。
+
+processInput函数添加几个需要检查的按键命令
+```cpp
+void processInput(GLFWwindow *window)
+{
+    ...
+    float cameraSpeed = 0.05f; // adjust accordingly
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        cameraPos += cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        cameraPos -= cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+}
+```
+现在应该可以移动摄像机了
+
+## 移动速度
+当你发布你的程序的时候，你必须确保它在所有硬件上移动速度都一样。
+
+图形程序和游戏通常会跟踪一个时间差(Deltatime)变量，它储存了渲染上一帧所用的时间。把所有速度都去乘以deltaTime值。结果就是，如果deltaTime很大，就意味着上一帧的渲染花费了更多时间，所以这一帧的速度需要变得更高来平衡渲染所花去的时间。使用这种方法时，无论你的电脑快还是慢，摄像机的速度都会相应平衡，这样每个用户的体验就都一样了。
+
+跟踪两个全局变量来计算出deltaTime值：
+```cpp
+float deltaTime = 0.0f; // 当前帧与上一帧的时间差
+float lastFrame = 0.0f; // 上一帧的时间
+```
+在每一帧中计算出新的deltaTime以备后用。
+```cpp
+float currentFrame = glfwGetTime();
+deltaTime = currentFrame - lastFrame;
+lastFrame = currentFrame;
+```
+
+现在，在计算速度的时候可以将其考虑进去了
+```cpp
+void processInput(GLFWwindow *window)
+{
+  float cameraSpeed = 2.5f * deltaTime;
+  ...
+}
+```
+完整代码如下：[github.com/realjf/opengl/src/recipe-10](https://github.com/realjf/opengl/tree/master/src/recipe-10)
+
+
+## 视角移动
+
+
+
+
 
 
