@@ -1,5 +1,5 @@
 ---
-title: "opengl之二使用Opengl画一个三角形快速开始 Draw Triangles Quick Start"
+title: "opengl之二 使用Opengl画一个三角形快速开始 Draw Triangles Quick Start"
 date: 2021-05-08T16:04:07+08:00
 keywords: ["opengl"]
 categories: ["opengl"]

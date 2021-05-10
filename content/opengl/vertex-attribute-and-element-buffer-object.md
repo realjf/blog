@@ -1,5 +1,5 @@
 ---
-title: "opengl之三顶点属性与索引缓冲对象 Vertex Attribute and Element Buffer Object"
+title: "opengl之三 顶点属性与索引缓冲对象 Vertex Attribute and Element Buffer Object"
 date: 2021-05-10T08:53:34+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
