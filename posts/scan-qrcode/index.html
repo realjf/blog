@@ -3,7 +3,7 @@
 <head>
     <title>Scan Qrcode // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -31,10 +31,6 @@
         
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-</svg></a>
-        
-            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
-  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
 </svg></a>
         
     </div>
@@ -237,239 +233,257 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/">微信开发者</a><a class="tag" href="https://realjf.io/tags/wechat/">wechat</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/">微信公众号</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1jssdk/">微信JSSDK</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E6%89%AB%E4%B8%80%E6%89%AB/">微信扫一扫</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/">微信开发者</a><a class="tag" href="https://realjf.io/tags/wechat/">Wechat</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/">微信公众号</a><a class="tag" href="https://realjf.io/tags/%E5%BE%AE%E4%BF%A1%E6%89%AB%E4%B8%80%E6%89%AB/">微信扫一扫</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="网页调用微信jssdk实现扫一扫功能">网页调用微信JSSDK实现扫一扫功能</h2>
+            
+
+<h2 id="网页调用微信jssdk实现扫一扫功能">网页调用微信JSSDK实现扫一扫功能</h2>
+
 <h3 id="设置公众号js接口安全域">设置公众号js接口安全域</h3>
+
 <p>在公众号后台的，公众号设置，功能设置里</p>
+
 <h3 id="配置ip白名单">配置ip白名单</h3>
+
 <p>在公众号后台基本配置里</p>
+
 <h3 id="页面引入微信sdkjs代码">页面引入微信sdkjs代码</h3>
+
 <p><a href="http://res.wx.qq.com/open/js/jweixin-1.2.0.js">http://res.wx.qq.com/open/js/jweixin-1.2.0.js</a></p>
+
 <h3 id="页面js代码">页面js代码</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">    <span style="color:#75715e">// 点击扫一扫按钮事件
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#btn-scan&#34;</span>).<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;click&#34;</span>, <span style="color:#66d9ef">function</span> () {
-        <span style="color:#75715e">//微信扫一扫 设置
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_queryString</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">search</span>;
-        <span style="color:#a6e22e">$</span>.<span style="color:#a6e22e">ajax</span>({
-            <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;post&#34;</span>,
-            <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/mobile/user/scanSign&#34;</span>,
-            <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">_queryString</span>},
-            <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">data</span>) {
-                <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">result</span>;
-                <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">config</span>({
-                    <span style="color:#a6e22e">debug</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>, <span style="color:#75715e">// 调试接口用
-</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">appId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">appId</span>,                           <span style="color:#75715e">//公众号的唯一标识
-</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">timestamp</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">timestamp</span>,    <span style="color:#75715e">//生成签名的时间戳
-</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">nonceStr</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">nonceStr</span>,                  <span style="color:#75715e">//生成签名的随机串
-</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">signature</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">signature</span>,              <span style="color:#75715e">//签名
-</span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">jsApiList</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;scanQRCode&#39;</span>]   <span style="color:#75715e">//需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)
-</span><span style="color:#75715e"></span>                });
+
+<pre><code class="language-js">    // 点击扫一扫按钮事件
+    $(&quot;#btn-scan&quot;).on(&quot;click&quot;, function () {
+        //微信扫一扫 设置
+        var _queryString = window.location.search;
+        $.ajax({
+            type: &quot;post&quot;,
+            url: &quot;/mobile/user/scanSign&quot;,
+            data: {query: _queryString},
+            success: function (data) {
+                var result = data.result;
+                wx.config({
+                    debug: false, // 调试接口用
+                    appId: result.appId,                           //公众号的唯一标识
+                    timestamp: &quot;&quot; + result.timestamp,    //生成签名的时间戳
+                    nonceStr: result.nonceStr,                  //生成签名的随机串
+                    signature: result.signature,              //签名
+                    jsApiList: ['scanQRCode']   //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)
+                });
             }
         });
     });
 
-    <span style="color:#75715e">//微信扫一扫处理代码
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">ready</span>(<span style="color:#66d9ef">function</span> () {
-        <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;body&#34;</span>).<span style="color:#a6e22e">off</span>(<span style="color:#e6db74">&#34;click&#34;</span>, <span style="color:#e6db74">&#34;.j-btn_chat&#34;</span>).<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;click&#34;</span>, <span style="color:#e6db74">&#34;.j-btn_chat&#34;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">e</span>) {
+    //微信扫一扫处理代码
+    wx.ready(function () {
+        $(&quot;body&quot;).off(&quot;click&quot;, &quot;.j-btn_chat&quot;).on(&quot;click&quot;, &quot;.j-btn_chat&quot;, function (e) {
 
-            <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">scanQRCode</span>({
-                <span style="color:#a6e22e">needResult</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,   <span style="color:#75715e">// 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">scanType</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#34;qrCode&#34;</span>, <span style="color:#e6db74">&#34;barCode&#34;</span>], <span style="color:#75715e">// 可以指定扫二维码还是一维码，默认二者都有
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">res</span>) {
-                    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;扫描成功：&#34;</span>);
-                    <span style="color:#75715e">// alert(res.resultStr);
-</span><span style="color:#75715e"></span>                    <span style="color:#75715e">// window.location.href = res.resultStr;
-</span><span style="color:#75715e"></span>                    <span style="color:#75715e">//res.resultStr可以获得扫描结果。这里写自己的业务操作代码}
-</span><span style="color:#75715e"></span>
+            wx.scanQRCode({
+                needResult: 0,   // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: [&quot;qrCode&quot;, &quot;barCode&quot;], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    alert(&quot;扫描成功：&quot;);
+                    // alert(res.resultStr);
+                    // window.location.href = res.resultStr;
+                    //res.resultStr可以获得扫描结果。这里写自己的业务操作代码}
+
                 }
             });
 
         });
     });
 
-    <span style="color:#75715e">// 错误处理
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">wx</span>.<span style="color:#a6e22e">error</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">res</span>) {
-        <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;出错了：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">errMsg</span>);<span style="color:#75715e">//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
-</span><span style="color:#75715e"></span>    });
+    // 错误处理
+    wx.error(function (res) {
+        alert(&quot;出错了：&quot; + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+    });
 
-</code></pre></div><h3 id="后端生成签名信息接口实现">后端生成签名信息接口实现</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">$url <span style="color:#f92672">=</span> $_REQUEST[<span style="color:#e6db74">&#39;&#39;</span>];
-$signPackage <span style="color:#f92672">=</span> (<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">JSSDK</span>())<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getSignPackage</span>($url);
+</code></pre>
 
-</code></pre></div><p>JSSDK实现</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JSSDK</span>
+<h3 id="后端生成签名信息接口实现">后端生成签名信息接口实现</h3>
+
+<pre><code class="language-php">$url = $_REQUEST[''];
+$signPackage = (new JSSDK())-&gt;getSignPackage($url);
+
+</code></pre>
+
+<p>JSSDK实现</p>
+
+<pre><code class="language-php">class JSSDK
 {
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * 公众号 appid
-</span><span style="color:#e6db74">     * @var string
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> $_appId <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * 公众号秘钥
-</span><span style="color:#e6db74">     * @var string
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> $_appSecret <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+    /**
+     * 公众号 appid
+     * @var string
+     */
+    private $_appId = &quot;&quot;;
+    /**
+     * 公众号秘钥
+     * @var string
+     */
+    private $_appSecret = &quot;&quot;;
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * accessToken获取地址
-</span><span style="color:#e6db74">     * @var string
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> $_access_token_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=%s&amp;secret=%s&#34;</span>;
+    /**
+     * accessToken获取地址
+     * @var string
+     */
+    private $_access_token_url = &quot;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=%s&amp;secret=%s&quot;;
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * 获取ticket
-</span><span style="color:#e6db74">     * @var string
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> $_api_ticket_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&amp;access_token=%s&#34;</span>;
+    /**
+     * 获取ticket
+     * @var string
+     */
+    private $_api_ticket_url = &quot;https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&amp;access_token=%s&quot;;
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * JSSDK constructor.
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __construct()
+    /**
+     * JSSDK constructor.
+     */
+    public function __construct()
     {
 
     }
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * @param $queryString
-</span><span style="color:#e6db74">     * @return array
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getSignPackage</span>($url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>)
+    /**
+     * @param $queryString
+     * @return array
+     */
+    public function getSignPackage($url = &quot;&quot;)
     {
-        $jsapiTicket <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getJsApiTicket</span>();
+        $jsapiTicket = $this-&gt;_getJsApiTicket();
 
-        <span style="color:#75715e">// 注意 URL 一定要动态获取，不能 hardcode.
-</span><span style="color:#75715e"></span>        $protocol <span style="color:#f92672">=</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">empty</span>($_SERVER[<span style="color:#e6db74">&#39;HTTPS&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> $_SERVER[<span style="color:#e6db74">&#39;HTTPS&#39;</span>] <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;off&#39;</span> <span style="color:#f92672">||</span> $_SERVER[<span style="color:#e6db74">&#39;SERVER_PORT&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">443</span>) <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;https://&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;http://&#34;</span>;
-<span style="color:#75715e">//        $url = &#34;$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]&#34;;
-</span><span style="color:#75715e"></span>        $_url <span style="color:#f92672">=</span> $protocol <span style="color:#f92672">.</span> $_SERVER[<span style="color:#e6db74">&#39;HTTP_HOST&#39;</span>] <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;your url path ...&#34;</span>;
-        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$url){
-            $url <span style="color:#f92672">=</span> $_url;
+        // 注意 URL 一定要动态获取，不能 hardcode.
+        $protocol = (!empty($_SERVER['HTTPS']) &amp;&amp; $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? &quot;https://&quot; : &quot;http://&quot;;
+//        $url = &quot;$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]&quot;;
+        $_url = $protocol . $_SERVER['HTTP_HOST'] . &quot;your url path ...&quot;;
+        if(!$url){
+            $url = $_url;
         }
 
-        $timestamp <span style="color:#f92672">=</span> <span style="color:#a6e22e">time</span>();
-        $nonceStr <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_createNonceStr</span>();
+        $timestamp = time();
+        $nonceStr = $this-&gt;_createNonceStr();
 
-        <span style="color:#75715e">// 这里参数的顺序要按照 key 值ASCII 码升序排序
-</span><span style="color:#75715e"></span>        $string <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;jsapi_ticket=%s&amp;noncestr=%s&amp;timestamp=%s&amp;url=%s&#34;</span>, $jsapiTicket, $nonceStr, $timestamp, $url);
+        // 这里参数的顺序要按照 key 值ASCII 码升序排序
+        $string = sprintf(&quot;jsapi_ticket=%s&amp;noncestr=%s&amp;timestamp=%s&amp;url=%s&quot;, $jsapiTicket, $nonceStr, $timestamp, $url);
 
-        $signature <span style="color:#f92672">=</span> <span style="color:#a6e22e">sha1</span>($string);
+        $signature = sha1($string);
 
-        $signPackage <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(
-            <span style="color:#e6db74">&#34;appId&#34;</span> <span style="color:#f92672">=&gt;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_appId</span>,
-            <span style="color:#e6db74">&#34;nonceStr&#34;</span> <span style="color:#f92672">=&gt;</span> $nonceStr,
-            <span style="color:#e6db74">&#34;timestamp&#34;</span> <span style="color:#f92672">=&gt;</span> $timestamp,
-            <span style="color:#e6db74">&#34;url&#34;</span> <span style="color:#f92672">=&gt;</span> $url,
-            <span style="color:#e6db74">&#34;signature&#34;</span> <span style="color:#f92672">=&gt;</span> $signature,
-            <span style="color:#e6db74">&#34;rawString&#34;</span> <span style="color:#f92672">=&gt;</span> $string,
+        $signPackage = array(
+            &quot;appId&quot; =&gt; $this-&gt;_appId,
+            &quot;nonceStr&quot; =&gt; $nonceStr,
+            &quot;timestamp&quot; =&gt; $timestamp,
+            &quot;url&quot; =&gt; $url,
+            &quot;signature&quot; =&gt; $signature,
+            &quot;rawString&quot; =&gt; $string,
         );
 
-        <span style="color:#66d9ef">return</span> $signPackage;
+        return $signPackage;
     }
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * @param int $length
-</span><span style="color:#e6db74">     * @return string
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_createNonceStr</span>($length <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>)
+    /**
+     * @param int $length
+     * @return string
+     */
+    private function _createNonceStr($length = 16)
     {
-        $chars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#34;</span>;
-        $str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
-        <span style="color:#66d9ef">for</span> ($i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; $i <span style="color:#f92672">&lt;</span> $length; $i<span style="color:#f92672">++</span>) {
-            $str <span style="color:#f92672">.=</span> <span style="color:#a6e22e">substr</span>($chars, <span style="color:#a6e22e">mt_rand</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">strlen</span>($chars) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>), <span style="color:#ae81ff">1</span>);
+        $chars = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
+        $str = &quot;&quot;;
+        for ($i = 0; $i &lt; $length; $i++) {
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
         }
-        <span style="color:#66d9ef">return</span> $str;
+        return $str;
     }
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * @return mixed
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_getJsApiTicket</span>()
+    /**
+     * @return mixed
+     */
+    private function _getJsApiTicket()
     {
-        $data <span style="color:#f92672">=</span> <span style="color:#a6e22e">json_decode</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_get_php_file</span>(<span style="color:#e6db74">&#34;jsapi_ticket.php&#34;</span>));
-        <span style="color:#66d9ef">if</span>($data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">expire_time</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">time</span>()){
-            $accessToken <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getAccessToken</span>();
-            $ticket <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getTicket</span>($accessToken);
-            <span style="color:#66d9ef">if</span>($ticket){
-                $data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">expire_time</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">time</span>() <span style="color:#f92672">+</span> <span style="color:#ae81ff">7000</span>;
-                $data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">jsapi_ticket</span> <span style="color:#f92672">=</span> $ticket;
-                $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_setRedisToken</span>(<span style="color:#e6db74">&#34;jsapi_ticket.php&#34;</span>, <span style="color:#a6e22e">json_encode</span>($data));
+        $data = json_decode($this-&gt;_get_php_file(&quot;jsapi_ticket.php&quot;));
+        if($data-&gt;expire_time &lt; time()){
+            $accessToken = $this-&gt;_getAccessToken();
+            $ticket = $this-&gt;_getTicket($accessToken);
+            if($ticket){
+                $data-&gt;expire_time = time() + 7000;
+                $data-&gt;jsapi_ticket = $ticket;
+                $this-&gt;_setRedisToken(&quot;jsapi_ticket.php&quot;, json_encode($data));
             }
-        }<span style="color:#66d9ef">else</span>{
-            $ticket <span style="color:#f92672">=</span> $data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">jsapi_ticket</span>;
+        }else{
+            $ticket = $data-&gt;jsapi_ticket;
         }
 
-        <span style="color:#66d9ef">return</span> $ticket;
+        return $ticket;
     }
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * @param $accessToken
-</span><span style="color:#e6db74">     * @return mixed
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_getTicket</span>($accessToken)
+    /**
+     * @param $accessToken
+     * @return mixed
+     */
+    private function _getTicket($accessToken)
     {
-        $url <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_api_ticket_url</span>, $accessToken);
-        $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">\clsCurl</span><span style="color:#f92672">::</span><span style="color:#a6e22e">get</span>($url, <span style="color:#a6e22e">\clsCurl</span><span style="color:#f92672">::</span><span style="color:#a6e22e">RES_TYPE_JSON</span>);
-        $ticket <span style="color:#f92672">=</span> $res[<span style="color:#e6db74">&#34;ticket&#34;</span>];
-        <span style="color:#66d9ef">return</span> $ticket;
+        $url = sprintf($this-&gt;_api_ticket_url, $accessToken);
+        $res = \clsCurl::get($url, \clsCurl::RES_TYPE_JSON);
+        $ticket = $res[&quot;ticket&quot;];
+        return $ticket;
     }
 
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_getAccessToken</span>()
+    private function _getAccessToken()
     {
-        $data <span style="color:#f92672">=</span> <span style="color:#a6e22e">json_decode</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_getRedisToken</span>(<span style="color:#e6db74">&#34;access_token.php&#34;</span>));
-        <span style="color:#66d9ef">if</span>($data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">expire_time</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">time</span>()){
-            $url <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_access_token_url</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_appId</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_appSecret</span>);
-            $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">\clsCurl</span><span style="color:#f92672">::</span><span style="color:#a6e22e">get</span>($url, <span style="color:#a6e22e">\clsCurl</span><span style="color:#f92672">::</span><span style="color:#a6e22e">RES_TYPE_JSON</span>);
-            $accessToken <span style="color:#f92672">=</span> $res[<span style="color:#e6db74">&#34;access_token&#34;</span>];
-            <span style="color:#66d9ef">if</span>($accessToken){
-                $data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">expire_time</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">time</span>() <span style="color:#f92672">+</span> <span style="color:#ae81ff">7000</span>;
-                $data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">access_token</span> <span style="color:#f92672">=</span> $accessToken;
-                $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_setRedisToken</span>(<span style="color:#e6db74">&#34;access_token.php&#34;</span>, <span style="color:#a6e22e">json_encode</span>($data));
+        $data = json_decode($this-&gt;_getRedisToken(&quot;access_token.php&quot;));
+        if($data-&gt;expire_time &lt; time()){
+            $url = sprintf($this-&gt;_access_token_url, $this-&gt;_appId, $this-&gt;_appSecret);
+            $res = \clsCurl::get($url, \clsCurl::RES_TYPE_JSON);
+            $accessToken = $res[&quot;access_token&quot;];
+            if($accessToken){
+                $data-&gt;expire_time = time() + 7000;
+                $data-&gt;access_token = $accessToken;
+                $this-&gt;_setRedisToken(&quot;access_token.php&quot;, json_encode($data));
             }
-        }<span style="color:#66d9ef">else</span>{
-            $accessToken <span style="color:#f92672">=</span> $data<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">access_token</span>;
+        }else{
+            $accessToken = $data-&gt;access_token;
         }
 
-        <span style="color:#66d9ef">return</span> $accessToken;
+        return $accessToken;
     }
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * 获取文件
-</span><span style="color:#e6db74">     * @param $filename
-</span><span style="color:#e6db74">     * @return string
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_getRedisToken</span>($filename)
+    /**
+     * 获取文件
+     * @param $filename
+     * @return string
+     */
+    private function _getRedisToken($filename)
     {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">\Model\mdlBase</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">redis</span>(<span style="color:#e6db74">&#34;online&#34;</span>)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">get</span>($filename);
+        return \Model\mdlBase::instance()-&gt;redis(&quot;online&quot;)-&gt;get($filename);
     }
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * @param $filename
-</span><span style="color:#e6db74">     * @param $content
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_setRedisToken</span>($filename, $content)
+    /**
+     * @param $filename
+     * @param $content
+     */
+    private function _setRedisToken($filename, $content)
     {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">\Model\mdlBase</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">redis</span>(<span style="color:#e6db74">&#34;online&#34;</span>)<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">set</span>($filename, $content);
+        return \Model\mdlBase::instance()-&gt;redis(&quot;online&quot;)-&gt;set($filename, $content);
     }
 
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_httpGet</span>($url) {
-        $curl <span style="color:#f92672">=</span> <span style="color:#a6e22e">curl_init</span>();
-        <span style="color:#a6e22e">curl_setopt</span>($curl, <span style="color:#a6e22e">CURLOPT_RETURNTRANSFER</span>, <span style="color:#66d9ef">true</span>);
-        <span style="color:#a6e22e">curl_setopt</span>($curl, <span style="color:#a6e22e">CURLOPT_TIMEOUT</span>, <span style="color:#ae81ff">500</span>);
-        <span style="color:#75715e">// 为保证第三方服务器与微信服务器之间数据传输的安全性，所有微信接口采用https方式调用，必须使用下面2行代码打开ssl安全校验。
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 如果在部署过程中代码在此处验证失败，请到 http://curl.haxx.se/ca/cacert.pem 下载新的证书判别文件。
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">curl_setopt</span>($curl, <span style="color:#a6e22e">CURLOPT_SSL_VERIFYPEER</span>, <span style="color:#66d9ef">true</span>);
-        <span style="color:#a6e22e">curl_setopt</span>($curl, <span style="color:#a6e22e">CURLOPT_SSL_VERIFYHOST</span>, <span style="color:#66d9ef">true</span>);
-        <span style="color:#a6e22e">curl_setopt</span>($curl, <span style="color:#a6e22e">CURLOPT_URL</span>, $url);
+    private function _httpGet($url) {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+        // 为保证第三方服务器与微信服务器之间数据传输的安全性，所有微信接口采用https方式调用，必须使用下面2行代码打开ssl安全校验。
+        // 如果在部署过程中代码在此处验证失败，请到 http://curl.haxx.se/ca/cacert.pem 下载新的证书判别文件。
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, true);
+        curl_setopt($curl, CURLOPT_URL, $url);
 
-        $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">curl_exec</span>($curl);
-        <span style="color:#a6e22e">curl_close</span>($curl);
+        $res = curl_exec($curl);
+        curl_close($curl);
 
-        <span style="color:#66d9ef">return</span> $res;
+        return $res;
     }
 }
-</code></pre></div><p>以上代码可根据自己实际情况进行调整</p>
+</code></pre>
+
+<p>以上代码可根据自己实际情况进行调整</p>
 
         </div>
         <div id="disqus_thread"></div>

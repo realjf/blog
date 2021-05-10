@@ -3,7 +3,7 @@
 <head>
     <title>gc垃圾回收算法之一 标记-清除算法（Mark-Sweep） // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -31,10 +31,6 @@
         
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-</svg></a>
-        
-            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
-  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
 </svg></a>
         
     </div>
@@ -237,48 +233,64 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/gc/">gc</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/gc/">Gc</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="什么是标记-清除算法">什么是标记-清除算法？</h3>
+            
+
+<h3 id="什么是标记-清除算法">什么是标记-清除算法？</h3>
+
 <p>GC标记-清理算法由标记阶段和清理阶段组成。标记阶段是把所有活动对象都做上标记的阶段。清理阶段是把没有标记的对象，即非活动对象回收的阶段。
 通过这两个阶段，就可以重复利用内存空间了。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">mark_sweep(){
+
+<pre><code class="language-c">mark_sweep(){
     mark_phase()
     sweep_phase()
 }
-</code></pre></div><h3 id="标记阶段">标记阶段</h3>
+</code></pre>
+
+<h3 id="标记阶段">标记阶段</h3>
+
 <p>标记阶段，首先通过根对象标记直接引用的活动对象，然后递归标记所有能通过指针数组访问到的对象。这样就能标记所有活动对象了。
 利用mark_phase()函数来进行标记阶段处理</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">mark_phase(){
-    <span style="color:#66d9ef">for</span>(r : <span style="color:#960050;background-color:#1e0010">$</span>roots)
-        mark(<span style="color:#f92672">*</span>r)
+
+<pre><code class="language-c">mark_phase(){
+    for(r : $roots)
+        mark(*r)
 }
 
-<span style="color:#75715e"># 标记函数
-</span><span style="color:#75715e"></span>mark(obj){
-    <span style="color:#66d9ef">if</span>(obj.mark<span style="color:#f92672">==</span>false)
-        obj.mark <span style="color:#f92672">=</span> true
-        <span style="color:#66d9ef">for</span>(child : children(obj))
-            mark(<span style="color:#f92672">*</span>child)
+# 标记函数
+mark(obj){
+    if(obj.mark==false)
+        obj.mark = true
+        for(child : children(obj))
+            mark(*child)
 }
-</code></pre></div><p>标记阶段总结来说就是遍历所有对象并标记活动对象的过程。</p>
+</code></pre>
+
+<p>标记阶段总结来说就是遍历所有对象并标记活动对象的过程。</p>
+
 <blockquote>
 <p>我们在搜索对象时常使用深度优先搜索、广度优先搜索方法。</p>
 </blockquote>
+
 <h3 id="清除阶段">清除阶段</h3>
+
 <p>在清除阶段，collector会遍历整个堆，回收没有打上标记的对象（即垃圾），使其能再次得到利用。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">sweep_phase(){
-    sweeping <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">$</span>heap_start
-    <span style="color:#66d9ef">while</span>(sweeping <span style="color:#f92672">&lt;</span> <span style="color:#960050;background-color:#1e0010">$</span>heap_end)
-        <span style="color:#66d9ef">if</span>(sweeping.mark <span style="color:#f92672">==</span> true)
-            sweeping.mark <span style="color:#f92672">=</span> false
-        <span style="color:#66d9ef">else</span>
-            sweeping.next <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">$</span>free_list
-            <span style="color:#960050;background-color:#1e0010">$</span>free_list <span style="color:#f92672">=</span> sweeping
-        sweeping <span style="color:#f92672">+=</span> sweeping.size
+
+<pre><code class="language-c">sweep_phase(){
+    sweeping = $heap_start
+    while(sweeping &lt; $heap_end)
+        if(sweeping.mark == true)
+            sweeping.mark = false
+        else
+            sweeping.next = $free_list
+            $free_list = sweeping
+        sweeping += sweeping.size
 }
-</code></pre></div><p><img src="/image/gc-mark-sweep.png" alt="gc标记清除算法"></p>
+</code></pre>
+
+<p><img src="/image/gc-mark-sweep.png" alt="gc标记清除算法" /></p>
 
         </div>
         <div id="disqus_thread"></div>

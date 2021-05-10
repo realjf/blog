@@ -3,7 +3,7 @@
 <head>
     <title>elasticsearch的doc_values和fielddata区别 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -31,10 +31,6 @@
         
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-</svg></a>
-        
-            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
-  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
 </svg></a>
         
     </div>
@@ -237,69 +233,94 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">elasticsearch</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/elasticsearch/">Elasticsearch</a></div></div>
         </header>
         <div class="post-content">
-            <p>Elasticsearch 首先分析文档，之后根据结果创建倒排索引。</p>
+            
+
+<p>Elasticsearch 首先分析文档，之后根据结果创建倒排索引。</p>
+
 <h3 id="倒排索引">倒排索引</h3>
+
 <p>Elasticsearch 使用一种称为 倒排索引 的结构，它适用于快速的全文搜索。一个倒排索引由文档中所有不重复词的列表构成，对于其中每个词，有一个包含它的文档列表。</p>
-<h3 id="doc_values">doc_values</h3>
+
+<h3 id="doc-values">doc_values</h3>
+
 <p>doc_values使聚合更快、更高效且内存使用率高。</p>
+
 <p>在 Elasticsearch 中，doc_values 就是一种列式存储结构，默认情况下每个字段的 doc_values 都是激活的，
 doc_values 是在索引时创建的。当字段索引时，Elasticsearch 为了能够快速检索，会把字段的值加入倒排索引中，同时它也会存储该字段的 <code>doc_values</code>。</p>
+
 <p>Elasticsearch 中的 doc_values 常被应用到以下场景：</p>
+
 <ul>
 <li>对一个字段进行排序</li>
 <li>对一个字段进行聚合</li>
 <li>某些过滤，比如地理位置过滤</li>
 <li>某些与字段相关的脚本计算</li>
 </ul>
+
 <p>因为文档值（doc_values）被序列化到磁盘，我们可以依靠操作系统的帮助来快速访问。
 当 working set 远小于节点的可用内存，系统会自动将所有的文档值保存在内存中，使得其读写十分高速；
 当其远大于可用内存，操作系统会自动把 doc_values 加载到系统的页缓存中，从而避免了 jvm 堆内存溢出异常。</p>
+
 <blockquote>
 <p>因此，搜索和聚合是相互紧密缠绕的。搜索使用倒排索引查找文档，聚合操作收集和聚合 doc_values 里的数据。</p>
 </blockquote>
+
 <p>doc_values 支持大部分字段类型，但是text 字段类型不支持（因为analyzed）。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;mappings&#34;</span>: {
-    <span style="color:#f92672">&#34;properties&#34;</span>: {
-      <span style="color:#f92672">&#34;status_code&#34;</span>: {
-        <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;keyword&#34;</span>
+
+<pre><code class="language-json">{
+  &quot;mappings&quot;: {
+    &quot;properties&quot;: {
+      &quot;status_code&quot;: {
+        &quot;type&quot;: &quot;keyword&quot;
       },
-      <span style="color:#f92672">&#34;session_id&#34;</span>: {
-        <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;keyword&#34;</span>,
-        <span style="color:#f92672">&#34;doc_values&#34;</span>: <span style="color:#66d9ef">false</span>
+      &quot;session_id&quot;: {
+        &quot;type&quot;: &quot;keyword&quot;,
+        &quot;doc_values&quot;: false
       }
     }
   }
 }
-</code></pre></div><ul>
+</code></pre>
+
+<ul>
 <li>(1) status_code 字段默认启动 doc_values 属性；</li>
 <li>(2) session_id 显式设置 doc_values = false，但是仍然可以被查询；</li>
 </ul>
+
 <blockquote>
 <p>如果确信某字段不需要排序或者聚合，或者从脚本中访问字段值，那么我们可以设置 doc_values = false，这样可以节省磁盘空间。</p>
 </blockquote>
+
 <h3 id="fielddata">fielddata</h3>
+
 <p>与 doc values 不同，fielddata 构建和管理 100% 在内存中，常驻于 JVM 内存堆。这意味着它本质上是不可扩展的。</p>
+
 <p>fielddata可能会消耗大量的堆空间，尤其是在加载高基数（high cardinality）text字段时。一旦fielddata已加载到堆中，
 它将在该段的生命周期内保留。此外，加载fielddata是一个昂贵的过程，可能会导致用户遇到延迟命中。
 这就是默认情况下禁用fielddata的原因。</p>
+
 <p>如果需要对 text 类型字段进行排序、聚合、或者从脚本中访问字段值，则会出现如下异常：</p>
+
 <pre><code>Fielddata is disabled on text fields by default. Set fielddata=true on [your_field_name] in order to load fielddata in memory by uninverting the inverted index. Note that this can however use significant memory.
-</code></pre><p>但是，在启动fielddata 设置之前，需要考虑为什么针对text 类型字段进行排序、聚合、或脚本呢？通常情况下，这是不太合理的。
+</code></pre>
+
+<p>但是，在启动fielddata 设置之前，需要考虑为什么针对text 类型字段进行排序、聚合、或脚本呢？通常情况下，这是不太合理的。
 text字段在索引时，例如New York，这样的词会被分词，会被拆成new、york 2个词项，这样当搜索new 或 york时，可以被搜索到。在此字段上面来一个terms的聚合会返回一个new的bucket和一个york的bucket，但是你可能想要的是一个单一new york的bucket。</p>
+
 <p>怎么解决这一问题呢？
 你可以使用 text 字段来实现全文本查询，同时使用一个未分词的 keyword 字段，且启用doc_values，来处理聚合操作。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;mappings&#34;</span>: {
-    <span style="color:#f92672">&#34;properties&#34;</span>: {
-      <span style="color:#f92672">&#34;my_field&#34;</span>: {
-      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;text&#34;</span>,
-      <span style="color:#f92672">&#34;fields&#34;</span>: {
-        <span style="color:#f92672">&#34;keyword&#34;</span>: {
-          <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;keyword&#34;</span>
+
+<pre><code class="language-json">{
+  &quot;mappings&quot;: {
+    &quot;properties&quot;: {
+      &quot;my_field&quot;: {
+      &quot;type&quot;: &quot;text&quot;,
+      &quot;fields&quot;: {
+        &quot;keyword&quot;: {
+          &quot;type&quot;: &quot;keyword&quot;
         }
        }
       }
@@ -307,20 +328,25 @@ text字段在索引时，例如New York，这样的词会被分词，会被拆�
   }
 }
 
-</code></pre></div><ul>
+</code></pre>
+
+<ul>
 <li>(1) 使用my_field 字段用于查询；</li>
 <li>(2) 使用my_field.keyword 字段用于聚合、排序、或脚本；</li>
 </ul>
+
 <p>可以使用 PUT mapping API 在现有text 字段上启用 fielddata，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;properties&#34;</span>: {
-    <span style="color:#f92672">&#34;my_field&#34;</span>: {
-      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;text&#34;</span>,
-      <span style="color:#f92672">&#34;fielddata&#34;</span>: <span style="color:#66d9ef">true</span>
+
+<pre><code class="language-json">{
+  &quot;properties&quot;: {
+    &quot;my_field&quot;: {
+      &quot;type&quot;: &quot;text&quot;,
+      &quot;fielddata&quot;: true
     }
   }
 }
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

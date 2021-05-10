@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 13. 屏幕操作 13 Screen Manipulation // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -31,10 +31,6 @@
         
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-</svg></a>
-        
-            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
-  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
 </svg></a>
         
     </div>
@@ -237,23 +233,37 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="13-屏幕操作">13 屏幕操作</h2>
+            
+
+<h2 id="13-屏幕操作">13 屏幕操作</h2>
+
 <p>在本节中，我们将研究一些函数，这些函数允许我们高效地管理屏幕并编写一些奇特的程序。这在编写游戏时尤其重要。</p>
-<h3 id="131-getyx函数">13.1. getyx（）函数</h3>
+
+<h3 id="13-1-getyx-函数">13.1. getyx（）函数</h3>
+
 <p>函数getyx（）可以用来找出当前光标的坐标。它将填充给定参数中的x和y坐标值。因为getyx（）是一个宏，所以不必传递变量的地址。它可以称为</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"> getyx(win, y, x);
-    <span style="color:#75715e">/* win: window pointer
-</span><span style="color:#75715e">     *   y, x: y, x co-ordinates will be put into this variables 
-</span><span style="color:#75715e">     */</span>
-</code></pre></div><p>函数getparyx（）获取子窗口相对于主窗口的起始坐标。这有时对更新子窗口很有用。在设计诸如编写多个菜单之类的花哨东西时，很难存储菜单位置、它们的第一个选项坐标等。解决这个问题的一个简单方法是在子窗口中创建菜单，然后使用getparyx（）找到菜单的起始坐标。</p>
+
+<pre><code class="language-cpp"> getyx(win, y, x);
+    /* win: window pointer
+     *   y, x: y, x co-ordinates will be put into this variables 
+     */
+</code></pre>
+
+<p>函数getparyx（）获取子窗口相对于主窗口的起始坐标。这有时对更新子窗口很有用。在设计诸如编写多个菜单之类的花哨东西时，很难存储菜单位置、它们的第一个选项坐标等。解决这个问题的一个简单方法是在子窗口中创建菜单，然后使用getparyx（）找到菜单的起始坐标。</p>
+
 <p>函数getbegyx（）和getmaxyx（）存储当前窗口的起始坐标和最大坐标。这些函数在有效管理窗口和子窗口方面的作用与上述方法相同。</p>
-<h3 id="132-屏幕转储">13.2. 屏幕转储</h3>
+
+<h3 id="13-2-屏幕转储">13.2. 屏幕转储</h3>
+
 <p>在编写游戏时，有时需要存储屏幕的状态并将其恢复到相同的状态。函数scr_dump（）可用于将屏幕内容转储到作为参数给定的文件中。以后可以通过scr_restore功能恢复。这两个简单的函数可以有效地用来维护一个快速移动的游戏和不断变化的场景。</p>
-<h3 id="133-窗口转储">13.3. 窗口转储</h3>
+
+<h3 id="13-3-窗口转储">13.3. 窗口转储</h3>
+
 <p>要存储和还原窗口，可以使用函数putwin（）和getwin（）。putwin（）将当前窗口状态放入一个文件中，稍后可以由getwin（）还原。</p>
+
 <p>函数copywin（）可用于将一个窗口完全复制到另一个窗口上。它以源窗口和目标窗口为参数，根据指定的矩形，将矩形区域从源窗口复制到目标窗口。它的最后一个参数指定是覆盖还是只覆盖目标窗口上的内容。如果此参数为真，则复制是非破坏性的。</p>
 
         </div>

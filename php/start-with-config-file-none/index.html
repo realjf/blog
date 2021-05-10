@@ -3,7 +3,7 @@
 <head>
     <title>PHP启动时配置文件显示： Loaded Configuration File 为 none // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -31,10 +31,6 @@
         
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-</svg></a>
-        
-            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
-  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
 </svg></a>
         
     </div>
@@ -237,38 +233,53 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/php/">php</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/php/">Php</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="php启动时配置文件显示-loaded-configuration-file-为-none">PHP启动时配置文件显示： Loaded Configuration File 为 none</h3>
-<h4 id="首先查看php-的配置情况">首先查看php 的配置情况</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">php --ini
-<span style="color:#75715e"># 输出如下</span>
-Configuration File <span style="color:#f92672">(</span>php.ini<span style="color:#f92672">)</span> Path: /data/conf/etc/php.ini
-Loaded Configuration File:         <span style="color:#f92672">(</span>none<span style="color:#f92672">)</span>
-Scan <span style="color:#66d9ef">for</span> additional .ini files in: <span style="color:#f92672">(</span>none<span style="color:#f92672">)</span>
-Additional .ini files parsed:      <span style="color:#f92672">(</span>none<span style="color:#f92672">)</span>
+            
 
-</code></pre></div><p>可以看到Loaded Configuration File的配置项为none，如果你直接在teminal中执行php运行代码，可能出现配置一些配置未加载的情况
+<h3 id="php启动时配置文件显示-loaded-configuration-file-为-none">PHP启动时配置文件显示： Loaded Configuration File 为 none</h3>
+
+<h4 id="首先查看php-的配置情况">首先查看php 的配置情况</h4>
+
+<pre><code class="language-shell">php --ini
+# 输出如下
+Configuration File (php.ini) Path: /data/conf/etc/php.ini
+Loaded Configuration File:         (none)
+Scan for additional .ini files in: (none)
+Additional .ini files parsed:      (none)
+
+</code></pre>
+
+<p>可以看到Loaded Configuration File的配置项为none，如果你直接在teminal中执行php运行代码，可能出现配置一些配置未加载的情况
 ，特别是一些扩展未加载情况导致的无法使用扩展</p>
+
 <h4 id="解决方法">解决方法</h4>
+
 <p>如果有strace，可以使用strace跟踪下php的执行情况</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">strace /usr/local/php/bin/php -i 2&gt; /tmp/ll.log
-<span style="color:#75715e"># 然后使用grep查看跟踪中出现加载php.ini的路径</span>
-grep <span style="color:#e6db74">&#39;php.ini&#39;</span> /tmp/ll.log
-<span style="color:#75715e"># 结果如下：</span>
-open<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/usr/local/php/bin/php.ini&#34;</span>, O_RDONLY<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 ENOENT <span style="color:#f92672">(</span>No such file or directory<span style="color:#f92672">)</span>
-open<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/usr/local/php/etc/php.ini&#34;</span>, O_RDONLY<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 ENOENT <span style="color:#f92672">(</span>No such file or directory<span style="color:#f92672">)</span>
-</code></pre></div><p>可以看到首先加载了/usr/local/php/bin/目录下的php.ini，发现没有该文件报错，然后又加载了
+
+<pre><code class="language-shell">strace /usr/local/php/bin/php -i 2&gt; /tmp/ll.log
+# 然后使用grep查看跟踪中出现加载php.ini的路径
+grep 'php.ini' /tmp/ll.log
+# 结果如下：
+open(&quot;/usr/local/php/bin/php.ini&quot;, O_RDONLY) = -1 ENOENT (No such file or directory)
+open(&quot;/usr/local/php/etc/php.ini&quot;, O_RDONLY) = -1 ENOENT (No such file or directory)
+</code></pre>
+
+<p>可以看到首先加载了/usr/local/php/bin/目录下的php.ini，发现没有该文件报错，然后又加载了
 /usr/local/php/etc/php.ini，发现也不存在，需要解决的就是这个问题</p>
+
 <p>我们可以直接复制你的php.ini文件到/usr/local/php/bin/目录下，让它自动加载即可
 这时候重新执行php &ndash;ini可以看到结果如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">php --ini
-Configuration File <span style="color:#f92672">(</span>php.ini<span style="color:#f92672">)</span> Path: /data/conf/etc/php-5.6.ini
+
+<pre><code class="language-shell">php --ini
+Configuration File (php.ini) Path: /data/conf/etc/php-5.6.ini
 Loaded Configuration File:         /usr/local/php-5.6.11/bin/php.ini
-Scan <span style="color:#66d9ef">for</span> additional .ini files in: <span style="color:#f92672">(</span>none<span style="color:#f92672">)</span>
-Additional .ini files parsed:      <span style="color:#f92672">(</span>none<span style="color:#f92672">)</span>
-</code></pre></div><p>说明已经加载成功</p>
+Scan for additional .ini files in: (none)
+Additional .ini files parsed:      (none)
+</code></pre>
+
+<p>说明已经加载成功</p>
 
         </div>
         <div id="disqus_thread"></div>

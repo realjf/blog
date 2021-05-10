@@ -1,21 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>gc on Realjf&#39;s blog</title>
+    <title>Gc on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/gc/</link>
-    <description>Recent content in gc on Realjf&#39;s blog</description>
+    <description>Recent content in Gc on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Apr 2021 11:23:18 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/gc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Apr 2021 11:23:18 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/gc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>golang垃圾回收机制 Go Gc Mechanism</title>
       <link>https://realjf.io/golang/go-gc-mechanism/</link>
       <pubDate>Wed, 21 Apr 2021 11:23:18 +0800</pubDate>
       
       <guid>https://realjf.io/golang/go-gc-mechanism/</guid>
-      <description>GC三色标记流程说明 1. GC执行扫描(sweep)终止  stop the world（简称STW），这将导致所有P达到GC安全点 扫描所有未清扫的span，只有在以下情况下才会出现未扫描的span：此GC周期在预期时间之前被强制执行  2. GC执行标记(mark)阶段  通过将gcphase设置为_GCmark来准备标记阶段（来自_GCoff），启用写屏障，启用mutator协助和加入根标记作业。不得有物体扫描直到所有P都启用了写屏障，即使用STW完成。 start the world，从这一点来说，GC工作是由调度器启动mark工人完成的，以及作为分配的一部分。写屏障屏蔽了重写指针和任何指针的新指针值写入（请参阅mbarrier.go 详细信息）。新分配的对象立即标记为黑色。 GC执行根标记作业。这包括扫描所有堆栈，着色所有全局变量，着色中的所有堆指针堆外运行时数据结构。扫描堆栈停止goroutine，隐藏堆栈上的指针，然后恢复goroutine。 GC将灰色对象的工作队列清空，扫描每个灰色对象变为黑色，并对对象中找到的所有指针进行着色（这反过来可能会将这些指针添加到工作队列）。 因为GC工作分布在本地缓存中，所以GC使用分布式终止算法，用于检测没有更多根标记作业或灰色对象（请参见gcMarkDone）。在这刻，GC转换到标记终止。  3. GC执行标记终止  STW 将gcphase设置为_GCmarktermination，并禁用worker和辅助 执行像刷新mcaches一样的内务处理  4. GC执行扫描阶段  通过将gcphase设置为_GCoff来准备扫描阶段，设置扫描状态并禁用写屏障 start the world。从这一刻开始，新分配的对象为白色，必要时在使用前分配扫描span GC在后台进行并发清除和在响应中进行分配  5. 完成足够的分配后，从上面的1重新开始清扫标记过程 GC过程图解  从根节点开始遍历对象，包括全局指针和goroutine栈上的指针 标记（mark）阶段   从根节点遍历到的对象标记为灰色，然后遍历灰色对象直至灰色队列为空 re-scan，重新扫描全局指针和栈上指针，因为mark和用户程序是并行的，所以在1过程中，可能会有新对象分配，这时需要写屏障记录下来，re-scan再重新检查一遍  STW有两次，分别是   GC将要开始的时候，这时主要做一些准备工作，比如启用写屏障等 第二次就是在re-scan时候，如果这时没有STW，那么mark将无休止  其中：GCphase状态值在以下几个中转换
+      <description>GC三色标记流程说明 1. GC执行扫描(sweep)终止  stop the world（简称STW），这将导致所有P达到GC安全点 扫描所有未清扫的span，只有在以下情况下才会出现未扫描的span：此GC周期在预期时间之前被强制执行  2. GC执行标记(mark)阶段  通过将gcphase设置为_GCmark来准备标记阶段（来自_GCoff），启用写屏障，启用mutator协助和加入根标记作业。不得有物体扫描直到所有P都启用了写屏障，即使用STW完成。 start the world，从这一点来说，GC工作是由调度器启动mark工人完成的，以及作为分配的一部分。写屏障屏蔽了重写指针和任何指针的新指针值写入（请参阅mbarrier.go 详细信息）。新分配的对象立即标记为黑色。 GC执行根标记作业。这包括扫描所有堆栈，着色所有全局变量，着色中的所有堆指针堆外运行时数据结构。扫描堆栈停止goroutine，隐藏堆栈上的指针，然后恢复goroutine。 GC将灰色对象的工作队列清空，扫描每个灰色对象变为黑色，并对对象中找到的所有指针进行着色（这反过来可能会将这些指针添加到工作队列）。 因为GC工作分布在本地缓存中，所以GC使用分布式终止算法，用于检测没有更多根标记作业或灰色对象（请参见gcMarkDone）。在这刻，GC转换到标记终止。  3. GC执行标记终止  STW 将gcphase设置为_GCmarktermination，并禁用worker和辅助 执行像刷新mcaches一样的内务处理  4. GC执行扫描阶段  通过将gcphase设置为_GCoff来准备扫描阶段，设置扫描状态并禁用写屏障 start the world。从这一刻开始，新分配的对象为白色，必要时在使用前分配扫描span GC在后台进行并发清除和在响应中进行分配  5. 完成足够的分配后，从上面的1重新开始清扫标记过程 GC过程图解  从根节点开始遍历对象，包括全局指针和goroutine栈上的指针 标记（mark）阶段  从根节点遍历到的对象标记为灰色，然后遍历灰色对象直至灰色队列为空 re-scan，重新扫描全局指针和栈上指针，因为mark和用户程序是并行的，所以在1过程中，可能会有新对象分配，这时需要写屏障记录下来，re-scan再重新检查一遍  STW有两次，分别是  GC将要开始的时候，这时主要做一些准备工作，比如启用写屏障等 第二次就是在re-scan时候，如果这时没有STW，那么mark将无休止   其中：GCphase状态值在以下几个中转换
  _GCoff：gc关闭阶段 _GCmark: gc标记清扫阶段 _GCmarktermination：mark termination阶段  写屏障 假设开始的引用关系是：
-root-&amp;gt;A-&amp;gt;B , root-&amp;gt;A-&amp;gt;C, root-&amp;gt;D-&amp;gt;E 在进行三色标记阶段，扫描了A对象，并标记A，这时，如果一个goroutine修改了D-&amp;gt;E的引用关系为A-&amp;gt;E， 此时是这样的：</description>
+root-&amp;gt;A-&amp;gt;B , root-&amp;gt;A-&amp;gt;C, root-&amp;gt;D-&amp;gt;E  在进行三色标记阶段，扫描了A对象，并标记A，这时，如果一个goroutine修改了D-&amp;gt;E的引用关系为A-&amp;gt;E， 此时是这样的：</description>
     </item>
     
     <item>
@@ -24,12 +28,12 @@ root-&amp;gt;A-&amp;gt;B , root-&amp;gt;A-&amp;gt;C, root-&amp;gt;D-&amp;gt;E �
       <pubDate>Sun, 18 Apr 2021 20:11:57 +0800</pubDate>
       
       <guid>https://realjf.io/gc/mark-sweep/</guid>
-      <description>什么是标记-清除算法？ GC标记-清理算法由标记阶段和清理阶段组成。标记阶段是把所有活动对象都做上标记的阶段。清理阶段是把没有标记的对象，即非活动对象回收的阶段。 通过这两个阶段，就可以重复利用内存空间了。
-mark_sweep(){ mark_phase() sweep_phase() } 标记阶段 标记阶段，首先通过根对象标记直接引用的活动对象，然后递归标记所有能通过指针数组访问到的对象。这样就能标记所有活动对象了。 利用mark_phase()函数来进行标记阶段处理
-mark_phase(){ for(r : $roots) mark(*r) } # 标记函数 mark(obj){ if(obj.mark==false) obj.mark = true for(child : children(obj)) mark(*child) } 标记阶段总结来说就是遍历所有对象并标记活动对象的过程。
+      <description> 什么是标记-清除算法？ GC标记-清理算法由标记阶段和清理阶段组成。标记阶段是把所有活动对象都做上标记的阶段。清理阶段是把没有标记的对象，即非活动对象回收的阶段。 通过这两个阶段，就可以重复利用内存空间了。
+mark_sweep(){ mark_phase() sweep_phase() }  标记阶段 标记阶段，首先通过根对象标记直接引用的活动对象，然后递归标记所有能通过指针数组访问到的对象。这样就能标记所有活动对象了。 利用mark_phase()函数来进行标记阶段处理
+mark_phase(){ for(r : $roots) mark(*r) } # 标记函数 mark(obj){ if(obj.mark==false) obj.mark = true for(child : children(obj)) mark(*child) }  标记阶段总结来说就是遍历所有对象并标记活动对象的过程。
  我们在搜索对象时常使用深度优先搜索、广度优先搜索方法。
  清除阶段 在清除阶段，collector会遍历整个堆，回收没有打上标记的对象（即垃圾），使其能再次得到利用。
-sweep_phase(){ sweeping = $heap_start while(sweeping &amp;lt; $heap_end) if(sweeping.mark == true) sweeping.mark = false else sweeping.next = $free_list $free_list = sweeping sweeping += sweeping.size } </description>
+sweep_phase(){ sweeping = $heap_start while(sweeping &amp;lt; $heap_end) if(sweeping.mark == true) sweeping.mark = false else sweeping.next = $free_list $free_list = sweeping sweeping += sweeping.size }  </description>
     </item>
     
     <item>
@@ -38,7 +42,7 @@ sweep_phase(){ sweeping = $heap_start while(sweeping &amp;lt; $heap_end) if(swee
       <pubDate>Tue, 19 Mar 2019 14:49:57 +0800</pubDate>
       
       <guid>https://realjf.io/golang/how-golang-garbage-collection-works/</guid>
-      <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;quot;最大响应时间&amp;quot;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
+      <description>当前的1.9版本的GC停顿时间已经可以做到极短. 停顿时间的减少意味着&amp;rdquo;最大响应时间&amp;rdquo;的缩短, 这也让go更适合编写网络服务程序. 这篇文章将通过分析golang的源代码来讲解go中的三色GC的实现原理.
 基础概念 内存结构 go在程序启动时会分配一块虚拟内存地址是连续的内存，结构如下：
 这一块内存分为了3个区域, 在X64上大小分别是512M, 16G和512G, 它们的作用如下:
 arena arena区域就是我们通常说的heap, go从heap分配的内存都在这个区域中.
@@ -49,7 +53,7 @@ spans spans区域用于表示arena区中的某一页(Page)属于哪个span, 什�
 spans区域的一个指针对应arena区域的一页的结构如下, 和bitmap不一样的是对应关系会从开头开始:
 什么时候从heap分配对象 go对自动确定哪些对象应该放在栈上，哪些对象应该放在堆上。 简单说，当一个对象的内容可能在生成该对象的函数结束后被访问，那么这个对象就会分配到堆上
 在堆上分配的对象的情况包括：
- 返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new  在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;quot;逃逸分析&amp;quot;.
+ 返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new  在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;rdquo;逃逸分析&amp;rdquo;.
 GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提到的bitmap区域涵盖了arena区域中的指针信息. 除此之外, GC还需要知道栈空间上哪些地方包含了指针, 因为栈空间不属于arena区域, 栈空间的指针信息将会在函数信息里面.</description>
     </item>
     

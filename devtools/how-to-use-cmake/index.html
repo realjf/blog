@@ -3,7 +3,7 @@
 <head>
     <title>如何使用cmake - How to Use Cmake // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.82.0" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -31,10 +31,6 @@
         
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-</svg></a>
-        
-            <a target="_blank" href="http://bbs.realjf.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-pen-tool">
-  <path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle>
 </svg></a>
         
     </div>
@@ -237,67 +233,90 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/devtools/">devtools</a><a class="tag" href="https://realjf.io/tags/cmake/">cmake</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/devtools/">Devtools</a><a class="tag" href="https://realjf.io/tags/cmake/">Cmake</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="准备">准备</h2>
+            
+
+<h2 id="准备">准备</h2>
+
 <ul>
 <li>cmake</li>
 </ul>
+
 <blockquote>
-<p>下载地址：https://cmake.org/download/</p>
+<p>下载地址：<a href="https://cmake.org/download/">https://cmake.org/download/</a></p>
 </blockquote>
+
 <h3 id="安装">安装</h3>
+
 <p>具体的安装方法参照官网，这里不做赘述</p>
+
 <h3 id="建议">建议</h3>
+
 <p>cmake每次运行会产生大量中间文件，可以通过在项目根目录下创建build文件，然后运行cmake ../执行项目构建</p>
+
 <h3 id="cmake命令行选项">cmake命令行选项</h3>
-<h4 id="指定构建系统生成器--g">指定构建系统生成器： -G</h4>
+
+<h4 id="指定构建系统生成器-g">指定构建系统生成器： -G</h4>
+
 <p>使用-G可以指定编译器，当前平台支持的编译器名称可以通过帮助手册查询cmake &ndash;help，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 使用vs2017构建工程</span>
-cmake -G <span style="color:#e6db74">&#34;Visual Studio 15 2017&#34;</span> ../
-<span style="color:#75715e"># 使用MinGW </span>
-cmake -G <span style="color:#e6db74">&#34;MinGW Makefiles&#34;</span>
-<span style="color:#75715e"># 使用unix makefiles</span>
-cmake -G <span style="color:#e6db74">&#34;Unix Makefiles&#34;</span>
-</code></pre></div><h4 id="cmakecachetxt文件">CMakeCache.txt文件</h4>
+
+<pre><code class="language-shell"># 使用vs2017构建工程
+cmake -G &quot;Visual Studio 15 2017&quot; ../
+# 使用MinGW 
+cmake -G &quot;MinGW Makefiles&quot;
+# 使用unix makefiles
+cmake -G &quot;Unix Makefiles&quot;
+</code></pre>
+
+<h4 id="cmakecache-txt文件">CMakeCache.txt文件</h4>
+
 <ul>
-<li>
-<p>当cmake第一次运行一个空的构建的时候，他会创建一个CMakeCache.txt文件，
-文件里存放了一些可以用来制定工程的项目，比如：变量、选项等</p>
-</li>
-<li>
-<p>对于同一变量，如果cache文件里面有设置，那么CMakeLists文件里就会优先使用Cache文件里面的同名变量。</p>
-</li>
-<li>
-<p>CMakeLists里面通过设置了一个Cache里面没有的变量，那么就将这个变量的值写入到Cache里面</p>
-</li>
+<li><p>当cmake第一次运行一个空的构建的时候，他会创建一个CMakeCache.txt文件，
+文件里存放了一些可以用来制定工程的项目，比如：变量、选项等</p></li>
+
+<li><p>对于同一变量，如果cache文件里面有设置，那么CMakeLists文件里就会优先使用Cache文件里面的同名变量。</p></li>
+
+<li><p>CMakeLists里面通过设置了一个Cache里面没有的变量，那么就将这个变量的值写入到Cache里面</p></li>
 </ul>
-<h4 id="添加变量到cache文件中--d">添加变量到cache文件中： -D</h4>
+
+<h4 id="添加变量到cache文件中-d">添加变量到cache文件中： -D</h4>
+
 <ul>
 <li>注意：-D后面不能有空格，如：cmake -DCMAKE_BUILD_TYPE:STRING=Debug</li>
 </ul>
+
 <h4 id="从cache文件中删除变量-u">从Cache文件中删除变量：-U</h4>
+
 <ul>
 <li>此选项和-D功能相反，从Cache文件中删除变量，支持使用*和？通配符</li>
 </ul>
+
 <h4 id="cmake命令行模式-e">cmake命令行模式：-E</h4>
+
 <ul>
 <li>cmake提供了很多和平台无关的命令，在任何平台都可以使用：chdir, copy,copy_if_different等</li>
 <li>可以使用：cmake -D help进行查询</li>
 </ul>
+
 <h4 id="打印运行的每一行cmake">打印运行的每一行cmake</h4>
+
 <ul>
 <li>命令行选项中：&ndash;trace，将打印运行的每一行cmake</li>
 <li>命令：&ndash;trace-source=&ldquo;filename&rdquo; 就会打印出有关filename的执行</li>
 </ul>
+
 <h4 id="设置编译参数">设置编译参数</h4>
+
 <ul>
 <li>add_definitions (-DENABLED)，当在cmake里面添加该定义的时候，如果代码里面定义了#ifdef ENABLED #endif 相关的片段，此时代码里面这一块代码就会生效</li>
-<li>//add_definitions(&quot;-Wall -ansi -pedantic -g&quot;)</li>
+<li>//add_definitions(&ldquo;-Wall -ansi -pedantic -g&rdquo;)</li>
 <li>该命令现已经被取代，使用：add_compile_definitions(WITH_OPENCV2)</li>
 </ul>
-<h4 id="设置默认值命令option">设置默认值命令：option</h4>
+
+<h4 id="设置默认值命令-option">设置默认值命令：option</h4>
+
 <ul>
 <li>option命令可以帮助我们设置一个自定义的宏，如：option(MY-MESSAGE &ldquo;this is my message&rdquo; ON)</li>
 <li>第一个参数就是我们要设置的默认值的名字</li>
@@ -307,13 +326,17 @@ cmake -G <span style="color:#e6db74">&#34;Unix Makefiles&#34;</span>
 <li>注意：使用的时候我们应该在值的前面加 &ldquo;D&rdquo;</li>
 <li>这条命令可将MY-MESSAGE的值设置为on，通过这个值我们可以去触发相关的判断</li>
 </ul>
+
 <h3 id="cmake基础知识">cmake基础知识</h3>
+
 <h4 id="最低版本">最低版本</h4>
+
 <ul>
 <li>每个cmake.txt的第一行都会写：cmake_minimum_required(VERSION 3.1)，该命令指定了cmake的最低版本是3.1</li>
 <li>命令名称cmake_minimum_required不区分大小写</li>
 <li>设置版本范围：cmake_minimum_required(VERSION 3.1&hellip;3.12)，该命令表示支持3.1至3.12之间的版本</li>
 <li>判断cmake版本
+
 <ul>
 <li>if(${CMAKE_VERSION} VERSION_LESS 3.12)</li>
 <li>cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})</li>
@@ -326,185 +349,196 @@ cmake -G <span style="color:#e6db74">&#34;Unix Makefiles&#34;</span>
 <li>else()</li>
 <li>cmake_policy(VERSION 3.12)</li>
 <li>endif()</li>
+</ul></li>
 </ul>
-</li>
-</ul>
+
 <h4 id="设置生成项目名称">设置生成项目名称</h4>
+
 <ul>
 <li>使用的命令：project(MyProject)</li>
 <li>表示我们生成的工程名字叫做：MyProject</li>
 <li>命令还可以标识项目支持的语言，写法：project (MyProject[C][C++])，不过通常将后面的参数省掉，因为默认支持所有语言</li>
-<li>使用该指令之后系统会自动创建两个变量：<!-- raw HTML omitted -->_BINARY_DIR：二进制文件保存路径、<!-- raw HTML omitted -->_SOURCE_DIR：源代码路径</li>
+<li>使用该指令之后系统会自动创建两个变量：<projectname>_BINARY_DIR：二进制文件保存路径、<projectname>_SOURCE_DIR：源代码路径</li>
 <li>执行：project(MyProject)，就是定义了一个项目的名称为：MyProject，对应的就会生成两个变量：_BINARY_DIR和_SOURCE_DIR，
 但是cmake中其实已经有两个预定义的变量：PROJECT_BINARY_DIR和PROJECT_SOURCE_DIR</li>
-<li>关于两个变量是否相同，涉及到是内部构建还是外部构建
+
+<li><p>关于两个变量是否相同，涉及到是内部构建还是外部构建</p>
+
 <ul>
-<li>内部构建</li>
-</ul>
-</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cmake ./
+<li>内部构建
+<code>shell script
+cmake ./
 make
-</code></pre></div><pre><code>- 外部构建
-</code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir build
+</code><br /></li>
+
+<li><p>外部构建</p>
+
+<pre><code class="language-shell">mkdir build
 cd ./build
 cmake ../
 make
-</code></pre></div><pre><code>- 内部构建和外部构建的不同在于：cmake的工作目录不同，内部构建会将cmake生成的中间文件和可执行文件放在和项目同一个目录；外部构建的话，中间
-文件和可执行文件会放在build目录
-- PROJECT_SOURCE_DIR和_SOURCE_DIR无论内部构建还是外部构建，指向的内容是一样的，都指向工程的根目录
-- PROJECT_BINARY_DIR和_BINARY_DIR指向的相同内容，内部构建的时候指向cmakelists.txt文件的目录，外部构建的，指向target编译的目录
-</code></pre>
+</code></pre></li>
+
+<li><p>内部构建和外部构建的不同在于：cmake的工作目录不同，内部构建会将cmake生成的中间文件和可执行文件放在和项目同一个目录；外部构建的话，中间
+文件和可执行文件会放在build目录</p></li>
+
+<li><p>PROJECT_SOURCE_DIR和_SOURCE_DIR无论内部构建还是外部构建，指向的内容是一样的，都指向工程的根目录</p></li>
+
+<li><p>PROJECT_BINARY_DIR和_BINARY_DIR指向的相同内容，内部构建的时候指向cmakelists.txt文件的目录，外部构建的，指向target编译的目录</p></li>
+</ul></li>
+</ul>
+
 <h4 id="生成可执行文件">生成可执行文件</h4>
+
 <ul>
-<li>
-<p>语法：add_executable(exename srcname)</p>
+<li><p>语法：add_executable(exename srcname)</p>
+
 <ul>
 <li>exename: 生成的可执行文件的名字</li>
 <li>srcname: 依赖的源文件</li>
-</ul>
-</li>
-<li>
-<p>该命令指定生成exe的名字以及指出需要依赖的源文件的文件名</p>
-</li>
-<li>
-<p>获取文件路径中的所有源文件</p>
+</ul></li>
+
+<li><p>该命令指定生成exe的名字以及指出需要依赖的源文件的文件名</p></li>
+
+<li><p>获取文件路径中的所有源文件</p>
+
 <ul>
-<li>命令：aux_source_directory(<!-- raw HTML omitted --> <!-- raw HTML omitted -->)</li>
+<li>命令：aux_source_directory(<dir> <variable>)</li>
 <li>例子：aux_source_directory(. DIR_SRCS)，将当前目录下的源文件名字存放到变量DIR_SRCS里面，如果源文件比较多，直接用DIR_SRCS变量即可</li>
+</ul></li>
+
+<li><p>生成可执行文件：add_executable(Demo ${DIR_SRCS}),将生成的可执行文件命名为：Demo.exe</p></li>
 </ul>
-</li>
-<li>
-<p>生成可执行文件：add_executable(Demo ${DIR_SRCS}),将生成的可执行文件命名为：Demo.exe</p>
-</li>
-</ul>
+
 <h4 id="生成lib库">生成lib库</h4>
+
 <ul>
-<li>命令：add_library(libname <a href="%E7%94%9F%E6%88%90%E5%BA%93%E6%96%87%E4%BB%B6%E7%9A%84%E7%B1%BB%E5%9E%8B%EF%BC%88%E5%8A%A8%E6%80%81%E5%BA%93%7C%E9%9D%99%E6%80%81%E5%BA%93%7C%E6%A8%A1%E5%9D%97%EF%BC%89">SHARED|STATIC|MODULE</a> <a href="%E6%9C%89%E8%BF%99%E4%B8%AA%E5%8F%82%E6%95%B0%E8%A1%A8%E7%A4%BA%E8%AF%A5%E5%BA%93%E4%B8%8D%E4%BC%9A%E8%A2%AB%E9%BB%98%E8%AE%A4%E6%9E%84%E5%BB%BA">EXCLUDE_FROM_ALL</a> source1 source2 &hellip; sourceN)
+<li>命令：add_library(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 &hellip; sourceN)
+
 <ul>
 <li>libname:生成的库文件的名字</li>
-<li></li>
-<li></li>
+<li>[SHARED|STATIC|MODULE]:生成库文件的类型（动态库|静态库|模块）</li>
+<li>[EXCLUDE_FROM_ALL]:有这个参数表示该库不会被默认构建</li>
 <li>source2 &hellip; sourceN：生成库依赖的源文件，如果源文件比较多，可以使用aux_source_directory命令获取路径下所有源文件</li>
-<li>例子：add_library(ALib SHARE alib.cpp)</li>
+<li>例子：add_library(ALib SHARE alib.cpp)
+<br /></li>
+</ul></li>
 </ul>
-</li>
-</ul>
+
 <h4 id="添加头文件目录">添加头文件目录</h4>
+
 <ul>
-<li>
-<p>命令1：target_include_directories(<!-- raw HTML omitted --> [SYSTEM] [BEFORE] &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items1&hellip;] [&lt;INTERFACE|PUBLIC|PRIVATE&gt; [items2&hellip;] &hellip;])
-当我们添加子项目之后还需要设置一个include路径，例子：target_include_directories(RigelEditor PUBLIC ./include/rgeditor)，表示给RigelEditor这个子项目添加一个库文件的路径</p>
-</li>
-<li>
-<p>命令2：include_directories(<a href="%E6%8C%87%E5%AE%9A%E4%BA%86%E8%A6%81%E6%B7%BB%E5%8A%A0%E8%B7%AF%E5%BE%84%E6%98%AF%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%8E%9F%E6%9C%89%E5%88%97%E8%A1%A8%E4%B9%8B%E5%89%8D%E8%BF%98%E6%98%AF%E4%B9%8B%E5%90%8E">AFTER|BEFORE</a> [SYSTEM] dir1 [dir2&hellip;])</p>
+<li><p>命令1：target_include_directories(<target> [SYSTEM] [BEFORE] <INTERFACE|PUBLIC|PRIVATE> [items1&hellip;] [<INTERFACE|PUBLIC|PRIVATE> [items2&hellip;] &hellip;])
+当我们添加子项目之后还需要设置一个include路径，例子：target_include_directories(RigelEditor PUBLIC ./include/rgeditor)，表示给RigelEditor这个子项目添加一个库文件的路径</p></li>
+
+<li><p>命令2：include_directories([AFTER|BEFORE] [SYSTEM] dir1 [dir2&hellip;])</p>
+
 <ul>
 <li>参数解析：</li>
-<li></li>
+<li>[AFTER|BEFORE]:指定了要添加路径是添加到原有列表之前还是之后</li>
 <li>[SYSTEM]：若指定了system参数，则把被包含的路径当做系统包含路径来处理</li>
 <li>dir1 [dir2&hellip;]把这些路径添加到cmakelists及其子目录的cmakelists的头文件包含项目中，相当于g++选项中的-I的参数的作用
-举个例子：include_directories(&quot;/opt/MATLAB/R2012a/extern/include&quot;)</li>
+举个例子：include_directories(&ldquo;/opt/MATLAB/R2012a/extern/include&rdquo;)</li>
 <li>两条指令的作用都是讲将include的目录添加到目录区别在于include_directories是cmake编译所有目标的目录进行添加，
-target_include_directories是将cmake编译的指定的特定目标的包含目录进行添加</li>
+target_include_directories是将cmake编译的指定的特定目标的包含目录进行添加
+<br /></li>
+</ul></li>
 </ul>
-</li>
-</ul>
+
 <h4 id="添加需要链接的库文件路径">添加需要链接的库文件路径</h4>
+
 <ul>
-<li>
-<p>命令1：target_link_libraries(<!-- raw HTML omitted --> [item1 [item2 [&hellip;]]] [[debug|optimized|general] <!-- raw HTML omitted -->] &hellip;)</p>
+<li><p>命令1：target_link_libraries(<target> [item1 [item2 [&hellip;]]] [[debug|optimized|general] <item>] &hellip;)</p>
+
 <ul>
 <li>作用：为给定的目标设置链接时使用的库（设置要链接的库文件的名称）</li>
 <li>eg：target_link_libraries(MyProject a b.a c.so) // 将若干库文件链接到hello中，target_link_libraries里的库文件的顺序符合gcc/g++链接顺序规则，
 即：被依赖的库放在依赖他的库的后面，如果顺序有错，链接将会报错</li>
 <li>关键字：debug对应于调试配置</li>
 <li>关键字：optimized对应于所有其他的配置类型</li>
-<li>关键字：general对应于所有的配置（该属性是默认值）</li>
-</ul>
-</li>
-<li>
-<p>命令2：link_libraries</p>
+<li>关键字：general对应于所有的配置（该属性是默认值）
+<br /></li>
+</ul></li>
+
+<li><p>命令2：link_libraries</p>
+
 <ul>
 <li>作用：给当前工程链接需要的库文件（全路径）</li>
-<li>eg：link_libraries((&quot;/opt/MATLAB/R2012a/bin/glnxa64/libeng.so&quot;)//必须添加带名字的全路径)</li>
-</ul>
-</li>
-<li>
-<p>区别：link_libraries和target_link_libraries命令的区别：target_link_libraries可以给工程或者库文件设置其需要链接的库文件，
-而且不需要填写全路径，但是link_libraries只能给工程添加依赖的库，而且必须添加全路径</p>
-</li>
-<li>
-<p>添加需要链接的库文件目录</p>
+<li>eg：link_libraries((&ldquo;/opt/MATLAB/R2012a/bin/glnxa64/libeng.so&rdquo;)//必须添加带名字的全路径)</li>
+</ul></li>
+
+<li><p>区别：link_libraries和target_link_libraries命令的区别：target_link_libraries可以给工程或者库文件设置其需要链接的库文件，
+而且不需要填写全路径，但是link_libraries只能给工程添加依赖的库，而且必须添加全路径</p></li>
+
+<li><p>添加需要链接的库文件目录</p>
+
 <ul>
 <li>命令：link_directories (添加需要链接的库文件目录)</li>
 <li>语法：link_directories(directory1 directory2 ..)</li>
-<li>例子：link_directories(&quot;/opt/MATLAB/R2012a/bin/glnxa64&quot;)</li>
-</ul>
-</li>
-<li>
-<p>指令的区别：指令的前缀带target，表示针对某一个目标进行设置，必须指明设置的目标；include_directories是在编译时用，指明.h文件的路径
+<li>例子：link_directories(&ldquo;/opt/MATLAB/R2012a/bin/glnxa64&rdquo;)
+<br /></li>
+</ul></li>
+
+<li><p>指令的区别：指令的前缀带target，表示针对某一个目标进行设置，必须指明设置的目标；include_directories是在编译时用，指明.h文件的路径
 link_directories是在链接时用的，指明链接库的路径;target_link_libraries是指明链接库的名字，也就是具体谁链接到哪个库。link_libraries不常用，
-因为必须指明带文件名全路径</p>
-</li>
+因为必须指明带文件名全路径</p></li>
 </ul>
+
 <h4 id="控制目标属性">控制目标属性</h4>
+
 <ul>
-<li>
-<p>以上的几条命令的区分都是：是否带target前缀，在cmake里面，一个target有自己的属性集，如果我们没有显示的设置这些target的属性的话，
-cmake默认是由相关的全局属性来填充target的属性，我们如果需要单独的设置target的属性，需要使用命令：set_target_properties()</p>
-</li>
-<li>
-<p>命令格式
-格式：set_target_properties(target1 target2 &hellip; PROPERTIES 属性名称1 值 属性名称2 值 &hellip;)</p>
-</li>
-<li>
-<p>控制编译选项的属性是：COMPILE_FLAGS</p>
-</li>
-<li>
-<p>控制连接选项的属性是：LINK_FLAGS</p>
-</li>
-<li>
-<p>控制输出路径的属性：EXECUTABLE_OUTPUT_PATH (exe的输出路径)、LIBRARY_OUTPUT_PATH (库文件的输出路径)</p>
-</li>
-<li>
-<p>举例：
+<li><p>以上的几条命令的区分都是：是否带target前缀，在cmake里面，一个target有自己的属性集，如果我们没有显示的设置这些target的属性的话，
+cmake默认是由相关的全局属性来填充target的属性，我们如果需要单独的设置target的属性，需要使用命令：set_target_properties()</p></li>
+
+<li><p>命令格式
+格式：set_target_properties(target1 target2 &hellip; PROPERTIES 属性名称1 值 属性名称2 值 &hellip;)</p></li>
+
+<li><p>控制编译选项的属性是：COMPILE_FLAGS</p></li>
+
+<li><p>控制连接选项的属性是：LINK_FLAGS</p></li>
+
+<li><p>控制输出路径的属性：EXECUTABLE_OUTPUT_PATH (exe的输出路径)、LIBRARY_OUTPUT_PATH (库文件的输出路径)</p></li>
+
+<li><p>举例：
 命令：
-set_target_properties(exe PROPERTIES LINK_FLAGS -static LINK_FLAGS_RELEASE -s)</p>
-</li>
-<li>
-<p>这条指令会使得exe这个目标在所有的情况下都采用-static选项，而且在release build的时候-static -s选项。但是这个属性仅仅在exe这个target上面有效</p>
-</li>
+set_target_properties(exe PROPERTIES LINK_FLAGS -static LINK_FLAGS_RELEASE -s)</p></li>
+
+<li><p>这条指令会使得exe这个目标在所有的情况下都采用-static选项，而且在release build的时候-static -s选项。但是这个属性仅仅在exe这个target上面有效</p></li>
 </ul>
+
 <h4 id="变量和缓存">变量和缓存</h4>
+
 <ul>
-<li>
-<p>局部变量</p>
+<li><p>局部变量</p>
+
 <ul>
 <li>CMakeLists.txt相当于一个函数，第一个执行的CMakeLists.txt相当于主函数，正常设置的变量不能跨域CMakeLists.txt文件，相当于局部变量只在当前函数域里面的作用一样</li>
 <li>设置变量：set(MY_VARIABLE &ldquo;value&rdquo;)</li>
 <li>变量的名称通常大写</li>
-<li>访问变量：${MY_VARIABLE}</li>
-</ul>
-</li>
-<li>
-<p>缓存变量</p>
+<li>访问变量：${MY_VARIABLE}
+<br /></li>
+</ul></li>
+
+<li><p>缓存变量</p>
+
 <ul>
 <li>缓存变量就是cache变量，相当于全局变量，都是在第一个执行的CMakeLists.txt里面被设置的，不过在子项目的CMakeLists.txt文件里面也是可以修改这个变量的，
 此时会影响父目录的CMakeLists.txt，这些变量用来配置整个工程，配置好之后对整个工程使用</li>
 <li>设置缓存变量：set(MY_CACHE_VALUE &ldquo;cache_value&rdquo; CACHE INTERNAL &ldquo;THIS IS MY CACHE VALUE&rdquo;)
-// THIS IS MY CACHE VALUE，这个字符串相当于对变量的描述说明，不能省略，但可以自己随便定义</li>
-</ul>
-</li>
-<li>
-<p>环境变量</p>
+// THIS IS MY CACHE VALUE，这个字符串相当于对变量的描述说明，不能省略，但可以自己随便定义
+<br /></li>
+</ul></li>
+
+<li><p>环境变量</p>
+
 <ul>
 <li>设置环境变量：set(ENV{variable_name} value)</li>
-<li>获取环境变量：$ENV{variable_name}</li>
-</ul>
-</li>
-<li>
-<p>内置变量</p>
+<li>获取环境变量：$ENV{variable_name}
+<br /></li>
+</ul></li>
+
+<li><p>内置变量</p>
+
 <ul>
 <li>CMake里面包含大量的内置变量，和自定义的变量相同，常用的有以下：</li>
 <li>CMAKE_C_COMPILER: 指定C编译器</li>
@@ -516,30 +550,37 @@ set_target_properties(exe PROPERTIES LINK_FLAGS -static LINK_FLAGS_RELEASE -s)</
 命令：set(CMAKE_BUILD_TYPE Debug)</li>
 <li>CMAKE_SOURCR_DIR:无论外部构建还是内部构建，都指的是工程的顶层目录</li>
 <li>CMAKE_BINARY_DIR：内部构建指的是工程顶层目录，外部构建指的是工程发生编译的目录</li>
-<li>CMAKE_CURRENT_LIST_LINE:输出这个内置变量所在的行</li>
-</ul>
-</li>
-<li>
-<p>缓存</p>
-<ul>
-<li>缓存就是之前提到的CMakeCache文件，参见：CMake命令行选项的设置</li>
-</ul>
-</li>
-</ul>
-<h3 id="cmake基本控制语法">CMake基本控制语法</h3>
-<h4 id="if">if</h4>
-<h5 id="基本语法">基本语法</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>expression<span style="color:#f92672">)</span>
-    COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-    COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-    ...
-<span style="color:#66d9ef">else</span>
-    COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-    COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-endif <span style="color:#f92672">(</span>expression<span style="color:#f92672">)</span>
+<li>CMAKE_CURRENT_LIST_LINE:输出这个内置变量所在的行
+<br /></li>
+</ul></li>
 
-</code></pre></div><ul>
-<li>if(expression),expression不为：空，0，N，NO，OFF，FALSE，NOTFOUND或<!-- raw HTML omitted -->_NOTFOUND，为真</li>
+<li><p>缓存</p>
+
+<ul>
+<li>缓存就是之前提到的CMakeCache文件，参见：CMake命令行选项的设置
+<br /></li>
+</ul></li>
+</ul>
+
+<h3 id="cmake基本控制语法">CMake基本控制语法</h3>
+
+<h4 id="if">if</h4>
+
+<h5 id="基本语法">基本语法</h5>
+
+<pre><code class="language-shell">if(expression)
+    COMMAND1(ARGS...)
+    COMMAND2(ARGS...)
+    ...
+else
+    COMMAND1(ARGS...)
+    COMMAND2(ARGS...)
+endif (expression)
+
+</code></pre>
+
+<ul>
+<li>if(expression),expression不为：空，0，N，NO，OFF，FALSE，NOTFOUND或<var>_NOTFOUND，为真</li>
 <li>IF(not exp)，与上面相反</li>
 <li>if(var1 AND var2)，var1且var2都为真，条件成立</li>
 <li>if(var1 OR var2), var1或var2其中某一个为真，条件成立</li>
@@ -551,125 +592,152 @@ endif <span style="color:#f92672">(</span>expression<span style="color:#f92672">
 <li>if(DEFINED var)如果变量被定义，为真</li>
 <li>if(string MATCHES regex)当给定变量或字符串能匹配正则表达式regex时，为真</li>
 </ul>
+
 <h5 id="数字表达式">数字表达式</h5>
+
 <ul>
 <li>if(var LESS number),var小于number为真</li>
 <li>if(var GREATER number)，var大于number为真</li>
 <li>if(var EQUAL number)，var等于number为真</li>
 </ul>
+
 <h5 id="字母表顺序比较">字母表顺序比较</h5>
+
 <ul>
 <li>if(var1 STRLESS var2)，var1字母表顺序小于var2为真</li>
 <li>if(var1 STRGREATER var2)，var1字母表顺序大于var2为真</li>
 <li>if(var1 STREQUAL var2)，var1和var2字母顺序相等为真</li>
 </ul>
+
 <h4 id="while">while</h4>
+
 <h5 id="语法结构">语法结构</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">WHILE<span style="color:#f92672">(</span>condition<span style="color:#f92672">)</span>
-    COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-    COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
+
+<pre><code class="language-shell">WHILE(condition)
+    COMMAND1(ARGS...)
+    COMMAND2(ARGS...)
     ...
-ENDWHILE<span style="color:#f92672">(</span>condition<span style="color:#f92672">)</span>
-</code></pre></div><h4 id="foreach">foreach</h4>
+ENDWHILE(condition)
+</code></pre>
+
+<h4 id="foreach">foreach</h4>
+
 <h5 id="列表循环">列表循环</h5>
+
 <ul>
-<li>语法</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">FOREACH<span style="color:#f92672">(</span>loop_var arg1 arg2...<span style="color:#f92672">)</span>
-    COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-    COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
+<li>语法
+<code>shell script
+FOREACH(loop_var arg1 arg2...)
+COMMAND1(ARGS...)
+COMMAND2(ARGS...)
 ...
-ENDFOREACH<span style="color:#f92672">(</span>loop_var<span style="color:#f92672">)</span>
-</code></pre></div><ul>
-<li>例子</li>
+ENDFOREACH(loop_var)
+</code></li>
+<li>例子
+<code>shell script
+AUX_SOURCE_DIRECTORY(. SRC_LIST)
+FOREACH(F ${SRC_LIST})
+MESSAGE(${F})
+ENDFOREACH(F)
+</code></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">AUX_SOURCE_DIRECTORY<span style="color:#f92672">(</span>. SRC_LIST<span style="color:#f92672">)</span>
-FOREACH<span style="color:#f92672">(</span>F <span style="color:#e6db74">${</span>SRC_LIST<span style="color:#e6db74">}</span><span style="color:#f92672">)</span>
-    MESSAGE<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>F<span style="color:#e6db74">}</span><span style="color:#f92672">)</span>
-ENDFOREACH<span style="color:#f92672">(</span>F<span style="color:#f92672">)</span>
-</code></pre></div><h5 id="范围循环">范围循环</h5>
+
+<h5 id="范围循环">范围循环</h5>
+
 <ul>
-<li>语法</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">FOREACH<span style="color:#f92672">(</span>loop_var RANGE total<span style="color:#f92672">)</span>
-COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
+<li><p>语法</p>
+
+<pre><code class="language-shell">FOREACH(loop_var RANGE total)
+COMMAND1(ARGS...)
+COMMAND2(ARGS...)
 ...
-ENDFOREACH<span style="color:#f92672">(</span>loop_var<span style="color:#f92672">)</span>
-</code></pre></div><h5 id="范围步进循环">范围步进循环</h5>
-<ul>
-<li>语法</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">FOREACH<span style="color:#f92672">(</span>loop_var RANGE start stop <span style="color:#f92672">[</span>step<span style="color:#f92672">])</span>
-COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
+ENDFOREACH(loop_var)
+</code></pre>
+
+<h5 id="范围步进循环">范围步进循环</h5></li>
+
+<li><p>语法</p>
+
+<pre><code class="language-shell">FOREACH(loop_var RANGE start stop [step])
+COMMAND1(ARGS...)
+COMMAND2(ARGS...)
 ...
-ENDFOREACH<span style="color:#f92672">(</span>loop_var<span style="color:#f92672">)</span>
-</code></pre></div><h3 id="构建规范以及构建属性">构建规范以及构建属性</h3>
-<h4 id="用于指定构建规则以及程序使用要求的指令target_include_directoriestarget_compile_definitionstarget_compile_options">用于指定构建规则以及程序使用要求的指令：target_include_directories(),target_compile_definitions(),target_compile_options()</h4>
+ENDFOREACH(loop_var)
+</code></pre></li>
+</ul>
+
+<h3 id="构建规范以及构建属性">构建规范以及构建属性</h3>
+
+<h4 id="用于指定构建规则以及程序使用要求的指令-target-include-directories-target-compile-definitions-target-compile-options">用于指定构建规则以及程序使用要求的指令：target_include_directories(),target_compile_definitions(),target_compile_options()</h4>
+
 <h4 id="指令格式">指令格式</h4>
+
 <ul>
-<li>target_include_directories(<!-- raw HTML omitted --> [SYSTEM] [BEFORE] &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items1&hellip;] [&lt;INTERFACE|PUBLIC|PRIVATE&gt; [items2&hellip;]&hellip;])</li>
-</ul>
-<blockquote>
-<p>include的头文件的查找目录，也就是Gcc的[-Idir&hellip;]选项</p>
-</blockquote>
-<ul>
-<li>target_compile_definitions(<!-- raw HTML omitted --> &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items1&hellip;][&lt;INTERFACE|PUBLIC|PRIVATE&gt; [items2&hellip;]&hellip;])</li>
-</ul>
-<blockquote>
-<p>通过命令行定义的宏变量</p>
-</blockquote>
-<ul>
-<li>target_compile_options(<!-- raw HTML omitted --> [BEFORE] &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items1&hellip;] [&lt;INTERFACE|PUBLIC|PRIVATE&gt; [items2&hellip;]&hellip;])</li>
-</ul>
-<blockquote>
-<p>gcc其他的一些编译选项指定，比如-fPIC</p>
-</blockquote>
-<ul>
-<li>
-<p>-fPIC选项说明
+<li>target_include_directories(<target> [SYSTEM] [BEFORE] <INTERFACE|PUBLIC|PRIVATE> [items1&hellip;] [<INTERFACE|PUBLIC|PRIVATE> [items2&hellip;]&hellip;])
+&gt; include的头文件的查找目录，也就是Gcc的[-Idir&hellip;]选项</li>
+<li>target_compile_definitions(<target> <INTERFACE|PUBLIC|PRIVATE> [items1&hellip;][<INTERFACE|PUBLIC|PRIVATE> [items2&hellip;]&hellip;])
+&gt; 通过命令行定义的宏变量</li>
+
+<li><p>target_compile_options(<target> [BEFORE] <INTERFACE|PUBLIC|PRIVATE> [items1&hellip;] [<INTERFACE|PUBLIC|PRIVATE> [items2&hellip;]&hellip;])
+&gt; gcc其他的一些编译选项指定，比如-fPIC</p></li>
+
+<li><p>-fPIC选项说明
 说明：-fPIC作用于编译阶段，告诉编译器产生与位置无关代码，则产生的代码中，没有绝对地址，全部使用相对地址，故而代码可以被加载器加载到内存的任意位置，都可以正确执行。
-这正是共享库所要求的，共享库被加载时，在内存的位置不是固定的</p>
-</li>
-<li>
-<p>-Idir选项说明
-说明：在你是用**#include &ldquo;file&rdquo;**的时候，gcc/g++会先在当前目录查找你所制定的头文件，如果没有找到，他会到缺省的头文件目录找，
-如果使用-I制定了目录，它会先在你所制定的目录查找，然后再按常规的顺序去找</p>
-</li>
+这正是共享库所要求的，共享库被加载时，在内存的位置不是固定的</p></li>
+
+<li><p>-Idir选项说明
+说明：在你是用<strong>#include &ldquo;file&rdquo;</strong>的时候，gcc/g++会先在当前目录查找你所制定的头文件，如果没有找到，他会到缺省的头文件目录找，
+如果使用-I制定了目录，它会先在你所制定的目录查找，然后再按常规的顺序去找</p></li>
 </ul>
-<h4 id="以上的三个命令会生成include_directoriescompile_definitionscompile_options变量的值或者interface_include_directoriesinterface_compile_definitionsinterface_compile_options的值">以上的三个命令会生成INCLUDE_DIRECTORIES,COMPILE_DEFINITIONS,COMPILE_OPTIONS变量的值，或者INTERFACE_INCLUDE_DIRECTORIES,INTERFACE_COMPILE_DEFINITIONS,INTERFACE_COMPILE_OPTIONS的值</h4>
-<h4 id="这三个命令都有三种可选模式privatepublicinterface">这三个命令都有三种可选模式，PRIVATE,PUBLIC。INTERFACE.</h4>
+
+<h4 id="以上的三个命令会生成include-directories-compile-definitions-compile-options变量的值-或者interface-include-directories-interface-compile-definitions-interface-compile-options的值">以上的三个命令会生成INCLUDE_DIRECTORIES,COMPILE_DEFINITIONS,COMPILE_OPTIONS变量的值，或者INTERFACE_INCLUDE_DIRECTORIES,INTERFACE_COMPILE_DEFINITIONS,INTERFACE_COMPILE_OPTIONS的值</h4>
+
+<h4 id="这三个命令都有三种可选模式-private-public-interface">这三个命令都有三种可选模式，PRIVATE,PUBLIC。INTERFACE.</h4>
+
 <ul>
 <li>PRIVATE模式仅填充不是接口的目标属性；</li>
 <li>INTERFACE模式仅填充接口目标的属性.</li>
 <li>PUBLIC模式填充这两种的目标属性</li>
 </ul>
+
 <h3 id="宏和函数">宏和函数</h3>
+
 <h4 id="区别">区别</h4>
+
 <ul>
 <li>函数有范围，而宏没有，如果希望函数设置的变量在函数的外部也可以看见，就需要使用PARENT_SCOPE来修饰，但是函数对于变量的控制会比较好，不会有变量泄漏</li>
 <li>函数很难将计算结果传出来，使用宏就可以将一些简单的传出来</li>
 </ul>
+
 <h5 id="宏">宏</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">macro<span style="color:#f92672">([</span>arg1 <span style="color:#f92672">[</span>arg2 <span style="color:#f92672">[</span>arg3 ...<span style="color:#f92672">]</span> <span style="color:#f92672">]])</span>
-    COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-    COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
+
+<pre><code class="language-shell">macro([arg1 [arg2 [arg3 ...] ]])
+    COMMAND1(ARGS...)
+    COMMAND2(ARGS...)
     ...
-endmacro<span style="color:#f92672">()</span>
-</code></pre></div><h5 id="函数">函数</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span><span style="color:#f92672">([</span>arg1 <span style="color:#f92672">[</span>arg2 <span style="color:#f92672">[</span>arg3 ...<span style="color:#f92672">]</span> <span style="color:#f92672">]])</span>
-    COMMAND1<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
-    COMMAND2<span style="color:#f92672">(</span>ARGS...<span style="color:#f92672">)</span>
+endmacro()
+</code></pre>
+
+<h5 id="函数">函数</h5>
+
+<pre><code class="language-shell">function([arg1 [arg2 [arg3 ...] ]])
+    COMMAND1(ARGS...)
+    COMMAND2(ARGS...)
     ...
-endfunction<span style="color:#f92672">()</span>
-</code></pre></div><h3 id="和其他文件的交互">和其他文件的交互</h3>
+endfunction()
+</code></pre>
+
+<h3 id="和其他文件的交互">和其他文件的交互</h3>
+
 <blockquote>
 <p>暂略</p>
 </blockquote>
+
 <h3 id="如何构建项目">如何构建项目</h3>
+
 <h4 id="工程目录结构">工程目录结构</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">|--- lib
+
+<pre><code class="language-shell">|--- lib
       |--- libA.c
       |--- libB.c
       |--- CMakeLists.txt
@@ -680,106 +748,135 @@ endfunction<span style="color:#f92672">()</span>
 |--- main.c
 |--- CMakeLists.txt
 
-</code></pre></div><ul>
-<li>第一个CMakeLists.txt</li>
+</code></pre>
+
+<ul>
+<li><p>第一个CMakeLists.txt
+```shell script</p>
+
+<h1 id="项目名称">项目名称</h1>
+
+<p>project(main)</p></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 项目名称</span>
-project<span style="color:#f92672">(</span>main<span style="color:#f92672">)</span>
 
-<span style="color:#75715e"># 需要的cmake最低版本</span>
-cmake_minium_required<span style="color:#f92672">(</span>VERSUIB 2.8<span style="color:#f92672">)</span>
+<h1 id="需要的cmake最低版本">需要的cmake最低版本</h1>
 
-<span style="color:#75715e"># 将当前目录下的源文件名都赋给DIR_SRC目录</span>
-aux_source_directories<span style="color:#f92672">(</span>. DIR_SRC<span style="color:#f92672">)</span>
+<p>cmake_minium_required(VERSUIB 2.8)</p>
 
-<span style="color:#75715e"># 添加include目录</span>
-include_directories<span style="color:#f92672">(</span>include<span style="color:#f92672">)</span>
+<h1 id="将当前目录下的源文件名都赋给dir-src目录">将当前目录下的源文件名都赋给DIR_SRC目录</h1>
 
-<span style="color:#75715e">#生成可执行文件</span>
-add_executable<span style="color:#f92672">(</span>main <span style="color:#e6db74">${</span>DIR_SRC<span style="color:#e6db74">}</span><span style="color:#f92672">)</span>
+<p>aux_source_directories(. DIR_SRC)</p>
 
-<span style="color:#75715e">#添加子目录</span>
-add_subdirectories<span style="color:#f92672">(</span>lib<span style="color:#f92672">)</span>
+<h1 id="添加include目录">添加include目录</h1>
 
-<span style="color:#75715e">#将生成的文件与动态库相连</span>
-target_link_libraries<span style="color:#f92672">(</span>main test<span style="color:#f92672">)</span>
-<span style="color:#75715e"># test是lib目录里生成的</span>
+<p>include_directories(include)</p>
 
-</code></pre></div><ul>
-<li>lib目录下的CMakeLists</li>
-</ul>
-<p>内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 将当前的源文件名字都添加到DIR_LIB变量下</span>
-aux_source_directory<span style="color:#f92672">(</span>. DIR_LIB<span style="color:#f92672">)</span>
+<p>#生成可执行文件
+add_executable(main ${DIR_SRC})</p>
 
-<span style="color:#75715e"># 生成库文件命名为test</span>
-add_libraries<span style="color:#f92672">(</span>test <span style="color:#e6db74">${</span>DIR_LIB<span style="color:#e6db74">}</span><span style="color:#f92672">)</span>
-</code></pre></div><ul>
+<p>#添加子目录
+add_subdirectories(lib)</p>
+
+<p>#将生成的文件与动态库相连
+target_link_libraries(main test)</p>
+
+<h1 id="test是lib目录里生成的">test是lib目录里生成的</h1>
+
+<pre><code>- lib目录下的CMakeLists
+
+内容如下：
+```shell script
+# 将当前的源文件名字都添加到DIR_LIB变量下
+aux_source_directory(. DIR_LIB)
+
+# 生成库文件命名为test
+add_libraries(test ${DIR_LIB})
+</code></pre>
+
+<ul>
 <li>include目录的CMakeLists可以为空，因为我们已经将include目录包含在第一层的文件里面</li>
 </ul>
+
 <h3 id="在构建时运行的命令">在构建时运行的命令</h3>
-<h4 id="find_package查找链接库">find_package：查找链接库</h4>
+
+<h4 id="find-package-查找链接库">find_package：查找链接库</h4>
+
 <p>如果编译的过程使用了外部的库，事先并不知道其头文件和链接库的位置，得在编译命令中加上包含外部库的查找路径，cmake中使用find_package方法</p>
-<h5 id="find_package命令查找cmake的顺序">find_package()命令查找***.cmake的顺序</h5>
+
+<h5 id="find-package-命令查找-cmake的顺序">find_package()命令查找***.cmake的顺序</h5>
+
 <ul>
 <li>介绍这个命令之前，首先得介绍一个变量：CMAKE_MODULE_PATH
+
 <ul>
 <li>工程比较大的时候，会创建自己的cmake模块，需要告诉cmake这个模块在哪里，cmake就是通过CMAKE_MODULE_PATH这个变量来获取模块路径的</li>
 <li>我们使用set来设置模块的路径：set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)</li>
-</ul>
-</li>
+</ul></li>
 <li>如果上面的没有找到，就会在../.cmake/packages或者../usr/local/share/中的包目录中查找：&lt;库名字大写&gt;Config.cmake或者&lt;库名字小写&gt;-config.cmake</li>
-<li>如果找到这个包，则可以通过在工程的顶层目录中的CMakeLists.txt中添加：include_directories(<!-- raw HTML omitted -->_INCLUDE_DIRS)来包含库的头文件，使用命令：target_link_libraries(源文件 <!-- raw HTML omitted -->_LIBRARIES)将源文件以及库文件链接起来</li>
-<li>无论哪种方式，只要找到***.cmake文件，***.cmake里面都会定义下面的这些变量</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;NAME&gt;_FOUND
+<li>如果找到这个包，则可以通过在工程的顶层目录中的CMakeLists.txt中添加：include_directories(<Name>_INCLUDE_DIRS)来包含库的头文件，使用命令：target_link_libraries(源文件 <NAME>_LIBRARIES)将源文件以及库文件链接起来</li>
+<li>无论哪种方式，只要找到<strong><em>.cmake文件，</em></strong>.cmake里面都会定义下面的这些变量
+<code>shell script
+&lt;NAME&gt;_FOUND
 &lt;NAME&gt;_INCLUDE_DIRS or &lt;NAME&gt;_INCLUDES
 &lt;NAME&gt;_LIBRARIES or &lt;NAME&gt;_LIBRARIES or &lt;NAME&gt;_LIBS
 &lt;NAME&gt;_DEFINITIONS
-</code></pre></div><ul>
+</code></li>
 <li>cmake中使用：cmake &ndash;help-module-list命令来查看当前cmake中有哪些支持的模块</li>
 </ul>
-<h5 id="find_package命令参数">find_package命令参数</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">FIND_PACKAGE<span style="color:#f92672">(</span>&lt;name&gt; <span style="color:#f92672">[</span>version<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>EXACT<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>QUIET<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>NO_MODULE<span style="color:#f92672">]</span> <span style="color:#f92672">[[</span>REQUIRED|COMPONENTS<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>components...<span style="color:#f92672">]])</span>
-</code></pre></div><ul>
+
+<h5 id="find-package命令参数">find_package命令参数</h5>
+
+<pre><code class="language-shell">FIND_PACKAGE(&lt;name&gt; [version] [EXACT] [QUIET] [NO_MODULE] [[REQUIRED|COMPONENTS] [components...]])
+</code></pre>
+
+<ul>
 <li>version 需要一个版本号，给出这个参数而没有给出EXACT，那就是找到和给出的这个版本号相兼容的就符合条件</li>
 <li>EXACT: 要求版本号必须和version给出的精确匹配</li>
-<li>QUIET: 会禁掉查找的包没有被发现的警告信息，对应于Find<!-- raw HTML omitted -->.cmake模块里面的NAME_FIND_QUIETLY变量</li>
+<li>QUIET: 会禁掉查找的包没有被发现的警告信息，对应于Find<Name>.cmake模块里面的NAME_FIND_QUIETLY变量</li>
 <li>NO_MODULE: 给出该指令后，cmake将直接跳过module模式的查找，直接使用config模式查找</li>
 <li>REQUIRED: 该选项表示如果没有找到需要的包就会停止并且报错</li>
 <li>COMPONENTS: 在REQUIRED选项之后，或者如果没有指定REQUIRED选项但是指定了COMPONENTS选项，在COMPONENTS后面就可以列出一些与包相关部分组件的清单</li>
 </ul>
-<h3 id="如何添加c项目中的常用选项">如何添加C++项目中的常用选项</h3>
-<h4 id="如何激活c11功能">如何激活c++11功能</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 语法</span>
-target_compile_features<span style="color:#f92672">(</span>&lt;target&gt; &lt;PRIVATE|PUBLIC|INTERFACE&gt; &lt;feature&gt; <span style="color:#f92672">[</span>...<span style="color:#f92672">])</span>
-</code></pre></div><ul>
-<li>target_compile_features(&lt;project_name&gt; PUBLIC cxx_std_11)</li>
-<li>参数target必须是由：add_executable或者add_library生成的目标</li>
-<li>另一种支持c++标准的方法</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#设置c++标准级别</span>
-set<span style="color:#f92672">(</span>CMAKE_CXX_STANDARD 11<span style="color:#f92672">)</span>
 
-<span style="color:#75715e">#告诉CMake使用他</span>
-set<span style="color:#f92672">(</span>CMAKE_CXX_STANDARD_REQUIRED ON<span style="color:#f92672">)</span>
+<h3 id="如何添加c-项目中的常用选项">如何添加C++项目中的常用选项</h3>
 
-<span style="color:#75715e"># 确保-std=C++11</span>
-set<span style="color:#f92672">(</span>CMAKE_CXX_EXTENSIONS OFF<span style="color:#f92672">)</span>
-</code></pre></div><h4 id="cmake的过程间优化">CMake的过程间优化</h4>
+<h4 id="如何激活c-11功能">如何激活c++11功能</h4>
+
+<pre><code class="language-shell"># 语法
+target_compile_features(&lt;target&gt; &lt;PRIVATE|PUBLIC|INTERFACE&gt; &lt;feature&gt; [...])
+</code></pre>
+
 <ul>
-<li>如果编译器不支持，就会将设置的过程间优化标记为错误，可以使用命令：
-check_ipo_supported()来查看</li>
+<li>target_compile_features(<project_name> PUBLIC cxx_std_11)</li>
+<li>参数target必须是由：add_executable或者add_library生成的目标</li>
+<li>另一种支持c++标准的方法
+```shell script
+#设置c++标准级别
+set(CMAKE_CXX_STANDARD 11)</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#检测编译器是否支持过程间优化</span>
-check_ipo_supported<span style="color:#f92672">(</span>RESULT result<span style="color:#f92672">)</span>
 
-<span style="color:#75715e">#如果不支持</span>
-<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>result<span style="color:#f92672">)</span>
-    <span style="color:#75715e">#为工程foo设置过程间优化</span>
-    set_target_properties<span style="color:#f92672">(</span>foo PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE<span style="color:#f92672">)</span>
-endif<span style="color:#f92672">()</span>
-</code></pre></div>
+<p>#告诉CMake使用他
+set(CMAKE_CXX_STANDARD_REQUIRED ON)</p>
+
+<h1 id="确保-std-c-11">确保-std=C++11</h1>
+
+<p>set(CMAKE_CXX_EXTENSIONS OFF)</p>
+
+<pre><code>
+#### CMake的过程间优化
+- 如果编译器不支持，就会将设置的过程间优化标记为错误，可以使用命令：
+check_ipo_supported()来查看
+```shell script
+#检测编译器是否支持过程间优化
+check_ipo_supported(RESULT result)
+
+#如果不支持
+if(result)
+    #为工程foo设置过程间优化
+    set_target_properties(foo PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>
