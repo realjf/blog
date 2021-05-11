@@ -176,7 +176,7 @@ glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 - 有透视效果（顶点越远，变得越小）。
 
 完整代码
-[github.com/realjf/opengl/src/recipe-07](https://github.com/realjf/opengl/tree/master/src/recipe-07)
+[github.com/realjf/opengl/src/getting-started/recipe-07](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-07)
 
 ### 更多的3D
 为了有趣一点，将让立方体随着时间旋转：
@@ -206,7 +206,7 @@ glEnable(GL_DEPTH_TEST);
 ```cpp
 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 ```
-完整代码：[github.com/realjf/opengl/src/recipe-08](https://github.com/realjf/opengl/tree/master/src/recipe-08)
+完整代码：[github.com/realjf/opengl/src/getting-started/recipe-08](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-08)
 
 
 

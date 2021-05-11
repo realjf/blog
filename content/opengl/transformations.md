@@ -235,4 +235,4 @@ glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 - 最后一个参数是真正的矩阵数据，要先用GLM的自带的函数value_ptr来变换这些数据。
 
 ## 完整源代码
-[github.com/realjf/opengl/src/recipe-06](https://github.com/realjf/opengl/tree/master/src/recipe-06)
+[github.com/realjf/opengl/src/getting-started/recipe-06](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-06)

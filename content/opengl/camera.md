@@ -86,7 +86,7 @@ float camZ = cos(glfwGetTime()) * radius;
 glm::mat4 view;
 view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)); 
 ```
-完整代码如下：[github.com/realjf/opengl/src/recipe-09](https://github.com/realjf/opengl/tree/master/src/recipe-09)
+完整代码如下：[github.com/realjf/opengl/src/getting-started/recipe-09](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-09)
 
 ## 自由移动
 首先设置一个摄像机系统，
@@ -144,7 +144,7 @@ void processInput(GLFWwindow *window)
   ...
 }
 ```
-完整代码如下：[github.com/realjf/opengl/src/recipe-10](https://github.com/realjf/opengl/tree/master/src/recipe-10)
+完整代码如下：[github.com/realjf/opengl/src/getting-started/recipe-10](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-10)
 
 
 ## 视角移动
@@ -282,9 +282,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     cameraFront = glm::normalize(front);
 }
 ```
-完整代码如下：[github.com/realjf/opengl/src/recipe-10](https://github.com/realjf/opengl/tree/master/src/recipe-10)
+完整代码如下：[github.com/realjf/opengl/src/getting-started/recipe-10](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-10)
 
 ### 摄像机类
-[github.com/realjf/opengl/src/recipe-10/camera.hpp](https://github.com/realjf/opengl/tree/master/src/recipe-10/camera.hpp)
+[github.com/realjf/opengl/src/getting-started/recipe-10/camera.hpp](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-10/camera.hpp)
 
 

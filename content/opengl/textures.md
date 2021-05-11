@@ -336,5 +336,5 @@ stbi_set_flip_vertically_on_load(true);
 ```
 
 ### 完整代码：
-[github.com/realjf/opengl/src/recipe-05](https://github.com/realjf/opengl/tree/master/src/recipe-05)
+[github.com/realjf/opengl/src/getting-started/recipe-05](https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-05)
 
