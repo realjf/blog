@@ -6,10 +6,31 @@
     <description>Recent content in Opengl on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 10 May 2021 15:04:43 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 10 May 2021 17:01:49 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/categories/opengl/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>opengl之八 摄像机 Camera</title>
+      <link>https://realjf.io/opengl/camera/</link>
+      <pubDate>Mon, 10 May 2021 17:01:49 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/camera/</guid>
+      <description>摄像机 OpenGL本身没有摄像机(Camera)的概念，但可以通过把场景中的所有物体往相反方向移动的方式来模拟出摄像机，产生一种在移动的感觉，而不是场景在移动。
+摄像机/观察空间 观察矩阵把所有的世界坐标变换为相对于摄像机位置与方向的观察坐标。要定义一个摄像机，需要它在世界空间中的位置、观察的方向、一个指向它右侧的向量以及一个指向它上方的向量。
+1. 摄像机的位置 摄像机位置简单来说就是世界空间中一个指向摄像机位置的向量
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);   不要忘记正z轴是从屏幕指向你的，如果希望摄像机向后移动，就沿着z轴的正方向移动。
+ 2. 摄像机方向 用场景原点向量减去摄像机位置向量的结果就是摄像机的指向向量。
+glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f); glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);  3. 右轴 需要的另一个向量是一个右向量(Right Vector)，它代表摄像机空间的x轴的正方向。为获取右向量需要先使用一个小技巧：先定义一个上向量(Up Vector)。接下来把上向量和第二步得到的方向向量进行叉乘。两个向量叉乘的结果会同时垂直于两向量，因此会得到指向x轴正方向的那个向量
+glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));  4. 上轴 把右向量和方向向量进行叉乘：
+glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);  使用这些摄像机向量就可以创建一个LookAt矩阵了
+Look At 如果你使用3个相互垂直（或非线性）的轴定义了一个坐标空间，你可以用这3个轴外加一个平移向量来创建一个矩阵，并且你可以用这个矩阵乘以任何向量来将其变换到那个坐标空间。这正是LookAt矩阵所做的，现在有了3个相互垂直的轴和一个定义摄像机空间的位置坐标，就可以创建LookAt矩阵了：
+其中R是右向量，U是上向量，D是方向向量P是摄像机位置向量。注意，位置向量是相反的，因为我们最终希望把世界平移到与我们自身移动的相反方向。
+把这个LookAt矩阵作为观察矩阵可以很高效地把所有世界坐标变换到刚刚定义的观察空间。
+GLM已经提供了这些支持。要做的只是定义一个摄像机位置，一个目标位置和一个表示世界空间中的上向量的向量
+glm::mat4 view; view = glm::lookAt(glm::vec3(0.</description>
+    </item>
     
     <item>
       <title>opengl之七 坐标系统 Coordinate System</title>
