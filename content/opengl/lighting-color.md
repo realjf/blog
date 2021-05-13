@@ -5,7 +5,7 @@ keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 50
@@ -205,7 +205,7 @@ glDrawArrays(GL_TRIANGLES, 0, 36);
 ...
 ```
 ### 完整代码
-[github.com/realjf/opengl/src/lighting/01-color](https://github.com/realjf/opengl/tree/master/src/lighting/01-color)
+[github.com/realjf/opengl/src/lighting/01](https://github.com/realjf/opengl/tree/master/src/lighting/01)
 
 
 
