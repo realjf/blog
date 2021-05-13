@@ -5,7 +5,7 @@ keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 50
