@@ -6,10 +6,75 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 10 May 2021 17:01:49 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 13 May 2021 12:19:53 +0800</lastBuildDate>
     
 	<atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>opengl光照之四 光照贴图 Lighting Maps</title>
+      <link>https://realjf.io/opengl/lighting-maps/</link>
+      <pubDate>Thu, 13 May 2021 12:19:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/lighting-maps/</guid>
+      <description>上一节中的那个材质系统是肯定不够的，它只是一个最简单的模型，所以需要拓展之前的系统，引入漫反射和镜面光贴图(Map)。这允许我们对物体的漫反射分量（以及间接地对环境光分量，它们几乎总是一样的）和镜面光分量有着更精确的控制。
+漫反射贴图 它是一个表现了物体所有的漫反射颜色的纹理图像。
+在着色器中使用漫反射贴图的方法和纹理教程中是完全一样的。但这次会将纹理储存为Material结构体中的一个sampler2D。将之前定义的vec3漫反射颜色向量替换为漫反射贴图。
+ 注意sampler2D是所谓的不透明类型(Opaque Type)，也就是说不能将它实例化，只能通过uniform来定义它。如果使用除uniform以外的方法（比如函数的参数）实例化这个结构体，GLSL会抛出一些奇怪的错误。
+ 也移除了环境光材质颜色向量，因为环境光颜色在几乎所有情况下都等于漫反射颜色，所以不需要将它们分开储存：
+struct Material { sampler2D diffuse; vec3 specular; float shininess; }; ... in vec2 TexCoords;  在片段着色器中再次需要纹理坐标，所以声明一个额外的输入变量。 接下来只需要从纹理中采样片段的漫反射颜色值即可：
+vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));  不要忘记将环境光得材质颜色设置为漫反射材质颜色同样的值。
+vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));  为了让它正常工作，还需要使用纹理坐标更新顶点数据，将它们作为顶点属性传递到片段着色器，加载材质并绑定材质到合适的纹理单元。
+float vertices[] = { // positions // normals // texture coords -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.5f, -0.5f, -0.5f, 0.0f, 0.</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之三 材质 Materials</title>
+      <link>https://realjf.io/opengl/materials/</link>
+      <pubDate>Thu, 13 May 2021 10:14:28 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/materials/</guid>
+      <description>每个物体对镜面高光也有不同的反应。有些物体反射光的时候不会有太多的散射(Scatter)，因而产生一个较小的高光点，而有些物体则会散射很多，产生一个有着更大半径的高光点。如果想要在OpenGL中模拟多种类型的物体，必须为每个物体分别定义一个材质(Material)属性。
+当描述一个物体的时候，可以用这三个分量来定义一个材质颜色(Material Color)：环境光照(Ambient Lighting)、漫反射光照(Diffuse Lighting)和镜面光照(Specular Lighting)。再添加反光度(Shininess)这个分量到上述的三个颜色中，这就有所有材质属性了：
+#version 330 core struct Material { vec3 ambient; vec3 diffuse; vec3 specular; float shininess; }; uniform Material material;  在片段着色器中，创建一个结构体(Struct)来储存物体的材质属性。也可以把它们储存为独立的uniform值，但是作为一个结构体来储存会更有条理一些。首先定义结构体的布局(Layout)，然后使用刚创建的结构体为类型，简单地声明一个uniform变量。
+ ambient材质向量定义了在环境光照下这个物体反射得是什么颜色，通常这是和物体颜色相同的颜色。 diffuse材质向量定义了在漫反射光照下物体的颜色。（和环境光照一样）漫反射颜色也要设置为需要的物体颜色。 specular材质向量设置的是镜面光照对物体的颜色影响（或者甚至可能反射一个物体特定的镜面高光颜色）。 最后，shininess影响镜面高光的散射/半径。  这四个元素定义了一个物体的材质，通过它们能够模拟很多现实世界中的材质。
+devernay.free.fr上的一个表格展示了几种材质属性，它们模拟了现实世界中的真实材质。
+让我们在着色器中实现这样的一个材质系统。
+设置材质 在片段着色器中创建了一个材质结构体的uniform，由于所有材质变量都储存在结构体中，可以从uniform变量material中访问它们：
+void main() { // 环境光 vec3 ambient = lightColor * material.ambient; // 漫反射 vec3 norm = normalize(Normal); vec3 lightDir = normalize(lightPos - FragPos); float diff = max(dot(norm, lightDir), 0.0); vec3 diffuse = lightColor * (diff * material.</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之二 基础光照 Base Lighting</title>
+      <link>https://realjf.io/opengl/base-lighting/</link>
+      <pubDate>Tue, 11 May 2021 15:28:51 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/base-lighting/</guid>
+      <description>OpenGL的光照使用的是简化的模型，对现实的情况进行近似，这样处理起来会更容易一些，而且看起来也差不多一样。这些光照模型都是基于对光的物理特性的理解。其中一个模型被称为冯氏光照模型(Phong Lighting Model)。冯氏光照模型的主要结构由3个分量组成：环境(Ambient)、漫反射(Diffuse)和镜面(Specular)光照。
+ 环境光照(Ambient Lighting)：即使在黑暗的情况下，世界上通常也仍然有一些光亮（月亮、远处的光），所以物体几乎永远不会是完全黑暗的。为了模拟这个，使用一个环境光照常量，它永远会给物体一些颜色。 漫反射光照(Diffuse Lighting)：模拟光源对物体的方向性影响(Directional Impact)。它是冯氏光照模型中视觉上最显著的分量。物体的某一部分越是正对着光源，它就会越亮。 镜面光照(Specular Lighting)：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。  环境光照 使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，这样子的话即便场景中没有直接的光源也能看起来存在有一些发散的光。 把环境光照添加到场景里非常简单。用光的颜色乘以一个很小的常量环境因子，再乘以物体的颜色，然后将最终结果作为片段的颜色：
+void main() { float ambientStrength = 0.3; vec3 ambient = ambientStrength * lightColor; vec3 result = ambient * objectColor; FragColor = vec4(result, 1.0); }  你会注意到冯氏光照的第一个阶段已经应用到你的物体上了。这个物体非常暗，但由于应用了环境光照（注意光源立方体没受影响是因为对它使用了另一个着色器），也不是完全黑的。
+漫反射 了测量光线和片段的角度，使用一个叫做法向量(Normal Vector)的东西，它是垂直于片段表面的一个向量
+两个单位向量的夹角越小，它们点乘的结果越倾向于1。当两个向量的夹角为90度的时候，点乘会变为0。这同样适用于θ，θ越大，光对片段颜色的影响就应该越小。
+计算漫反射光照需要什么？
+ 法向量：一个垂直于顶点表面的向量。 定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。为了计算这个光线，需要光的位置向量和片段的位置向量。  法向量 法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面（它只是空间中一个独立的点），利用它周围的顶点来计算出这个顶点的表面。
+使用叉乘对立方体所有的顶点计算法向量，但是由于3D立方体不是一个复杂的形状，所以可以简单地把法线数据手工添加到顶点数据中。
+float vertices[] = { // ----- 位置 ------- ------- 法向量 ---- -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之一 颜色 Lighting Color</title>
+      <link>https://realjf.io/opengl/lighting-color/</link>
+      <pubDate>Tue, 11 May 2021 13:46:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/lighting-color/</guid>
+      <description>在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它所反射的(Reflected)颜色。换句话说，那些不能被物体所吸收(Absorb)的颜色（被拒绝的颜色）就是能够感知到的物体的颜色。
+如何在图形学中计算出它的反射颜色。将这两个颜色向量作分量相乘，结果就是最终的颜色向量了
+glm::vec3 lightColor(1.0f, 1.0f, 1.0f); glm::vec3 toyColor(1.0f, 0.5f, 0.31f); glm::vec3 result = lightColor * toyColor; // = (1.0f, 0.5f, 0.31f);  定义物体的颜色为物体从一个光源反射各个颜色分量的大小。
+使用不同的光源颜色来让物体显现出意想不到的颜色。有创意地利用颜色其实并不难。
+创建一个光照场景 首先需要一个顶点着色器来绘制箱子。与之前的顶点着色器相比，容器的顶点位置是保持不变的（虽然这一次不需要纹理坐标了），因此顶点着色器中没有新的代码。使用之前教程顶点着色器的精简版：
+#version 330 core layout (location = 0) in vec3 aPos; uniform mat4 model; uniform mat4 view; uniform mat4 projection; void main() { gl_Position = projection * view * model * vec4(aPos, 1.0); }  顶点定义和顶点属性设置：
+float vertices[] = { -0.5f, -0.5f, -0.5f, 0.5f, -0.</description>
+    </item>
     
     <item>
       <title>opengl之八 摄像机 Camera</title>

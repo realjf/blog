@@ -1,0 +1,476 @@
+<!doctype html>
+<html>
+<head>
+    <title>opengl光照之三 材质 Materials // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.c0ab408f1f4017773cd74b45b6f2c452dca7f0cadbfac8c8b7c70577fbf405b2.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">opengl光照之三 材质 Materials</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    May 13, 2021
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    2 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
+        </header>
+        <div class="post-content">
+            
+
+<p>每个物体对镜面高光也有不同的反应。有些物体反射光的时候不会有太多的散射(Scatter)，因而产生一个较小的高光点，而有些物体则会散射很多，产生一个有着更大半径的高光点。如果想要在OpenGL中模拟多种类型的物体，必须为每个物体分别定义一个材质(Material)属性。</p>
+
+<p>当描述一个物体的时候，可以用这三个分量来定义一个材质颜色(Material Color)：环境光照(Ambient Lighting)、漫反射光照(Diffuse Lighting)和镜面光照(Specular Lighting)。再添加反光度(Shininess)这个分量到上述的三个颜色中，这就有所有材质属性了：</p>
+
+<pre><code class="language-glsl">#version 330 core
+struct Material {
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float shininess;
+}; 
+
+uniform Material material;
+</code></pre>
+
+<p>在片段着色器中，创建一个结构体(Struct)来储存物体的材质属性。也可以把它们储存为独立的uniform值，但是作为一个结构体来储存会更有条理一些。首先定义结构体的布局(Layout)，然后使用刚创建的结构体为类型，简单地声明一个uniform变量。</p>
+
+<ul>
+<li>ambient材质向量定义了在环境光照下这个物体反射得是什么颜色，通常这是和物体颜色相同的颜色。</li>
+<li>diffuse材质向量定义了在漫反射光照下物体的颜色。（和环境光照一样）漫反射颜色也要设置为需要的物体颜色。</li>
+<li>specular材质向量设置的是镜面光照对物体的颜色影响（或者甚至可能反射一个物体特定的镜面高光颜色）。</li>
+<li>最后，shininess影响镜面高光的散射/半径。</li>
+</ul>
+
+<p>这四个元素定义了一个物体的材质，通过它们能够模拟很多现实世界中的材质。</p>
+
+<p><a href="http://devernay.free.fr/cours/opengl/materials.html">devernay.free.fr</a>上的一个表格展示了几种材质属性，它们模拟了现实世界中的真实材质。</p>
+
+<p>让我们在着色器中实现这样的一个材质系统。</p>
+
+<h3 id="设置材质">设置材质</h3>
+
+<p>在片段着色器中创建了一个材质结构体的uniform，由于所有材质变量都储存在结构体中，可以从uniform变量material中访问它们：</p>
+
+<pre><code class="language-glsl">void main()
+{    
+    // 环境光
+    vec3 ambient = lightColor * material.ambient;
+
+    // 漫反射 
+    vec3 norm = normalize(Normal);
+    vec3 lightDir = normalize(lightPos - FragPos);
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = lightColor * (diff * material.diffuse);
+
+    // 镜面光
+    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, norm);  
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = lightColor * (spec * material.specular);  
+
+    vec3 result = ambient + diffuse + specular;
+    FragColor = vec4(result, 1.0);
+}
+</code></pre>
+
+<p>这次是根据材质的颜色来计算最终的输出颜色的。物体的每个材质属性都乘上了它们对应的光照分量。</p>
+
+<p>现在可以在程序中设置适当的uniform，对物体设置材质了。GLSL中的结构体在设置uniform时并没有什么特别之处。结构体只是作为uniform变量的一个封装，所以如果想填充这个结构体的话，仍需要对每个单独的uniform进行设置，但这次要带上结构体名的前缀：</p>
+
+<pre><code class="language-cpp">materialsShader.setVec3(&quot;material.ambient&quot;,  1.0f, 0.5f, 0.31f);
+materialsShader.setVec3(&quot;material.diffuse&quot;,  1.0f, 0.5f, 0.31f);
+materialsShader.setVec3(&quot;material.specular&quot;, 0.5f, 0.5f, 0.5f);
+materialsShader.setFloat(&quot;material.shininess&quot;, 32.0f);
+</code></pre>
+
+<p>将环境光和漫反射分量设置成想要让物体所拥有的颜色，而将镜面分量设置为一个中等亮度的颜色，不希望镜面分量在这个物体上过于强烈。将反光度保持为32。现在能够程序中非常容易地修改物体的材质了。</p>
+
+<h4 id="光的属性">光的属性</h4>
+
+<p>这个物体太亮了。物体过亮的原因是环境光、漫反射和镜面光这三个颜色对任何一个光源都会去全力反射。光源对环境光、漫反射和镜面光分量也具有着不同的强度。</p>
+
+<p>通过使用一个强度值改变环境光和镜面光强度的方式解决了这个问题。如果想做一个类似的系统，但是这次是要为每个光照分量都指定一个强度向量。如果假设lightColor是vec3(1.0)，代码会看起来像这样：</p>
+
+<pre><code class="language-glsl">vec3 ambient  = vec3(1.0) * material.ambient;
+vec3 diffuse  = vec3(1.0) * (diff * material.diffuse);
+vec3 specular = vec3(1.0) * (spec * material.specular);
+</code></pre>
+
+<p>所以物体的每个材质属性对每一个光照分量都返回了最大的强度。对单个光源来说，这些vec3(1.0)值同样可以分别改变，现在，物体的环境光分量完全地影响了立方体的颜色，可是环境光分量实际上不应该对最终的颜色有这么大的影响，所以将光源的环境光强度设置为一个小一点的值，从而限制环境光颜色</p>
+
+<pre><code class="language-glsl">vec3 ambient = vec3(0.1) * material.ambient;
+</code></pre>
+
+<p>为光照属性创建一个与材质结构体类似的结构体：</p>
+
+<pre><code class="language-glsl">struct Light {
+    vec3 position;
+
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+
+uniform Light light;
+</code></pre>
+
+<p>一个光源对它的ambient、diffuse和specular光照有着不同的强度。环境光照通常会设置为一个比较低的强度。光源的漫反射分量通常设置为光所具有的颜色，通常是一个比较明亮的白色。镜面光分量通常会保持为vec3(1.0)，以最大强度发光。</p>
+
+<p>和材质uniform一样，需要更新片段着色器：</p>
+
+<pre><code class="language-glsl">vec3 ambient  = light.ambient * material.ambient;
+vec3 diffuse  = light.diffuse * (diff * material.diffuse);
+vec3 specular = light.specular * (spec * material.specular);
+</code></pre>
+
+<p>在程序中设置光照强度：</p>
+
+<pre><code class="language-cpp">materialsShader.setVec3(&quot;light.ambient&quot;,  0.2f, 0.2f, 0.2f);
+materialsShader.setVec3(&quot;light.diffuse&quot;,  0.5f, 0.5f, 0.5f); // 将光照调暗了一些以搭配场景
+materialsShader.setVec3(&quot;light.specular&quot;, 1.0f, 1.0f, 1.0f); 
+</code></pre>
+
+<h4 id="不同的光源颜色">不同的光源颜色</h4>
+
+<p>不同的光照颜色能够极大地影响物体的最终颜色输出。由于光照颜色能够直接影响物体能够反射的颜色</p>
+
+<p>可以利用sin和glfwGetTime函数改变光源的环境光和漫反射颜色，从而很容易地让光源的颜色随着时间变化：</p>
+
+<pre><code class="language-cpp">glm::vec3 lightColor;
+lightColor.x = sin(glfwGetTime() * 2.0f);
+lightColor.y = sin(glfwGetTime() * 0.7f);
+lightColor.z = sin(glfwGetTime() * 1.3f);
+
+glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // 降低影响
+glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // 很低的影响
+
+lightingShader.setVec3(&quot;light.ambient&quot;, ambientColor);
+lightingShader.setVec3(&quot;light.diffuse&quot;, diffuseColor);
+</code></pre>
+
+<h3 id="完整源码">完整源码</h3>
+
+<p><a href="https://github.com/realjf/opengl/tree/master/src/lighting/03">github.com/realjf/opengl/src/lighting/03</a></p>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/opengl/base-lighting/">opengl光照之二 基础光照 Base Lighting</a></li>
+                
+                    <li><a href="/opengl/lighting-color/">opengl光照之一 颜色 Lighting Color</a></li>
+                
+                    <li><a href="/opengl/camera/">opengl之八 摄像机 Camera</a></li>
+                
+                    <li><a href="/opengl/coordinate-system/">opengl之七 坐标系统 Coordinate System</a></li>
+                
+                    <li><a href="/opengl/transformations/">opengl之六 变换 Transformations</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2020 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>
