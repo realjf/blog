@@ -132,7 +132,7 @@ materialsShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 不同的光照颜色能够极大地影响物体的最终颜色输出。由于光照颜色能够直接影响物体能够反射的颜色
 
 可以利用sin和glfwGetTime函数改变光源的环境光和漫反射颜色，从而很容易地让光源的颜色随着时间变化：
-```glsl
+```cpp
 glm::vec3 lightColor;
 lightColor.x = sin(glfwGetTime() * 2.0f);
 lightColor.y = sin(glfwGetTime() * 0.7f);
