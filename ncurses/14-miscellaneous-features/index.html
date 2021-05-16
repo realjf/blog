@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 14 其他特性 14 Miscellaneous Features // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,105 +233,88 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="14-其他特性">14 其他特性</h2>
-
+            <h2 id="14-其他特性">14 其他特性</h2>
 <p>现在你知道了足够的功能来编写一个好的诅咒程序，所有的钟和口哨。有一些在各种情况下有用的杂项函数。让我们直奔其中一些。</p>
-
-<h3 id="14-1-光标集">14.1. 光标集（）</h3>
-
+<h3 id="141-光标集">14.1. 光标集（）</h3>
 <p>此函数可用于使光标不可见。此函数的参数应为</p>
-
 <pre><code> 0 : invisible      or
     1 : normal    or
     2 : very visible.
-</code></pre>
-
-<h3 id="14-2-暂时离开curses模式">14.2. 暂时离开curses模式</h3>
-
+</code></pre><h3 id="142-暂时离开curses模式">14.2. 暂时离开curses模式</h3>
 <p>有时您可能想暂时回到熟食模式（正常行缓冲模式）。在这种情况下，首先需要通过调用def_prog_mode（）保存tty模式，然后调用endwin（）结束curses模式。这将使您处于原来的tty模式。完成后，要返回到curses，请调用reset_prog_mode（）。此函数用于将tty返回到def_prog_mode（）存储的状态。然后执行refresh（），您将返回到诅咒模式。下面是一个例子，展示了要做的事情的顺序。</p>
-
 <p>例12。暂时离开诅咒模式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{	
+	initscr();			<span style="color:#75715e">/* Start curses mode 		  */</span>
+	printw(<span style="color:#e6db74">&#34;Hello World !!!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);	<span style="color:#75715e">/* Print Hello World		  */</span>
+	refresh();			<span style="color:#75715e">/* Print it on to the real screen */</span>
+	def_prog_mode();		<span style="color:#75715e">/* Save the tty modes		  */</span>
+	endwin();			<span style="color:#75715e">/* End curses mode temporarily	  */</span>
+	system(<span style="color:#e6db74">&#34;/bin/sh&#34;</span>);		<span style="color:#75715e">/* Do whatever you like in cooked mode */</span>
+	reset_prog_mode();		<span style="color:#75715e">/* Return to the previous tty mode*/</span>
+					<span style="color:#75715e">/* stored by def_prog_mode() 	  */</span>
+	refresh();			<span style="color:#75715e">/* Do refresh() to restore the	  */</span>
+					<span style="color:#75715e">/* Screen contents		  */</span>
+	printw(<span style="color:#e6db74">&#34;Another String</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);	<span style="color:#75715e">/* Back to curses use the full    */</span>
+	refresh();			<span style="color:#75715e">/* capabilities of curses	  */</span>
+	endwin();			<span style="color:#75715e">/* End curses mode		  */</span>
 
-<pre><code class="language-cpp">#include &lt;ncurses.h&gt;
-
-int main()
-{   
-    initscr();          /* Start curses mode          */
-    printw(&quot;Hello World !!!\n&quot;);    /* Print Hello World          */
-    refresh();          /* Print it on to the real screen */
-    def_prog_mode();        /* Save the tty modes         */
-    endwin();           /* End curses mode temporarily    */
-    system(&quot;/bin/sh&quot;);      /* Do whatever you like in cooked mode */
-    reset_prog_mode();      /* Return to the previous tty mode*/
-                    /* stored by def_prog_mode()      */
-    refresh();          /* Do refresh() to restore the    */
-                    /* Screen contents        */
-    printw(&quot;Another String\n&quot;); /* Back to curses use the full    */
-    refresh();          /* capabilities of curses     */
-    endwin();           /* End curses mode        */
-
-    return 0;
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
-</code></pre>
-
-<h3 id="14-3-acs变量">14.3. ACS变量</h3>
-
+</code></pre></div><h3 id="143-acs变量">14.3. ACS变量</h3>
 <p>如果你曾经在DOS下编程，你就会知道扩展字符集中那些漂亮的字符。它们只能在某些终端上打印。像box（）这样的NCURSES函数使用这些字符。所有这些变量都以ACS开头，表示可选字符集。你可能注意到我在上面的一些程序中使用了这些字符。下面是一个显示所有字符的示例。</p>
-
 <p>例13。ACS变量示例</p>
-
-<pre><code class="language-cpp">#include &lt;ncurses.h&gt;
-
-int main()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
 {
         initscr();
 
-        printw(&quot;Upper left corner           &quot;); addch(ACS_ULCORNER); printw(&quot;\n&quot;); 
-        printw(&quot;Lower left corner           &quot;); addch(ACS_LLCORNER); printw(&quot;\n&quot;);
-        printw(&quot;Lower right corner          &quot;); addch(ACS_LRCORNER); printw(&quot;\n&quot;);
-        printw(&quot;Tee pointing right          &quot;); addch(ACS_LTEE); printw(&quot;\n&quot;);
-        printw(&quot;Tee pointing left           &quot;); addch(ACS_RTEE); printw(&quot;\n&quot;);
-        printw(&quot;Tee pointing up             &quot;); addch(ACS_BTEE); printw(&quot;\n&quot;);
-        printw(&quot;Tee pointing down           &quot;); addch(ACS_TTEE); printw(&quot;\n&quot;);
-        printw(&quot;Horizontal line             &quot;); addch(ACS_HLINE); printw(&quot;\n&quot;);
-        printw(&quot;Vertical line               &quot;); addch(ACS_VLINE); printw(&quot;\n&quot;);
-        printw(&quot;Large Plus or cross over    &quot;); addch(ACS_PLUS); printw(&quot;\n&quot;);
-        printw(&quot;Scan Line 1                 &quot;); addch(ACS_S1); printw(&quot;\n&quot;);
-        printw(&quot;Scan Line 3                 &quot;); addch(ACS_S3); printw(&quot;\n&quot;);
-        printw(&quot;Scan Line 7                 &quot;); addch(ACS_S7); printw(&quot;\n&quot;);
-        printw(&quot;Scan Line 9                 &quot;); addch(ACS_S9); printw(&quot;\n&quot;);
-        printw(&quot;Diamond                     &quot;); addch(ACS_DIAMOND); printw(&quot;\n&quot;);
-        printw(&quot;Checker board (stipple)     &quot;); addch(ACS_CKBOARD); printw(&quot;\n&quot;);
-        printw(&quot;Degree Symbol               &quot;); addch(ACS_DEGREE); printw(&quot;\n&quot;);
-        printw(&quot;Plus/Minus Symbol           &quot;); addch(ACS_PLMINUS); printw(&quot;\n&quot;);
-        printw(&quot;Bullet                      &quot;); addch(ACS_BULLET); printw(&quot;\n&quot;);
-        printw(&quot;Arrow Pointing Left         &quot;); addch(ACS_LARROW); printw(&quot;\n&quot;);
-        printw(&quot;Arrow Pointing Right        &quot;); addch(ACS_RARROW); printw(&quot;\n&quot;);
-        printw(&quot;Arrow Pointing Down         &quot;); addch(ACS_DARROW); printw(&quot;\n&quot;);
-        printw(&quot;Arrow Pointing Up           &quot;); addch(ACS_UARROW); printw(&quot;\n&quot;);
-        printw(&quot;Board of squares            &quot;); addch(ACS_BOARD); printw(&quot;\n&quot;);
-        printw(&quot;Lantern Symbol              &quot;); addch(ACS_LANTERN); printw(&quot;\n&quot;);
-        printw(&quot;Solid Square Block          &quot;); addch(ACS_BLOCK); printw(&quot;\n&quot;);
-        printw(&quot;Less/Equal sign             &quot;); addch(ACS_LEQUAL); printw(&quot;\n&quot;);
-        printw(&quot;Greater/Equal sign          &quot;); addch(ACS_GEQUAL); printw(&quot;\n&quot;);
-        printw(&quot;Pi                          &quot;); addch(ACS_PI); printw(&quot;\n&quot;);
-        printw(&quot;Not equal                   &quot;); addch(ACS_NEQUAL); printw(&quot;\n&quot;);
-        printw(&quot;UK pound sign               &quot;); addch(ACS_STERLING); printw(&quot;\n&quot;);
+        printw(<span style="color:#e6db74">&#34;Upper left corner           &#34;</span>); addch(ACS_ULCORNER); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>); 
+        printw(<span style="color:#e6db74">&#34;Lower left corner           &#34;</span>); addch(ACS_LLCORNER); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Lower right corner          &#34;</span>); addch(ACS_LRCORNER); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Tee pointing right          &#34;</span>); addch(ACS_LTEE); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Tee pointing left           &#34;</span>); addch(ACS_RTEE); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Tee pointing up             &#34;</span>); addch(ACS_BTEE); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Tee pointing down           &#34;</span>); addch(ACS_TTEE); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Horizontal line             &#34;</span>); addch(ACS_HLINE); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Vertical line               &#34;</span>); addch(ACS_VLINE); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Large Plus or cross over    &#34;</span>); addch(ACS_PLUS); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Scan Line 1                 &#34;</span>); addch(ACS_S1); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Scan Line 3                 &#34;</span>); addch(ACS_S3); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Scan Line 7                 &#34;</span>); addch(ACS_S7); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Scan Line 9                 &#34;</span>); addch(ACS_S9); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Diamond                     &#34;</span>); addch(ACS_DIAMOND); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Checker board (stipple)     &#34;</span>); addch(ACS_CKBOARD); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Degree Symbol               &#34;</span>); addch(ACS_DEGREE); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Plus/Minus Symbol           &#34;</span>); addch(ACS_PLMINUS); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Bullet                      &#34;</span>); addch(ACS_BULLET); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Arrow Pointing Left         &#34;</span>); addch(ACS_LARROW); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Arrow Pointing Right        &#34;</span>); addch(ACS_RARROW); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Arrow Pointing Down         &#34;</span>); addch(ACS_DARROW); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Arrow Pointing Up           &#34;</span>); addch(ACS_UARROW); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Board of squares            &#34;</span>); addch(ACS_BOARD); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Lantern Symbol              &#34;</span>); addch(ACS_LANTERN); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Solid Square Block          &#34;</span>); addch(ACS_BLOCK); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Less/Equal sign             &#34;</span>); addch(ACS_LEQUAL); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Greater/Equal sign          &#34;</span>); addch(ACS_GEQUAL); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Pi                          &#34;</span>); addch(ACS_PI); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;Not equal                   &#34;</span>); addch(ACS_NEQUAL); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        printw(<span style="color:#e6db74">&#34;UK pound sign               &#34;</span>); addch(ACS_STERLING); printw(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 
         refresh();
         getch();
         endwin();
 
-    return 0;
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

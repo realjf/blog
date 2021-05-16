@@ -3,7 +3,7 @@
 <head>
     <title>Vagrantfile // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,63 +233,40 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/devtools/">Devtools</a><a class="tag" href="https://realjf.io/tags/vagrantfile/">Vagrantfile</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/devtools/">devtools</a><a class="tag" href="https://realjf.io/tags/vagrantfile/">vagrantfile</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="配置版本">配置版本</h3>
-
+            <h3 id="配置版本">配置版本</h3>
 <p>配置版本是一种机制，通过该机制，Vagrant 1.1+可以 与Vagrant 1.0.x Vagrantfiles保持向后兼容，同时引入了许多新功能和配置选项</p>
-
 <p>现在运行vagrant init，其格式如下：</p>
-
-<pre><code class="language-vagrant">Vagrant.configure(&quot;2&quot;) do |config|
+<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.configure(&quot;2&quot;) do |config|
   # ...
 end
-</code></pre>
-
-<p>其中的2代表配置的版本的号</p>
-
+</code></pre><p>其中的2代表配置的版本的号</p>
 <p>可以同时使用版本1和版本2的特性，最终它们将合并在一起使用</p>
-
-<pre><code class="language-vagrant">Vagrant.configure(&quot;1&quot;) do |config|
+<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.configure(&quot;1&quot;) do |config|
   # v1 configs...
 end
 
 Vagrant.configure(&quot;2&quot;) do |config|
   # v2 configs...
 end
-</code></pre>
-
-<h3 id="最小版本">最小版本</h3>
-
+</code></pre><h3 id="最小版本">最小版本</h3>
 <p>这个可以限制太新或者太旧的版本，但是此版本限制必须放在vagrantfile文件最前面，
 并通过vagrant.require_version 指定</p>
-
-<pre><code class="language-vagrant">Vagrant.require_version &quot;&gt;= 1.3.5&quot;
-</code></pre>
-
-<p>上述限制将让vagrantfile文件只在 大于等于vagrant 1.3.5版本时加载</p>
-
+<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.require_version &quot;&gt;= 1.3.5&quot;
+</code></pre><p>上述限制将让vagrantfile文件只在 大于等于vagrant 1.3.5版本时加载</p>
 <p>也可以指定多版本限制</p>
-
-<pre><code class="language-vagrant">Vagrant.require_version &quot;&gt;= 1.3.5&quot;, &quot;&lt; 1.4.0&quot;
-</code></pre>
-
-<h3 id="循环vm定义">循环vm定义</h3>
-
-<pre><code class="language-vagrant">(1..3).each do |i|
+<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.require_version &quot;&gt;= 1.3.5&quot;, &quot;&lt; 1.4.0&quot;
+</code></pre><h3 id="循环vm定义">循环vm定义</h3>
+<pre><code class="language-vagrant" data-lang="vagrant">(1..3).each do |i|
   config.vm.define &quot;node-#{i}&quot; do |node|
     node.vm.provision &quot;shell&quot;,
       inline: &quot;echo hello from node #{i}&quot;
   end
 end
-</code></pre>
-
-<p>以上的each结构时使用副本进行迭代，所以不会出错，但是如果使用以下结构，将会使所有node的text相同</p>
-
-<pre><code class="language-vagrant">
+</code></pre><p>以上的each结构时使用副本进行迭代，所以不会出错，但是如果使用以下结构，将会使所有node的text相同</p>
+<pre><code class="language-vagrant" data-lang="vagrant">
 # THIS DOES NOT WORK!
 for i in 1..3 do
   config.vm.define &quot;node-#{i}&quot; do |node|
@@ -297,36 +274,33 @@ for i in 1..3 do
       inline: &quot;echo hello from node #{i}&quot;
   end
 end
-</code></pre>
-
-<h3 id="重写ssh会话中的host-locale变量">重写ssh会话中的host locale变量</h3>
-
+</code></pre><h3 id="重写ssh会话中的host-locale变量">重写ssh会话中的host locale变量</h3>
 <p>通常，host locale环境变量传递给客户机，但是可能客户机不支持，所以可以使用以下解决方法</p>
-
-<pre><code class="language-vagrant">ENV[&quot;LC_ALL&quot;] = &quot;en_US.UTF-8&quot;
+<pre><code class="language-vagrant" data-lang="vagrant">ENV[&quot;LC_ALL&quot;] = &quot;en_US.UTF-8&quot;
 
 Vagrant.configure(&quot;2&quot;) do |config|
   # ...
 end
 
-</code></pre>
-
-<p>该变量只在Vagrantfile中可见</p>
-
-<h3 id="配置空间-config-vm">配置空间 config.vm</h3>
-
+</code></pre><p>该变量只在Vagrantfile中可见</p>
+<h3 id="配置空间-configvm">配置空间 config.vm</h3>
 <h4 id="可用配置">可用配置</h4>
-
 <ul>
-<li><p>config.vm.allow_fstab_modification (boolean)</p></li>
-
-<li><p>config.vm.allow_hosts_modification (boolean)</p></li>
-
-<li><p>config.vm.base_mac (string)</p></li>
-
-<li><p>config.vm.base_address (string)</p></li>
-
-<li><p>config.vm.boot_timeout (integer)</p></li>
+<li>
+<p>config.vm.allow_fstab_modification (boolean)</p>
+</li>
+<li>
+<p>config.vm.allow_hosts_modification (boolean)</p>
+</li>
+<li>
+<p>config.vm.base_mac (string)</p>
+</li>
+<li>
+<p>config.vm.base_address (string)</p>
+</li>
+<li>
+<p>config.vm.boot_timeout (integer)</p>
+</li>
 </ul>
 
         </div>

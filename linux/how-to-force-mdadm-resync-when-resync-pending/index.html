@@ -3,7 +3,7 @@
 <head>
     <title>当mdadm查看磁盘阵列出现state为resync(Pending)时如何处理？ How to Force Mdadm Resync When Resync Pending // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,30 +233,23 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/linux/">Linux</a><a class="tag" href="https://realjf.io/tags/mdadm/">Mdadm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/linux/">linux</a><a class="tag" href="https://realjf.io/tags/mdadm/">mdadm</a></div></div>
         </header>
         <div class="post-content">
-            
+            <h3 id="查看情况">查看情况</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat /proc/mdstat
 
-<h3 id="查看情况">查看情况</h3>
-
-<pre><code class="language-sh">cat /proc/mdstat
-
-ersonalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
-md0 : active raid10 sdb1[0] sdf1[4](S) sde1[3] sdd1[2] sdc1[1]
-      3906762752 blocks super 1.2 512K chunks 2 near-copies [4/4] [UUUU]
-      resync=PENDING
-      bitmap: 10/30 pages [40KB], 65536KB chunk
+ersonalities : <span style="color:#f92672">[</span>linear<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>multipath<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>raid0<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>raid1<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>raid6<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>raid5<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>raid4<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>raid10<span style="color:#f92672">]</span> 
+md0 : active raid10 sdb1<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> sdf1<span style="color:#f92672">[</span>4<span style="color:#f92672">](</span>S<span style="color:#f92672">)</span> sde1<span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> sdd1<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> sdc1<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>
+      <span style="color:#ae81ff">3906762752</span> blocks super 1.2 512K chunks <span style="color:#ae81ff">2</span> near-copies <span style="color:#f92672">[</span>4/4<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>UUUU<span style="color:#f92672">]</span>
+      resync<span style="color:#f92672">=</span>PENDING
+      bitmap: 10/30 pages <span style="color:#f92672">[</span>40KB<span style="color:#f92672">]</span>, 65536KB chunk
 
 unused devices: &lt;none&gt;
 
-</code></pre>
-
-<p>解决方案时强制repair或resync</p>
-
-<pre><code class="language-sh">echo &quot;repair&quot; &gt; /sys/block/md0/md/sync_action
-</code></pre>
-
+</code></pre></div><p>解决方案时强制repair或resync</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;repair&#34;</span> &gt; /sys/block/md0/md/sync_action
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

@@ -3,7 +3,7 @@
 <head>
     <title>golang内存分配机制(Golang Memory Allocation Mechanism) // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,35 +233,25 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/golang%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/">Golang内存分配</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/golang%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D/">golang内存分配</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="环境">环境</h3>
-
+            <h3 id="环境">环境</h3>
 <ul>
 <li>golang v1.16.3</li>
 <li>64位系统</li>
 </ul>
-
 <h3 id="分配器描述">分配器描述</h3>
-
 <p>golang内存分配器原理与tcmalloc类似，通过维护一块大的全局内存，每个线程（golang中的P）维护一块小的私有内存，私有内存不足再从全局申请。</p>
-
-<p>主分配器工作在页面运行时，较小的分配大小（_MaxSmallSize = 32 &lt;&lt; 10, 不超过32kb）是四舍五入到大约70个()尺寸的class，每个class有自己的一组大小正好相同的objects，任何空闲的内存都可以分割成一组其中一个class尺寸的objects，然后使用位图(bitmap)进行管理</p>
-
+<p>主分配器工作在页面运行时，较小的分配大小（_MaxSmallSize = 32 &laquo; 10, 不超过32kb）是四舍五入到大约70个()尺寸的class，每个class有自己的一组大小正好相同的objects，任何空闲的内存都可以分割成一组其中一个class尺寸的objects，然后使用位图(bitmap)进行管理</p>
 <h3 id="虚拟内存布局">虚拟内存布局</h3>
-
 <ul>
 <li>堆由一组arenas组成，这些arenas在64位上是64MB，而32位上是4MB，每个arena的起始地址也是与该arena的大小一致（由此可知其地址空间是从高位到低位）</li>
 <li>每个arena都有一个关联的heapArena对象来存储该arena的元数据：arena上的所有words的堆bitmap以及arena上所有pages的span映射。heapArena对象是他们自己被分配到堆外。</li>
 <li>因为arenas是对齐的，所以地址空间可以被视为一系列arena框架。arena 映射（mheap_.arenas）将从arena帧编号映射到*heapArena，或者对于go堆不支持的地址空间的部分区域，映射为0,。arena 映射是由“L1”arena 映射和许多“L2”arena 映射组成的两级数组；然而，由于arena是巨大的，在许多架构中，arena 映射由一个大的“L2”map组成</li>
 <li>arena 映射覆盖了整个可能的地址空间，允许go堆使用地址空间的任何部分。分配器试图保持arena的连续性，以便大spans能穿过arenas</li>
 </ul>
-
 <h3 id="分配器的数据结构">分配器的数据结构</h3>
-
 <ul>
 <li>fixalloc: 用于固定大小堆外objects的空闲列表分配器，用于管理分配器使用的存储</li>
 <li>mheap: malloc堆，以page(8192字节)粒度管理</li>
@@ -270,51 +260,36 @@
 <li>mcache: 一个具有可用空间的mspan的per-P(每个线程P)的缓存</li>
 <li>mstats: 分配统计信息</li>
 </ul>
-
-<p><img src="/image/golang-memory-allocation-mechanism.png" alt="go内存分配机制" /></p>
-
+<p><img src="/image/golang-memory-allocation-mechanism.png" alt="go内存分配机制"></p>
 <h3 id="分配流程">分配流程</h3>
-
 <h4 id="分配的对象">分配的对象：</h4>
-
 <ul>
 <li>微小对象：小于16B</li>
 <li>一般小对象：16B ~ 32KB</li>
-
-<li><p>大对象：大于32KB</p>
-
-<h4 id="分配方式">分配方式</h4></li>
-
-<li><p>微小对象：由微型分配器分配</p></li>
-
-<li><p>小对象：按照计算尺寸大小，然后使用mcache中mspan对应class大小的块分配</p></li>
-
-<li><p>大对象：直接通过mheap分配，申请需要消耗全局锁锁定代价，任何时间点只能有一个P申请</p></li>
+<li>大对象：大于32KB</li>
 </ul>
-
+<h4 id="分配方式">分配方式</h4>
+<ul>
+<li>微小对象：由微型分配器分配</li>
+<li>小对象：按照计算尺寸大小，然后使用mcache中mspan对应class大小的块分配</li>
+<li>大对象：直接通过mheap分配，申请需要消耗全局锁锁定代价，任何时间点只能有一个P申请</li>
+</ul>
 <h4 id="分配一个小object将沿着缓存的层次结构进行">分配一个小object将沿着缓存的层次结构进行</h4>
-
 <ol>
 <li>四舍五入到一个小尺寸class，在这个线程P的mcache中查看相应的mspan，扫描mspan的空闲bitmap以查找空闲slot，如果有空闲的slot，则分配给它，这一切都可以在不获取锁的情况下完成</li>
 <li>如果mcache中的mspan没有空闲slot，则从mcentral的符合尺寸class要求的有空闲空间的mspan中，获取新的mspan，获得一个完整span将分摊锁定mcentral的成本</li>
 <li>如果mcentral的mspan列表为空，则从mheap中获取一个运行时page，用于这个mspan</li>
 <li>如果mheap为空，或没有足够大的运行时page，则从操作系统中分配一组新的pages(至少1MB)，分配一个大的运行时page分摊与操作系统通信的成本</li>
 </ol>
-
-<h4 id="扫描一个mspan并释放其上的objects-处理起来的类似层次结构">扫描一个mspan并释放其上的objects，处理起来的类似层次结构</h4>
-
+<h4 id="扫描一个mspan并释放其上的objects处理起来的类似层次结构">扫描一个mspan并释放其上的objects，处理起来的类似层次结构</h4>
 <ol>
 <li>如果正在扫描mspan以响应分配，则返回到mcache以满足分配</li>
 <li>否则，如果mspan中仍有已分配的object，根据mspan的class的大小，将它放在mcentral空闲列表中</li>
 <li>否则，如果mspan中的所有objects都是空闲的，则mspan的pages将被返回到mheap，这时这个mspan就结束生命周期了</li>
 </ol>
-
 <h4 id="分配一个大object">分配一个大object</h4>
-
 <p>分配和释放大object使用mheap，直接绕过mcache和mcentral</p>
-
 <p><strong>参考文献</strong></p>
-
 <ul>
 <li><a href="https://www.linuxzen.com/go-memory-allocator-visual-guide.html">译文：Go 内存分配器可视化指南</a></li>
 <li><a href="https://andrestc.com/post/go-memory-allocation-pt1/">Go&rsquo;s Memory Allocator - Overview</a></li>

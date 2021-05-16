@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 19 工具和小部件库 19 Tools and Widget Libraries // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,28 +233,18 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="19-工具和小部件库">19 工具和小部件库</h2>
-
+            <h2 id="19-工具和小部件库">19 工具和小部件库</h2>
 <p>现在您已经看到了NCURSE及其姊妹库的功能，您将为一个严重操纵屏幕的项目卷起袖子，准备就绪。但是等等。。在普通的NCURSE中，甚至在附加库中编写和维护复杂的GUI小部件可能相当困难。有一些现成的工具和小部件库可以用来代替编写自己的小部件。您可以使用其中的一些，从代码中获取想法，甚至扩展它们。</p>
-
-<h3 id="19-1-cdk-cusses开发工具包">19.1. CDK（CUSSES开发工具包）</h3>
-
+<h3 id="191-cdkcusses开发工具包">19.1. CDK（CUSSES开发工具包）</h3>
 <p>用作者的话说</p>
-
 <p>CDK代表“curses开发工具包”，目前它包含21个随时可用的小部件，这有助于全屏幕诅咒程序的快速开发。</p>
-
-<p>该工具包提供了一些有用的小部件，这些小部件可以直接用于程序中。它写得很好，文档也很好。示例目录中的示例可以是初学者的一个好开始。CDK可从中下载<a href="http://insigner-island.net/cdk/">http://insigner-island.net/cdk/</a>. 按照README文件中的说明安装。</p>
-
-<h4 id="19-1-1-小部件列表">19.1.1。小部件列表</h4>
-
+<p>该工具包提供了一些有用的小部件，这些小部件可以直接用于程序中。它写得很好，文档也很好。示例目录中的示例可以是初学者的一个好开始。CDK可从中下载http://insigner-island.net/cdk/. 按照README文件中的说明安装。</p>
+<h4 id="1911小部件列表">19.1.1。小部件列表</h4>
 <p>下面是cdk提供的小部件列表及其描述。</p>
-
-<pre><code class="language-text">Widget Type           Quick Description
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Widget Type           Quick Description
 ===========================================================================
 Alphalist             Allows a user to select from a list of words, with
                       the ability to narrow the search list by typing in a
@@ -298,44 +288,24 @@ Template              Creates a entry field with character sensitive
 Viewer                This is a file/information viewer. Very useful
                       when you need to display loads of information.
 ===========================================================================
-</code></pre>
-
-<p>一些小部件是由thomasdickey在最新版本中修改的。</p>
-
-<h4 id="19-1-2-一些吸引人的特征">19.1.2. 一些吸引人的特征</h4>
-
+</code></pre></div><p>一些小部件是由thomasdickey在最新版本中修改的。</p>
+<h4 id="1912-一些吸引人的特征">19.1.2. 一些吸引人的特征</h4>
 <p>除了使用容易使用的小部件使我们的生活更轻松之外，cdk还解决了一个令人沮丧的问题：打印多色字符串，优雅地对齐字符串。特殊格式标记可以嵌入到传递给CDK函数的字符串中。例如</p>
-
 <p>如果字符串</p>
-
-<pre><code class="language-cpp">&quot;&lt;/B/1&gt;This line should have a yellow foreground and a blue
-background.&lt;!1&gt;&quot;
-</code></pre>
-
-<p>作为newCDKLabel（）的参数，它打印前景为黄色、背景为蓝色的行。还有其他标签可用于证明字符串，嵌入特殊绘图字符等。。有关详细信息，请参阅手册页cdk\ U显示屏（3X）。手册页用很好的例子解释了用法。</p>
-
-<h4 id="19-1-3-结论">19.1.3. 结论</h4>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#e6db74">&#34;&lt;/B/1&gt;This line should have a yellow foreground and a blue</span>
+background.<span style="color:#f92672">&lt;!</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><p>作为newCDKLabel（）的参数，它打印前景为黄色、背景为蓝色的行。还有其他标签可用于证明字符串，嵌入特殊绘图字符等。。有关详细信息，请参阅手册页cdk\ U显示屏（3X）。手册页用很好的例子解释了用法。</p>
+<h4 id="1913-结论">19.1.3. 结论</h4>
 <p>总之，CDK是一个编写良好的小部件包，如果使用得当，它可以形成一个强大的框架，用于开发复杂的GUI。</p>
-
-<h3 id="19-2-对话框">19.2. 对话框</h3>
-
+<h3 id="192-对话框">19.2. 对话框</h3>
 <p>很久以前，1994年9月，很少有人知道linux，jefftranter在linux杂志上写了一篇关于dialog的文章。他以这些词开始这篇文章。。</p>
-
 <p>Linux是基于Unix操作系统的，但也有许多独特而有用的内核特性和应用程序，这些特性和程序往往超出了Unix下可用的范围。一个鲜为人知的gem是“dialog”，这是一个用于从shell脚本中创建具有专业外观的对话框的实用工具。本文介绍了dialog实用程序的教程介绍，并展示了如何以及在何处使用它的示例</p>
-
 <p>正如他所解释的，对话框是一个真正的宝石，使专业期待对话框轻松。它创建各种对话框、菜单、检查列表等。。它通常是默认安装的。如果没有，你可以从托马斯·迪基的网站上下载。</p>
-
 <p>上面提到的文章很好地概述了它的用途和功能。手册页有更多详细信息。它可以在各种情况下使用。一个很好的例子是在文本模式下构建linux内核。Linux内核使用了一个根据需要定制的dialog的修改版本。</p>
-
 <p>对话框最初设计用于shell脚本。如果您想在c程序中使用它的功能，那么可以使用libdialog。关于这一点的文件很少。最终参考是随库提供的dialog.h头文件。你可能需要在这里和那里黑客获得所需的输出。源代码很容易定制。我通过修改代码多次使用它。</p>
-
-<h3 id="19-3-perl-curses模块curses-form和curses-widgets">19.3. Perl Curses模块Curses:：FORM和Curses:：WIDGETS</h3>
-
+<h3 id="193-perl-curses模块cursesform和curseswidgets">19.3. Perl Curses模块Curses:：FORM和Curses:：WIDGETS</h3>
 <p>perl模块Curses、Curses：：Form和Curses：：Widgets提供了从perl访问Curses的权限。如果您有curses并且安装了basic perl，那么可以从CPAN所有模块页面获取这些模块。获取诅咒类中的三个压缩模块。一旦安装，您就可以像使用其他模块一样使用perl脚本中的这些模块。有关perl模块的更多信息，请参见perlmod手册页。上面的模块附带了很好的文档，并且有一些演示脚本来测试功能。尽管提供的小部件非常初级，但这些模块提供了从perl访问curses库的良好途径。</p>
-
 <p>我的一些代码示例由Anuradha Ratnaweera转换为perl，它们可以在perl目录中找到。</p>
-
 <p>有关更多信息，请参阅手册页Curses（3）、Curses:：Form（3）和Curses:：Widgets（3）。只有在获取并安装了上述模块之后，才能安装这些页面。</p>
 
         </div>

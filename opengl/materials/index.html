@@ -3,7 +3,7 @@
 <head>
     <title>opengl光照之三 材质 Materials // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,144 +233,100 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">opengl</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<p>每个物体对镜面高光也有不同的反应。有些物体反射光的时候不会有太多的散射(Scatter)，因而产生一个较小的高光点，而有些物体则会散射很多，产生一个有着更大半径的高光点。如果想要在OpenGL中模拟多种类型的物体，必须为每个物体分别定义一个材质(Material)属性。</p>
-
+            <p>每个物体对镜面高光也有不同的反应。有些物体反射光的时候不会有太多的散射(Scatter)，因而产生一个较小的高光点，而有些物体则会散射很多，产生一个有着更大半径的高光点。如果想要在OpenGL中模拟多种类型的物体，必须为每个物体分别定义一个材质(Material)属性。</p>
 <p>当描述一个物体的时候，可以用这三个分量来定义一个材质颜色(Material Color)：环境光照(Ambient Lighting)、漫反射光照(Diffuse Lighting)和镜面光照(Specular Lighting)。再添加反光度(Shininess)这个分量到上述的三个颜色中，这就有所有材质属性了：</p>
-
-<pre><code class="language-glsl">#version 330 core
-struct Material {
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-    float shininess;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
+<span style="color:#66d9ef">struct</span> Material {
+    <span style="color:#66d9ef">vec3</span> ambient;
+    <span style="color:#66d9ef">vec3</span> diffuse;
+    <span style="color:#66d9ef">vec3</span> specular;
+    <span style="color:#66d9ef">float</span> shininess;
 }; 
 
-uniform Material material;
-</code></pre>
-
-<p>在片段着色器中，创建一个结构体(Struct)来储存物体的材质属性。也可以把它们储存为独立的uniform值，但是作为一个结构体来储存会更有条理一些。首先定义结构体的布局(Layout)，然后使用刚创建的结构体为类型，简单地声明一个uniform变量。</p>
-
+<span style="color:#66d9ef">uniform</span> Material material;
+</code></pre></div><p>在片段着色器中，创建一个结构体(Struct)来储存物体的材质属性。也可以把它们储存为独立的uniform值，但是作为一个结构体来储存会更有条理一些。首先定义结构体的布局(Layout)，然后使用刚创建的结构体为类型，简单地声明一个uniform变量。</p>
 <ul>
 <li>ambient材质向量定义了在环境光照下这个物体反射得是什么颜色，通常这是和物体颜色相同的颜色。</li>
 <li>diffuse材质向量定义了在漫反射光照下物体的颜色。（和环境光照一样）漫反射颜色也要设置为需要的物体颜色。</li>
 <li>specular材质向量设置的是镜面光照对物体的颜色影响（或者甚至可能反射一个物体特定的镜面高光颜色）。</li>
 <li>最后，shininess影响镜面高光的散射/半径。</li>
 </ul>
-
 <p>这四个元素定义了一个物体的材质，通过它们能够模拟很多现实世界中的材质。</p>
-
 <p><a href="http://devernay.free.fr/cours/opengl/materials.html">devernay.free.fr</a>上的一个表格展示了几种材质属性，它们模拟了现实世界中的真实材质。</p>
-
 <p>让我们在着色器中实现这样的一个材质系统。</p>
-
 <h3 id="设置材质">设置材质</h3>
-
 <p>在片段着色器中创建了一个材质结构体的uniform，由于所有材质变量都储存在结构体中，可以从uniform变量material中访问它们：</p>
-
-<pre><code class="language-glsl">void main()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">void</span> main()
 {    
-    // 环境光
-    vec3 ambient = lightColor * material.ambient;
+    <span style="color:#75715e">// 环境光</span>
+    <span style="color:#66d9ef">vec3</span> ambient <span style="color:#f92672">=</span> lightColor <span style="color:#f92672">*</span> material.ambient;
 
-    // 漫反射 
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = lightColor * (diff * material.diffuse);
+    <span style="color:#75715e">// 漫反射 </span>
+    <span style="color:#66d9ef">vec3</span> norm <span style="color:#f92672">=</span> normalize(Normal);
+    <span style="color:#66d9ef">vec3</span> lightDir <span style="color:#f92672">=</span> normalize(lightPos <span style="color:#f92672">-</span> FragPos);
+    <span style="color:#66d9ef">float</span> diff <span style="color:#f92672">=</span> max(dot(norm, lightDir), <span style="color:#ae81ff">0.0</span>);
+    <span style="color:#66d9ef">vec3</span> diffuse <span style="color:#f92672">=</span> lightColor <span style="color:#f92672">*</span> (diff <span style="color:#f92672">*</span> material.diffuse);
 
-    // 镜面光
-    vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = lightColor * (spec * material.specular);  
+    <span style="color:#75715e">// 镜面光</span>
+    <span style="color:#66d9ef">vec3</span> viewDir <span style="color:#f92672">=</span> normalize(viewPos <span style="color:#f92672">-</span> FragPos);
+    <span style="color:#66d9ef">vec3</span> reflectDir <span style="color:#f92672">=</span> reflect(<span style="color:#f92672">-</span>lightDir, norm);  
+    <span style="color:#66d9ef">float</span> spec <span style="color:#f92672">=</span> pow(max(dot(viewDir, reflectDir), <span style="color:#ae81ff">0.0</span>), material.shininess);
+    <span style="color:#66d9ef">vec3</span> specular <span style="color:#f92672">=</span> lightColor <span style="color:#f92672">*</span> (spec <span style="color:#f92672">*</span> material.specular);  
 
-    vec3 result = ambient + diffuse + specular;
-    FragColor = vec4(result, 1.0);
+    <span style="color:#66d9ef">vec3</span> result <span style="color:#f92672">=</span> ambient <span style="color:#f92672">+</span> diffuse <span style="color:#f92672">+</span> specular;
+    FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(result, <span style="color:#ae81ff">1.0</span>);
 }
-</code></pre>
-
-<p>这次是根据材质的颜色来计算最终的输出颜色的。物体的每个材质属性都乘上了它们对应的光照分量。</p>
-
+</code></pre></div><p>这次是根据材质的颜色来计算最终的输出颜色的。物体的每个材质属性都乘上了它们对应的光照分量。</p>
 <p>现在可以在程序中设置适当的uniform，对物体设置材质了。GLSL中的结构体在设置uniform时并没有什么特别之处。结构体只是作为uniform变量的一个封装，所以如果想填充这个结构体的话，仍需要对每个单独的uniform进行设置，但这次要带上结构体名的前缀：</p>
-
-<pre><code class="language-cpp">materialsShader.setVec3(&quot;material.ambient&quot;,  1.0f, 0.5f, 0.31f);
-materialsShader.setVec3(&quot;material.diffuse&quot;,  1.0f, 0.5f, 0.31f);
-materialsShader.setVec3(&quot;material.specular&quot;, 0.5f, 0.5f, 0.5f);
-materialsShader.setFloat(&quot;material.shininess&quot;, 32.0f);
-</code></pre>
-
-<p>将环境光和漫反射分量设置成想要让物体所拥有的颜色，而将镜面分量设置为一个中等亮度的颜色，不希望镜面分量在这个物体上过于强烈。将反光度保持为32。现在能够程序中非常容易地修改物体的材质了。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">materialsShader.setVec3(<span style="color:#e6db74">&#34;material.ambient&#34;</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.31f</span>);
+materialsShader.setVec3(<span style="color:#e6db74">&#34;material.diffuse&#34;</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.31f</span>);
+materialsShader.setVec3(<span style="color:#e6db74">&#34;material.specular&#34;</span>, <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.5f</span>);
+materialsShader.setFloat(<span style="color:#e6db74">&#34;material.shininess&#34;</span>, <span style="color:#ae81ff">32.0f</span>);
+</code></pre></div><p>将环境光和漫反射分量设置成想要让物体所拥有的颜色，而将镜面分量设置为一个中等亮度的颜色，不希望镜面分量在这个物体上过于强烈。将反光度保持为32。现在能够程序中非常容易地修改物体的材质了。</p>
 <h4 id="光的属性">光的属性</h4>
-
 <p>这个物体太亮了。物体过亮的原因是环境光、漫反射和镜面光这三个颜色对任何一个光源都会去全力反射。光源对环境光、漫反射和镜面光分量也具有着不同的强度。</p>
-
 <p>通过使用一个强度值改变环境光和镜面光强度的方式解决了这个问题。如果想做一个类似的系统，但是这次是要为每个光照分量都指定一个强度向量。如果假设lightColor是vec3(1.0)，代码会看起来像这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> ambient  <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec3</span>(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">*</span> material.ambient;
+<span style="color:#66d9ef">vec3</span> diffuse  <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec3</span>(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">*</span> (diff <span style="color:#f92672">*</span> material.diffuse);
+<span style="color:#66d9ef">vec3</span> specular <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec3</span>(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">*</span> (spec <span style="color:#f92672">*</span> material.specular);
+</code></pre></div><p>所以物体的每个材质属性对每一个光照分量都返回了最大的强度。对单个光源来说，这些vec3(1.0)值同样可以分别改变，现在，物体的环境光分量完全地影响了立方体的颜色，可是环境光分量实际上不应该对最终的颜色有这么大的影响，所以将光源的环境光强度设置为一个小一点的值，从而限制环境光颜色</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> ambient <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec3</span>(<span style="color:#ae81ff">0.1</span>) <span style="color:#f92672">*</span> material.ambient;
+</code></pre></div><p>为光照属性创建一个与材质结构体类似的结构体：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">struct</span> Light {
+    <span style="color:#66d9ef">vec3</span> position;
 
-<pre><code class="language-glsl">vec3 ambient  = vec3(1.0) * material.ambient;
-vec3 diffuse  = vec3(1.0) * (diff * material.diffuse);
-vec3 specular = vec3(1.0) * (spec * material.specular);
-</code></pre>
-
-<p>所以物体的每个材质属性对每一个光照分量都返回了最大的强度。对单个光源来说，这些vec3(1.0)值同样可以分别改变，现在，物体的环境光分量完全地影响了立方体的颜色，可是环境光分量实际上不应该对最终的颜色有这么大的影响，所以将光源的环境光强度设置为一个小一点的值，从而限制环境光颜色</p>
-
-<pre><code class="language-glsl">vec3 ambient = vec3(0.1) * material.ambient;
-</code></pre>
-
-<p>为光照属性创建一个与材质结构体类似的结构体：</p>
-
-<pre><code class="language-glsl">struct Light {
-    vec3 position;
-
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+    <span style="color:#66d9ef">vec3</span> ambient;
+    <span style="color:#66d9ef">vec3</span> diffuse;
+    <span style="color:#66d9ef">vec3</span> specular;
 };
 
-uniform Light light;
-</code></pre>
-
-<p>一个光源对它的ambient、diffuse和specular光照有着不同的强度。环境光照通常会设置为一个比较低的强度。光源的漫反射分量通常设置为光所具有的颜色，通常是一个比较明亮的白色。镜面光分量通常会保持为vec3(1.0)，以最大强度发光。</p>
-
+<span style="color:#66d9ef">uniform</span> Light light;
+</code></pre></div><p>一个光源对它的ambient、diffuse和specular光照有着不同的强度。环境光照通常会设置为一个比较低的强度。光源的漫反射分量通常设置为光所具有的颜色，通常是一个比较明亮的白色。镜面光分量通常会保持为vec3(1.0)，以最大强度发光。</p>
 <p>和材质uniform一样，需要更新片段着色器：</p>
-
-<pre><code class="language-glsl">vec3 ambient  = light.ambient * material.ambient;
-vec3 diffuse  = light.diffuse * (diff * material.diffuse);
-vec3 specular = light.specular * (spec * material.specular);
-</code></pre>
-
-<p>在程序中设置光照强度：</p>
-
-<pre><code class="language-cpp">materialsShader.setVec3(&quot;light.ambient&quot;,  0.2f, 0.2f, 0.2f);
-materialsShader.setVec3(&quot;light.diffuse&quot;,  0.5f, 0.5f, 0.5f); // 将光照调暗了一些以搭配场景
-materialsShader.setVec3(&quot;light.specular&quot;, 1.0f, 1.0f, 1.0f); 
-</code></pre>
-
-<h4 id="不同的光源颜色">不同的光源颜色</h4>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> ambient  <span style="color:#f92672">=</span> light.ambient <span style="color:#f92672">*</span> material.ambient;
+<span style="color:#66d9ef">vec3</span> diffuse  <span style="color:#f92672">=</span> light.diffuse <span style="color:#f92672">*</span> (diff <span style="color:#f92672">*</span> material.diffuse);
+<span style="color:#66d9ef">vec3</span> specular <span style="color:#f92672">=</span> light.specular <span style="color:#f92672">*</span> (spec <span style="color:#f92672">*</span> material.specular);
+</code></pre></div><p>在程序中设置光照强度：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">materialsShader.setVec3(<span style="color:#e6db74">&#34;light.ambient&#34;</span>,  <span style="color:#ae81ff">0.2f</span>, <span style="color:#ae81ff">0.2f</span>, <span style="color:#ae81ff">0.2f</span>);
+materialsShader.setVec3(<span style="color:#e6db74">&#34;light.diffuse&#34;</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.5f</span>); <span style="color:#75715e">// 将光照调暗了一些以搭配场景
+</span><span style="color:#75715e"></span>materialsShader.setVec3(<span style="color:#e6db74">&#34;light.specular&#34;</span>, <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>); 
+</code></pre></div><h4 id="不同的光源颜色">不同的光源颜色</h4>
 <p>不同的光照颜色能够极大地影响物体的最终颜色输出。由于光照颜色能够直接影响物体能够反射的颜色</p>
-
 <p>可以利用sin和glfwGetTime函数改变光源的环境光和漫反射颜色，从而很容易地让光源的颜色随着时间变化：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glm<span style="color:#f92672">::</span>vec3 lightColor;
+lightColor.x <span style="color:#f92672">=</span> sin(glfwGetTime() <span style="color:#f92672">*</span> <span style="color:#ae81ff">2.0f</span>);
+lightColor.y <span style="color:#f92672">=</span> sin(glfwGetTime() <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.7f</span>);
+lightColor.z <span style="color:#f92672">=</span> sin(glfwGetTime() <span style="color:#f92672">*</span> <span style="color:#ae81ff">1.3f</span>);
 
-<pre><code class="language-cpp">glm::vec3 lightColor;
-lightColor.x = sin(glfwGetTime() * 2.0f);
-lightColor.y = sin(glfwGetTime() * 0.7f);
-lightColor.z = sin(glfwGetTime() * 1.3f);
-
-glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // 降低影响
-glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // 很低的影响
-
-lightingShader.setVec3(&quot;light.ambient&quot;, ambientColor);
-lightingShader.setVec3(&quot;light.diffuse&quot;, diffuseColor);
-</code></pre>
-
-<h3 id="完整源码">完整源码</h3>
-
+glm<span style="color:#f92672">::</span>vec3 diffuseColor <span style="color:#f92672">=</span> lightColor   <span style="color:#f92672">*</span> glm<span style="color:#f92672">::</span>vec3(<span style="color:#ae81ff">0.5f</span>); <span style="color:#75715e">// 降低影响
+</span><span style="color:#75715e"></span>glm<span style="color:#f92672">::</span>vec3 ambientColor <span style="color:#f92672">=</span> diffuseColor <span style="color:#f92672">*</span> glm<span style="color:#f92672">::</span>vec3(<span style="color:#ae81ff">0.2f</span>); <span style="color:#75715e">// 很低的影响
+</span><span style="color:#75715e"></span>
+lightingShader.setVec3(<span style="color:#e6db74">&#34;light.ambient&#34;</span>, ambientColor);
+lightingShader.setVec3(<span style="color:#e6db74">&#34;light.diffuse&#34;</span>, diffuseColor);
+</code></pre></div><h3 id="完整源码">完整源码</h3>
 <p><a href="https://github.com/realjf/opengl/tree/master/src/lighting/03">github.com/realjf/opengl/src/lighting/03</a></p>
 
         </div>

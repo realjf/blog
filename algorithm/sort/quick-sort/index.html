@@ -3,7 +3,7 @@
 <head>
     <title>排序算法之快速排序 Quick Sort // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,96 +233,95 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/algorithm/">Algorithm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
         </header>
         <div class="post-content">
-            <p>快速排序的基本思想是：
-- 以整个数组为对象执行quickSort
-- quickSort流程如下
-    - 通过分割将对象局部数组分割为前后两个局部数组
-    - 对前半部分的局部数组执行quickSort
-    - 对后半部分的局部数组执行quickSort</p>
-
+            <p>快速排序的基本思想是：</p>
+<ul>
+<li>以整个数组为对象执行quickSort</li>
+<li>quickSort流程如下
+<ul>
+<li>通过分割将对象局部数组分割为前后两个局部数组</li>
+<li>对前半部分的局部数组执行quickSort</li>
+<li>对后半部分的局部数组执行quickSort</li>
+</ul>
+</li>
+</ul>
 <blockquote>
 <p>分割后前半部分数组都小于等于分割点元素，后半部分都大于分割点元素</p>
 </blockquote>
-
-<pre><code class="language-c">#include &lt;stdio.h&gt;
-#define MAX 100000
-#define SENTINEL 200000000
-
-struct Card{
-    char suit;
-    int value;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define MAX 100000
+</span><span style="color:#75715e">#define SENTINEL 200000000
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">struct</span> Card{
+    <span style="color:#66d9ef">char</span> suit;
+    <span style="color:#66d9ef">int</span> value;
 };
 
-struct Card L[MAX / 2 + 2], R[MAX/2 + 2];
+<span style="color:#66d9ef">struct</span> Card L[MAX <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>], R[MAX<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>];
 
-int partition(struct Card A[], int, n, int p, int r){
-    int i, j;
-    struct Card t, x;
-    x = A[r];
-    i = p -1;
-    for(j = p; j &lt; r; j++){
-        if(A[j].value &lt;= x.value){
-            i++;
-            t = A[i];
-            A[i] = A[j];
-            A[j] = t;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">partition</span>(<span style="color:#66d9ef">struct</span> Card A[], <span style="color:#66d9ef">int</span>, n, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> r){
+    <span style="color:#66d9ef">int</span> i, j;
+    <span style="color:#66d9ef">struct</span> Card t, x;
+    x <span style="color:#f92672">=</span> A[r];
+    i <span style="color:#f92672">=</span> p <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span>(j <span style="color:#f92672">=</span> p; j <span style="color:#f92672">&lt;</span> r; j<span style="color:#f92672">++</span>){
+        <span style="color:#66d9ef">if</span>(A[j].value <span style="color:#f92672">&lt;=</span> x.value){
+            i<span style="color:#f92672">++</span>;
+            t <span style="color:#f92672">=</span> A[i];
+            A[i] <span style="color:#f92672">=</span> A[j];
+            A[j] <span style="color:#f92672">=</span> t;
         }
     }
-    t = A[i+1];
-    A[i+1] = A[r];
-    A[r] = t;
-    return i+1;
+    t <span style="color:#f92672">=</span> A[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+    A[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> A[r];
+    A[r] <span style="color:#f92672">=</span> t;
+    <span style="color:#66d9ef">return</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
 }
 
-// 快速排序
-void quickSort(struct Card A[], int n, int p, int r){
-    int q;
-    if(p &lt; r){
-        q = partition(A, n, p, r);
-        quickSort(A, n, p, q - 1);
-        quickSort(A, n, q + 1, r);
+<span style="color:#75715e">// 快速排序
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">quickSort</span>(<span style="color:#66d9ef">struct</span> Card A[], <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> r){
+    <span style="color:#66d9ef">int</span> q;
+    <span style="color:#66d9ef">if</span>(p <span style="color:#f92672">&lt;</span> r){
+        q <span style="color:#f92672">=</span> partition(A, n, p, r);
+        quickSort(A, n, p, q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+        quickSort(A, n, q <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, r);
     }
 }
 
 
-</code></pre>
-
-<p>对比下归并排序</p>
-
-<pre><code class="language-c">
-void merge(struct Card A[], int n, int left, int mid, int right){
-    int i, j, k;
-    int n1 = mid - left;
-    int n2 = right - mid;
-    for (i = 0; i &lt; n1; i++) L[i] = A[left+i];
-    for (i = 0; i &lt; n2; i++) R[i] = A[mid+i];
+</code></pre></div><p>对比下归并排序</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">merge</span>(<span style="color:#66d9ef">struct</span> Card A[], <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> left, <span style="color:#66d9ef">int</span> mid, <span style="color:#66d9ef">int</span> right){
+    <span style="color:#66d9ef">int</span> i, j, k;
+    <span style="color:#66d9ef">int</span> n1 <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> left;
+    <span style="color:#66d9ef">int</span> n2 <span style="color:#f92672">=</span> right <span style="color:#f92672">-</span> mid;
+    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n1; i<span style="color:#f92672">++</span>) L[i] <span style="color:#f92672">=</span> A[left<span style="color:#f92672">+</span>i];
+    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n2; i<span style="color:#f92672">++</span>) R[i] <span style="color:#f92672">=</span> A[mid<span style="color:#f92672">+</span>i];
     
-    L[n1].value = R[n2].value = SENTINEL;
-    i = j = 0;
-    for (k = left; k &lt; right; k++){
-        if(L[i].value &lt;= R[j].value){
-            A[k] = L[i++];
-        }else{
-            A[k] = R[j++];
+    L[n1].value <span style="color:#f92672">=</span> R[n2].value <span style="color:#f92672">=</span> SENTINEL;
+    i <span style="color:#f92672">=</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (k <span style="color:#f92672">=</span> left; k <span style="color:#f92672">&lt;</span> right; k<span style="color:#f92672">++</span>){
+        <span style="color:#66d9ef">if</span>(L[i].value <span style="color:#f92672">&lt;=</span> R[j].value){
+            A[k] <span style="color:#f92672">=</span> L[i<span style="color:#f92672">++</span>];
+        }<span style="color:#66d9ef">else</span>{
+            A[k] <span style="color:#f92672">=</span> R[j<span style="color:#f92672">++</span>];
         }
     }
 }
 
-// 归并排序
-void mergeSort(struct Card A[], int n, int left, int right){
-    int mid;
-    if(left + 1 &lt; right) {
-        mid = (left + right) / 2;
+<span style="color:#75715e">// 归并排序
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mergeSort</span>(<span style="color:#66d9ef">struct</span> Card A[], <span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> left, <span style="color:#66d9ef">int</span> right){
+    <span style="color:#66d9ef">int</span> mid;
+    <span style="color:#66d9ef">if</span>(left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> right) {
+        mid <span style="color:#f92672">=</span> (left <span style="color:#f92672">+</span> right) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
         mergeSort(A, n, left, mid);
         mergeSort(A, n, mid, right);
         merge(A, n, left, mid, right);
     }
 }
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

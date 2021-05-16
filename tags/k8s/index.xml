@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>K8s on Realjf&#39;s blog</title>
+    <title>k8s on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/k8s/</link>
-    <description>Recent content in K8s on Realjf&#39;s blog</description>
+    <description>Recent content in k8s on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Apr 2021 10:07:28 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 20 Apr 2021 10:07:28 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用kubeadm工具安装 kubernetes Use Kubeadm Install K8s</title>
       <link>https://realjf.io/k8s/kubeadm-install-k8s/</link>
@@ -18,8 +14,8 @@
       
       <guid>https://realjf.io/k8s/kubeadm-install-k8s/</guid>
       <description>环境准备  centos-7 x86_64 2009 vmware 16 虚拟机 kubernetes: v1.21.0 docker-ce: 20.10.5 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB  请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
-# 关闭防火墙 sed -ri &#39;s#(SELINUX=).*#\1disabled#&#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功  docker-ce安装
-# 安装yum源 yum install -y wget &amp;amp;&amp;amp; wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo # 安装docker yum install docker-ce # 设置开机自启 systemctl enable docker &amp;amp;&amp;amp; systemctl start docker docker version  第一步：安装kubeadm和相关工具 官网yum源：https://packages.</description>
+# 关闭防火墙 sed -ri &amp;#39;s#(SELINUX=).*#\1disabled#&amp;#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功 docker-ce安装
+# 安装yum源 yum install -y wget &amp;amp;&amp;amp; wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo # 安装docker yum install docker-ce # 设置开机自启 systemctl enable docker &amp;amp;&amp;amp; systemctl start docker docker version 第一步：安装kubeadm和相关工具 官网yum源：https://packages.</description>
     </item>
     
     <item>
@@ -49,8 +45,8 @@ Operator 是 Kubernetes API 的客户端，充当定制资源的控制器。
 实验环境  CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2  什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
 Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！
 minikube安装 可以参考minikube 安装的网站minikube安装
-# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube  minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
-安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER}  minikube开始 minikube start --registry-mirror=https://registry.</description>
+# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
+安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
     </item>
     
     <item>
@@ -62,7 +58,7 @@ minikube安装 可以参考minikube 安装的网站minikube安装
       <description>前提：安装好kubernetes集群情况下
   run traefik and let it do the work for you!
  traefik官方地址：http://traefik.cn/
-方法一：使用k8s安装 准备 # 创建目录 mkdir traefik cd traefik # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git # 检查traefik配置 ll traefik/example/k8s/ -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.yaml -rw-r--r-- 1 root root 509 Sep 11 16:53 cheese-services.</description>
+方法一：使用k8s安装 准备 # 创建目录 mkdir traefik cd traefik # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git # 检查traefik配置  ll traefik/example/k8s/ -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.yaml -rw-r--r-- 1 root root 509 Sep 11 16:53 cheese-services.</description>
     </item>
     
     <item>
@@ -71,9 +67,10 @@ minikube安装 可以参考minikube 安装的网站minikube安装
       <pubDate>Tue, 19 Mar 2019 14:30:13 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-core-principle-network-model/</guid>
-      <description>主要解决以下问题： - 容器与容器之间的直接通信 - pod与pod之间的通信 - pod到service之间的通信 - 集群外部与集群内部组件之间的通信
-容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
-pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） - 不同node上的pod之间</description>
+      <description>主要解决以下问题：
+ 容器与容器之间的直接通信 pod与pod之间的通信 pod到service之间的通信 集群外部与集群内部组件之间的通信  容器与容器之间的通信 同一个Pod内的容器共享同一个linux协议栈，可以用localhost地址访问彼此的端口 kubernetes利用docker的网桥与容器内的映射eth0设备进行通信
+pod之间的通信 每个pod都拥有一个真实的全局ip地址
+ 同一个node内的不同pod之间 可以直接采用对方的pod的ip地址通信（因为他们都在同一个docker0网桥上，属于同一地址段） 不同node上的pod之间  </description>
     </item>
     
     <item>
@@ -82,14 +79,14 @@ pod之间的通信 每个pod都拥有一个真实的全局ip地址 - 同一个no
       <pubDate>Tue, 19 Mar 2019 14:29:44 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-core-principle-security/</guid>
-      <description> 安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
-k8s提供3种级别的客户端身份认证方式： - 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 - http token认证：通过一个token来识别合法用户
- http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
+      <description>安全性考虑目标  保证容器与其所在的宿主机的隔离 限制容器给基础设施及其他容器带来消极影响的能力 最小权限原则 明确组件间边界的划分 划分普通用户和管理员的角色 在必要时允许将管理员权限赋给普通用户 允许拥有secret数据（Keys、Certs、Passwords）的应用在集群中运行  1. API Server认证管理（Authentication） 集群安全的关键就在于如何识别并认证客户端身份，以及随后访问权限的授权这两个关键问题
+k8s提供3种级别的客户端身份认证方式：
+ 最严格的https证书认证：基于ca根证书签名的双向数字证书认证 http token认证：通过一个token来识别合法用户   http token用一个很长的特殊编码方式并且难以被模仿的字符串——token来表明客户端身份，每个token对应一个用户名，存储在api server能访问的一个文件中，当客户端发起api调用请求时，需要在http header里放入token，这样一来，api server就能识别合法用户和非法用户了。
   http base认证：通过用户名+密码的方式   http base是指把“用户名+冒号+密码”用base64算法进行编码后的字符串放在http request中的header authorization域里发送到服务端，服务端接受后进行解码，获取用户名及密码，然后进行用户身份鉴权过程
  2. API Server授权管理（Authorization） 通过授权策略来决定一个api调用是否合法。对合法用户进行授权并且随后在用户访问时进行鉴权，是权限与安全系统的重要一环。
-目前支持的授权策略： - AlwaysDeny：表示拒绝所有的请求，一般用于测试 - AlwaysAllow：允许接受所有请求，如果集群不需要授权，则可以采用这个策略，这也是默认配置 - ABAC：基于属性的访问控制，表示使用用户配置的授权规则对用户请求进行匹配和控制。 - Webhook：通过调用外部rest服务对用户进行授权 - RBAC：基于角色的访问控制
-ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访问控制： - 对集群中的资源和非资源权限均有完整的覆盖 - 整个RBAC完全由几个api对象完成，同其他api对象一样，可以用kubectl或api进行操作 - 可以在运行时进行调整，无需重新启动api server
- 要使用RBAC授权模式，需要在api server的启动参数中加上 &amp;ndash;authorization-mode=RBAC
+目前支持的授权策略：
+ AlwaysDeny：表示拒绝所有的请求，一般用于测试 AlwaysAllow：允许接受所有请求，如果集群不需要授权，则可以采用这个策略，这也是默认配置 ABAC：基于属性的访问控制，表示使用用户配置的授权规则对用户请求进行匹配和控制。 Webhook：通过调用外部rest服务对用户进行授权 RBAC：基于角色的访问控制  ABAC授权模式 Webhook授权模式 RBAC授权模式详解 基于角色的访问控制：
+ 对集群中的资源和非资源权限均有完整的覆盖 整个RBAC完全由几个api对象完成，同其他api对象一样，可以用kubectl或api进行操作 可以在运行时进行调整，无需重新启动api server   要使用RBAC授权模式，需要在api server的启动参数中加上 &amp;ndash;authorization-mode=RBAC
  3. Admission Control（准入控制） </description>
     </item>
     
@@ -121,12 +118,12 @@ service类型为NodePort kube-proxy在iptables中除了添加上面提及的规�
       <description>在每个Node节点上都会启动一个kubelet服务进程，该进程负责处理master节点下发到本节点的任务，管理Pod和pod中的容器。
 每个kubelet进程会在api server上注册节点自身信息，定期向master节点汇报节点资源的使用情况，并通过cAdvisor监控容器和节点资源。
 节点管理 节点通过设置kubelet的启动参数“&amp;ndash;register-node”，来决定是否向api server注册自己，如果该参数为true，则会向api server注册自己。
-其他参数包括： - &amp;ndash;api-servers：api server的位置 - &amp;ndash;kubeconfig：kubeconfig文件，用于访问api server的安全配置文件 - &amp;ndash;cloud-provider：云服务商地址，仅用于公有云环境
-通过kubelet的启动参数“&amp;ndash;node-status-update-frequency”设置kubelet每隔多长时间想api server报告节点状态，默认是10s。
-Pod管理 kubelet通过以下几种方式获取自身node上所要运行的pod清单： - 文件：同过启动参数“&amp;ndash;config”指定的配置文件目录下的文件（默认/etc/kubernetes/manifests/） - http断电：通过“&amp;ndash;manifest-url”参数设置 - api server：通过api server监听etcd目录，同步pod列表
-kubelet去读监听到的信息，如果是创建和修改pod任务，则  为该pod创建一个数据目录 从api server读取该pod清单 为该pod挂载外部卷 下载pod用到的secret 检查已经运行在节点中的pod，如果该pod没有容器或pause容器（kubernetes/pause镜像创建的容器）没有启动，则先停止pod里所有容器的进程。如果在pod中有需要删除的容器，则删除这些容器。 用&amp;rdquo;kubernetes/pause&amp;rdquo;镜像为每个pod创建一个容器，该pause容器用于接管pod中所有其他容器的网络。每创建一个新的pod，kubelet都会先创建一个pause容器，然后创建其他容器。 为pod中的每个容器做如下处理： 为容器计算一个hash值，然后用容器的名字去查询对应docker容器的hash值。若找到容器，且两者的hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两者相同，则不做任何处理。 如果容器被终止了，且容器没有指定的restartPolicy（重启策略），则不做任何处理。 调用docker client下载容器镜像，调用docker client运行容器。  容器健康检查 检查容器健康状态的两种探针 - LivenessProbe探针：判断容器是否健康，如果不健康，则删除Pod，根据其重启策略做相应处理。 - ReadinessProbe探针：判断容器是否完成启动，且准备接受请求。如果失败，pod的状态将被修改，Endpoint Controller将从Service的Endpoint中删除包含该容器所在pod的ip地址的endpoint条目。
-LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康 TCPSocketAction：通过容器的ip地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康 HTTPGetAction：通过容器的ip地址和端口号即路径调用http get方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康  LivenessProbe探针包含在pod定义的spec.containers.{某个容器}中
-# 容器命令检查 livenessProbe: exec: command: - cat - /tmp/health initialDelaySeconds: 15 timeoutSeconds: 1  # http检查 livenessProbe: httpGet: path: /healthz port: 8080 initialDelaySeconds: 15 timeoutSeconds: 1  cAdvisor资源监控 监控级别包括：容器、pod、service和整个集群</description>
+其他参数包括：
+ &amp;ndash;api-servers：api server的位置 &amp;ndash;kubeconfig：kubeconfig文件，用于访问api server的安全配置文件 &amp;ndash;cloud-provider：云服务商地址，仅用于公有云环境  通过kubelet的启动参数“&amp;ndash;node-status-update-frequency”设置kubelet每隔多长时间想api server报告节点状态，默认是10s。
+Pod管理 kubelet通过以下几种方式获取自身node上所要运行的pod清单：
+ 文件：同过启动参数“&amp;ndash;config”指定的配置文件目录下的文件（默认/etc/kubernetes/manifests/） http断电：通过“&amp;ndash;manifest-url”参数设置 api server：通过api server监听etcd目录，同步pod列表  kubelet去读监听到的信息，如果是创建和修改pod任务，则  为该pod创建一个数据目录 从api server读取该pod清单 为该pod挂载外部卷 下载pod用到的secret 检查已经运行在节点中的pod，如果该pod没有容器或pause容器（kubernetes/pause镜像创建的容器）没有启动，则先停止pod里所有容器的进程。如果在pod中有需要删除的容器，则删除这些容器。 用&amp;quot;kubernetes/pause&amp;quot;镜像为每个pod创建一个容器，该pause容器用于接管pod中所有其他容器的网络。每创建一个新的pod，kubelet都会先创建一个pause容器，然后创建其他容器。 为pod中的每个容器做如下处理：   为容器计算一个hash值，然后用容器的名字去查询对应docker容器的hash值。若找到容器，且两者的hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两者相同，则不做任何处理。 如果容器被终止了，且容器没有指定的restartPolicy（重启策略），则不做任何处理。 调用docker client下载容器镜像，调用docker client运行容器。  容器健康检查 检查容器健康状态的两种探针
+ LivenessProbe探针：判断容器是否健康，如果不健康，则删除Pod，根据其重启策略做相应处理。 ReadinessProbe探针：判断容器是否完成启动，且准备接受请求。如果失败，pod的状态将被修改，Endpoint Controller将从Service的Endpoint中删除包含该容器所在pod的ip地址的endpoint条目。  LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康 TCPSocketAction：通过容器的ip地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康 HTTPGetAction：通过容器的ip地址和端口号即路径调用http get方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康  LivenessProbe探针包含在pod定义的spec.containers.{某个容器}中
+# 容器命令检查 livenessProbe: exec: command: - cat - /tmp/health initialDelaySeconds: 15 timeoutSeconds: 1 # http检查 livenessProbe: httpGet: path: /healthz port: 8080 initialDelaySeconds: 15 timeoutSeconds: 1 cAdvisor资源监控 监控级别包括：容器、pod、service和整个集群</description>
     </item>
     
     <item>
@@ -148,12 +145,14 @@ Scheduler中可选的预选策略  NoDiskConflict PodFitsResources PodSelectorMa
       
       <guid>https://realjf.io/k8s/k8s-core-principle-controller-manager/</guid>
       <description>controller manager作为集群内部的管理控制中心，负责集群内的Node、pod副本、服务端（Endpoint）、命名空间（Namespace）、服务账号（ServiceAccount）、资源定额（ResourceQuota）等的管理。
-controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。 &amp;gt; 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
-RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
+controller manager组件  replication controller node controller resourceQuota controller namespace controller serviceAccount controller token controller service controller endpoint controller  1. Replication Controller（副本控制器） 核心作用是确保在任何时候集群中一个RC所关联的pod副本数量保持预设值。
+ 只有当pod的重启策略是always时（RestartPolicy=Always），Replication Controller才会管理该Pod的操作（创建、销毁、重启等）。
+ RC中的Pod模板就像一个模具，一旦pod被创建完毕，它们之间就没有关系了。
 此外，可以通过修改Pod的标签来实现脱离RC的管控。该方法可以用于将pod从集群中迁移、数据修复等调试。
 Replication Controller职责  确保当前集群中有且仅有N个pod实例，N是RC中定义的pod副本数量 通过调整RC的spec.replicas属性值来实现系统扩容或者缩容 通过改变RC中的pod模板（主要是镜像版本）来实现系统的滚动升级  Replication Controller典型使用场景  重新调度（Rescheduling） 弹性伸缩（Scaling） 滚动更新（Rolling Updates）  2. Node Controller Node Controller通过API Server实时获取Node的相关信息：节点健康状况、节点资源、节点名称、节点地址信息、操作系统版本、Docker版本、kubelet版本等。
-node controller节点信息更新机制 比较节点信息和node controller的nodeStatusMap中保存的节点信息 - 如果没有收到kubelet发送的节点信息、第一次收到节点kubelet发送的节点信息，或处理过程中节点状态变成非健康状态，则在nodeStatusMap中保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间和节点状态变化时间。 - 如果指定时间内收到新的节点信息，且节点状态发生变化，则在nodeStatusMap保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间，用上次节点信息中的节点状态变化时间作为该节点的状态变化时间 - 如果某一段时间内没有收到该节点状态信息，则设置节点状态为未知，并通过api server保存节点状态
-3. ResourceQuota Controller（资源配额管理） 资源配额管理确保了指定的资源对象在任何时候都不会超量占用系统物理资源，避免由于某些业务进程的设计或实现的缺陷导致整个系统运行紊乱甚至意外宕机</description>
+node controller节点信息更新机制 比较节点信息和node controller的nodeStatusMap中保存的节点信息
+ 如果没有收到kubelet发送的节点信息、第一次收到节点kubelet发送的节点信息，或处理过程中节点状态变成非健康状态，则在nodeStatusMap中保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间和节点状态变化时间。 如果指定时间内收到新的节点信息，且节点状态发生变化，则在nodeStatusMap保存改节点的状态信息，并用node controller所在节点的系统时间作为探测时间，用上次节点信息中的节点状态变化时间作为该节点的状态变化时间 如果某一段时间内没有收到该节点状态信息，则设置节点状态为未知，并通过api server保存节点状态  3. ResourceQuota Controller（资源配额管理） 资源配额管理确保了指定的资源对象在任何时候都不会超量占用系统物理资源，避免由于某些业务进程的设计或实现的缺陷导致整个系统运行紊乱甚至意外宕机
+k8s支持一下三个层次的资源配额管理  容器级别，可以对cpu和memory进行限制 pod级别，可以对一个pod内所有容器的可用资源进行限制 namespace级别，为namespace（多租户）级别的资源限制，包括：pod数量、replication controller数量，service数量，resourceQuota数量，secret数量，可持有的pv数量  配额管理通过admission control来控制，admission control当前提供两种方式的配额约束，分别是limitRanger与resourceQuota。</description>
     </item>
     
     <item>
@@ -173,9 +172,9 @@ node controller节点信息更新机制 比较节点信息和node controller的n
       
       <guid>https://realjf.io/k8s/k8s-basic-concepts-and-terminology/</guid>
       <description>kubernetes中大部分概念，如node、pod、replication、controller、service等都可以看作是一种“资源对象”，几乎所有的资源对象都可以通过kubernetes提供的kubectl工具执行增、删、改、查等操作并保存在etcd中持久化存储。
-k8s里所有资源对象都可以采用yaml或者json格式的文件来定义或描述
- 1. Master（主节点、集群控制节点）  每个kubernets集群里需要有一个master节点来负责整个集群管理和控制 所有控制命令都发给它 占据一个独立的服务器 如果宕机或不可用，整个集群内容器应用的管理都将失效  master节点运行一组以下关键进程  kubernetes api server(kube-apiserver)：提供http rest接口，是k8s所有资源增删改查等操作的唯一入口，也是集群控制入口进程 kubernetes controller manager(kube-controller-manager)：k8s所有资源对象的自动化控制中心 kubernetes scheduler(kube-scheduler)：负责资源调度（pod调度）的进程 etcd服务：保存k8s所有资源对象的数据  相关命令  kubectl get nodes：查看集群有多少个node kubectl describe node ：查看某个node详细信息  2. Node（较早版本也叫minion）  节点既可以是物理机，也可以是私有云或者公有云中的一个虚拟机，通常在一个节点上运行几百个pod kubernetes集群中的工作负载节点，当某个node宕机，其上的工作负载会被master自动转移到其他节点上  每个node节点运行一组以下关键进程  kubelet：负责pod对应的容器的创建、启停等，同时与master节点密切协作，实现集群管理的基本功能 kube-proxy：实现kubernetes service的通信与负载均衡机制 docker engine：docker引擎，负责本机的容器创建和管理工作  3. Pod 是k8s最重要也是最基本概念 - 每个Pod都有一个特殊的被称为“根容器”的Pause容器，Pause容器对应的镜像属于k8s平台的一部分（gcr.io/google_containers/pause-amd64） - pod对象将每个服务进程包装到相应的pod中，使其成为pod中运行的一个容器 - 根容器不易死亡 - pod里的多个业务容器共享pause容器的ip，共享pause容器挂接的volume（解决Pod直接拿文件共享问题） - k8s为每个pod都分配唯一的ip地址，称之为pod ip，一个Pod里的多个容器共享pod ip地址 - 集群内任意两个pod之间的tcp/ip可以直接通信，通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等。
-pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放在某个具体的node上的一个具体文件中，且只在此Node上启动运行）   默认情况下：当pod里的某个容器停止时，k8s会自动检测到这个问题并重新启动这个pod（重启pod里的所有容器），如果pod所在node宕机，则会将这个Node上的所有pod重新调度到其他节点上。</description>
+  k8s里所有资源对象都可以采用yaml或者json格式的文件来定义或描述
+ 1. Master（主节点、集群控制节点）  每个kubernets集群里需要有一个master节点来负责整个集群管理和控制 所有控制命令都发给它 占据一个独立的服务器 如果宕机或不可用，整个集群内容器应用的管理都将失效  master节点运行一组以下关键进程  kubernetes api server(kube-apiserver)：提供http rest接口，是k8s所有资源增删改查等操作的唯一入口，也是集群控制入口进程 kubernetes controller manager(kube-controller-manager)：k8s所有资源对象的自动化控制中心 kubernetes scheduler(kube-scheduler)：负责资源调度（pod调度）的进程 etcd服务：保存k8s所有资源对象的数据  相关命令  kubectl get nodes：查看集群有多少个node kubectl describe node &amp;lt;node_name&amp;gt;：查看某个node详细信息  2. Node（较早版本也叫minion）  节点既可以是物理机，也可以是私有云或者公有云中的一个虚拟机，通常在一个节点上运行几百个pod kubernetes集群中的工作负载节点，当某个node宕机，其上的工作负载会被master自动转移到其他节点上  每个node节点运行一组以下关键进程  kubelet：负责pod对应的容器的创建、启停等，同时与master节点密切协作，实现集群管理的基本功能 kube-proxy：实现kubernetes service的通信与负载均衡机制 docker engine：docker引擎，负责本机的容器创建和管理工作  3. Pod 是k8s最重要也是最基本概念
+ 每个Pod都有一个特殊的被称为“根容器”的Pause容器，Pause容器对应的镜像属于k8s平台的一部分（gcr.io/google_containers/pause-amd64） pod对象将每个服务进程包装到相应的pod中，使其成为pod中运行的一个容器 根容器不易死亡 pod里的多个业务容器共享pause容器的ip，共享pause容器挂接的volume（解决Pod直接拿文件共享问题） k8s为每个pod都分配唯一的ip地址，称之为pod ip，一个Pod里的多个容器共享pod ip地址 集群内任意两个pod之间的tcp/ip可以直接通信，通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等。  pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放在某个具体的node上的一个具体文件中，且只在此Node上启动运行）   默认情况下：当pod里的某个容器停止时，k8s会自动检测到这个问题并重新启动这个pod（重启pod里的所有容器），如果pod所在node宕机，则会将这个Node上的所有pod重新调度到其他节点上。</description>
     </item>
     
     <item>
@@ -184,15 +183,15 @@ pod的两种类型  普通的pod（存放在k8s的etcd中） 静态pod（存放�
       <pubDate>Tue, 19 Mar 2019 14:13:57 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-3/</guid>
-      <description> 1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
+      <description>1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
 运行以下命令，启动一个本地镜像仓库 docker 1.6以上版本可以直接运行以下命令
-docker run -d -p 5000:5000 --restart=always --name registry registry:2  停止本地仓库
-docker container stop registry &amp;amp;&amp;amp; docker container rm -v registry  镜像仓库操作
-docker pull ubuntu docker image tag ubuntu localhost:5000/myfirstimage docker push localhost:5000/myfirstimage docker pull localhost:5000/myfirstimage  2. kubelet配置 k8s中docker以pod启动，在kubelet创建pod时，还通过启动一个名为gcr.io/google_containers/pause的镜像来实现pod的概念。
+docker run -d -p 5000:5000 --restart=always --name registry registry:2停止本地仓库
+docker container stop registry &amp;amp;&amp;amp; docker container rm -v registry镜像仓库操作
+docker pull ubuntudocker image tag ubuntu localhost:5000/myfirstimagedocker push localhost:5000/myfirstimagedocker pull localhost:5000/myfirstimage2. kubelet配置 k8s中docker以pod启动，在kubelet创建pod时，还通过启动一个名为gcr.io/google_containers/pause的镜像来实现pod的概念。
 需要从gcr.io中将该镜像下载，导出文件，再push到私有docker registry中。之后，可以给每台node的kubelet服务加上启动参数&amp;ndash;pod-infra-container-image，指定为私有仓库中pause镜像的地址。
---pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0  如果镜像无法下载，可以从docker hub上进行下载：
-docker pull kubeguide/pause-amd64:3.0  然后在kubelet启动参数加上该配置，重启kubelet服务即可
-systemctl restart kubelet  </description>
+--pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0如果镜像无法下载，可以从docker hub上进行下载：
+docker pull kubeguide/pause-amd64:3.0然后在kubelet启动参数加上该配置，重启kubelet服务即可
+systemctl restart kubelet</description>
     </item>
     
     <item>
@@ -201,12 +200,12 @@ systemctl restart kubelet  </description>
       <pubDate>Tue, 19 Mar 2019 14:13:53 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-2/</guid>
-      <description>方式1：基于CA签名的双向数字证书认证方式 过程如下： - 为kube-apiserver生成一个数字证书，并用CA证书进行签名 - 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 - 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数
-1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
-openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crt openssl genrsa -out server.key 2048  注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
+      <description>方式1：基于CA签名的双向数字证书认证方式 过程如下：
+ 为kube-apiserver生成一个数字证书，并用CA证书进行签名 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数  1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
+openssl genrsa -out ca.key 2048openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crtopenssl genrsa -out server.key 2048注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
  509是一种通用的证书格式
  准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：
-[ req ] req_extensions = v3_req distinguished_name = req_distinguished_name [ req_distinguished_name ] [ v3_req ] basicConstraints = CA:FALSE keyUsage = nonRepudiation, digitalSignature, keyEncipherment subjectAltName = @alt_names [alt_names] DNS.</description>
+[ req ]req_extensions = v3_reqdistinguished_name = req_distinguished_name[ req_distinguished_name ][ v3_req ]basicConstraints = CA:FALSEkeyUsage = nonRepudiation, digitalSignature, keyEnciphermentsubjectAltName = @alt_names[alt_names]DNS.1 = kubernetesDNS.</description>
     </item>
     
     <item>
@@ -217,7 +216,7 @@ openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj 
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-1/</guid>
       <description>系统要求    软硬件 最低配置 推荐配置     cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置   linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7   Docker 1.9版本以上 1.12版本   etcd 2.0版本及以上 3.0版本    本次实验选用的是centos7 1804版本
  需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
-#关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled   这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数
+ #关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled 这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数
     - ip etcd节点名称     master节点 192.</description>
     </item>
     

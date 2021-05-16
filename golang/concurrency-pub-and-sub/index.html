@@ -3,7 +3,7 @@
 <head>
     <title>go并发模式 之 发布订阅模型 Concurrency Pub and Sub // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,133 +233,132 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a></div></div>
         </header>
         <div class="post-content">
-            <pre><code class="language-golang">package main
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-import (
-    &quot;fmt&quot;
-    &quot;time&quot;
-    &quot;sync&quot;
-    &quot;strings&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+	<span style="color:#e6db74">&#34;sync&#34;</span>
+	<span style="color:#e6db74">&#34;strings&#34;</span>
 )
 
-type (
-    subscriber chan interface{} // 订阅者
-    topicFunc func(v interface{}) bool // 主题
-)
+<span style="color:#66d9ef">type</span> (
+	<span style="color:#a6e22e">subscriber</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">interface</span>{} <span style="color:#75715e">// 订阅者
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">topicFunc</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">v</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> <span style="color:#75715e">// 主题
+</span><span style="color:#75715e"></span>)
 
 
-type Publisher struct {
-    m sync.RWMutex
-    buffer int // 订阅队列缓存大小
-    timeout time.Duration // 发布超时时间
-    subscribers map[subscriber]topicFunc // 订阅者信息
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Publisher</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">RWMutex</span>
+	<span style="color:#a6e22e">buffer</span> <span style="color:#66d9ef">int</span> <span style="color:#75715e">// 订阅队列缓存大小
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">timeout</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span> <span style="color:#75715e">// 发布超时时间
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">subscribers</span> <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">subscriber</span>]<span style="color:#a6e22e">topicFunc</span> <span style="color:#75715e">// 订阅者信息
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// 构建一个发布者对象，可以设置发布超时时间和缓存队列长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewPublisher</span>(<span style="color:#a6e22e">publishTimeout</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>, <span style="color:#a6e22e">buffer</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Publisher</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Publisher</span>{
+		<span style="color:#a6e22e">buffer</span>: <span style="color:#a6e22e">buffer</span>,
+		<span style="color:#a6e22e">timeout</span>: <span style="color:#a6e22e">publishTimeout</span>,
+		<span style="color:#a6e22e">subscribers</span>: make(<span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">subscriber</span>]<span style="color:#a6e22e">topicFunc</span>),
+	}
 }
 
-// 构建一个发布者对象，可以设置发布超时时间和缓存队列长度
-func NewPublisher(publishTimeout time.Duration, buffer int) *Publisher {
-    return &amp;Publisher{
-        buffer: buffer,
-        timeout: publishTimeout,
-        subscribers: make(map[subscriber]topicFunc),
-    }
+<span style="color:#75715e">// 添加新订阅者，订阅全部主题
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Publisher</span>) <span style="color:#a6e22e">Subscirbe</span>() <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">interface</span>{} {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">SubscirbeTopic</span>(<span style="color:#66d9ef">nil</span>)
 }
 
-// 添加新订阅者，订阅全部主题
-func (p *Publisher) Subscirbe() chan interface{} {
-    return p.SubscirbeTopic(nil)
+<span style="color:#75715e">// 添加一个新的订阅者，订阅过滤器筛选后的主题
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Publisher</span>) <span style="color:#a6e22e">SubscirbeTopic</span>(<span style="color:#a6e22e">topic</span> <span style="color:#a6e22e">topicFunc</span>) <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">interface</span>{} {
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">buffer</span>)
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Lock</span>()
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Unlock</span>()
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">subscribers</span>[<span style="color:#a6e22e">ch</span>] = <span style="color:#a6e22e">topic</span>
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ch</span>
 }
 
-// 添加一个新的订阅者，订阅过滤器筛选后的主题
-func (p *Publisher) SubscirbeTopic(topic topicFunc) chan interface{} {
-    ch := make(chan interface{}, p.buffer)
-    p.m.Lock()
-    defer p.m.Unlock()
-    p.subscribers[ch] = topic
+<span style="color:#75715e">// 退出订阅
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Publisher</span>) <span style="color:#a6e22e">Evict</span>(<span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">interface</span>{}) {
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Lock</span>()
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Unlock</span>()
 
-    return ch
+	delete(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">subscribers</span>, <span style="color:#a6e22e">sub</span>)
+	close(<span style="color:#a6e22e">sub</span>)
 }
 
-// 退出订阅
-func (p *Publisher) Evict(sub chan interface{}) {
-    p.m.Lock()
-    defer p.m.Unlock()
+<span style="color:#75715e">// 发布一个主题
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Publisher</span>) <span style="color:#a6e22e">Publish</span>(<span style="color:#a6e22e">v</span> <span style="color:#66d9ef">interface</span>{}) {
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">RLock</span>()
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">RUnlock</span>()
 
-    delete(p.subscribers, sub)
-    close(sub)
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">topic</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">subscribers</span> {
+		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+		<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">sendTopic</span>(<span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">topic</span>, <span style="color:#a6e22e">v</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>)
+	}
+	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
 }
 
-// 发布一个主题
-func (p *Publisher) Publish(v interface{}) {
-    p.m.RLock()
-    defer p.m.RUnlock()
+<span style="color:#75715e">// 发送主题
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Publisher</span>) <span style="color:#a6e22e">sendTopic</span>(<span style="color:#a6e22e">sub</span> <span style="color:#a6e22e">subscriber</span>, <span style="color:#a6e22e">topic</span> <span style="color:#a6e22e">topicFunc</span>, <span style="color:#a6e22e">v</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">topic</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> !<span style="color:#a6e22e">topic</span>(<span style="color:#a6e22e">v</span>) {
+		<span style="color:#66d9ef">return</span>
+	}
 
-    var wg sync.WaitGroup
-    for sub, topic := range p.subscribers {
-        wg.Add(1)
-        go p.sendTopic(sub, topic, v, &amp;wg)
-    }
-    wg.Wait()
+	<span style="color:#66d9ef">select</span> {
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">sub</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">v</span>:
+	<span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">After</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">timeout</span>):
+	}
 }
 
-// 发送主题
-func (p *Publisher) sendTopic(sub subscriber, topic topicFunc, v interface{}, wg *sync.WaitGroup) {
-    defer wg.Done()
-    if topic != nil &amp;&amp; !topic(v) {
-        return
-    }
+<span style="color:#75715e">// 关闭发布者对象
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Publisher</span>) <span style="color:#a6e22e">Close</span>() {
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Lock</span>()
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Unlock</span>()
 
-    select {
-    case sub &lt;- v:
-    case &lt;-time.After(p.timeout):
-    }
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">sub</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">subscribers</span> {
+		delete(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">subscribers</span>, <span style="color:#a6e22e">sub</span>)
+		close(<span style="color:#a6e22e">sub</span>)
+	}
 }
 
-// 关闭发布者对象
-func (p *Publisher) Close() {
-    p.m.Lock()
-    defer p.m.Unlock()
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewPublisher</span>(<span style="color:#ae81ff">100</span><span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>, <span style="color:#ae81ff">10</span>)
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Close</span>()
 
-    for sub := range p.subscribers {
-        delete(p.subscribers, sub)
-        close(sub)
-    }
+	<span style="color:#a6e22e">all</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Subscirbe</span>()
+	<span style="color:#a6e22e">golang</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">SubscirbeTopic</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">v</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">bool</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">v</span>.(<span style="color:#66d9ef">string</span>); <span style="color:#a6e22e">ok</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Contains</span>(<span style="color:#a6e22e">s</span>, <span style="color:#e6db74">&#34;golang&#34;</span>)
+		}
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+	})
+
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Publish</span>(<span style="color:#e6db74">&#34;hello, world!&#34;</span>)
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Publish</span>(<span style="color:#e6db74">&#34;hello, golang!&#34;</span>)
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(){
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">msg</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">all</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;all:&#34;</span>, <span style="color:#a6e22e">msg</span>)
+		}
+	}()
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">msg</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">golang</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;golang:&#34;</span>, <span style="color:#a6e22e">msg</span>)
+		}
+	}()
+
+	<span style="color:#75715e">// 运行一定时间后退出
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
 }
-
-func main() {
-    p := NewPublisher(100* time.Millisecond, 10)
-    defer p.Close()
-
-    all := p.Subscirbe()
-    golang := p.SubscirbeTopic(func(v interface{}) bool {
-        if s, ok := v.(string); ok {
-            return strings.Contains(s, &quot;golang&quot;)
-        }
-        return false
-    })
-
-    p.Publish(&quot;hello, world!&quot;)
-    p.Publish(&quot;hello, golang!&quot;)
-
-    go func(){
-        for msg := range all {
-            fmt.Println(&quot;all:&quot;, msg)
-        }
-    }()
-
-    go func() {
-        for msg := range golang {
-            fmt.Println(&quot;golang:&quot;, msg)
-        }
-    }()
-
-    // 运行一定时间后退出
-    time.Sleep(3 * time.Second)
-}
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

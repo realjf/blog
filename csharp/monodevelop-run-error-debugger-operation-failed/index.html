@@ -3,7 +3,7 @@
 <head>
     <title>Monodevelop运行代码报错 Monodevelop Run Error Debugger Operation Failed, Native error=cannot find the specified file // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,28 +233,19 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/csharp/">Csharp</a><a class="tag" href="https://realjf.io/tags/monodevelop/">Monodevelop</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/csharp/">csharp</a><a class="tag" href="https://realjf.io/tags/monodevelop/">monodevelop</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="背景">背景</h2>
-
+            <h2 id="背景">背景</h2>
 <p>今天使用monodevelop创建一个项目后，运行代码，报如下错误：</p>
-
-<pre><code class="language-sh">Debugger operation failed
-ApplicationName='/usr/lib/gnome-terminal/gnome-terminal-server', CommandLine='--app-id mono.develop.id1f71c1c4cede406e9ae6cc55355f30e2', CurrentDirectory='', Native error= Cannot find the specified file
-</code></pre>
-
-<p>这个是因为monodevelop使用的/usr/lib/gnome-terminal/gnome-terminal-server 文件实际路径是在/usr/libexec/gnome-terminal-server下，
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Debugger operation failed
+ApplicationName<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/usr/lib/gnome-terminal/gnome-terminal-server&#39;</span>, CommandLine<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--app-id mono.develop.id1f71c1c4cede406e9ae6cc55355f30e2&#39;</span>, CurrentDirectory<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>, Native error<span style="color:#f92672">=</span> Cannot find the specified file
+</code></pre></div><p>这个是因为monodevelop使用的/usr/lib/gnome-terminal/gnome-terminal-server 文件实际路径是在/usr/libexec/gnome-terminal-server下，
 所以只需要把/usr/libexec/gnome-terminal-server文件复制到原路径下即可。</p>
-
 <h2 id="解决">解决</h2>
-
-<pre><code class="language-sh">mkdir -p /usr/lib/gnome-terminal
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p /usr/lib/gnome-terminal
 ln -s /usr/libexec/gnome-terminal-server /usr/lib/gnome-terminal/
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

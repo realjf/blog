@@ -1,16 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>I/O模式 on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/</link>
     <description>Recent content in I/O模式 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 17 Apr 2020 15:22:29 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en-us</language><atom:link href="https://realjf.io/tags/i/o%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>五种I/O模式 （Io Pattern）</title>
       <link>https://realjf.io/cpp/io-pattern/</link>
@@ -21,8 +16,8 @@
  阻塞I/O （linux下默认都采用阻塞I/O） 非阻塞I/O （可以通过fcntl或者open设置使用O_NONBLOCK参数，将文件描述符设置为非阻塞） I/O多路复用 信号驱动I/O 异步I/O  其中前面四种被称为同步IO
 用户空间与内核空间 首先理解，当进程运行在内核空间时就处于内核态，而进程运行在用户空间时则处于用户态。 在内核态下，进程运行在内核地址空间中，此时的 CPU 可以执行任何指令。运行的代码也不受任何的限制，可以自由地访问任何有效地址，也可以直接进行端口的访问。 在用户态下，进程运行在用户地址空间中，被执行的代码要受到 CPU 的诸多检查，它们只能访问映射其地址空间的页表项中规定的在用户态下可访问页面的虚拟地址，且只能对任务状态段(TSS)中 I/O 许可位图(I/O Permission Bitmap)中规定的可访问端口进行直接访问。
 所以，区分内核空间和用户空间本质上是要提高操作系统的稳定性及可用性
-进程切换过程 从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化： - 保存上下文，包括程序计数器和其他寄存器 - 更新PCB信息(进程管理与控制信息) - 把进程pcb加入等待挂起等队列 - 选择另一个进程执行，并更新其pcb - 更新内存管理的数据结构 - 恢复上下文
-阻塞IO 同步阻塞IO，用户进程发起一个IO请求，内核查看数据是否就绪，如果没有，就等待数据就绪，而用户进程处于阻塞状态， 且交出cpu控制权，但数据就绪后，内核将数据拷贝到用户进程空间，并通知用户进程，用户进程解除阻塞状态，进入就绪状态，等待下一次运行。
+进程切换过程 从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化：
+ 保存上下文，包括程序计数器和其他寄存器 更新PCB信息(进程管理与控制信息) 把进程pcb加入等待挂起等队列 选择另一个进程执行，并更新其pcb 更新内存管理的数据结构 恢复上下文  阻塞IO 同步阻塞IO，用户进程发起一个IO请求，内核查看数据是否就绪，如果没有，就等待数据就绪，而用户进程处于阻塞状态， 且交出cpu控制权，但数据就绪后，内核将数据拷贝到用户进程空间，并通知用户进程，用户进程解除阻塞状态，进入就绪状态，等待下一次运行。
 非阻塞I/O 非阻塞IO，用户进程发起IO请求后，内核检查相应状态，无论就绪与否都返回结果给用户进程，用户进程无需等待就可以根据相应结果进行处理， 当然用户进程可以循环发起IO请求操作，这相当于一直占用CPU。
 I/O多路复用 多路IO复用是目前比较多的用于环节C10K问题的方案，采用select、poll、epoll等方式，其中epoll是linux特有的。 相比较非阻塞IO，多路复用的效率明显要高，且是在内核中进行的。
 下面分别简要说下select、poll和epoll的区别

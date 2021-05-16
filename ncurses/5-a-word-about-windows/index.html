@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 5.关于Windows的一句话 5 a Word About Windows // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,41 +233,27 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="5-关于windows的一句话">5. 关于Windows的一句话</h2>
-
+            <h2 id="5-关于windows的一句话">5. 关于Windows的一句话</h2>
 <p>在我们深入讨论无数的ncurses函数之前，让我先澄清一下windows的一些问题。窗口将在以下<a href="https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/windows.html">部分</a>中详细说明</p>
-
 <p>窗口是由curses系统定义的假想屏幕。窗口并不意味着通常在Win9X平台上看到的有边框的窗口。初始化curses时，它会创建一个名为stdscr的默认窗口，该窗口表示80x25（或正在运行的窗口的大小）屏幕。如果您正在执行一些简单的任务，如打印一些字符串、读取输入等，那么您可以安全地将此窗口用于所有目的。您还可以创建窗口并调用显式在指定窗口上工作的函数。</p>
-
 <p>例如，如果你打调用</p>
-
-<pre><code class="language-cpp">printw(&quot;Hi There !!!&quot;);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">printw(<span style="color:#e6db74">&#34;Hi There !!!&#34;</span>);
 refresh();
-</code></pre>
-
-<p>它在当前光标位置打印stdscr上的字符串。类似地，对refresh（）的调用仅适用于stdscr。
+</code></pre></div><p>它在当前光标位置打印stdscr上的字符串。类似地，对refresh（）的调用仅适用于stdscr。
 假设你已经创建了windows，那么你就必须调用一个在普通函数中加了w的函数。</p>
-
-<pre><code class="language-cpp">wprintw(win, &quot;Hi There !!!&quot;);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">wprintw(win, <span style="color:#e6db74">&#34;Hi There !!!&#34;</span>);
 wrefresh(win);
-</code></pre>
-
-<p>正如您将在文档的其余部分看到的，函数的命名遵循相同的约定。对于每个函数，通常还有三个以上的函数。</p>
-
-<pre><code class="language-cpp">    printw(string);        /* Print on stdscr at present cursor position */
-    mvprintw(y, x, string);/* Move to (y, x) then print string     */
-    wprintw(win, string);  /* Print on window win at present cursor position */
-                           /* in the window */
-    mvwprintw(win, y, x, string);   /* Move to (y, x) relative to window */
-                                    /* co-ordinates and then print         */
-</code></pre>
-
-<p>无w函数通常是以stdscr作为窗口参数展开为相应w函数的宏。</p>
+</code></pre></div><p>正如您将在文档的其余部分看到的，函数的命名遵循相同的约定。对于每个函数，通常还有三个以上的函数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    printw(string);        <span style="color:#75715e">/* Print on stdscr at present cursor position */</span>
+    mvprintw(y, x, string);<span style="color:#75715e">/* Move to (y, x) then print string     */</span>
+    wprintw(win, string);  <span style="color:#75715e">/* Print on window win at present cursor position */</span>
+                           <span style="color:#75715e">/* in the window */</span>
+    mvwprintw(win, y, x, string);   <span style="color:#75715e">/* Move to (y, x) relative to window */</span>
+                                    <span style="color:#75715e">/* co-ordinates and then print         */</span>
+</code></pre></div><p>无w函数通常是以stdscr作为窗口参数展开为相应w函数的宏。</p>
 
         </div>
         <div id="disqus_thread"></div>

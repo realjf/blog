@@ -3,7 +3,7 @@
 <head>
     <title>vue.js 2 系列之一 第一个vue.js应用 First Vuejs App // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.82.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,13 +233,10 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">Vue.js</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/vuejs/">vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">vue.js</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h2 id="准备开发环境">准备开发环境</h2>
-
+            <h2 id="准备开发环境">准备开发环境</h2>
 <ul>
 <li>安装最新版node.js</li>
 <li>使用npm安装@vue/cli命令行工具包</li>
@@ -247,21 +244,14 @@
 <li>安装开发ide，如vscode，sublime text, atom,vim等</li>
 <li>安装浏览器，chrome,firefox等</li>
 </ul>
-
 <blockquote>
 <p>安装vue命令：npm install -g @vue/cli</p>
 </blockquote>
-
 <h2 id="创建工程项目">创建工程项目</h2>
-
-<pre><code class="language-shell">vue create todo --default
-</code></pre>
-
-<h3 id="项目结构解析">项目结构解析</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vue create todo --default
+</code></pre></div><h3 id="项目结构解析">项目结构解析</h3>
 <p>执行tree -L 1后得到如下结构</p>
-
-<pre><code class="language-shell">├── babel.config.js
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">├── babel.config.js
 ├── node_modules
 ├── package.json
 ├── package-lock.json
@@ -276,639 +266,564 @@
      ├── components
      │   └── HelloWorld.vue
      └── main.js
-</code></pre>
-
-<ul>
+</code></pre></div><ul>
 <li>public/index.html 这是浏览器加载的第一个文件</li>
 <li>src/main.js 这个vue.js应用的配置js文件</li>
 <li>src/App.vue 这是vue.js组件，包含html文档结构和js代码以及css文档样式</li>
 <li>src/assets/logo.png assets文件夹是存放静态资源文件</li>
 </ul>
-
 <h3 id="运行开发工具">运行开发工具</h3>
-
-<pre><code class="language-shell">cd todo
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd todo
 npm run serve
 
-# 运行结果如下：
+<span style="color:#75715e"># 运行结果如下：</span>
 App running at:
   - Local:   http://localhost:8080/
   - Network: http://192.168.51.54:8080/
 
   Note that the development build is not optimized.
   To create a production build, run npm run build.
-</code></pre>
-
-<p>打开浏览器，在浏览器中输入地址<a href="http://localhost:8080/，即可访问vue.js应用">http://localhost:8080/，即可访问vue.js应用</a></p>
-
+</code></pre></div><p>打开浏览器，在浏览器中输入地址http://localhost:8080/，即可访问vue.js应用</p>
 <h2 id="替换缺省文档">替换缺省文档</h2>
-
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-&lt;img src=&quot;./assets/logo.png&quot;&gt;
-&lt;HelloWorld msg=&quot;Welcome to Your Vue.js App&quot; /&gt;
-&lt;/div&gt;
-&lt;/template&gt;
-&lt;script&gt;
-    import HelloWorld from &quot;./components/HelloWorld.vue&quot;
-    export default {
-    name: 'app',
-    components: {
-    HelloWorld
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+&lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;./assets/logo.png&#34;</span>&gt;
+&lt;<span style="color:#f92672">HelloWorld</span> <span style="color:#a6e22e">msg</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Welcome to Your Vue.js App&#34;</span> /&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">script</span>&gt;
+    <span style="color:#66d9ef">import</span> <span style="color:#a6e22e">HelloWorld</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;./components/HelloWorld.vue&#34;</span>
+    <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;app&#39;</span>,
+    <span style="color:#a6e22e">components</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">HelloWorld</span>
 }
 }
 
-&lt;/script&gt;
-&lt;style&gt;
+&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;<span style="color:#f92672">style</span>&gt;
 #app {
-font-family: 'Avenir', Helvetica, Arial, sans-serif;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-text-align: center;
-color: #2c3e50;
-margin-top: 60px;
+<span style="color:#66d9ef">font-family</span>: <span style="color:#e6db74">&#39;Avenir&#39;</span>, Helvetica, Arial, <span style="color:#66d9ef">sans-serif</span>;
+<span style="color:#66d9ef">-webkit-</span>font-smoothing: antialiased;
+<span style="color:#66d9ef">-moz-</span>osx-font-smoothing: grayscale;
+<span style="color:#66d9ef">text-align</span>: <span style="color:#66d9ef">center</span>;
+<span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#2c3e50</span>;
+<span style="color:#66d9ef">margin-top</span>: <span style="color:#ae81ff">60</span><span style="color:#66d9ef">px</span>;
 }
-&lt;/style&gt;
-</code></pre>
-
-<p>将以上App.vue文件内容替换为如下内容：</p>
-
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-&lt;h4&gt;
+&lt;/<span style="color:#f92672">style</span>&gt;
+</code></pre></div><p>将以上App.vue文件内容替换为如下内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+&lt;<span style="color:#f92672">h4</span>&gt;
 To Do List
-&lt;/h4&gt;
-&lt;/div&gt;
-&lt;/template&gt;
-&lt;script&gt;
-export default {
-name: 'app'
+&lt;/<span style="color:#f92672">h4</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;app&#39;</span>
 }
-&lt;/script&gt;
-</code></pre>
-
-<h3 id="添加css框架">添加css框架</h3>
-
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><h3 id="添加css框架">添加css框架</h3>
 <p>因为要安装的bootstrap依赖于jquery，所以需要先安装jquery，可以使用如下命令查看</p>
-
-<pre><code class="language-shell">npm jquery -v
-# 安装jquery
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm jquery -v
+<span style="color:#75715e"># 安装jquery</span>
 npm install jquery
-</code></pre>
-
-<p>然后在src/main.js下引入jquery</p>
-
+</code></pre></div><p>然后在src/main.js下引入jquery</p>
 <blockquote>
 <p>npm install -g是全局安装，npm install 是在当前目录下的node_modules目录下安装</p>
-
-<pre><code class="language-javascript">import $ from 'jquery'
-</code></pre>
-
-<p>同时因为bootstrap依赖于popper.js，所以需要安装popper.js</p>
-
-<pre><code class="language-shell">npm install popper
-</code></pre>
 </blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">$</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;jquery&#39;</span>
+</code></pre></div><p>同时因为bootstrap依赖于popper.js，所以需要安装popper.js</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm install popper
+</code></pre></div><p>运行如下命令，安装bootstrap4.0.0到项目</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm install bootstrap@4.0.0
+</code></pre></div><p>添加bootstrap到src/main.js文件中</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">App</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./App.vue&#39;</span>
 
-<p>运行如下命令，安装bootstrap4.0.0到项目</p>
+<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">productionTip</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
 
-<pre><code class="language-shell">npm install bootstrap@4.0.0
-</code></pre>
+<span style="color:#75715e">// 添加bootstrap框架
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;bootstrap/dist/css/bootstrap.min.css&#34;</span>
 
-<p>添加bootstrap到src/main.js文件中</p>
+<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Vue</span>({
+  <span style="color:#a6e22e">render</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">h</span> =&gt; <span style="color:#a6e22e">h</span>(<span style="color:#a6e22e">App</span>),
+}).<span style="color:#a6e22e">$mount</span>(<span style="color:#e6db74">&#39;#app&#39;</span>)
 
-<pre><code class="language-javascript">import Vue from 'vue'
-import App from './App.vue'
-
-Vue.config.productionTip = false
-
-// 添加bootstrap框架
-import &quot;bootstrap/dist/css/bootstrap.min.css&quot;
-
-new Vue({
-  render: h =&gt; h(App),
-}).$mount('#app')
-
-</code></pre>
-
-<blockquote>
+</code></pre></div><blockquote>
 <p>css框架非常多，包括bootstrap，这些框架依赖如jquery等js，对html文档进行样式修改，
 如果想使用vue.js特定的框架，vuetify是个不错的选择，当然还有另外一个如：bootstrap-vue等</p>
 </blockquote>
-
 <h4 id="npm-run-serve报错处理">npm run serve报错处理</h4>
-
-<h5 id="module-error-from-node-modules-eslint-loader-index-js-error-is-defined-but-never-used-no-unused-vars">Module Error (from ./node_modules/eslint-loader/index.js) error  &lsquo;$&rsquo; is defined but never used  no-unused-vars</h5>
-
+<h5 id="module-error-from-node_moduleseslint-loaderindexjs-error---is-defined-but-never-used--no-unused-vars">Module Error (from ./node_modules/eslint-loader/index.js) error  &lsquo;$&rsquo; is defined but never used  no-unused-vars</h5>
 <p>这是因为安装eslint规范</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm install eslint
 
-<pre><code class="language-shell">npm install eslint
-
-# 进入node_modules目录的.bin目录下，初始化eslint
+<span style="color:#75715e"># 进入node_modules目录的.bin目录下，初始化eslint</span>
 cd node_modules/.bin/
 eslint --init
-# 设置选项，除选择vue.js外，其他都选择默认选项
+<span style="color:#75715e"># 设置选项，除选择vue.js外，其他都选择默认选项</span>
 
-# 最后，将node_modules目录.bin目录下的.eslintrc.js文件拷贝到项目根目录下
-# window下
-copy .eslintrc.js ..\..\
-
-# linux下
+<span style="color:#75715e"># 最后，将node_modules目录.bin目录下的.eslintrc.js文件拷贝到项目根目录下</span>
+<span style="color:#75715e"># window下</span>
+copy .eslintrc.js ..<span style="color:#ae81ff">\.</span>.<span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># linux下</span>
 cp .eslintrc.js ../../
 
-# 启动服务即可
+<span style="color:#75715e"># 启动服务即可</span>
 cd ../../
 npm run serve
-</code></pre>
-
-<ul>
-<li>解决方法1：在.eslintrc.js文件中添加如下代码：
-<code>js
-&quot;rules&quot;: {
-&quot;generator-star-spacing&quot;: &quot;off&quot;,
-&quot;no-tabs&quot;:&quot;off&quot;,
-&quot;no-unused-vars&quot;:&quot;off&quot;,
-&quot;no-console&quot;:&quot;off&quot;,
-&quot;no-irregular-whitespace&quot;:&quot;off&quot;,
-&quot;no-debugger&quot;: &quot;off&quot;
+</code></pre></div><ul>
+<li>解决方法1：在.eslintrc.js文件中添加如下代码：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">&#34;rules&#34;</span><span style="color:#f92672">:</span> {
+	<span style="color:#e6db74">&#34;generator-star-spacing&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;off&#34;</span>,
+	<span style="color:#e6db74">&#34;no-tabs&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;off&#34;</span>,
+	<span style="color:#e6db74">&#34;no-unused-vars&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;off&#34;</span>,
+	<span style="color:#e6db74">&#34;no-console&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;off&#34;</span>,
+	<span style="color:#e6db74">&#34;no-irregular-whitespace&#34;</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;off&#34;</span>,
+	<span style="color:#e6db74">&#34;no-debugger&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;off&#34;</span>
 },
-</code></li>
+</code></pre></div><ul>
 <li>解决方法2：注释掉不使用的那行代码</li>
 <li>解决方法3：关闭eslint</li>
 </ul>
-
 <h3 id="对html元素添加样式">对html元素添加样式</h3>
-
 <p>修改src/App.vue文件</p>
-
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-&lt;!-- 这里添加样式 --&gt;
-&lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+<span style="color:#75715e">&lt;!-- 这里添加样式 --&gt;</span>
+&lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
 To Do List
-&lt;/h4&gt;
-&lt;/div&gt;
-&lt;/template&gt;
-&lt;script&gt;
-export default {
-name: 'app'
+&lt;/<span style="color:#f92672">h4</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;app&#39;</span>
 }
-&lt;/script&gt;
-</code></pre>
-
-<p>重启项目</p>
-
-<pre><code class="language-shell">npm run serve
-</code></pre>
-
-<h2 id="添加动态内容">添加动态内容</h2>
-
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><p>重启项目</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm run serve
+</code></pre></div><h2 id="添加动态内容">添加动态内容</h2>
 <p>在App.vue文件中添加展示数据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
+        {{ name }}&#39;s To Do List
+    &lt;/<span style="color:#f92672">h4</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
 
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
-        {{ name }}'s To Do List
-    &lt;/h4&gt;
-&lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default {
-    name: &quot;app&quot;,
-    data() {
-        return {
-            name: &quot;realjf&quot;
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app&#34;</span>,
+    <span style="color:#a6e22e">data</span>() {
+        <span style="color:#66d9ef">return</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;realjf&#34;</span>
         }
     },
 };
-&lt;/script&gt;
-</code></pre>
-
-<h3 id="展示list任务列表">展示list任务列表</h3>
-
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><h3 id="展示list任务列表">展示list任务列表</h3>
 <p>利用v-for指令对任务列表数据进行循环输出展示</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
+        {{ name }}&#39;s To Do List
+    &lt;/<span style="color:#f92672">h4</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container-fluid p-4&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col font-weight-bold&#34;</span>&gt;Task&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 font-weight-bold&#34;</span>&gt;Done&lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t in tasks&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.action&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;{{t.action}}&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2&#34;</span>&gt;{{t.done}}&lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
 
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
-        {{ name }}'s To Do List
-    &lt;/h4&gt;
-    &lt;div class=&quot;container-fluid p-4&quot;&gt;
-        &lt;div class=&quot;row&quot;&gt;
-            &lt;div class=&quot;col font-weight-bold&quot;&gt;Task&lt;/div&gt;
-            &lt;div class=&quot;col-2 font-weight-bold&quot;&gt;Done&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row&quot; v-for=&quot;t in tasks&quot; v-bind:key=&quot;t.action&quot;&gt;
-            &lt;div class=&quot;col&quot;&gt;{{t.action}}&lt;/div&gt;
-            &lt;div class=&quot;col-2&quot;&gt;{{t.done}}&lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default {
-    name: &quot;app&quot;,
-    data() {
-        return {
-            name: &quot;realjf&quot;,
-            tasks: [{
-                    action: &quot;Buy Flowers&quot;,
-                    done: false
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app&#34;</span>,
+    <span style="color:#a6e22e">data</span>() {
+        <span style="color:#66d9ef">return</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;realjf&#34;</span>,
+            <span style="color:#a6e22e">tasks</span><span style="color:#f92672">:</span> [{
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Buy Flowers&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
                 },
                 {
-                    action: &quot;Get Shoes&quot;,
-                    done: false
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Get Shoes&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
                 },
                 {
-                    action: &quot;Collect Tickets&quot;,
-                    done: true
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Collect Tickets&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
                 },
                 {
-                    action: &quot;Call Joe&quot;,
-                    done: false
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Call Joe&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
                 }
             ]
         }
     },
 };
-&lt;/script&gt;
+&lt;/<span style="color:#f92672">script</span>&gt;
 
-</code></pre>
-
-<p>v-bind:key指令为当前的元素绑定一个id</p>
-
+</code></pre></div><p>v-bind:key指令为当前的元素绑定一个id</p>
 <h3 id="添加checkbox">添加checkbox</h3>
-
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
-        {{ name }}'s To Do List
-    &lt;/h4&gt;
-    &lt;div class=&quot;container-fluid p-4&quot;&gt;
-        &lt;div class=&quot;row&quot;&gt;
-            &lt;div class=&quot;col font-weight-bold&quot;&gt;Task&lt;/div&gt;
-            &lt;div class=&quot;col-2 font-weight-bold&quot;&gt;Done&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row&quot; v-for=&quot;t in tasks&quot; v-bind:key=&quot;t.action&quot;&gt;
-            &lt;div class=&quot;col&quot;&gt;{{ t.action }}&lt;/div&gt;
-            &lt;div class=&quot;col-2&quot;&gt;
-                &lt;!-- 这里添加checkbox --&gt;
-                &lt;input type=&quot;checkbox&quot; v-model=&quot;t.done&quot; class=&quot;form-check-input&quot; /&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
+        {{ name }}&#39;s To Do List
+    &lt;/<span style="color:#f92672">h4</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container-fluid p-4&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col font-weight-bold&#34;</span>&gt;Task&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 font-weight-bold&#34;</span>&gt;Done&lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t in tasks&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.action&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;{{ t.action }}&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2&#34;</span>&gt;
+                <span style="color:#75715e">&lt;!-- 这里添加checkbox --&gt;</span>
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.done&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-input&#34;</span> /&gt;
                 {{ t.done }}
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/template&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
 
-&lt;script&gt;
-export default {
-    name: &quot;app&quot;,
-    data() {
-        return {
-            name: &quot;realjf&quot;,
-            tasks: [{
-                    action: &quot;Buy Flowers&quot;,
-                    done: false,
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app&#34;</span>,
+    <span style="color:#a6e22e">data</span>() {
+        <span style="color:#66d9ef">return</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;realjf&#34;</span>,
+            <span style="color:#a6e22e">tasks</span><span style="color:#f92672">:</span> [{
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Buy Flowers&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
                 {
-                    action: &quot;Get Shoes&quot;,
-                    done: false,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Get Shoes&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
                 {
-                    action: &quot;Collect Tickets&quot;,
-                    done: true,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Collect Tickets&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
                 },
                 {
-                    action: &quot;Call Joe&quot;,
-                    done: false,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Call Joe&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
             ],
         };
     },
 };
-&lt;/script&gt;
+&lt;/<span style="color:#f92672">script</span>&gt;
 
-</code></pre>
-
-<p>v-model指令是用于绑定数据，当数据有变动时，会自动更新相应位置的变量值，当然，这个是双向数据同步，
+</code></pre></div><p>v-model指令是用于绑定数据，当数据有变动时，会自动更新相应位置的变量值，当然，这个是双向数据同步，
 当对应元素的值改变时，也会更新绑定变量的值</p>
-
 <h3 id="过滤已完成的任务">过滤已完成的任务</h3>
-
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
-        {{ name }}'s To Do List
-    &lt;/h4&gt;
-    &lt;div class=&quot;container-fluid p-4&quot;&gt;
-        &lt;div class=&quot;row&quot;&gt;
-            &lt;div class=&quot;col font-weight-bold&quot;&gt;Task&lt;/div&gt;
-            &lt;div class=&quot;col-2 font-weight-bold&quot;&gt;Done&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row&quot; v-for=&quot;t in filteredTasks&quot; v-bind:key=&quot;t.action&quot;&gt;
-            &lt;div class=&quot;col&quot;&gt;{{ t.action }}&lt;/div&gt;
-            &lt;div class=&quot;col-2 text-center&quot;&gt;
-                &lt;input type=&quot;checkbox&quot; v-model=&quot;t.done&quot; class=&quot;form-check-input&quot; /&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
+        {{ name }}&#39;s To Do List
+    &lt;/<span style="color:#f92672">h4</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container-fluid p-4&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col font-weight-bold&#34;</span>&gt;Task&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 font-weight-bold&#34;</span>&gt;Done&lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t in filteredTasks&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.action&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;{{ t.action }}&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 text-center&#34;</span>&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.done&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-input&#34;</span> /&gt;
                 {{ t.done }}
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row bg-secondary py-2 mt-2 text-white&quot;&gt;
-            &lt;div class=&quot;col text-center&quot;&gt;
-                &lt;input type=&quot;checkbox&quot; v-model=&quot;hideCompleted&quot; class=&quot;form-check-input&quot; /&gt;
-                &lt;label class=&quot;form-check-label font-weight-bold&quot;&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row bg-secondary py-2 mt-2 text-white&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col text-center&#34;</span>&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hideCompleted&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-input&#34;</span> /&gt;
+                &lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-label font-weight-bold&#34;</span>&gt;
                     Hide completed tasks
-                &lt;/label&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/template&gt;
+                &lt;/<span style="color:#f92672">label</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
 
-&lt;script&gt;
-export default {
-    name: &quot;app&quot;,
-    data() {
-        return {
-            name: &quot;realjf&quot;,
-            tasks: [{
-                    action: &quot;Buy Flowers&quot;,
-                    done: false,
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app&#34;</span>,
+    <span style="color:#a6e22e">data</span>() {
+        <span style="color:#66d9ef">return</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;realjf&#34;</span>,
+            <span style="color:#a6e22e">tasks</span><span style="color:#f92672">:</span> [{
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Buy Flowers&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
                 {
-                    action: &quot;Get Shoes&quot;,
-                    done: false,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Get Shoes&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
                 {
-                    action: &quot;Collect Tickets&quot;,
-                    done: true,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Collect Tickets&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
                 },
                 {
-                    action: &quot;Call Joe&quot;,
-                    done: false,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Call Joe&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
             ],
-            hideCompleted: true
+            <span style="color:#a6e22e">hideCompleted</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
         }
     },
-    computed: {
-        filteredTasks() {
-            return this.hideCompleted ? this.tasks.filter(t =&gt; !t.done) : this.tasks
+    <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">filteredTasks</span>() {
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">hideCompleted</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">t</span> =&gt; <span style="color:#f92672">!</span><span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">done</span>) <span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>
         }
     }
 };
-&lt;/script&gt;
+&lt;/<span style="color:#f92672">script</span>&gt;
 
-</code></pre>
-
-<ul>
+</code></pre></div><ul>
 <li>computed 是定义计算属性，可以在数据变动时重新计算属性值并返回结果</li>
 </ul>
-
 <h3 id="创建新任务">创建新任务</h3>
-
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
-        {{ name }}'s To Do List
-    &lt;/h4&gt;
-    &lt;div class=&quot;container-fluid p-4&quot;&gt;
-        &lt;div class=&quot;row&quot;&gt;
-            &lt;div class=&quot;col font-weight-bold&quot;&gt;Task&lt;/div&gt;
-            &lt;div class=&quot;col-2 font-weight-bold&quot;&gt;Done&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row&quot; v-for=&quot;t in filteredTasks&quot; v-bind:key=&quot;t.action&quot;&gt;
-            &lt;div class=&quot;col&quot;&gt;{{ t.action }}&lt;/div&gt;
-            &lt;div class=&quot;col-2 text-center&quot;&gt;
-                &lt;input type=&quot;checkbox&quot; v-model=&quot;t.done&quot; class=&quot;form-check-input&quot; /&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
+        {{ name }}&#39;s To Do List
+    &lt;/<span style="color:#f92672">h4</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container-fluid p-4&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col font-weight-bold&#34;</span>&gt;Task&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 font-weight-bold&#34;</span>&gt;Done&lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t in filteredTasks&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.action&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;{{ t.action }}&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 text-center&#34;</span>&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.done&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-input&#34;</span> /&gt;
                 {{ t.done }}
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row py-2&quot;&gt;
-            &lt;div class=&quot;col&quot;&gt;
-                &lt;input v-model=&quot;newItemText&quot; class=&quot;form-control&quot; /&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-2&quot;&gt;
-                &lt;button class=&quot;btn btn-primary&quot; v-on:click=&quot;addNewTodo&quot;&gt;Add&lt;/button&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row bg-secondary py-2 mt-2 text-white&quot;&gt;
-            &lt;div class=&quot;col text-center&quot;&gt;
-                &lt;input type=&quot;checkbox&quot; v-model=&quot;hideCompleted&quot; class=&quot;form-check-input&quot; /&gt;
-                &lt;label class=&quot;form-check-label font-weight-bold&quot;&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row py-2&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;newItemText&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> /&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2&#34;</span>&gt;
+                &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-primary&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;addNewTodo&#34;</span>&gt;Add&lt;/<span style="color:#f92672">button</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row bg-secondary py-2 mt-2 text-white&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col text-center&#34;</span>&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hideCompleted&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-input&#34;</span> /&gt;
+                &lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-label font-weight-bold&#34;</span>&gt;
                     Hide completed tasks
-                &lt;/label&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/template&gt;
+                &lt;/<span style="color:#f92672">label</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
 
-&lt;script&gt;
-export default {
-    name: &quot;app&quot;,
-    data() {
-        return {
-            name: &quot;realjf&quot;,
-            tasks: [{
-                    action: &quot;Buy Flowers&quot;,
-                    done: false,
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app&#34;</span>,
+    <span style="color:#a6e22e">data</span>() {
+        <span style="color:#66d9ef">return</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;realjf&#34;</span>,
+            <span style="color:#a6e22e">tasks</span><span style="color:#f92672">:</span> [{
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Buy Flowers&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
                 {
-                    action: &quot;Get Shoes&quot;,
-                    done: false,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Get Shoes&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
                 {
-                    action: &quot;Collect Tickets&quot;,
-                    done: true,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Collect Tickets&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
                 },
                 {
-                    action: &quot;Call Joe&quot;,
-                    done: false,
+                    <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Call Joe&#34;</span>,
+                    <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
                 },
             ],
-            hideCompleted: true,
-            newItemText: &quot;&quot;
+            <span style="color:#a6e22e">hideCompleted</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+            <span style="color:#a6e22e">newItemText</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>
         }
     },
-    computed: {
-        filteredTasks() {
-            return this.hideCompleted ? this.tasks.filter(t =&gt; !t.done) : this.tasks
+    <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">filteredTasks</span>() {
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">hideCompleted</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">t</span> =&gt; <span style="color:#f92672">!</span><span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">done</span>) <span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>
         }
     },
-    methods: {
-        addNewTodo() {
-            this.tasks.push({
-                action: this.newItemText,
-                done: false
+    <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">addNewTodo</span>() {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">push</span>({
+                <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newItemText</span>,
+                <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
             });
-            this.newItemText = &quot;&quot;;
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newItemText</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
         }
     }
 };
-&lt;/script&gt;
+&lt;/<span style="color:#f92672">script</span>&gt;
 
-</code></pre>
-
-<ul>
+</code></pre></div><ul>
 <li>v-on:click 指令用于绑定点击事件</li>
 <li>methods 用于定义js函数，可用于v-on指令绑定用</li>
 </ul>
-
 <h3 id="持久存储数据">持久存储数据</h3>
-
 <p>在App.vue中使用localStorage</p>
-
-<pre><code class="language-js">&lt;script&gt;
-export default {
-    name: &quot;app&quot;,
-    data() {
-        return {
-            name: &quot;realjf&quot;,
-            tasks: [],
-            hideCompleted: true,
-            newItemText: &quot;&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app&#34;</span>,
+    <span style="color:#a6e22e">data</span>() {
+        <span style="color:#66d9ef">return</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;realjf&#34;</span>,
+            <span style="color:#a6e22e">tasks</span><span style="color:#f92672">:</span> [],
+            <span style="color:#a6e22e">hideCompleted</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+            <span style="color:#a6e22e">newItemText</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>
         }
     },
-    computed: {
-        filteredTasks() {
-            return this.hideCompleted ? this.tasks.filter(t =&gt; !t.done) : this.tasks
+    <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">filteredTasks</span>() {
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">hideCompleted</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">t</span> =&gt; <span style="color:#f92672">!</span><span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">done</span>) <span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>
         }
     },
-    methods: {
-        addNewTodo() {
-            this.tasks.push({
-                action: this.newItemText,
-                done: false
+    <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">addNewTodo</span>() {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">push</span>({
+                <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newItemText</span>,
+                <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
             });
-            // 使用localStorage持久存储数据
-            localStorage.setItem(&quot;todos&quot;, JSON.stringify(this.tasks));
-            this.newItemText = &quot;&quot;;
+            <span style="color:#75715e">// 使用localStorage持久存储数据
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">setItem</span>(<span style="color:#e6db74">&#34;todos&#34;</span>, <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>));
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newItemText</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
         },
     },
-    created() {
-        // 从localStorage中获取数据
-        let data = localStorage.getItem(&quot;todos&quot;);
-        if (data != null) {
-            this.tasks = JSON.parse(data);
+    <span style="color:#a6e22e">created</span>() {
+        <span style="color:#75715e">// 从localStorage中获取数据
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">getItem</span>(<span style="color:#e6db74">&#34;todos&#34;</span>);
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">data</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">data</span>);
         }
     },
 };
-&lt;/script&gt;
-</code></pre>
-
-<ul>
+<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+</code></pre></div><ul>
 <li>created() 是vue应用生命周期的一个事件，在vue应用创建成功后触发，并执行其中的代码</li>
 </ul>
-
 <p>当你添加新任务后，刷新浏览器将会重载之前保存的数据</p>
-
 <h3 id="添加点睛之笔">添加点睛之笔</h3>
-
 <ul>
 <li>添加删除任务功能</li>
 <li>在没有可做任务时展示一个信息</li>
 </ul>
-
-<pre><code class="language-html">&lt;template&gt;
-&lt;div id=&quot;app&quot;&gt;
-    &lt;h4 class=&quot;bg-primary text-white text-center p-2&quot;&gt;
-        {{ name }}'s To Do List
-    &lt;/h4&gt;
-    &lt;div class=&quot;container-fluid p-4&quot;&gt;
-        &lt;!-- 展示信息 --&gt;
-        &lt;div class=&quot;row&quot; v-if=&quot;filteredTasks.length == 0&quot;&gt;
-            &lt;div class=&quot;col text-center&quot;&gt;
-                &lt;b&gt;Nothing to do. Hurrah!&lt;/b&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;template v-else&gt;
-            &lt;div class=&quot;row&quot;&gt;
-                &lt;div class=&quot;col font-weight-bold&quot;&gt;Task&lt;/div&gt;
-                &lt;div class=&quot;col-2 font-weight-bold&quot;&gt;Done&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;row&quot; v-for=&quot;t in filteredTasks&quot; v-bind:key=&quot;t.action&quot;&gt;
-                &lt;div class=&quot;col&quot;&gt;{{ t.action }}&lt;/div&gt;
-                &lt;div class=&quot;col-2 text-center&quot;&gt;
-                    &lt;input type=&quot;checkbox&quot; v-model=&quot;t.done&quot; class=&quot;form-check-input&quot; /&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-primary text-white text-center p-2&#34;</span>&gt;
+        {{ name }}&#39;s To Do List
+    &lt;/<span style="color:#f92672">h4</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container-fluid p-4&#34;</span>&gt;
+        <span style="color:#75715e">&lt;!-- 展示信息 --&gt;</span>
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;filteredTasks.length == 0&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col text-center&#34;</span>&gt;
+                &lt;<span style="color:#f92672">b</span>&gt;Nothing to do. Hurrah!&lt;/<span style="color:#f92672">b</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">v-else</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+                &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col font-weight-bold&#34;</span>&gt;Task&lt;/<span style="color:#f92672">div</span>&gt;
+                &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 font-weight-bold&#34;</span>&gt;Done&lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span> <span style="color:#a6e22e">v-for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t in filteredTasks&#34;</span> <span style="color:#a6e22e">v-bind:key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.action&#34;</span>&gt;
+                &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;{{ t.action }}&lt;/<span style="color:#f92672">div</span>&gt;
+                &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2 text-center&#34;</span>&gt;
+                    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;t.done&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-input&#34;</span> /&gt;
                     {{ t.done }}
-                &lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/template&gt;
-        &lt;div class=&quot;row py-2&quot;&gt;
-            &lt;div class=&quot;col&quot;&gt;
-                &lt;input v-model=&quot;newItemText&quot; class=&quot;form-control&quot; /&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-2&quot;&gt;
-                &lt;button class=&quot;btn btn-primary&quot; v-on:click=&quot;addNewTodo&quot;&gt;Add&lt;/button&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;row bg-secondary py-2 mt-2 text-white&quot;&gt;
-            &lt;div class=&quot;col text-center&quot;&gt;
-                &lt;input type=&quot;checkbox&quot; v-model=&quot;hideCompleted&quot; class=&quot;form-check-input&quot; /&gt;
-                &lt;label class=&quot;form-check-label font-weight-bold&quot;&gt;
+                &lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">template</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row py-2&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col&#34;</span>&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;newItemText&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control&#34;</span> /&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col-2&#34;</span>&gt;
+                &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-primary&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;addNewTodo&#34;</span>&gt;Add&lt;/<span style="color:#f92672">button</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row bg-secondary py-2 mt-2 text-white&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col text-center&#34;</span>&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hideCompleted&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-input&#34;</span> /&gt;
+                &lt;<span style="color:#f92672">label</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-check-label font-weight-bold&#34;</span>&gt;
                     Hide completed tasks
-                &lt;/label&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col text-center&quot;&gt;
-                &lt;button class=&quot;btn btn-sm btn-warning&quot; v-on:click=&quot;deleteCompleted&quot;&gt;Delete Completed&lt;/button&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/template&gt;
+                &lt;/<span style="color:#f92672">label</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;col text-center&#34;</span>&gt;
+                &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn btn-sm btn-warning&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;deleteCompleted&#34;</span>&gt;Delete Completed&lt;/<span style="color:#f92672">button</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
 
-&lt;script&gt;
-export default {
-    name: &quot;app&quot;,
-    data() {
-        return {
-            name: &quot;realjf&quot;,
-            tasks: [],
-            hideCompleted: true,
-            newItemText: &quot;&quot;
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;app&#34;</span>,
+    <span style="color:#a6e22e">data</span>() {
+        <span style="color:#66d9ef">return</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;realjf&#34;</span>,
+            <span style="color:#a6e22e">tasks</span><span style="color:#f92672">:</span> [],
+            <span style="color:#a6e22e">hideCompleted</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+            <span style="color:#a6e22e">newItemText</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>
         }
     },
-    computed: {
-        filteredTasks() {
-            return this.hideCompleted ? this.tasks.filter(t =&gt; !t.done) : this.tasks
+    <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">filteredTasks</span>() {
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">hideCompleted</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">t</span> =&gt; <span style="color:#f92672">!</span><span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">done</span>) <span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>
         }
     },
-    methods: {
-        addNewTodo() {
-            this.tasks.push({
-                action: this.newItemText,
-                done: false
+    <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">addNewTodo</span>() {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">push</span>({
+                <span style="color:#a6e22e">action</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newItemText</span>,
+                <span style="color:#a6e22e">done</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
             });
-            // 使用localStorage持久存储数据
-            this.storeData();
+            <span style="color:#75715e">// 使用localStorage持久存储数据
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">storeData</span>();
 
-            this.newItemText = &quot;&quot;;
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">newItemText</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
         },
-        storeData() {
-            localStorage.setItem(&quot;todos&quot;, JSON.stringify(this.tasks));
+        <span style="color:#a6e22e">storeData</span>() {
+            <span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">setItem</span>(<span style="color:#e6db74">&#34;todos&#34;</span>, <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>));
         },
-        // 添加删除功能
-        deleteCompleted() {
-            this.tasks = this.tasks.filter(t =&gt; !t.done);
-            this.storeData();
+        <span style="color:#75715e">// 添加删除功能
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">deleteCompleted</span>() {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">t</span> =&gt; <span style="color:#f92672">!</span><span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">done</span>);
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">storeData</span>();
         }
     },
-    created() {
-        // 从localStorage中获取数据
-        let data = localStorage.getItem(&quot;todos&quot;);
-        if (data != null) {
-            this.tasks = JSON.parse(data);
+    <span style="color:#a6e22e">created</span>() {
+        <span style="color:#75715e">// 从localStorage中获取数据
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">getItem</span>(<span style="color:#e6db74">&#34;todos&#34;</span>);
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">data</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">tasks</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">data</span>);
         }
     },
 };
-&lt;/script&gt;
+&lt;/<span style="color:#f92672">script</span>&gt;
 
-</code></pre>
-
-<ul>
+</code></pre></div><ul>
 <li>v-if指令 是if的判断语句，后接判断条件，当然其结构还包括v-else，v-else-if等</li>
 <li>template 模板标签，可以用于定义模板结构</li>
 </ul>
