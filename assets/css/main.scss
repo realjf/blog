@@ -16,4 +16,5 @@ $primary-color: {{ .Site.Params.style.primaryColor | default "#57cc8a" }};
 @import "components/toc";
 @import 'components/tag';
 @import "components/search";
+@import "components/sider";
 
