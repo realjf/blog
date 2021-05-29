@@ -1,11 +1,15 @@
 .sider {
     position: fixed;
     top: 100px;
-    right: 100px;
+    right: 10px;
     color: white;
     width: 200px;
     float: right;
 }
 
-
+@media (max-width: 1360px) {
+    .sider {
+        display: none;
+    }
+}
 
