@@ -6,7 +6,29 @@
     <description>Recent content in golang on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Jun 2021 10:23:01 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Jun 2021 23:21:02 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang和vue3全栈开发之二 创建路由处理程序 Full Stack  With Vue and Golang 2</title>
+      <link>https://realjf.io/golang/full-stack-with-vue-and-golang-2/</link>
+      <pubDate>Sun, 06 Jun 2021 23:21:02 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-2/</guid>
+      <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ └── main.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore 创建路由处理程序 创建account/handler/handler.go文件，其内容如下：
+package handler import ( &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#34;github.com/gin-gonic/gin&amp;#34; ) type Handler struct{} type Config struct { R *gin.Engine } func NewHandler(c *Config) { h := &amp;amp;Handler{} g := c.R.Group(os.Getenv(&amp;#34;ACCOUNT_API_URL&amp;#34;)) g.GET(&amp;#34;/me&amp;#34;, h.Me) g.POST(&amp;#34;/signup&amp;#34;, h.Signup) g.POST(&amp;#34;/signin&amp;#34;, h.Signin) g.POST(&amp;#34;/signout&amp;#34;, h.Signout) g.POST(&amp;#34;/tokens&amp;#34;, h.</description>
+    </item>
+    
+    <item>
+      <title>golang和vue3全栈开发之一 自动重载go环境构建 Full Stack With Vue 3 and Golang 1</title>
+      <link>https://realjf.io/golang/full-stack-with-vue-and-golang-1/</link>
+      <pubDate>Sun, 06 Jun 2021 23:04:00 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-1/</guid>
+      <description>准备  ubuntu 20.04 go v1.16 docker and docker-compose  项目目录 .├── account│ ├── Dockerfile│ ├── go.mod│ ├── go.sum│ └── main.go├── docker-compose.yml└── echo.code-workspaceecho.code-workspace内容 cat echo.code-workspace { &amp;#34;folders&amp;#34;: [ { &amp;#34;path&amp;#34;: &amp;#34;account&amp;#34; }, { &amp;#34;path&amp;#34;: &amp;#34;.&amp;#34; } ] } 运行
+# 打开编辑项目 code echo.code-workspace 初始化项目 在项目account目录下运行
+go mod init github.com/realjf/echo 执行go get -u github.com/gin-gonic/gin， 然后创建account/main.go文件，其内容如下：
+package main import ( &amp;#34;context&amp;#34; &amp;#34;log&amp;#34; &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#34;os/signal&amp;#34; &amp;#34;syscall&amp;#34; &amp;#34;time&amp;#34; &amp;#34;github.</description>
+    </item>
+    
     <item>
       <title>服务发现实战之一 consul服务发现构建 Discover Consul in Action</title>
       <link>https://realjf.io/golang/discover-consul-in-action/</link>
