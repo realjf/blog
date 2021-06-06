@@ -6,7 +6,17 @@
     <description>Recent content in Golangs on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Jun 2021 23:21:02 +0800</lastBuildDate><atom:link href="https://realjf.io/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Jun 2021 23:50:36 +0800</lastBuildDate><atom:link href="https://realjf.io/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang和vue3全栈开发之三 clean架构 Full Stack  With Vue and Golang 3</title>
+      <link>https://realjf.io/golang/full-stack-with-vue-and-golang-3/</link>
+      <pubDate>Sun, 06 Jun 2021 23:50:36 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-3/</guid>
+      <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ ├── main.go │ └── model │ ├── errors.go │ ├── interfaces.go │ └── user.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore clean architecture entity数据层的model 执行go get -u github.com/google/uuid， 创建account/model/user.go文件，其内容如下：
+package model import &amp;#34;github.com/google/uuid&amp;#34; type User struct { UID uuid.UUID `db:&amp;#34;uid&amp;#34; json:&amp;#34;uid&amp;#34;` Email string `db:&amp;#34;email&amp;#34; json:&amp;#34;email&amp;#34;` Password string `db:&amp;#34;password&amp;#34; json:&amp;#34;-&amp;#34;` Name string `db:&amp;#34;name&amp;#34; json:&amp;#34;name&amp;#34;` ImageURL string `db:&amp;#34;image_url&amp;#34; json:&amp;#34;imageUrl&amp;#34;` Website string `db:&amp;#34;website&amp;#34; json:&amp;#34;website&amp;#34;` } 创建account/model/interfaces.</description>
+    </item>
+    
     <item>
       <title>golang和vue3全栈开发之二 创建路由处理程序 Full Stack  With Vue and Golang 2</title>
       <link>https://realjf.io/golang/full-stack-with-vue-and-golang-2/</link>
