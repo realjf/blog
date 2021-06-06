@@ -612,5 +612,5 @@ func main() {
 }
 
 ```
-之后启动consul，然后，运行服务go run main.go，打开浏览器：http://localhost:8500查看consul服务信息
-
+之后启动consul，然后，运行服务go run main.go，打开浏览器：http://localhost:8500查看consul服务信息，
+服务发现地址：http://localhost:12000/discovery?serviceName=SayHello
