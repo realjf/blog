@@ -5,7 +5,7 @@ keywords: ["golang", "vuejs"]
 categories: ["golang", "vuejs"]
 tags: ["golang", "vuejs"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 50
