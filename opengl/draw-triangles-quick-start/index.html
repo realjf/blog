@@ -3,7 +3,7 @@
 <head>
     <title>opengl之二 使用Opengl画一个三角形快速开始 Draw Triangles Quick Start // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,208 +233,300 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/opengl/">opengl</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
         </header>
         <div class="post-content">
-            <p>在上一篇 <a href="https://realjf.io/opengl/opengl-quick-start/">opengl 快速开始</a> 的基础上，我们画一个三角形，并着色。</p>
+            
+
+<p>在上一篇 <a href="https://realjf.io/opengl/opengl-quick-start/">opengl 快速开始</a> 的基础上，我们画一个三角形，并着色。</p>
+
 <h2 id="opengl渲染过程">opengl渲染过程</h2>
+
 <h3 id="了解三种缓冲对象">了解三种缓冲对象</h3>
+
 <ul>
 <li>顶点数组对象：Vertex Array Object，VAO</li>
 <li>顶点缓冲对象：Vertex Buffer Object，VBO</li>
 <li>索引缓冲对象：Element Buffer Object，EBO或Index Buffer Object，IBO</li>
 </ul>
+
 <h3 id="图形渲染管线">图形渲染管线</h3>
+
 <p>图形渲染管线实际上是一堆原始图形数据途径一个输送管道，期间经过各种变化处理最终出现在屏幕的过程。</p>
+
 <p>图形渲染管线分为两部分：</p>
+
 <ul>
 <li>第一部分把你的3d坐标转换为2d坐标</li>
 <li>第二部分把2d坐标转变为实际的有颜色的像素</li>
 </ul>
+
 <blockquote>
 <p>2D坐标和像素也是不同的，2D坐标精确表示一个点在2D空间中的位置，而2D像素是这个点的近似值，2D像素受到你的屏幕/窗口分辨率的限制。</p>
 </blockquote>
+
 <h3 id="着色器">着色器</h3>
+
 <p>图形渲染管线可以被划分为几个阶段，每个阶段将会把前一个阶段的输出作为输入。所有这些阶段都是高度专门化的（它们都有一个特定的函数），并且很容易并行执行。
 GPU为每个（渲染管线）阶段运行各自的小程序，这个小程序叫做着色器。opengl着色器用opengl着色器语言（OpenGL Shading Language, GLSL）写成。</p>
+
 <h3 id="渲染过程各个阶段">渲染过程各个阶段</h3>
-<p><img src="/image/opengl_pipeline.png" alt="pipeline"></p>
+
+<p><img src="/image/opengl_pipeline.png" alt="pipeline" /></p>
+
 <blockquote>
 <p>要注意蓝色部分代表的是我们可以注入自定义的着色器的部分</p>
 </blockquote>
+
 <h4 id="顶点数据">顶点数据</h4>
+
 <p>首先用包含3个3d坐标的数组作为数据输入，这个数组叫顶点数据（Vertex Data），顶点数据使用顶点属性表示的。</p>
+
 <h4 id="顶点着色器">顶点着色器</h4>
+
 <p>顶点着色器主要的目的是把3D坐标转为另一种3D坐标，同时顶点着色器允许我们对顶点属性进行一些基本处理。</p>
+
 <h4 id="图元装配">图元装配</h4>
+
 <p>图元装配(Primitive Assembly)阶段将顶点着色器输出的所有顶点作为输入（如果是GL_POINTS，那么就是一个顶点），并所有的点装配成指定图元的形状；</p>
+
 <h4 id="几何着色器">几何着色器</h4>
+
 <p>几何着色器把图元形式的一系列顶点的集合作为输入，它可以通过产生新顶点构造出新的（或是其它的）图元来生成其他形状</p>
+
 <h4 id="光栅化阶段">光栅化阶段</h4>
+
 <p>这里它会把图元映射为最终屏幕上相应的像素，生成供片段着色器(Fragment Shader)使用的片段(Fragment)。在片段着色器运行之前会执行裁切(Clipping)。裁切会丢弃超出你的视图以外的所有像素，用来提升执行效率</p>
+
 <h4 id="片段着色器">片段着色器</h4>
+
 <p>主要目的是计算一个像素的最终颜色，这也是所有OpenGL高级效果产生的地方。通常，片段着色器包含3D场景的数据（比如光照、阴影、光的颜色等等），这些数据可以被用来计算最终像素的颜色。</p>
+
 <h4 id="alpha测试和混合阶段">alpha测试和混合阶段</h4>
+
 <p>这个阶段检测片段的对应的深度（和模板(Stencil)）值，用它们来判断这个像素是其它物体的前面还是后面，决定是否应该丢弃。这个阶段也会检查alpha值（alpha值定义了一个物体的透明度）并对物体进行混合(Blend)。</p>
+
 <h2 id="准备">准备</h2>
+
 <p>main.cpp原始内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;glad/glad.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;GLFW/glfw3.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">framebuffer_size_callback</span>(GLFWwindow<span style="color:#f92672">*</span> window, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">int</span> height);
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processInput</span>(GLFWwindow <span style="color:#f92672">*</span>window);
 
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> SCR_WIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">800</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> SCR_HEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>;
+<pre><code class="language-cpp">#include &lt;glad/glad.h&gt;
+#include &lt;GLFW/glfw3.h&gt;
+#include &lt;iostream&gt;
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
+
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+int main()
 {
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span style="color:#ae81ff">3</span>);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span style="color:#ae81ff">3</span>);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    <span style="color:#75715e">// create window
-</span><span style="color:#75715e"></span>    GLFWwindow<span style="color:#f92672">*</span> window <span style="color:#f92672">=</span> glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, <span style="color:#e6db74">&#34;LearnOpenGL&#34;</span>, NULL, NULL);
-    <span style="color:#66d9ef">if</span> (window <span style="color:#f92672">==</span> NULL)
+    // create window
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, &quot;LearnOpenGL&quot;, NULL, NULL);
+    if (window == NULL)
     {
-        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Failed to create GLFW window&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+        std::cout &lt;&lt; &quot;Failed to create GLFW window&quot; &lt;&lt; std::endl;
         glfwTerminate();
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        return -1;
     }
     glfwMakeContextCurrent(window);
 
-    <span style="color:#75715e">// viewport size
-</span><span style="color:#75715e"></span>    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    // viewport size
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    <span style="color:#75715e">// init glad
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>gladLoadGL()) { 
-        exit(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    // init glad
+    if(!gladLoadGL()) { 
+        exit(-1);
     }
 
-    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window))
     {
-        <span style="color:#75715e">// input
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// -----
-</span><span style="color:#75715e"></span>        processInput(window);
+        // input
+        // -----
+        processInput(window);
 
-        <span style="color:#75715e">// render
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// ------
-</span><span style="color:#75715e"></span>        glClearColor(<span style="color:#ae81ff">0.2f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">1.0f</span>);
+        // render
+        // ------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);  
 
 
-         <span style="color:#75715e">// 画三角形
-</span><span style="color:#75715e"></span>
-        <span style="color:#75715e">// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// -------------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>        glfwSwapBuffers(window);
+         // 画三角形
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
     glfwTerminate();
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    return 0;
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processInput</span>(GLFWwindow <span style="color:#f92672">*</span>window)
+void processInput(GLFWwindow *window)
 {
-    <span style="color:#66d9ef">if</span>(glfwGetKey(window, GLFW_KEY_ESCAPE) <span style="color:#f92672">==</span> GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">framebuffer_size_callback</span>(GLFWwindow<span style="color:#f92672">*</span> window, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">int</span> height)
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, width, height);
+    glViewport(0, 0, width, height);
 }
 
 
-</code></pre></div><h2 id="代码实现">代码实现</h2>
+</code></pre>
+
+<h2 id="代码实现">代码实现</h2>
+
 <h3 id="首先是顶点输入">首先是顶点输入，</h3>
+
 <p>OpenGL仅当3D坐标在3个轴（x、y和z）上都为-1.0到1.0的范围内时才处理它。所有在所谓的标准化设备坐标(Normalized Device Coordinates)范围内的坐标才会最终呈现在屏幕上（在这个范围以外的坐标都不会显示）</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">...
-<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>gladLoadGL()) { 
-  exit(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+
+<pre><code class="language-cpp">...
+if(!gladLoadGL()) { 
+  exit(-1);
 }
 
-<span style="color:#75715e">// 顶点输入
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> vertices[] <span style="color:#f92672">=</span> {
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>
+// 顶点输入
+float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
 };
 
-<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>glfwWindowShouldClose(window))
+while (!glfwWindowShouldClose(window))
 {
 ...
 
-</code></pre></div><p>定义这样的顶点数据以后，我们会把它作为输入发送给图形渲染管线的第一个处理阶段：顶点着色器。它会在GPU上创建内存用于储存我们的顶点数据，还要配置OpenGL如何解释这些内存，并且指定其如何发送给显卡。顶点着色器接着会处理我们在内存中指定数量的顶点。</p>
+</code></pre>
+
+<p>定义这样的顶点数据以后，我们会把它作为输入发送给图形渲染管线的第一个处理阶段：顶点着色器。它会在GPU上创建内存用于储存我们的顶点数据，还要配置OpenGL如何解释这些内存，并且指定其如何发送给显卡。顶点着色器接着会处理我们在内存中指定数量的顶点。</p>
+
 <p>通过顶点缓冲对象(Vertex Buffer Objects, VBO)管理这个内存，它会在GPU内存（通常被称为显存）中储存大量顶点。使用这些缓冲对象的好处是我们可以一次性的发送一大批数据到显卡上，而不是每个顶点发送一次。从CPU把数据发送到显卡相对较慢，所以只要可能我们都要尝试尽量一次性发送尽可能多的数据。当数据发送至显卡的内存中后，顶点着色器几乎能立即访问顶点，这是个非常快的过程。</p>
+
 <p>顶点缓冲对象有一个独一无二的ID，所以我们可以使用glGenBuffers函数和一个缓冲ID生成一个VBO对象：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> VBO;
-glGenBuffers(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>VBO);
-</code></pre></div><p>OpenGL有很多缓冲对象类型，顶点缓冲对象的缓冲类型是GL_ARRAY_BUFFER。OpenGL允许我们同时绑定多个缓冲，只要它们是不同的缓冲类型。我们可以使用glBindBuffer函数把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glBindBuffer(GL_ARRAY_BUFFER, VBO);
-</code></pre></div><p><strong>从这一刻起</strong>，我们使用的任何（在GL_ARRAY_BUFFER目标上的）缓冲调用都会用来配置当前绑定的缓冲(VBO)。然后我们可以调用glBufferData函数，它会把之前定义的顶点数据复制到缓冲的内存中</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glBufferData(GL_ARRAY_BUFFER, <span style="color:#66d9ef">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
-</code></pre></div><p>glBufferData是一个专门用来把用户定义的数据复制到当前绑定缓冲的函数。
+
+<pre><code class="language-cpp">unsigned int VBO;
+glGenBuffers(1, &amp;VBO);
+</code></pre>
+
+<p>OpenGL有很多缓冲对象类型，顶点缓冲对象的缓冲类型是GL_ARRAY_BUFFER。OpenGL允许我们同时绑定多个缓冲，只要它们是不同的缓冲类型。我们可以使用glBindBuffer函数把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上</p>
+
+<pre><code class="language-cpp">glBindBuffer(GL_ARRAY_BUFFER, VBO);
+</code></pre>
+
+<p><strong>从这一刻起</strong>，我们使用的任何（在GL_ARRAY_BUFFER目标上的）缓冲调用都会用来配置当前绑定的缓冲(VBO)。然后我们可以调用glBufferData函数，它会把之前定义的顶点数据复制到缓冲的内存中</p>
+
+<pre><code class="language-cpp">glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+</code></pre>
+
+<p>glBufferData是一个专门用来把用户定义的数据复制到当前绑定缓冲的函数。
 它的第一个参数是目标缓冲的类型：顶点缓冲对象当前绑定到GL_ARRAY_BUFFER目标上。第二个参数指定传输数据的大小(以字节为单位)；用一个简单的sizeof计算出顶点数据大小就行。第三个参数是我们希望发送的实际数据。</p>
+
 <p>第四个参数指定了我们希望显卡如何管理给定的数据。它有三种形式：</p>
+
 <ul>
 <li>GL_STATIC_DRAW ：数据不会或几乎不会改变。</li>
 <li>GL_DYNAMIC_DRAW：数据会被改变很多。</li>
 <li>GL_STREAM_DRAW ：数据每次绘制时都会改变。</li>
 </ul>
+
 <p>三角形的位置数据不会改变，每次渲染调用时都保持原样，所以它的使用类型最好是GL_STATIC_DRAW。如果，比如说一个缓冲中的数据将频繁被改变，那么使用的类型就是GL_DYNAMIC_DRAW或GL_STREAM_DRAW，这样就能确保显卡把数据放在能够高速写入的内存部分</p>
+
 <h3 id="顶点着色器-1">顶点着色器</h3>
+
 <p>暂时将顶点着色器的源代码硬编码在代码文件顶部的C风格字符串中</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>vertexShaderSource <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#version 330 core</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;layout (location = 0) in vec3 aPos;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;void main()</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;{</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;}</span><span style="color:#ae81ff">\0</span><span style="color:#e6db74">&#34;</span>;
-</code></pre></div><p>首先要做的是创建一个着色器对象，注意还是用ID来引用的。所以我们储存这个顶点着色器为unsigned int，然后用glCreateShader创建这个着色器</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> vertexShader;
-vertexShader <span style="color:#f92672">=</span> glCreateShader(GL_VERTEX_SHADER);
-</code></pre></div><p>把这个着色器源码附加到着色器对象上，然后编译它</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glShaderSource(vertexShader, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>vertexShaderSource, NULL);
+
+<pre><code class="language-cpp">const char *vertexShaderSource = &quot;#version 330 core\n&quot;
+    &quot;layout (location = 0) in vec3 aPos;\n&quot;
+    &quot;void main()\n&quot;
+    &quot;{\n&quot;
+    &quot;   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n&quot;
+    &quot;}\0&quot;;
+</code></pre>
+
+<p>首先要做的是创建一个着色器对象，注意还是用ID来引用的。所以我们储存这个顶点着色器为unsigned int，然后用glCreateShader创建这个着色器</p>
+
+<pre><code class="language-cpp">unsigned int vertexShader;
+vertexShader = glCreateShader(GL_VERTEX_SHADER);
+</code></pre>
+
+<p>把这个着色器源码附加到着色器对象上，然后编译它</p>
+
+<pre><code class="language-cpp">glShaderSource(vertexShader, 1, &amp;vertexShaderSource, NULL);
 glCompileShader(vertexShader);
-</code></pre></div><h3 id="片段着色器-1">片段着色器</h3>
+</code></pre>
+
+<h3 id="片段着色器-1">片段着色器</h3>
+
 <p>片段着色器所做的是计算像素最后的颜色输出。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fragmentShaderSource <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#version 330 core</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;out vec4 FragColor;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;void main()</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;{</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;}</span><span style="color:#ae81ff">\n\0</span><span style="color:#e6db74">&#34;</span>;
-</code></pre></div><p>声明输出变量可以使用out关键字</p>
+
+<pre><code class="language-cpp">const char *fragmentShaderSource = &quot;#version 330 core\n&quot;
+    &quot;out vec4 FragColor;\n&quot;
+    &quot;void main()\n&quot;
+    &quot;{\n&quot;
+    &quot;   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n&quot;
+    &quot;}\n\0&quot;;
+</code></pre>
+
+<p>声明输出变量可以使用out关键字</p>
+
 <p>编译片段着色器的过程与顶点着色器类似，只不过我们使用GL_FRAGMENT_SHADER常量作为着色器类型</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> fragmentShader;
-fragmentShader <span style="color:#f92672">=</span> glCreateShader(GL_FRAGMENT_SHADER);
-glShaderSource(fragmentShader, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>fragmentShaderSource, NULL);
+
+<pre><code class="language-cpp">unsigned int fragmentShader;
+fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+glShaderSource(fragmentShader, 1, &amp;fragmentShaderSource, NULL);
 glCompileShader(fragmentShader);
-</code></pre></div><h3 id="着色器程序">着色器程序</h3>
+</code></pre>
+
+<h3 id="着色器程序">着色器程序</h3>
+
 <p>着色器程序对象(Shader Program Object)是多个着色器合并之后并最终链接完成的版本。如果要使用刚才编译的着色器我们必须把它们链接(Link)为一个着色器程序对象，然后在渲染对象的时候激活这个着色器程序。已激活着色器程序的着色器将在我们发送渲染调用的时候被使用。</p>
+
 <p>当链接着色器至一个程序的时候，它会把每个着色器的输出链接到下个着色器的输入。当输出和输入不匹配的时候，你会得到一个连接错误。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// 创建程序对象
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> shaderProgram;
-shaderProgram <span style="color:#f92672">=</span> glCreateProgram();
-</code></pre></div><p>把之前编译的着色器附加到程序对象上，然后用glLinkProgram链接它们</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glAttachShader(shaderProgram, vertexShader);
+
+<pre><code class="language-cpp">// 创建程序对象
+unsigned int shaderProgram;
+shaderProgram = glCreateProgram();
+</code></pre>
+
+<p>把之前编译的着色器附加到程序对象上，然后用glLinkProgram链接它们</p>
+
+<pre><code class="language-cpp">glAttachShader(shaderProgram, vertexShader);
 glAttachShader(shaderProgram, fragmentShader);
 glLinkProgram(shaderProgram);
-</code></pre></div><p>得到的结果就是一个程序对象，在需要画图时，可以调用glUseProgram函数，用刚创建的程序对象作为它的参数，以激活这个程序对象</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glUseProgram(shaderProgram);
-</code></pre></div><p>在glUseProgram函数调用之后，每个着色器调用和渲染调用都会使用这个程序对象（也就是之前写的着色器)了。</p>
+</code></pre>
+
+<p>得到的结果就是一个程序对象，在需要画图时，可以调用glUseProgram函数，用刚创建的程序对象作为它的参数，以激活这个程序对象</p>
+
+<pre><code class="language-cpp">glUseProgram(shaderProgram);
+</code></pre>
+
+<p>在glUseProgram函数调用之后，每个着色器调用和渲染调用都会使用这个程序对象（也就是之前写的着色器)了。</p>
+
 <p>对了，在把着色器对象链接到程序对象以后，记得删除着色器对象，我们不再需要它们了</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glDeleteShader(vertexShader);
+
+<pre><code class="language-cpp">glDeleteShader(vertexShader);
 glDeleteShader(fragmentShader);
-</code></pre></div><h3 id="链接顶点属性">链接顶点属性</h3>
+</code></pre>
+
+<h3 id="链接顶点属性">链接顶点属性</h3>
+
 <p>顶点着色器允许我们指定任何以顶点属性为形式的输入。这使其具有很强的灵活性的同时，它还的确意味着我们必须手动指定输入数据的哪一个部分对应顶点着色器的哪一个顶点属性。所以，我们必须在渲染前指定OpenGL该如何解释顶点数据。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glVertexAttribPointer(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)<span style="color:#ae81ff">0</span>);
-glEnableVertexAttribArray(<span style="color:#ae81ff">0</span>);
-</code></pre></div><p>glVertexAttribPointer函数的参数非常多，所以我会逐一介绍它们：</p>
+
+<pre><code class="language-cpp">glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+</code></pre>
+
+<p>glVertexAttribPointer函数的参数非常多，所以我会逐一介绍它们：</p>
+
 <ul>
 <li>第一个参数指定我们要配置的顶点属性。还记得我们在顶点着色器中使用layout(location = 0)定义了position顶点属性的位置值(Location)吗？它可以把顶点属性的位置值设置为0。因为我们希望把数据传递到这一个顶点属性中，所以这里我们传入0。</li>
 <li>第二个参数指定顶点属性的大小。顶点属性是一个vec3，它由3个值组成，所以大小是3。</li>
@@ -443,236 +535,250 @@ glEnableVertexAttribArray(<span style="color:#ae81ff">0</span>);
 <li>第五个参数叫做步长(Stride)，它告诉我们在连续的顶点属性组之间的间隔。由于下个组位置数据在3个float之后，我们把步长设置为3 * sizeof(float)。要注意的是由于我们知道这个数组是紧密排列的（在两个顶点属性之间没有空隙）我们也可以设置为0来让OpenGL决定具体步长是多少（只有当数值是紧密排列时才可用）。一旦我们有更多的顶点属性，我们就必须更小心地定义每个顶点属性之间的间隔，我们在后面会看到更多的例子（译注: 这个参数的意思简单说就是从这个属性第二次出现的地方到整个数组0位置之间有多少字节）。</li>
 <li>最后一个参数的类型是void*，所以需要我们进行这个奇怪的强制类型转换。它表示位置数据在缓冲中起始位置的偏移量(Offset)。由于位置数据在数组的开头，所以这里是0。</li>
 </ul>
+
 <p><strong>现在我们已经定义了OpenGL该如何解释顶点数据，我们现在应该使用glEnableVertexAttribArray，以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的。</strong></p>
+
 <blockquote>
 <p>每个顶点属性从一个VBO管理的内存中获得它的数据，而具体是从哪个VBO（程序中可以有多个VBO）获取则是通过在调用glVertexAttribPointer时绑定到GL_ARRAY_BUFFER的VBO决定的。由于在调用glVertexAttribPointer之前绑定的是先前定义的VBO对象，顶点属性0现在会链接到它的顶点数据</p>
 </blockquote>
+
 <p>最终代码可能是这样的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// 0. 复制顶点数组到缓冲中供OpenGL使用
-</span><span style="color:#75715e"></span>glBindBuffer(GL_ARRAY_BUFFER, VBO);
-glBufferData(GL_ARRAY_BUFFER, <span style="color:#66d9ef">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
-<span style="color:#75715e">// 1. 设置顶点属性指针
-</span><span style="color:#75715e"></span>glVertexAttribPointer(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)<span style="color:#ae81ff">0</span>);
-glEnableVertexAttribArray(<span style="color:#ae81ff">0</span>);
-<span style="color:#75715e">// 2. 当我们渲染一个物体时要使用着色器程序
-</span><span style="color:#75715e"></span>glUseProgram(shaderProgram);
-<span style="color:#75715e">// 3. 绘制物体
-</span><span style="color:#75715e"></span>someOpenGLFunctionThatDrawsOurTriangle();
-</code></pre></div><h3 id="完整代码">完整代码</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;glad/glad.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;GLFW/glfw3.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">framebuffer_size_callback</span>(GLFWwindow<span style="color:#f92672">*</span> window, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">int</span> height);
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processInput</span>(GLFWwindow <span style="color:#f92672">*</span>window);
 
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> SCR_WIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">800</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> SCR_HEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>;
+<pre><code class="language-cpp">// 0. 复制顶点数组到缓冲中供OpenGL使用
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+// 1. 设置顶点属性指针
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+// 2. 当我们渲染一个物体时要使用着色器程序
+glUseProgram(shaderProgram);
+// 3. 绘制物体
+someOpenGLFunctionThatDrawsOurTriangle();
+</code></pre>
 
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>vertexShaderSource <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#version 330 core</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;layout (location = 0) in vec3 aPos;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;void main()</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;{</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;}</span><span style="color:#ae81ff">\0</span><span style="color:#e6db74">&#34;</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>fragmentShaderSource <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#version 330 core</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;out vec4 FragColor;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;void main()</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;{</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#e6db74">&#34;}</span><span style="color:#ae81ff">\n\0</span><span style="color:#e6db74">&#34;</span>;
+<h3 id="完整代码">完整代码</h3>
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+<pre><code class="language-cpp">#include &lt;glad/glad.h&gt;
+#include &lt;GLFW/glfw3.h&gt;
+#include &lt;iostream&gt;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
+
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+const char *vertexShaderSource = &quot;#version 330 core\n&quot;
+    &quot;layout (location = 0) in vec3 aPos;\n&quot;
+    &quot;void main()\n&quot;
+    &quot;{\n&quot;
+    &quot;   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n&quot;
+    &quot;}\0&quot;;
+const char *fragmentShaderSource = &quot;#version 330 core\n&quot;
+    &quot;out vec4 FragColor;\n&quot;
+    &quot;void main()\n&quot;
+    &quot;{\n&quot;
+    &quot;   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n&quot;
+    &quot;}\n\0&quot;;
+
+int main()
 {
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span style="color:#ae81ff">3</span>);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span style="color:#ae81ff">3</span>);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    <span style="color:#75715e">// create window
-</span><span style="color:#75715e"></span>    GLFWwindow<span style="color:#f92672">*</span> window <span style="color:#f92672">=</span> glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, <span style="color:#e6db74">&#34;LearnOpenGL&#34;</span>, NULL, NULL);
-    <span style="color:#66d9ef">if</span> (window <span style="color:#f92672">==</span> NULL)
+    // create window
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, &quot;LearnOpenGL&quot;, NULL, NULL);
+    if (window == NULL)
     {
-        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Failed to create GLFW window&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+        std::cout &lt;&lt; &quot;Failed to create GLFW window&quot; &lt;&lt; std::endl;
         glfwTerminate();
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        return -1;
     }
     glfwMakeContextCurrent(window);
 
-    <span style="color:#75715e">// viewport size
-</span><span style="color:#75715e"></span>    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    // viewport size
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    <span style="color:#75715e">// init glad
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>gladLoadGL()) { 
-        exit(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+    // init glad
+    if(!gladLoadGL()) { 
+        exit(-1);
     }
 
-    <span style="color:#66d9ef">float</span> vertices[] <span style="color:#f92672">=</span> {
-        <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#75715e">// left
-</span><span style="color:#75715e"></span>        <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#75715e">// right
-</span><span style="color:#75715e"></span>        <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span> <span style="color:#75715e">// top
-</span><span style="color:#75715e"></span>    };
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f, // left
+        0.5f, -0.5f, 0.0f, // right
+        0.0f,  0.5f, 0.0f // top
+    };
 
-    <span style="color:#75715e">// 顶点输入
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> VBO, VAO;
-    glGenBuffers(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>VBO);
-    glGenVertexArrays(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>VAO);
+    // 顶点输入
+    unsigned int VBO, VAO;
+    glGenBuffers(1, &amp;VBO);
+    glGenVertexArrays(1, &amp;VAO);
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    <span style="color:#75715e">// 复制顶点数组到缓冲中供OpenGL使用
-</span><span style="color:#75715e"></span>    glBufferData(GL_ARRAY_BUFFER, <span style="color:#66d9ef">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
+    // 复制顶点数组到缓冲中供OpenGL使用
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    <span style="color:#75715e">// 告诉OpenGL该如何解析顶点数据
-</span><span style="color:#75715e"></span>    glVertexAttribPointer(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)<span style="color:#ae81ff">0</span>);
-    <span style="color:#75715e">// 以顶点属性位置值作为参数，启用顶点属性，顶点属性默认是禁用的
-</span><span style="color:#75715e"></span>    glEnableVertexAttribArray(<span style="color:#ae81ff">0</span>);
-    <span style="color:#75715e">// 已经调用glVertexAttribPointer将VBO注册为顶点属性的绑定顶点缓冲区对象，因此此后我们可以安全地解除绑定
-</span><span style="color:#75715e"></span>    glBindBuffer(GL_ARRAY_BUFFER, <span style="color:#ae81ff">0</span>);
-    <span style="color:#75715e">// 之后，您可以取消绑定VAO，这样其他VAO调用就不会意外修改此VAO，
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 因为修改其他VAO无论如何都需要调用glBindVertexArray，所以在不是直接需要情况下，我们通常不解绑VAO
-</span><span style="color:#75715e"></span>    glBindVertexArray(<span style="color:#ae81ff">0</span>);
+    // 告诉OpenGL该如何解析顶点数据
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // 以顶点属性位置值作为参数，启用顶点属性，顶点属性默认是禁用的
+    glEnableVertexAttribArray(0);
+    // 已经调用glVertexAttribPointer将VBO注册为顶点属性的绑定顶点缓冲区对象，因此此后我们可以安全地解除绑定
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // 之后，您可以取消绑定VAO，这样其他VAO调用就不会意外修改此VAO，
+    // 因为修改其他VAO无论如何都需要调用glBindVertexArray，所以在不是直接需要情况下，我们通常不解绑VAO
+    glBindVertexArray(0);
 
 
-    <span style="color:#75715e">// 顶点着色器
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> vertexShader;
-    <span style="color:#75715e">// 创建着色器
-</span><span style="color:#75715e"></span>    vertexShader <span style="color:#f92672">=</span> glCreateShader(GL_VERTEX_SHADER);
-    <span style="color:#75715e">// 将着色器源码附加到着色器对象上，然后编译它
-</span><span style="color:#75715e"></span>    glShaderSource(vertexShader, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>vertexShaderSource, NULL);
+    // 顶点着色器
+    unsigned int vertexShader;
+    // 创建着色器
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    // 将着色器源码附加到着色器对象上，然后编译它
+    glShaderSource(vertexShader, 1, &amp;vertexShaderSource, NULL);
     glCompileShader(vertexShader);
 
-    <span style="color:#75715e">// check for shader compile errors
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> success;
-    <span style="color:#66d9ef">char</span> infoLog[<span style="color:#ae81ff">512</span>];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, <span style="color:#f92672">&amp;</span>success);
-    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>success)
+    // check for shader compile errors
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &amp;success);
+    if (!success)
     {
-        glGetShaderInfoLog(vertexShader, <span style="color:#ae81ff">512</span>, NULL, infoLog);
-        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::SHADER::VERTEX::COMPILATION_FAILED</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> infoLog <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout &lt;&lt; &quot;ERROR::SHADER::VERTEX::COMPILATION_FAILED\n&quot; &lt;&lt; infoLog &lt;&lt; std::endl;
     }
 
-    <span style="color:#75715e">// 片段着色器
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> fragmentShader;
-    fragmentShader <span style="color:#f92672">=</span> glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>fragmentShaderSource, NULL);
-    glShaderSource(fragmentShader, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>fragmentShaderSource, NULL);
+    // 片段着色器
+    unsigned int fragmentShader;
+    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &amp;fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &amp;fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
 
-    <span style="color:#75715e">// check for shader compile errors
-</span><span style="color:#75715e"></span>    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, <span style="color:#f92672">&amp;</span>success);
-    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>success)
+    // check for shader compile errors
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &amp;success);
+    if (!success)
     {
-        glGetShaderInfoLog(fragmentShader, <span style="color:#ae81ff">512</span>, NULL, infoLog);
-        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::SHADER::FRAGMENT::COMPILATION_FAILED</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> infoLog <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout &lt;&lt; &quot;ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n&quot; &lt;&lt; infoLog &lt;&lt; std::endl;
     }
 
-    <span style="color:#75715e">// 着色器程序
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> shaderProgram;
-    <span style="color:#75715e">// 创建一个程序
-</span><span style="color:#75715e"></span>    shaderProgram <span style="color:#f92672">=</span> glCreateProgram();
-    <span style="color:#75715e">// 将之前编译的着色器附加到程序对象上，然后用glLinkProgram链接它们
-</span><span style="color:#75715e"></span>    glAttachShader(shaderProgram, vertexShader);
+    // 着色器程序
+    unsigned int shaderProgram;
+    // 创建一个程序
+    shaderProgram = glCreateProgram();
+    // 将之前编译的着色器附加到程序对象上，然后用glLinkProgram链接它们
+    glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
 
-    <span style="color:#75715e">// check for linking errors
-</span><span style="color:#75715e"></span>    glGetProgramiv(shaderProgram, GL_LINK_STATUS, <span style="color:#f92672">&amp;</span>success);
-    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>success) {
-        glGetProgramInfoLog(shaderProgram, <span style="color:#ae81ff">512</span>, NULL, infoLog);
-        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::SHADER::PROGRAM::LINKING_FAILED</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> infoLog <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+    // check for linking errors
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &amp;success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cout &lt;&lt; &quot;ERROR::SHADER::PROGRAM::LINKING_FAILED\n&quot; &lt;&lt; infoLog &lt;&lt; std::endl;
     }
 
-    <span style="color:#75715e">// 在把着色器对象链接到程序对象以后，记得删除着色器对象，我们不再需要它们了
-</span><span style="color:#75715e"></span>    glDeleteShader(vertexShader);
+    // 在把着色器对象链接到程序对象以后，记得删除着色器对象，我们不再需要它们了
+    glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    <span style="color:#75715e">// 调用glUseProgram函数，用刚创建的程序对象作为它的参数，以激活这个程序对象
-</span><span style="color:#75715e"></span>    glUseProgram(shaderProgram);
+    // 调用glUseProgram函数，用刚创建的程序对象作为它的参数，以激活这个程序对象
+    glUseProgram(shaderProgram);
     
 
 
-    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window))
     {
-        <span style="color:#75715e">// input
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// -----
-</span><span style="color:#75715e"></span>        processInput(window);
+        // input
+        // -----
+        processInput(window);
 
-        <span style="color:#75715e">// render
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// ------
-</span><span style="color:#75715e"></span>        glClearColor(<span style="color:#ae81ff">0.2f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">1.0f</span>);
+        // render
+        // ------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);  
 
 
-         <span style="color:#75715e">// 画三角形
-</span><span style="color:#75715e"></span>        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO); <span style="color:#75715e">// seeing as we only have a single VAO there&#39;s no need to bind it every time, but we&#39;ll do so to keep things a bit more organized
-</span><span style="color:#75715e"></span>        glDrawArrays(GL_TRIANGLES, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>);   
+         // 画三角形
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+        glDrawArrays(GL_TRIANGLES, 0, 3);   
 
-        <span style="color:#75715e">// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// -------------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>        glfwSwapBuffers(window);
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    <span style="color:#75715e">// 取消分配的所有资源
-</span><span style="color:#75715e"></span>    glDeleteVertexArrays(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>VAO);
-    glDeleteBuffers(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>VBO);
+    // 取消分配的所有资源
+    glDeleteVertexArrays(1, &amp;VAO);
+    glDeleteBuffers(1, &amp;VBO);
     glDeleteProgram(shaderProgram);
 
     glfwTerminate();
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    return 0;
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processInput</span>(GLFWwindow <span style="color:#f92672">*</span>window)
+void processInput(GLFWwindow *window)
 {
-    <span style="color:#66d9ef">if</span>(glfwGetKey(window, GLFW_KEY_ESCAPE) <span style="color:#f92672">==</span> GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">framebuffer_size_callback</span>(GLFWwindow<span style="color:#f92672">*</span> window, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">int</span> height)
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, width, height);
+    glViewport(0, 0, width, height);
 }
 
 
-</code></pre></div><p>CMakeLists.txt文件内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">cmake_minimum_required(<span style="color:#e6db74">VERSION</span> <span style="color:#e6db74">3.8</span> <span style="color:#e6db74">FATAL_ERROR</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>project(<span style="color:#e6db74">opengl</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_STANDARD</span> <span style="color:#e6db74">11</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_EXTENSIONS</span> <span style="color:#e6db74">OFF</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_STANDARD_REQUIRED</span> <span style="color:#e6db74">ON</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_C_STANDARD</span> <span style="color:#e6db74">99</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># glfw header files
-</span><span style="color:#75715e"></span>set( <span style="color:#e6db74">GLFW_INCLUDE_DIR</span> <span style="color:#f92672">${</span>opengl_SOURCE_DIR<span style="color:#f92672">}</span><span style="color:#e6db74">/deps/glfw/include</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set( <span style="color:#e6db74">GLFW_DEPS_INCLUDE_DIR</span> <span style="color:#f92672">${</span>opengl_SOURCE_DIR<span style="color:#f92672">}</span><span style="color:#e6db74">/deps/glfw/deps</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># glad header files
-</span><span style="color:#75715e"></span>set( <span style="color:#e6db74">GLAD_INCLUDE_DIR</span> <span style="color:#f92672">${</span>opengl_SOURCE_DIR<span style="color:#f92672">}</span><span style="color:#e6db74">/deps/glad/include</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>list( <span style="color:#e6db74">APPEND</span> <span style="color:#e6db74">opengl_INCLUDE</span> <span style="color:#f92672">${</span>GLFW_INCLUDE_DIR<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>list( <span style="color:#e6db74">APPEND</span> <span style="color:#e6db74">opengl_INCLUDE</span> <span style="color:#f92672">${</span>GLFW_DEPS_INCLUDE_DIR<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>list( <span style="color:#e6db74">APPEND</span> <span style="color:#e6db74">opengl_INCLUDE</span> <span style="color:#f92672">${</span>GLAD_INCLUDE_DIR<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>include_directories( <span style="color:#f92672">${</span>opengl_INCLUDE<span style="color:#f92672">}</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">COMMON_LIBS</span> <span style="color:#e6db74">glfw</span> <span style="color:#e6db74">X11</span> <span style="color:#e6db74">GL</span> <span style="color:#e6db74">GLEW</span> <span style="color:#e6db74">Xrandr</span> <span style="color:#e6db74">Xi</span> <span style="color:#e6db74">Xxf86vm</span> <span style="color:#e6db74">Xcursor</span> <span style="color:#e6db74">Xinerama</span> <span style="color:#e6db74">pthread</span> <span style="color:#e6db74">GLU</span> <span style="color:#e6db74">dl</span> <span style="color:#e6db74">GLU</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">SOURCE_FILES</span> <span style="color:#e6db74">main.cpp</span> <span style="color:#e6db74">glad.c</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>add_executable(<span style="color:#e6db74">example</span> <span style="color:#f92672">${</span>SOURCE_FILES<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>target_link_libraries(<span style="color:#e6db74">example</span>
-    <span style="color:#e6db74">PUBLIC</span> 
-    <span style="color:#f92672">${</span>COMMON_LIBS<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>把glad和glfw下载到deps目录下，复制glad/src/glad.c到main.cpp目录下，然后运行如下命令进行构建</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir build
+</code></pre>
+
+<p>CMakeLists.txt文件内容</p>
+
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+project(opengl)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 99)
+
+# glfw header files
+set( GLFW_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glfw/include )
+set( GLFW_DEPS_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glfw/deps )
+# glad header files
+set( GLAD_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glad/include )
+
+
+list( APPEND opengl_INCLUDE ${GLFW_INCLUDE_DIR})
+list( APPEND opengl_INCLUDE ${GLFW_DEPS_INCLUDE_DIR})
+list( APPEND opengl_INCLUDE ${GLAD_INCLUDE_DIR})
+include_directories( ${opengl_INCLUDE} )
+
+set(COMMON_LIBS glfw X11 GL GLEW Xrandr Xi Xxf86vm Xcursor Xinerama pthread GLU dl GLU)
+
+set(SOURCE_FILES main.cpp glad.c)
+add_executable(example ${SOURCE_FILES})
+
+
+target_link_libraries(example
+    PUBLIC 
+    ${COMMON_LIBS})
+</code></pre>
+
+<p>把glad和glfw下载到deps目录下，复制glad/src/glad.c到main.cpp目录下，然后运行如下命令进行构建</p>
+
+<pre><code class="language-sh">mkdir build
 cd build
 cmake ..
 make
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

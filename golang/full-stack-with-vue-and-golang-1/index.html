@@ -3,7 +3,7 @@
 <head>
     <title>golang和vue3全栈开发之一 自动重载go环境构建 Full Stack With Vue 3 and Golang 1 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,16 +233,21 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/vuejs/">vuejs</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="准备">准备</h3>
+            
+
+<h3 id="准备">准备</h3>
+
 <ul>
 <li>ubuntu 20.04</li>
 <li>go v1.16</li>
 <li>docker and docker-compose</li>
 </ul>
+
 <h3 id="项目目录">项目目录</h3>
+
 <pre><code>.
 ├── account
 │   ├── Dockerfile
@@ -251,161 +256,188 @@
 │   └── main.go
 ├── docker-compose.yml
 └── echo.code-workspace
-</code></pre><h3 id="echocode-workspace内容">echo.code-workspace内容</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat echo.code-workspace
-<span style="color:#f92672">{</span>
-    <span style="color:#e6db74">&#34;folders&#34;</span>: <span style="color:#f92672">[</span>
-        <span style="color:#f92672">{</span>
-            <span style="color:#e6db74">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;account&#34;</span>
-        <span style="color:#f92672">}</span>,
-        <span style="color:#f92672">{</span>
-            <span style="color:#e6db74">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;.&#34;</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>      
-</code></pre></div><p>运行</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 打开编辑项目</span>
+</code></pre>
+
+<h3 id="echo-code-workspace内容">echo.code-workspace内容</h3>
+
+<pre><code class="language-sh">cat echo.code-workspace
+{
+    &quot;folders&quot;: [
+        {
+            &quot;path&quot;: &quot;account&quot;
+        },
+        {
+            &quot;path&quot;: &quot;.&quot;
+        }
+    ]
+}      
+</code></pre>
+
+<p>运行</p>
+
+<pre><code class="language-sh"># 打开编辑项目
 code echo.code-workspace
-</code></pre></div><h3 id="初始化项目">初始化项目</h3>
+</code></pre>
+
+<h3 id="初始化项目">初始化项目</h3>
+
 <p>在项目account目录下运行</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go mod init github.com/realjf/echo
-</code></pre></div><p>执行go get -u github.com/gin-gonic/gin，
+
+<pre><code class="language-sh">go mod init github.com/realjf/echo
+</code></pre>
+
+<p>执行go get -u github.com/gin-gonic/gin，
 然后创建account/main.go文件，其内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;context&#34;</span>
-	<span style="color:#e6db74">&#34;log&#34;</span>
-	<span style="color:#e6db74">&#34;net/http&#34;</span>
-	<span style="color:#e6db74">&#34;os&#34;</span>
-	<span style="color:#e6db74">&#34;os/signal&#34;</span>
-	<span style="color:#e6db74">&#34;syscall&#34;</span>
-	<span style="color:#e6db74">&#34;time&#34;</span>
+<pre><code class="language-go">package main
 
-	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+import (
+    &quot;context&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+    &quot;os&quot;
+    &quot;os/signal&quot;
+    &quot;syscall&quot;
+    &quot;time&quot;
+
+    &quot;github.com/gin-gonic/gin&quot;
 )
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Starting server...&#34;</span>)
+func main() {
+    log.Println(&quot;Starting server...&quot;)
 
-	<span style="color:#a6e22e">router</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
+    router := gin.Default()
 
-	<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/api/account&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-			<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;hello world&#34;</span>,
-		})
-	})
+    router.GET(&quot;/api/account&quot;, func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{
+            &quot;message&quot;: &quot;hello world&quot;,
+        })
+    })
 
-	<span style="color:#a6e22e">srv</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span>{
-		<span style="color:#a6e22e">Addr</span>:    <span style="color:#e6db74">&#34;:8080&#34;</span>,
-		<span style="color:#a6e22e">Handler</span>: <span style="color:#a6e22e">router</span>,
-	}
+    srv := &amp;http.Server{
+        Addr:    &quot;:8080&quot;,
+        Handler: router,
+    }
 
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">ListenAndServe</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ErrServerClosed</span> {
-			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to init server: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
-		}
-	}()
+    go func() {
+        if err := srv.ListenAndServe(); err != nil &amp;&amp; err != http.ErrServerClosed {
+            log.Fatalf(&quot;Failed to init server: %v\n&quot;, err)
+        }
+    }()
 
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Listening on port %v\n&#34;</span>, <span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">Addr</span>)
+    log.Printf(&quot;Listening on port %v\n&quot;, srv.Addr)
 
-	<span style="color:#a6e22e">quit</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Signal</span>)
+    quit := make(chan os.Signal)
 
-	<span style="color:#a6e22e">signal</span>.<span style="color:#a6e22e">Notify</span>(<span style="color:#a6e22e">quit</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGINT</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGTERM</span>)
+    signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-	<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">quit</span>
+    &lt;-quit
 
-	<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">cancel</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithTimeout</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#ae81ff">5</span><span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">cancel</span>()
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
 
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Shutting down server...&#34;</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">Shutdown</span>(<span style="color:#a6e22e">ctx</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Server forced to shutdown: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
-	}
+    log.Println(&quot;Shutting down server...&quot;)
+    if err := srv.Shutdown(ctx); err != nil {
+        log.Fatalf(&quot;Server forced to shutdown: %v\n&quot;, err)
+    }
 }
 
-</code></pre></div><p>之后创建account/Dockerfile文件，其内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> golang:alpine as builder </span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /go/src/app </span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> GO111MODULE<span style="color:#f92672">=</span>on
+</code></pre>
 
-<span style="color:#66d9ef">ENV</span> GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn,direct<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> go get github.com/cespare/reflex<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> go.mod .<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> go.sum .<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> go mod download  <span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> go build -o ./run .<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:latest</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk --no-cache add ca-certificates<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /root/</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>builder /go/src/app/run .<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 8080</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;./run&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>其中，github.com/cespare/reflex，其作用是当文件改变时运行命令行，
+<p>之后创建account/Dockerfile文件，其内容如下：</p>
+
+<pre><code class="language-dockerfile">FROM golang:alpine as builder 
+
+WORKDIR /go/src/app 
+
+ENV GO111MODULE=on
+
+ENV GOPROXY=https://goproxy.cn,direct
+RUN go get github.com/cespare/reflex
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download  
+
+COPY . .
+RUN go build -o ./run .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+
+COPY --from=builder /go/src/app/run .
+
+
+EXPOSE 8080
+CMD [&quot;./run&quot;]
+
+</code></pre>
+
+<p>其中，github.com/cespare/reflex，其作用是当文件改变时运行命令行，
 之后在项目根目录下创建docker-compose.yml文件，其内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.8&#34;</span>
 
-<span style="color:#f92672">services</span>:
-    <span style="color:#f92672">reverse-proxy</span>:
-        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">traefik:v2.2</span>
-        <span style="color:#f92672">command</span>:
-            - <span style="color:#e6db74">&#34;--api.insecure=true&#34;</span>
-            - <span style="color:#e6db74">&#34;--providers.docker&#34;</span>
-            - <span style="color:#e6db74">&#34;--providers.docker.exposedByDefault=false&#34;</span>
-        <span style="color:#f92672">ports</span>:
-            - <span style="color:#e6db74">&#34;80:80&#34;</span>
-            - <span style="color:#e6db74">&#34;8080:8080&#34;</span>
-        <span style="color:#f92672">volumes</span>:
-            - <span style="color:#ae81ff">/var/run/docker.sock:/var/run/docker.sock</span>
-    <span style="color:#f92672">account</span>:
-        <span style="color:#f92672">build</span>:
-            <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./account</span>
-            <span style="color:#f92672">target</span>: <span style="color:#ae81ff">builder</span>
-        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">account</span>
-        <span style="color:#f92672">expose</span>:
-            - <span style="color:#e6db74">&#34;8080&#34;</span>
-        <span style="color:#f92672">labels</span>:
-            - <span style="color:#e6db74">&#34;traefik.enable=true&#34;</span>
-            - <span style="color:#e6db74">&#34;traefik.http.routers.account.rule=Host(`malcorp.test`) &amp;&amp; PathPrefix(`/api/account`)&#34;</span>
-        <span style="color:#f92672">environment</span>:
-            - <span style="color:#ae81ff">ENV=dev</span>
-        <span style="color:#f92672">volumes</span>:
-            - <span style="color:#ae81ff">./account:/go/src/app</span>
-        <span style="color:#f92672">command</span>: <span style="color:#ae81ff">reflex -r &#34;\.go$$&#34; -s -- sh -c &#34;go run ./&#34;</span>
+<pre><code class="language-yml">version: &quot;3.8&quot;
 
-</code></pre></div><p>其中malcorp.test是自定义的域名，用于访问api服务，可以在hosts文件中加入如下内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">127.0.0.1 malcorp.test
-</code></pre></div><p>之后运行docker-compose up，启动docker</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">...
+services:
+    reverse-proxy:
+        image: traefik:v2.2
+        command:
+            - &quot;--api.insecure=true&quot;
+            - &quot;--providers.docker&quot;
+            - &quot;--providers.docker.exposedByDefault=false&quot;
+        ports:
+            - &quot;80:80&quot;
+            - &quot;8080:8080&quot;
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+    account:
+        build:
+            context: ./account
+            target: builder
+        image: account
+        expose:
+            - &quot;8080&quot;
+        labels:
+            - &quot;traefik.enable=true&quot;
+            - &quot;traefik.http.routers.account.rule=Host(`malcorp.test`) &amp;&amp; PathPrefix(`/api/account`)&quot;
+        environment:
+            - ENV=dev
+        volumes:
+            - ./account:/go/src/app
+        command: reflex -r &quot;\.go$$&quot; -s -- sh -c &quot;go run ./&quot;
 
-Use <span style="color:#e6db74">&#39;docker scan&#39;</span> to run Snyk tests against images to find vulnerabilities and learn how to fix them
-WARNING: Image <span style="color:#66d9ef">for</span> service account was built because it did not already exist. To rebuild this image you must use <span style="color:#e6db74">`</span>docker-compose build<span style="color:#e6db74">`</span> or <span style="color:#e6db74">`</span>docker-compose up --build<span style="color:#e6db74">`</span>.
-Creating echo_account_1       ... <span style="color:#66d9ef">done</span>
-Creating echo_reverse-proxy_1 ... <span style="color:#66d9ef">done</span>
+</code></pre>
+
+<p>其中malcorp.test是自定义的域名，用于访问api服务，可以在hosts文件中加入如下内容</p>
+
+<pre><code class="language-sh">127.0.0.1 malcorp.test
+</code></pre>
+
+<p>之后运行docker-compose up，启动docker</p>
+
+<pre><code class="language-sh">...
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+WARNING: Image for service account was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Creating echo_account_1       ... done
+Creating echo_reverse-proxy_1 ... done
 Attaching to echo_account_1, echo_reverse-proxy_1
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> Starting service
-reverse-proxy_1  | time<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2021-06-06T14:54:44Z&#34;</span> level<span style="color:#f92672">=</span>info msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Configuration loaded from flags.&#34;</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> 2021/06/06 14:54:45 Starting server...
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> Creating an Engine instance with the Logger and Recovery middleware already attached.
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> Running in <span style="color:#e6db74">&#34;debug&#34;</span> mode. Switch to <span style="color:#e6db74">&#34;release&#34;</span> mode in production.
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>  - using env:   export GIN_MODE<span style="color:#f92672">=</span>release
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>  - using code:  gin.SetMode<span style="color:#f92672">(</span>gin.ReleaseMode<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> GET    /api/account              --&gt; main.main.func1 <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> 2021/06/06 14:54:45 Listening on port :8080
-</code></pre></div><p>运行成功后，浏览器访问地址：malcorp.test/api/account即可</p>
+account_1        | [00] Starting service
+reverse-proxy_1  | time=&quot;2021-06-06T14:54:44Z&quot; level=info msg=&quot;Configuration loaded from flags.&quot;
+account_1        | [00] 2021/06/06 14:54:45 Starting server...
+account_1        | [00] [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+account_1        | [00]
+account_1        | [00] [GIN-debug] [WARNING] Running in &quot;debug&quot; mode. Switch to &quot;release&quot; mode in production.
+account_1        | [00]  - using env:   export GIN_MODE=release
+account_1        | [00]  - using code:  gin.SetMode(gin.ReleaseMode)
+account_1        | [00]
+account_1        | [00] [GIN-debug] GET    /api/account              --&gt; main.main.func1 (3 handlers)
+account_1        | [00] 2021/06/06 14:54:45 Listening on port :8080
+</code></pre>
+
+<p>运行成功后，浏览器访问地址：malcorp.test/api/account即可</p>
 
         </div>
         <div id="disqus_thread"></div>

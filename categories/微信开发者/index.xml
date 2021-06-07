@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>微信开发者 on Realjf&#39;s blog</title>
@@ -6,7 +6,11 @@
     <description>Recent content in 微信开发者 on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Sep 2019 09:28:23 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 04 Sep 2019 09:28:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/categories/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Scan Qrcode</title>
       <link>https://realjf.io/posts/scan-qrcode/</link>
@@ -16,7 +20,7 @@
       <description>网页调用微信JSSDK实现扫一扫功能 设置公众号js接口安全域 在公众号后台的，公众号设置，功能设置里
 配置ip白名单 在公众号后台基本配置里
 页面引入微信sdkjs代码 http://res.wx.qq.com/open/js/jweixin-1.2.0.js
-页面js代码 // 点击扫一扫按钮事件  $(&amp;#34;#btn-scan&amp;#34;).on(&amp;#34;click&amp;#34;, function () { //微信扫一扫 设置  var _queryString = window.location.search; $.ajax({ type: &amp;#34;post&amp;#34;, url: &amp;#34;/mobile/user/scanSign&amp;#34;, data: {query: _queryString}, success: function (data) { var result = data.result; wx.config({ debug: false, // 调试接口用  appId: result.appId, //公众号的唯一标识  timestamp: &amp;#34;&amp;#34; + result.timestamp, //生成签名的时间戳  nonceStr: result.nonceStr, //生成签名的随机串  signature: result.signature, //签名  jsApiList: [&amp;#39;scanQRCode&amp;#39;] //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)  }); } }); }); //微信扫一扫处理代码  wx.</description>
+页面js代码 // 点击扫一扫按钮事件 $(&amp;quot;#btn-scan&amp;quot;).on(&amp;quot;click&amp;quot;, function () { //微信扫一扫 设置 var _queryString = window.location.search; $.ajax({ type: &amp;quot;post&amp;quot;, url: &amp;quot;/mobile/user/scanSign&amp;quot;, data: {query: _queryString}, success: function (data) { var result = data.result; wx.config({ debug: false, // 调试接口用 appId: result.appId, //公众号的唯一标识 timestamp: &amp;quot;&amp;quot; + result.timestamp, //生成签名的时间戳 nonceStr: result.nonceStr, //生成签名的随机串 signature: result.signature, //签名 jsApiList: [&#39;scanQRCode&#39;] //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔) }); } }); }); //微信扫一扫处理代码 wx.ready(function () { $(&amp;quot;body&amp;quot;).off(&amp;quot;click&amp;quot;, &amp;quot;.j-btn_chat&amp;quot;).on(&amp;quot;click&amp;quot;, &amp;quot;.j-btn_chat&amp;quot;, function (e) { wx.</description>
     </item>
     
   </channel>

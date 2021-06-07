@@ -3,7 +3,7 @@
 <head>
     <title>opengl之一 快速开始 Opengl Quick Start // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,22 +233,27 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/opengl/">opengl</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="准备">准备</h3>
+            
+
+<h3 id="准备">准备</h3>
+
 <ul>
 <li>Ubuntu OS v20.04</li>
 <li>glfw v3.3.4</li>
 <li>glad
+
 <ul>
 <li>gl v4.6 core</li>
-</ul>
-</li>
+</ul></li>
 <li>cmake v3.18.4</li>
 </ul>
+
 <h3 id="目录结构">目录结构</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">.
+
+<pre><code class="language-sh">.
 ├── CMakeLists.txt
 ├── deps
 │   ├── glad
@@ -266,146 +271,170 @@
 │   ├── glad.c
 │   ├── main.cpp
 
-</code></pre></div><ul>
+</code></pre>
+
+<ul>
 <li>deps 项目依赖的头文件、库文件</li>
 <li>deps/glad glad目录</li>
 <li>deps/glfw glfw目录</li>
 <li>preinstall.sh 提前安装预制开发环境</li>
 <li>src 源文件目录</li>
 </ul>
+
 <h3 id="下载">下载</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 下载Glfw</span>
+
+<pre><code class="language-sh"># 下载Glfw
 wget https://github.com/glfw/glfw/releases/download/3.3.4/glfw-3.3.4.zip
 unzip glfw-3.3.4.zip
 
-<span style="color:#75715e"># 将解压后的文件夹复制到deps目录下，重命名为glfw</span>
-</code></pre></div><p>浏览器打开 <a href="https://glad.dav1d.de/">https://glad.dav1d.de/</a> ，language选择c/c++，specification选择opengl，
+# 将解压后的文件夹复制到deps目录下，重命名为glfw
+</code></pre>
+
+<p>浏览器打开 <a href="https://glad.dav1d.de/">https://glad.dav1d.de/</a> ，language选择c/c++，specification选择opengl，
 API的gl（即opengl）选择version 4.6， profile选择core，然后下拉到底，点击generate生成对应的glad文件，
 然后下载.zip文件，最后解压后复制到deps目录下，重命名为glad即可。</p>
+
 <p>之后，将glad/src下的glad.c文件复制到src目录下</p>
+
 <h3 id="编写文件">编写文件</h3>
+
 <p>preinstall.sh文件内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/sh
-</span><span style="color:#75715e"></span>apt-get install -y cmake gcc g++ make build-essential libglew-dev libopengl-dev libx11-dev libxi-dev <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    libxcursor-dev libxrandr-dev libxinerama-dev libglfw3-dev libxxf86vm-dev <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    libgl1-mesa-dev libglu1-mesa-dev
-</code></pre></div><p>项目根目录下的CMakeLists.txt文件内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">cmake_minimum_required(<span style="color:#e6db74">VERSION</span> <span style="color:#e6db74">3.8</span> <span style="color:#e6db74">FATAL_ERROR</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>project(<span style="color:#e6db74">opengl</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_STANDARD</span> <span style="color:#e6db74">11</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_EXTENSIONS</span> <span style="color:#e6db74">OFF</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_STANDARD_REQUIRED</span> <span style="color:#e6db74">ON</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_C_STANDARD</span> <span style="color:#e6db74">99</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># glfw header files
-</span><span style="color:#75715e"></span>set( <span style="color:#e6db74">GLFW_INCLUDE_DIR</span> <span style="color:#f92672">${</span>opengl_SOURCE_DIR<span style="color:#f92672">}</span><span style="color:#e6db74">/deps/glfw/include</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>set( <span style="color:#e6db74">GLFW_DEPS_INCLUDE_DIR</span> <span style="color:#f92672">${</span>opengl_SOURCE_DIR<span style="color:#f92672">}</span><span style="color:#e6db74">/deps/glfw/deps</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># glad header files
-</span><span style="color:#75715e"></span>set( <span style="color:#e6db74">GLAD_INCLUDE_DIR</span> <span style="color:#f92672">${</span>opengl_SOURCE_DIR<span style="color:#f92672">}</span><span style="color:#e6db74">/deps/glad/include</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>list( <span style="color:#e6db74">APPEND</span> <span style="color:#e6db74">opengl_INCLUDE</span> <span style="color:#f92672">${</span>GLFW_INCLUDE_DIR<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>list( <span style="color:#e6db74">APPEND</span> <span style="color:#e6db74">opengl_INCLUDE</span> <span style="color:#f92672">${</span>GLFW_DEPS_INCLUDE_DIR<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>list( <span style="color:#e6db74">APPEND</span> <span style="color:#e6db74">opengl_INCLUDE</span> <span style="color:#f92672">${</span>GLAD_INCLUDE_DIR<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>if(<span style="color:#e6db74">WIN32</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    set(<span style="color:#e6db74">COMMON_LIBS</span> <span style="color:#e6db74">optimized</span> <span style="color:#e6db74">glfw</span> <span style="color:#e6db74">opengl32</span> <span style="color:#f92672">${</span>GLFW_LIBRARIES<span style="color:#f92672">}</span> <span style="color:#f92672">${</span>OPENGL_LIBRARIES<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>elseif (<span style="color:#e6db74">UNIX</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    set(<span style="color:#e6db74">COMMON_LIBS</span> <span style="color:#e6db74">glfw</span> <span style="color:#e6db74">X11</span> <span style="color:#e6db74">GL</span> <span style="color:#e6db74">GLEW</span> <span style="color:#e6db74">Xrandr</span> <span style="color:#e6db74">Xi</span> <span style="color:#e6db74">Xxf86vm</span> <span style="color:#e6db74">Xcursor</span> <span style="color:#e6db74">Xinerama</span> <span style="color:#e6db74">pthread</span> <span style="color:#e6db74">GLU</span> <span style="color:#e6db74">dl</span> <span style="color:#e6db74">GLU</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>else()<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    set(<span style="color:#e6db74">COMMON_LIBS</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>endif()<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>include_directories( <span style="color:#f92672">${</span>opengl_INCLUDE<span style="color:#f92672">}</span> )<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># defines targets and sources
-</span><span style="color:#75715e"></span>add_subdirectory(<span style="color:#e6db74">src</span>)<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>src/main.cpp文件内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;glad/glad.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;GLFW/glfw3.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">framebuffer_size_callback</span>(GLFWwindow<span style="color:#f92672">*</span> window, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">int</span> height);
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processInput</span>(GLFWwindow <span style="color:#f92672">*</span>window);
 
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> SCR_WIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">800</span>;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> SCR_HEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>;
+<pre><code class="language-sh">#!/bin/sh
+apt-get install -y cmake gcc g++ make build-essential libglew-dev libopengl-dev libx11-dev libxi-dev \
+    libxcursor-dev libxrandr-dev libxinerama-dev libglfw3-dev libxxf86vm-dev \
+    libgl1-mesa-dev libglu1-mesa-dev
+</code></pre>
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+<p>项目根目录下的CMakeLists.txt文件内容</p>
+
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+project(opengl)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 99)
+
+# glfw header files
+set( GLFW_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glfw/include )
+set( GLFW_DEPS_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glfw/deps )
+# glad header files
+set( GLAD_INCLUDE_DIR ${opengl_SOURCE_DIR}/deps/glad/include )
+
+list( APPEND opengl_INCLUDE ${GLFW_INCLUDE_DIR})
+list( APPEND opengl_INCLUDE ${GLFW_DEPS_INCLUDE_DIR})
+list( APPEND opengl_INCLUDE ${GLAD_INCLUDE_DIR})
+
+if(WIN32)
+    set(COMMON_LIBS optimized glfw opengl32 ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES})
+elseif (UNIX)
+    set(COMMON_LIBS glfw X11 GL GLEW Xrandr Xi Xxf86vm Xcursor Xinerama pthread GLU dl GLU)
+else()
+    set(COMMON_LIBS)
+endif()
+
+
+include_directories( ${opengl_INCLUDE} )
+
+# defines targets and sources
+add_subdirectory(src)
+</code></pre>
+
+<p>src/main.cpp文件内容</p>
+
+<pre><code class="language-cpp">#include &lt;glad/glad.h&gt;
+#include &lt;GLFW/glfw3.h&gt;
+#include &lt;iostream&gt;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
+
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+int main()
 {
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span style="color:#ae81ff">3</span>);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span style="color:#ae81ff">3</span>);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    <span style="color:#75715e">// create window
-</span><span style="color:#75715e"></span>    GLFWwindow<span style="color:#f92672">*</span> window <span style="color:#f92672">=</span> glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, <span style="color:#e6db74">&#34;LearnOpenGL&#34;</span>, NULL, NULL);
-    <span style="color:#66d9ef">if</span> (window <span style="color:#f92672">==</span> NULL)
+    // create window
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, &quot;LearnOpenGL&quot;, NULL, NULL);
+    if (window == NULL)
     {
-        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Failed to create GLFW window&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+        std::cout &lt;&lt; &quot;Failed to create GLFW window&quot; &lt;&lt; std::endl;
         glfwTerminate();
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+        return -1;
     }
     glfwMakeContextCurrent(window);
 
-    <span style="color:#75715e">// viewport size
-</span><span style="color:#75715e"></span>    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    // viewport size
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    <span style="color:#75715e">// init glad
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>gladLoadGL()) { 
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    // init glad
+    if(!gladLoadGL()) { 
+        return -1;
     }
 
-    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window))
     {
-        <span style="color:#75715e">// input
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// -----
-</span><span style="color:#75715e"></span>        processInput(window);
+        // input
+        // -----
+        processInput(window);
 
-        <span style="color:#75715e">// render
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// ------
-</span><span style="color:#75715e"></span>        glClearColor(<span style="color:#ae81ff">0.2f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">1.0f</span>);
+        // render
+        // ------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);     
 
-        <span style="color:#75715e">// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// -------------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>        glfwSwapBuffers(window);
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
     glfwTerminate();
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    return 0;
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processInput</span>(GLFWwindow <span style="color:#f92672">*</span>window)
+void processInput(GLFWwindow *window)
 {
-    <span style="color:#66d9ef">if</span>(glfwGetKey(window, GLFW_KEY_ESCAPE) <span style="color:#f92672">==</span> GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">framebuffer_size_callback</span>(GLFWwindow<span style="color:#f92672">*</span> window, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">int</span> height)
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, width, height);
+    glViewport(0, 0, width, height);
 }
 
-</code></pre></div><p>src/CMakeLists.txt文件内容</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">set(<span style="color:#e6db74">SOURCE_FILES</span> <span style="color:#e6db74">main.cpp</span> <span style="color:#e6db74">glad.c</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>add_executable(<span style="color:#e6db74">example</span> <span style="color:#f92672">${</span>SOURCE_FILES<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>target_link_libraries(<span style="color:#e6db74">example</span> 
-    <span style="color:#e6db74">PUBLIC</span> 
-    <span style="color:#f92672">${</span>COMMON_LIBS<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h3 id="编译安装">编译安装</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 首先运行预制安装命令</span>
+</code></pre>
+
+<p>src/CMakeLists.txt文件内容</p>
+
+<pre><code class="language-cmake">set(SOURCE_FILES main.cpp glad.c)
+add_executable(example ${SOURCE_FILES})
+
+target_link_libraries(example 
+    PUBLIC 
+    ${COMMON_LIBS})
+</code></pre>
+
+<h3 id="编译安装">编译安装</h3>
+
+<pre><code class="language-sh"># 首先运行预制安装命令
 ./preinstall.sh
-<span style="color:#75715e"># 然后再根目录下新建build目录进行构建即可</span>
+# 然后再根目录下新建build目录进行构建即可
 mkdir build
 cmake ..
-<span style="color:#75715e"># 运行编译成功的文件</span>
+# 运行编译成功的文件
 ./src/example
-</code></pre></div><p>至此，一个简单的opengl程序完成。</p>
+</code></pre>
+
+<p>至此，一个简单的opengl程序完成。</p>
 
         </div>
         <div id="disqus_thread"></div>

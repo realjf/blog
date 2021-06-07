@@ -3,7 +3,7 @@
 <head>
     <title>debian 系统启动进入Busybox Initramfs界面 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,58 +233,81 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/busybox/">busybox</a><a class="tag" href="https://realjf.io/tags/initramfs/">initramfs</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/busybox/">Busybox</a><a class="tag" href="https://realjf.io/tags/initramfs/">Initramfs</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="首先说下背景">首先说下背景</h3>
+            
+
+<h3 id="首先说下背景">首先说下背景</h3>
+
 <ul>
 <li>系统环境： debian 9</li>
 </ul>
+
 <h5 id="问题描述1">问题描述1</h5>
+
 <p>今天使用vmware workstation的时候，提示操作失败，且提示为文件系统只读。
 奇怪？怎么突然进入可读了，猜想可能文件系统哪里损坏导致进入只读保护模式。</p>
+
 <p>所以重新启动，之后进入了busybox界面的Initramfs界面，输入help可以查看相应命令。
 我使用exit直接退出看能否重新进入，发现还是提示错误，无法进入</p>
+
 <blockquote>
 <p>busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。</p>
 </blockquote>
+
 <h5 id="解决">解决</h5>
+
 <p>在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&ndash;vg-root的文件系统，
 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&ndash;vg-root，
 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&rsquo;y&rsquo;后，提示文件系统修复完成，
 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。</p>
+
 <h5 id="问题描述2">问题描述2</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Gave up waiting <span style="color:#66d9ef">for</span> root device. Common problems:
-    - Boot args <span style="color:#f92672">(</span>cat /proc/cmdline<span style="color:#f92672">)</span>
-    - Check rootdelay<span style="color:#f92672">=(</span>did the system wait <span style="color:#66d9ef">for</span> the right device ?<span style="color:#f92672">)</span>
-    - Missing modules <span style="color:#f92672">(</span>cat /proc/modules; ls /dev<span style="color:#f92672">)</span>
+
+<pre><code class="language-shell">Gave up waiting for root device. Common problems:
+    - Boot args (cat /proc/cmdline)
+    - Check rootdelay=(did the system wait for the right device ?)
+    - Missing modules (cat /proc/modules; ls /dev)
 
 ALERT! /dev/mapper/realjf--vg-root does not exist.
 
 Dropping to a shell!
 
-BusyBox v.1.23.2 <span style="color:#f92672">(</span>Debian xxx. xxx<span style="color:#f92672">)</span> built-in shell <span style="color:#f92672">(</span>ash<span style="color:#f92672">)</span>
-Enter <span style="color:#e6db74">&#39;help&#39;</span> <span style="color:#66d9ef">for</span> list of built-in commands.
+BusyBox v.1.23.2 (Debian xxx. xxx) built-in shell (ash)
+Enter 'help' for list of built-in commands.
 
-<span style="color:#f92672">(</span>initramfs<span style="color:#f92672">)</span>:
-</code></pre></div><h5 id="解决方法1">解决方法1</h5>
+(initramfs):
+</code></pre>
+
+<h5 id="解决方法1">解决方法1</h5>
+
 <p>在该命令行下运行如下命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">lvm vgchange -a y
+
+<pre><code class="language-shell">lvm vgchange -a y
 exit
-</code></pre></div><p>然后运行如下命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">update-initramfs -k all -c
-<span style="color:#75715e"># 运行结束后，重启即可</span>
-</code></pre></div><h5 id="解决方法2">解决方法2</h5>
+</code></pre>
+
+<p>然后运行如下命令</p>
+
+<pre><code class="language-shell">update-initramfs -k all -c
+# 运行结束后，重启即可
+</code></pre>
+
+<h5 id="解决方法2">解决方法2</h5>
+
 <p>执行以下命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#停止设备</span>
+
+<pre><code class="language-shell">#停止设备
 mdadm -S /dev/md0
-<span style="color:#75715e">#激活设备</span>
+#激活设备
 mdadm -A -s /dev/md0
-<span style="color:#75715e">#强制启动</span>
+#强制启动
 mdadm -R /dev/md0
-<span style="color:#75715e"># 退出</span>
+# 退出
 exit
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

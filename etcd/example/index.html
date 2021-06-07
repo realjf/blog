@@ -3,7 +3,7 @@
 <head>
     <title>etcd使用实例 ETCD Example // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,82 +233,105 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/etcd/">etcd</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/etcd/">Etcd</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="下载安装">下载安装</h3>
+            
+
+<h3 id="下载安装">下载安装</h3>
+
 <p>下载地址<a href="https://github.com/etcd-io/etcd/releases">https://github.com/etcd-io/etcd/releases</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget https://github.com/etcd-io/etcd/releases/download/v3.4.15/etcd-v3.4.15-linux-amd64.tar.gz
+
+<pre><code class="language-sh">wget https://github.com/etcd-io/etcd/releases/download/v3.4.15/etcd-v3.4.15-linux-amd64.tar.gz
 
 tar zxvf etcd-v3.4.15-linux-amd64.tar.gz
 cd etcd-v3.4.15-linux-amd64
-</code></pre></div><h3 id="启动服务">启动服务</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 目录中的etcd为服务端程序，etcdctl为客户端程序</span>
-<span style="color:#75715e"># 启动服务</span>
-./etcd --listen-client-urls <span style="color:#e6db74">&#39;http://127.0.0.1:2379&#39;</span> --advertise-client-urls <span style="color:#e6db74">&#39;http://0.0.0.0:2379&#39;</span>
+</code></pre>
 
-<span style="color:#75715e"># --listen-client-urls 用于客户端通信的url，可以监听多个</span>
-<span style="color:#75715e"># --advertise-client-urls 建议使用的客户端通信url</span>
-</code></pre></div><h3 id="客户端常见命令">客户端常见命令</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 1. 获取一个键值对</span>
+<h3 id="启动服务">启动服务</h3>
+
+<pre><code class="language-sh"># 目录中的etcd为服务端程序，etcdctl为客户端程序
+# 启动服务
+./etcd --listen-client-urls 'http://127.0.0.1:2379' --advertise-client-urls 'http://0.0.0.0:2379'
+
+# --listen-client-urls 用于客户端通信的url，可以监听多个
+# --advertise-client-urls 建议使用的客户端通信url
+</code></pre>
+
+<h3 id="客户端常见命令">客户端常见命令</h3>
+
+<pre><code class="language-sh"># 1. 获取一个键值对
 ./etcdctl get name
 
-<span style="color:#75715e"># 2. 设置一个键值对</span>
+# 2. 设置一个键值对
 ./etcdctl put name value
 
-<span style="color:#75715e"># 3. 删除键值对</span>
+# 3. 删除键值对
 ./etcdctl del name
 
-<span style="color:#75715e"># etcd的key是有序存储的，本质上是字符串，可以模拟出目录的结构，例如：/a/b，/a/b/c，/a/b/d 三个key，由于他们在存储</span>
-<span style="color:#75715e"># 中的顺序排列，通过定位到key=/a/b并依次顺序向后扫描，就会遇到/a/b/c和/a/b/d这两个子目录.</span>
+# etcd的key是有序存储的，本质上是字符串，可以模拟出目录的结构，例如：/a/b，/a/b/c，/a/b/d 三个key，由于他们在存储
+# 中的顺序排列，通过定位到key=/a/b并依次顺序向后扫描，就会遇到/a/b/c和/a/b/d这两个子目录.
 
-<span style="color:#75715e"># 4. 也可以获取某个目录下的所有key，需要加上--prefix参数</span>
-./etcdctl get <span style="color:#e6db74">&#34;/a/b&#34;</span> --prefix
+# 4. 也可以获取某个目录下的所有key，需要加上--prefix参数
+./etcdctl get &quot;/a/b&quot; --prefix
 
-<span style="color:#75715e"># 5. 删除所有key</span>
-./etcdctl del <span style="color:#e6db74">&#34;/a/b&#34;</span> --prefix
+# 5. 删除所有key
+./etcdctl del &quot;/a/b&quot; --prefix
 
-</code></pre></div><h3 id="watch命令">watch命令</h3>
+</code></pre>
+
+<h3 id="watch命令">watch命令</h3>
+
 <p>可以使用watch命令监测key的变化，该命令会建立长连接。
 由于etcd采用mvcc多版本并发控制，etcd的watch可以从给定的revision进行检测。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 开始监听某个key</span>
-./etcdctl watch <span style="color:#e6db74">&#34;/a/b&#34;</span>
 
-<span style="color:#75715e"># 在另外一个窗口执行</span>
-./etcdctl put <span style="color:#e6db74">&#34;/a/b&#34;</span> <span style="color:#e6db74">&#34;print&#34;</span>
+<pre><code class="language-sh"># 开始监听某个key
+./etcdctl watch &quot;/a/b&quot;
 
-<span style="color:#75715e"># 原监听窗口输出如下：</span>
-./etcdctl watch <span style="color:#e6db74">&#34;/a/b&#34;</span>
+# 在另外一个窗口执行
+./etcdctl put &quot;/a/b&quot; &quot;print&quot;
+
+# 原监听窗口输出如下：
+./etcdctl watch &quot;/a/b&quot;
 PUT
 /a/b
 print
 
-<span style="color:#75715e"># 同样，可以使用--prefix命令指定观察的key的前缀。</span>
-</code></pre></div><h3 id="租约">租约</h3>
+# 同样，可以使用--prefix命令指定观察的key的前缀。
+</code></pre>
+
+<h3 id="租约">租约</h3>
+
 <p>租约是一段时间，可以通过lease grant命令授予租约，获得租约id后，可以为某个key附加上租约</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 创建一个30s的租约，注意：租约其实时间从创建租约开始，而不是使用租约的时候开始</span>
-./etcdctl lease grant <span style="color:#ae81ff">30</span>
-lease 694d78c50e58ef09 granted with TTL<span style="color:#f92672">(</span>30s<span style="color:#f92672">)</span>
 
-<span style="color:#75715e"># 使用租约id为某个key附加租约</span>
-./etcdctl put --lease<span style="color:#f92672">=</span>694d78c50e58ef09 <span style="color:#e6db74">&#34;/a/b/e&#34;</span> <span style="color:#e6db74">&#34;!&#34;</span>
+<pre><code class="language-sh"># 创建一个30s的租约，注意：租约其实时间从创建租约开始，而不是使用租约的时候开始
+./etcdctl lease grant 30
+lease 694d78c50e58ef09 granted with TTL(30s)
 
-<span style="color:#75715e"># 30秒后get下可以发现已经删除了</span>
+# 使用租约id为某个key附加租约
+./etcdctl put --lease=694d78c50e58ef09 &quot;/a/b/e&quot; &quot;!&quot;
 
-<span style="color:#75715e"># 可以进行自动续租，需在租约有效期内进行续约</span>
-./etcdctl lease grant <span style="color:#ae81ff">30</span>
-lease 694d78c50e58ef16 granted with TTL<span style="color:#f92672">(</span>30s<span style="color:#f92672">)</span>
+# 30秒后get下可以发现已经删除了
 
-<span style="color:#75715e"># 到期自动续租</span>
+# 可以进行自动续租，需在租约有效期内进行续约
+./etcdctl lease grant 30
+lease 694d78c50e58ef16 granted with TTL(30s)
+
+# 到期自动续租
 ./etcdctl keep-alive 694d78c50e58ef16
-lease 694d78c50e58ef1a keepalived with TTL<span style="color:#f92672">(</span>30<span style="color:#f92672">)</span>
-lease 694d78c50e58ef1a keepalived with TTL<span style="color:#f92672">(</span>30<span style="color:#f92672">)</span>
-lease 694d78c50e58ef1a keepalived with TTL<span style="color:#f92672">(</span>30<span style="color:#f92672">)</span>
+lease 694d78c50e58ef1a keepalived with TTL(30)
+lease 694d78c50e58ef1a keepalived with TTL(30)
+lease 694d78c50e58ef1a keepalived with TTL(30)
 
-</code></pre></div><h3 id="golang操作etcd">golang操作etcd</h3>
-<h4 id="执行getputdelete">执行get/put/delete</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-</code></pre></div>
+</code></pre>
+
+<h3 id="golang操作etcd">golang操作etcd</h3>
+
+<h4 id="执行get-put-delete">执行get/put/delete</h4>
+
+<pre><code class="language-golang">
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

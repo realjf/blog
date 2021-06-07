@@ -3,7 +3,7 @@
 <head>
     <title>Channel 底层实现原理 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,37 +233,46 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/channel/">channel</a><a class="tag" href="https://realjf.io/tags/golang/">golang</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/channel/">Channel</a><a class="tag" href="https://realjf.io/tags/golang/">Golang</a></div></div>
         </header>
         <div class="post-content">
-            <p>channel是golang的一大特色，golang的goroutine之间的通信也建议通过channel机制实现。
+            
+
+<p>channel是golang的一大特色，golang的goroutine之间的通信也建议通过channel机制实现。
 那么我们有必要探讨下，channel的底层实现机制，以便我们更好的应用channel。</p>
+
 <blockquote>
 <p>本次探讨版本为go v1.13</p>
 </blockquote>
+
 <h2 id="channel的实现原理">channel的实现原理</h2>
+
 <p>go中实现channel的文件包含在/runtime/chan.go中</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">hchan</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">qcount</span>   <span style="color:#66d9ef">uint</span>           <span style="color:#75715e">// total data in the queue
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">dataqsiz</span> <span style="color:#66d9ef">uint</span>           <span style="color:#75715e">// size of the circular queue
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">buf</span>      <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span> <span style="color:#75715e">// points to an array of dataqsiz elements
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">elemsize</span> <span style="color:#66d9ef">uint16</span>
-	<span style="color:#a6e22e">closed</span>   <span style="color:#66d9ef">uint32</span>
-	<span style="color:#a6e22e">elemtype</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">_type</span> <span style="color:#75715e">// element type
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sendx</span>    <span style="color:#66d9ef">uint</span>   <span style="color:#75715e">// send index
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">recvx</span>    <span style="color:#66d9ef">uint</span>   <span style="color:#75715e">// receive index
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">recvq</span>    <span style="color:#a6e22e">waitq</span>  <span style="color:#75715e">// list of recv waiters
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sendq</span>    <span style="color:#a6e22e">waitq</span>  <span style="color:#75715e">// list of send waiters
-</span><span style="color:#75715e"></span>
-	<span style="color:#75715e">// lock protects all fields in hchan, as well as several
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// fields in sudogs blocked on this channel.
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">//
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Do not change another G&#39;s status while holding this lock
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// (in particular, do not ready a G), as this can deadlock
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// with stack shrinking.
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">lock</span> <span style="color:#a6e22e">mutex</span>
+
+<pre><code class="language-go">type hchan struct {
+    qcount   uint           // total data in the queue
+    dataqsiz uint           // size of the circular queue
+    buf      unsafe.Pointer // points to an array of dataqsiz elements
+    elemsize uint16
+    closed   uint32
+    elemtype *_type // element type
+    sendx    uint   // send index
+    recvx    uint   // receive index
+    recvq    waitq  // list of recv waiters
+    sendq    waitq  // list of send waiters
+
+    // lock protects all fields in hchan, as well as several
+    // fields in sudogs blocked on this channel.
+    //
+    // Do not change another G's status while holding this lock
+    // (in particular, do not ready a G), as this can deadlock
+    // with stack shrinking.
+    lock mutex
 }
-</code></pre></div><p>可以看到，chan包含的结构如下域：</p>
+</code></pre>
+
+<p>可以看到，chan包含的结构如下域：</p>
+
 <ul>
 <li>qcount 队列总数据</li>
 <li>dataqsiz 循环队列的大小</li>
@@ -272,116 +281,138 @@
 <li>sendq和recvq 分别是接收(&lt;-channel)或者发送(channel &lt;- xxx)的goroutine抽象出来的结构体(sudog)的队列。是个双向链表</li>
 <li>lock 一个互斥锁，保护所有域</li>
 </ul>
+
 <h3 id="开始分析">开始分析</h3>
+
 <p>从如下例子开始</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">ch1</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">5</span>)
-</code></pre></div><p>创建一个缓存大小为5的int型的channel,并返回一个指针。
+
+<pre><code class="language-go">ch1 := make(chan int, 5)
+</code></pre>
+
+<p>创建一个缓存大小为5的int型的channel,并返回一个指针。
 其中的5表示的就是循环队列的大小</p>
+
 <blockquote>
 <p>具体的实现可以查看makechan函数</p>
 </blockquote>
+
 <p>接下来我们看下channel的内部机制实现</p>
+
 <h4 id="channel的先进先出队列">channel的先进先出队列</h4>
+
 <p>channel队列实现需要用到buf、sendx、recvx以及lock。</p>
+
 <p>当发送和接收数据时，需要使用互斥锁lock住整个结构体，以避免被其他操作修改。</p>
+
 <p>锁住之后就可以开始发送数据了，发送使用 ch1&lt;- xxx 进行发送。具体的代码如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">chansend</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">hchan</span>, <span style="color:#a6e22e">ep</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>, <span style="color:#a6e22e">block</span> <span style="color:#66d9ef">bool</span>, <span style="color:#a6e22e">callerpc</span> <span style="color:#66d9ef">uintptr</span>) <span style="color:#66d9ef">bool</span> {
-	
-	<span style="color:#f92672">...</span>
 
-	<span style="color:#a6e22e">lock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>)
+<pre><code class="language-go">func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
+    
+    ...
 
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">closed</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-		<span style="color:#a6e22e">unlock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>)
-		panic(<span style="color:#a6e22e">plainError</span>(<span style="color:#e6db74">&#34;send on closed channel&#34;</span>))
-	}
+    lock(&amp;c.lock)
 
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">recvq</span>.<span style="color:#a6e22e">dequeue</span>(); <span style="color:#a6e22e">sg</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#75715e">// Found a waiting receiver. We pass the value we want to send
-</span><span style="color:#75715e"></span>		<span style="color:#75715e">// directly to the receiver, bypassing the channel buffer (if any).
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">send</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">sg</span>, <span style="color:#a6e22e">ep</span>, <span style="color:#66d9ef">func</span>() { <span style="color:#a6e22e">unlock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>) }, <span style="color:#ae81ff">3</span>)
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
-	}
+    if c.closed != 0 {
+        unlock(&amp;c.lock)
+        panic(plainError(&quot;send on closed channel&quot;))
+    }
 
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">qcount</span> &lt; <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">dataqsiz</span> {
-		<span style="color:#75715e">// Space is available in the channel buffer. Enqueue the element to send.
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">qp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">chanbuf</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sendx</span>)
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">raceenabled</span> {
-			<span style="color:#a6e22e">raceacquire</span>(<span style="color:#a6e22e">qp</span>)
-			<span style="color:#a6e22e">racerelease</span>(<span style="color:#a6e22e">qp</span>)
-		}
-		<span style="color:#a6e22e">typedmemmove</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">elemtype</span>, <span style="color:#a6e22e">qp</span>, <span style="color:#a6e22e">ep</span>)
-		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sendx</span><span style="color:#f92672">++</span>
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sendx</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">dataqsiz</span> {
-			<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sendx</span> = <span style="color:#ae81ff">0</span>
-		}
-		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">qcount</span><span style="color:#f92672">++</span>
-		<span style="color:#a6e22e">unlock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>)
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
-	}
+    if sg := c.recvq.dequeue(); sg != nil {
+        // Found a waiting receiver. We pass the value we want to send
+        // directly to the receiver, bypassing the channel buffer (if any).
+        send(c, sg, ep, func() { unlock(&amp;c.lock) }, 3)
+        return true
+    }
 
-	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">block</span> {
-		<span style="color:#a6e22e">unlock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>)
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
-	}
+    if c.qcount &lt; c.dataqsiz {
+        // Space is available in the channel buffer. Enqueue the element to send.
+        qp := chanbuf(c, c.sendx)
+        if raceenabled {
+            raceacquire(qp)
+            racerelease(qp)
+        }
+        typedmemmove(c.elemtype, qp, ep)
+        c.sendx++
+        if c.sendx == c.dataqsiz {
+            c.sendx = 0
+        }
+        c.qcount++
+        unlock(&amp;c.lock)
+        return true
+    }
 
-	<span style="color:#f92672">...</span>
+    if !block {
+        unlock(&amp;c.lock)
+        return false
+    }
+
+    ...
 }
-</code></pre></div><p>由上述代码可以看到，如果队列空闲，则元素直接入队，即把数据复制到缓存队列中。
+</code></pre>
+
+<p>由上述代码可以看到，如果队列空闲，则元素直接入队，即把数据复制到缓存队列中。
 发送成功后，sendx会自增1，而qcount也自增1，然后解除互斥锁。</p>
+
 <p>在缓存队列满了之后，将处于阻塞状态，等待接收操作以空出冗余空间。</p>
+
 <p>接下来是接收操作，使用&lt;-ch进行接收，代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">chanrecv</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">hchan</span>, <span style="color:#a6e22e">ep</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>, <span style="color:#a6e22e">block</span> <span style="color:#66d9ef">bool</span>) (<span style="color:#a6e22e">selected</span>, <span style="color:#a6e22e">received</span> <span style="color:#66d9ef">bool</span>) {
-	<span style="color:#f92672">...</span>
-	
-	<span style="color:#a6e22e">lock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>)
 
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">closed</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">qcount</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">raceenabled</span> {
-			<span style="color:#a6e22e">raceacquire</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">raceaddr</span>())
-		}
-		<span style="color:#a6e22e">unlock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>)
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ep</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-			<span style="color:#a6e22e">typedmemclr</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">elemtype</span>, <span style="color:#a6e22e">ep</span>)
-		}
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>, <span style="color:#66d9ef">false</span>
-	}
+<pre><code class="language-go">func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool) {
+    ...
+    
+    lock(&amp;c.lock)
 
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">sendq</span>.<span style="color:#a6e22e">dequeue</span>(); <span style="color:#a6e22e">sg</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#75715e">// Found a waiting sender. If buffer is size 0, receive value
-</span><span style="color:#75715e"></span>		<span style="color:#75715e">// directly from sender. Otherwise, receive from head of queue
-</span><span style="color:#75715e"></span>		<span style="color:#75715e">// and add sender&#39;s value to the tail of the queue (both map to
-</span><span style="color:#75715e"></span>		<span style="color:#75715e">// the same buffer slot because the queue is full).
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">recv</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">sg</span>, <span style="color:#a6e22e">ep</span>, <span style="color:#66d9ef">func</span>() { <span style="color:#a6e22e">unlock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>) }, <span style="color:#ae81ff">3</span>)
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>, <span style="color:#66d9ef">true</span>
-	}
+    if c.closed != 0 &amp;&amp; c.qcount == 0 {
+        if raceenabled {
+            raceacquire(c.raceaddr())
+        }
+        unlock(&amp;c.lock)
+        if ep != nil {
+            typedmemclr(c.elemtype, ep)
+        }
+        return true, false
+    }
 
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">qcount</span> &gt; <span style="color:#ae81ff">0</span> {
-		<span style="color:#75715e">// Receive directly from queue
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">qp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">chanbuf</span>(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">recvx</span>)
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">raceenabled</span> {
-			<span style="color:#a6e22e">raceacquire</span>(<span style="color:#a6e22e">qp</span>)
-			<span style="color:#a6e22e">racerelease</span>(<span style="color:#a6e22e">qp</span>)
-		}
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ep</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-			<span style="color:#a6e22e">typedmemmove</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">elemtype</span>, <span style="color:#a6e22e">ep</span>, <span style="color:#a6e22e">qp</span>)
-		}
-		<span style="color:#a6e22e">typedmemclr</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">elemtype</span>, <span style="color:#a6e22e">qp</span>)
-		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">recvx</span><span style="color:#f92672">++</span>
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">recvx</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">dataqsiz</span> {
-			<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">recvx</span> = <span style="color:#ae81ff">0</span>
-		}
-		<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">qcount</span><span style="color:#f92672">--</span>
-		<span style="color:#a6e22e">unlock</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">lock</span>)
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>, <span style="color:#66d9ef">true</span>
-	}
+    if sg := c.sendq.dequeue(); sg != nil {
+        // Found a waiting sender. If buffer is size 0, receive value
+        // directly from sender. Otherwise, receive from head of queue
+        // and add sender's value to the tail of the queue (both map to
+        // the same buffer slot because the queue is full).
+        recv(c, sg, ep, func() { unlock(&amp;c.lock) }, 3)
+        return true, true
+    }
 
-	<span style="color:#f92672">...</span>
+    if c.qcount &gt; 0 {
+        // Receive directly from queue
+        qp := chanbuf(c, c.recvx)
+        if raceenabled {
+            raceacquire(qp)
+            racerelease(qp)
+        }
+        if ep != nil {
+            typedmemmove(c.elemtype, ep, qp)
+        }
+        typedmemclr(c.elemtype, qp)
+        c.recvx++
+        if c.recvx == c.dataqsiz {
+            c.recvx = 0
+        }
+        c.qcount--
+        unlock(&amp;c.lock)
+        return true, true
+    }
+
+    ...
 }
-</code></pre></div><p>由上述代码可以看出，接收数据时也是先加锁，然后从缓存队列中复制数据到对应的goroutine中。
+</code></pre>
+
+<p>由上述代码可以看出，接收数据时也是先加锁，然后从缓存队列中复制数据到对应的goroutine中。
 接收成功后，recvx自增1，qcount自减1，最后解锁。</p>
+
 <p><strong>由以上发送接收数据可以看出，两个goroutine之间通过channel通信，实质上是把数据从一端赋值到另一端。</strong></p>
+
 <h4 id="参考文献">参考文献</h4>
+
 <ul>
 <li><a href="https://studygolang.com/articles/20714">https://studygolang.com/articles/20714</a></li>
 <li><a href="https://blog.csdn.net/u010853261/article/details/85231944">https://blog.csdn.net/u010853261/article/details/85231944</a></li>

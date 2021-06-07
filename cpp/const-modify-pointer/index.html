@@ -3,7 +3,7 @@
 <head>
     <title>const修饰指针 Const Modify Pointer // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,32 +233,44 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/cpp/">cpp</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/cpp/">Cpp</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="const修饰指针">const修饰指针</h3>
+            
+
+<h3 id="const修饰指针">const修饰指针</h3>
+
 <h4 id="const-int-p">const int *p</h4>
+
 <ul>
 <li>可以修改p</li>
 <li>不可以修改*p</li>
 </ul>
+
 <h4 id="int-const-p">int const *p</h4>
+
 <ul>
 <li>可以修改p</li>
 <li>不可以修改*p
 （同上）</li>
 </ul>
-<h4 id="int--const-p">int * const p</h4>
+
+<h4 id="int-const-p-1">int * const p</h4>
+
 <ul>
 <li>可以修改 *p</li>
 <li>不可以修改 p</li>
 </ul>
-<h4 id="const-int--const-p">const int * const p</h4>
+
+<h4 id="const-int-const-p">const int * const p</h4>
+
 <ul>
 <li>不可以修改p</li>
 <li>不可以修改*p</li>
 </ul>
+
 <h3 id="总结">总结</h3>
+
 <p>const向右修饰，被修饰的部分即为只读</p>
 
         </div>

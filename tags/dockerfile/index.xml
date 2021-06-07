@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dockerfile on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/dockerfile/</link>
+    <description>Recent content in Dockerfile on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 07 Jun 2021 09:09:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/dockerfile/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dockerfile手册 Dockerfile Reference</title>
+      <link>https://realjf.io/docker/dockerfile-reference/</link>
+      <pubDate>Mon, 07 Jun 2021 09:09:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/docker/dockerfile-reference/</guid>
+      <description>[toc]
+.dockerignore 文件 # comment */temp* */*/temp* temp?     规则 行为     # comment 忽略   */temp * 排除以temp开头的文件和当前目录的子目录，如：/somedir/temporary.txt   * / * /temp* 排除以temp开头的文件和两级子目录，如：/somedir/subdir/temporary.txt   temp ? 排除以temp扩展一个字母的文件和目录，如：/tempa,tempb等    FROM FROM [--platform=&amp;lt;platform&amp;gt;] &amp;lt;image&amp;gt; [AS &amp;lt;name&amp;gt;] # or FROM [--platform=&amp;lt;platform&amp;gt;] &amp;lt;image&amp;gt;[:&amp;lt;tag&amp;gt;] [AS &amp;lt;name&amp;gt;] # or FROM [--platform=&amp;lt;platform&amp;gt;] &amp;lt;image&amp;gt;[@&amp;lt;digest&amp;gt;] [AS &amp;lt;name&amp;gt;]  FROM 指令初始化一个新的构建阶段并为后续指令设置基础镜像。因此，有效的 Dockerfile 必须以 FROM 指令开头。镜像可以是任何有效的镜像——从公共存储库中提取镜像特别容易。
+ ARG 是 Dockerfile 中可能位于 FROM 之前的唯一指令。请参阅了解 ARG 和 FROM 如何交互。 FROM 可以在单个 Dockerfile 中多次出现以创建多个镜像或使用一个构建阶段作为另一个构建阶段的依赖项。只需记下每个新 FROM 指令之前提交的最后一个镜像 ID 输出。每个 FROM 指令都会清除由先前指令创建的任何状态。 可以选择通过将 AS name 添加到 FROM 指令来为新的构建阶段指定名称。该名称可用于后续的 FROM 和 COPY &amp;ndash;from= 指令以引用在此阶段构建的映像。 tag 或 digest 值是可选的。如果您省略其中任何一个，构建器默认采用 latest 标签。如果构建器找不到标签值，它会返回一个错误。  可选的 &amp;ndash;platform 标志可用于在 FROM 引用多平台图像的情况下指定图像的平台。例如，linux/amd64、linux/arm64 或 windows/amd64。默认情况下，使用构建请求的目标平台。全局构建参数可用于此标志的值，例如自动平台 ARG 允许您强制一个阶段到本机构建平台（&amp;ndash;platform=$BUILDPLATFORM），并使用它交叉编译到内部的目标平台阶段。</description>
+    </item>
+    
+  </channel>
+</rss>
