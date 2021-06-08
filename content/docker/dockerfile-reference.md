@@ -6,7 +6,7 @@ categories: ["docker"]
 tags: ["docker", "dockerfile"]
 series: [""]
 draft: false
-toc: false
+toc: true
 related:
   threshold: 50
   includeNewer: true

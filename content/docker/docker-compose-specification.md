@@ -6,7 +6,7 @@ categories: ["docker"]
 tags: ["docker"]
 series: [""]
 draft: true
-toc: false
+toc: true
 related:
   threshold: 50
   includeNewer: true
@@ -22,6 +22,7 @@ related:
     weight: 10
 ---
 
+[toc]
 ### 示例
 以下示例通过一个具体的示例应用程序说明了 Compose 规范概念。该示例是非规范的。 考虑将应用程序拆分为前端 Web 应用程序和后端服务。 前端在运行时使用由基础设施管理的 HTTP 配置文件进行配置，提供外部域名，以及由平台的安全密钥库注入的 HTTPS 服务器证书。 后端将数据存储在持久卷中。 这两个服务在隔离的后层网络上相互通信，而前端也连接到前层网络并公开端口 443 供外部使用。
 ```sh

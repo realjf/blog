@@ -1,5 +1,6 @@
 {{ if .Params.toc }}
     <div class="content-toc">
+        <h3>目录</h3>
         <!--这里要替换url，因为直接用.TableOfContents无法从当前地址进行定位，而是从根目录定位 -->
         {{ replace .TableOfContents `href="#` (printf `href="%s#` .Permalink) | safeHTML }}
     </div>
