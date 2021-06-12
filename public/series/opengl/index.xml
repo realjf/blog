@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>opengl on Realjf&#39;s blog</title>
+    <link>https://realjf.io/series/opengl/</link>
+    <description>Recent content in opengl on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 14 May 2021 13:49:47 +0800</lastBuildDate><atom:link href="https://realjf.io/series/opengl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>opengl进阶之一 深度测试 Depth Testing</title>
+      <link>https://realjf.io/opengl/depth-testing/</link>
+      <pubDate>Fri, 14 May 2021 13:49:47 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/depth-testing/</guid>
+      <description>在这一节中，将会更加深入地讨论这些储存在深度缓冲（或z缓冲(z-buffer)）中的深度值(Depth Value)，以及它们是如何确定一个片段是处于其它片段后方的。
+深度缓冲就像颜色缓冲(Color Buffer)（储存所有的片段颜色：视觉输出）一样，在每个片段中储存了信息，并且（通常）和颜色缓冲有着一样的宽度和高度。深度缓冲是由窗口系统自动创建的，它会以16、24或32位float的形式储存它的深度值。在大部分的系统中，深度缓冲的精度都是24位的。
+当深度测试(Depth Testing)被启用的时候，OpenGL会将一个片段的深度值与深度缓冲的内容进行对比。OpenGL会执行一个深度测试，如果这个测试通过了的话，深度缓冲将会更新为新的深度值。如果深度测试失败了，片段将会被丢弃。
+深度缓冲是在片段着色器运行之后（以及模板测试(Stencil Testing)运行之后，将在下一节中讨论）在屏幕空间中运行的。屏幕空间坐标与通过OpenGL的glViewport所定义的视口密切相关，并且可以直接使用GLSL内建变量gl_FragCoord从片段着色器中直接访问。gl_FragCoord的x和y分量代表了片段的屏幕空间坐标（其中(0, 0)位于左下角）。
+gl_FragCoord中也包含了一个z分量，它包含了片段真正的深度值。z值就是需要与深度缓冲内容所对比的那个值。
+深度测试默认是禁用的，所以如果要启用深度测试的话，需要用GL_DEPTH_TEST选项来启用它：
+glEnable(GL_DEPTH_TEST); 当它启用的时候，如果一个片段通过了深度测试的话，OpenGL会在深度缓冲中储存该片段的z值；如果没有通过深度缓冲，则会丢弃该片段。如果你启用了深度缓冲，你还应该在每个渲染迭代之前使用GL_DEPTH_BUFFER_BIT来清除深度缓冲，否则你会仍在使用上一次渲染迭代中的写入的深度值：
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 可以想象，在某些情况下你会需要对所有片段都执行深度测试并丢弃相应的片段，但不希望更新深度缓冲。基本上来说，你在使用一个只读的(Read-only)深度缓冲。OpenGL允许禁用深度缓冲的写入，只需要设置它的深度掩码(Depth Mask)设置为GL_FALSE就可以了：
+glDepthMask(GL_FALSE); 深度测试函数 OpenGL允许修改深度测试中使用的比较运算符。这允许控制OpenGL什么时候该通过或丢弃一个片段，什么时候去更新深度缓冲。我们可以调用glDepthFunc函数来设置比较运算符
+glDepthFunc(GL_LESS); 这个函数接受下面表格中的比较运算符：
+   函数 描述     GL_ALWAYS 永远通过深度测试   GL_NEVER 永远不通过深度测试   GL_LESS 在片段深度值小于缓冲的深度值时通过测试   GL_EQUAL 在片段深度值等于缓冲区的深度值时通过测试   GL_LEQUAL 在片段深度值小于等于缓冲区的深度值时通过测试   GL_GREATER 在片段深度值大于缓冲区的深度值时通过测试   GL_NOTEQUAL 在片段深度值不等于缓冲区的深度值时通过测试   GL_GEQUAL 在片段深度值大于等于缓冲区的深度值时通过测试    默认情况下使用的深度函数是GL_LESS，它将会丢弃深度值大于等于当前深度缓冲值的所有片段。
+深度值精度 深度缓冲包含了一个介于0.0和1.0之间的深度值，它将会与观察者视角所看见的场景中所有物体的z值进行比较。观察空间的z值可能是投影平截头体的近平面(Near)和远平面(Far)之间的任何值。需要一种方式来将这些观察空间的z值变换到[0, 1]范围之间，其中的一种方式就是将它们线性变换到[0, 1]范围之间。</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之五 投光物 Light Casters</title>
+      <link>https://realjf.io/opengl/light-casters/</link>
+      <pubDate>Thu, 13 May 2021 14:26:17 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/light-casters/</guid>
+      <description>平行光 使用一个假设光源处于无限远处的模型时，它就被称为定向光，因为它的所有光线都有着相同的方向，它与光源的位置是没有关系的。
+因为所有的光线都是平行的，所以物体与光源的相对位置是不重要的，因为对场景中每一个物体光的方向都是一致的。由于光的位置向量保持一致，场景中每个物体的光照计算将会是类似的。
+struct Light { // vec3 position; // 使用定向光就不再需要了 vec3 direction; vec3 ambient; vec3 diffuse; vec3 specular; }; ... void main() { vec3 lightDir = normalize(-light.direction); ... } 首先对light.direction向量取反。目前使用的光照计算需求一个从片段至光源的光线方向，但人们更习惯定义定向光为一个从光源出发的全局方向。所以需要对全局光照方向向量取反来改变它的方向，它现在是一个指向光源的方向向量了。而且，记得对向量进行标准化，假设输入向量为一个单位向量是很不明智的。
+最终的lightDir向量将和以前一样用在漫反射和镜面光计算中。
+先定义了十个不同的箱子位置，并对每个箱子都生成了一个不同的模型矩阵，每个模型矩阵都包含了对应的局部-世界坐标变换：
+glm::vec3 cubePositions[] = { glm::vec3( 0.0f, 0.0f, 0.0f), glm::vec3( 2.0f, 5.0f, -15.0f), glm::vec3(-1.5f, -2.2f, -2.5f), glm::vec3(-3.8f, -2.0f, -12.3f), glm::vec3( 2.4f, -0.4f, -3.5f), glm::vec3(-1.7f, 3.0f, -7.5f), glm::vec3( 1.3f, -2.0f, -2.5f), glm::vec3( 1.5f, 2.0f, -2.5f), glm::vec3( 1.5f, 0.2f, -1.5f), glm::vec3(-1.</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之四 光照贴图 Lighting Maps</title>
+      <link>https://realjf.io/opengl/lighting-maps/</link>
+      <pubDate>Thu, 13 May 2021 12:19:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/lighting-maps/</guid>
+      <description>上一节中的那个材质系统是肯定不够的，它只是一个最简单的模型，所以需要拓展之前的系统，引入漫反射和镜面光贴图(Map)。这允许我们对物体的漫反射分量（以及间接地对环境光分量，它们几乎总是一样的）和镜面光分量有着更精确的控制。
+漫反射贴图 它是一个表现了物体所有的漫反射颜色的纹理图像。
+在着色器中使用漫反射贴图的方法和纹理教程中是完全一样的。但这次会将纹理储存为Material结构体中的一个sampler2D。将之前定义的vec3漫反射颜色向量替换为漫反射贴图。
+ 注意sampler2D是所谓的不透明类型(Opaque Type)，也就是说不能将它实例化，只能通过uniform来定义它。如果使用除uniform以外的方法（比如函数的参数）实例化这个结构体，GLSL会抛出一些奇怪的错误。
+ 也移除了环境光材质颜色向量，因为环境光颜色在几乎所有情况下都等于漫反射颜色，所以不需要将它们分开储存：
+struct Material { sampler2D diffuse; vec3 specular; float shininess; }; ... in vec2 TexCoords; 在片段着色器中再次需要纹理坐标，所以声明一个额外的输入变量。 接下来只需要从纹理中采样片段的漫反射颜色值即可：
+vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords)); 不要忘记将环境光得材质颜色设置为漫反射材质颜色同样的值。
+vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords)); 为了让它正常工作，还需要使用纹理坐标更新顶点数据，将它们作为顶点属性传递到片段着色器，加载材质并绑定材质到合适的纹理单元。
+float vertices[] = { // positions // normals // texture coords  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之三 材质 Materials</title>
+      <link>https://realjf.io/opengl/materials/</link>
+      <pubDate>Thu, 13 May 2021 10:14:28 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/materials/</guid>
+      <description>每个物体对镜面高光也有不同的反应。有些物体反射光的时候不会有太多的散射(Scatter)，因而产生一个较小的高光点，而有些物体则会散射很多，产生一个有着更大半径的高光点。如果想要在OpenGL中模拟多种类型的物体，必须为每个物体分别定义一个材质(Material)属性。
+当描述一个物体的时候，可以用这三个分量来定义一个材质颜色(Material Color)：环境光照(Ambient Lighting)、漫反射光照(Diffuse Lighting)和镜面光照(Specular Lighting)。再添加反光度(Shininess)这个分量到上述的三个颜色中，这就有所有材质属性了：
+#version 330 core struct Material { vec3 ambient; vec3 diffuse; vec3 specular; float shininess; }; uniform Material material; 在片段着色器中，创建一个结构体(Struct)来储存物体的材质属性。也可以把它们储存为独立的uniform值，但是作为一个结构体来储存会更有条理一些。首先定义结构体的布局(Layout)，然后使用刚创建的结构体为类型，简单地声明一个uniform变量。
+ ambient材质向量定义了在环境光照下这个物体反射得是什么颜色，通常这是和物体颜色相同的颜色。 diffuse材质向量定义了在漫反射光照下物体的颜色。（和环境光照一样）漫反射颜色也要设置为需要的物体颜色。 specular材质向量设置的是镜面光照对物体的颜色影响（或者甚至可能反射一个物体特定的镜面高光颜色）。 最后，shininess影响镜面高光的散射/半径。  这四个元素定义了一个物体的材质，通过它们能够模拟很多现实世界中的材质。
+devernay.free.fr上的一个表格展示了几种材质属性，它们模拟了现实世界中的真实材质。
+让我们在着色器中实现这样的一个材质系统。
+设置材质 在片段着色器中创建了一个材质结构体的uniform，由于所有材质变量都储存在结构体中，可以从uniform变量material中访问它们：
+void main() { // 环境光 vec3 ambient = lightColor * material.ambient; // 漫反射  vec3 norm = normalize(Normal); vec3 lightDir = normalize(lightPos - FragPos); float diff = max(dot(norm, lightDir), 0.0); vec3 diffuse = lightColor * (diff * material.</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之二 基础光照 Base Lighting</title>
+      <link>https://realjf.io/opengl/base-lighting/</link>
+      <pubDate>Tue, 11 May 2021 15:28:51 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/base-lighting/</guid>
+      <description>OpenGL的光照使用的是简化的模型，对现实的情况进行近似，这样处理起来会更容易一些，而且看起来也差不多一样。这些光照模型都是基于对光的物理特性的理解。其中一个模型被称为冯氏光照模型(Phong Lighting Model)。冯氏光照模型的主要结构由3个分量组成：环境(Ambient)、漫反射(Diffuse)和镜面(Specular)光照。
+ 环境光照(Ambient Lighting)：即使在黑暗的情况下，世界上通常也仍然有一些光亮（月亮、远处的光），所以物体几乎永远不会是完全黑暗的。为了模拟这个，使用一个环境光照常量，它永远会给物体一些颜色。 漫反射光照(Diffuse Lighting)：模拟光源对物体的方向性影响(Directional Impact)。它是冯氏光照模型中视觉上最显著的分量。物体的某一部分越是正对着光源，它就会越亮。 镜面光照(Specular Lighting)：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。  环境光照 使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，这样子的话即便场景中没有直接的光源也能看起来存在有一些发散的光。 把环境光照添加到场景里非常简单。用光的颜色乘以一个很小的常量环境因子，再乘以物体的颜色，然后将最终结果作为片段的颜色：
+void main() { float ambientStrength = 0.3; vec3 ambient = ambientStrength * lightColor; vec3 result = ambient * objectColor; FragColor = vec4(result, 1.0); } 你会注意到冯氏光照的第一个阶段已经应用到你的物体上了。这个物体非常暗，但由于应用了环境光照（注意光源立方体没受影响是因为对它使用了另一个着色器），也不是完全黑的。
+漫反射 了测量光线和片段的角度，使用一个叫做法向量(Normal Vector)的东西，它是垂直于片段表面的一个向量
+两个单位向量的夹角越小，它们点乘的结果越倾向于1。当两个向量的夹角为90度的时候，点乘会变为0。这同样适用于θ，θ越大，光对片段颜色的影响就应该越小。
+计算漫反射光照需要什么？
+ 法向量：一个垂直于顶点表面的向量。 定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。为了计算这个光线，需要光的位置向量和片段的位置向量。  法向量 法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面（它只是空间中一个独立的点），利用它周围的顶点来计算出这个顶点的表面。
+使用叉乘对立方体所有的顶点计算法向量，但是由于3D立方体不是一个复杂的形状，所以可以简单地把法线数据手工添加到顶点数据中。
+float vertices[] = { // ----- 位置 ------- ------- 法向量 ----  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.</description>
+    </item>
+    
+    <item>
+      <title>opengl光照之一 颜色 Lighting Color</title>
+      <link>https://realjf.io/opengl/lighting-color/</link>
+      <pubDate>Tue, 11 May 2021 13:46:57 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/lighting-color/</guid>
+      <description>在现实生活中看到某一物体的颜色并不是这个物体真正拥有的颜色，而是它所反射的(Reflected)颜色。换句话说，那些不能被物体所吸收(Absorb)的颜色（被拒绝的颜色）就是能够感知到的物体的颜色。
+如何在图形学中计算出它的反射颜色。将这两个颜色向量作分量相乘，结果就是最终的颜色向量了
+glm::vec3 lightColor(1.0f, 1.0f, 1.0f); glm::vec3 toyColor(1.0f, 0.5f, 0.31f); glm::vec3 result = lightColor * toyColor; // = (1.0f, 0.5f, 0.31f); 定义物体的颜色为物体从一个光源反射各个颜色分量的大小。
+使用不同的光源颜色来让物体显现出意想不到的颜色。有创意地利用颜色其实并不难。
+创建一个光照场景 首先需要一个顶点着色器来绘制箱子。与之前的顶点着色器相比，容器的顶点位置是保持不变的（虽然这一次不需要纹理坐标了），因此顶点着色器中没有新的代码。使用之前教程顶点着色器的精简版：
+#version 330 core layout (location = 0) in vec3 aPos; uniform mat4 model; uniform mat4 view; uniform mat4 projection; void main() { gl_Position = projection * view * model * vec4(aPos, 1.0); } 顶点定义和顶点属性设置：
+float vertices[] = { -0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.</description>
+    </item>
+    
+    <item>
+      <title>opengl之八 摄像机 Camera</title>
+      <link>https://realjf.io/opengl/camera/</link>
+      <pubDate>Mon, 10 May 2021 17:01:49 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/camera/</guid>
+      <description>摄像机 OpenGL本身没有摄像机(Camera)的概念，但可以通过把场景中的所有物体往相反方向移动的方式来模拟出摄像机，产生一种在移动的感觉，而不是场景在移动。
+摄像机/观察空间 观察矩阵把所有的世界坐标变换为相对于摄像机位置与方向的观察坐标。要定义一个摄像机，需要它在世界空间中的位置、观察的方向、一个指向它右侧的向量以及一个指向它上方的向量。
+1. 摄像机的位置 摄像机位置简单来说就是世界空间中一个指向摄像机位置的向量
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);  不要忘记正z轴是从屏幕指向你的，如果希望摄像机向后移动，就沿着z轴的正方向移动。
+ 2. 摄像机方向 用场景原点向量减去摄像机位置向量的结果就是摄像机的指向向量。
+glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f); glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget); 3. 右轴 需要的另一个向量是一个右向量(Right Vector)，它代表摄像机空间的x轴的正方向。为获取右向量需要先使用一个小技巧：先定义一个上向量(Up Vector)。接下来把上向量和第二步得到的方向向量进行叉乘。两个向量叉乘的结果会同时垂直于两向量，因此会得到指向x轴正方向的那个向量
+glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection)); 4. 上轴 把右向量和方向向量进行叉乘：
+glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight); 使用这些摄像机向量就可以创建一个LookAt矩阵了
+Look At 如果你使用3个相互垂直（或非线性）的轴定义了一个坐标空间，你可以用这3个轴外加一个平移向量来创建一个矩阵，并且你可以用这个矩阵乘以任何向量来将其变换到那个坐标空间。这正是LookAt矩阵所做的，现在有了3个相互垂直的轴和一个定义摄像机空间的位置坐标，就可以创建LookAt矩阵了：
+其中R是右向量，U是上向量，D是方向向量P是摄像机位置向量。注意，位置向量是相反的，因为我们最终希望把世界平移到与我们自身移动的相反方向。
+把这个LookAt矩阵作为观察矩阵可以很高效地把所有世界坐标变换到刚刚定义的观察空间。
+GLM已经提供了这些支持。要做的只是定义一个摄像机位置，一个目标位置和一个表示世界空间中的上向量的向量
+glm::mat4 view; view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.</description>
+    </item>
+    
+    <item>
+      <title>opengl之七 坐标系统 Coordinate System</title>
+      <link>https://realjf.io/opengl/coordinate-system/</link>
+      <pubDate>Mon, 10 May 2021 15:04:43 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/coordinate-system/</guid>
+      <description>OpenGL希望在每次顶点着色器运行后，所有顶点都为标准化设备坐标(Normalized Device Coordinate, NDC)。也就是说，每个顶点的x，y，z坐标都应该在-1.0到1.0之间，超出这个坐标范围的顶点都将不可见。通常会设定一个坐标的范围，之后再在顶点着色器中将这些坐标变换为标准化设备坐标。然后将这些标准化设备坐标传入光栅器(Rasterizer)，将它们变换为屏幕上的二维坐标或像素。
+将坐标变换为标准化设备坐标，接着再转化为屏幕坐标的过程通常是分步进行的，
+总共有5个不同的坐标系统：
+ 局部空间(Local Space，或者称为物体空间(Object Space)) 世界空间(World Space) 观察空间(View Space，或者称为视觉空间(Eye Space)) 裁剪空间(Clip Space) 屏幕空间(Screen Space)  概述 为了将坐标从一个坐标系变换到另一个坐标系，需要用到几个变换矩阵，最重要的几个分别是模型(Model)、观察(View)、投影(Projection)三个矩阵。
+顶点坐标起始于局部空间(Local Space)，在这里它称为局部坐标(Local Coordinate)，它在之后会变为世界坐标(World Coordinate)，观察坐标(View Coordinate)，裁剪坐标(Clip Coordinate)，并最后以屏幕坐标(Screen Coordinate)的形式结束。下面的这张图展示了整个流程以及各个变换过程做了什么：
+ 局部坐标是对象相对于局部原点的坐标，也是物体起始的坐标。 下一步是将局部坐标变换为世界空间坐标，世界空间坐标是处于一个更大的空间范围的。这些坐标相对于世界的全局原点，它们会和其它物体一起相对于世界的原点进行摆放。 接下来，将世界坐标变换为观察空间坐标，使得每个坐标都是从摄像机或者说观察者的角度进行观察的。 坐标到达观察空间之后，需要将其投影到裁剪坐标。裁剪坐标会被处理至-1.0到1.0的范围内，并判断哪些顶点将会出现在屏幕上。 最后，将裁剪坐标变换为屏幕坐标，将使用一个叫做视口变换(Viewport Transform)的过程。视口变换将位于-1.0到1.0范围的坐标变换到由glViewport函数所定义的坐标范围内。最后变换出来的坐标将会送到光栅器，将其转化为片段。  局部空间 局部空间是指物体所在的坐标空间，即对象最开始所在的地方。想象你在一个建模软件（比如说Blender）中创建了一个立方体。你创建的立方体的原点有可能位于(0, 0, 0)，即便它有可能最后在程序中处于完全不同的位置。甚至有可能你创建的所有模型都以(0, 0, 0)为初始位置
+世界空间 世界空间中的坐标正如其名：是指顶点相对于（游戏）世界的坐标。如果你希望将物体分散在世界上摆放（特别是非常真实的那样），这就是你希望物体变换到的空间。物体的坐标将会从局部变换到世界空间；该变换是由模型矩阵(Model Matrix)实现的。
+模型矩阵是一种变换矩阵，它能通过对物体进行位移、缩放、旋转来将它置于它本应该在的位置或朝向。
+观察空间 观察空间经常被人们称之OpenGL的摄像机(Camera)（所以有时也称为摄像机空间(Camera Space)或视觉空间(Eye Space)）。观察空间是将世界空间坐标转化为用户视野前方的坐标而产生的结果。因此观察空间就是从摄像机的视角所观察到的空间。而这通常是由一系列的位移和旋转的组合来完成，平移/旋转场景从而使得特定的对象被变换到摄像机的前方。这些组合在一起的变换通常存储在一个观察矩阵(View Matrix)里，它被用来将世界坐标变换到观察空间。
+裁剪空间 OpenGL期望所有的坐标都能落在一个特定的范围内，且任何在这个范围之外的点都应该被裁剪掉(Clipped)。被裁剪掉的坐标就会被忽略，所以剩下的坐标就将变为屏幕上可见的片段。这也就是裁剪空间(Clip Space)名字的由来。
+为了将顶点坐标从观察变换到裁剪空间，需要定义一个投影矩阵(Projection Matrix)，它指定了一个范围的坐标，比如在每个维度上的-1000到1000。投影矩阵接着会将在这个指定的范围内的坐标变换为标准化设备坐标的范围(-1.0, 1.0)。所有在范围外的坐标不会被映射到在-1.0到1.0的范围之间，所以会被裁剪掉。
+由投影矩阵创建的观察箱(Viewing Box)被称为平截头体(Frustum)，每个出现在平截头体范围内的坐标都会最终出现在用户的屏幕上。将特定范围内的坐标转化到标准化设备坐标系的过程（而且它很容易被映射到2D观察空间坐标）被称之为投影(Projection)，因为使用投影矩阵能将3D坐标投影(Project)到很容易映射到2D的标准化设备坐标系中。
+一旦所有顶点被变换到裁剪空间，最终的操作——透视除法(Perspective Division)将会执行，在这个过程中将位置向量的x，y，z分量分别除以向量的齐次w分量；透视除法是将4D裁剪空间坐标变换为3D标准化设备坐标的过程。这一步会在每一个顶点着色器运行的最后被自动执行。
+在这一阶段之后，最终的坐标将会被映射到屏幕空间中（使用glViewport中的设定），并被变换成片段。
+正射投影 正射投影矩阵定义了一个类似立方体的平截头箱，它定义了一个裁剪空间，在这空间之外的顶点都会被裁剪掉。创建一个正射投影矩阵需要指定可见平截头体的宽、高和长度。在使用正射投影矩阵变换至裁剪空间之后处于这个平截头体内的所有坐标将不会被裁剪掉。它的平截头体看起来像一个容器：
+上面的平截头体定义了可见的坐标，它由由宽、高、近(Near)平面和远(Far)平面所指定。任何出现在近平面之前或远平面之后的坐标都会被裁剪掉。正射平截头体直接将平截头体内部的所有坐标映射为标准化设备坐标，因为每个向量的w分量都没有进行改变；如果w分量等于1.0，透视除法则不会改变这个坐标。
+要创建一个正射投影矩阵，可以使用GLM的内置函数glm::ortho：
+glm::ortho(0.0f, 800.0f, 0.0f, 600.</description>
+    </item>
+    
+    <item>
+      <title>opengl之六 变换 Transformations</title>
+      <link>https://realjf.io/opengl/transformations/</link>
+      <pubDate>Mon, 10 May 2021 13:52:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/transformations/</guid>
+      <description>向量 向量最基本的定义就是一个方向。或者更正式的说，向量有一个方向(Direction)和大小(Magnitude，也叫做强度或长度)。
+每个向量在2D图像中都用一个箭头(x, y)表示。由于向量表示的是方向，起始于何处并不会改变它的值。
+向量与标量运算 标量(Scalar)只是一个数字（或者说是仅有一个分量的向量）。当把一个向量加/减/乘/除一个标量，可以简单的把向量的每个分量分别进行该运算。
+其中的+可以是+，-，·或÷，其中·是乘号。注意－和÷运算时不能颠倒（标量-/÷向量），因为颠倒的运算是没有定义的。
+向量取反 对一个向量取反(Negate)会将其方向逆转。在一个向量的每个分量前加负号就可以实现取反了（或者说用-1数乘该向量）。
+向量加减 向量的加法可以被定义为是分量的(Component-wise)相加，即将一个向量中的每一个分量加上另一个向量的对应分量
+向量的减法等于加上第二个向量的相反向量。两个向量的相减会得到这两个向量指向位置的差。
+长度 使用勾股定理(Pythagoras Theorem)来获取向量的长度(Length)/大小(Magnitude)。如果你把向量的x与y分量画出来，该向量会和x与y分量为边形成一个三角形:
+有一个特殊类型的向量叫做单位向量(Unit Vector)。单位向量有一个特别的性质——它的长度是1。可以用任意向量的每个分量除以向量的长度得到它的单位向量，这种方法叫做一个向量的标准化(Normalizing)。单位向量头上有一个^样子的记号。
+向量相乘 向量相乘有两种，一种是点乘，另一种是叉乘。
+点乘 两个向量的点乘等于它们的数乘结果乘以两个向量之间夹角的余弦值。
+ 可以通过点乘的结果计算两个非单位向量的夹角，点乘的结果除以两个向量的长度之积，得到的结果就是夹角的余弦值
+ 叉乘 叉乘只在3D空间中有定义，它需要两个不平行向量作为输入，生成一个正交于两个输入向量的第三个向量。如果输入的两个向量也是正交的，那么叉乘之后将会产生3个互相正交的向量。
+矩阵 简单来说矩阵就是一个矩形的数字、符号或表达式数组。矩阵中每一项叫做矩阵的元素(Element)
+矩阵可以通过(i, j)进行索引，i是行，j是列。
+矩阵的加减 矩阵与矩阵之间的加减就是两个矩阵对应元素的加减运算，所以总体的规则和与标量运算是差不多的，只不过在相同索引下的元素才能进行运算。这也就是说加法和减法只对同维度的矩阵才是有定义的。
+矩阵的数乘 和矩阵与标量的加减一样，矩阵与标量之间的乘法也是矩阵的每一个元素分别乘以该标量
+矩阵相乘 矩阵乘法基本上意味着遵照规定好的法则进行相乘。当然，相乘还有一些限制：
+ 只有当左侧矩阵的列数与右侧矩阵的行数相等，两个矩阵才能相乘。 矩阵相乘不遵守交换律(Commutative)，也就是说A⋅B≠B⋅A。  这些挑出来行和列将决定该计算结果2x2矩阵的哪个输出值。如果取的是左矩阵的第一行，输出值就会出现在结果矩阵的第一行。接下来再取一列，如果我们取的是右矩阵的第一列，最终值则会出现在结果矩阵的第一列。这正是红框里的情况。
+计算一项的结果值的方式是先计算左侧矩阵对应行和右侧矩阵对应列的第一个元素之积，然后是第二个，第三个，第四个等等，然后把所有的乘积相加，这就是结果了。
+结果矩阵的维度是(n, m)，n等于左侧矩阵的行数，m等于右侧矩阵的列数。
+矩阵与向量相乘 单位矩阵 单位矩阵是一个除了对角线以外都是0的N×N矩阵。
+从乘法法则来看就很容易理解来：第一个结果元素是矩阵的第一行的每个元素乘以向量的每个对应元素。因为每行的元素除了第一个都是0，可得：1⋅1+0⋅2+0⋅3+0⋅4=1，向量的其他3个元素同理。
+缩放 对一个向量进行缩放(Scaling)就是对向量的长度进行缩放，而保持它的方向不变。
+如果每个轴的缩放因子都一样那么就叫均匀缩放(Uniform Scale)。
+如果把缩放变量表示为(S1,S2,S3)可以为任意向量(x,y,z)定义一个缩放矩阵：
+注意，第四个缩放向量仍然是1，因为在3D空间中缩放w分量是无意义的。w分量另有其他用途，
+位移 位移(Translation)是在原始向量的基础上加上另一个向量从而获得一个在不同位置的新向量的过程，从而在位移向量基础上移动了原始向量。
+和缩放矩阵一样，在4×4矩阵上有几个特别的位置用来执行特定的操作，对于位移来说它们是第四列最上面的3个值。如果我们把位移向量表示为(Tx,Ty,Tz)，我们就能把位移矩阵定义为：
+这样是能工作的，因为所有的位移值都要乘以向量的w行，所以位移值会加到向量的原始值上
+有了位移矩阵就可以在3个方向(x、y、z)上移动物体，它是变换工具箱中非常有用的一个变换矩阵。
+旋转 2D或3D空间中的旋转用角(Angle)来表示。角可以是角度制或弧度制的，周角是360角度或2 PI弧度
+ 大多数旋转函数需要用弧度制的角，但幸运的是角度制的角也可以很容易地转化为弧度制的： 弧度转角度：角度 = 弧度 * (180.0f / PI) 角度转弧度：弧度 = 角度 * (PI / 180.</description>
+    </item>
+    
+    <item>
+      <title>opengl之五 纹理 Textures</title>
+      <link>https://realjf.io/opengl/textures/</link>
+      <pubDate>Mon, 10 May 2021 11:30:39 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/textures/</guid>
+      <description>纹理 纹理是一个2D图片（甚至也有1D和3D的纹理），它可以用来添加物体的细节；你可以想象纹理是一张绘有砖块的纸，无缝折叠贴合到你的3D的房子上，这样你的房子看起来就像有砖墙外表了。因为可以在一张图片上插入非常多的细节，这样就可以让物体非常精细而不用指定额外的顶点。
+为了能够把纹理映射(Map)到三角形上，需要指定三角形的每个顶点各自对应纹理的哪个部分。这样每个顶点就会关联着一个纹理坐标(Texture Coordinate)，用来标明该从纹理图像的哪个部分采样。之后在图形的其它片段上进行片段插值(Fragment Interpolation)。
+纹理坐标在x和y轴上，范围为0到1之间（注意使用的是2D纹理图像）。使用纹理坐标获取纹理颜色叫做采样(Sampling)。纹理坐标起始于(0, 0)，也就是纹理图片的左下角，终始于(1, 1)，即纹理图片的右上角。下面的图片展示了如何把纹理坐标映射到三角形上的。
+为三角形指定了3个纹理坐标点。如上图所示，三角形的左下角对应纹理的左下角，因此把三角形左下角顶点的纹理坐标设置为(0, 0)；三角形的上顶点对应于图片的上中位置所以把它的纹理坐标设置为(0.5, 1.0)；同理右下方的顶点设置为(1, 0)。只要给顶点着色器传递这三个纹理坐标就行了，接下来它们会被传片段着色器中，它会为每个片段进行纹理坐标的插值。
+纹理坐标看起来像是这样的：
+float texCoords[] = { 0.0f, 0.0f, // 左下角  1.0f, 0.0f, // 右下角  0.5f, 1.0f // 上中 }; 纹理环绕方式 纹理坐标的范围通常是从(0, 0)到(1, 1)，如果把纹理坐标设置在范围之外，OpenGL默认的行为是重复这个纹理图像（基本上忽略浮点纹理坐标的整数部分），但OpenGL提供了更多的选择：
+   环绕方式 描述     GL_REPEAT 对纹理的默认行为，重复纹理图像   GL_MIRRORED_REPEAT 和GL_REPEAT一样，但每次重复图片是镜像放置的   GL_CLAMP_TO_EDGE 纹理坐标会被约束在0到1之间，超出的部分会重复纹理坐标的边缘，产生一种边缘被拉伸的效果   GL_CLAMP_TO_BORDER 超出的坐标为用户指定的边缘颜色    当纹理超出范围时的效果：
+前面提到的每个选项都可以使用glTexParameter*函数对单独的一个坐标轴设置（s、t如果是使用3D纹理那么还有一个r），他们和x、y、z是等价的。
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);  第一个参数指定了纹理目标；使用的是2D纹理，因此纹理目标是GL_TEXTURE_2D。 第二个参数需要指定设置的选项与应用的纹理轴。打算配置的是WRAP选项，并且指定S和T轴。 最后一个参数需要传递一个环绕方式(Wrapping)  如果选择GL_CLAMP_TO_BORDER选项，还需要指定一个边缘的颜色。这需要使用glTexParameter函数的fv后缀形式，用GL_TEXTURE_BORDER_COLOR作为它的选项，并且传递一个float数组作为边缘的颜色值：</description>
+    </item>
+    
+    <item>
+      <title>opengl之四 着色器和uniform Shader and Uniform</title>
+      <link>https://realjf.io/opengl/shader-and-uniform/</link>
+      <pubDate>Mon, 10 May 2021 10:11:54 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/shader-and-uniform/</guid>
+      <description>着色器(Shader)是运行在GPU上的小程序。这些小程序为图形渲染管线的某个特定部分而运行。从基本意义上来说，着色器只是一种把输入转化为输出的程序。着色器也是一种非常独立的程序，因为它们之间不能相互通信；它们之间唯一的沟通只有通过输入和输出。
+GLSL 着色器是使用一种叫GLSL的类C语言写成的
+着色器的开头总是要声明版本，接着是输入和输出变量、uniform和main函数。每个着色器的入口点都是main函数，在这个函数中我们处理所有的输入变量，并将结果输出到输出变量中。
+一个典型的着色器程序：
+#version version_number in type in_variable_name; in type in_variable_name; out type out_variable_name; uniform type uniform_name; int main() { // 处理输入并进行一些图形操作 ... // 输出处理过的结果到输出变量 out_variable_name = weird_stuff_we_processed; } 在顶点着色器上，每个输入变量也叫顶点属性，能声明的顶点属性是有上限的，由硬件决定。 opengl至少有16个包含4分量的顶点属性可用，可以通过查询GL_MAX_VERTEX_ATTRIBS来获取具体上限。
+int nrAttributes; glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &amp;amp;nrAttributes); std::cout &amp;lt;&amp;lt; &amp;#34;Maximum nr of vertex attributes supported: &amp;#34; &amp;lt;&amp;lt; nrAttributes &amp;lt;&amp;lt; std::endl; 数据类型 glsl中包含C等其他语言大部分的默认基础类型：int、float、double、uint和bool。 glsl也有两种容器，分别是向量（Vector）和矩阵（Matrix）
+向量 glsl中的向量是一个包含有1、 2、 3或者4个分量的容器，分量的类型可以是基础类型的任意一个，可以是如下类型：
+   类型 含义     vecn 包含n个float分量的默认向量   bvecn 包含n个bool分量的向量   ivecn 包含n个int分量的向量   uvecn 包含n个unsigned int分量的向量   dvecn 包含n个double分量的向量    一个向量的分量可以通过vec.</description>
+    </item>
+    
+    <item>
+      <title>opengl之三 顶点属性与索引缓冲对象 Vertex Attribute and Element Buffer Object</title>
+      <link>https://realjf.io/opengl/vertex-attribute-and-element-buffer-object/</link>
+      <pubDate>Mon, 10 May 2021 08:53:34 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/vertex-attribute-and-element-buffer-object/</guid>
+      <description>顶点属性 顶点着色器允许指定任何以顶点属性为形式的输入。 所以，必须在渲染前指定OpenGL该如何解释顶点数据。
+顶点缓冲对象（Vertex Buffer Object, VBO）:
+ 位置数据被存储为32位（4字节）浮点值 每个位置包含3个这样的值 在这三个值之间没有空隙，这几个值在数组中紧密排列 数据中第一个值在缓冲开始的位置  有了这些信息，可以使用glVertexAttribPointer函数告诉opengl该如何解析顶点数据：
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);  第一个参数指定要配置的顶点属性。顶点着色器使用layout(location=0)定义了position顶点属性的位置值，它可以把顶点属性值设置为0，因此这里用0传入。 第二个参数指定顶点属性的大小。顶点属性是一个vec3，它由三个值组成，所以大小是3。 第三个参数指定数据的类型，这里是GL_FLOAT(GLSL中vec*都是由浮点数值组成的) 第四个参数定义是否希望数据被标准化，如果设置为GL_TRUE，所有数据都会被映射到0到1之间，这里设置为GL_FALSE。 第五个参数定义步长（Stride），指定在连续的顶点属性组之间的间隔。由于下一组位置数据在3个float之后，所以设置步长为3*sizeof(float)，需注意数组是紧密排列的，也可以设置0让opengl决定具体步长是多少。 最后一个参数类型是void*，需进行强制类型转换，表示位置数据在缓冲中起始位置的偏移量（offset）。由于位置数据在数组的开头，所以这里是0.  每个顶点属性从一个VBO管理的内存中获得它的数据，而具体是从哪个VBO（程序中可以有多个VBO）获取则是通过在调用glVertexAttribPointer时绑定到GL_ARRAY_BUFFER的VBO决定的。由于在调用glVertexAttribPointer之前绑定的是先前定义的VBO对象，顶点属性0现在会链接到它的顶点数据。
+glEnableVertexAttribArray(0); 使用glEnableVertexAttribArray启用顶点属性，以顶点属性位置值作为参数启用顶点属性，默认是禁用的。
+完整的代码如下：
+// 0. 复制顶点数组到缓冲中供OpenGL使用 glBindBuffer(GL_ARRAY_BUFFER, VBO); glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // 1. 设置顶点属性指针 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); glEnableVertexAttribArray(0); // 2. 当渲染一个物体时要使用着色器程序 glUseProgram(shaderProgram); // 3. 绘制物体 ... 顶点数组对象 顶点数组对象(Vertex Array Object, VAO)，可以像顶点缓冲对象那样被绑定，任何随后的顶点属性调用都会储存在这个VAO中。这样的好处就是，当配置顶点属性指针时，你只需要将那些调用执行一次，之后再绘制物体的时候只需要绑定相应的VAO就行了。
+在不同顶点数据和属性配置之间切换，只需要绑定不同的VAO就行了。
+ OpenGL的核心模式要求使用VAO，所以它知道该如何处理的顶点输入。如果绑定VAO失败，OpenGL会拒绝绘制任何东西。</description>
+    </item>
+    
+    <item>
+      <title>opengl之二 使用Opengl画一个三角形快速开始 Draw Triangles Quick Start</title>
+      <link>https://realjf.io/opengl/draw-triangles-quick-start/</link>
+      <pubDate>Sat, 08 May 2021 16:04:07 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/draw-triangles-quick-start/</guid>
+      <description>在上一篇 opengl 快速开始 的基础上，我们画一个三角形，并着色。
+opengl渲染过程 了解三种缓冲对象  顶点数组对象：Vertex Array Object，VAO 顶点缓冲对象：Vertex Buffer Object，VBO 索引缓冲对象：Element Buffer Object，EBO或Index Buffer Object，IBO  图形渲染管线 图形渲染管线实际上是一堆原始图形数据途径一个输送管道，期间经过各种变化处理最终出现在屏幕的过程。
+图形渲染管线分为两部分：
+ 第一部分把你的3d坐标转换为2d坐标 第二部分把2d坐标转变为实际的有颜色的像素   2D坐标和像素也是不同的，2D坐标精确表示一个点在2D空间中的位置，而2D像素是这个点的近似值，2D像素受到你的屏幕/窗口分辨率的限制。
+ 着色器 图形渲染管线可以被划分为几个阶段，每个阶段将会把前一个阶段的输出作为输入。所有这些阶段都是高度专门化的（它们都有一个特定的函数），并且很容易并行执行。 GPU为每个（渲染管线）阶段运行各自的小程序，这个小程序叫做着色器。opengl着色器用opengl着色器语言（OpenGL Shading Language, GLSL）写成。
+渲染过程各个阶段  要注意蓝色部分代表的是我们可以注入自定义的着色器的部分
+ 顶点数据 首先用包含3个3d坐标的数组作为数据输入，这个数组叫顶点数据（Vertex Data），顶点数据使用顶点属性表示的。
+顶点着色器 顶点着色器主要的目的是把3D坐标转为另一种3D坐标，同时顶点着色器允许我们对顶点属性进行一些基本处理。
+图元装配 图元装配(Primitive Assembly)阶段将顶点着色器输出的所有顶点作为输入（如果是GL_POINTS，那么就是一个顶点），并所有的点装配成指定图元的形状；
+几何着色器 几何着色器把图元形式的一系列顶点的集合作为输入，它可以通过产生新顶点构造出新的（或是其它的）图元来生成其他形状
+光栅化阶段 这里它会把图元映射为最终屏幕上相应的像素，生成供片段着色器(Fragment Shader)使用的片段(Fragment)。在片段着色器运行之前会执行裁切(Clipping)。裁切会丢弃超出你的视图以外的所有像素，用来提升执行效率
+片段着色器 主要目的是计算一个像素的最终颜色，这也是所有OpenGL高级效果产生的地方。通常，片段着色器包含3D场景的数据（比如光照、阴影、光的颜色等等），这些数据可以被用来计算最终像素的颜色。
+alpha测试和混合阶段 这个阶段检测片段的对应的深度（和模板(Stencil)）值，用它们来判断这个像素是其它物体的前面还是后面，决定是否应该丢弃。这个阶段也会检查alpha值（alpha值定义了一个物体的透明度）并对物体进行混合(Blend)。
+准备 main.cpp原始内容如下：
+#include &amp;lt;glad/glad.h&amp;gt;#include &amp;lt;GLFW/glfw3.h&amp;gt;#include &amp;lt;iostream&amp;gt; void framebuffer_size_callback(GLFWwindow* window, int width, int height); void processInput(GLFWwindow *window); const unsigned int SCR_WIDTH = 800; const unsigned int SCR_HEIGHT = 600; int main() { glfwInit(); glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // create window  GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, &amp;#34;LearnOpenGL&amp;#34;, NULL, NULL); if (window == NULL) { std::cout &amp;lt;&amp;lt; &amp;#34;Failed to create GLFW window&amp;#34; &amp;lt;&amp;lt; std::endl; glfwTerminate(); return -1; } glfwMakeContextCurrent(window); // viewport size  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); // init glad  if(!</description>
+    </item>
+    
+    <item>
+      <title>opengl之一 快速开始 Opengl Quick Start</title>
+      <link>https://realjf.io/opengl/opengl-quick-start/</link>
+      <pubDate>Fri, 07 May 2021 19:45:37 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/opengl-quick-start/</guid>
+      <description>准备  Ubuntu OS v20.04 glfw v3.3.4 glad  gl v4.6 core   cmake v3.18.4  目录结构 . ├── CMakeLists.txt ├── deps │ ├── glad │ │ ├── include │ │ │ ├── glad │ │ │ │ └── glad.h │ │ │ └── KHR │ │ │ └── khrplatform.h │ │ └── src │ │ └── glad.c │ └── glfw ├── preinstall.sh ├── src │ ├── CMakeLists.txt │ ├── glad.</description>
+    </item>
+    
+    <item>
+      <title>如何从源码构建GLFW How to Compile Glfw From Source</title>
+      <link>https://realjf.io/opengl/how-to-compile-glfw-from-source/</link>
+      <pubDate>Sat, 23 Jan 2021 00:47:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/opengl/how-to-compile-glfw-from-source/</guid>
+      <description>首先glfw下载 https://www.glfw.org/download.html
+下载源码包后，开始安装
+ 环境：debian-10  构建 unzip glfw-3.3.2.zip mkdir glfw-build cd glfw-build cmake .. 报错如下：
+-- The C compiler identification is GNU 10.2.0 -- Detecting C compiler ABI info -- Detecting C compiler ABI info - done -- Check for working C compiler: /usr/bin/cc - skipped -- Detecting C compile features -- Detecting C compile features - done -- Looking for pthread.h -- Looking for pthread.h - found -- Performing Test CMAKE_HAVE_LIBC_PTHREAD -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed -- Looking for pthread_create in pthreads -- Looking for pthread_create in pthreads - not found -- Looking for pthread_create in pthread -- Looking for pthread_create in pthread - found -- Found Threads: TRUE -- Found Doxygen: /usr/bin/doxygen (found version &amp;#34;1.</description>
+    </item>
+    
+  </channel>
+</rss>

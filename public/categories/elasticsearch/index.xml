@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>elasticsearch on Realjf&#39;s blog</title>
+    <link>https://realjf.io/categories/elasticsearch/</link>
+    <description>Recent content in elasticsearch on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 10 Jun 2020 11:56:47 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>简单的基于Elasticsearch-php API的封装 Library Elasticsearch Api Client</title>
+      <link>https://realjf.io/elasticsearch/library-elasticsearch-api-client/</link>
+      <pubDate>Wed, 10 Jun 2020 11:56:47 +0800</pubDate>
+      
+      <guid>https://realjf.io/elasticsearch/library-elasticsearch-api-client/</guid>
+      <description>abstract class libEsBase { protected $__index = &amp;#34;&amp;#34;; protected $__type = &amp;#34;&amp;#34;; const MAX_RESULT_WINDOW = 10000; // from + size &amp;lt;= max_result_window  /** * 定义结构 * @return array */ abstract protected function __getMapping(); /** * @var \Elasticsearch\Client */ protected $_es = null; public function __construct() { $this-&amp;gt;_es = &amp;#34;your elasticsearch-php api client&amp;#34;; } /** * @return array */ protected function __runBefore() { if(!$this-&amp;gt;checkEsAlive()){ return [FALSE, &amp;#34;Elasticsearch not alive&amp;#34;]; } list($check, $msg) = $this-&amp;gt;checkIndex(); if(!</description>
+    </item>
+    
+    <item>
+      <title>elasticsearch随机获取数据 random Fetch Data</title>
+      <link>https://realjf.io/elasticsearch/random-fetch-data/</link>
+      <pubDate>Wed, 10 Jun 2020 11:47:39 +0800</pubDate>
+      
+      <guid>https://realjf.io/elasticsearch/random-fetch-data/</guid>
+      <description>搜索的形式随机获取数据
+{ &amp;#34;query&amp;#34;: { &amp;#34;bool&amp;#34;: { &amp;#34;must&amp;#34;: [{ &amp;#34;term&amp;#34;: { &amp;#34;game_id&amp;#34;: 132 } }] } }, &amp;#34;from&amp;#34;: 1, &amp;#34;size&amp;#34;: 100, &amp;#34;sort&amp;#34;: { &amp;#34;_script&amp;#34;: { &amp;#34;script&amp;#34;: &amp;#34;Math.random()&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;number&amp;#34;, &amp;#34;order&amp;#34;: &amp;#34;asc&amp;#34; } } } </description>
+    </item>
+    
+    <item>
+      <title>elasticsearch的doc_values和fielddata区别</title>
+      <link>https://realjf.io/elasticsearch/docvalues-fielddata/</link>
+      <pubDate>Thu, 04 Jun 2020 18:15:14 +0800</pubDate>
+      
+      <guid>https://realjf.io/elasticsearch/docvalues-fielddata/</guid>
+      <description>Elasticsearch 首先分析文档，之后根据结果创建倒排索引。
+倒排索引 Elasticsearch 使用一种称为 倒排索引 的结构，它适用于快速的全文搜索。一个倒排索引由文档中所有不重复词的列表构成，对于其中每个词，有一个包含它的文档列表。
+doc_values doc_values使聚合更快、更高效且内存使用率高。
+在 Elasticsearch 中，doc_values 就是一种列式存储结构，默认情况下每个字段的 doc_values 都是激活的， doc_values 是在索引时创建的。当字段索引时，Elasticsearch 为了能够快速检索，会把字段的值加入倒排索引中，同时它也会存储该字段的 doc_values。
+Elasticsearch 中的 doc_values 常被应用到以下场景：
+ 对一个字段进行排序 对一个字段进行聚合 某些过滤，比如地理位置过滤 某些与字段相关的脚本计算  因为文档值（doc_values）被序列化到磁盘，我们可以依靠操作系统的帮助来快速访问。 当 working set 远小于节点的可用内存，系统会自动将所有的文档值保存在内存中，使得其读写十分高速； 当其远大于可用内存，操作系统会自动把 doc_values 加载到系统的页缓存中，从而避免了 jvm 堆内存溢出异常。
+ 因此，搜索和聚合是相互紧密缠绕的。搜索使用倒排索引查找文档，聚合操作收集和聚合 doc_values 里的数据。
+ doc_values 支持大部分字段类型，但是text 字段类型不支持（因为analyzed）。
+{ &amp;#34;mappings&amp;#34;: { &amp;#34;properties&amp;#34;: { &amp;#34;status_code&amp;#34;: { &amp;#34;type&amp;#34;: &amp;#34;keyword&amp;#34; }, &amp;#34;session_id&amp;#34;: { &amp;#34;type&amp;#34;: &amp;#34;keyword&amp;#34;, &amp;#34;doc_values&amp;#34;: false } } } }  (1) status_code 字段默认启动 doc_values 属性； (2) session_id 显式设置 doc_values = false，但是仍然可以被查询；   如果确信某字段不需要排序或者聚合，或者从脚本中访问字段值，那么我们可以设置 doc_values = false，这样可以节省磁盘空间。</description>
+    </item>
+    
+  </channel>
+</rss>

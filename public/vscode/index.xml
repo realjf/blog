@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vscodes on Realjf&#39;s blog</title>
+    <link>https://realjf.io/vscode/</link>
+    <description>Recent content in Vscodes on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 Nov 2020 15:44:23 +0800</lastBuildDate><atom:link href="https://realjf.io/vscode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>VS Code语言语法分词引擎 TextMate语法解析 (Vscode Language Grammars Engine - TextMate)</title>
+      <link>https://realjf.io/vscode/vscode-language-grammars-textmate/</link>
+      <pubDate>Tue, 24 Nov 2020 15:44:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/vscode-language-grammars-textmate/</guid>
+      <description>语言语法用于为文档元素（如关键字、注释、字符串或类似内容）指定名称。 这样做的目的是允许设置样式（语法高亮显示），并使文本编辑器“智能”地了解插入符号所在的上下文。 例如，您可能希望按键或制表符触发器根据上下文的不同而采取不同的操作， 或者您可能希望在键入文本文档中不是散文的部分（例如HTML标记）时禁用拼写检查。
+语言语法仅用于分析文档并为该文档的子集分配名称。然后，范围选择器可以用于样式设置、 首选项以及决定键和选项卡触发器应该如何展开。
+有关这个概念的更全面的介绍，请参阅scopes简介博客文章
+语法示例 先来看下以下示例
+{scopeName = &#39;source.untitled&#39;;fileTypes = ();foldingStartMarker = &#39;\{\s*$&#39;;foldingStopMarker = &#39;^\s*\}&#39;;patterns = ({name = &#39;keyword.control.untitled&#39;;match = &#39;\b(if|while|for|return)\b&#39;;}, {name = &#39;string.quoted.double.untitled&#39;;begin = &#39;&amp;quot;&#39;;end = &#39;&amp;quot;&#39;;patterns = ({name = &#39;constant.character.escape.untitled&#39;;match = &#39;\\.&#39;;});},);}格式是属性列表格式，在根级别有五个键/值对：
+  scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例， 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source， 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails. 从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。
+  fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项， 那么TextMate就会记住用户选择。</description>
+    </item>
+    
+    <item>
+      <title>VS Code扩展开发 之 发布扩展 Publishing Vscode Extensions</title>
+      <link>https://realjf.io/vscode/publishing-vscode-extensions/</link>
+      <pubDate>Tue, 24 Nov 2020 14:03:58 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/publishing-vscode-extensions/</guid>
+      <description>一旦你制作了高质量的扩展，你就能发布到vscode 扩展市场，以便让其他人可以找到并下载使用你的扩展， 你可以打包扩展为可安装的VSIX格式并与其他人分享
+本节将包括以下内容：
+ 使用vsce，这个是管理VS Code扩展的CLI工具 打包、发布以及取消发布扩展 注册一个发布者id用于发布扩展  vsce vsce，是Visual Studio Code Extensions的简称，是一个打包，发布和管理vscode扩展的命令行工具
+安装 请确保你已经安装了node.js
+npm install -g vsce 使用 cd myExtension vsce package # myExtension.vsix generated vsce publish # &amp;lt;publisherID&amp;gt;.myExtension published to VS Code MarketPlace 更多的命令请使用vsce &amp;ndash;help查看
+发布扩展  由于安全考虑，vsce不会发布包含用户提供的svg图片的扩展
+ 发布工具检查如下内容：
+ package.json中提供的icon图标可能不是一个svg package.json中提供的徽章可能不是svg，除非他们来自可信的徽章提供商 README.md和CHANGELOG.md中的图片地址需要处理成https路径 README.md中和CHANGELOG.md中的图片可能不是svg除非他们来自可信的徽章提供商  visualstudio代码利用Azure DevOps提供其Marketplace服务。 这意味着扩展的身份验证、托管和管理是通过azuredevops提供的。
+vsce只能使用Personal access tokens发布扩展。要发布扩展，至少需要创建一个，
+获取个人access token 首先，确保你有Azure DevOps组织
+  在下面的示例中，组织的名称是realjf。从组织的主页（例如：https://dev.azure.com/realjf)下一步， 打开“个人图像设置”下拉菜单，选择Personal access tokens：
+  在Personal Access Tokens页面，点击New Token创建一个新的Personal Access Token</description>
+    </item>
+    
+    <item>
+      <title>VS Code扩展开发 之 语言的语法高亮 Language Extension Syntax Highlight</title>
+      <link>https://realjf.io/vscode/language-extension-syntax-highlight/</link>
+      <pubDate>Tue, 24 Nov 2020 12:07:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/language-extension-syntax-highlight/</guid>
+      <description>简介 语法高亮显示确定在VisualStudio代码编辑器中显示的源代码的颜色和样式。 它负责在JavaScript中为if或for等关键字着色，这与字符串、注释和变量名不同
+语法高亮有两个组件：
+ Tokenization：符号化，将文本拆分为符号列表 Theming：支持主题，使用主题或用户设置将符号映射到特定的颜色和样式  在深入讨论细节之前，一个好的开始是使用scopeinspector工具并探索源文件中存在哪些标记以及它们与哪些主题规则匹配。 要同时查看语义和语法标记，请在TypeScript文件中使用内置主题（例如，Dark+）
+符号化 文本的符号化是将文本分成若干段，并用标记类型对每个段进行分类。
+VS代码的标记化引擎由TextMate语法驱动。TextMate语法是正则表达式的结构化集合， 以plist（XML）或JSON文件的形式编写。 语法扩展可以通过语法贡献点的贡献。
+TextMate符号化引擎在与呈现器相同的进程中运行，标记会随着用户类型的变化而更新。 标记用于语法高亮显示，但也用于将源代码分类为注释、字符串和正则表达式区域。
+从版本1.43开始，VS代码还允许扩展通过 语义标记提供者 为程序提供标记化。典型的是， 在项目服务器中实现的符号和语义的源代码一般都可以理解。例如， 可以在整个项目中使用常量高亮显示来呈现常量变量名，而不仅仅是在声明的地方。
+基于语义标记的高亮显示被认为是对基于TextMate的语法高亮显示的补充。 语义突出显示在语法突出显示之上。由于语言服务器需要一段时间来加载和分析项目， 语义标记高亮显示可能会在短时间延迟后出现。
+本文主要讨论基于TextMate的标记化。语义标记化和主题化在 语义高亮指南中解释
+TextMate 语法 VS代码使用TextMate语法作为语法标记化引擎。 它们是为TextMate编辑器而发明的， 由于开源社区创建和维护了大量的语言包，因此被许多其他编辑器和ide采用。
+TextMate语法依赖于Oniguruma正则表达式， 通常以plist或JSON的形式编写。您可以在这里找到对TextMate语法的很好的介绍， 并且可以查看现有的TextMate语法，以了解它们是如何工作的
+TextMate标记和作用域 标记是同一程序元素的一个或多个字符。示例标记包括运算符（如+和*）、变量名（如myVar）或字符串（如“my string”）。
+每个token都与定义token上下文的作用域相关联。作用域是一个点分隔的标识符列表，用于指定当前token的上下文。 例如，JavaScript中的+操作具有作用域关键字.运算符.算术.js。
+主题将范围映射到颜色和样式，以提供语法高亮显示。TextMate提供了许多主题所针对的通用范围的列表。 为了尽可能广泛地支持您的语法，请尝试在现有范围上构建，而不是定义新的范围。
+作用域嵌套，以便每个token也与父作用域的列表相关联。 下面的示例使用范围检查器 在一个简单的JavaScript函数中显示+运算符的范围层次结构。 最具体的作用域列在顶部，更一般的父作用域列在下面：
+父范围信息也用于创建主题。当主题以某个范围为目标时，所有具有该父作用域的标记都将被着色， 除非该主题还为其各自的作用域提供了更具体的着色
+添加 基本语法 VS代码支持json TextMate语法。这些都是通过grammars贡献点贡献的。
+每个语法贡献都指定：语法应用于的语言的标识符、语法标记的顶级作用域名称以及语法文件的相对路径。 下面的示例显示了虚构的abc语言的语法贡献：
+{ &amp;#34;contributes&amp;#34;: { &amp;#34;languages&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;extensions&amp;#34;: [&amp;#34;.abc&amp;#34;] } ], &amp;#34;grammars&amp;#34;: [ { &amp;#34;language&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;scopeName&amp;#34;: &amp;#34;source.</description>
+    </item>
+    
+    <item>
+      <title>VSCode扩展开发系列三 之 结束 Vscode Extension Wrapping Up</title>
+      <link>https://realjf.io/vscode/vscode-extension-wrapping-up/</link>
+      <pubDate>Tue, 24 Nov 2020 11:33:17 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/vscode-extension-wrapping-up/</guid>
+      <description>扩展的能力  VS Code APIs Contribution Points  详见扩展的能力
+指南和例子  Extension Guide Listing vscode-extension-example  测试和发布  如何在你的扩展中添加集成测试 如何发布你的扩展到vs code市场 如何为你的扩展建立持续集成  </description>
+    </item>
+    
+    <item>
+      <title>VSCode扩展开发系列二 之 扩展解析 Vscode Extension Anatomy</title>
+      <link>https://realjf.io/vscode/vscode-extension-anatomy/</link>
+      <pubDate>Tue, 24 Nov 2020 11:24:01 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/vscode-extension-anatomy/</guid>
+      <description>在上一节中我们创建了一个hello world扩展，那么他的工作原理是什么呢？
+ 注册onCommand激活事件：onCommand:extension.helloWorld，以便在用户运行Hello World命令时，扩展可激活 使用 contributes.commands Contribution Point使命令Hello World在命令调色板中可用，并且绑定一个命令id:extension.helloWorld 使用commands.registerCommand vscode api去绑定一个已经被extension.helloWorld的命令id注册的函数绑定  这里需要理解以下概念
+ Activation Event：设置扩展激活的时机。位于 package.json 中。 Contribution Point：设置在 VSCode 中哪些地方添加新功能，也就是这个扩展增强了哪些功能。位于 package.json 中。 Register：在 extension.ts 中给要写的功能用 vscode.commands.register&amp;hellip; 给 Activation Event 或 Contribution Point 中配置的事件绑定方法或者设置监听器。位于入口文件（默认是 extension.ts）的 activate() 函数中。 VS Code API：你可以在扩展代码中调用的javascript api功能集合  扩展文件结构 . ├── .vscode │ ├── launch.json // Config for launching and debugging the extension │ └── tasks.json // Config for build task that compiles TypeScript ├── .</description>
+    </item>
+    
+    <item>
+      <title>VSCode扩展开发系列一 之 第一个vscode插件开发 Your First Vscode Extension</title>
+      <link>https://realjf.io/vscode/your-first-vscode-extension/</link>
+      <pubDate>Tue, 24 Nov 2020 10:18:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/vscode/your-first-vscode-extension/</guid>
+      <description>准备  node.js git  安装yeoman和vscode扩展生成器 npm install -g yo generator-code 用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
+yo code ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
+    </item>
+    
+  </channel>
+</rss>

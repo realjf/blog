@@ -1,0 +1,562 @@
+<!doctype html>
+<html>
+<head>
+    <title>安装 Sphinx // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">安装 Sphinx</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Apr 28, 2020
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    3 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/">Tags</a></div></div>
+        </header>
+        <div class="post-content">
+            <h4 id="简介">简介</h4>
+<p>sphinx是由俄罗斯人开发的一个全文检索引擎。旨在为其他应用提供高速、低空间占用、告诫过相关度的全文搜索功能。</p>
+<p>特性:</p>
+<ul>
+<li>高速的建立索引（在现代cpu上，峰值性能可达到10MB/秒）;</li>
+<li>高性能的搜索（在2~4GB的文本数据上，平均每次检索响应时间小于0.1秒）</li>
+<li>可处理海量数据（目前已知可以处理超过100GB的文本数据，在单一CPU系统上可处理100M文档）</li>
+<li>提供了优秀的相关度算法，基于短语相似度和统计的复合Ranking方法。</li>
+<li>支持分布式搜索</li>
+<li>支持短语搜索</li>
+<li>提供文档摘要生成</li>
+<li>可作为mysql的存储引擎提供搜索服务</li>
+<li>支持布尔、短语、词语相似度等多种检索模式</li>
+<li>文档支持多个全文检索字段（最大不超过32个）</li>
+<li>文档支持多个额外的属性信息</li>
+<li>支持断词</li>
+</ul>
+<p>官网地址：<a href="http://sphinxsearch.com/">http://sphinxsearch.com/</a></p>
+<p>下载地址：<a href="http://sphinxsearch.com/downloads/current/">http://sphinxsearch.com/downloads/current/</a></p>
+<p>二进制地址：<a href="http://sphinxsearch.com/files/sphinx-3.0.2-2592786-linux-amd64.tar.gz">http://sphinxsearch.com/files/sphinx-3.0.2-2592786-linux-amd64.tar.gz</a></p>
+<p>源码包地址：<a href="http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz">http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz</a></p>
+<p>中文文档地址：<a href="http://www.sphinxsearch.org/archives/category/php">http://www.sphinxsearch.org/archives/category/php</a></p>
+<h4 id="sphinx在mysql上的应用有两种方式">sphinx在mysql上的应用有两种方式：</h4>
+<ol>
+<li>采用api调用，如php、java等的api函数或方法查询。优点是可不必对mysql重新编译，服务端进程“低耦合”，且程序灵活度高、方便调用。</li>
+<li>使用插件方式 sphinxSE把sphinx编译成一个mysql插件并使用特定的sql语句进行检索。</li>
+<li>通过安装相关编程语言的扩展插件</li>
+</ol>
+<h4 id="准备">准备</h4>
+<ul>
+<li>mysql</li>
+<li>mysql-devel</li>
+<li>编译软件gcc gcc-c++ autoconf automake</li>
+<li>sphinx</li>
+</ul>
+<pre><code># 安装工具
+yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-devel
+
+</code></pre><h4 id="sphinx安装">sphinx安装</h4>
+<pre><code># 下载
+wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz
+
+# 解压
+tar zxvf sphinx-2.2.11-release.tar.gz
+
+# 安装
+./configure --prefix=/usr/local/sphinx
+make &amp;&amp; make install
+
+# 备份配置文件
+cd /usr/local/sphinx/etc
+cp sphinx.conf.dist sphinx.conf
+
+</code></pre><h4 id="coreseek下载地址">coreseek下载地址</h4>
+<p>coreseek下载地址：<a href="http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz">http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz</a></p>
+<p>百度分享地址：<a href="https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw">https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw</a></p>
+<pre><code># 准备
+locale
+LANG=zh_CN.UTF-8
+LC_ALL=&quot;zh_CN.UTF-8&quot;
+
+# 以下核心项，locale为zh_CN.UTF-8，就可以正常显示和输入中文，locale设置功能由操作系统自身支持，BSD/Linux均可开启；该功能，不是coreseek提供的。
+# 如果需要修改，可以使用export LANG=zh_CN.UTF-8进行修改
+</code></pre><h4 id="安装coreseek开发的mmseg为coreseek提供中文分词功能">安装coreseek开发的mmseg，为coreseek提供中文分词功能</h4>
+<pre><code>tar zxvf coreseek-3.2.14.tar.gz
+cd mmseg-3.2.14
+./bootstrap
+./configure --prefix=/usr/local/mmseg3
+make &amp;&amp; make install
+
+
+# 安装完成后，mmseg使用的词典和配置文件，将自动安装到/usr/local/mmseg3/etc中
+# 中文分词测试
+/usr/local/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc src/t1.txt
+# 输出结果如下:
+中文/x 分/x 词/x 测试/x 
+中国人/x 上海市/x 
+
+Word Splite took: 0 ms.
+
+</code></pre><h4 id="安装coreseek">安装coreseek</h4>
+<pre><code>cd ..
+cd csft-3.2.14
+# 执行并配置
+sh buildconf.sh
+./configure --prefix=/usr/local/coreseek  --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/mmseg3/include/mmseg/ --with-mmseg-libs=/usr/local/mmseg3/lib/ --with-mysql=/usr/local/mysql
+
+# 如果出现找不到mysql includes file则使用以下编译命令
+
+./configure --prefix=/usr/local/coreseek --without-unixodbc --with-mmseg --with-mmseg-includes=/usr/local/mmseg3/include/mmseg/ --with-mmseg-libs=/usr/local/mmseg3/lib/ --with-mysql-includes=/alidata/server/mysql/include/ --with-mysql-libs=/alidata/server/mysql/bin/ 
+
+make &amp;&amp; make install
+</code></pre><p>如果编译报错，由于是gcc版本问题，所以需要手动修改以下内容</p>
+<p>vim  /usr/local/src/coreseek-4.1-beta/csft-4.1/src/sphinxexpr.cpp</p>
+<pre><code>error: ‘ExprEval’ was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
+   T val = ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
+   
+# 解决办法：
+1013 T val = ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
+# 修改为
+T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
+
+1047 T val = ExprEval ( this-&gt;m_pArg, tMatch );
+# 修改为
+T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );
+1080 T val = ExprEval ( this-&gt;m_pArg, tMatch );
+# 修改为
+T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );
+
+</code></pre><p>如果缺少python环境的devel支持包，则</p>
+<pre><code>yum install -y python-devel
+</code></pre><h4 id="测试mmseg分词和coreseek检索">测试mmseg分词和coreseek检索</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd coreseek-3.2.14/testpack
+cat var/test/test.xml
+<span style="color:#75715e"># 测试mmseg分词</span>
+/usr/local/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc var/test/test.xml
+
+<span style="color:#75715e"># 建立索引</span>
+/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/example.conf --all
+<span style="color:#75715e"># 如果运行报错</span>
+<span style="color:#75715e"># /usr/local/coreseek/bin/indexer: error while loading shared libraries: libmysqlclient.so.20: cannot open shared object file: No such file or directory</span>
+<span style="color:#75715e"># 解决办法是</span>
+locate libmysqlclient.so.20
+
+/usr/local/mysql/lib/libmysqlclient.so.20
+/usr/local/mysql/lib/libmysqlclient.so.20.3.4
+/usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20
+/usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20.3.4
+
+<span style="color:#75715e"># 以上输出内容可以看出，/usr/local/mysql/lib/libmysqlclient.so.20</span>
+
+vim /etc/ld.so.conf
+<span style="color:#75715e"># 新增一行 /usr/local/mysql/lib/</span>
+<span style="color:#75715e"># 然后执行ldconfig生效</span>
+
+/usr/local/coreseek/bin/search -c etc/csft.conf <span style="color:#75715e"># 网络搜索</span>
+
+</code></pre></div><blockquote>
+<p>如果没有locate命令，则运行以下命令安装</p>
+</blockquote>
+<pre><code>yum install mlocate
+updatedb
+# 现在可以使用locate了
+</code></pre><h4 id="一些常用命令">一些常用命令</h4>
+<pre><code># 开启搜索服务
+/usr/local/coreseek/bin/searchd -c etc/csft.conf
+# 停止搜索服务
+/usr/local/coreseek/bin/searchd -c etc/csft.conf --stop
+
+# 如已启动服务，要更新索引
+/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/example.conf --all --rotate
+
+
+</code></pre><h4 id="配置">配置</h4>
+<blockquote>
+<p>mysql数据源的配置可参考testpack/etc/csft_mysql.conf文件</p>
+</blockquote>
+<pre><code># 修改sphinx配置
+vim /usr/local/sphinx/etc/sphinx.conf
+# sql_host = localhost // 主机地址
+# sql_user = root // 数据库账户
+# sql_pass = qaz325234 // 数据库密码 数据库密码
+</code></pre><h3 id="qa">Q&amp;A</h3>
+<p>安装遇到的错误和问题解决方案</p>
+<p>1、测试mmseg分词的时候</p>
+<p>执行</p>
+<p>/usr/local/coreseek/bin/indexer -c etc/csft.conf &ndash;all</p>
+<p>提示下面的错误：</p>
+<p>/usr/local/coreseek/bin/indexer: error while loading shared libraries: libmysqlclient.so.18: cannot open shared object file: No such file or directory</p>
+<p>原因：sphinx indexer的依赖库ibmysqlclient.so.18找不到。</p>
+<p>解决办法：</p>
+<p>vi /etc/ld.so.conf
+加入 /usr/local/mysql/lib</p>
+<p>然后运行 ldconfig</p>
+<p>问题解决</p>
+<p>2、执行索引的时候</p>
+<p>/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/csft_ttd_search.conf &ndash;all &ndash;rotate</p>
+<p>提示下面的错误：</p>
+<p>FATAL: failed to open /usr/local/coreseek/var/data/ttd_article/.tmp.spl: No such file or directory, will not index. Try &ndash;rotate option.</p>
+<p>原因：source源找不到mysql.sock</p>
+<p>解决办法：在配置文件csft_ttd_search.conf（自己创建的文件）的 source源 加入下面的代码</p>
+<p>sql_sock   = /tmp/mysql.sock</p>
+<p>3、执行索引的时候，出现的警告，导致索引没创建成功</p>
+<p>WARNING: failed to open pid_file &lsquo;/usr/local/coreseek/var/log/searchd_ttd_search.pid&rsquo;.
+WARNING: indices NOT rotated.</p>
+<p>原因：找不到searchd_ttd_search.pid文件</p>
+<p>解决办法：在’/usr/local/coreseek/var/log 下创建searchd_ttd_search.pid文件</p>
+<p>再执行/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/csft_ttd_search.conf –all –rotate
+出现了另外一个警告：</p>
+<p>WARNING: failed to scanf pid from pid_file &lsquo;/usr/local/coreseek/var/log/searchd_ttd_search.pid&rsquo;.
+WARNING: indices NOT rotated.</p>
+<p>原因：虽然创建了searchd_ttd_search.pid文件，但是里面没有写入进程id</p>
+<p>解决办法（根本原因）：在执行索引之前没有启动searchd服务，因此执行下面的命令</p>
+<p>/usr/local/coreseek/bin/searchd &ndash;config /usr/local/coreseek/etc/ttd_search.conf</p>
+<p>出现了期待已久的成功提示：</p>
+<p>Coreseek Fulltext 3.2 [ Sphinx 0.9.9-release (r2117)]
+Copyright (c) 2007-2011,
+Beijing Choice Software Technologies Inc (<a href="http://www.coreseek.com">http://www.coreseek.com</a>)</p>
+<p>using config file &lsquo;/usr/local/coreseek/etc/ttd_search.conf&rsquo;&hellip;
+listening on all interfaces, port=9312
+rotating index &lsquo;mysql&rsquo;: success</p>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/sphinx/total_found/">sphinx的 total 和 total_found的区别</a></li>
+                
+                    <li><a href="/cpp/keyword/">C&#43;&#43;常用关键字用法解析 const static volatile extern mutable</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+    <aside class="sider">
+    <div>
+        <h2>书籍</h2>
+    </div>
+    <ul>
+        <li>
+            <a href="https://premake.realjf.io" title="premake" target="_blank">
+                <span>premake 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gltf.realjf.io" title="glTF" target="_blank">
+                <span>glTF 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://box2d.realjf.io" title="Box2D" target="_blank">
+                <span>Box2D 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gdb.realjf.io" title="gdb" target="_blank">
+                <span>gdb 中文手册</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

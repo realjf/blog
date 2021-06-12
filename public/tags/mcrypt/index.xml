@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mcrypt on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/mcrypt/</link>
+    <description>Recent content in mcrypt on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 15 Sep 2020 14:34:59 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/mcrypt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>windows环境下安装Php扩展Mcrypt</title>
+      <link>https://realjf.io/php/php-mcrypt-install-in-win/</link>
+      <pubDate>Tue, 15 Sep 2020 14:34:59 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/php-mcrypt-install-in-win/</guid>
+      <description>准备  xampp环境 mcrypt扩展下载地址https://windows.php.net/downloads/pecl/releases/mcrypt/  解压安装 解压后，直接复制php_mcrypt.dll到php/ext目录下， 然后在php.ini中添加一行extension=php_mcrypt.dll，重启apache即可</description>
+    </item>
+    
+  </channel>
+</rss>

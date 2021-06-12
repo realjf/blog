@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>php on Realjf&#39;s blog</title>
+    <link>https://realjf.io/categories/php/</link>
+    <description>Recent content in php on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Dec 2020 09:08:01 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>phpExcel导出excel文件内存溢出问题 Php Excel Memory Overflow</title>
+      <link>https://realjf.io/php/php-excel-memory-overflow/</link>
+      <pubDate>Mon, 14 Dec 2020 09:08:01 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/php-excel-memory-overflow/</guid>
+      <description>背景 今天在使用phpexcel导出数据为excel格式的时候，遇到一个问题，由于数据量比较大，所以，一次性缓存在内存中导致超出php的内存限制，Excel中一个单元格在不启用缓存的情况下大概占用内存是1K。我的数据是大概31万行、9列的表格（大概279万个单元格），需要2.66GB的内存。启用缓存的话，则会降到900MB，感觉还是太大。先试下看看
+解决 phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置
+$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp; $cacheSettings = array( &amp;#39;memoryCacheSize&amp;#39; =&amp;gt; &amp;#39;950MB&amp;#39;); PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings); $oExcel = new PHPExcel(); PHPExcel_Settings::setCacheStorageMethod() 的几个参数
+ 将单元格数据序列化后保存到内存中  PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized;  将单元格序列化后再进行gzip压缩，然后保存到内存中  PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip;  缓存在临时的磁盘文件中，速度可能会慢一些  PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;  保存在php://temp  PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;  保存在memcache中  $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_memcache; $cacheSettings = array( &amp;#39;memcacheServer&amp;#39; =&amp;gt; &amp;#39;localhost&amp;#39;, &amp;#39;memcachePort&amp;#39; =&amp;gt; 11211, &amp;#39;cacheTime&amp;#39; =&amp;gt; 600 ); PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings); 其它降低内存使用的方法 如果不需要读取Excel单元格格式，可以设置为只读取数据。
+$objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setReadDataOnly(true); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.xlsx”); 如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。
+$objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setLoadSheetsOnly( array(&amp;#34;Worksheet1&amp;#34;, &amp;#34;Worksheet2&amp;#34;) ); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.</description>
+    </item>
+    
+    <item>
+      <title>windows环境下安装Php扩展Mcrypt</title>
+      <link>https://realjf.io/php/php-mcrypt-install-in-win/</link>
+      <pubDate>Tue, 15 Sep 2020 14:34:59 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/php-mcrypt-install-in-win/</guid>
+      <description>准备  xampp环境 mcrypt扩展下载地址https://windows.php.net/downloads/pecl/releases/mcrypt/  解压安装 解压后，直接复制php_mcrypt.dll到php/ext目录下， 然后在php.ini中添加一行extension=php_mcrypt.dll，重启apache即可</description>
+    </item>
+    
+    <item>
+      <title>windows环境下安装Memcached和php-memcached扩展以及安装php-memcache扩展</title>
+      <link>https://realjf.io/php/memcached-and-php-extension-install-win/</link>
+      <pubDate>Tue, 15 Sep 2020 14:12:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/memcached-and-php-extension-install-win/</guid>
+      <description>准备  xampp环境 php-memcached扩展，地址https://github.com/lifenglsf/php_memcached_dll php-memcache扩展，地址http://pecl.php.net/package/memcache/4.0.5.2/windows memcached下载地址https://www.runoob.com/memcached/window-install-memcached.html  memcached安装 首先下载对应版本的memcached，我这里使用的是这个http://static.runoob.com/download/memcached-1.4.5-amd64.zip
+安装步骤详见：https://www.runoob.com/memcached/window-install-memcached.html
+我这里只写1.4.5版本的安装
+首先下载解压后，用管理员权限运行如下命令：
+schtasks /create /sc onstart /tn memcached /tr &amp;#34;&amp;#39;e:\memcached\memcached.exe&amp;#39; -m 512&amp;#34; # /tn taskname 指定唯一识别这个计划任务的名称 # /sc schedule 指定计划频率 # /create 创建新计划任务 # /tr taskrun 指定在这个计划运行的程序的路径和文件名 # 如果需要删除，可以运行如下命令 schtasks /delete /tn memcached # 设置开机启动后如何立马运行 schtasks /run /tn memcached # 运行后如何终止正在运行的计划任务 schtasks /end /tn memcached # 查看更多schtasks帮助 schtasks /? memcached的php扩展 首先phpinfo查看php版本， http://localhost:8080/dashboard/phpinfo.php
+然后根据Zend Extension Build和PHP Extension Build可以确定对应的memcached版本， 我这里的信息如下：
+Zend Extension Build	API320190902,TS,VC15 PHP Extension Build	API20190902,TS,VC15 # 注意后面的TS,VC15，找对应的memcached扩展也需要对应这个 根据上面给的github地址下载好对应版本的php_memcached.</description>
+    </item>
+    
+    <item>
+      <title>PHP启动时配置文件显示： Loaded Configuration File 为 none</title>
+      <link>https://realjf.io/php/start-with-config-file-none/</link>
+      <pubDate>Mon, 07 Sep 2020 18:00:11 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/start-with-config-file-none/</guid>
+      <description>PHP启动时配置文件显示： Loaded Configuration File 为 none 首先查看php 的配置情况 php --ini # 输出如下 Configuration File (php.ini) Path: /data/conf/etc/php.ini Loaded Configuration File: (none) Scan for additional .ini files in: (none) Additional .ini files parsed: (none) 可以看到Loaded Configuration File的配置项为none，如果你直接在teminal中执行php运行代码，可能出现配置一些配置未加载的情况 ，特别是一些扩展未加载情况导致的无法使用扩展
+解决方法 如果有strace，可以使用strace跟踪下php的执行情况
+strace /usr/local/php/bin/php -i 2&amp;gt; /tmp/ll.log # 然后使用grep查看跟踪中出现加载php.ini的路径 grep &amp;#39;php.ini&amp;#39; /tmp/ll.log # 结果如下： open(&amp;#34;/usr/local/php/bin/php.ini&amp;#34;, O_RDONLY) = -1 ENOENT (No such file or directory) open(&amp;#34;/usr/local/php/etc/php.ini&amp;#34;, O_RDONLY) = -1 ENOENT (No such file or directory) 可以看到首先加载了/usr/local/php/bin/目录下的php.</description>
+    </item>
+    
+    <item>
+      <title>php websocket简单使用 Simple Websocket</title>
+      <link>https://realjf.io/php/simple-websocket/</link>
+      <pubDate>Sat, 13 Jun 2020 18:14:12 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/simple-websocket/</guid>
+      <description>环境准备  php 7 linux 系统  服务端 websocket.php 文件 &amp;lt;?php $address = &amp;#39;0.0.0.0&amp;#39;; $port = 8000; // 创建socket $server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP); socket_set_option($server, SOL_SOCKET, SO_REUSEADDR, 1); socket_bind($server, $address, $port); socket_listen($server); $client = socket_accept($server); // 发送websokcet握手 header $request = socket_read($client, 5000); // 读取数据 preg_match(&amp;#39;#Sec-WebSocket-Key: (.*)\r\n#&amp;#39;, $request, $matches); $key = base64_encode(pack( &amp;#39;H*&amp;#39;, sha1($matches[1] . &amp;#39;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&amp;#39;) )); $headers = &amp;#34;HTTP/1.1 101 Switching Protocols\r\n&amp;#34;; $headers .= &amp;#34;Upgrade: websocket\r\n&amp;#34;; $headers .= &amp;#34;Connection: Upgrade\r\n&amp;#34;; $headers .</description>
+    </item>
+    
+    <item>
+      <title>php扩展开发 php Extension Develop</title>
+      <link>https://realjf.io/php/extension-develop/</link>
+      <pubDate>Mon, 18 May 2020 16:00:22 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/extension-develop/</guid>
+      <description>下载php源代码 要开发php扩展，需要下载php源码，里面有我们开发扩展需要的工具
+下载地址：https://www.php.net/downloads
+wget https://www.php.net/distributions/php-7.4.6.tar.xz xz -d php-7.4.6.tar.xz tar xvf php-7.4.6.tar 我们需要的是源码目录下ext目录下的ext_skel或ext_skel.php文件，它是类unix环境下用于自动生成php扩展框架的脚本工具。
+开发自己的php扩展 可以通过&amp;ndash;help查看ext_skel.php的完整命令
+ext_skel --help 首先，我们需要利用ext_skel.php生成我们需要的框架，只需要提供&amp;ndash;extname的参数即可
+# 5.6.23 ./ext_skel --extname=helloworld # 7.4.6 ./ext_skel.php --ext helloworld 运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录
+目录下包含以下文件：
+ config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。 php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。 helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中  build system配置 这里看下config.m4配置的一些内容，打开config.m4，注意，其使用dnl作为注释符
+dnl config.m4 for extension helloworld dnl Comments in this file start with the string &amp;#39;dnl&amp;#39;. dnl Remove where necessary. dnl If your extension references something external, use &amp;#39;with&amp;#39;: dnl PHP_ARG_WITH([helloworld], dnl [for helloworld support], dnl [AS_HELP_STRING([--with-helloworld], dnl [Include helloworld support])]) dnl Otherwise use &amp;#39;enable&amp;#39;: PHP_ARG_ENABLE([helloworld], [whether to enable helloworld support], [AS_HELP_STRING([--enable-helloworld], [Enable helloworld support])], [no]) if test &amp;#34;$PHP_HELLOWORLD&amp;#34; !</description>
+    </item>
+    
+    <item>
+      <title>php底层运行机制 Underlying Operation Mechanism</title>
+      <link>https://realjf.io/php/underlying-operation-mechanism/</link>
+      <pubDate>Mon, 18 May 2020 14:08:10 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/underlying-operation-mechanism/</guid>
+      <description>php是多进程模型，不同请求间互不干涉，保证了一个请求挂掉不会对其他请求造成影响。目前php也支持多线程模型。
+php同时也是弱类型语言，zend引擎+组件（ext）的模式，降低内部耦合，中间层sapi,隔绝web server和php
+php的核心架构 php核心架构如下图，从下到上可以简单分为四层体系：
+ zend引擎：是php的内核，它将php代码翻译为可执行opcode的处理并实现相应的处理方法，实现了基本的数据结构、内存分配管理、提供了相应的api方法供外部调用，是一切的核心 Extensions：围绕着zend引擎，extensions通过组件式的方式提供各种基础服务，各种内置函数、标准库等都是通过extensions实现的。 sapi：全称是Server Application Programming Interface服务端应用编程接口，sapi通过一系列钩子函数，使得php可以和外围交互数据，通过sapi成功的将php本身和上层应用解耦隔离，php可以不再考虑如何针对不同应用进行兼容，而应用本身也可以针对自己特点实现不同处理方式。  常见的一些sapi有：apache2handler: 这是以apache作为webserver，采用mod_php模式运行方式也是应用最广泛的一种 cgi：这是webserver和php直接交互的另一种方式，fastcgi+php得到广泛应用，也是异步webserver所唯一支持的方式 cli：命令行调用的应用模式   上层应用：这是我们平时编写的php程序，通过不同的sapi方式得到各种各样的应用模式  php执行流程 php实现了典型动态语言执行过程：将一段代码经过词法解析、语法解析等阶段后，源程序会被翻译成一个个指令（opcodes）， 然后zend虚拟机顺次执行这些指令完成操作。php本身是用c实现的，因此最终调用的也是c的函数。
+php的执行核心是翻译出来的一条条指令，即opcode。
+opcode是php程序执行的最基本单位。一个opcode由两个参数（op1,op2）、返回值和处理函数组成。php程序最终被翻译成一组opcode处理函数的顺序执行。
+zend引擎 zend引擎作为php的内核，有很多经典的设计机制，主要有以下几个：
+实现hashTable数据结构： hashTable是zend的核心数据结构。几乎用来实现所有常见功能。
+zend hash table实现了典型的hash表散列结构,同时通过附加一个双向链表，提供了正向、反向遍历数组的功能。其结构如下：
+在hash table中既有key-&amp;gt;value形式的散列结构，也有双向链表模式，使得它能够非常方便的支持快速查找和线性遍历
+  散列结构：Zend的散列结构是典型的hash表模型，通过链表的方式来解决冲突。需要注意的是zend的hash table是一个自增长的数据结构， 当hash表数目满了之后，其本身会动态以2倍的方式扩容并重新元素位置。初始大小均为8。 另外，在进行 key-&amp;gt;value快速查找时候，zend本身还做了一些优化，通过空间换时间的方式加快速度。 比如在每个元素中都会用一个变量 nKeyLength标识key的长度以作快速判定。
+  双向链表：Zend hash table通过一个链表结构，实现了元素的线性遍历。 理论上，做遍历使用单向链表就够了，之所以使用双向链表，主要目的是为了快速删除，避免遍历。 Zend hash table是一种复合型的结构，作为数组使用时，即支持常见的关联数组也能够作为顺序索引数字来使用，甚至允许2者的混合。
+  PHP关联数组：关联数组是典型的hash_table应用。
+  PHP索引数组：索引数组就是我们常见的数组，通过下标访问。例如 arr[0]，Zend HashTable内部进行了归一化处理，对于index类型key同样分配了hash值和nKeyLength(为0)。内部成员变量 nNextFreeElement就是当前分配到的最大id，每次push后自动加一。正是这种归一化处理，PHP才能够实现关联和非关联的混合。由于 push操作的特殊性，索引key在PHP数组中先后顺序并不是通过下标大小来决定，而是由push的先后决定。
+  php变量实现原理 PHP在变量申明的时候不需要指定类型。PHP在程序运行期间可能进行变量类型的隐示 转换。 和其他强类型语言一样，程序中也可以进行显示的类型转换。PHP变量可以分为简单类型(int、string、bool)、集合类型(array 、resource 、object)和常量(const)。以上所有的变量在底层都是同一种结构 zval</description>
+    </item>
+    
+    <item>
+      <title>大文件分片上传 之 基于webuploader组件（Chunk Upload File）</title>
+      <link>https://realjf.io/php/chunk-upload-file/</link>
+      <pubDate>Mon, 13 Apr 2020 14:00:07 +0800</pubDate>
+      
+      <guid>https://realjf.io/php/chunk-upload-file/</guid>
+      <description>针对大文件（上百兆或者好几个G的大文件上传，总是比较麻烦的，这里将介绍一个比较方便的解决方案
+准备  百度的webuploader组件 lnmp或lamp开发环境  本次使用的是百度分享的分片js组件webuploader
+同时后端使用php接收分片文件，并进行最后的组装。
+第一步，首先下载webuploader插件 下载地址：https://github.com/fex-team/webuploader/releases
+解压后文件结构如下：
+├── Uploader.swf // SWF文件，当使用Flash运行时需要引入。 ├── webuploader.js // 完全版本。 ├── webuploader.min.js // min版本 ├── webuploader.custom.js ├── webuploader.nolog.js ├── webuploader.flashonly.js // 只有Flash实现的版本。 ├── webuploader.flashonly.min.js // min版本 ├── webuploader.html5only.js // 只有Html5实现的版本。 ├── webuploader.html5only.min.js // min版本 ├── webuploader.withoutimage.js // 去除图片处理的版本，包括HTML5和FLASH. └── webuploader.withoutimage.min.js // min版本 下载 第二步，创建一个html页面，引入一下文件 &amp;lt;link href=&amp;#34;/resource/webuploader/webuploader.css&amp;#34; rel=&amp;#34;stylesheet&amp;#34; /&amp;gt; &amp;lt;script src=&amp;#34;/resource/webuploader/webuploader.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 页面内容如下：
+&amp;lt;div id=&amp;#34;uploader&amp;#34; class=&amp;#34;wu-example&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;uploader&amp;#34; class=&amp;#34;wu-example&amp;#34;&amp;gt; &amp;lt;!--用来存放文件信息--&amp;gt; &amp;lt;div class=&amp;#34;filename&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;state&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;progress&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;progress_bar&amp;#34; class=&amp;#34;progress-bar progress-bar-info progress-striped active&amp;#34; role=&amp;#34;progressbar&amp;#34; style=&amp;#34;width: 0%&amp;#34;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;btns&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;picker&amp;#34;&amp;gt;选择文件&amp;lt;/div&amp;gt; &amp;lt;button id=&amp;#34;ctlBtn&amp;#34; class=&amp;#34;btn btn-default&amp;#34;&amp;gt;开始上传&amp;lt;/button&amp;gt; &amp;lt;button id=&amp;#34;pause&amp;#34; class=&amp;#34;btn btn-danger&amp;#34;&amp;gt;暂停上传&amp;lt;/button&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; 第三步，js逻辑如下 &amp;lt;script type=&amp;#34;text/javascript&amp;#34;&amp;gt; $(function () { var GUID = WebUploader.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,508 @@
+<!doctype html>
+<html>
+<head>
+    <title>NCURSES编程 之 1.简介 1 Introduction // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description" content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    
+    <script src="./js/highlight.pack.js"> </script>
+
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<header class="app-header">
+    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+    <h1>Realjf&#39;s blog</h1>
+    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+    <div class="app-header-social">
+        
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+    </div>
+    <div>
+        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+    </div>
+</header>
+<main class="app-container">
+    <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+    <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+    
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">NCURSES编程 之 1.简介 1 Introduction</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Mar 4, 2021
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    4 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
+        </header>
+        <div class="post-content">
+            <h2 id="1-简介">1. 简介</h2>
+<p>在老式电传终端时代，终端远离计算机，通过串行电缆与计算机相连。终端可以通过发送一系列字节来配置。终端的所有功能（如将光标移动到新位置、擦除部分屏幕、滚动屏幕、更改模式等）都可以通过这些字节序列访问。这些控制序列通常称为转义序列，因为它们以转义（0x1B）字符开头。即使在今天，通过适当的仿真，我们也可以将转义序列发送到仿真器，并在终端窗口上实现相同的效果。</p>
+<p>假设你想用彩色打印一行。试着在你的控制台上输入这个。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;^[[0;31;40mIn Color&#34;</span>
+</code></pre></div><p>第一个字符是转义字符，看起来像两个字符^和[。要打印它，您必须按CTRL+V，然后按ESC键（或者直接用\033代替）。其他的都是普通的可打印字符。你应该可以看到红色的字符串“In Color”。它保持这种方式，并恢复到原来的模式类型。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#34;^[[0;37;40m&#34;</span>
+</code></pre></div><p>现在，这些神奇的字符是什么意思？难以理解？对于不同的终端，它们甚至可能是不同的。因此UNIX的设计者发明了一种叫做termcap的机制。它是一个文件，列出了特定终端的所有功能，以及实现特定效果所需的转义序列。在后来的几年里，它被terminfo所取代。这种机制不需要深入研究太多细节，它允许应用程序查询terminfo数据库并获取要发送到终端或终端仿真器的控制字符。</p>
+<h3 id="11-什么是ncurses">1.1 什么是NCURSES？</h3>
+<p>你可能想知道，这些技术上的胡言乱语有什么意义。在上述场景中，每个应用程序都应该查询terminfo并执行必要的操作（发送控制字符等）。很快就很难处理这种复杂性，这就产生了“CURSES”。Curses是“cursor optimization”这个名字的双关语。Curses库在使用原始终端代码时形成了一个包装器，并提供了高度灵活和高效的API（应用程序编程接口）。它提供了移动光标、创建窗口、生成颜色、玩鼠标等功能。应用程序不必担心底层的终端功能。</p>
+<p>那么什么是NCURSES？NCURSES是原始systemv 4.0版（SVr4）curses的克隆。它是一个可自由分发的库，与旧版本的curses完全兼容。简而言之，它是一个函数库，用于管理应用程序在字符单元终端上的显示。在本文档的其余部分中，术语“curses”和“ncurses”可以互换使用。</p>
+<p>NCURSES的详细历史记录可以在源发行版的新闻文件中找到。当前包由托马斯·迪基维护。你可以联系维修人员bug-ncurses@gnu.org。</p>
+<h3 id="12-用ncurses我们可以做什么">1.2 用NCURSES我们可以做什么？</h3>
+<p>NCURSES不仅在终端功能上创建了一个包装器，而且还提供了一个健壮的框架来在文本模式下创建美观的UI（用户界面）。它提供了创建窗口等函数。它的姊妹库面板、菜单和窗体提供了对基本curses库的扩展。这些库通常伴随着curses。可以创建包含多个窗口、菜单、面板和窗体的应用程序。窗口可以独立管理，可以提供“滚动性”，甚至可以隐藏。</p>
+<p>菜单为用户提供了一个简单的命令选择选项。窗体允许创建易于使用的数据输入和显示窗口。面板扩展了ncurses处理重叠和堆叠窗口的功能。</p>
+<p>这些只是我们可以用ncurses做的一些基本的事情。随着我们的讲述，我们将看到这些库的所有功能。</p>
+<h3 id="13-哪里可以获取到">1.3 哪里可以获取到？</h3>
+<p>好吧，现在你知道你能用ncurses做什么了，你必须开始了。NCURSES通常随安装一起提供。如果你没有这个库或者想自己编译它，请继续阅读。</p>
+<h4 id="编译包">编译包</h4>
+<p>NCURSES 可从<a href="ftp://ftp.gnu.org/pub/gnu/ncurses/ncurses.tar.gz">ftp://ftp.gnu.org/pub/gnu/ncurses/ncurses.tar.gz</a>或任何<a href="http://www.gnu.org/order/ftp.html">http://www.gnu.org/order/ftp.html</a>中提到的ftp站点。</p>
+<p>阅读自述文件和安装文件，了解如何安装它的详细信息。它通常包括以下操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 解压</span>
+tar zxvf ncurses&lt;version&gt;.tar.gz
+<span style="color:#75715e"># 进入目录</span>
+cd ncurses&lt;version&gt;
+<span style="color:#75715e"># 配置构建信息</span>
+./configure
+<span style="color:#75715e"># 构建</span>
+make
+<span style="color:#75715e"># 安装</span>
+make install
+</code></pre></div><h4 id="使用rpm">使用rpm</h4>
+<p>NCURSES RPM 能在http://rpmfind.net中找到并下载，然后安装它</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">rpm -i &lt;downloaded rpm&gt;
+</code></pre></div><h3 id="14-该文档的目的范围">1.4 该文档的目的/范围</h3>
+<p>本文档旨在成为使用ncurses及其姊妹库进行编程的“一体式”指南。我们从一个简单的“helloworld”程序毕业到更复杂的表单操作。假设没有ncurses的经验。写作是非正式的，但是每一个例子都提供了很多细节。</p>
+<h3 id="15-关于编程">1.5 关于编程</h3>
+<p>文档中的所有程序都以压缩格式提供<a href="http://www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/ncurses_programs.tar.gz">这里</a>。解压缩和解压。目录结构如下所示。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ncurses
+   |
+   |----&gt; JustForFun     -- just <span style="color:#66d9ef">for</span> fun programs
+   |----&gt; basics         -- basic programs
+   |----&gt; demo           -- output files go into this directory after make
+   |          |
+   |          |----&gt; exe -- exe files of all example programs
+   |----&gt; forms          -- programs related to form library
+   |----&gt; menus          -- programs related to menus library
+   |----&gt; panels         -- programs related to panels library
+   |----&gt; perl           -- perl equivalents of the examples <span style="color:#f92672">(</span>contributed
+   |                            by Anuradha Ratnaweera<span style="color:#f92672">)</span>
+   |----&gt; Makefile       -- the top level Makefile
+   |----&gt; README         -- the top level README file. contains instructions
+   |----&gt; COPYING        -- copyright notice
+</code></pre></div><p>各个目录包含以下文件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Description of files in each directory
+--------------------------------------
+JustForFun
+    |
+    |----&gt; hanoi.c   -- The Towers of Hanoi Solver
+    |----&gt; life.c    -- The Game of Life demo
+    |----&gt; magic.c   -- An Odd Order Magic Square builder 
+    |----&gt; queens.c  -- The famous N-Queens Solver
+    |----&gt; shuffle.c -- A fun game, <span style="color:#66d9ef">if</span> you have time to kill
+    |----&gt; tt.c      -- A very trivial typing tutor
+
+  basics
+    |
+    |----&gt; acs_vars.c            -- ACS_ variables example
+    |----&gt; hello_world.c         -- Simple <span style="color:#e6db74">&#34;Hello World&#34;</span> Program
+    |----&gt; init_func_example.c   -- Initialization functions example
+    |----&gt; key_code.c            -- Shows the scan code of the key pressed
+    |----&gt; mouse_menu.c          -- A menu accessible by mouse
+    |----&gt; other_border.c        -- Shows usage of other border functions apa
+    |                               -- rt from box<span style="color:#f92672">()</span>
+    |----&gt; printw_example.c      -- A very simple printw<span style="color:#f92672">()</span> example
+    |----&gt; scanw_example.c       -- A very simple getstr<span style="color:#f92672">()</span> example
+    |----&gt; simple_attr.c         -- A program that can print a c file with 
+    |                               -- comments in attribute
+    |----&gt; simple_color.c        -- A simple example demonstrating colors
+    |----&gt; simple_key.c          -- A menu accessible with keyboard UP, DOWN 
+    |                               -- arrows
+    |----&gt; temp_leave.c          -- Demonstrates temporarily leaving curses mode
+    |----&gt; win_border.c          -- Shows Creation of windows and borders
+    |----&gt; with_chgat.c          -- chgat<span style="color:#f92672">()</span> usage example
+
+  forms 
+    |
+    |----&gt; form_attrib.c     -- Usage of field attributes
+    |----&gt; form_options.c    -- Usage of field options
+    |----&gt; form_simple.c     -- A simple form example
+    |----&gt; form_win.c        -- Demo of windows associated with forms
+
+  menus 
+    |
+    |----&gt; menu_attrib.c     -- Usage of menu attributes
+    |----&gt; menu_item_data.c  -- Usage of item_name<span style="color:#f92672">()</span> etc.. functions
+    |----&gt; menu_multi_column.c    -- Creates multi columnar menus
+    |----&gt; menu_scroll.c     -- Demonstrates scrolling capability of menus
+    |----&gt; menu_simple.c     -- A simple menu accessed by arrow keys
+    |----&gt; menu_toggle.c     -- Creates multi valued menus and explains
+    |                           -- REQ_TOGGLE_ITEM
+    |----&gt; menu_userptr.c    -- Usage of user pointer
+    |----&gt; menu_win.c        -- Demo of windows associated with menus
+
+  panels 
+    |
+    |----&gt; panel_browse.c    -- Panel browsing through tab. Usage of user 
+    |                           -- pointer
+    |----&gt; panel_hide.c      -- Hiding and Un hiding of panels
+    |----&gt; panel_resize.c    -- Moving and resizing of panels
+    |----&gt; panel_simple.c    -- A simple panel example
+
+  perl
+    |----&gt; 01-10.pl          -- Perl equivalents of first ten example programs
+</code></pre></div><p>主目录中包含一个顶级Makefile。它构建所有的文件，并将准备好使用的exe放在demo/exe目录中。您也可以通过进入相应的目录来进行选择性生成。每个目录都包含一个自述文件，解释目录中每个c文件的用途。</p>
+<p>对于每个示例，我都包含了相对于examples目录的文件路径名。</p>
+<p>如果您喜欢浏览单个程序，请将浏览器指向 <a href="http://tldp.org/HOWTO/NCURSES-Programming-HOWTO/ncurses_programs/">http://tldp.org/HOWTO/NCURSES-Programming-HOWTO/ncurses_programs/</a></p>
+<p>所有程序都是在ncurses（MIT风格）使用的同一个许可证下发布的。这让你有能力做几乎任何事情，而不是声称他们是你的。你可以在你的程序中随意使用它们。</p>
+<h3 id="16-其他格式的文档">1.6 其他格式的文档</h3>
+<p>本指南也可在网站上以各种其他格式提供tldp.org网站地点。以下是指向此文档其他格式的链接。</p>
+<h4 id="161-来自的现成格式tldporg网站">1.6.1 来自的现成格式tldp.org网站</h4>
+<ul>
+<li><a href="http://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/pdf/NCURSES-Programming-HOWTO.pdf">Acrobat PDF Format</a></li>
+<li><a href="http://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/ps/NCURSES-Programming-HOWTO.ps.gz">PostScript Format</a></li>
+<li><a href="http://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html/NCURSES-Programming-HOWTO-html.tar.gz">In Multiple HTML pages</a></li>
+<li><a href="http://www.ibiblio.org/pub/Linux/docs/HOWTO/other-formats/html_single/NCURSES-Programming-HOWTO.html">In One big HTML format</a></li>
+</ul>
+<h4 id="162-从源码构建">1.6.2 从源码构建</h4>
+<p>如果上面的链接断开了，或者您想尝试使用sgml，请继续阅读。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">Get both the source and the tar,gzipped programs, available at
+        http://cvsview.tldp.org/index.cgi/LDP/howto/docbook/
+        NCURSES-HOWTO/NCURSES-Programming-HOWTO.sgml
+        http://cvsview.tldp.org/index.cgi/LDP/howto/docbook/
+        NCURSES-HOWTO/ncurses_programs.tar.gz
+
+    Unzip ncurses_programs.tar.gz with
+    tar zxvf ncurses_programs.tar.gz
+
+    Use jade to create various formats. For example <span style="color:#66d9ef">if</span> you just want to create
+    the multiple html files, you would use
+        jade -t sgml -i html -d &lt;path to docbook html stylesheet&gt;
+        NCURSES-Programming-HOWTO.sgml
+    to get pdf, first create a single html file of the HOWTO with 
+        jade -t sgml -i html -d &lt;path to docbook html stylesheet&gt; -V nochunks
+        NCURSES-Programming-HOWTO.sgml &gt; NCURSES-ONE-BIG-FILE.html
+    <span style="color:#66d9ef">then</span> use htmldoc to get pdf file with
+        htmldoc --size universal -t pdf --firstpage p1 -f &lt;output file name.pdf&gt;
+        NCURSES-ONE-BIG-FILE.html
+    <span style="color:#66d9ef">for</span> ps, you would use
+        htmldoc --size universal -t ps --firstpage p1 -f &lt;output file name.ps&gt;
+        NCURSES-ONE-BIG-FILE.html
+</code></pre></div><h3 id="17">1.7</h3>
+<h3 id="18-愿望清单">1.8 愿望清单</h3>
+<p>这是愿望清单，按优先顺序排列。如果你有一个愿望或者你想完成这个愿望，给我发邮件。</p>
+<ul>
+<li>在表单部分的最后部分添加示例。</li>
+<li>准备一个展示所有程序的演示，并允许用户浏览每个程序的描述。让用户编译并查看正在运行的程序。首选基于对话框的界面。</li>
+<li>添加调试信息。_tracef，tracemouse的东西。</li>
+<li>使用ncurses包提供的函数访问termcap、terminfo。</li>
+<li>同时在两个终端上工作。</li>
+<li>在杂项部分添加更多内容。</li>
+</ul>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+</main>
+    <aside class="sider">
+    <div>
+        <h2>书籍</h2>
+    </div>
+    <ul>
+        <li>
+            <a href="https://premake.realjf.io" title="premake" target="_blank">
+                <span>premake 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gltf.realjf.io" title="glTF" target="_blank">
+                <span>glTF 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://box2d.realjf.io" title="Box2D" target="_blank">
+                <span>Box2D 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gdb.realjf.io" title="gdb" target="_blank">
+                <span>gdb 中文手册</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+<div class="app-footer">
+    <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
+</span>
+</div>
+<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+<script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+</html>

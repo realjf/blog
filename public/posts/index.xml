@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Realjf&#39;s blog</title>
+    <link>https://realjf.io/posts/</link>
+    <description>Recent content in Posts on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 02 Mar 2021 21:55:35 +0800</lastBuildDate><atom:link href="https://realjf.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mysql多选平台查询条件生成实现 Multiple Choice Platform</title>
+      <link>https://realjf.io/posts/multiple-choice-platform/</link>
+      <pubDate>Tue, 02 Mar 2021 21:55:35 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/multiple-choice-platform/</guid>
+      <description>多选平台数值之和查询语句优化 /** * * mysql 数据库设计中，存在一个平台字段保存的是多个平台值相加的数值， * 查询的时候需要使用如下方法生成平台查询字段值即可快速查出对应平台的数据， * 而不必使用数据库按位与计算及or条件等降低查询速度的方式 * */ class plat{ const PLAT_ALL = 0; // 全部 0b 0  const PLAT_ANDROID = 1; // 1b 1&amp;lt;&amp;lt;0  const PLAT_IOS = 2; // 10b 1&amp;lt;&amp;lt;1  const PLAT_PC = 4; // 100b 1&amp;lt;&amp;lt;2  const PLAT_WAP = 8; // 1000b 1&amp;lt;&amp;lt;3  const PLAT_BOX_A = 16; // 10000 1&amp;lt;&amp;lt;4 安卓1  const PLAT_BOX_I = 32; // 10 0000 1&amp;lt;&amp;lt;5 ios1  const PLAT_ADMIN = 64; //100 0000 1&amp;lt;&amp;lt;6 后台  const PLAT_OBS = 128; // 1000 0000 1&amp;lt;&amp;lt;7 obs  const PLAT_IOS_TOOLS = 256; // 1000 0000 1&amp;lt;&amp;lt;8 助手  static $plats = [ self::PLAT_ALL =&amp;gt; &amp;#39;全部&amp;#39;, self::PLAT_ANDROID =&amp;gt; &amp;#39;安卓&amp;#39;, self::PLAT_IOS =&amp;gt; &amp;#39;IOS&amp;#39;, self::PLAT_PC =&amp;gt; &amp;#39;PC&amp;#39;, self::PLAT_WAP =&amp;gt; &amp;#39;WAP&amp;#39;, self::PLAT_BOX_A =&amp;gt; &amp;#39;安卓1&amp;#39;, self::PLAT_BOX_I =&amp;gt; &amp;#39;ios1&amp;#39;, self::PLAT_ADMIN =&amp;gt; &amp;#34;后台&amp;#34;, self::PLAT_OBS =&amp;gt; &amp;#39;OBS&amp;#39;, self::PLAT_IOS_TOOLS =&amp;gt; &amp;#39;助手&amp;#39; ]; function getPlatformCond($platform, $extCond = []) { $cond = &amp;#34;platform=0&amp;#34;; if (!</description>
+    </item>
+    
+    <item>
+      <title>VIM 快捷键 Vim Shortcut</title>
+      <link>https://realjf.io/posts/vim-shortcut/</link>
+      <pubDate>Sun, 28 Feb 2021 14:44:38 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/vim-shortcut/</guid>
+      <description>1. vim 1.1 Vim的几种模式  正常模式：可以使用快捷键命令，或按:输入命令行。插入模式：可以输入文本，在正常模式下，按i、a、o等都可以进入插入模式。可视模式：正常模式下按v可以进入可视模式， 在可视模式下，移动光标可以选择文本。按V进入可视行模式， 总是整行整行的选中。ctrl+v进入可视块模式，之后使用 j/k/h/l键可以选中一块替换模式：正常模式下，按R进入。2. 启动Vim  vim -c cmd file: 在打开文件前，先执行指定的命令；vim -r file: 恢复上次异常退出的文件；vim -R file: 以只读的方式打开文件，但可以强制保存；vim -M file: 以只读的方式打开文件，不可以强制保存；vim -y num file: 将编辑窗口的大小设为num行；vim + file: 从文件的末尾开始；vim +num file: 从第num行开始；vim +/string file: 打开file，并将光标停留在第一个找到的string上。vim --remote file: 用已有的vim进程打开指定的文件。 如果你不想启用多个vim会话，这个很有用。但要注意， 如果你用vim，会寻找名叫VIM的服务器；如果你已经有一个gvim在运行了， 你可以用gvim --remote file在已有的gvim中打开文件。3. 文档操作  :e file --关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi会警告。:e! file --放弃对当前文件的修改，编辑新的文件。:e+file -- 开始新的文件，并从文件尾开始编辑。:e+n file -- 开始新的文件，并从第n行开始编辑。:enew --编译一个未命名的新文档。(CTRL-W n):e -- 重新加载当前文档。:e!</description>
+    </item>
+    
+    <item>
+      <title>订单号设计规则 How to Design Order Id</title>
+      <link>https://realjf.io/posts/how-to-design-order-id/</link>
+      <pubDate>Mon, 14 Dec 2020 15:50:18 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/how-to-design-order-id/</guid>
+      <description>订单号的生成规则 订单号一般具有以下特性
+ 唯一性（编码不重复） 安全性（可校验，不能随意仿造） 易读性（易于识别） 可扩展性（多业务混合使用，可对新增业务提供支持） 防止并发(分布式机器的时间不统一问题，针对编码中包含时间信息的)  编码规则一般设定在10~20位左右，常见编码规则  业务类型 + 时间戳 + 平台 + 渠道 + 随机码（或自增码）+ 用户id（看情况，可以加入部分）+ 校验码（可选） 年月日时分秒 + 用户id 年月日时分秒微妙 + 随机码 + 流水号 + 随机码 数据库主键自增的id 日期+自增长数字的订单号 产生随机的订单号 字母 + 数字字符串 twitter的雪花算法，php第三方扩展库php-snowflake（推荐）  以下是我自己的已订单生成规则 const TABLE = &amp;#34;order_id&amp;#34;; // 订单id  /** * 生成订单号 bigint最大支持19位 * 业务号（2位）+ 日期（ymd 6位） + 毫秒（3位）+ 时间信息（His 6位）+ 用户uid（后1位）+ 校验位（1位） * @param $appId * @param $time * @param $uid4Suffix * @return string */ private function _generateOrderId($appId, $ptUid) { if ($appId &amp;lt; 10) { // 取app加大到2位  $appPre = $appId + 10; } else if ($appId &amp;lt;= 99) { $appPre = $appId; } else { // 取前2位  $appPre = substr(strval($appId), 0, 2); } // uid后1位  $uidSuffix = substr(strval($ptUid), -1); $micro = explode(&amp;#34; &amp;#34;, microtime()); // 故意将年月日和时分秒错开，显得更无规律  $orderId = sprintf(&amp;#34;%02d%06d%03d%06d%01d&amp;#34;, $appPre, date(&amp;#39;ymd&amp;#39;), intval($micro[0] * 1000), date(&amp;#39;His&amp;#39;), $uidSuffix); // 校验位（1位）  $crcMod = crc32($orderId) % 10; return sprintf(&amp;#34;%s%01d&amp;#34;, $orderId, $crcMod); } public function createOrderId($appId, $ptUid) { $orderId = $this-&amp;gt;_generateOrderId($appId, $ptUid); $res = $this-&amp;gt;_insertDb($appId, $orderId); if(!</description>
+    </item>
+    
+    <item>
+      <title>windows下Vscode Php开发环境配置</title>
+      <link>https://realjf.io/posts/vscode-win-php-setting/</link>
+      <pubDate>Mon, 14 Sep 2020 17:08:59 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/vscode-win-php-setting/</guid>
+      <description>准备  windows10 系统 vscode xampp  首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
+当然如果你能翻墙，可以直接访问xampp官网下载
+下载完成后安装，安装完成后，将xampp/php/php.exe加入系统路径, 在terminal中执行php -v验证是否成功
+下载xdebug插件 下载地址：https://xdebug.org/download
+如果不知道下载什么版本，可以将你的phpinfo信息拷贝到这个网址下查询https://xdebug.org/wizard 复制后点击下面的分析phpinfo按钮
+这里下载的是：https://xdebug.org/files/php_xdebug-2.9.6-7.4-vc15-x86_64.dll
+将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改 xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
+vscode下载安装 下载vscode：https://code.visualstudio.com/
+下载安装完成后，需要安装一些扩展插件
+ bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer  按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
+&amp;#34;php.validate.executablePath&amp;#34;: &amp;#34;E:\\xampp\\php\\php.exe&amp;#34; 配置好这些后，启动xampp的apache服务器
+准备好后开始测试 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
+&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt;在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
+    </item>
+    
+    <item>
+      <title>Windows下 Vscode Cpp开发环境配置</title>
+      <link>https://realjf.io/posts/vscode-win-cpp-setting/</link>
+      <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
+      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
+ 开始配置vscode 首先打开vscode，安装一下插件  ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;quot;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
+开始编辑c_cpp_properties.json文件 { &amp;#34;configurations&amp;#34;: [ { &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;, &amp;#34;includePath&amp;#34;: [ &amp;#34;${workspaceFolder}/**&amp;#34;, &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录 ], &amp;#34;defines&amp;#34;: [ &amp;#34;_DEBUG&amp;#34;, &amp;#34;UNICODE&amp;#34;, &amp;#34;_UNICODE&amp;#34; ], &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.0.15063.0&amp;#34;, &amp;#34;compilerPath&amp;#34;: &amp;#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;#34;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;#34;cStandard&amp;#34;: &amp;#34;c11&amp;#34;, &amp;#34;cppStandard&amp;#34;: &amp;#34;c++17&amp;#34;, &amp;#34;intelliSenseMode&amp;#34;: &amp;#34;gcc-x64&amp;#34; // 这里是模式选择 } ], &amp;#34;version&amp;#34;: 4 } 配置完成后，在vscode的工作目录下有个.</description>
+    </item>
+    
+    <item>
+      <title>linux下的安卓模拟器anbox安装 How to Set Up Anbox in Linux</title>
+      <link>https://realjf.io/posts/how-to-set-up-anbox-in-linux/</link>
+      <pubDate>Sat, 13 Jun 2020 16:55:14 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/how-to-set-up-anbox-in-linux/</guid>
+      <description>环境准备  kali linux 2020  开始 # 使用下面的 PPA 来安装它 add-apt-repository ppa:morphis/anbox-support apt update apt install linux-headers-generic anbox-modules-dkms # 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动 modprobe ashmem_linux modprobe binder_linux # 使用 APT-GET 命令 或 APT 命令 来安装 anbox apt install anbox # 否则，需要通过 snap 来进行安装 apt install snapd snap install --classic anbox-install &amp;amp;&amp;amp; anbox-installer snap install --devmode --beta anbox 默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它
+# 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB apt install android-tools-adb 启动anbox container服务 systemctl enable anbox-container-manager systemctl start anbox-container-manager # 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.</description>
+    </item>
+    
+    <item>
+      <title>死锁 Deadlock</title>
+      <link>https://realjf.io/posts/deadlock/</link>
+      <pubDate>Thu, 16 Apr 2020 15:28:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/deadlock/</guid>
+      <description>什么是死锁？ 简单说，是指两个或两个以上的线程在执行过程中，彼此持有对方需要的资源和处于等待对方释放资源的现象， 如果没有外力作用，这种状态将一直持续下去。
+如何避免？ 避免死锁的一般建议是：对竞争资源按顺序采用互斥加锁
+当然，如果能在编程时就注意这方便的问题，将可以用更好的方式，比如：
+ 避免嵌套锁 避免在持有锁时调用用户提供的代码 使用固定顺序获取锁 使用锁的层次结构  </description>
+    </item>
+    
+    <item>
+      <title>Protobuf  数据类型</title>
+      <link>https://realjf.io/posts/protobuf-data-type/</link>
+      <pubDate>Mon, 28 Oct 2019 15:31:06 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/protobuf-data-type/</guid>
+      <description>基础类型    .proto类型 java类型 c++类型 备注     double double double    float float float    int32 int int32 使用可变长编码方式。编码负数时不够高效，如果你的字段可能包含负数，请使用sint32   int64 long int64 使用可变长编码方式。编码负数时不够高效，如果你的字段可能包含负数，请使用sint64   uint32 int[1] uint32 总是4个字节，如果数值总是比228大的话，这个类型会比uint32高效   uint64 long[1] uint64 总是8个字节，如果数值总是比256大的话，这个类型会比uint64高效   sint32 int int32 使用可变编码方式，有符号的整型值，编码时比通常的int32高效   sint64 long int64 使用可变长编码方式，有符号的整型值，编码时比通常的int64高效   fixed32 int[1] uint32 总是4个字节。如果数值总是比总是比228大的话，这个类型会比uint32高效。   fixed64 long[1] unit64 总是8个字节。如果数值总是比256大的话，这个类型会比uint64高效   sfixed32 int int32 总是4个字节   sfixed64 long int64 总是8个字节   bool boolean bool    string String string 一个字符串必须是utf-8编码或者7-bit ascii编码的文本   bytes ByteString string 可能包含任意顺序的字节数据    特殊字段    英文 中文 备注     enum 枚举(数字从零开始) 作用是为字段指定某”预定义值序列” enum Type {MAN = 0;WOMAN = 1; OTHER= 3;}   message 消息体 message User{}   repeated 数组/集合 repeated User users = 1   import 导入定义 import &amp;ldquo;protos/other_protos.</description>
+    </item>
+    
+    <item>
+      <title>Mysql 5.7.27源码安装教程</title>
+      <link>https://realjf.io/posts/mysql-5.7-installation/</link>
+      <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/mysql-5.7-installation/</guid>
+      <description>准备  debian 9操作系统 mysql下载地址：https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz boost下载地址：http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz  下载安装 1. 下载安装boost wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz tar zxvf boost_1_59_0.tar.gz mv boost_1_59_0 /usr/local/boost 2. 下载安装mysql # 安装依赖包 apt-get install libncurses-dev # 创建mysql用户组和用户 groupadd mysql useradd mysql -s /sbin/nologin -M -g mysql # 下载mysql wget https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz tar zxvf mysql-5.7.27.tar.gz cd mysql-5.7.27 # 创建必要的文件夹 mkdir /usr/local/mysql mkdir /usr/local/mysql/data # 数据库文件 mkdir /usr/local/mysql/tmp # sock文件 mkdir /usr/local/mysql/logs # 错误日志文件 mkdir /usr/local/mysql/binlog # binlog日志文件 # 编译mysql cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \  -DMYSQL_DATADIR=/usr/local/mysql/data \  -DMYSQL_UNIX_ADDR=/usr/local/mysql/tmp/mysql.</description>
+    </item>
+    
+    <item>
+      <title>Mysql Community Server Installation(mysql 8.0.17 社区版本安装教程)</title>
+      <link>https://realjf.io/posts/mysql-community-server-installation/</link>
+      <pubDate>Mon, 14 Oct 2019 17:50:16 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/mysql-community-server-installation/</guid>
+      <description>一、下载安装 下载地址：https://downloads.mysql.com/archives/community/
+# 下载 wget https://downloads.mysql.com/archives/get/file/mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz xz -d mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz tar xvf mysql-8.0.17-linux-glibc2.12-x86_64.tar # 移动到你需要安装的目录下 mv mysql-8.0.17-linux-glibc2.12-x86_64 /usr/local/mysql 二、配置 1. 在mysql根目录下创建一个新的data目录，用于存放数据 cd /usr/local/mysql mkdir data 2. 创建mysql用户组和mysql用户 groupadd mysql useradd -g mysql mysql 3. 改变mysql目录权限 chown -R mysql.mysql /usr/local/mysql/ 4. 初始化数据库 # 创建mysql_install_db安装文件 mkdir mysql_install_db chmod 777 ./mysql_install_db # 初始化数据库 bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data # 记录好自己的临时密码 5. mysql配置 cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld 修改my.cnf文件
+vim /etc/my.cnf [mysqld] basedir = /usr/local/mysql datadir = /usr/local/mysql/data socket = /usr/local/mysql/mysql.</description>
+    </item>
+    
+    <item>
+      <title>Django后端 &#43; Vue前端 构建Web开发框架</title>
+      <link>https://realjf.io/posts/django-vue-web/</link>
+      <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/django-vue-web/</guid>
+      <description>一、准备  Django &amp;gt;= 1.11 python &amp;gt;= 3.6 mysql &amp;gt;= 5.7 node &amp;gt;= 10.15 vue-cli &amp;gt;= 2.0   本次实验项目基于debian 9系统进行构建，以下涉及到的一些安装命令请根据自己具体环境自行替换
+ 二、安装 1. 安装node wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz xz -d node-v10.16.3-linux-x64.tar.xz tar xvf node-v10.16.3-linux-x64.tar # 然后将文件夹移动到你需要的地方，设置环境变量PATH即可 mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3 # 这里使用软链进行设置l ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/ ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/ # 设置好后进行测试 node --version npm --version 2. 安装python3，pip # 打开下载地址 https://www.python.org/downloads/source/ # 选择适合自己的包下载 wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz xz -d Python-3.7.4.tar.xz tar xvf Python-3.7.4.tar # 进入目录进行安装 cd Python-3.</description>
+    </item>
+    
+    <item>
+      <title>Nginx服务的基本配置</title>
+      <link>https://realjf.io/posts/nginx-base-setting/</link>
+      <pubDate>Mon, 30 Sep 2019 14:56:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/nginx-base-setting/</guid>
+      <description>按照用户使用时的预期功能分成了4个功能
+ 用于调试、定位问题的配置项 正常运行的必备配置项 优化性能的配置项 事件类配置项  用于调试进程和定位问题的配置项 1. 是否以守护进程方式运行nginx 语法： daemon on|off;
+默认：daemon on;
+守护进程是脱离终端并且在后台运行的进程。它脱离终端是为了避免进程执行过程中的信息在任何终端中显示，这样一来，进程也不会被任何终端所产生的信息所打断。 因此，默认都是以这种方式运行的。
+2. 是否以master/worker方式运行 语法： master_process on|off;
+默认： master_process on;
+一个master进程管理多个worker进程的方式运行的，几乎所有的产品环境下，nginx都是以这种方式工作。
+3. error日志的配置 语法：error_log /path/file level;
+默认：error_log logs/error.log error;
+error日志是定位nginx问题的最佳工具，我们可以根据自己的需求妥善设置error日志的路径和级别。
+/path/file参数可以是一个具体的文件，最好将它放到一个磁盘足够大的位置； 也可以是/dev/null，这样就不会输出任何日志了，这也是关闭error日志的唯一手段； 也可以是stderr，这样日志会输出到标准错误文件中。
+level是日志的输出级别，取值范围是debug、info、notice、warn、error、crit、alert、emerg。 当设置一个级别，大于或等于该级别的日志都会被输出到/path/file文件中。小鱼该级别的日志则不会输出。
+4. 是否处理几个特殊的调试点 语法：debug_points [stop|abort]
+这个配置项也是用来帮助用户跟踪调试nginx的。他接受两个参数：stop和abort。 nginx在一些关键的错误逻辑中设置了调试点。如果设置了debug_points为stop，那么nginx的代码执行到这些调试点时就会发出sigstop信号用以调试。 如果设置为abort，则会生成一个coredump文件，可以使用gdb来查看nginx当时的各种信息。
+通常不会使用这个配置项。
+5. 仅对指定的客户端输出debug级别的日志 语法：debug_connection [IP|CIDR]
+这个配置项实际上属于事件类配置，因此，他必须放在events{&amp;hellip;}中才有效，他的值可以是ip地址或cidr地址，如：
+events{ debug_connection 10.224.66.14; debug_connection 10.224.57.0/24; } 这样，仅仅来自以上ip地址的请求才会输出debug级别的日志，其他请求仍然沿用error_log中配置的日志级别。
+这个配置对修复bug很有用，特别是定位高并发请求下才会发生的问题。
+ 在debug_connection前，需要确保在执行configure时已经加入了&amp;ndash;with-debug参数，否则不会生效。
+ 6. 限制coredump核心转储文件的大小 语法：worker_rlimit_core size;
+在Linux系统中，当进程发生错误或收到信号而终止时，系统会将进程执行时的内存内容（核心映像）写入一个文件（core文件），以作为调试之用，这就是所谓的核心转储（coredumps）。 当nginx进程出现一些非法操作导致进程直接被操作系统强制结束时，会生成核心转储文件，可以从文件获取当时的堆栈、寄存器信息，从而帮助我们定位问题。但 这种文件中的许多信息不一定是用户需要的，如果不加以限制，那么可能一个coredump文件会达到几个gb，引发严重问题。通过worker_rlimit_core配置可以限制core文件的大小， 从而有效帮助用户定位问题。</description>
+    </item>
+    
+    <item>
+      <title>Linux 内核参数优化</title>
+      <link>https://realjf.io/posts/linux-kernel-optimize/</link>
+      <pubDate>Mon, 30 Sep 2019 13:50:42 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/linux-kernel-optimize/</guid>
+      <description>由于默认的linux内核参数考虑的是最通用的场景，这种场景下并不适合高并发访问的web服务器的定义，所以需要修改如下参数， 使得nginx可以拥有更高的性能。
+根据不同的业务特点，nginx作为静态web内容服务器、反向代理服务器或者提供图片缩略图功能（实时亚索图片）的服务器时， 其内核参数调整是不同的。
+这里只针对最通用，使nginx支持更多并发请求的tcp网络参数做简单说明。
+需要修改/etc/sysctl.conf来更改内核参数。
+fs.file-max = 999999 net.ipv4.tcp_tw_reuse = 1 net.ipv4.tcp_keepalive_time = 600 net.ipv4.tcp_fin_timeout = 30 net.ipv4.tcp_max_tw_buckets = 5000 net.ipv4.ip_local_port_range = 1024 61000 net.ipv4.tcp_rmem = 4096 32768 262142 net.ipv4.tcp_wmem = 4096 32768 262142 net.core.netdev_max_backlog = 8096 net.core.rmem_default = 262144 net.core.wmem_default = 262144 net.rmem_max = 2097152 net.wmem_max = 2097152 net.ipv4.tcp_syncookies = 1 net.ipv4.tcp_max_syn.backlog = 1024 参数说明
+ file-max: 这个参数表示进程可以同时打开的最大句柄数，这个参数直接限制最大并发连接数，需要根据实际情况配置 tcp_tw_reuse: 这个参数设置为1，表示允许将TIME_WAIT状态的socket重新用于新的tcp连接，这对于服务器来说很有意义，因为服务器上总会有大量TIME-WAIT状态的连接 tcp_keepalive_time: 这个参数表示当keepalive启用时，tcp发送keepalive消息的频度。默认是2小时，若将其设置的小一些，可以更快地清理无效的连接 tcp_fin_timeout: 这个参数表示当服务器主动关闭连接时，socket保持在FIN-WAIT-2状态的最大时间。 tcp_max_tw_buckets: 这个参数表示操作系统允许TIME-WAIT套接字数量的最大值，如果超过这个数字，TIME-WAIT套接字将立刻被清除并打印警告信息。这个参数默认为180000，过多的TIME-WAIT套接字会使web服务器变慢。 tcp_max_syn_backlog: 这个参数表示TCP三次握手建立阶段接收syn请求队列的最大长度，默认为1024，将其设置得大一些可以使出现nginx繁忙来不及accept新连接的情况时，linux不至于丢失客户端发起的连接请求。 ip_local_port_range: 这个参数定义了在udp和tcp连接中本地（不包括连接的远端）端口的取值范围。 net.</description>
+    </item>
+    
+    <item>
+      <title>Scan Qrcode</title>
+      <link>https://realjf.io/posts/scan-qrcode/</link>
+      <pubDate>Wed, 04 Sep 2019 09:28:23 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/scan-qrcode/</guid>
+      <description>网页调用微信JSSDK实现扫一扫功能 设置公众号js接口安全域 在公众号后台的，公众号设置，功能设置里
+配置ip白名单 在公众号后台基本配置里
+页面引入微信sdkjs代码 http://res.wx.qq.com/open/js/jweixin-1.2.0.js
+页面js代码 // 点击扫一扫按钮事件  $(&amp;#34;#btn-scan&amp;#34;).on(&amp;#34;click&amp;#34;, function () { //微信扫一扫 设置  var _queryString = window.location.search; $.ajax({ type: &amp;#34;post&amp;#34;, url: &amp;#34;/mobile/user/scanSign&amp;#34;, data: {query: _queryString}, success: function (data) { var result = data.result; wx.config({ debug: false, // 调试接口用  appId: result.appId, //公众号的唯一标识  timestamp: &amp;#34;&amp;#34; + result.timestamp, //生成签名的时间戳  nonceStr: result.nonceStr, //生成签名的随机串  signature: result.signature, //签名  jsApiList: [&amp;#39;scanQRCode&amp;#39;] //需要使用的JS接口列表(我只需要调用扫一扫的接口，如有多个接口用逗号分隔)  }); } }); }); //微信扫一扫处理代码  wx.</description>
+    </item>
+    
+    <item>
+      <title>Ruby 环境安装</title>
+      <link>https://realjf.io/posts/ruby-installation/</link>
+      <pubDate>Fri, 30 Aug 2019 12:42:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/ruby-installation/</guid>
+      <description>centos7 下进行安装ruby 准备 下载ruby ruby下载地址：http://www.ruby-lang.org/en/downloads/
+这里以2.6.4版本为例
+wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz 解压配置安装 tar zxvf ruby-2.6.4.tar.gz -C /usr/local/ cd /usr/local/ruby-2.6.4/ ./configure make &amp;amp;&amp;amp; make install 添加到环境变量中 ln -s /usr/local/ruby-2.6.4/ruby /usr/bin/ruby 验证 ruby -v </description>
+    </item>
+    
+    <item>
+      <title>Srs Obs FFmpeg Vlc搭建rtmp直播服务，并实现推流拉流</title>
+      <link>https://realjf.io/posts/srs-obs-ffmpeg-vlc/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/srs-obs-ffmpeg-vlc/</guid>
+      <description>rtmp srs直播服务器搭建 准备  srs 提供直播流服务器 obs 提供推流服务 ffmpeg 强大的软件，可作为推流端使用 vlc 用于播放rtmp直播  1. 首先搭建rtmp srs服务器 git clone https://github.com/ossrs/srs cd srs/trunk # 构建srs ./configure &amp;amp;&amp;amp; make # 开启服务 ./objs/srs -c conf/srs.conf # 停止服务 ./objs/srs stop # 重启服务 ./objs/srs restart 2. 安装obs apt-get install obs-studio 关于obs推流设置https://obsproject.com/wiki/OBS-Studio-Quickstart
+3. 安装vlc apt-get install vlc 在推流设置完成后，测试推流效果步骤如下：
+ 打开VLC，选择open media-&amp;gt;network 在网络协议中输入推流地址，点击play即可  4. 安装ffmpeg git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg cd ffmpeg # 编译ffmpeg ./configure &amp;amp;&amp;amp; make # 使用ffmpeg推流 .</description>
+    </item>
+    
+    <item>
+      <title>分布式系统 之 容错性</title>
+      <link>https://realjf.io/posts/fault-tolerance/</link>
+      <pubDate>Thu, 28 Mar 2019 21:44:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/fault-tolerance/</guid>
+      <description>容错性 基本概念 容错与系统可靠性息息相关，可靠系统满足以下特性：
+ 可用性 可靠性 安全性 可维护性  故障分类 故障通常分为三类
+ 暂时故障 间歇故障 持久故障  分布式系统中的典型故障模式可分为以下几种：
+ 崩溃性故障 遗漏性故障 定时性故障 响应性故障 任意性故障  任意性故障是最严重的故障，也称拜占庭故障。
+分布式提交 在分布式系统中，事务往往包含多个参与者的活动，单个参与者的活动是能够保证原子性的， 而保证多个参与者之间原子性则需要通过两阶段提交或者三阶段提交算法实现。
+两阶段提交 两阶段提交协议（2PC）的过程涉及协调者和参与者。协调者可以看做事务的发起者，同时也是事务的一个参与者。 对于一个分布式事务来说，一个事务是涉及多个参与者的。
+第一阶段(准备阶段)
+ 协调者节点向所有参与者节点询问是否可以执行提交操作，并开始等待各参与者节点的响应。 参与者节点执行所有事务操作，并将undo信息和redo信息写入日志（若成功其实这里每个参与者已经执行了事务操作） 个参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个同意消息，如果参与者节点事务操作实际执行失败，则返回一个终止操作  第二阶段（提交阶段）
+如果协调者收到了参与这的失败消息或者超时，直接给每个参与者发送回滚消息，否则，发送提交消息； 参与者根据协调者的指令执行提交或者回滚操作，释放所有事务处理过程中使用的锁资源。
+ 当协调者节点从所有参与者节点处获得的相应消息都为同意时：  协调者节点向所有参与者节点发送正式提交请求 参与者节点正式完成操作，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送完成消息   如果任一参与者节点在第一阶段返回的消息为终止，或者协调者节点在第一阶段的询问在超时之前无法获取所有参与者节点的响应消息时：  协调者节点向所有参与者节点发送回滚操作请求 参与者节点利用之前写入的undo信息执行回滚，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送回滚完成消息 协调者节点收到所有参与者节点反馈的回滚完成消息后，取消事务 协调者节点收到所有参与者节点返回的完成消息后，完成事务。    缺点
+ 同步阻塞问题。执行过程中，所有参与者节点都是事务阻塞型的。 单点故障问题。由于协调者的重要性，一旦协调者发生故障，参与者会一直阻塞下去。 数据不一致。在阶段二中，当协调者向参与者发送commit请求后，发生了局域网异常，或者在发送commit请求过程中协调者发生故障， 这会导致只有一部分参与者接收到了commit请求。而在这部分参与者接收到commit请求之后就会执行commit操作。但是其他部分未接收到commit请求的机器无法执行事务提交。于是整个分布式系统便出现了数据不一致性的现象。 两阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了，那么， 即使协调者通过选举产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否已被提交。  为了解决两阶段提交的种种问题，提出了三阶段提交。
+三阶段提交 三阶段提交是两阶段提交的改进版，有 两个改动点：</description>
+    </item>
+    
+    <item>
+      <title>linux Cgroups</title>
+      <link>https://realjf.io/posts/cgroups/</link>
+      <pubDate>Thu, 21 Mar 2019 05:14:39 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/cgroups/</guid>
+      <description>Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了
+Linux Cgroups(control groups)提供了对一组进程及其子进程的资源限制、控制和统计的能力，包括cpu、内存、存储和网络等。
+cgroups组件  cgroup subsystem hierarchy  cgroup cgroup是对进程分组管理的一种机制，一个cgroup包含一组进程，并可以在这个cgroup上增加linux subsystem的各种配置参数，将一组进程和一组subsystem的系统参数关联起来。
+subsystem 是一组资源控制的模块，包括
+ blkio 设置对块设备输入输出的访问控制 cpu 设置cgroup 中进程的cpu被调度的策略 cpuacct 可以统计cgroup中进程的cpu占用 cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存 devices 控制cgroup中进程对设备的访问 freezer 用于挂起和恢复cgroup中的进程 memory 用于控制cgroup中进程的内存占用 net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控 ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程  每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。
+ 如何看内核当前支持哪些subsystem呢？使用apt-get install cgroup-bin，然后通过lssubsys -a查看
+ hierarchy 把一组cgroup串成一个树状结构，一个这样的树便是一个hierarchy，通过这种树状结构，cgroups可以形成继承关系。
+三个组件的关系  系统在创建了新的hierarchy之后，系统中所有的进程都会加入这个hierarchy的cgroup根节点，这个cgroup根节点是hierarchy默认创建的 一个subsystem只能附加到一个hierarchy上面 一个hierarchy可以附加多个subsystem 一个进程可以作为多个cgroup的成员，但是这些cgroup必须在不同的hierarchy中。 一个进程fork出子进程时，子进程是和父进程在同一个cgroup中的，也可以根据需要将其移动到其他cgroup中。  kernel加载Cgroups kernel通过虚拟树状文件系统配置cgroups，通过层级的目录虚拟出cgroup树。
+1. 首先，要创建并挂载一个hierarchy mkdir cgroup-test mount -t cgroup -o none,name=cgroup-test cgroup-test ./cgroup-test # 挂载一个hierarchy ls ./cgroup-test  cgroup.</description>
+    </item>
+    
+    <item>
+      <title>Ceph 集群搭建一 之 集群搭建</title>
+      <link>https://realjf.io/posts/setup-ceph-cluster-3/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:12 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/setup-ceph-cluster-3/</guid>
+      <description>第一次练习时，我们创建一个 Ceph 存储集群，它有一个 Monitor 和两个 OSD 守护进程。一旦集群达到 active + clean 状态，再扩展它：增加第三个 OSD 、增加元数据服务器和两个 Ceph Monitors。为获得最佳体验，先在管理节点上创建一个目录，用于保存 ceph-deploy 生成的配置文件和密钥对。
+ 如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。
+ mkdir my-clustercd my-cluster 禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
+ 创建集群 如果在某些地方碰到麻烦，想从头再来，可以用下列命令配置：
+ceph-deploy purgedata {ceph-node} [{ceph-node}]ceph-deploy forgetkeys用下列命令可以连ceph安装包一起清除：
+ceph-deploy purge {ceph-node} [{ceph-node}]如果执行了purge，你必须重新安装ceph</description>
+    </item>
+    
+    <item>
+      <title>Ceph 集群搭建二 之 预检</title>
+      <link>https://realjf.io/posts/setup-ceph-cluster-2/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/setup-ceph-cluster-2/</guid>
+      <description>集群部署如下： 预检 安装ceph部署工具 在 Red Hat （rhel6、rhel7）、CentOS （el6、el7）和 Fedora 19-20 （f19 - f20） 上执行下列步骤：
+用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如： sudo subscription-manager repos --enable=el-7-server-extras-rpms在centos上执行以下命令 sudo yum install -y yum-utils &amp;amp;&amp;amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;amp;&amp;amp; sudo yum install --nogpgcheck -y epel-release &amp;amp;&amp;amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;amp;&amp;amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo sudo vim /etc/yum.repos.d/ceph.repo把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.</description>
+    </item>
+    
+    <item>
+      <title>Ceph 集群搭建一 之 准备</title>
+      <link>https://realjf.io/posts/setup-ceph-cluster-1/</link>
+      <pubDate>Tue, 19 Mar 2019 14:57:05 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/setup-ceph-cluster-1/</guid>
+      <description>1. 配置ceph yum源 vim /etc/yum.repos.d/ceph.repo [ceph-noarch] name=Cephnoarch packages baseurl=http://ceph.com/rpm-{ceph-release}/{distro}/noarch enabled=1 gpgcheck=1 type=rpm-md gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc ceph release http://docs.ceph.com/docs/master/releases/
+2. 更新源并且安装hosts文件 yum update &amp;amp;&amp;amp; yum install ceph-deploy -y 3. 配置各节点hosts文件 cat /etc/hosts
+192.168.1.2 node1 192.168.1.3 node2 192.168.1.4 node3 4. 配置各节点ssh无密码登录，通过ssh方式连接各节点服务器，以安装部署集群。输入ssh-keygen命令，在命令行输入以下内容： ssh-keygen 5. 拷贝key到各节点 ssh-copy-id node1 ssh-copy-id node2 ssh-copy-id node3 6. 在执行ceph-deploy的过程中会发生一些配置文件，建议创建一个目录 mkdir my-cluster cd my-cluster 7. 创建集群，部署新的monitor节点 ceph-deploy new {initial-monitor-node(s)} #例如 ceph-deploy new node1 8. 配置ceph.conf配置文件 filestore_xattr_use_omap = true &amp;lt;!---- 以上部分都是ceph-deploy默认生成的 ---&amp;gt; public network = {ip-address}/{netmask} cluster network = {ip-address}/{netmask} &amp;lt;!</description>
+    </item>
+    
+    <item>
+      <title>什么是docker？</title>
+      <link>https://realjf.io/posts/what-docker-is/</link>
+      <pubDate>Tue, 19 Mar 2019 14:40:53 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/what-docker-is/</guid>
+      <description>官方定义 Develop, Ship and Run Any Application, AnywhereDocker is a platform for developers and sysadmins to develop, ship, and run applications. Docker lets you quickly assemble applications from components and eliminates the friction that can come when shipping code. Docker lets you get your code tested and deployed into production as fast as possible.Docker 是 PaaS 提供商 dotCloud 开源的一个基于 LXC 的高级容器引擎，源代码托管在 Github 上, 基于go语言并遵从Apache2.0协议开源。
+ LXC linux container容器是一种内核虚拟化技术，可以提供轻量级的虚拟化，以便隔离进程和资源。与kvm之类最明显的区别在于启动快，资源占用小。</description>
+    </item>
+    
+    <item>
+      <title>Namespace 资源隔离</title>
+      <link>https://realjf.io/posts/namespace/</link>
+      <pubDate>Tue, 19 Mar 2019 14:38:54 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/namespace/</guid>
+      <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
+ 1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
+通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
+int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
+    </item>
+    
+    <item>
+      <title>How to Set Up Blog Using Hugo</title>
+      <link>https://realjf.io/posts/how-to-set-up-blog-using-hugo/</link>
+      <pubDate>Tue, 19 Mar 2019 09:43:09 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/how-to-set-up-blog-using-hugo/</guid>
+      <description>github pages有两种方式：  一种是{USERNAME}.github.io/ 另一种是{USERNAME}.github.io/{PROJECT}  我们这里使用第二种方法创建
+前期准备  有一个github账号  创建一个公开的repo 例如：blog
+开通github pages 找到新创建的repo中的settings，往下找到github pages， 如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。
+注意 如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：https://realjf.github.io/blog/
+配置好后，开始使用hugo构建博客 首先，clone下刚才创建的repo
+git clone git@github.com:{USERNAME}/blog 安装hugo，确保repo目录下可以使用hugo命令 请参考官网https://gohugo.io/
+# 检查安装是否成功 hugo version 利用hugo构建博客目录结构 cd blog &amp;amp;&amp;amp; hugo new site . --force 这里使用了&amp;ndash;force是因为当前目录已存在，只是需要初始化而已
+添加自己需要的主题 cd blog git submodule add https://github.com/realjf/hugo-theme-m10c.git themes/m10c 上述的m10c可以换成你想要的主题名字即可
+更多的主题请参考：https://themes.gohugo.io/
+# 修改根目录下的 .toml文件 theme = &amp;#34;{THEME}&amp;#34; baseUrl = &amp;#34;https://realjf.github.io/blog/&amp;#34; {THEME}请修改为你的主题名即可
+本地测试博客 hugo server -t {THEME} 到这里，基本的博客搭建完成，先保存到github git add -A &amp;amp;&amp;amp; git commit -m &amp;#34;Initializing&amp;#34; git push origin master 本地测试成功后，我们利用gh-pages分支作为新的发布分支 gh-pages分支保存的是hugo生成的html静态文件</description>
+    </item>
+    
+  </channel>
+</rss>

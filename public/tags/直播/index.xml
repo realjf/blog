@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>直播 on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/%E7%9B%B4%E6%92%AD/</link>
+    <description>Recent content in 直播 on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 10 Jul 2019 16:06:30 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/%E7%9B%B4%E6%92%AD/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Srs Obs FFmpeg Vlc搭建rtmp直播服务，并实现推流拉流</title>
+      <link>https://realjf.io/posts/srs-obs-ffmpeg-vlc/</link>
+      <pubDate>Wed, 10 Jul 2019 16:06:30 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/srs-obs-ffmpeg-vlc/</guid>
+      <description>rtmp srs直播服务器搭建 准备  srs 提供直播流服务器 obs 提供推流服务 ffmpeg 强大的软件，可作为推流端使用 vlc 用于播放rtmp直播  1. 首先搭建rtmp srs服务器 git clone https://github.com/ossrs/srs cd srs/trunk # 构建srs ./configure &amp;amp;&amp;amp; make # 开启服务 ./objs/srs -c conf/srs.conf # 停止服务 ./objs/srs stop # 重启服务 ./objs/srs restart 2. 安装obs apt-get install obs-studio 关于obs推流设置https://obsproject.com/wiki/OBS-Studio-Quickstart
+3. 安装vlc apt-get install vlc 在推流设置完成后，测试推流效果步骤如下：
+ 打开VLC，选择open media-&amp;gt;network 在网络协议中输入推流地址，点击play即可  4. 安装ffmpeg git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg cd ffmpeg # 编译ffmpeg ./configure &amp;amp;&amp;amp; make # 使用ffmpeg推流 .</description>
+    </item>
+    
+  </channel>
+</rss>

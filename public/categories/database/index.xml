@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>database on Realjf&#39;s blog</title>
+    <link>https://realjf.io/categories/database/</link>
+    <description>Recent content in database on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 15 Oct 2019 09:11:41 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/database/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mysql 5.7.27源码安装教程</title>
+      <link>https://realjf.io/posts/mysql-5.7-installation/</link>
+      <pubDate>Tue, 15 Oct 2019 09:11:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/mysql-5.7-installation/</guid>
+      <description>准备  debian 9操作系统 mysql下载地址：https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz boost下载地址：http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz  下载安装 1. 下载安装boost wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz tar zxvf boost_1_59_0.tar.gz mv boost_1_59_0 /usr/local/boost 2. 下载安装mysql # 安装依赖包 apt-get install libncurses-dev # 创建mysql用户组和用户 groupadd mysql useradd mysql -s /sbin/nologin -M -g mysql # 下载mysql wget https://downloads.mysql.com/archives/get/file/mysql-5.7.27.tar.gz tar zxvf mysql-5.7.27.tar.gz cd mysql-5.7.27 # 创建必要的文件夹 mkdir /usr/local/mysql mkdir /usr/local/mysql/data # 数据库文件 mkdir /usr/local/mysql/tmp # sock文件 mkdir /usr/local/mysql/logs # 错误日志文件 mkdir /usr/local/mysql/binlog # binlog日志文件 # 编译mysql cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \  -DMYSQL_DATADIR=/usr/local/mysql/data \  -DMYSQL_UNIX_ADDR=/usr/local/mysql/tmp/mysql.</description>
+    </item>
+    
+    <item>
+      <title>Mysql Community Server Installation(mysql 8.0.17 社区版本安装教程)</title>
+      <link>https://realjf.io/posts/mysql-community-server-installation/</link>
+      <pubDate>Mon, 14 Oct 2019 17:50:16 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/mysql-community-server-installation/</guid>
+      <description>一、下载安装 下载地址：https://downloads.mysql.com/archives/community/
+# 下载 wget https://downloads.mysql.com/archives/get/file/mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz xz -d mysql-8.0.17-linux-glibc2.12-x86_64.tar.xz tar xvf mysql-8.0.17-linux-glibc2.12-x86_64.tar # 移动到你需要安装的目录下 mv mysql-8.0.17-linux-glibc2.12-x86_64 /usr/local/mysql 二、配置 1. 在mysql根目录下创建一个新的data目录，用于存放数据 cd /usr/local/mysql mkdir data 2. 创建mysql用户组和mysql用户 groupadd mysql useradd -g mysql mysql 3. 改变mysql目录权限 chown -R mysql.mysql /usr/local/mysql/ 4. 初始化数据库 # 创建mysql_install_db安装文件 mkdir mysql_install_db chmod 777 ./mysql_install_db # 初始化数据库 bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data # 记录好自己的临时密码 5. mysql配置 cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld 修改my.cnf文件
+vim /etc/my.cnf [mysqld] basedir = /usr/local/mysql datadir = /usr/local/mysql/data socket = /usr/local/mysql/mysql.</description>
+    </item>
+    
+  </channel>
+</rss>

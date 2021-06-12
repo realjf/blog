@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ruby on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/ruby/</link>
+    <description>Recent content in ruby on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 30 Aug 2019 12:42:08 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ruby 环境安装</title>
+      <link>https://realjf.io/posts/ruby-installation/</link>
+      <pubDate>Fri, 30 Aug 2019 12:42:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/posts/ruby-installation/</guid>
+      <description>centos7 下进行安装ruby 准备 下载ruby ruby下载地址：http://www.ruby-lang.org/en/downloads/
+这里以2.6.4版本为例
+wget https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.4.tar.gz 解压配置安装 tar zxvf ruby-2.6.4.tar.gz -C /usr/local/ cd /usr/local/ruby-2.6.4/ ./configure make &amp;amp;&amp;amp; make install 添加到环境变量中 ln -s /usr/local/ruby-2.6.4/ruby /usr/bin/ruby 验证 ruby -v </description>
+    </item>
+    
+  </channel>
+</rss>

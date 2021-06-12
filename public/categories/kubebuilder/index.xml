@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubebuilder on Realjf&#39;s blog</title>
+    <link>https://realjf.io/categories/kubebuilder/</link>
+    <description>Recent content in kubebuilder on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 04 Apr 2021 10:47:04 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/kubebuilder/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kubebuilder快速开始 Kubebuilder Quick Start</title>
+      <link>https://realjf.io/kubebuilder/quick-start/</link>
+      <pubDate>Sun, 04 Apr 2021 10:47:04 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubebuilder/quick-start/</guid>
+      <description>准备  go v1.15.9 docker v20.10.5 kubectl v kubernetes cluster v1.20.2  安装 安装kubebuilder，运行如下脚本
+os=$(go env GOOS) arch=$(go env GOARCH) # 下载并解压 curl -L https://go.kubebuilder.io/dl/2.3.2/${os}/${arch} | tar -xz -C /tmp/ # 加入PATH sudo mv /tmp/kubebuilder_2.3.2_${os}_${arch} /usr/local/kubebuilder echo &amp;#34;export PATH=$PATH:/usr/local/kubebuilder/bin&amp;#34; &amp;gt;&amp;gt; /etc/profile &amp;amp;&amp;amp; source /etc/profile 创建一个项目 创建一个目录，并运行初始化命令来初始化新项目
+mkdir $GOPATH/src/exmaple cd $GOPATH/src/exmaple kubebuilder init --domain my.domain 创建一个API 创建一个新的API（group/version）为 webapp/v1 且是新资源CRD Guestbook
+kubebuilder create api --group webapp --version v1 --kind Guestbook Create Resource [y/n] y Create Controller [y/n] y Writing scaffold for you to edit.</description>
+    </item>
+    
+  </channel>
+</rss>
