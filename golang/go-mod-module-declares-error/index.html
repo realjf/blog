@@ -3,7 +3,7 @@
 <head>
     <title>Go Mod Module Declares Its Path as: xxxx but was required as: xxxx // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,40 +233,25 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="背景">背景</h3>
-
+            <h3 id="背景">背景</h3>
 <p>今天在一个新项目文件下执行了go mod init初始化后，进行go build，报如下错误：</p>
-
-<pre><code class="language-shell">go: example imports
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">go: example imports
         github.com/realjf/goframe: github.com/realjf/goframe@v0.0.0-20200908085940-3b9391b761c4: parsing go.mod:
         module declares its path as: goframe
                 but was required as: github.com/realjf/goframe
-</code></pre>
-
-<p>意思是，模块声明为goframe，但是却使用github.com/realjf/goframe作为包引入</p>
-
+</code></pre></div><p>意思是，模块声明为goframe，但是却使用github.com/realjf/goframe作为包引入</p>
 <h3 id="解决方法">解决方法</h3>
-
 <p>首先确认引入的包的go.mod文件里的module名称是否为github.com/realjf/goframe,</p>
-
 <p>如果是，则进行下一步，如果不是，则需要修改为module github.com/realjf/goframe</p>
-
 <p>然后是在新项目的go.mod文件中新增一行如下内容：</p>
-
-<pre><code class="language-shell"># 格式为：replace (module declares its path as:后边那部分) =&gt; (but was required as:后边那部分) 版本号
-replace goframe =&gt; github.com/realjf/goframe v0.0.0 // indirect
-</code></pre>
-
-<p>之后重新执行go build，可以发现问题解决，并且在go.mod文件中多了一行：</p>
-
-<pre><code class="language-shell">require github.com/realjf/goframe v0.0.0-20200908095551-2f2da0b85d99
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 格式为：replace (module declares its path as:后边那部分) =&gt; (but was required as:后边那部分) 版本号</span>
+replace goframe <span style="color:#f92672">=</span>&gt; github.com/realjf/goframe v0.0.0 // indirect
+</code></pre></div><p>之后重新执行go build，可以发现问题解决，并且在go.mod文件中多了一行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">require github.com/realjf/goframe v0.0.0-20200908095551-2f2da0b85d99
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

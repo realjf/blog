@@ -3,7 +3,7 @@
 <head>
     <title>opengl光照之二 基础光照 Base Lighting // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,238 +233,154 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">opengl</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<p>OpenGL的光照使用的是简化的模型，对现实的情况进行近似，这样处理起来会更容易一些，而且看起来也差不多一样。这些光照模型都是基于对光的物理特性的理解。其中一个模型被称为冯氏光照模型(Phong Lighting Model)。冯氏光照模型的主要结构由3个分量组成：环境(Ambient)、漫反射(Diffuse)和镜面(Specular)光照。</p>
-
+            <p>OpenGL的光照使用的是简化的模型，对现实的情况进行近似，这样处理起来会更容易一些，而且看起来也差不多一样。这些光照模型都是基于对光的物理特性的理解。其中一个模型被称为冯氏光照模型(Phong Lighting Model)。冯氏光照模型的主要结构由3个分量组成：环境(Ambient)、漫反射(Diffuse)和镜面(Specular)光照。</p>
 <ul>
 <li>环境光照(Ambient Lighting)：即使在黑暗的情况下，世界上通常也仍然有一些光亮（月亮、远处的光），所以物体几乎永远不会是完全黑暗的。为了模拟这个，使用一个环境光照常量，它永远会给物体一些颜色。</li>
 <li>漫反射光照(Diffuse Lighting)：模拟光源对物体的方向性影响(Directional Impact)。它是冯氏光照模型中视觉上最显著的分量。物体的某一部分越是正对着光源，它就会越亮。</li>
 <li>镜面光照(Specular Lighting)：模拟有光泽物体上面出现的亮点。镜面光照的颜色相比于物体的颜色会更倾向于光的颜色。</li>
 </ul>
-
 <h3 id="环境光照">环境光照</h3>
-
 <p>使用一个很小的常量（光照）颜色，添加到物体片段的最终颜色中，这样子的话即便场景中没有直接的光源也能看起来存在有一些发散的光。
 把环境光照添加到场景里非常简单。用光的颜色乘以一个很小的常量环境因子，再乘以物体的颜色，然后将最终结果作为片段的颜色：</p>
-
-<pre><code class="language-cpp">void main()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>()
 {
-    float ambientStrength = 0.3;
-    vec3 ambient = ambientStrength * lightColor;
+    <span style="color:#66d9ef">float</span> ambientStrength <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>;
+    vec3 ambient <span style="color:#f92672">=</span> ambientStrength <span style="color:#f92672">*</span> lightColor;
 
-    vec3 result = ambient * objectColor;
-    FragColor = vec4(result, 1.0);
+    vec3 result <span style="color:#f92672">=</span> ambient <span style="color:#f92672">*</span> objectColor;
+    FragColor <span style="color:#f92672">=</span> vec4(result, <span style="color:#ae81ff">1.0</span>);
 }
-</code></pre>
-
-<p>你会注意到冯氏光照的第一个阶段已经应用到你的物体上了。这个物体非常暗，但由于应用了环境光照（注意光源立方体没受影响是因为对它使用了另一个着色器），也不是完全黑的。</p>
-
+</code></pre></div><p>你会注意到冯氏光照的第一个阶段已经应用到你的物体上了。这个物体非常暗，但由于应用了环境光照（注意光源立方体没受影响是因为对它使用了另一个着色器），也不是完全黑的。</p>
 <h3 id="漫反射">漫反射</h3>
-
 <p>了测量光线和片段的角度，使用一个叫做法向量(Normal Vector)的东西，它是垂直于片段表面的一个向量</p>
-
 <p>两个单位向量的夹角越小，它们点乘的结果越倾向于1。当两个向量的夹角为90度的时候，点乘会变为0。这同样适用于θ，θ越大，光对片段颜色的影响就应该越小。</p>
-
 <p>计算漫反射光照需要什么？</p>
-
 <ul>
 <li>法向量：一个垂直于顶点表面的向量。</li>
 <li>定向的光线：作为光源的位置与片段的位置之间向量差的方向向量。为了计算这个光线，需要光的位置向量和片段的位置向量。</li>
 </ul>
-
 <h4 id="法向量">法向量</h4>
-
 <p>法向量是一个垂直于顶点表面的（单位）向量。由于顶点本身并没有表面（它只是空间中一个独立的点），利用它周围的顶点来计算出这个顶点的表面。</p>
-
 <p>使用叉乘对立方体所有的顶点计算法向量，但是由于3D立方体不是一个复杂的形状，所以可以简单地把法线数据手工添加到顶点数据中。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">float</span> vertices[] <span style="color:#f92672">=</span> {
+  <span style="color:#75715e">// ----- 位置 -------  ------- 法向量 ----
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>, 
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>, 
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>, 
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>, 
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>, 
 
-<pre><code class="language-cpp">float vertices[] = {
-  // ----- 位置 -------  ------- 法向量 ----
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
 
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
 
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
 
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
 
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,
+    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>
 };
-</code></pre>
-
-<p>由于向顶点数组添加了额外的数据，所以应该更新光照的顶点着色器：</p>
-
-<pre><code class="language-glsl">#version 330 core
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aNormal;
+</code></pre></div><p>由于向顶点数组添加了额外的数据，所以应该更新光照的顶点着色器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
+layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos;
+layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aNormal;
 ...
-</code></pre>
+</code></pre></div><p>设置顶点属性</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glVertexAttribPointer(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">6</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)<span style="color:#ae81ff">0</span>);
+glEnableVertexAttribArray(<span style="color:#ae81ff">0</span>);
+</code></pre></div><p>需要将法向量由顶点着色器传递到片段着色器。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec3</span> Normal;
 
-<p>设置顶点属性</p>
-
-<pre><code class="language-cpp">glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-glEnableVertexAttribArray(0);
-</code></pre>
-
-<p>需要将法向量由顶点着色器传递到片段着色器。</p>
-
-<pre><code class="language-glsl">out vec3 Normal;
-
-void main()
+<span style="color:#66d9ef">void</span> main()
 {
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
-    Normal = aNormal;
+    gl_Position <span style="color:#f92672">=</span> projection <span style="color:#f92672">*</span> view <span style="color:#f92672">*</span> model <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>);
+    Normal <span style="color:#f92672">=</span> aNormal;
 }
-</code></pre>
-
-<p>接下来，在片段着色器中定义相应的输入变量：</p>
-
-<pre><code class="language-glsl">in vec3 Normal;
-</code></pre>
-
-<h4 id="计算漫反射光照">计算漫反射光照</h4>
-
+</code></pre></div><p>接下来，在片段着色器中定义相应的输入变量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> Normal;
+</code></pre></div><h4 id="计算漫反射光照">计算漫反射光照</h4>
 <p>现在对每个顶点都有了法向量，但是仍然需要光源的位置向量和片段的位置向量。由于光源的位置是一个静态变量，可以简单地在片段着色器中把它声明为uniform：</p>
-
-<pre><code class="language-glsl">uniform vec3 lightPos;
-</code></pre>
-
-<p>然后在渲染循环中（渲染循环的外面也可以，因为它不会改变）更新uniform。</p>
-
-<pre><code class="language-cpp">lightingShader.setVec3(&quot;lightPos&quot;, lightPos);
-</code></pre>
-
-<p>最后，还需要片段的位置。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">uniform</span> <span style="color:#66d9ef">vec3</span> lightPos;
+</code></pre></div><p>然后在渲染循环中（渲染循环的外面也可以，因为它不会改变）更新uniform。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">lightingShader.setVec3(<span style="color:#e6db74">&#34;lightPos&#34;</span>, lightPos);
+</code></pre></div><p>最后，还需要片段的位置。
 可以通过把顶点位置属性乘以模型矩阵（不是观察和投影矩阵）来把它变换到世界空间坐标。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec3</span> FragPos;  
+<span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec3</span> Normal;
 
-<pre><code class="language-glsl">out vec3 FragPos;  
-out vec3 Normal;
-
-void main()
+<span style="color:#66d9ef">void</span> main()
 {
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
-    FragPos = vec3(model * vec4(aPos, 1.0));
-    Normal = aNormal;
+    gl_Position <span style="color:#f92672">=</span> projection <span style="color:#f92672">*</span> view <span style="color:#f92672">*</span> model <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>);
+    FragPos <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec3</span>(model <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>));
+    Normal <span style="color:#f92672">=</span> aNormal;
 }
-</code></pre>
-
-<p>最后，在片段着色器中添加相应的输入变量。</p>
-
-<pre><code class="language-glsl">in vec3 FragPos;
-</code></pre>
-
-<p>现在，所有需要的变量都设置好了，可以在片段着色器中添加光照计算了。</p>
-
+</code></pre></div><p>最后，在片段着色器中添加相应的输入变量。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> FragPos;
+</code></pre></div><p>现在，所有需要的变量都设置好了，可以在片段着色器中添加光照计算了。</p>
 <p>把法线和最终的方向向量都进行标准化：</p>
-
-<pre><code class="language-glsl">vec3 norm = normalize(Normal);
-vec3 lightDir = normalize(lightPos - FragPos);
-</code></pre>
-
-<p>下一步，对norm和lightDir向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫反射分量。两个向量之间的角度越大，漫反射分量就会越小：</p>
-
-<pre><code class="language-glsl">float diff = max(dot(norm, lightDir), 0.0);
-vec3 diffuse = diff * lightColor;
-</code></pre>
-
-<p>如果两个向量之间的角度大于90度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数。为此，使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。负数颜色的光照是没有定义的，所以最好避免它</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> norm <span style="color:#f92672">=</span> normalize(Normal);
+<span style="color:#66d9ef">vec3</span> lightDir <span style="color:#f92672">=</span> normalize(lightPos <span style="color:#f92672">-</span> FragPos);
+</code></pre></div><p>下一步，对norm和lightDir向量进行点乘，计算光源对当前片段实际的漫发射影响。结果值再乘以光的颜色，得到漫反射分量。两个向量之间的角度越大，漫反射分量就会越小：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">float</span> diff <span style="color:#f92672">=</span> max(dot(norm, lightDir), <span style="color:#ae81ff">0.0</span>);
+<span style="color:#66d9ef">vec3</span> diffuse <span style="color:#f92672">=</span> diff <span style="color:#f92672">*</span> lightColor;
+</code></pre></div><p>如果两个向量之间的角度大于90度，点乘的结果就会变成负数，这样会导致漫反射分量变为负数。为此，使用max函数返回两个参数之间较大的参数，从而保证漫反射分量不会变成负数。负数颜色的光照是没有定义的，所以最好避免它</p>
 <p>现在有了环境光分量和漫反射分量，把它们相加，然后把结果乘以物体的颜色，来获得片段最后的输出颜色。</p>
-
-<pre><code class="language-glsl">vec3 result = (ambient + diffuse) * objectColor;
-FragColor = vec4(result, 1.0);
-</code></pre>
-
-<h4 id="最后一件事">最后一件事</h4>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> result <span style="color:#f92672">=</span> (ambient <span style="color:#f92672">+</span> diffuse) <span style="color:#f92672">*</span> objectColor;
+FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(result, <span style="color:#ae81ff">1.0</span>);
+</code></pre></div><h4 id="最后一件事">最后一件事</h4>
 <p>首先，法向量只是一个方向向量，不能表达空间中的特定位置。同时，法向量没有齐次坐标（顶点位置中的w分量）。这意味着，位移不应该影响到法向量。因此，如果打算把法向量乘以一个模型矩阵，就要从矩阵中移除位移部分，只选用模型矩阵左上角3×3的矩阵（注意，也可以把法向量的w分量设置为0，再乘以4×4矩阵；这同样可以移除位移）。对于法向量，只希望对它实施缩放和旋转变换。</p>
-
 <p>其次，如果模型矩阵执行了不等比缩放，顶点的改变会导致法向量不再垂直于表面了。因此，不能用这样的模型矩阵来变换法向量。</p>
-
 <p>在顶点着色器中，可以使用inverse和transpose函数自己生成这个法线矩阵，这两个函数对所有类型矩阵都有效。注意还要把被处理过的矩阵强制转换为3×3矩阵，来保证它失去了位移属性以及能够乘以vec3的法向量。</p>
-
-<pre><code class="language-glsl">Normal = mat3(transpose(inverse(model))) * aNormal;
-</code></pre>
-
-<p>在漫反射光照部分，光照表现并没有问题，这是因为没有对物体本身执行任何缩放操作，所以并不是必须要使用一个法线矩阵，仅仅让模型矩阵乘以法线也可以。可是，如果你进行了不等比缩放，使用法线矩阵去乘以法向量就是必不可少的了。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl">Normal <span style="color:#f92672">=</span> mat3(transpose(inverse(model))) <span style="color:#f92672">*</span> aNormal;
+</code></pre></div><p>在漫反射光照部分，光照表现并没有问题，这是因为没有对物体本身执行任何缩放操作，所以并不是必须要使用一个法线矩阵，仅仅让模型矩阵乘以法线也可以。可是，如果你进行了不等比缩放，使用法线矩阵去乘以法向量就是必不可少的了。</p>
 <h3 id="镜面光照">镜面光照</h3>
-
 <p>为了得到观察者的世界空间坐标，简单地使用摄像机对象的位置坐标代替（它当然就是观察者）。所以把另一个uniform添加到片段着色器，把相应的摄像机位置坐标传给片段着色器：</p>
-
-<pre><code class="language-glsl">uniform vec3 viewPos;
-</code></pre>
-
-<pre><code class="language-cpp">lightingShader.setVec3(&quot;viewPos&quot;, camera.Position);
-</code></pre>
-
-<p>现在已经获得所有需要的变量，可以计算高光强度了。首先，定义一个镜面强度(Specular Intensity)变量，给镜面高光一个中等亮度颜色，让它不要产生过度的影响。</p>
-
-<pre><code class="language-glsl">float specularStrength = 0.5;
-</code></pre>
-
-<p>如果把它设置为1.0f，会得到一个非常亮的镜面光分量，这对于一个珊瑚色的立方体来说有点太多了。下一步，计算视线方向向量，和对应的沿着法线轴的反射向量：</p>
-
-<pre><code class="language-glsl">vec3 viewDir = normalize(viewPos - FragPos);
-vec3 reflectDir = reflect(-lightDir, norm)
-</code></pre>
-
-<p>需要注意的是对lightDir向量进行了取反。reflect函数要求第一个向量是从光源指向片段位置的向量，但是lightDir当前正好相反，是从片段指向光源（由先前计算lightDir向量时，减法的顺序决定）。为了保证得到正确的reflect向量，通过对lightDir向量取反来获得相反的方向。第二个参数要求是一个法向量，所以提供的是已标准化的norm向量。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">uniform</span> <span style="color:#66d9ef">vec3</span> viewPos;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">lightingShader.setVec3(<span style="color:#e6db74">&#34;viewPos&#34;</span>, camera.Position);
+</code></pre></div><p>现在已经获得所有需要的变量，可以计算高光强度了。首先，定义一个镜面强度(Specular Intensity)变量，给镜面高光一个中等亮度颜色，让它不要产生过度的影响。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">float</span> specularStrength <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>;
+</code></pre></div><p>如果把它设置为1.0f，会得到一个非常亮的镜面光分量，这对于一个珊瑚色的立方体来说有点太多了。下一步，计算视线方向向量，和对应的沿着法线轴的反射向量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> viewDir <span style="color:#f92672">=</span> normalize(viewPos <span style="color:#f92672">-</span> FragPos);
+<span style="color:#66d9ef">vec3</span> reflectDir <span style="color:#f92672">=</span> reflect(<span style="color:#f92672">-</span>lightDir, norm)
+</code></pre></div><p>需要注意的是对lightDir向量进行了取反。reflect函数要求第一个向量是从光源指向片段位置的向量，但是lightDir当前正好相反，是从片段指向光源（由先前计算lightDir向量时，减法的顺序决定）。为了保证得到正确的reflect向量，通过对lightDir向量取反来获得相反的方向。第二个参数要求是一个法向量，所以提供的是已标准化的norm向量。</p>
 <p>剩下要做的是计算镜面分量。</p>
-
-<pre><code class="language-glsl">float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-vec3 specular = specularStrength * spec * lightColor;
-</code></pre>
-
-<p>先计算视线方向与反射方向的点乘（并确保它不是负值），然后取它的32次幂。这个32是高光的反光度(Shininess)。一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">float</span> spec <span style="color:#f92672">=</span> pow(max(dot(viewDir, reflectDir), <span style="color:#ae81ff">0.0</span>), <span style="color:#ae81ff">32</span>);
+<span style="color:#66d9ef">vec3</span> specular <span style="color:#f92672">=</span> specularStrength <span style="color:#f92672">*</span> spec <span style="color:#f92672">*</span> lightColor;
+</code></pre></div><p>先计算视线方向与反射方向的点乘（并确保它不是负值），然后取它的32次幂。这个32是高光的反光度(Shininess)。一个物体的反光度越高，反射光的能力越强，散射得越少，高光点就会越小。</p>
 <p>剩下的最后一件事情是把它加到环境光分量和漫反射分量里，再用结果乘以物体的颜色：</p>
-
-<pre><code class="language-glsl">vec3 result = (ambient + diffuse + specular) * objectColor;
-FragColor = vec4(result, 1.0);
-</code></pre>
-
-<p>现在为冯氏光照计算了全部的光照分量。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> result <span style="color:#f92672">=</span> (ambient <span style="color:#f92672">+</span> diffuse <span style="color:#f92672">+</span> specular) <span style="color:#f92672">*</span> objectColor;
+FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(result, <span style="color:#ae81ff">1.0</span>);
+</code></pre></div><p>现在为冯氏光照计算了全部的光照分量。</p>
 <h3 id="完整代码">完整代码：</h3>
-
 <p><a href="https://github.com/realjf/opengl/tree/master/src/lighting/02">github.com/realjf/opengl/src/lighting/02</a></p>
 
         </div>

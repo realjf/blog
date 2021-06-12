@@ -3,7 +3,7 @@
 <head>
     <title>linux系统资源设置 之 Ulimit 命令 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,115 +233,94 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/linux/">Linux</a><a class="tag" href="https://realjf.io/tags/ulimit/">Ulimit</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/linux/">linux</a><a class="tag" href="https://realjf.io/tags/ulimit/">ulimit</a></div></div>
         </header>
         <div class="post-content">
             <p>根据linux 开发手册， ulimit 设置和获取用户的资源限制</p>
-
 <p><strong>ulimit 参数说明</strong></p>
-
 <table>
 <thead>
 <tr>
-<th align="center">选项</th>
-<th align="center">说明</th>
+<th style="text-align:center">选项</th>
+<th style="text-align:center">说明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
-<td align="center">-t</td>
-<td align="center">最大 cpu 占用时间 (单位是秒)</td>
+<td style="text-align:center">-t</td>
+<td style="text-align:center">最大 cpu 占用时间 (单位是秒)</td>
 </tr>
-
 <tr>
-<td align="center">-f</td>
-<td align="center">进程创建文件大小的最大值 (单位是blocks)</td>
+<td style="text-align:center">-f</td>
+<td style="text-align:center">进程创建文件大小的最大值 (单位是blocks)</td>
 </tr>
-
 <tr>
-<td align="center">-d</td>
-<td align="center">进程最大的数据段的大小，以kbytes为单位</td>
+<td style="text-align:center">-d</td>
+<td style="text-align:center">进程最大的数据段的大小，以kbytes为单位</td>
 </tr>
-
 <tr>
-<td align="center">-s</td>
-<td align="center">线程栈的大小，以kbytes为单位</td>
+<td style="text-align:center">-s</td>
+<td style="text-align:center">线程栈的大小，以kbytes为单位</td>
 </tr>
-
 <tr>
-<td align="center">-c</td>
-<td align="center">最大的core文件的大小，以blocks为单位</td>
+<td style="text-align:center">-c</td>
+<td style="text-align:center">最大的core文件的大小，以blocks为单位</td>
 </tr>
-
 <tr>
-<td align="center">-m</td>
-<td align="center">最大内存大小，以kbytes为单位</td>
+<td style="text-align:center">-m</td>
+<td style="text-align:center">最大内存大小，以kbytes为单位</td>
 </tr>
-
 <tr>
-<td align="center">-u</td>
-<td align="center">用户最大的可用的进程数</td>
+<td style="text-align:center">-u</td>
+<td style="text-align:center">用户最大的可用的进程数</td>
 </tr>
-
 <tr>
-<td align="center">-n</td>
-<td align="center">可以打开的最大文件描述符数量</td>
+<td style="text-align:center">-n</td>
+<td style="text-align:center">可以打开的最大文件描述符数量</td>
 </tr>
-
 <tr>
-<td align="center">-l</td>
-<td align="center">最大可加锁内存大小，以kbytes为单位</td>
+<td style="text-align:center">-l</td>
+<td style="text-align:center">最大可加锁内存大小，以kbytes为单位</td>
 </tr>
-
 <tr>
-<td align="center">-v</td>
-<td align="center">进程最大可用的虚拟内存，以kbytes为单位</td>
+<td style="text-align:center">-v</td>
+<td style="text-align:center">进程最大可用的虚拟内存，以kbytes为单位</td>
 </tr>
-
 <tr>
-<td align="center">-x</td>
-<td align="center"></td>
+<td style="text-align:center">-x</td>
+<td style="text-align:center"></td>
 </tr>
-
 <tr>
-<td align="center">-i</td>
-<td align="center"></td>
+<td style="text-align:center">-i</td>
+<td style="text-align:center"></td>
 </tr>
-
 <tr>
-<td align="center">-q</td>
-<td align="center"></td>
+<td style="text-align:center">-q</td>
+<td style="text-align:center"></td>
 </tr>
-
 <tr>
-<td align="center">-e</td>
-<td align="center"></td>
+<td style="text-align:center">-e</td>
+<td style="text-align:center"></td>
 </tr>
-
 <tr>
-<td align="center">-r</td>
-<td align="center"></td>
+<td style="text-align:center">-r</td>
+<td style="text-align:center"></td>
 </tr>
-
 <tr>
-<td align="center">-N</td>
-<td align="center"></td>
+<td style="text-align:center">-N</td>
+<td style="text-align:center"></td>
 </tr>
-
 <tr>
-<td align="center">-p</td>
-<td align="center">管道缓冲区的大小，以kbytes为单位</td>
+<td style="text-align:center">-p</td>
+<td style="text-align:center">管道缓冲区的大小，以kbytes为单位</td>
 </tr>
-
 <tr>
-<td align="center">-a</td>
-<td align="center">显示所有资源限制的设定</td>
+<td style="text-align:center">-a</td>
+<td style="text-align:center">显示所有资源限制的设定</td>
 </tr>
-
 <tr>
-<td align="center">-S</td>
-<td align="center">设定资源的弹性限制</td>
+<td style="text-align:center">-S</td>
+<td style="text-align:center">设定资源的弹性限制</td>
 </tr>
 </tbody>
 </table>

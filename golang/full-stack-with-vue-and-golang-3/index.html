@@ -3,7 +3,7 @@
 <head>
     <title>golang和vue3全栈开发之三 clean架构 Full Stack  With Vue and Golang 3 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,14 +233,11 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/vuejs/">vuejs</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="项目结构">项目结构</h3>
-
-<pre><code class="language-sh">.
+            <h3 id="项目结构">项目结构</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">.
 ├── account
 │   ├── Dockerfile
 │   ├── go.mod
@@ -256,148 +253,135 @@
 ├── echo.code-workspace
 ├── .env.dev
 └── .gitignore
-</code></pre>
-
-<h3 id="clean-architecture">clean architecture</h3>
-
-<p><img src="/image/clean-arch.png" alt="clean架构" /></p>
-
+</code></pre></div><h3 id="clean-architecture">clean architecture</h3>
+<p><img src="/image/clean-arch.png" alt="clean架构"></p>
 <h3 id="entity数据层的model">entity数据层的model</h3>
-
 <p>执行go get -u github.com/google/uuid，
 创建account/model/user.go文件，其内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">model</span>
 
-<pre><code class="language-go">package model
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
 
-import &quot;github.com/google/uuid&quot;
-
-type User struct {
-    UID      uuid.UUID `db:&quot;uid&quot; json:&quot;uid&quot;`
-    Email    string    `db:&quot;email&quot; json:&quot;email&quot;`
-    Password string    `db:&quot;password&quot; json:&quot;-&quot;`
-    Name     string    `db:&quot;name&quot; json:&quot;name&quot;`
-    ImageURL string    `db:&quot;image_url&quot; json:&quot;imageUrl&quot;`
-    Website  string    `db:&quot;website&quot; json:&quot;website&quot;`
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">UID</span>      <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`db:&#34;uid&#34; json:&#34;uid&#34;`</span>
+	<span style="color:#a6e22e">Email</span>    <span style="color:#66d9ef">string</span>    <span style="color:#e6db74">`db:&#34;email&#34; json:&#34;email&#34;`</span>
+	<span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span>    <span style="color:#e6db74">`db:&#34;password&#34; json:&#34;-&#34;`</span>
+	<span style="color:#a6e22e">Name</span>     <span style="color:#66d9ef">string</span>    <span style="color:#e6db74">`db:&#34;name&#34; json:&#34;name&#34;`</span>
+	<span style="color:#a6e22e">ImageURL</span> <span style="color:#66d9ef">string</span>    <span style="color:#e6db74">`db:&#34;image_url&#34; json:&#34;imageUrl&#34;`</span>
+	<span style="color:#a6e22e">Website</span>  <span style="color:#66d9ef">string</span>    <span style="color:#e6db74">`db:&#34;website&#34; json:&#34;website&#34;`</span>
 }
 
-</code></pre>
+</code></pre></div><p>创建account/model/interfaces.go文件，其内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">model</span>
 
-<p>创建account/model/interfaces.go文件，其内容如下：</p>
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
 
-<pre><code class="language-go">package model
-
-import &quot;github.com/google/uuid&quot;
-
-type UserService interface {
-    Get(uid uuid.UUID) (*User, error)
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserService</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">uid</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>, <span style="color:#66d9ef">error</span>)
 }
 
-type UserRepository struct {
-    FindByUID(uid uuid.UUID) (*User, error)
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserRepository</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">FindByUID</span>(<span style="color:#a6e22e">uid</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>, <span style="color:#66d9ef">error</span>)
 }
-</code></pre>
+</code></pre></div><p>创建account/model/errors.go文件，其内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">model</span>
 
-<p>创建account/model/errors.go文件，其内容如下：</p>
-
-<pre><code class="language-go">package model
-
-import (
-    &quot;errors&quot;
-    &quot;fmt&quot;
-    &quot;net/http&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;errors&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;net/http&#34;</span>
 )
 
-type Type string
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Type</span> <span style="color:#66d9ef">string</span>
 
-const (
-    Authorization   Type = &quot;AUTHORIZATION&quot;   // Authorization failure
-    BadRequest      Type = &quot;BADREQUEST&quot;      // validation errors / bad input
-    Conflict        Type = &quot;CONFLICT&quot;        // already exists - 409
-    Internal        Type = &quot;INTERNAL&quot;        // Server and fallback errors
-    NotFound        Type = &quot;NOTFOUND&quot;        // for not finding resource
-    PayloadTooLarge Type = &quot;PAYLOADTOOLARGE&quot; // for uploading tons of JSON, or an image over the limit - 413
-)
+<span style="color:#66d9ef">const</span> (
+	<span style="color:#a6e22e">Authorization</span>   <span style="color:#a6e22e">Type</span> = <span style="color:#e6db74">&#34;AUTHORIZATION&#34;</span>   <span style="color:#75715e">// Authorization failure
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">BadRequest</span>      <span style="color:#a6e22e">Type</span> = <span style="color:#e6db74">&#34;BADREQUEST&#34;</span>      <span style="color:#75715e">// validation errors / bad input
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Conflict</span>        <span style="color:#a6e22e">Type</span> = <span style="color:#e6db74">&#34;CONFLICT&#34;</span>        <span style="color:#75715e">// already exists - 409
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Internal</span>        <span style="color:#a6e22e">Type</span> = <span style="color:#e6db74">&#34;INTERNAL&#34;</span>        <span style="color:#75715e">// Server and fallback errors
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">NotFound</span>        <span style="color:#a6e22e">Type</span> = <span style="color:#e6db74">&#34;NOTFOUND&#34;</span>        <span style="color:#75715e">// for not finding resource
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">PayloadTooLarge</span> <span style="color:#a6e22e">Type</span> = <span style="color:#e6db74">&#34;PAYLOADTOOLARGE&#34;</span> <span style="color:#75715e">// for uploading tons of JSON, or an image over the limit - 413
+</span><span style="color:#75715e"></span>)
 
-type Error struct {
-    Type    Type   `json:&quot;type&quot;`
-    Message string `json:&quot;message&quot;`
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Error</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Type</span>    <span style="color:#a6e22e">Type</span>   <span style="color:#e6db74">`json:&#34;type&#34;`</span>
+	<span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;message&#34;`</span>
 }
 
-func (e *Error) Error() string {
-    return e.Message
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span>) <span style="color:#a6e22e">Error</span>() <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">Message</span>
 }
 
-func (e *Error) Status() int {
-    switch e.Type {
-    case Authorization:
-        return http.StatusUnauthorized
-    case BadRequest:
-        return http.StatusBadRequest
-    case Conflict:
-        return http.StatusConflict
-    case Internal:
-        return http.StatusInternalServerError
-    case NotFound:
-        return http.StatusNotFound
-    case PayloadTooLarge:
-        return http.StatusRequestEntityTooLarge
-    default:
-        return http.StatusInternalServerError
-    }
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span>) <span style="color:#a6e22e">Status</span>() <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">Type</span> {
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Authorization</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusUnauthorized</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">BadRequest</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Conflict</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusConflict</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Internal</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">NotFound</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusNotFound</span>
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">PayloadTooLarge</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusRequestEntityTooLarge</span>
+	<span style="color:#66d9ef">default</span>:
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>
+	}
 }
 
-func Status(err error) int {
-    var e *Error
-    if errors.As(err, &amp;e) {
-        return e.Status()
-    }
-    return http.StatusInternalServerError
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Status</span>(<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">As</span>(<span style="color:#a6e22e">err</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">e</span>) {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">Status</span>()
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>
 }
 
-func NewAuthorization(reason string) *Error {
-    return &amp;Error{
-        Type:    Authorization,
-        Message: reason,
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewAuthorization</span>(<span style="color:#a6e22e">reason</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Error</span>{
+		<span style="color:#a6e22e">Type</span>:    <span style="color:#a6e22e">Authorization</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">reason</span>,
+	}
 }
 
-func NewBadRequest(reason string) *Error {
-    return &amp;Error{
-        Type:    BadRequest,
-        Message: fmt.Sprintf(&quot;Bad request. Reason: %v&quot;, reason),
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewBadRequest</span>(<span style="color:#a6e22e">reason</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Error</span>{
+		<span style="color:#a6e22e">Type</span>:    <span style="color:#a6e22e">BadRequest</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Bad request. Reason: %v&#34;</span>, <span style="color:#a6e22e">reason</span>),
+	}
 }
 
-func NewConflict(name string, value string) *Error {
-    return &amp;Error{
-        Type:    Conflict,
-        Message: fmt.Sprintf(&quot;resource: %v with value: %v already exists&quot;, name, value),
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewConflict</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Error</span>{
+		<span style="color:#a6e22e">Type</span>:    <span style="color:#a6e22e">Conflict</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;resource: %v with value: %v already exists&#34;</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">value</span>),
+	}
 }
 
-func NewInternal() *Error {
-    return &amp;Error{
-        Type:    Internal,
-        Message: fmt.Sprintf(&quot;Internal server error.&quot;),
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewInternal</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Error</span>{
+		<span style="color:#a6e22e">Type</span>:    <span style="color:#a6e22e">Internal</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Internal server error.&#34;</span>),
+	}
 }
 
-func NewNotFound(name string, value string) *Error {
-    return &amp;Error{
-        Type:    NotFound,
-        Message: fmt.Sprintf(&quot;resource: %v with value: %v not found&quot;, name, value),
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewNotFound</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Error</span>{
+		<span style="color:#a6e22e">Type</span>:    <span style="color:#a6e22e">NotFound</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;resource: %v with value: %v not found&#34;</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">value</span>),
+	}
 }
 
-func NewPayloadTooLarge(maxBodySize int64, contentLength int64) *Error {
-    return &amp;Error{
-        Type:    PayloadTooLarge,
-        Message: fmt.Sprintf(&quot;Max payload size of %v exceeded. Actual payload size: %v&quot;, maxBodySize, contentLength),
-    }
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewPayloadTooLarge</span>(<span style="color:#a6e22e">maxBodySize</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">contentLength</span> <span style="color:#66d9ef">int64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Error</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Error</span>{
+		<span style="color:#a6e22e">Type</span>:    <span style="color:#a6e22e">PayloadTooLarge</span>,
+		<span style="color:#a6e22e">Message</span>: <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Max payload size of %v exceeded. Actual payload size: %v&#34;</span>, <span style="color:#a6e22e">maxBodySize</span>, <span style="color:#a6e22e">contentLength</span>),
+	}
 }
 
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Paxos on Realjf&#39;s blog</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Paxos on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Apr 2020 10:05:32 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/tags/paxos/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 21 Apr 2020 10:05:32 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/paxos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>分布式一致性协议 2PC和3PC Paxos（Distributed Consistency Protocol）</title>
       <link>https://realjf.io/distributed/distributed-consistency-protocol/</link>

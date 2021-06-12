@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Grpcs on Realjf&#39;s blog</title>
@@ -6,22 +6,18 @@
     <description>Recent content in Grpcs on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Apr 2021 14:51:48 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/grpc/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 25 Apr 2021 14:51:48 +0800</lastBuildDate><atom:link href="https://realjf.io/grpc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>grpc应用之三 运行一个grpc服务 Run Grpc Service</title>
       <link>https://realjf.io/grpc/run-grpc-service/</link>
       <pubDate>Sun, 25 Apr 2021 14:51:48 +0800</pubDate>
       
       <guid>https://realjf.io/grpc/run-grpc-service/</guid>
-      <description>初始化项目 mkdir $GOPATH/src/tag-service cd $GOPATH/src/tag-service go mod init github.com/realjf/tag-service  最终目录结构如下：
-. ├── go.mod ├── internal ├── main.go ├── pkg ├── proto ├── server └── third_party  运行grpc安装命令
-go get -u google.golang.org/grpc  编译和生成proto文件 在proto目录下新建common.proto文件
-syntax = &amp;quot;proto3&amp;quot;; package proto; message Pager { int64 page = 1; int64 page_size = 2; int64 total_rows = 3; }  再新建tag.proto文件，内容如下：
-syntax = &amp;quot;proto3&amp;quot;; package proto; import &amp;quot;proto/common.proto&amp;quot;; service TagService { rpc GetTagList (GetTagListRequest) returns (GetTagListReply) {} } message GetTagListRequest { string name = 1; uint32 state = 2; } message Tag { int64 id = 1; string name = 2; uint32 state = 3; } message GetTagListReply { repeated Tag list = 1; Pager pager = 2; }  在项目根目录下运行如下命令：</description>
+      <description>初始化项目 mkdir $GOPATH/src/tag-service cd $GOPATH/src/tag-service go mod init github.com/realjf/tag-service 最终目录结构如下：
+. ├── go.mod ├── internal ├── main.go ├── pkg ├── proto ├── server └── third_party 运行grpc安装命令
+go get -u google.golang.org/grpc 编译和生成proto文件 在proto目录下新建common.proto文件
+syntax = &amp;#34;proto3&amp;#34;;package proto;message Pager { int64 page = 1; int64 page_size = 2; int64 total_rows = 3;}再新建tag.proto文件，内容如下：
+syntax = &amp;#34;proto3&amp;#34;;package proto;import &amp;#34;proto/common.proto&amp;#34;;service TagService { rpc GetTagList (GetTagListRequest) returns (GetTagListReply) {}}message GetTagListRequest { string name = 1; uint32 state = 2;}message Tag { int64 id = 1; string name = 2; uint32 state = 3;}message GetTagListReply { repeated Tag list = 1; Pager pager = 2;}在项目根目录下运行如下命令：</description>
     </item>
     
     <item>
@@ -31,11 +27,11 @@ syntax = &amp;quot;proto3&amp;quot;; package proto; import &amp;quot;proto/commo
       
       <guid>https://realjf.io/grpc/grpc-quick-start/</guid>
       <description>安装grpc 在上一个例子grpc应用之一 使用protobuf的项目下，执行如下命令:
-go get -u google.golang.org/grpc@latest  gRPC的四种调用方式  一元RPC 服务端流式RPC 客户端流式RPC 双向流式RPC  修改server目录下的server.go文件，其代码如下：
-package main import ( &amp;quot;flag&amp;quot; // 用pb别名来引用proto里定义的类型方法 pb &amp;quot;github.com/realjf/grpc-demo/proto&amp;quot; ) var port string func init() { flag.StringVar(&amp;amp;port, &amp;quot;p&amp;quot;, &amp;quot;8000&amp;quot;, &amp;quot;启动端口号&amp;quot;) flag.Parse() }  每次在proto文件中定义RPC方法的proto时，需要重新在根目录下运行如下命令重新编译生成语句：
-protoc --go_out=plugins=grpc:. ./proto/*.proto  一元RPC 一元 RPC，也就是是单次 RPC 调用，简单来讲就是客户端发起一次普通的 RPC 请求，响应，是最基础的调用类型，也是最常用的方式，
-proto文件 rpc SayHello(HelloRequest) returns (HelloRespnose) {};  server端 server.go代码如下：
-package main import ( &amp;quot;context&amp;quot; &amp;quot;flag&amp;quot; &amp;quot;net&amp;quot; pb &amp;quot;github.com/realjf/grpc-demo/proto&amp;quot; &amp;quot;google.</description>
+go get -u google.golang.org/grpc@latest gRPC的四种调用方式  一元RPC 服务端流式RPC 客户端流式RPC 双向流式RPC  修改server目录下的server.go文件，其代码如下：
+package main import ( &amp;#34;flag&amp;#34; // 用pb别名来引用proto里定义的类型方法 	pb &amp;#34;github.com/realjf/grpc-demo/proto&amp;#34; ) var port string func init() { flag.StringVar(&amp;amp;port, &amp;#34;p&amp;#34;, &amp;#34;8000&amp;#34;, &amp;#34;启动端口号&amp;#34;) flag.Parse() } 每次在proto文件中定义RPC方法的proto时，需要重新在根目录下运行如下命令重新编译生成语句：
+protoc --go_out=plugins=grpc:. ./proto/*.proto 一元RPC 一元 RPC，也就是是单次 RPC 调用，简单来讲就是客户端发起一次普通的 RPC 请求，响应，是最基础的调用类型，也是最常用的方式，
+proto文件 rpc SayHello(HelloRequest) returns (HelloRespnose) {};server端 server.go代码如下：
+package main import ( &amp;#34;context&amp;#34; &amp;#34;flag&amp;#34; &amp;#34;net&amp;#34; pb &amp;#34;github.com/realjf/grpc-demo/proto&amp;#34; &amp;#34;google.golang.org/grpc&amp;#34; ) var port string func init() { flag.</description>
     </item>
     
     <item>
@@ -45,9 +41,10 @@ package main import ( &amp;quot;context&amp;quot; &amp;quot;flag&amp;quot; &amp;
       
       <guid>https://realjf.io/grpc/protobuf-quick-start/</guid>
       <description>protoc 是 Protobuf 的编译器，是用 C++ 所编写的，其主要功能是用于编译.proto 文件
-下载安装protobuf编译器protoc wget https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protobuf-all-3.15.8.zip unzip protobuf-all-3.15.8.zip &amp;amp;&amp;amp; cd protobuf-3.15.8/ ./configure make make install # 检查是否安装成功 protoc --version  Protocol Buffers Libraries 的默认安装路径在 /usr/local/lib 下
-protoc插件安装 go get -u github.com/golang/protobuf/protoc-gen-go@latest # 将所编译安装的 Protoc Plugin 的可执行文件中移动到相应的 bin 目录下，让其可以直接运行protoc-gen-go export PATH=$PATH:$GOPATH/bin  初始化项目 mkdir -p $GOPATH/src/grpc-demo cd $GOPATH/src/grpc-demo go mod init github.com/realjf/grpc-demo  初始化后，新建server、client、proto目录，最终目录结构如下：
-. ├── client ├── go.mod ├── proto └── server  编译和生成proto文件 创建proto文件 在项目的proto文件夹下新建helloworld.</description>
+下载安装protobuf编译器protoc wget https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protobuf-all-3.15.8.zip unzip protobuf-all-3.15.8.zip &amp;amp;&amp;amp; cd protobuf-3.15.8/ ./configure make make install # 检查是否安装成功 protoc --version Protocol Buffers Libraries 的默认安装路径在 /usr/local/lib 下
+protoc插件安装 go get -u github.com/golang/protobuf/protoc-gen-go@latest # 将所编译安装的 Protoc Plugin 的可执行文件中移动到相应的 bin 目录下，让其可以直接运行protoc-gen-go export PATH=$PATH:$GOPATH/bin 初始化项目 mkdir -p $GOPATH/src/grpc-demo cd $GOPATH/src/grpc-demo go mod init github.com/realjf/grpc-demo 初始化后，新建server、client、proto目录，最终目录结构如下：
+. ├── client ├── go.mod ├── proto └── server 编译和生成proto文件 创建proto文件 在项目的proto文件夹下新建helloworld.proto文件，其内容如下：
+syntax = &amp;#34;proto3&amp;#34;;package helloworld;service Greeter { rpc SayHello (HelloRequest) returns (HelloResponse) {}}message HelloRequest { string name = 1;}message HelloResponse { int64 code = 1; string message = 2;}生成proto文件 在项目根目录下执行如下命令，生成对应.</description>
     </item>
     
     <item>
@@ -56,12 +53,13 @@ protoc插件安装 go get -u github.com/golang/protobuf/protoc-gen-go@latest # �
       <pubDate>Mon, 14 Dec 2020 04:29:57 +0800</pubDate>
       
       <guid>https://realjf.io/grpc/set-up/</guid>
-      <description>C++语言grpc安装 安装必要软件  cmake shell script apt install -y cmake   安装基础工具
-apt install -y build-essential autoconf libtool pkg-config  clone grpc仓库及其子模块代码
-git clone --recurse-submodules -b v1.34.0 https://github.com/grpc/grpc  如果期间子模块出错，可以通过如下命令更新
-cd grpc git submodule update --init  现在开始本地构建和安装grpc及其所有工具
-$ mkdir -p cmake/build $ pushd cmake/build $ cmake -DgRPC_INSTALL=ON \ -DgRPC_BUILD_TESTS=OFF \ -DCMAKE_INSTALL_PREFIX=/your/grpc/path \ ../.. $ make -j $ make install $ popd  最后将grpc/bin目录添加到环境变量PATH中即可使用protoc了
-export PATH=$PATH:/your/grpc/path/bin  使用 在源码下载目录的grpc/examples/cpp/helloworld目录下运行如下命令</description>
+      <description>C++语言grpc安装 安装必要软件  cmake  apt install -y cmake 安装基础工具
+apt install -y build-essential autoconf libtool pkg-config clone grpc仓库及其子模块代码
+git clone --recurse-submodules -b v1.34.0 https://github.com/grpc/grpc 如果期间子模块出错，可以通过如下命令更新
+cd grpc git submodule update --init 现在开始本地构建和安装grpc及其所有工具
+$ mkdir -p cmake/build $ pushd cmake/build $ cmake -DgRPC_INSTALL=ON \  -DgRPC_BUILD_TESTS=OFF \  -DCMAKE_INSTALL_PREFIX=/your/grpc/path \  ../.. $ make -j $ make install $ popd 最后将grpc/bin目录添加到环境变量PATH中即可使用protoc了
+export PATH=$PATH:/your/grpc/path/bin 使用 在源码下载目录的grpc/examples/cpp/helloworld目录下运行如下命令
+cd grpc/examples/cpp/helloworld $ mkdir -p cmake/build $ pushd cmake/build $ cmake -DCMAKE_PREFIX_PATH=/usr/local/grp .</description>
     </item>
     
   </channel>
