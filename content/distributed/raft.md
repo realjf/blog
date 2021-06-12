@@ -5,7 +5,7 @@ keywords: ["distributed", "raft"]
 categories: ["distributed"]
 tags: ["distributed", "raft"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 50
@@ -22,3 +22,4 @@ related:
     weight: 10
 ---
 
+![raft](/image/raft.png)
