@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Etcds on Realjf&#39;s blog</title>
@@ -6,7 +6,11 @@
     <description>Recent content in Etcds on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Apr 2021 15:50:55 +0800</lastBuildDate><atom:link href="https://realjf.io/etcd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Apr 2021 15:50:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/etcd/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>etcd使用实例 ETCD Example</title>
       <link>https://realjf.io/etcd/example/</link>
@@ -14,8 +18,7 @@
       
       <guid>https://realjf.io/etcd/example/</guid>
       <description>下载安装 下载地址https://github.com/etcd-io/etcd/releases
-wget https://github.com/etcd-io/etcd/releases/download/v3.4.15/etcd-v3.4.15-linux-amd64.tar.gz tar zxvf etcd-v3.4.15-linux-amd64.tar.gz cd etcd-v3.4.15-linux-amd64 启动服务 # 目录中的etcd为服务端程序，etcdctl为客户端程序 # 启动服务 ./etcd --listen-client-urls &amp;#39;http://127.0.0.1:2379&amp;#39; --advertise-client-urls &amp;#39;http://0.0.0.0:2379&amp;#39; # --listen-client-urls 用于客户端通信的url，可以监听多个 # --advertise-client-urls 建议使用的客户端通信url 客户端常见命令 # 1. 获取一个键值对 ./etcdctl get name # 2. 设置一个键值对 ./etcdctl put name value # 3. 删除键值对 ./etcdctl del name # etcd的key是有序存储的，本质上是字符串，可以模拟出目录的结构，例如：/a/b，/a/b/c，/a/b/d 三个key，由于他们在存储 # 中的顺序排列，通过定位到key=/a/b并依次顺序向后扫描，就会遇到/a/b/c和/a/b/d这两个子目录. # 4. 也可以获取某个目录下的所有key，需要加上--prefix参数 ./etcdctl get &amp;#34;/a/b&amp;#34; --prefix # 5. 删除所有key ./etcdctl del &amp;#34;/a/b&amp;#34; --prefix watch命令 可以使用watch命令监测key的变化，该命令会建立长连接。 由于etcd采用mvcc多版本并发控制，etcd的watch可以从给定的revision进行检测。
-# 开始监听某个key ./etcdctl watch &amp;#34;/a/b&amp;#34; # 在另外一个窗口执行 .</description>
+wget https://github.com/etcd-io/etcd/releases/download/v3.4.15/etcd-v3.4.15-linux-amd64.tar.gz tar zxvf etcd-v3.4.15-linux-amd64.tar.gz cd etcd-v3.4.15-linux-amd64  启动服务 # 目录中的etcd为服务端程序，etcdctl为客户端程序 # 启动服务 ./etcd --listen-client-urls &#39;http://127.0.0.1:2379&#39; --advertise-client-urls &#39;http://0.0.0.0:2379&#39; # --listen-client-urls 用于客户端通信的url，可以监听多个 # --advertise-client-urls 建议使用的客户端通信url  客户端常见命令 # 1. 获取一个键值对 ./etcdctl get name # 2. 设置一个键值对 ./etcdctl put name value # 3. 删除键值对 ./etcdctl del name # etcd的key是有序存储的，本质上是字符串，可以模拟出目录的结构，例如：/a/b，/a/b/c，/a/b/d 三个key，由于他们在存储 # 中的顺序排列，通过定位到key=/a/b并依次顺序向后扫描，就会遇到/a/b/c和/a/b/d这两个子目录. # 4. 也可以获取某个目录下的所有key，需要加上--prefix参数 ./etcdctl get &amp;quot;/a/b&amp;quot; --prefix # 5. 删除所有key ./etcdctl del &amp;quot;/a/b&amp;quot; --prefix  watch命令 可以使用watch命令监测key的变化，该命令会建立长连接。 由于etcd采用mvcc多版本并发控制，etcd的watch可以从给定的revision进行检测。</description>
     </item>
     
   </channel>

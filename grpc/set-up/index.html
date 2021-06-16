@@ -3,7 +3,7 @@
 <head>
     <title>grpc 安装 Set Up // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,51 +233,86 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/grpc/">grpc</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/grpc/">Grpc</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="c语言grpc安装">C++语言grpc安装</h2>
+            
+
+<h2 id="c-语言grpc安装">C++语言grpc安装</h2>
+
 <h3 id="安装必要软件">安装必要软件</h3>
+
 <ul>
-<li>cmake</li>
+<li>cmake
+<code>shell script
+apt install -y cmake
+</code></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt install -y cmake
-</code></pre></div><p>安装基础工具</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt install -y build-essential autoconf libtool pkg-config
-</code></pre></div><p>clone grpc仓库及其子模块代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone --recurse-submodules -b v1.34.0 https://github.com/grpc/grpc
-</code></pre></div><p>如果期间子模块出错，可以通过如下命令更新</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd grpc
+
+<p>安装基础工具</p>
+
+<pre><code class="language-shell">apt install -y build-essential autoconf libtool pkg-config
+</code></pre>
+
+<p>clone grpc仓库及其子模块代码</p>
+
+<pre><code class="language-shell">git clone --recurse-submodules -b v1.34.0 https://github.com/grpc/grpc
+</code></pre>
+
+<p>如果期间子模块出错，可以通过如下命令更新</p>
+
+<pre><code class="language-shell">cd grpc
 git submodule update --init
-</code></pre></div><p>现在开始本地构建和安装grpc及其所有工具</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mkdir -p cmake/build
+</code></pre>
+
+<p>现在开始本地构建和安装grpc及其所有工具</p>
+
+<pre><code class="language-shell">$ mkdir -p cmake/build
 $ pushd cmake/build
-$ cmake -DgRPC_INSTALL<span style="color:#f92672">=</span>ON <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      -DgRPC_BUILD_TESTS<span style="color:#f92672">=</span>OFF <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      -DCMAKE_INSTALL_PREFIX<span style="color:#f92672">=</span>/your/grpc/path <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>      ../..
+$ cmake -DgRPC_INSTALL=ON \
+      -DgRPC_BUILD_TESTS=OFF \
+      -DCMAKE_INSTALL_PREFIX=/your/grpc/path \
+      ../..
 $ make -j
 $ make install
 $ popd
-</code></pre></div><p>最后将grpc/bin目录添加到环境变量PATH中即可使用protoc了</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">export PATH<span style="color:#f92672">=</span>$PATH:/your/grpc/path/bin
-</code></pre></div><h3 id="使用">使用</h3>
+</code></pre>
+
+<p>最后将grpc/bin目录添加到环境变量PATH中即可使用protoc了</p>
+
+<pre><code class="language-shell">export PATH=$PATH:/your/grpc/path/bin
+</code></pre>
+
+<h3 id="使用">使用</h3>
+
 <p>在源码下载目录的grpc/examples/cpp/helloworld目录下运行如下命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd grpc/examples/cpp/helloworld
+
+<pre><code class="language-shell">cd grpc/examples/cpp/helloworld
 $ mkdir -p cmake/build
 $ pushd cmake/build
-$ cmake -DCMAKE_PREFIX_PATH<span style="color:#f92672">=</span>/usr/local/grp ../..
+$ cmake -DCMAKE_PREFIX_PATH=/usr/local/grp ../..
 $ make -j
-</code></pre></div><p>构建完毕后，运行服务</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./greeter_server
-</code></pre></div><p>在另外一个终端运行客户端服务</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./greeter_client
+</code></pre>
+
+<p>构建完毕后，运行服务</p>
+
+<pre><code class="language-shell">./greeter_server
+</code></pre>
+
+<p>在另外一个终端运行客户端服务</p>
+
+<pre><code class="language-shell">./greeter_client
 
 Greeter received: Hello world
-</code></pre></div><p>到这里说明安装成功</p>
+</code></pre>
+
+<p>到这里说明安装成功</p>
+
 <p>当修改代码后，运行如下命令重新生成代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make -j
-</code></pre></div>
+
+<pre><code class="language-shell">make -j
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

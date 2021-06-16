@@ -3,7 +3,7 @@
 <head>
     <title>订单号设计规则 How to Design Order Id // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,19 +233,22 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/posts/">posts</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/posts/">Posts</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="订单号的生成规则">订单号的生成规则</h2>
-<p>订单号一般具有以下特性</p>
-<ul>
-<li>唯一性（编码不重复）</li>
-<li>安全性（可校验，不能随意仿造）</li>
-<li>易读性（易于识别）</li>
-<li>可扩展性（多业务混合使用，可对新增业务提供支持）</li>
-<li>防止并发(分布式机器的时间不统一问题，针对编码中包含时间信息的)</li>
-</ul>
-<h2 id="编码规则一般设定在1020位左右常见编码规则">编码规则一般设定在10~20位左右，常见编码规则</h2>
+            
+
+<h2 id="订单号的生成规则">订单号的生成规则</h2>
+
+<p>订单号一般具有以下特性
+- 唯一性（编码不重复）
+- 安全性（可校验，不能随意仿造）
+- 易读性（易于识别）
+- 可扩展性（多业务混合使用，可对新增业务提供支持）
+- 防止并发(分布式机器的时间不统一问题，针对编码中包含时间信息的)</p>
+
+<h2 id="编码规则一般设定在10-20位左右-常见编码规则">编码规则一般设定在10~20位左右，常见编码规则</h2>
+
 <ul>
 <li>业务类型 + 时间戳 + 平台 + 渠道 + 随机码（或自增码）+ 用户id（看情况，可以加入部分）+ 校验码（可选）</li>
 <li>年月日时分秒 + 用户id</li>
@@ -256,83 +259,86 @@
 <li>字母 + 数字字符串</li>
 <li>twitter的雪花算法，php第三方扩展库<a href="https://github.com/zh-ang/php-snowflake">php-snowflake</a>（推荐）</li>
 </ul>
+
 <h2 id="以下是我自己的已订单生成规则">以下是我自己的已订单生成规则</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;order_id&#34;</span>; <span style="color:#75715e">// 订单id
-</span><span style="color:#75715e"></span>
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * 生成订单号 bigint最大支持19位
-</span><span style="color:#e6db74">     * 业务号（2位）+ 日期（ymd 6位） + 毫秒（3位）+ 时间信息（His 6位）+ 用户uid（后1位）+ 校验位（1位）
-</span><span style="color:#e6db74">     * @param $appId
-</span><span style="color:#e6db74">     * @param $time
-</span><span style="color:#e6db74">     * @param $uid4Suffix
-</span><span style="color:#e6db74">     * @return string
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_generateOrderId</span>($appId, $ptUid)
+
+<pre><code class="language-php">const TABLE = &quot;order_id&quot;; // 订单id
+
+    /**
+     * 生成订单号 bigint最大支持19位
+     * 业务号（2位）+ 日期（ymd 6位） + 毫秒（3位）+ 时间信息（His 6位）+ 用户uid（后1位）+ 校验位（1位）
+     * @param $appId
+     * @param $time
+     * @param $uid4Suffix
+     * @return string
+     */
+    private function _generateOrderId($appId, $ptUid)
     {
-        <span style="color:#66d9ef">if</span> ($appId <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>) {
-            <span style="color:#75715e">// 取app加大到2位
-</span><span style="color:#75715e"></span>            $appPre <span style="color:#f92672">=</span> $appId <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span>;
-        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> ($appId <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">99</span>) {
-            $appPre <span style="color:#f92672">=</span> $appId;
-        } <span style="color:#66d9ef">else</span> {
-            <span style="color:#75715e">// 取前2位
-</span><span style="color:#75715e"></span>            $appPre <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>(<span style="color:#a6e22e">strval</span>($appId), <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>);
+        if ($appId &lt; 10) {
+            // 取app加大到2位
+            $appPre = $appId + 10;
+        } else if ($appId &lt;= 99) {
+            $appPre = $appId;
+        } else {
+            // 取前2位
+            $appPre = substr(strval($appId), 0, 2);
         }
-        <span style="color:#75715e">// uid后1位
-</span><span style="color:#75715e"></span>        $uidSuffix <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>(<span style="color:#a6e22e">strval</span>($ptUid), <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
-        $micro <span style="color:#f92672">=</span> <span style="color:#a6e22e">explode</span>(<span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#a6e22e">microtime</span>());
+        // uid后1位
+        $uidSuffix = substr(strval($ptUid), -1);
+        $micro = explode(&quot; &quot;, microtime());
         
-        <span style="color:#75715e">// 故意将年月日和时分秒错开，显得更无规律
-</span><span style="color:#75715e"></span>        $orderId <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;%02d%06d%03d%06d%01d&#34;</span>, $appPre, <span style="color:#a6e22e">date</span>(<span style="color:#e6db74">&#39;ymd&#39;</span>), <span style="color:#a6e22e">intval</span>($micro[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>), <span style="color:#a6e22e">date</span>(<span style="color:#e6db74">&#39;His&#39;</span>), $uidSuffix);
-        <span style="color:#75715e">// 校验位（1位）
-</span><span style="color:#75715e"></span>        $crcMod <span style="color:#f92672">=</span> <span style="color:#a6e22e">crc32</span>($orderId) <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;%s%01d&#34;</span>, $orderId, $crcMod);
+        // 故意将年月日和时分秒错开，显得更无规律
+        $orderId = sprintf(&quot;%02d%06d%03d%06d%01d&quot;, $appPre, date('ymd'), intval($micro[0] * 1000), date('His'), $uidSuffix);
+        // 校验位（1位）
+        $crcMod = crc32($orderId) % 10;
+        return sprintf(&quot;%s%01d&quot;, $orderId, $crcMod);
     }
 
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createOrderId</span>($appId, $ptUid)
+    public function createOrderId($appId, $ptUid)
     {
-        $orderId <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_generateOrderId</span>($appId, $ptUid);
-        $res <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_insertDb</span>($appId, $orderId);
-        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$res){
-            <span style="color:#75715e">// 可能冲突重试一次
-</span><span style="color:#75715e"></span>            $orderId <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_generateOrderId</span>($appId, $ptUid);
-            $res <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">_insertDb</span>($appId, $orderId);
-            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$res){
-                <span style="color:#75715e">// @todo 抛出异常或直接返回错误，或者写错误日志
-</span><span style="color:#75715e"></span>            }
+        $orderId = $this-&gt;_generateOrderId($appId, $ptUid);
+        $res = $this-&gt;_insertDb($appId, $orderId);
+        if(!$res){
+            // 可能冲突重试一次
+            $orderId = $this-&gt;_generateOrderId($appId, $ptUid);
+            $res = $this-&gt;_insertDb($appId, $orderId);
+            if(!$res){
+                // @todo 抛出异常或直接返回错误，或者写错误日志
+            }
         }
-        <span style="color:#66d9ef">return</span> $orderId;
+        return $orderId;
     }
 
-    <span style="color:#e6db74">/**
-</span><span style="color:#e6db74">     * 保存到数据库中，通过设置order_id唯一键，可以防止重复
-</span><span style="color:#e6db74">     * @param $appId
-</span><span style="color:#e6db74">     * @param $orderId
-</span><span style="color:#e6db74">     * @return int
-</span><span style="color:#e6db74">     */</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_insertDb</span>($appId, $orderId)
+    /**
+     * 保存到数据库中，通过设置order_id唯一键，可以防止重复
+     * @param $appId
+     * @param $orderId
+     * @return int
+     */
+    private function _insertDb($appId, $orderId)
     {
-        <span style="color:#75715e">// 入库
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>$appId <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>$orderId){
-            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+        // 入库
+        if(!$appId || !$orderId){
+            return 0;
         }
-        $data <span style="color:#f92672">=</span> [
-            <span style="color:#e6db74">&#39;app_id&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">intval</span>($appId),
-            <span style="color:#e6db74">&#39;order_id&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">intval</span>($orderId),
+        $data = [
+            'app_id' =&gt; intval($appId),
+            'order_id' =&gt; intval($orderId),
         ];
-        $res <span style="color:#f92672">=</span>  $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">dbUser</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">insert</span>(<span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">TABLE</span>, $data);
-        <span style="color:#66d9ef">if</span>($res <span style="color:#f92672">===</span> <span style="color:#66d9ef">FALSE</span>){
-            <span style="color:#75715e">// 订单id入库失败
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// @todo 抛出异常或直接返回错误，或者写错误日志
-</span><span style="color:#75715e"></span>        }
-        <span style="color:#66d9ef">return</span> $orderId;
+        $res =  $this-&gt;dbUser()-&gt;insert(self::TABLE, $data);
+        if($res === FALSE){
+            // 订单id入库失败
+            // @todo 抛出异常或直接返回错误，或者写错误日志
+        }
+        return $orderId;
     }
 
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">writeLog</span>($msg, $data <span style="color:#f92672">=</span> [], $uid <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, $orderId <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+    public function writeLog($msg, $data = [], $uid = 0, $orderId = 0)
     {
-        <span style="color:#75715e">// @todo write log
-</span><span style="color:#75715e"></span>    }
-</code></pre></div>
+        // @todo write log
+    }
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>network on Realjf&#39;s blog</title>
+    <title>Network on Realjf&#39;s blog</title>
     <link>https://realjf.io/tags/network/</link>
-    <description>Recent content in network on Realjf&#39;s blog</description>
+    <description>Recent content in Network on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Apr 2020 16:10:57 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Apr 2020 16:10:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://realjf.io/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Tcp 连接的建立与终止</title>
       <link>https://realjf.io/network/tcp/</link>

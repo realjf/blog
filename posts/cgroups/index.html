@@ -3,7 +3,7 @@
 <head>
     <title>linux Cgroups // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,39 +233,52 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/linux/">linux</a><a class="tag" href="https://realjf.io/tags/kernel/">kernel</a><a class="tag" href="https://realjf.io/tags/cgroup/">cgroup</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/linux/">Linux</a><a class="tag" href="https://realjf.io/tags/kernel/">Kernel</a><a class="tag" href="https://realjf.io/tags/cgroup/">Cgroup</a></div></div>
         </header>
         <div class="post-content">
-            <p>Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了</p>
+            
+
+<p>Namespace技术为docker容器做了重要的隔离，但是docker容器每个隔离空间之间怎么保持独立而不互相竞争资源呢？这就是cgroups要做的事情了</p>
+
 <p>Linux Cgroups(control groups)提供了对一组进程及其子进程的资源限制、控制和统计的能力，包括cpu、内存、存储和网络等。</p>
+
 <h3 id="cgroups组件">cgroups组件</h3>
+
 <ul>
 <li>cgroup</li>
 <li>subsystem</li>
 <li>hierarchy</li>
 </ul>
+
 <h4 id="cgroup">cgroup</h4>
+
 <p>cgroup是对进程分组管理的一种机制，一个cgroup包含一组进程，并可以在这个cgroup上增加linux subsystem的各种配置参数，将一组进程和一组subsystem的系统参数关联起来。</p>
+
 <h4 id="subsystem">subsystem</h4>
-<p>是一组资源控制的模块，包括</p>
-<ul>
-<li>blkio 设置对块设备输入输出的访问控制</li>
-<li>cpu 设置cgroup 中进程的cpu被调度的策略</li>
-<li>cpuacct 可以统计cgroup中进程的cpu占用</li>
-<li>cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存</li>
-<li>devices 控制cgroup中进程对设备的访问</li>
-<li>freezer 用于挂起和恢复cgroup中的进程</li>
-<li>memory 用于控制cgroup中进程的内存占用</li>
-<li>net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控</li>
-<li>ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程</li>
-</ul>
+
+<p>是一组资源控制的模块，包括
+- blkio 设置对块设备输入输出的访问控制
+- cpu 设置cgroup 中进程的cpu被调度的策略
+- cpuacct 可以统计cgroup中进程的cpu占用
+- cpuset 在多核机器上设置cgroup中进程可以使用的cpu和内存
+- devices 控制cgroup中进程对设备的访问
+- freezer 用于挂起和恢复cgroup中的进程
+- memory 用于控制cgroup中进程的内存占用
+- net_cls 用于将cgroup中进程产生的网络包分类，以便linux的tc可以根据分类区分来自某个cgroup的包并做限流和监控
+- ns 使cgroup中的进程在新的namespace中fork新进程时，创建出一个新的cgroup，这个cgroup包含新的namespace中的进程</p>
+
 <p>每个subsystem会关联到定义了相应限制的cgroup上，并对这个cgroup中的进行做相应的限制和控制。这些subsystem是逐步合并到内核中的。</p>
+
 <blockquote>
 <p>如何看内核当前支持哪些subsystem呢？使用apt-get install cgroup-bin，然后通过lssubsys -a查看</p>
 </blockquote>
+
 <h4 id="hierarchy">hierarchy</h4>
+
 <p>把一组cgroup串成一个树状结构，一个这样的树便是一个hierarchy，通过这种树状结构，cgroups可以形成继承关系。</p>
+
 <h4 id="三个组件的关系">三个组件的关系</h4>
+
 <ul>
 <li>系统在创建了新的hierarchy之后，系统中所有的进程都会加入这个hierarchy的cgroup根节点，这个cgroup根节点是hierarchy默认创建的</li>
 <li>一个subsystem只能附加到一个hierarchy上面</li>
@@ -273,42 +286,60 @@
 <li>一个进程可以作为多个cgroup的成员，但是这些cgroup必须在不同的hierarchy中。</li>
 <li>一个进程fork出子进程时，子进程是和父进程在同一个cgroup中的，也可以根据需要将其移动到其他cgroup中。</li>
 </ul>
+
 <h4 id="kernel加载cgroups">kernel加载Cgroups</h4>
+
 <p>kernel通过虚拟树状文件系统配置cgroups，通过层级的目录虚拟出cgroup树。</p>
-<h5 id="1-首先要创建并挂载一个hierarchy">1. 首先，要创建并挂载一个hierarchy</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir cgroup-test
-mount -t cgroup -o none,name<span style="color:#f92672">=</span>cgroup-test cgroup-test ./cgroup-test <span style="color:#75715e"># 挂载一个hierarchy</span>
+
+<h5 id="1-首先-要创建并挂载一个hierarchy">1. 首先，要创建并挂载一个hierarchy</h5>
+
+<pre><code class="language-bash">mkdir cgroup-test
+mount -t cgroup -o none,name=cgroup-test cgroup-test ./cgroup-test # 挂载一个hierarchy
 ls ./cgroup-test
 
-</code></pre></div><ul>
+</code></pre>
+
+<ul>
 <li>cgroup.clone_children cpuset的subsystem会读取这个配置文件。如果是1，子cgroup才会继承父cgroup的cpuset的配置</li>
 <li>cgroup.procs 是树中当前节点cgroup中的进程组id</li>
 <li>notify_on_release和release_agent 会一起使用</li>
 <li>tasks 标识该cgroup下面的进程id,如果一个进程id写到tasks文件中，便会将相应的进程加入到这个cgroup中。</li>
 </ul>
+
 <h5 id="2-在刚创建好的hierarchy-上的cgroup根节点中扩展出的两个子cgroup">2. 在刚创建好的hierarchy 上的cgroup根节点中扩展出的两个子cgroup</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd cgroup-test
+
+<pre><code class="language-bash">cd cgroup-test
 mkdir cgroup-1
 mkdir cgroup-2
 tree
 
-</code></pre></div><p>可以看到，在一个cgroup的目录下创建文件夹时，kernel会把文件夹标记为这个cgroup的子cgroup，他们会继承父cgroup的属性</p>
+</code></pre>
+
+<p>可以看到，在一个cgroup的目录下创建文件夹时，kernel会把文件夹标记为这个cgroup的子cgroup，他们会继承父cgroup的属性</p>
+
 <h5 id="3-在cgroup中添加和移动进程">3. 在cgroup中添加和移动进程</h5>
+
 <p>一个进程在一个cgroups的hierarchy中，只能在一个cgroup节点上存在，系统的所有进程都会默认在根节点上存在，可以将进程移动到其他cgroup节点。
 只需要将进程id写到移动到的cgroup节点的tasks文件中即可。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>cgroup-1<span style="color:#f92672">]</span> sh -c <span style="color:#e6db74">&#34;echo </span>$$<span style="color:#e6db74"> &gt;&gt; tasks&#34;</span> <span style="color:#75715e">#将我所在的终端进程移动到cgroup-1中</span>
 
-</code></pre></div><h5 id="4-通过subsystem限制cgroup中进程的资源">4. 通过subsystem限制cgroup中进程的资源</h5>
+<pre><code class="language-bash">[cgroup-1] sh -c &quot;echo $$ &gt;&gt; tasks&quot; #将我所在的终端进程移动到cgroup-1中
+
+</code></pre>
+
+<h5 id="4-通过subsystem限制cgroup中进程的资源">4. 通过subsystem限制cgroup中进程的资源</h5>
+
 <p>在hierarchy中创建cgroup，限制如下进程占用的内存</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>memory<span style="color:#f92672">]</span> stress --vm-bytes 200m --vm-keep -m <span style="color:#ae81ff">1</span>
-<span style="color:#f92672">[</span>memory<span style="color:#f92672">]</span> <span style="color:#75715e"># 创建一个cgroup</span>
-<span style="color:#f92672">[</span>memory<span style="color:#f92672">]</span> mkdir test-limit-memory <span style="color:#f92672">&amp;&amp;</span> cd test-limit-memory
-<span style="color:#f92672">[</span>test-limit-memory<span style="color:#f92672">]</span> <span style="color:#75715e"># 设置最大cgroup的最大内存占用为100MB</span>
-<span style="color:#f92672">[</span>test-limit-memory<span style="color:#f92672">]</span> sh -c <span style="color:#e6db74">&#34;echo &#34;</span>100m<span style="color:#e6db74">&#34; &gt; memory.limit_in_bytes&#34;</span>
-<span style="color:#f92672">[</span>test-limit-memory<span style="color:#f92672">]</span> sh - c <span style="color:#e6db74">&#34;echo </span>$$<span style="color:#e6db74"> &gt; tasks&#34;</span> <span style="color:#75715e"># 将当前进程移动到这个cgroup中</span>
-<span style="color:#f92672">[</span>test-limit-memory<span style="color:#f92672">]</span> stress --vm-bytes 200m --vm-keep -m <span style="color:#ae81ff">1</span> <span style="color:#75715e"># 再次运行占用内存200MB的stress进程</span>
 
-</code></pre></div>
+<pre><code class="language-bash">[memory] stress --vm-bytes 200m --vm-keep -m 1
+[memory] # 创建一个cgroup
+[memory] mkdir test-limit-memory &amp;&amp; cd test-limit-memory
+[test-limit-memory] # 设置最大cgroup的最大内存占用为100MB
+[test-limit-memory] sh -c &quot;echo &quot;100m&quot; &gt; memory.limit_in_bytes&quot;
+[test-limit-memory] sh - c &quot;echo $$ &gt; tasks&quot; # 将当前进程移动到这个cgroup中
+[test-limit-memory] stress --vm-bytes 200m --vm-keep -m 1 # 再次运行占用内存200MB的stress进程
+
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

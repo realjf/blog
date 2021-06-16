@@ -3,7 +3,7 @@
 <head>
     <title>NCURSES编程 之 2.Hell World 2 Hello World // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,42 +233,63 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/ncurses/">ncurses</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/ncurses/">Ncurses</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="2-hello-world">2 Hello World!!!</h2>
+            
+
+<h2 id="2-hello-world">2 Hello World!!!</h2>
+
 <p>欢迎来到curses的世界。在我们深入到库中并研究它的各种特性之前，让我们编写一个简单的程序并向世界问好。</p>
-<h3 id="21-编译ncurses库">2.1 编译NCURSES库</h3>
+
+<h3 id="2-1-编译ncurses库">2.1 编译NCURSES库</h3>
+
 <p>要使用ncurses库函数，必须在程序中包含ncurses.h。要将程序与ncurses链接，应添加标志-lncurses。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>    .
+
+<pre><code class="language-cpp">#include &lt;ncurses.h&gt;
+    .
     .
     .
 
-    compile and link: gcc <span style="color:#f92672">&lt;</span>program file<span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span>lncurses
-</code></pre></div><p>例子1. Hello World!!!程序</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	
-	initscr();			<span style="color:#75715e">/* Start curses mode 		  */</span>
-	printw(<span style="color:#e6db74">&#34;Hello World !!!&#34;</span>);	<span style="color:#75715e">/* Print Hello World		  */</span>
-	refresh();			<span style="color:#75715e">/* Print it on to the real screen */</span>
-	getch();			<span style="color:#75715e">/* Wait for user input */</span>
-	endwin();			<span style="color:#75715e">/* End curses mode		  */</span>
+    compile and link: gcc &lt;program file&gt; -lncurses
+</code></pre>
 
-	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+<p>例子1. Hello World!!!程序</p>
+
+<pre><code class="language-cpp">#include &lt;ncurses.h&gt;
+
+int main()
+{   
+    initscr();          /* Start curses mode          */
+    printw(&quot;Hello World !!!&quot;);  /* Print Hello World          */
+    refresh();          /* Print it on to the real screen */
+    getch();            /* Wait for user input */
+    endwin();           /* End curses mode        */
+
+    return 0;
 }
-</code></pre></div><h3 id="22-解剖">2.2 解剖</h3>
+</code></pre>
+
+<h3 id="2-2-解剖">2.2 解剖</h3>
+
 <p>上面的程序打印“你好，世界！！！”到屏幕和出口。这个程序显示如何初始化curses和做屏幕操作和结束curses模式。让我们一行一行地解剖它。</p>
-<h4 id="221-关于initscr">2.2.1 关于initscr()</h4>
+
+<h4 id="2-2-1-关于initscr">2.2.1 关于initscr()</h4>
+
 <p>函数initscr（）在curses模式下初始化终端。在某些实现中，它清除屏幕并显示一个空白屏幕。要使用curses包进行任何屏幕操作，必须首先调用它。此函数初始化curses系统并为当前窗口（称为stdscr）和其他一些数据结构分配内存。在极端情况下，此函数可能会失败，因为内存不足，无法为curses库的数据结构分配内存。</p>
+
 <p>完成之后，我们可以进行各种初始化来定制curses设置。这些细节将在后面解释。</p>
-<h4 id="222-神秘的refresh">2.2.2 神秘的refresh()</h4>
+
+<h4 id="2-2-2-神秘的refresh">2.2.2 神秘的refresh()</h4>
+
 <p>下一行printw打印字符串“Hello World！！！”在屏幕上。此函数在所有方面都与普通printf类似，只是它在当前（y，x）坐标下打印名为stdscr的窗口上的数据。因为我们现在的坐标是0，0，所以字符串被打印在窗口的左角。</p>
+
 <p>这就把我们带到了那个神秘的refresh()。嗯，当我们调用printw时，数据实际上被写入到一个虚构的窗口中，这个窗口在屏幕上还没有更新。printw的任务是更新一些标志和数据结构，并将数据写入与stdscr对应的缓冲区。为了在屏幕上显示它，我们需要调用refresh()并告诉curses系统在屏幕上转储内容。</p>
+
 <p>这一切背后的理念是允许程序员在想象的屏幕或窗口上进行多次更新，并在完成所有屏幕更新后进行刷新。refresh()检查窗口并只更新已更改的部分。这提高了性能，也提供了更大的灵活性。但是，这对初学者来说有时是令人沮丧的。初学者犯的一个常见错误是在通过printw()类函数进行更新之后忘记调用refresh()。有时我还是忘了加上：-）</p>
-<h4 id="223-关于endwin">2.2.3 关于endwin()</h4>
+
+<h4 id="2-2-3-关于endwin">2.2.3 关于endwin()</h4>
+
 <p>最后别忘了结束curses模式。否则，程序退出后，您的终端可能会出现异常行为。endwin()释放curses子系统及其数据结构占用的内存，并将终端置于正常模式。此函数必须在完成curses模式后调用。</p>
 
         </div>

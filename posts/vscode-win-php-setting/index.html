@@ -3,7 +3,7 @@
 <head>
     <title>windows下Vscode Php开发环境配置 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,73 +233,107 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/posts/">posts</a><a class="tag" href="https://realjf.io/tags/vscode/">vscode</a><a class="tag" href="https://realjf.io/tags/php/">php</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/posts/">Posts</a><a class="tag" href="https://realjf.io/tags/vscode/">Vscode</a><a class="tag" href="https://realjf.io/tags/php/">Php</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="准备">准备</h2>
+            
+
+<h2 id="准备">准备</h2>
+
 <ul>
 <li>windows10 系统</li>
 <li>vscode</li>
 <li>xampp</li>
 </ul>
+
 <h3 id="首先下载安装xampp">首先下载安装xampp</h3>
+
 <p>由于墙的问题，可以使用如下地址：<a href="https://sourceforge.net/projects/xampp/">https://sourceforge.net/projects/xampp/</a></p>
+
 <p>当然如果你能翻墙，可以直接访问xampp官网下载</p>
+
 <p>下载完成后安装，安装完成后，将xampp/php/php.exe加入系统路径,
 在terminal中执行php -v验证是否成功</p>
+
 <h3 id="下载xdebug插件">下载xdebug插件</h3>
+
 <p>下载地址：<a href="https://xdebug.org/download">https://xdebug.org/download</a></p>
+
 <p>如果不知道下载什么版本，可以将你的phpinfo信息拷贝到这个网址下查询<a href="https://xdebug.org/wizard">https://xdebug.org/wizard</a>
 复制后点击下面的分析phpinfo按钮</p>
-<p>这里下载的是：https://xdebug.org/files/php_xdebug-2.9.6-7.4-vc15-x86_64.dll</p>
-<h4 id="将下载好的拷贝到xamppphpext文件夹中">将下载好的拷贝到xampp/php/ext文件夹中</h4>
-<h4 id="修改phpini文件在文件末尾追加以下信息">修改php.ini文件，在文件末尾追加以下信息</h4>
+
+<p>这里下载的是：<a href="https://xdebug.org/files/php_xdebug-2.9.6-7.4-vc15-x86_64.dll">https://xdebug.org/files/php_xdebug-2.9.6-7.4-vc15-x86_64.dll</a></p>
+
+<h4 id="将下载好的拷贝到xampp-php-ext文件夹中">将下载好的拷贝到xampp/php/ext文件夹中</h4>
+
+<h4 id="修改php-ini文件-在文件末尾追加以下信息">修改php.ini文件，在文件末尾追加以下信息</h4>
+
 <p>[xdebug]
 zend_extension=&ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&rdquo;
 xdebug.remote_enable = 1
 xdebug.remote_autostart = 1
-xdebug.remote_port = 9900    //  默认端口9000，根据自己本机改                <br>
+xdebug.remote_port = 9900    //  默认端口9000，根据自己本机改<br />
 xdebug.remote_handler = dbgp
 xdebug.remote_host = 127.0.0.1</p>
+
 <h3 id="vscode下载安装">vscode下载安装</h3>
+
 <p>下载vscode：<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></p>
+
 <p>下载安装完成后，需要安装一些扩展插件</p>
+
 <ul>
 <li>bmewburn.vscode-intelephense-client</li>
 <li>felixfbecker.php-intellisense</li>
 <li>felixfbecker.php-debug</li>
 <li>ikappas.composer</li>
 </ul>
+
 <p>按下ctrl+p，然后输入&gt; settings.json，选择preferences: open default settings(JSON),
 打开配置文件，配置php执行路径：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#e6db74">&#34;php.validate.executablePath&#34;</span>: <span style="color:#e6db74">&#34;E:\\xampp\\php\\php.exe&#34;</span>
-</code></pre></div><p>配置好这些后，启动xampp的apache服务器</p>
+
+<pre><code class="language-shell">&quot;php.validate.executablePath&quot;: &quot;E:\\xampp\\php\\php.exe&quot;
+</code></pre>
+
+<p>配置好这些后，启动xampp的apache服务器</p>
+
 <h3 id="准备好后开始测试">准备好后开始测试</h3>
+
 <p>在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-$a <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;hello world&#39;</span>;
-<span style="color:#66d9ef">echo</span> $a;
-<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>在 &ldquo;$a = &lsquo;hello world&rsquo;&ldquo;这一行设置断点，
+
+<pre><code class="language-php">&lt;?php
+$a = 'hello world';
+echo $a;
+?&gt;
+</code></pre>
+
+<p>在 &ldquo;$a = &lsquo;hello world&rsquo;&ldquo;这一行设置断点，
 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是
 No Configuration，</p>
+
 <p>这时需要点击其右侧的小齿轮（应该有个红点），点击后会弹出命令面板让你选择语言环境，
 选择PHP后，会自动配置好.vscode/launch.json</p>
+
 <p>其内容大致如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
-    <span style="color:#f92672">&#34;configurations&#34;</span>: [
+
+<pre><code class="language-json">{
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
         {
-            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Listen for XDebug&#34;</span>,
-            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;php&#34;</span>,
-            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
-            <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#ae81ff">9000</span>
+            &quot;name&quot;: &quot;Listen for XDebug&quot;,
+            &quot;type&quot;: &quot;php&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;port&quot;: 9000
         }
 
     ]
 }
-</code></pre></div><p>保存后，还是在RUN Code界面的左上角选择Listen for XDebug即可调试测试了</p>
-<p>接下来，通过浏览器访问http://127.0.0.1/php/php_test.php即可访问文件</p>
+</code></pre>
+
+<p>保存后，还是在RUN Code界面的左上角选择Listen for XDebug即可调试测试了</p>
+
+<p>接下来，通过浏览器访问<a href="http://127.0.0.1/php/php_test.php即可访问文件">http://127.0.0.1/php/php_test.php即可访问文件</a></p>
+
 <blockquote>
 <p>注意，如果你的apache端口不是80，需要加上你的端口号进行访问</p>
 </blockquote>

@@ -3,7 +3,7 @@
 <head>
     <title>平衡二叉树 Avl Tree // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,33 +233,47 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/algorithm/">Algorithm</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="平衡二叉树定义">平衡二叉树定义</h3>
+            
+
+<h3 id="平衡二叉树定义">平衡二叉树定义</h3>
+
 <ul>
 <li>左子树上的所有节点的值都比根节点的值小</li>
 <li>右子树上的所有节点的值都比根节点的值大</li>
 <li>左子树与右子树的高度差最大为1</li>
 <li>二叉树中每棵子树都要求是平衡二叉树</li>
 </ul>
+
 <h3 id="平衡二叉树性质">平衡二叉树性质</h3>
+
 <ul>
 <li>高为h的BT, 其结点的数目在2^(h+1)-1和1/2(3^(h+1)−1)之间, 叶的数目在2^h和3^h之间</li>
 </ul>
+
 <h3 id="平衡因子">平衡因子</h3>
+
 <p>平衡因子：左子树的高度减去右子树的高度，即B = B左 - B右。
 由平衡二叉树的定义可知，平衡因子的取值只可能为0，1，-1。</p>
+
 <ul>
 <li>0：左右子树等高。</li>
 <li>1：左子树比较高。</li>
 <li>-1：右子树比较高。</li>
 </ul>
+
 <h3 id="平衡二叉树失衡与再平衡">平衡二叉树失衡与再平衡</h3>
+
 <p>当平衡因子的值大于-1或者大于1时，则该树不再平衡，需要进行再平衡，再平衡通过旋转的方式实现。</p>
+
 <p>再平衡可以通过LL、RR、LR、RL旋转方式进行</p>
+
 <h4 id="ll旋转">LL旋转</h4>
+
 <p>LL，如下图，我们真实的三个节点为Y &gt; X &gt; Z。然后我们为了方便描述，增加几个虚拟的节点，节点间的大小关系：T1&lt;Z&lt;T2&lt; X &lt;T3&lt;Y&lt;T4</p>
+
 <pre><code>    ///////////////////////////////////////////////////
     // LL T1&lt;Z&lt;T2&lt; X &lt;T3&lt;Y&lt;T4                        //
     //        y                              x       //
@@ -270,47 +284,55 @@
     //   / \                                         //
     // T1   T2                                       //
     ///////////////////////////////////////////////////
-</code></pre><p>对于LL，我们要右旋才能达到再平衡，根据之前描述，我们需要将Y节点顶替T3的位置，问题来了，T3放哪呢？
+</code></pre>
+
+<p>对于LL，我们要右旋才能达到再平衡，根据之前描述，我们需要将Y节点顶替T3的位置，问题来了，T3放哪呢？
 根据大小关系 X &lt; T3 &lt; Y。我们可以将T3放到Y的左孩子节点的位置，这样进行旋转后得到的结果如上所示。
 我们发现这棵树不但达到了再平衡的目的，节点间的大小关系，依然维持了：T1&lt;Z&lt;T2&lt; X &lt;T3&lt;Y&lt;T4的关系。</p>
+
 <p><strong>代码实现</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateR(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span> parent)
+
+<pre><code class="language-c++">template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateR(AVLTreeNode&lt;K, V&gt;*&amp; parent)
 {
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subL <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_left;
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subLR <span style="color:#f92672">=</span> subL<span style="color:#f92672">-&gt;</span>_right;
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> ppNode <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_parent;
-    <span style="color:#75715e">// 构建parent子树，将parent和subLR链接起来
-</span><span style="color:#75715e"></span>    parent<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> subLR;
-    <span style="color:#66d9ef">if</span>(subLR) subLR<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> parent;
-    <span style="color:#75715e">// 构建subL子树，将subL与parent链接起来
-</span><span style="color:#75715e"></span>    subL<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> parent;
-    parent<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> subL;
-    <span style="color:#75715e">// 将祖先节点与subL链接起来
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(ppNode <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+    AVLTreeNode&lt;K, V&gt;* subL = parent-&gt;_left;
+    AVLTreeNode&lt;K, V&gt;* subLR = subL-&gt;_right;
+    AVLTreeNode&lt;K, V&gt;* ppNode = parent-&gt;_parent;
+    // 构建parent子树，将parent和subLR链接起来
+    parent-&gt;_left = subLR;
+    if(subLR) subLR-&gt;_parent = parent;
+    // 构建subL子树，将subL与parent链接起来
+    subL-&gt;_right = parent;
+    parent-&gt;_parent = subL;
+    // 将祖先节点与subL链接起来
+    if(ppNode == nullptr)
     {
-        <span style="color:#75715e">//如果祖先为Nullptr，说明当前subL节点为根节点
-</span><span style="color:#75715e"></span>        subL<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-        _root <span style="color:#f92672">=</span> subL;
+        //如果祖先为Nullptr，说明当前subL节点为根节点
+        subL-&gt;_parent = nullptr;
+        _root = subL;
     }
-    <span style="color:#66d9ef">else</span>
+    else
     {
-        subL<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> ppNode;
-        <span style="color:#66d9ef">if</span>(ppNode<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">==</span> parent)
-            ppNode<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> subL;
-        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(ppNode<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">==</span> parent)
-            ppNode<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> subL;
+        subL-&gt;_parent = ppNode;
+        if(ppNode-&gt;_left == parent)
+            ppNode-&gt;_left = subL;
+        else if(ppNode-&gt;_right == parent)
+            ppNode-&gt;_right = subL;
     }
 
-    <span style="color:#75715e">// 重置平衡因子
-</span><span style="color:#75715e"></span>    parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#75715e">// 更新subL为当前父节点
-</span><span style="color:#75715e"></span>    parent <span style="color:#f92672">=</span> subL;
+    // 重置平衡因子
+    parent-&gt;_bf = 0;
+    subL-&gt;_bf = 0;
+    // 更新subL为当前父节点
+    parent = subL;
 }
 
-</code></pre></div><h4 id="rr旋转">RR旋转</h4>
+</code></pre>
+
+<h4 id="rr旋转">RR旋转</h4>
+
 <p>RR, 对于RR我们要进行左旋转才能实现再平衡。同样的，我们如果想通过旋转达到再平衡，AVL树的性质依然是我们实现这个操作的根本。</p>
+
 <pre><code>    ////////////////////////////////////////////////
     // RR T1&lt;Y&lt;T2&lt; X &lt;T3&lt;Z&lt;T4                     //
     //    y                             x         //
@@ -321,47 +343,55 @@
     //       / \                                  //
     //      T3 T4                                 //
     ////////////////////////////////////////////////
-</code></pre><p>节点间的大小关系：T1&lt;Y&lt;T2&lt; X &lt;T3&lt;Z&lt;T4。对于RR我们对Y节点进行左旋转。
+</code></pre>
+
+<p>节点间的大小关系：T1&lt;Y&lt;T2&lt; X &lt;T3&lt;Z&lt;T4。对于RR我们对Y节点进行左旋转。
 即让Y节点顶替T2，然后根据大小关系：Y &lt; X &lt; T2可知，我们可以将T2放到Y的右孩子节点处即可。
 对Y节点左旋完了如上图所示的结果。通过比较，节点间的大小关系，依然为：T1&lt;Y&lt;T2&lt; X &lt;T3&lt;Z&lt;T4。
 通过对Y节点的左旋转，达到了AVL的再平衡，并维持了AVL的性质不变。</p>
+
 <p><strong>代码实现</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateL(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span> parent)
+
+<pre><code class="language-c++">template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateL(AVLTreeNode&lt;K, V&gt;*&amp; parent)
 {
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subR <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_right;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subRL <span style="color:#f92672">=</span> subR<span style="color:#f92672">-&gt;</span>_left;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> ppNode <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_parent;		<span style="color:#75715e">//标记祖先节点
-</span><span style="color:#75715e"></span>
-	<span style="color:#75715e">//1.构建parent子树 链接parent和subRL
-</span><span style="color:#75715e"></span>	parent<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> subRL;
-	<span style="color:#66d9ef">if</span> (subRL) subRL<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> parent;
-	<span style="color:#75715e">//2.构建subR子树 链接parent和subR
-</span><span style="color:#75715e"></span>	subR<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> parent;
-	parent<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> subR;
-	<span style="color:#75715e">//3.链接祖先节点和subR节点
-</span><span style="color:#75715e"></span>	subR<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> ppNode;
-	<span style="color:#66d9ef">if</span> (ppNode<span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
-	{<span style="color:#75715e">//如果祖先节点为nullptr，说明目前的根节点为subR
-</span><span style="color:#75715e"></span>		_root <span style="color:#f92672">=</span> subR;
-	}
-	<span style="color:#66d9ef">else</span>
-	{	<span style="color:#75715e">//将祖先节点和subR节点链接起来
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (parent <span style="color:#f92672">==</span> ppNode<span style="color:#f92672">-&gt;</span>_left)
-			ppNode<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> subR;
-		<span style="color:#66d9ef">else</span>
-			ppNode<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> subR;
-	}
-	<span style="color:#75715e">//4.重置平衡因子
-</span><span style="color:#75715e"></span>	parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	<span style="color:#75715e">//5.更新subR为当前父节点
-</span><span style="color:#75715e"></span>	parent <span style="color:#f92672">=</span> subR;
+    AVLTreeNode&lt;K, V&gt;* subR = parent-&gt;_right;
+    AVLTreeNode&lt;K, V&gt;* subRL = subR-&gt;_left;
+    AVLTreeNode&lt;K, V&gt;* ppNode = parent-&gt;_parent;        //标记祖先节点
+
+    //1.构建parent子树 链接parent和subRL
+    parent-&gt;_right = subRL;
+    if (subRL) subRL-&gt;_parent = parent;
+    //2.构建subR子树 链接parent和subR
+    subR-&gt;_left = parent;
+    parent-&gt;_parent = subR;
+    //3.链接祖先节点和subR节点
+    subR-&gt;_parent = ppNode;
+    if (ppNode== nullptr)
+    {//如果祖先节点为nullptr，说明目前的根节点为subR
+        _root = subR;
+    }
+    else
+    {   //将祖先节点和subR节点链接起来
+        if (parent == ppNode-&gt;_left)
+            ppNode-&gt;_left = subR;
+        else
+            ppNode-&gt;_right = subR;
+    }
+    //4.重置平衡因子
+    parent-&gt;_bf = 0;
+    subR-&gt;_bf = 0;
+    //5.更新subR为当前父节点
+    parent = subR;
 }
-</code></pre></div><h4 id="lr旋转">LR旋转</h4>
+</code></pre>
+
+<h4 id="lr旋转">LR旋转</h4>
+
 <p>这种情况有点复杂，而且有个很想当然的坑，就是将根节点直接换成x不就完事了？
 可是如果我们这么做，发现，x的左节点为z，不满足：左孩子 &lt; 父节点 &lt; 右孩子的大小关系了。
 这种情况呢，正确的做法是先将x节点左旋，然后再将y节点右旋。大家通过之前对LL和RR的分析，在脑子中能不能想象到这个画面呢？</p>
+
 <pre><code>    //////////////////////////////////////////////////////////////////////////////////////////
     //  LR  T1&lt;X&lt;T2&lt; Z &lt;T3&lt;Y&lt;T4                                                             //
     //         y                                y                              z            //
@@ -372,42 +402,50 @@
     //        / \                          / \                                              //
     //       T2  T3                      T1   T2                                            //
     //////////////////////////////////////////////////////////////////////////////////////////
-</code></pre><p>对于原始的这棵树呢，大小关系：T1&lt;X&lt;T2&lt; Z &lt;T3&lt;Y&lt;T4。如果我们先不看Y节点，看X，Z，T3节点，是不是可以发现，这正是我们上面描述的RR的情况啊。
+</code></pre>
+
+<p>对于原始的这棵树呢，大小关系：T1&lt;X&lt;T2&lt; Z &lt;T3&lt;Y&lt;T4。如果我们先不看Y节点，看X，Z，T3节点，是不是可以发现，这正是我们上面描述的RR的情况啊。
 对RR，我们上面已经进行了详细的分析，通过对X节点进行左旋，得到中间那棵树。
 这时又一个神奇的事情发生了，这棵树的形状又变成了前面我们说的，LL的情况。那大家就清楚了，对Y节点进行右旋转即可。
 最终的结果如上第三棵树，达到了AVL的再平衡并依然满足：T1&lt;X&lt;T2&lt; Z &lt;T3&lt;Y&lt;T4。</p>
-<p><strong>代码实现</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateLR(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent)
-{
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> pNode <span style="color:#f92672">=</span> parent;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subL <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_left;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subLR <span style="color:#f92672">=</span> subL<span style="color:#f92672">-&gt;</span>_right;
-	<span style="color:#66d9ef">int</span> bf <span style="color:#f92672">=</span> subLR<span style="color:#f92672">-&gt;</span>_bf;
 
-	_RotateL(parent<span style="color:#f92672">-&gt;</span>_left);
-	_RotateR(parent);
-	
-	<span style="color:#66d9ef">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-	}
-	<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-		subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
-	<span style="color:#66d9ef">else</span>
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
+<p><strong>代码实现</strong></p>
+
+<pre><code class="language-c++">template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateLR(AVLTreeNode&lt;K, V&gt;*&amp;  parent)
+{
+    AVLTreeNode&lt;K, V&gt;* pNode = parent;
+    AVLTreeNode&lt;K, V&gt;* subL = parent-&gt;_left;
+    AVLTreeNode&lt;K, V&gt;* subLR = subL-&gt;_right;
+    int bf = subLR-&gt;_bf;
+
+    _RotateL(parent-&gt;_left);
+    _RotateR(parent);
+    
+    if (bf == 1)
+    {
+        pNode-&gt;_bf = 0;
+        subL-&gt;_bf = -1;
+    }
+    else if (bf == -1)
+    {
+        pNode-&gt;_bf = 1;
+        subL-&gt;_bf = 0;
+    }
+    else
+    {
+        pNode-&gt;_bf = 0;
+        subL-&gt;_bf = 0;
+    }
 
 }
 
-</code></pre></div><h4 id="rl旋转">RL旋转</h4>
+</code></pre>
+
+<h4 id="rl旋转">RL旋转</h4>
+
 <p>RL,</p>
+
 <pre><code>    //////////////////////////////////////////////////////////////////////////////////////////
     // RL: T1&lt;Y&lt;T2&lt; Z &lt;T3&lt;X&lt;T4                                                              //
     //      y                           y                                       z           //
@@ -418,362 +456,370 @@
     //     / \                             / \                                              //
     //    T2  T3                          T3  T4                                            //
     //////////////////////////////////////////////////////////////////////////////////////////
-</code></pre><p>同理，先排除y的影响，x和z构成了LL型，可以先对x进行右旋，然后得到中间的树，通过观察y、z可以看出属于RR型，所以可以
+</code></pre>
+
+<p>同理，先排除y的影响，x和z构成了LL型，可以先对x进行右旋，然后得到中间的树，通过观察y、z可以看出属于RR型，所以可以
 对y进行左旋，然后得到右边的树，
 最终的结果如上第三棵树，达到了AVL的再平衡并依然满足：T1&lt;Y&lt;T2&lt; Z &lt;T3&lt;X&lt;T4。</p>
+
 <p><strong>代码实现</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateRL(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent)
+
+<pre><code class="language-c++">template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateRL(AVLTreeNode&lt;K, V&gt;*&amp;  parent)
 {
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> pNode <span style="color:#f92672">=</span> parent;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subR <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_right;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subRL <span style="color:#f92672">=</span> subR<span style="color:#f92672">-&gt;</span>_left;
-	<span style="color:#66d9ef">int</span> bf <span style="color:#f92672">=</span> subRL<span style="color:#f92672">-&gt;</span>_bf;
+    AVLTreeNode&lt;K, V&gt;* pNode = parent;
+    AVLTreeNode&lt;K, V&gt;* subR = parent-&gt;_right;
+    AVLTreeNode&lt;K, V&gt;* subRL = subR-&gt;_left;
+    int bf = subRL-&gt;_bf;
 
-	_RotateR(parent<span style="color:#f92672">-&gt;</span>_right);
-	_RotateL(parent);
+    _RotateR(parent-&gt;_right);
+    _RotateL(parent);
 
-	<span style="color:#66d9ef">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-	}
-	<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-		subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
-	<span style="color:#66d9ef">else</span>
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
+    if (bf == 1)
+    {
+        pNode-&gt;_bf = 0;
+        subR-&gt;_bf = -1;
+    }
+    else if (bf == -1)
+    {
+        pNode-&gt;_bf = 1;
+        subR-&gt;_bf = 0;
+    }
+    else
+    {
+        pNode-&gt;_bf = 0;
+        subR-&gt;_bf = 0;
+    }
 } 
 
-</code></pre></div><h3 id="平衡二叉树完整代码实现">平衡二叉树完整代码实现</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#pragma once
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</code></pre>
 
-<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AVLTreeNode</span>
+<h3 id="平衡二叉树完整代码实现">平衡二叉树完整代码实现</h3>
+
+<pre><code class="language-c++">#pragma once
+
+#include &lt;iostream&gt;
+using namespace std;
+
+template&lt;class K, class V&gt;
+struct AVLTreeNode
 {
     K _key;
     V _value;
-    <span style="color:#66d9ef">int</span> _bf; <span style="color:#75715e">// 平衡因子
-</span><span style="color:#75715e"></span>    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> _parent;
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> _left;
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> _right;
+    int _bf; // 平衡因子
+    AVLTreeNode&lt;K, V&gt;* _parent;
+    AVLTreeNode&lt;K, V&gt;* _left;
+    AVLTreeNode&lt;K, V&gt;* _right;
 
-    AVLTreeNode(<span style="color:#66d9ef">const</span> K<span style="color:#f92672">&amp;</span> key <span style="color:#f92672">=</span> K(), <span style="color:#66d9ef">const</span> V<span style="color:#f92672">&amp;</span> value <span style="color:#f92672">=</span> V())
-    <span style="color:#f92672">:</span> _key(key)
+    AVLTreeNode(const K&amp; key = K(), const V&amp; value = V())
+    : _key(key)
     , _value(value)
-    , _bf(<span style="color:#ae81ff">0</span>)
-    , _parent(<span style="color:#66d9ef">nullptr</span>)
-    , _left(<span style="color:#66d9ef">nullptr</span>)
-    , _right(<span style="color:#66d9ef">nullptr</span>)
+    , _bf(0)
+    , _parent(nullptr)
+    , _left(nullptr)
+    , _right(nullptr)
     {}
 
 };
 
-<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AVLTree</span>
+template&lt;class K, class V&gt;
+class AVLTree
 {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    AVLTree() <span style="color:#f92672">:</span> _root(<span style="color:#66d9ef">nullptr</span>)
+public:
+    AVLTree() : _root(nullptr)
     {}
 
-    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">Insert</span>(<span style="color:#66d9ef">const</span> K<span style="color:#f92672">&amp;</span> key, <span style="color:#66d9ef">const</span> V<span style="color:#f92672">&amp;</span> value);
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">InOrder</span>()
+    bool Insert(const K&amp; key, const V&amp; value);
+    void InOrder()
     {
         _InOrder(_root);
-        cout <span style="color:#f92672">&lt;&lt;</span> endl;
+        cout &lt;&lt; endl;
     }
 
-    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">IsBalance</span>()
+    bool IsBalance()
     {
-        <span style="color:#66d9ef">return</span> _IsBalance(_root);
+        return _IsBalance(_root);
     }
 
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">Height</span>()
+    int Height()
     {
-        <span style="color:#66d9ef">return</span> _Height(_root);
+        return _Height(_root);
     }
 
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">void</span> _RotateR(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent);
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_RotateL</span>(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent);
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_RotateLR</span>(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent);
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_RotateRL</span>(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent);
-	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_InOrder</span>(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> root);
-	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">_IsBalance</span>(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> root);
-	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">_Height</span>(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> root);
+private:
+    void _RotateR(AVLTreeNode&lt;K, V&gt;*&amp;  parent);
+    void _RotateL(AVLTreeNode&lt;K, V&gt;*&amp;  parent);
+    void _RotateLR(AVLTreeNode&lt;K, V&gt;*&amp;  parent);
+    void _RotateRL(AVLTreeNode&lt;K, V&gt;*&amp;  parent);
+    void _InOrder(AVLTreeNode&lt;K, V&gt;* root);
+    bool _IsBalance(AVLTreeNode&lt;K, V&gt;* root);
+    int _Height(AVLTreeNode&lt;K, V&gt;* root);
 
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> _root; <span style="color:#75715e">// 根节点
-</span><span style="color:#75715e"></span>};
+private:
+    AVLTreeNode&lt;K, V&gt;* _root; // 根节点
+};
 
-<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">bool</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>Insert(<span style="color:#66d9ef">const</span> K<span style="color:#f92672">&amp;</span> key, <span style="color:#66d9ef">const</span> V<span style="color:#f92672">&amp;</span> value)
+template&lt;class K, class V&gt;
+bool AVLTree&lt;K, V&gt;::Insert(const K&amp; key, const V&amp; value)
 {
-    <span style="color:#75715e">// 空树
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(_root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+    // 空树
+    if(_root == nullptr)
     {
-        _root <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;</span>(key, value);
-        <span style="color:#66d9ef">return</span> true;
+        _root = new AVLTreeNode&lt;K, V&gt;(key, value);
+        return true;
     }
 
-    <span style="color:#75715e">// avl树不为nullptr
-</span><span style="color:#75715e"></span>    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> cur <span style="color:#f92672">=</span> _root;
-    <span style="color:#75715e">// 找到数据插入位置
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span>(cur)
+    // avl树不为nullptr
+    AVLTreeNode&lt;K, V&gt;* parent = nullptr;
+    AVLTreeNode&lt;K, V&gt;* cur = _root;
+    // 找到数据插入位置
+    while(cur)
     {
-        <span style="color:#66d9ef">if</span>(cur<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">&lt;</span> key)
+        if(cur-&gt;_key &lt; key)
         {
-            parent <span style="color:#f92672">=</span> cur;
-            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_right;
+            parent = cur;
+            cur = cur-&gt;_right;
         }
-        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(cur<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">&gt;</span> key)
+        else if(cur-&gt;_key &gt; key)
         {
-            parent <span style="color:#f92672">=</span> cur;
-            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_left;
+            parent = cur;
+            cur = cur-&gt;_left;
         }
-        <span style="color:#66d9ef">else</span>
+        else
         {
-            <span style="color:#66d9ef">return</span> false;
+            return false;
         }
         
     }
 
-    <span style="color:#75715e">// 插入数据
-</span><span style="color:#75715e"></span>    cur <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;</span>(key, value);
-    cur<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> parent;
-    <span style="color:#66d9ef">if</span>(parent<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">&gt;</span> key)
-        parent<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> cur;
-    <span style="color:#66d9ef">else</span>
-        parent<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> cur;
+    // 插入数据
+    cur = new AVLTreeNode&lt;K, V&gt;(key, value);
+    cur-&gt;_parent = parent;
+    if(parent-&gt;_key &gt; key)
+        parent-&gt;_left = cur;
+    else
+        parent-&gt;_right = cur;
     
-    <span style="color:#66d9ef">while</span>(parent)
+    while(parent)
     {
-        <span style="color:#75715e">// 更新平衡因子
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(cur <span style="color:#f92672">==</span> parent<span style="color:#f92672">-&gt;</span>_left)
-            parent<span style="color:#f92672">-&gt;</span>_bf<span style="color:#f92672">--</span>;
-        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(cur <span style="color:#f92672">==</span> parent<span style="color:#f92672">-&gt;</span>_right)
-            parent<span style="color:#f92672">-&gt;</span>_bf<span style="color:#f92672">++</span>;
+        // 更新平衡因子
+        if(cur == parent-&gt;_left)
+            parent-&gt;_bf--;
+        else if(cur == parent-&gt;_right)
+            parent-&gt;_bf++;
 
-        <span style="color:#75715e">// 检验平衡因子是否合法
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-            <span style="color:#66d9ef">break</span>;
-        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+        // 检验平衡因子是否合法
+        if(parent-&gt;_bf == 0)
+            break;
+        else if(parent-&gt;_bf == -1 || parent-&gt;_bf == 1)
         {
-            <span style="color:#75715e">// 回溯上升，更新祖父节点的平衡因子并检测合法性
-</span><span style="color:#75715e"></span>            cur <span style="color:#f92672">=</span> parent;
-            parent <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>_parent;
+            // 回溯上升，更新祖父节点的平衡因子并检测合法性
+            cur = parent;
+            parent = cur-&gt;_parent;
         }
-        <span style="color:#66d9ef">else</span>
+        else
         {
-            <span style="color:#75715e">// 平衡因子不合法，需要进行旋转 降低高度
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>(parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>)
+            // 平衡因子不合法，需要进行旋转 降低高度
+            if(parent-&gt;_bf == 2)
             {
-                <span style="color:#66d9ef">if</span>(cur<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+                if(cur-&gt;_bf == 1)
                     _RotateL(parent);
-                <span style="color:#66d9ef">else</span>
-                    <span style="color:#a6e22e">_RotateRL</span>(parent);
+                else
+                    _RotateRL(parent);
             }
-            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)
+            else if(parent-&gt;_bf == -2)
             {
-                <span style="color:#66d9ef">if</span>(cur<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+                if(cur-&gt;_bf == -1)
                     _RotateR(parent);
-                <span style="color:#66d9ef">else</span>
+                else
                     _RotateLR(parent);
             }
-            <span style="color:#66d9ef">break</span>;
+            break;
         }
         
     }
 }
 
-<span style="color:#75715e">// 右旋
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateR(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span> parent)
+// 右旋
+template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateR(AVLTreeNode&lt;K, V&gt;*&amp; parent)
 {
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subL <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_left;
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subLR <span style="color:#f92672">=</span> subL<span style="color:#f92672">-&gt;</span>_right;
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> ppNode <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_parent;
-    <span style="color:#75715e">// 构建parent子树，将parent和subLR链接起来
-</span><span style="color:#75715e"></span>    parent<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> subLR;
-    <span style="color:#66d9ef">if</span>(subLR) subLR<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> parent;
-    <span style="color:#75715e">// 构建subL子树，将subL与parent链接起来
-</span><span style="color:#75715e"></span>    subL<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> parent;
-    parent<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> subL;
-    <span style="color:#75715e">// 将祖先节点与subL链接起来
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(ppNode <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+    AVLTreeNode&lt;K, V&gt;* subL = parent-&gt;_left;
+    AVLTreeNode&lt;K, V&gt;* subLR = subL-&gt;_right;
+    AVLTreeNode&lt;K, V&gt;* ppNode = parent-&gt;_parent;
+    // 构建parent子树，将parent和subLR链接起来
+    parent-&gt;_left = subLR;
+    if(subLR) subLR-&gt;_parent = parent;
+    // 构建subL子树，将subL与parent链接起来
+    subL-&gt;_right = parent;
+    parent-&gt;_parent = subL;
+    // 将祖先节点与subL链接起来
+    if(ppNode == nullptr)
     {
-        <span style="color:#75715e">//如果祖先为Nullptr，说明当前subL节点为根节点
-</span><span style="color:#75715e"></span>        subL<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-        _root <span style="color:#f92672">=</span> subL;
+        //如果祖先为Nullptr，说明当前subL节点为根节点
+        subL-&gt;_parent = nullptr;
+        _root = subL;
     }
-    <span style="color:#66d9ef">else</span>
+    else
     {
-        subL<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> ppNode;
-        <span style="color:#66d9ef">if</span>(ppNode<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">==</span> parent)
-            ppNode<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> subL;
-        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(ppNode<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">==</span> parent)
-            ppNode<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> subL;
+        subL-&gt;_parent = ppNode;
+        if(ppNode-&gt;_left == parent)
+            ppNode-&gt;_left = subL;
+        else if(ppNode-&gt;_right == parent)
+            ppNode-&gt;_right = subL;
     }
 
-    <span style="color:#75715e">// 重置平衡因子
-</span><span style="color:#75715e"></span>    parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#75715e">// 更新subL为当前父节点
-</span><span style="color:#75715e"></span>    parent <span style="color:#f92672">=</span> subL;
+    // 重置平衡因子
+    parent-&gt;_bf = 0;
+    subL-&gt;_bf = 0;
+    // 更新subL为当前父节点
+    parent = subL;
 }
 
-<span style="color:#75715e">// 左旋
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateL(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span> parent)
+// 左旋
+template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateL(AVLTreeNode&lt;K, V&gt;*&amp; parent)
 {
-    AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subR <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_right;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subRL <span style="color:#f92672">=</span> subR<span style="color:#f92672">-&gt;</span>_left;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> ppNode <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_parent;		<span style="color:#75715e">//标记祖先节点
-</span><span style="color:#75715e"></span>
-	<span style="color:#75715e">//1.构建parent子树 链接parent和subRL
-</span><span style="color:#75715e"></span>	parent<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> subRL;
-	<span style="color:#66d9ef">if</span> (subRL) subRL<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> parent;
-	<span style="color:#75715e">//2.构建subR子树 链接parent和subR
-</span><span style="color:#75715e"></span>	subR<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> parent;
-	parent<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> subR;
-	<span style="color:#75715e">//3.链接祖先节点和subR节点
-</span><span style="color:#75715e"></span>	subR<span style="color:#f92672">-&gt;</span>_parent <span style="color:#f92672">=</span> ppNode;
-	<span style="color:#66d9ef">if</span> (ppNode<span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
-	{<span style="color:#75715e">//如果祖先节点为nullptr，说明目前的根节点为subR
-</span><span style="color:#75715e"></span>		_root <span style="color:#f92672">=</span> subR;
-	}
-	<span style="color:#66d9ef">else</span>
-	{	<span style="color:#75715e">//将祖先节点和subR节点链接起来
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (parent <span style="color:#f92672">==</span> ppNode<span style="color:#f92672">-&gt;</span>_left)
-			ppNode<span style="color:#f92672">-&gt;</span>_left <span style="color:#f92672">=</span> subR;
-		<span style="color:#66d9ef">else</span>
-			ppNode<span style="color:#f92672">-&gt;</span>_right <span style="color:#f92672">=</span> subR;
-	}
-	<span style="color:#75715e">//4.重置平衡因子
-</span><span style="color:#75715e"></span>	parent<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	<span style="color:#75715e">//5.更新subR为当前父节点
-</span><span style="color:#75715e"></span>	parent <span style="color:#f92672">=</span> subR;
+    AVLTreeNode&lt;K, V&gt;* subR = parent-&gt;_right;
+    AVLTreeNode&lt;K, V&gt;* subRL = subR-&gt;_left;
+    AVLTreeNode&lt;K, V&gt;* ppNode = parent-&gt;_parent;        //标记祖先节点
+
+    //1.构建parent子树 链接parent和subRL
+    parent-&gt;_right = subRL;
+    if (subRL) subRL-&gt;_parent = parent;
+    //2.构建subR子树 链接parent和subR
+    subR-&gt;_left = parent;
+    parent-&gt;_parent = subR;
+    //3.链接祖先节点和subR节点
+    subR-&gt;_parent = ppNode;
+    if (ppNode== nullptr)
+    {//如果祖先节点为nullptr，说明目前的根节点为subR
+        _root = subR;
+    }
+    else
+    {   //将祖先节点和subR节点链接起来
+        if (parent == ppNode-&gt;_left)
+            ppNode-&gt;_left = subR;
+        else
+            ppNode-&gt;_right = subR;
+    }
+    //4.重置平衡因子
+    parent-&gt;_bf = 0;
+    subR-&gt;_bf = 0;
+    //5.更新subR为当前父节点
+    parent = subR;
 }
 
-<span style="color:#75715e">//左右双旋
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateLR(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent)
+//左右双旋
+template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateLR(AVLTreeNode&lt;K, V&gt;*&amp;  parent)
 {
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> pNode <span style="color:#f92672">=</span> parent;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subL <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_left;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subLR <span style="color:#f92672">=</span> subL<span style="color:#f92672">-&gt;</span>_right;
-	<span style="color:#66d9ef">int</span> bf <span style="color:#f92672">=</span> subLR<span style="color:#f92672">-&gt;</span>_bf;
+    AVLTreeNode&lt;K, V&gt;* pNode = parent;
+    AVLTreeNode&lt;K, V&gt;* subL = parent-&gt;_left;
+    AVLTreeNode&lt;K, V&gt;* subLR = subL-&gt;_right;
+    int bf = subLR-&gt;_bf;
 
-	_RotateL(parent<span style="color:#f92672">-&gt;</span>_left);
-	_RotateR(parent);
-	
-	<span style="color:#66d9ef">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-	}
-	<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-		subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
-	<span style="color:#66d9ef">else</span>
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subL<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
+    _RotateL(parent-&gt;_left);
+    _RotateR(parent);
+    
+    if (bf == 1)
+    {
+        pNode-&gt;_bf = 0;
+        subL-&gt;_bf = -1;
+    }
+    else if (bf == -1)
+    {
+        pNode-&gt;_bf = 1;
+        subL-&gt;_bf = 0;
+    }
+    else
+    {
+        pNode-&gt;_bf = 0;
+        subL-&gt;_bf = 0;
+    }
 
 }
 
-<span style="color:#75715e">//右左双旋
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_RotateRL(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*&amp;</span>  parent)
+//右左双旋
+template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_RotateRL(AVLTreeNode&lt;K, V&gt;*&amp;  parent)
 {
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> pNode <span style="color:#f92672">=</span> parent;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subR <span style="color:#f92672">=</span> parent<span style="color:#f92672">-&gt;</span>_right;
-	AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> subRL <span style="color:#f92672">=</span> subR<span style="color:#f92672">-&gt;</span>_left;
-	<span style="color:#66d9ef">int</span> bf <span style="color:#f92672">=</span> subRL<span style="color:#f92672">-&gt;</span>_bf;
+    AVLTreeNode&lt;K, V&gt;* pNode = parent;
+    AVLTreeNode&lt;K, V&gt;* subR = parent-&gt;_right;
+    AVLTreeNode&lt;K, V&gt;* subRL = subR-&gt;_left;
+    int bf = subRL-&gt;_bf;
 
-	_RotateR(parent<span style="color:#f92672">-&gt;</span>_right);
-	_RotateL(parent);
+    _RotateR(parent-&gt;_right);
+    _RotateL(parent);
 
-	<span style="color:#66d9ef">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-	}
-	<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (bf <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-		subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
-	<span style="color:#66d9ef">else</span>
-	{
-		pNode<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-		subR<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	}
+    if (bf == 1)
+    {
+        pNode-&gt;_bf = 0;
+        subR-&gt;_bf = -1;
+    }
+    else if (bf == -1)
+    {
+        pNode-&gt;_bf = 1;
+        subR-&gt;_bf = 0;
+    }
+    else
+    {
+        pNode-&gt;_bf = 0;
+        subR-&gt;_bf = 0;
+    }
 }
 
-<span style="color:#75715e">//中序打印
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">void</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_InOrder(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> root)
+//中序打印
+template&lt;class K, class V&gt;
+void AVLTree&lt;K, V&gt;::_InOrder(AVLTreeNode&lt;K, V&gt;* root)
 {
-	<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
-		<span style="color:#66d9ef">return</span>;
-	_InOrder(root<span style="color:#f92672">-&gt;</span>_left);
-	cout <span style="color:#f92672">&lt;&lt;</span> root<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
-	_InOrder(root<span style="color:#f92672">-&gt;</span>_right);
+    if (root == nullptr)
+        return;
+    _InOrder(root-&gt;_left);
+    cout &lt;&lt; root-&gt;_key &lt;&lt; &quot; &quot;;
+    _InOrder(root-&gt;_right);
 }
 
-<span style="color:#75715e">//求AVL树的高度
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">int</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_Height(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> root)
+//求AVL树的高度
+template&lt;class K, class V&gt;
+int AVLTree&lt;K, V&gt;::_Height(AVLTreeNode&lt;K, V&gt;* root)
 {
-	<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
-		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    if (root == nullptr)
+        return 0;
 
-	<span style="color:#66d9ef">int</span> high <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	<span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> _Height(root<span style="color:#f92672">-&gt;</span>_left);
-	<span style="color:#66d9ef">int</span> right <span style="color:#f92672">=</span> _Height(root<span style="color:#f92672">-&gt;</span>_right);
+    int high = 0;
+    int left = _Height(root-&gt;_left);
+    int right = _Height(root-&gt;_right);
 
-	<span style="color:#66d9ef">if</span> (left <span style="color:#f92672">&gt;</span> right)
-		high <span style="color:#f92672">=</span> left;
-	<span style="color:#66d9ef">else</span>
-		high <span style="color:#f92672">=</span> right;
+    if (left &gt; right)
+        high = left;
+    else
+        high = right;
 
-	<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">!=</span> _root)
-        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> high;
-	<span style="color:#66d9ef">else</span>
-		<span style="color:#66d9ef">return</span> high;
+    if (root != _root)
+        return 1 + high;
+    else
+        return high;
 }
 
-<span style="color:#75715e">//检验AVL树是否失衡
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">K</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">V</span><span style="color:#f92672">&gt;</span>
-<span style="color:#66d9ef">bool</span> AVLTree<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;::</span>_IsBalance(AVLTreeNode<span style="color:#f92672">&lt;</span>K, V<span style="color:#f92672">&gt;*</span> root)
+//检验AVL树是否失衡
+template&lt;class K, class V&gt;
+bool AVLTree&lt;K, V&gt;::_IsBalance(AVLTreeNode&lt;K, V&gt;* root)
 {
-	<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
-		<span style="color:#66d9ef">return</span> true;
-	<span style="color:#66d9ef">int</span> bf <span style="color:#f92672">=</span> _Height(root<span style="color:#f92672">-&gt;</span>_right) <span style="color:#f92672">-</span> _Height(root<span style="color:#f92672">-&gt;</span>_left);
-	<span style="color:#66d9ef">if</span> (root<span style="color:#f92672">-&gt;</span>_bf <span style="color:#f92672">!=</span> bf)
-	{	
-		cout <span style="color:#f92672">&lt;&lt;</span> root<span style="color:#f92672">-&gt;</span>_key <span style="color:#f92672">&lt;&lt;</span> endl;
-		<span style="color:#66d9ef">return</span> false;
-	}
-	<span style="color:#75715e">//bf的绝对值小于2，并且左树和右树都平衡则以root为根的子树才处于平衡状态
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">abs</span>(bf) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&amp;&amp;</span> _IsBalance(root<span style="color:#f92672">-&gt;</span>_left) <span style="color:#f92672">&amp;&amp;</span> _IsBalance(root<span style="color:#f92672">-&gt;</span>_right);
+    if (root == nullptr)
+        return true;
+    int bf = _Height(root-&gt;_right) - _Height(root-&gt;_left);
+    if (root-&gt;_bf != bf)
+    {   
+        cout &lt;&lt; root-&gt;_key &lt;&lt; endl;
+        return false;
+    }
+    //bf的绝对值小于2，并且左树和右树都平衡则以root为根的子树才处于平衡状态
+    return abs(bf) &lt; 2 &amp;&amp; _IsBalance(root-&gt;_left) &amp;&amp; _IsBalance(root-&gt;_right);
 }
 
-</code></pre></div>
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

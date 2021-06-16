@@ -3,7 +3,7 @@
 <head>
     <title>使用数据库实现链表 Using Database to Realize Linkedlist // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,178 +233,206 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/mysql/">mysql</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/mysql/">Mysql</a></div></div>
         </header>
         <div class="post-content">
-            <h2 id="背景">背景</h2>
+            
+
+<h2 id="背景">背景</h2>
+
 <p>今天遇到一个需求，在一个排队队列中，对第一个人员可以进行延后处理操作（实际是往后移动 4 位，到第 5 位），一开始想通过排序值
 控制队列排序问题，但是容错性差，不能得到很好的效果，想来想去链表结构的特性对于插入删除 O(1)的性能，可以很好的解决我的问题，
 所以决定通过数据库表设计来实现一个链表。</p>
+
 <ul>
 <li>数据库：mysql</li>
 <li>程序语言：php</li>
 </ul>
+
 <h2 id="实现">实现</h2>
+
 <p>表结构简化成只有 id 和 next 指针的设计，next 指向下一个成员的 id。最后一个成员的 next 指向 0。</p>
+
 <p>表结构及数值如下：</p>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">id</th>
-<th style="text-align:center">next</th>
+<th align="center">id</th>
+<th align="center">next</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">3</td>
+<td align="center">1</td>
+<td align="center">3</td>
 </tr>
+
 <tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
 </tr>
+
 <tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">4</td>
+<td align="center">3</td>
+<td align="center">4</td>
 </tr>
+
 <tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">5</td>
+<td align="center">4</td>
+<td align="center">5</td>
 </tr>
+
 <tr>
-<td style="text-align:center">5</td>
-<td style="text-align:center">6</td>
+<td align="center">5</td>
+<td align="center">6</td>
 </tr>
+
 <tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">0</td>
+<td align="center">6</td>
+<td align="center">0</td>
 </tr>
 </tbody>
 </table>
+
 <p>整理成链表大致是这样的</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">2 --&gt; 1 --&gt; 3 --&gt; 4 --&gt; 5 --&gt; 6 --&gt; 0
-</code></pre></div><p>最后的 0 代表链表结束。</p>
+
+<pre><code class="language-text">2 --&gt; 1 --&gt; 3 --&gt; 4 --&gt; 5 --&gt; 6 --&gt; 0
+</code></pre>
+
+<p>最后的 0 代表链表结束。</p>
+
 <p>按需求，如果第一个人员延后操作，需要向后移动 4 位，步骤是这样的：</p>
+
 <p>首先将队列所有人员从数据库中取出，然后在程序中按照链表结构排序，排序程序如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">qsort</span>($queue)
+
+<pre><code class="language-php">static public function qsort($queue)
 {
-    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$queue) {
-        <span style="color:#66d9ef">return</span> $queue;
+    if (!$queue) {
+        return $queue;
     }
-    $sortQueue <span style="color:#f92672">=</span> [];
-    $zeroNext <span style="color:#f92672">=</span> [];
-    $ids <span style="color:#f92672">=</span> [];
-    <span style="color:#66d9ef">foreach</span> ($queue <span style="color:#66d9ef">as</span> $v) {
-        $ids[] <span style="color:#f92672">=</span> $v[<span style="color:#e6db74">&#34;id&#34;</span>];
-        <span style="color:#66d9ef">if</span> ($v <span style="color:#f92672">&amp;&amp;</span> $v[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-            $zeroNext[$v[<span style="color:#e6db74">&#34;id&#34;</span>]] <span style="color:#f92672">=</span> $v;
-            <span style="color:#66d9ef">continue</span>;
+    $sortQueue = [];
+    $zeroNext = [];
+    $ids = [];
+    foreach ($queue as $v) {
+        $ids[] = $v[&quot;id&quot;];
+        if ($v &amp;&amp; $v[&quot;next&quot;] == 0) {
+            $zeroNext[$v[&quot;id&quot;]] = $v;
+            continue;
         }
-        $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
+        $sortQueue[$v[&quot;next&quot;]] = $v;
     }
 
-    $rightTail <span style="color:#f92672">=</span> [];
-    <span style="color:#66d9ef">foreach</span> ($zeroNext <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
-        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($sortQueue[$v[<span style="color:#e6db74">&#34;id&#34;</span>]])) {
-            <span style="color:#75715e">// 找到正确的结尾
-</span><span style="color:#75715e"></span>            $rightTail <span style="color:#f92672">=</span> $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
-            <span style="color:#a6e22e">unset</span>($zeroNext[$i]);
-            <span style="color:#66d9ef">break</span>;
+    $rightTail = [];
+    foreach ($zeroNext as $i =&gt; $v) {
+        if (isset($sortQueue[$v[&quot;id&quot;]])) {
+            // 找到正确的结尾
+            $rightTail = $sortQueue[$v[&quot;next&quot;]] = $v;
+            unset($zeroNext[$i]);
+            break;
         }
     }
 
-    <span style="color:#75715e">// 如果没有找到
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">empty</span>($rightTail)) {
-        $rightTail <span style="color:#f92672">=</span> <span style="color:#a6e22e">reset</span>($zeroNext);
-        <span style="color:#75715e">// 拼接上之前的队列
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span> ($sortQueue <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
-            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">in_array</span>($i, $ids)) {
-                <span style="color:#75715e">// 需要把$i替换成$rightTail
-</span><span style="color:#75715e"></span>                $v[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $rightTail[<span style="color:#e6db74">&#34;id&#34;</span>];
-                <span style="color:#75715e">// @todo 更新到db
-</span><span style="color:#75715e"></span>                <span style="color:#75715e">// 条件：id=$v[&#34;id&#34;]; 数据：next=$v[&#34;next&#34;];
-</span><span style="color:#75715e"></span>                $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
-                <span style="color:#a6e22e">unset</span>($sortQueue[$i]);
-                <span style="color:#66d9ef">break</span>;
+    // 如果没有找到
+    if (empty($rightTail)) {
+        $rightTail = reset($zeroNext);
+        // 拼接上之前的队列
+        foreach ($sortQueue as $i =&gt; $v) {
+            if (!in_array($i, $ids)) {
+                // 需要把$i替换成$rightTail
+                $v[&quot;next&quot;] = $rightTail[&quot;id&quot;];
+                // @todo 更新到db
+                // 条件：id=$v[&quot;id&quot;]; 数据：next=$v[&quot;next&quot;];
+                $sortQueue[$v[&quot;next&quot;]] = $v;
+                unset($sortQueue[$i]);
+                break;
             }
         };
-        <span style="color:#75715e">// $sortQueue[$rightTail[&#34;next&#34;]] = $rightTail;
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">foreach</span> ($zeroNext <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
-            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($sortQueue[$v[<span style="color:#e6db74">&#34;id&#34;</span>]])) {
-                <span style="color:#75715e">// 找到正确的结尾
-</span><span style="color:#75715e"></span>                $rightTail <span style="color:#f92672">=</span> $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
-                <span style="color:#a6e22e">unset</span>($zeroNext[$i]);
-                <span style="color:#66d9ef">break</span>;
+        // $sortQueue[$rightTail[&quot;next&quot;]] = $rightTail;
+        foreach ($zeroNext as $i =&gt; $v) {
+            if (isset($sortQueue[$v[&quot;id&quot;]])) {
+                // 找到正确的结尾
+                $rightTail = $sortQueue[$v[&quot;next&quot;]] = $v;
+                unset($zeroNext[$i]);
+                break;
             }
         }
     }
 
 
-    <span style="color:#75715e">// 将剩余的结尾拼接上去，按目前先后顺序
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">foreach</span> ($zeroNext <span style="color:#66d9ef">as</span> $i <span style="color:#f92672">=&gt;</span> $v) {
-        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$rightTail[<span style="color:#e6db74">&#34;next&#34;</span>]) {
-            $rightTail[<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $i;
-            <span style="color:#75715e">// @todo 更新到db
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>($rightTail[<span style="color:#e6db74">&#34;id&#34;</span>] <span style="color:#f92672">==</span> $i){
-                <span style="color:#75715e">// next=0
-</span><span style="color:#75715e"></span>            }<span style="color:#66d9ef">else</span>{
-                <span style="color:#75715e">// next=$i
-</span><span style="color:#75715e"></span>            }
+    // 将剩余的结尾拼接上去，按目前先后顺序
+    foreach ($zeroNext as $i =&gt; $v) {
+        if (!$rightTail[&quot;next&quot;]) {
+            $rightTail[&quot;next&quot;] = $i;
+            // @todo 更新到db
+            if($rightTail[&quot;id&quot;] == $i){
+                // next=0
+            }else{
+                // next=$i
+            }
         }
-        $sortQueue[$i] <span style="color:#f92672">=</span> $rightTail;
-        $rightTail <span style="color:#f92672">=</span> $sortQueue[$v[<span style="color:#e6db74">&#34;next&#34;</span>]] <span style="color:#f92672">=</span> $v;
+        $sortQueue[$i] = $rightTail;
+        $rightTail = $sortQueue[$v[&quot;next&quot;]] = $v;
     }
-    $myQueue <span style="color:#f92672">=</span> [];
-    $nextId <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#75715e">// 先按照next倒序排列
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> ($i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; $i <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">count</span>($queue); $i<span style="color:#f92672">++</span>) {
-        $myQueue[] <span style="color:#f92672">=</span> $sortQueue[$nextId];
-        $nextId <span style="color:#f92672">=</span> $sortQueue[$nextId][<span style="color:#e6db74">&#34;id&#34;</span>];
-        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$nextId) {
-            <span style="color:#66d9ef">break</span>;
+    $myQueue = [];
+    $nextId = 0;
+    // 先按照next倒序排列
+    for ($i = 0; $i &lt; count($queue); $i++) {
+        $myQueue[] = $sortQueue[$nextId];
+        $nextId = $sortQueue[$nextId][&quot;id&quot;];
+        if (!$nextId) {
+            break;
         }
     }
-    <span style="color:#75715e">// 反转数组即可
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">array_reverse</span>($myQueue);
+    // 反转数组即可
+    return array_reverse($myQueue);
 }
-</code></pre></div><p>排序完成后，需要对链表进行移动操作，把第一个人员移动到第 5 位，程序实现如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">// 将第5个的next修改为这个用户的id，然后把该用户的next修改为第6个用户的id
-</span><span style="color:#75715e"></span>$num <span style="color:#f92672">=</span> <span style="color:#a6e22e">count</span>($queue);
-            <span style="color:#66d9ef">if</span>($num <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>){
-                <span style="color:#75715e">// 只有一个的时候，操作无效果
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">return</span> $queue;
+</code></pre>
+
+<p>排序完成后，需要对链表进行移动操作，把第一个人员移动到第 5 位，程序实现如下：</p>
+
+<pre><code class="language-php">// 将第5个的next修改为这个用户的id，然后把该用户的next修改为第6个用户的id
+$num = count($queue);
+            if($num == 1){
+                // 只有一个的时候，操作无效果
+                return $queue;
             }
-            <span style="color:#66d9ef">if</span>($num <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>){
-                <span style="color:#75715e">// 置于队尾
-</span><span style="color:#75715e"></span>                $queue[<span style="color:#ae81ff">4</span>][<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;id&#34;</span>];
-                $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            if($num == 5){
+                // 置于队尾
+                $queue[4][&quot;next&quot;] = $queue[0][&quot;id&quot;];
+                $queue[0][&quot;next&quot;] = 0;
 
-                <span style="color:#75715e">// 将修改结果保存到数据库
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">mdlAccompany</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">updateQueue</span>($queue[<span style="color:#ae81ff">4</span>][<span style="color:#e6db74">&#34;id&#34;</span>], [<span style="color:#e6db74">&#34;next&#34;</span> <span style="color:#f92672">=&gt;</span> $queue[<span style="color:#ae81ff">4</span>][<span style="color:#e6db74">&#34;next&#34;</span>]]);
-                <span style="color:#a6e22e">mdlAccompany</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">updateQueue</span>($queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;id&#34;</span>], [<span style="color:#e6db74">&#34;next&#34;</span> <span style="color:#f92672">=&gt;</span> $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;next&#34;</span>]]);
-            }<span style="color:#66d9ef">elseif</span>($num <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>){
-                <span style="color:#75715e">// 小于5个
-</span><span style="color:#75715e"></span>                $queue[$num<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;id&#34;</span>];
-                $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()-&gt;updateQueue($queue[4][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[4][&quot;next&quot;]]);
+                mdlAccompany::instance()-&gt;updateQueue($queue[0][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[0][&quot;next&quot;]]);
+            }elseif($num &lt; 5){
+                // 小于5个
+                $queue[$num-1][&quot;next&quot;] = $queue[0][&quot;id&quot;];
+                $queue[0][&quot;next&quot;] = 0;
 
-                <span style="color:#75715e">// 将修改结果保存到数据库
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">mdlAccompany</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">updateQueue</span>($queue[$num<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#e6db74">&#34;id&#34;</span>], [<span style="color:#e6db74">&#34;next&#34;</span> <span style="color:#f92672">=&gt;</span> $queue[$num<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#e6db74">&#34;next&#34;</span>]]);
-                <span style="color:#a6e22e">mdlAccompany</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">updateQueue</span>($queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;id&#34;</span>], [<span style="color:#e6db74">&#34;next&#34;</span> <span style="color:#f92672">=&gt;</span> $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;next&#34;</span>]]);
-            }<span style="color:#66d9ef">else</span>{
-                <span style="color:#75715e">// 大于5个
-</span><span style="color:#75715e"></span>                $queue[<span style="color:#ae81ff">4</span>][<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;id&#34;</span>];
-                $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;next&#34;</span>] <span style="color:#f92672">=</span> $queue[<span style="color:#ae81ff">5</span>][<span style="color:#e6db74">&#34;id&#34;</span>];
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()-&gt;updateQueue($queue[$num-1][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[$num-1][&quot;next&quot;]]);
+                mdlAccompany::instance()-&gt;updateQueue($queue[0][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[0][&quot;next&quot;]]);
+            }else{
+                // 大于5个
+                $queue[4][&quot;next&quot;] = $queue[0][&quot;id&quot;];
+                $queue[0][&quot;next&quot;] = $queue[5][&quot;id&quot;];
 
-                <span style="color:#75715e">// 将修改结果保存到数据库
-</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">mdlAccompany</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">updateQueue</span>($queue[<span style="color:#ae81ff">4</span>][<span style="color:#e6db74">&#34;id&#34;</span>], [<span style="color:#e6db74">&#34;next&#34;</span> <span style="color:#f92672">=&gt;</span> $queue[<span style="color:#ae81ff">4</span>][<span style="color:#e6db74">&#34;next&#34;</span>]]);
-                <span style="color:#a6e22e">mdlAccompany</span><span style="color:#f92672">::</span><span style="color:#a6e22e">instance</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">updateQueue</span>($queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;id&#34;</span>], [<span style="color:#e6db74">&#34;next&#34;</span> <span style="color:#f92672">=&gt;</span> $queue[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;next&#34;</span>]]);
+                // 将修改结果保存到数据库
+                mdlAccompany::instance()-&gt;updateQueue($queue[4][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[4][&quot;next&quot;]]);
+                mdlAccompany::instance()-&gt;updateQueue($queue[0][&quot;id&quot;], [&quot;next&quot; =&gt; $queue[0][&quot;next&quot;]]);
             }
-<span style="color:#75715e">// 修改完后，重新将数据更新到数据库中，然后重新排序即可
-</span><span style="color:#75715e"></span>$queue <span style="color:#f92672">=</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">sort</span>($queue);
-</code></pre></div><blockquote>
+// 修改完后，重新将数据更新到数据库中，然后重新排序即可
+$queue = self::sort($queue);
+</code></pre>
+
+<blockquote>
 <p>php 数组从 0 开始索引</p>
 </blockquote>
+
 <p>可以看到，这个就如链表的插入操作类似。修改完成后，重新将数据更新到数据库中，然后重新排序即可。</p>
+
 <p>如此，便实现了一个简单的数据库链表结构，当然，你也可以根据需求，实现双向链表之类，其他数据结构实现可以类比。</p>
 
         </div>

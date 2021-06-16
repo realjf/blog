@@ -3,7 +3,7 @@
 <head>
     <title>vue.js 2 系列之十四 处理事件 Handling Events // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,10 +233,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/vuejs/">vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">vue.js</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a><a class="tag" href="https://realjf.io/tags/vue.js/">Vue.js</a></div></div>
         </header>
         <div class="post-content">
-            <p>本节将学习:</p>
+            
+
+<p>本节将学习:</p>
+
 <ul>
 <li>使用v-on指令</li>
 <li>使用事件对象</li>
@@ -245,78 +248,78 @@
 <li>使用事件传播修饰符</li>
 <li>使用鼠标和键盘修饰符</li>
 </ul>
+
 <h2 id="处理事件">处理事件</h2>
+
 <p>v-on指令被用于处理事件,其格式如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h3</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name=&#39;Clicked!&#39;&#34;</span>&gt;&lt;/<span style="color:#f92672">h3</span>&gt;
-</code></pre></div><p>其中：</p>
+
+<pre><code class="language-html">&lt;h3 v-on:click=&quot;name='Clicked!'&quot;&gt;&lt;/h3&gt;
+</code></pre>
+
+<p>其中：</p>
+
 <ul>
 <li>v-on是指令</li>
 <li>click是事件参数</li>
 <li>name=&lsquo;Clicked!&rsquo; 是表达式</li>
 </ul>
+
 <h2 id="理解事件和事件对象">理解事件和事件对象</h2>
+
 <p>有许多可用的事件类型，如下：</p>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">事件类型</th>
-<th style="text-align:center">描述</th>
+<th align="center">事件类型</th>
+<th align="center">描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">click</td>
-<td style="text-align:center">当鼠标在一个元素边界内部被按下并释放时触发</td>
+<td align="center">click</td>
+<td align="center">当鼠标在一个元素边界内部被按下并释放时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">mousedown</td>
-<td style="text-align:center">鼠标按钮在元素边界内被按下时触发</td>
+<td align="center">mousedown</td>
+<td align="center">鼠标按钮在元素边界内被按下时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">mousemove</td>
-<td style="text-align:center">鼠标在元素边界内移动时触发</td>
+<td align="center">mousemove</td>
+<td align="center">鼠标在元素边界内移动时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">mouseleave</td>
-<td style="text-align:center">鼠标离开元素边界时触发</td>
+<td align="center">mouseleave</td>
+<td align="center">鼠标离开元素边界时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">keydown</td>
-<td style="text-align:center">一个按键按下时触发</td>
+<td align="center">keydown</td>
+<td align="center">一个按键按下时触发</td>
 </tr>
 </tbody>
 </table>
-<p>有用的事件对象自有属性</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">自有属性</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">target</td>
-<td style="text-align:center">该属性返回当前事件触发的html元素的DOM对象</td>
-</tr>
-<tr>
-<td style="text-align:center">currentTarget</td>
-<td style="text-align:center">该属性返回当前正在被处理事件的HTML元素的DOM对象，不同于target</td>
-</tr>
-<tr>
-<td style="text-align:center">type</td>
-<td style="text-align:center">该属性返回事件类型</td>
-</tr>
-<tr>
-<td style="text-align:center">key</td>
-<td style="text-align:center">对于键盘事件，该属性返回事件关联的key</td>
-</tr>
-</tbody>
-</table>
+
+<p>有用的事件对象自有属性
+| 自有属性| 描述|
+|:&mdash;:|:&mdash;:|
+| target | 该属性返回当前事件触发的html元素的DOM对象 |
+| currentTarget | 该属性返回当前正在被处理事件的HTML元素的DOM对象，不同于target |
+| type | 该属性返回事件类型 |
+| key | 对于键盘事件，该属性返回事件关联的key |</p>
+
 <p>v-on指令可以通过$event变量访问事件对象。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h3</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name=$event.type&#34;</span>&gt;{{name}}&lt;/<span style="color:#f92672">h3</span>&gt;
-</code></pre></div><h2 id="使用一个方法处理事件">使用一个方法处理事件</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h3</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleEvent&#34;</span>&gt;{{name}}&lt;/<span style="color:#f92672">h3</span>&gt;
+
+<pre><code class="language-html">&lt;h3 v-on:click=&quot;name=$event.type&quot;&gt;{{name}}&lt;/h3&gt;
+</code></pre>
+
+<h2 id="使用一个方法处理事件">使用一个方法处理事件</h2>
+
+<pre><code class="language-html">&lt;h3 v-on:click=&quot;handleEvent&quot;&gt;{{name}}&lt;/h3&gt;
 
 ...
 methods:{
@@ -325,8 +328,11 @@ methods:{
 }
 }
 ...
-</code></pre></div><p>当然也可以传参数给处理函数</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h3</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleEvent(&#39;SoccerBall&#39;, $event)&#34;</span>&gt;{{name}}&lt;/<span style="color:#f92672">h3</span>&gt;
+</code></pre>
+
+<p>当然也可以传参数给处理函数</p>
+
+<pre><code class="language-html">&lt;h3 v-on:click=&quot;handleEvent('SoccerBall', $event)&quot;&gt;{{name}}&lt;/h3&gt;
 
 ...
 methods:{
@@ -334,26 +340,39 @@ methods:{
         this.name = `${name} - ${$event.type}`;
     }
 }
-</code></pre></div><h4 id="使用指令简略表达式">使用指令简略表达式</h4>
+</code></pre>
+
+<h4 id="使用指令简略表达式">使用指令简略表达式</h4>
+
 <p>v-on指令可以简写成@，如v-on:click可以简写成@click。</p>
-<h2 id="合并事件方法和重复元素">合并事件，方法和重复元素</h2>
+
+<h2 id="合并事件-方法和重复元素">合并事件，方法和重复元素</h2>
+
 <p>可以自己利用v-for指令、v-on指令以及methods里定义的事件处理函数练习以下，这里就不提供示例代码了</p>
+
 <h2 id="为同一个元素监听多个事件">为同一个元素监听多个事件</h2>
+
 <p>有两种方法可以为同一个元素监听处理不同的事件：</p>
+
 <ul>
 <li>第一：应用v-on指令分别为每一个事件提供处理函数</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleClick(name)&#34;</span>
-    <span style="color:#a6e22e">v-on:mousemove</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleMouseEvent(name, $event)&#34;</span>
-    <span style="color:#a6e22e">v-on:mouseleave</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleMouseEvent(name, $event)&#34;</span>
-&gt;&lt;/<span style="color:#f92672">button</span>&gt;
-</code></pre></div><blockquote>
+
+<pre><code class="language-html">&lt;button v-on:click=&quot;handleClick(name)&quot;
+    v-on:mousemove=&quot;handleMouseEvent(name, $event)&quot;
+    v-on:mouseleave=&quot;handleMouseEvent(name, $event)&quot;
+&gt;&lt;/button&gt;
+</code></pre>
+
+<blockquote>
 <p>两个handleMouseEvent函数通过$event.type进行区分</p>
 </blockquote>
+
 <ul>
 <li>第二：应用没有事件参数的v-on指令，并设置指令的表达式为一个事件类型为键和可调用方法为其值的对象</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">v-on</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;buttonEvents&#34;</span> <span style="color:#a6e22e">v-bind:data-name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name&#34;</span>&gt;&lt;/<span style="color:#f92672">button</span>&gt;
+
+<pre><code class="language-html">&lt;button v-on=&quot;buttonEvents&quot; v-bind:data-name=&quot;name&quot;&gt;&lt;/button&gt;
 
 ...
 data: function() {
@@ -370,155 +389,206 @@ methods: {
     },
     handleMouseEvent($event){
         let name = $event.target.dataset.name;
-        if($event.type == &#34;mousemove&#34;){
+        if($event.type == &quot;mousemove&quot;){
             this.message = `Move in ${name} ${this.counter++}`;
         }else{
             this.counter = 0;
-            this.message = &#34;Ready&#34;;
+            this.message = &quot;Ready&quot;;
         }
     }
 }
 ...
-</code></pre></div><p>其中dataset自有属性可以访问html中自定义属性data-attributes以获取其值</p>
+</code></pre>
+
+<p>其中dataset自有属性可以访问html中自定义属性data-attributes以获取其值</p>
+
 <h2 id="使用事件处理修饰符">使用事件处理修饰符</h2>
+
 <p>为了保持事件处理方法简单和可聚焦，v-on指令提供里修饰符集代表了其要求的js状态，如下</p>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">修饰符</th>
-<th style="text-align:center">描述</th>
+<th align="center">修饰符</th>
+<th align="center">描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">stop</td>
-<td style="text-align:center">此修饰符相当于调用事件对象上的stoppagation方法，“停止事件传播”</td>
+<td align="center">stop</td>
+<td align="center">此修饰符相当于调用事件对象上的stoppagation方法，“停止事件传播”</td>
 </tr>
+
 <tr>
-<td style="text-align:center">prevent</td>
-<td style="text-align:center">此修饰符相当于对事件对象调用preventDefault方法</td>
+<td align="center">prevent</td>
+<td align="center">此修饰符相当于对事件对象调用preventDefault方法</td>
 </tr>
+
 <tr>
-<td style="text-align:center">capture</td>
-<td style="text-align:center">此修饰符启用事件传播的捕获模式</td>
+<td align="center">capture</td>
+<td align="center">此修饰符启用事件传播的捕获模式</td>
 </tr>
+
 <tr>
-<td style="text-align:center">self</td>
-<td style="text-align:center">只有当事件源于已应用指令的元素</td>
+<td align="center">self</td>
+<td align="center">只有当事件源于已应用指令的元素</td>
 </tr>
+
 <tr>
-<td style="text-align:center">once</td>
-<td style="text-align:center">此修饰符将阻止同一类型的后续事件调用处理程序方法</td>
+<td align="center">once</td>
+<td align="center">此修饰符将阻止同一类型的后续事件调用处理程序方法</td>
 </tr>
+
 <tr>
-<td style="text-align:center">passive</td>
-<td style="text-align:center">此修饰符将启用被动事件侦听，从而提高性能在移动设备上特别有用</td>
+<td align="center">passive</td>
+<td align="center">此修饰符将启用被动事件侦听，从而提高性能在移动设备上特别有用</td>
 </tr>
 </tbody>
 </table>
+
 <h3 id="管理事件传播">管理事件传播</h3>
+
 <h4 id="在capture修饰符下接收事件">在capture修饰符下接收事件</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;outer-element&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">capture</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleClick&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
-</code></pre></div><p>v-on指令在捕获事件期间不接收其他事件，除非capture修饰符已经被应用过了。</p>
+
+<pre><code class="language-html">&lt;div id=&quot;outer-element&quot; v-on:click.capture=&quot;handleClick&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p>v-on指令在捕获事件期间不接收其他事件，除非capture修饰符已经被应用过了。</p>
+
 <h4 id="只处理目标的修饰符事件">只处理目标的修饰符事件</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;middle-element&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">self</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleClick&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
-</code></pre></div><p>只处理当前id为middle-element的元素的事件</p>
+
+<pre><code class="language-html">&lt;div id=&quot;middle-element&quot; v-on:click.self=&quot;handleClick&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p>只处理当前id为middle-element的元素的事件</p>
+
 <h4 id="停止事件传播">停止事件传播</h4>
+
 <p>stop修饰符停止事件的传播，防止其被元素的v-on指令任何后续事件处理</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;middle-element&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-secondary p-4&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">stop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleClick&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
-</code></pre></div><h3 id="防止重复事件">防止重复事件</h3>
+
+<pre><code class="language-html">&lt;div id=&quot;middle-element&quot; class=&quot;bg-secondary p-4&quot; v-on:click.stop=&quot;handleClick&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<h3 id="防止重复事件">防止重复事件</h3>
+
 <p>once修饰符阻止v-on指令多次调用其方法。这并不能阻止正常的事件传播过程，
 但它确实阻止元素在第一个事件已经处理之后再参与其中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;inner-element&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bg-info p-4&#34;</span> <span style="color:#a6e22e">v-on:click</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">once</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleClick&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
-</code></pre></div><h2 id="使用鼠标事件修饰符">使用鼠标事件修饰符</h2>
+
+<pre><code class="language-html">&lt;div id=&quot;inner-element&quot; class=&quot;bg-info p-4&quot; v-on:click.once=&quot;handleClick&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<h2 id="使用鼠标事件修饰符">使用鼠标事件修饰符</h2>
+
 <p>v-on指令提供里一个鼠标事件处理的修饰符集</p>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">修饰符</th>
-<th style="text-align:center">描述</th>
+<th align="center">修饰符</th>
+<th align="center">描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">left</td>
-<td style="text-align:center">该修饰符只选择在鼠标左键时触发</td>
+<td align="center">left</td>
+<td align="center">该修饰符只选择在鼠标左键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">middle</td>
-<td style="text-align:center">该修饰符只选择在鼠标中键时触发</td>
+<td align="center">middle</td>
+<td align="center">该修饰符只选择在鼠标中键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">right</td>
-<td style="text-align:center">该修饰符只选择在鼠标右键时触发</td>
+<td align="center">right</td>
+<td align="center">该修饰符只选择在鼠标右键时触发</td>
 </tr>
 </tbody>
 </table>
+
 <h2 id="使用键盘事件修饰符">使用键盘事件修饰符</h2>
+
 <p>v-on指令提供里一个键盘事件处理的修饰符集</p>
+
 <table>
 <thead>
 <tr>
-<th style="text-align:center">修饰符</th>
-<th style="text-align:center">描述</th>
+<th align="center">修饰符</th>
+<th align="center">描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
-<td style="text-align:center">left</td>
-<td style="text-align:center">该修饰符选择在左方向键时触发</td>
+<td align="center">left</td>
+<td align="center">该修饰符选择在左方向键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">enter</td>
-<td style="text-align:center">该修饰符选择在enter键时触发</td>
+<td align="center">enter</td>
+<td align="center">该修饰符选择在enter键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">right</td>
-<td style="text-align:center">该修饰符选择在右方向键时触发</td>
+<td align="center">right</td>
+<td align="center">该修饰符选择在右方向键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">up</td>
-<td style="text-align:center">该修饰符选择在上方向键时触发</td>
+<td align="center">up</td>
+<td align="center">该修饰符选择在上方向键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">down</td>
-<td style="text-align:center">该修饰符选择在下方向键时触发</td>
+<td align="center">down</td>
+<td align="center">该修饰符选择在下方向键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">tab</td>
-<td style="text-align:center">该修饰符选择在tab键时触发</td>
+<td align="center">tab</td>
+<td align="center">该修饰符选择在tab键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">delete</td>
-<td style="text-align:center">该修饰符选择在delete键时触发</td>
+<td align="center">delete</td>
+<td align="center">该修饰符选择在delete键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">esc</td>
-<td style="text-align:center">该修饰符选择在esc键时触发</td>
+<td align="center">esc</td>
+<td align="center">该修饰符选择在esc键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">space</td>
-<td style="text-align:center">该修饰符选择在空格键时触发</td>
+<td align="center">space</td>
+<td align="center">该修饰符选择在空格键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">ctrl</td>
-<td style="text-align:center">该修饰符选择在control键时触发</td>
+<td align="center">ctrl</td>
+<td align="center">该修饰符选择在control键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">alt</td>
-<td style="text-align:center">该修饰符选择在alt键时触发</td>
+<td align="center">alt</td>
+<td align="center">该修饰符选择在alt键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">shift</td>
-<td style="text-align:center">该修饰符选择在shift键时触发</td>
+<td align="center">shift</td>
+<td align="center">该修饰符选择在shift键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">meta</td>
-<td style="text-align:center">该修饰符选择在meta键时触发</td>
+<td align="center">meta</td>
+<td align="center">该修饰符选择在meta键时触发</td>
 </tr>
+
 <tr>
-<td style="text-align:center">exact</td>
-<td style="text-align:center">该修饰符选择只在特定某个修饰键时触发，而不是组合键</td>
+<td align="center">exact</td>
+<td align="center">该修饰符选择只在特定某个修饰键时触发，而不是组合键</td>
 </tr>
 </tbody>
 </table>

@@ -3,7 +3,7 @@
 <head>
     <title>golang和vue3全栈开发之二 创建路由处理程序 Full Stack  With Vue and Golang 2 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,11 +233,14 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a><a class="tag" href="https://realjf.io/tags/vuejs/">vuejs</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a><a class="tag" href="https://realjf.io/tags/vuejs/">Vuejs</a></div></div>
         </header>
         <div class="post-content">
-            <h3 id="项目结构">项目结构</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">.
+            
+
+<h3 id="项目结构">项目结构</h3>
+
+<pre><code class="language-sh">.
 ├── account
 │   ├── Dockerfile
 │   ├── go.mod
@@ -249,204 +252,227 @@
 ├── echo.code-workspace
 ├── .env.dev
 └── .gitignore
-</code></pre></div><h3 id="创建路由处理程序">创建路由处理程序</h3>
+</code></pre>
+
+<h3 id="创建路由处理程序">创建路由处理程序</h3>
+
 <p>创建account/handler/handler.go文件，其内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">handler</span>
 
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;net/http&#34;</span>
-	<span style="color:#e6db74">&#34;os&#34;</span>
+<pre><code class="language-go">package handler
 
-	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+import (
+    &quot;net/http&quot;
+    &quot;os&quot;
+
+    &quot;github.com/gin-gonic/gin&quot;
 )
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Handler</span> <span style="color:#66d9ef">struct</span>{}
+type Handler struct{}
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">R</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Engine</span>
+type Config struct {
+    R *gin.Engine
 }
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewHandler</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Config</span>) {
-	<span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Handler</span>{}
+func NewHandler(c *Config) {
+    h := &amp;Handler{}
 
-	<span style="color:#a6e22e">g</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">R</span>.<span style="color:#a6e22e">Group</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;ACCOUNT_API_URL&#34;</span>))
+    g := c.R.Group(os.Getenv(&quot;ACCOUNT_API_URL&quot;))
 
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/me&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Me</span>)
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/signup&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Signup</span>)
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/signin&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Signin</span>)
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/signout&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Signout</span>)
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/tokens&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Tokens</span>)
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/image&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Image</span>)
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">DELETE</span>(<span style="color:#e6db74">&#34;/image&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">DeleteImage</span>)
-	<span style="color:#a6e22e">g</span>.<span style="color:#a6e22e">PUT</span>(<span style="color:#e6db74">&#34;/details&#34;</span>, <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Details</span>)
+    g.GET(&quot;/me&quot;, h.Me)
+    g.POST(&quot;/signup&quot;, h.Signup)
+    g.POST(&quot;/signin&quot;, h.Signin)
+    g.POST(&quot;/signout&quot;, h.Signout)
+    g.POST(&quot;/tokens&quot;, h.Tokens)
+    g.POST(&quot;/image&quot;, h.Image)
+    g.DELETE(&quot;/image&quot;, h.DeleteImage)
+    g.PUT(&quot;/details&quot;, h.Details)
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">Me</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s me&#34;</span>,
-	})
+func (h *Handler) Me(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's me&quot;,
+    })
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">Signup</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s signup&#34;</span>,
-	})
+func (h *Handler) Signup(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's signup&quot;,
+    })
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">Signin</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s signin&#34;</span>,
-	})
+func (h *Handler) Signin(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's signin&quot;,
+    })
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">Signout</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s signout&#34;</span>,
-	})
+func (h *Handler) Signout(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's signout&quot;,
+    })
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">Tokens</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s tokens&#34;</span>,
-	})
+func (h *Handler) Tokens(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's tokens&quot;,
+    })
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">Image</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s image&#34;</span>,
-	})
+func (h *Handler) Image(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's image&quot;,
+    })
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">DeleteImage</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s deleteImage&#34;</span>,
-	})
+func (h *Handler) DeleteImage(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's deleteImage&quot;,
+    })
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">h</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Handler</span>) <span style="color:#a6e22e">Details</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
-	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">H</span>{
-		<span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;it&#39;s details&#34;</span>,
-	})
+func (h *Handler) Details(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+        &quot;message&quot;: &quot;it's details&quot;,
+    })
 }
 
-</code></pre></div><p>然后，修改account/main.go文件，增加路由处理程序</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</code></pre>
 
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;context&#34;</span>
-	<span style="color:#e6db74">&#34;log&#34;</span>
-	<span style="color:#e6db74">&#34;net/http&#34;</span>
-	<span style="color:#e6db74">&#34;os&#34;</span>
-	<span style="color:#e6db74">&#34;os/signal&#34;</span>
-	<span style="color:#e6db74">&#34;syscall&#34;</span>
-	<span style="color:#e6db74">&#34;time&#34;</span>
+<p>然后，修改account/main.go文件，增加路由处理程序</p>
 
-	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/realjf/echo/handler&#34;</span>
+<pre><code class="language-go">package main
+
+import (
+    &quot;context&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+    &quot;os&quot;
+    &quot;os/signal&quot;
+    &quot;syscall&quot;
+    &quot;time&quot;
+
+    &quot;github.com/gin-gonic/gin&quot;
+    &quot;github.com/realjf/echo/handler&quot;
 )
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Starting server...&#34;</span>)
+func main() {
+    log.Println(&quot;Starting server...&quot;)
 
-	<span style="color:#a6e22e">router</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
+    router := gin.Default()
 
-	<span style="color:#75715e">// 路由处理程序
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">NewHandler</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">Config</span>{
-		<span style="color:#a6e22e">R</span>: <span style="color:#a6e22e">router</span>,
-	})
+    // 路由处理程序
+    handler.NewHandler(&amp;handler.Config{
+        R: router,
+    })
 
-	<span style="color:#a6e22e">srv</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span>{
-		<span style="color:#a6e22e">Addr</span>:    <span style="color:#e6db74">&#34;:8080&#34;</span>,
-		<span style="color:#a6e22e">Handler</span>: <span style="color:#a6e22e">router</span>,
-	}
+    srv := &amp;http.Server{
+        Addr:    &quot;:8080&quot;,
+        Handler: router,
+    }
 
-	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">ListenAndServe</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ErrServerClosed</span> {
-			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to init server: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
-		}
-	}()
+    go func() {
+        if err := srv.ListenAndServe(); err != nil &amp;&amp; err != http.ErrServerClosed {
+            log.Fatalf(&quot;Failed to init server: %v\n&quot;, err)
+        }
+    }()
 
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Listening on port %v\n&#34;</span>, <span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">Addr</span>)
+    log.Printf(&quot;Listening on port %v\n&quot;, srv.Addr)
 
-	<span style="color:#a6e22e">quit</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Signal</span>)
+    quit := make(chan os.Signal)
 
-	<span style="color:#a6e22e">signal</span>.<span style="color:#a6e22e">Notify</span>(<span style="color:#a6e22e">quit</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGINT</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGTERM</span>)
+    signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
-	<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">quit</span>
+    &lt;-quit
 
-	<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">cancel</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithTimeout</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#ae81ff">5</span><span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">cancel</span>()
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
 
-	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Shutting down server...&#34;</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">Shutdown</span>(<span style="color:#a6e22e">ctx</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Server forced to shutdown: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
-	}
+    log.Println(&quot;Shutting down server...&quot;)
+    if err := srv.Shutdown(ctx); err != nil {
+        log.Fatalf(&quot;Server forced to shutdown: %v\n&quot;, err)
+    }
 }
 
-</code></pre></div><p>在项目根目录下新增.env.dev文件，其内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-env" data-lang="env">ACCOUNT_API_URL<span style="color:#f92672">=</span>/api/account
-</code></pre></div><p>在项目根目录下新增.gitignore文件，其内容如下：</p>
-<pre><code class="language-gitignore" data-lang="gitignore">.env.dev
-</code></pre><p>修改docker-compose.yml文件</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.8&#34;</span>
+</code></pre>
 
-<span style="color:#f92672">services</span>:
-    <span style="color:#f92672">reverse-proxy</span>:
-        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">traefik:v2.2</span>
-        <span style="color:#f92672">command</span>:
-            - <span style="color:#e6db74">&#34;--api.insecure=true&#34;</span>
-            - <span style="color:#e6db74">&#34;--providers.docker&#34;</span>
-            - <span style="color:#e6db74">&#34;--providers.docker.exposedByDefault=false&#34;</span>
-        <span style="color:#f92672">ports</span>:
-            - <span style="color:#e6db74">&#34;80:80&#34;</span>
-            - <span style="color:#e6db74">&#34;8080:8080&#34;</span>
-        <span style="color:#f92672">volumes</span>:
-            - <span style="color:#ae81ff">/var/run/docker.sock:/var/run/docker.sock</span>
-    <span style="color:#f92672">account</span>:
-        <span style="color:#f92672">build</span>:
-            <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./account</span>
-            <span style="color:#f92672">target</span>: <span style="color:#ae81ff">builder</span>
-        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">account</span>
-        <span style="color:#75715e"># .env file</span>
-        <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">.env.dev</span>
-        <span style="color:#f92672">expose</span>:
-            - <span style="color:#e6db74">&#34;8080&#34;</span>
-        <span style="color:#f92672">labels</span>:
-            - <span style="color:#e6db74">&#34;traefik.enable=true&#34;</span>
-            - <span style="color:#e6db74">&#34;traefik.http.routers.account.rule=Host(`malcorp.test`) &amp;&amp; PathPrefix(`/api/account`)&#34;</span>
-        <span style="color:#f92672">environment</span>:
-            - <span style="color:#ae81ff">ENV=dev</span>
-        <span style="color:#f92672">volumes</span>:
-            - <span style="color:#ae81ff">./account:/go/src/app</span>
-        <span style="color:#f92672">command</span>: <span style="color:#ae81ff">reflex -r &#34;\.go$$&#34; -s -- sh -c &#34;go run ./&#34;</span>
+<p>在项目根目录下新增.env.dev文件，其内容如下：</p>
 
-</code></pre></div><p>然后重新运行docker-compose up，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">...
+<pre><code class="language-env">ACCOUNT_API_URL=/api/account
+</code></pre>
 
-Starting echo_reverse-proxy_1 ... <span style="color:#66d9ef">done</span>
-Recreating echo_account_1     ... <span style="color:#66d9ef">done</span>
+<p>在项目根目录下新增.gitignore文件，其内容如下：</p>
+
+<pre><code class="language-gitignore">.env.dev
+</code></pre>
+
+<p>修改docker-compose.yml文件</p>
+
+<pre><code class="language-yml">version: &quot;3.8&quot;
+
+services:
+    reverse-proxy:
+        image: traefik:v2.2
+        command:
+            - &quot;--api.insecure=true&quot;
+            - &quot;--providers.docker&quot;
+            - &quot;--providers.docker.exposedByDefault=false&quot;
+        ports:
+            - &quot;80:80&quot;
+            - &quot;8080:8080&quot;
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+    account:
+        build:
+            context: ./account
+            target: builder
+        image: account
+        # .env file
+        env_file: .env.dev
+        expose:
+            - &quot;8080&quot;
+        labels:
+            - &quot;traefik.enable=true&quot;
+            - &quot;traefik.http.routers.account.rule=Host(`malcorp.test`) &amp;&amp; PathPrefix(`/api/account`)&quot;
+        environment:
+            - ENV=dev
+        volumes:
+            - ./account:/go/src/app
+        command: reflex -r &quot;\.go$$&quot; -s -- sh -c &quot;go run ./&quot;
+
+</code></pre>
+
+<p>然后重新运行docker-compose up，</p>
+
+<pre><code class="language-sh">...
+
+Starting echo_reverse-proxy_1 ... done
+Recreating echo_account_1     ... done
 Attaching to echo_reverse-proxy_1, echo_account_1
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> Starting service
-reverse-proxy_1  | time<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2021-06-06T15:42:12Z&#34;</span> level<span style="color:#f92672">=</span>info msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Configuration loaded from flags.&#34;</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> 2021/06/06 15:42:12 Starting server...
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> Creating an Engine instance with the Logger and Recovery middleware already attached.
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> Running in <span style="color:#e6db74">&#34;debug&#34;</span> mode. Switch to <span style="color:#e6db74">&#34;release&#34;</span> mode in production.
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>  - using env:   export GIN_MODE<span style="color:#f92672">=</span>release
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>  - using code:  gin.SetMode<span style="color:#f92672">(</span>gin.ReleaseMode<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> GET    /api/account/me           --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.Me-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> POST   /api/account/signup       --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.Signup-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> POST   /api/account/signin       --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.Signin-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> POST   /api/account/signout      --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.Signout-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> POST   /api/account/tokens       --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.Tokens-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> POST   /api/account/image        --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.Image-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> DELETE /api/account/image        --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.DeleteImage-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>GIN-debug<span style="color:#f92672">]</span> PUT    /api/account/details      --&gt; github.com/realjf/echo/handler.<span style="color:#f92672">(</span>*Handler<span style="color:#f92672">)</span>.Details-fm <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> handlers<span style="color:#f92672">)</span>
-account_1        | <span style="color:#f92672">[</span>00<span style="color:#f92672">]</span> 2021/06/06 15:42:12 Listening on port :8080
-</code></pre></div><p>现在，可以通过curl工具访问了</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">curl -X POST http://malcorp.test/api/account/signup
-</code></pre></div>
+account_1        | [00] Starting service
+reverse-proxy_1  | time=&quot;2021-06-06T15:42:12Z&quot; level=info msg=&quot;Configuration loaded from flags.&quot;
+account_1        | [00] 2021/06/06 15:42:12 Starting server...
+account_1        | [00] [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+account_1        | [00]
+account_1        | [00] [GIN-debug] [WARNING] Running in &quot;debug&quot; mode. Switch to &quot;release&quot; mode in production.
+account_1        | [00]  - using env:   export GIN_MODE=release
+account_1        | [00]  - using code:  gin.SetMode(gin.ReleaseMode)
+account_1        | [00]
+account_1        | [00] [GIN-debug] GET    /api/account/me           --&gt; github.com/realjf/echo/handler.(*Handler).Me-fm (3 handlers)
+account_1        | [00] [GIN-debug] POST   /api/account/signup       --&gt; github.com/realjf/echo/handler.(*Handler).Signup-fm (3 handlers)
+account_1        | [00] [GIN-debug] POST   /api/account/signin       --&gt; github.com/realjf/echo/handler.(*Handler).Signin-fm (3 handlers)
+account_1        | [00] [GIN-debug] POST   /api/account/signout      --&gt; github.com/realjf/echo/handler.(*Handler).Signout-fm (3 handlers)
+account_1        | [00] [GIN-debug] POST   /api/account/tokens       --&gt; github.com/realjf/echo/handler.(*Handler).Tokens-fm (3 handlers)
+account_1        | [00] [GIN-debug] POST   /api/account/image        --&gt; github.com/realjf/echo/handler.(*Handler).Image-fm (3 handlers)
+account_1        | [00] [GIN-debug] DELETE /api/account/image        --&gt; github.com/realjf/echo/handler.(*Handler).DeleteImage-fm (3 handlers)
+account_1        | [00] [GIN-debug] PUT    /api/account/details      --&gt; github.com/realjf/echo/handler.(*Handler).Details-fm (3 handlers)
+account_1        | [00] 2021/06/06 15:42:12 Listening on port :8080
+</code></pre>
+
+<p>现在，可以通过curl工具访问了</p>
+
+<pre><code class="language-sh">curl -X POST http://malcorp.test/api/account/signup
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>

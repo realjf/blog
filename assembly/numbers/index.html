@@ -3,7 +3,7 @@
 <head>
     <title>nasm汇编之数值 Numbers // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.54.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,121 +233,146 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/assembly/">assembly</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/assembly/">Assembly</a></div></div>
         </header>
         <div class="post-content">
-            <p>数值数据通常用二进制表示。算术指令对二进制数据进行操作。当数字显示在屏幕上或通过键盘输入时，它们为ASCII格式</p>
+            
+
+<p>数值数据通常用二进制表示。算术指令对二进制数据进行操作。当数字显示在屏幕上或通过键盘输入时，它们为ASCII格式</p>
+
 <p>此类转换会产生开销，并且汇编语言编程允许以更有效的方式以二进制形式处理数字。小数可以两种形式表示</p>
+
 <ul>
 <li>ASCII格式</li>
 <li>BCD或者二进制编码的十进制形式</li>
 </ul>
+
 <h3 id="ascii表示">ASCII表示</h3>
+
 <p>在ASCII表示中，十进制数字存储为ASCII字符串</p>
+
 <p>有四条指令以ASCII表示形式处理数字</p>
+
 <ul>
 <li>AAA ASCII Adjust After Addition</li>
 <li>AAS ASCII Adjust After Subtraction</li>
 <li>AAM ASCII Adjust After Multiplication</li>
 <li>AAD ASCII Adjust Before Division</li>
 </ul>
+
 <p>这些指令不使用任何操作数，并假定所需的操作数位于AL寄存器中</p>
+
 <p>示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">section</span>	<span style="color:#66d9ef">.text</span>
-   <span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>        <span style="color:#75715e">;must be declared for using gcc
-</span><span style="color:#75715e"></span>	
-<span style="color:#66d9ef">_start</span>:	                <span style="color:#75715e">;tell linker entry point
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">sub</span>     <span style="color:#66d9ef">ah</span>, <span style="color:#66d9ef">ah</span>
-   <span style="color:#a6e22e">mov</span>     <span style="color:#66d9ef">al</span>, <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">9</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-   <span style="color:#a6e22e">sub</span>     <span style="color:#66d9ef">al</span>, <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-   <span style="color:#a6e22e">aas</span>
-   <span style="color:#a6e22e">or</span>      <span style="color:#66d9ef">al</span>, <span style="color:#ae81ff">30</span><span style="color:#66d9ef">h</span>
-   <span style="color:#a6e22e">mov</span>     [<span style="color:#66d9ef">res</span>], <span style="color:#66d9ef">ax</span>
-	
-   <span style="color:#a6e22e">mov</span>	<span style="color:#66d9ef">edx</span>,<span style="color:#66d9ef">len</span>	        <span style="color:#75715e">;message length
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ecx</span>,<span style="color:#66d9ef">msg</span>	        <span style="color:#75715e">;message to write
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ebx</span>,<span style="color:#ae81ff">1</span>	        <span style="color:#75715e">;file descriptor (stdout)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">4</span>	        <span style="color:#75715e">;system call number (sys_write)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>	        <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span>	
-   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">edx</span>,<span style="color:#ae81ff">1</span>	        <span style="color:#75715e">;message length
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ecx</span>,<span style="color:#66d9ef">res</span>	        <span style="color:#75715e">;message to write
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ebx</span>,<span style="color:#ae81ff">1</span>	        <span style="color:#75715e">;file descriptor (stdout)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">4</span>	        <span style="color:#75715e">;system call number (sys_write)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>	        <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span>	
-   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">1</span>	        <span style="color:#75715e">;system call number (sys_exit)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>	        <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span>	
-<span style="color:#66d9ef">section</span>	<span style="color:#66d9ef">.data</span>
-<span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">The</span> <span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">is</span>:<span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xa</span>	
-<span style="color:#66d9ef">len</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">msg</span>			
-<span style="color:#66d9ef">section</span> <span style="color:#66d9ef">.bss</span>
-<span style="color:#a6e22e">res</span> <span style="color:#66d9ef">resb</span> <span style="color:#ae81ff">1</span> 
-</code></pre></div><h3 id="bcd表示">BCD表示</h3>
+
+<pre><code class="language-asm">section .text
+   global _start        ;must be declared for using gcc
+    
+_start:                 ;tell linker entry point
+   sub     ah, ah
+   mov     al, '9'
+   sub     al, '3'
+   aas
+   or      al, 30h
+   mov     [res], ax
+    
+   mov  edx,len         ;message length
+   mov  ecx,msg         ;message to write
+   mov  ebx,1           ;file descriptor (stdout)
+   mov  eax,4           ;system call number (sys_write)
+   int  0x80            ;call kernel
+    
+   mov  edx,1           ;message length
+   mov  ecx,res         ;message to write
+   mov  ebx,1           ;file descriptor (stdout)
+   mov  eax,4           ;system call number (sys_write)
+   int  0x80            ;call kernel
+    
+   mov  eax,1           ;system call number (sys_exit)
+   int  0x80            ;call kernel
+    
+section .data
+msg db 'The Result is:',0xa 
+len equ $ - msg         
+section .bss
+res resb 1 
+</code></pre>
+
+<h3 id="bcd表示">BCD表示</h3>
+
 <p>有两种BCD表示</p>
+
 <ul>
 <li>开箱BCD</li>
 <li>封箱BCD</li>
 </ul>
+
 <p>在未压缩的BCD表示形式中，每个字节都存储一个十进制数字的二进制等效项.</p>
+
 <p>有两条指令处理数字</p>
+
 <ul>
 <li>AAM ASCII Adjust After Multiplication</li>
 <li>AAD ASCII Adjust Before Division</li>
 </ul>
+
 <p>四个ASCII调整指令AAA，AAS，AAM和AAD也可以与未打包的BCD表示一起使用。在打包的BCD表示中，每个数字使用四位存储。
 两个十进制数字打包成一个字节。</p>
+
 <p>有两个处理这些数字的说明</p>
+
 <ul>
 <li>DAA Decimal Adjust After Addition</li>
 <li>DAS decimal Adjust After Subtraction</li>
 </ul>
+
 <p>打包的BCD表示形式不支持乘法和除法</p>
+
 <p>示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">Live</span> <span style="color:#66d9ef">Demo</span>
-<span style="color:#a6e22e">section</span>	<span style="color:#66d9ef">.text</span>
-   <span style="color:#a6e22e">global</span> <span style="color:#66d9ef">_start</span>        <span style="color:#75715e">;must be declared for using gcc
-</span><span style="color:#75715e"></span>
-_start:	                <span style="color:#75715e">;tell linker entry point
-</span><span style="color:#75715e"></span>
-   <span style="color:#a6e22e">mov</span>     <span style="color:#66d9ef">esi</span>, <span style="color:#ae81ff">4</span>       <span style="color:#75715e">;pointing to the rightmost digit
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>     <span style="color:#66d9ef">ecx</span>, <span style="color:#ae81ff">5</span>       <span style="color:#75715e">;num of digits
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">clc</span>
+
+<pre><code class="language-asm">Live Demo
+section .text
+   global _start        ;must be declared for using gcc
+
+_start:                 ;tell linker entry point
+
+   mov     esi, 4       ;pointing to the rightmost digit
+   mov     ecx, 5       ;num of digits
+   clc
 add_loop:  
-   <span style="color:#a6e22e">mov</span> 	<span style="color:#66d9ef">al</span>, [<span style="color:#66d9ef">num1</span> <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#66d9ef">esi</span>]
-   <span style="color:#a6e22e">adc</span> 	<span style="color:#66d9ef">al</span>, [<span style="color:#66d9ef">num2</span> <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#66d9ef">esi</span>]
-   <span style="color:#a6e22e">aaa</span>
-   <span style="color:#a6e22e">pushf</span>
-   <span style="color:#a6e22e">or</span> 	<span style="color:#66d9ef">al</span>, <span style="color:#ae81ff">30</span><span style="color:#66d9ef">h</span>
-   <span style="color:#a6e22e">popf</span>
-	
-   <span style="color:#a6e22e">mov</span>	[<span style="color:#66d9ef">sum</span> <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#66d9ef">esi</span>], <span style="color:#66d9ef">al</span>
-   <span style="color:#a6e22e">dec</span>	<span style="color:#66d9ef">esi</span>
-   <span style="color:#a6e22e">loop</span>	<span style="color:#66d9ef">add_loop</span>
-	
-   <span style="color:#a6e22e">mov</span>	<span style="color:#66d9ef">edx</span>,<span style="color:#66d9ef">len</span>	        <span style="color:#75715e">;message length
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ecx</span>,<span style="color:#66d9ef">msg</span>	        <span style="color:#75715e">;message to write
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ebx</span>,<span style="color:#ae81ff">1</span>	        <span style="color:#75715e">;file descriptor (stdout)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">4</span>	        <span style="color:#75715e">;system call number (sys_write)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>	        <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span>	
-   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">edx</span>,<span style="color:#ae81ff">5</span>	        <span style="color:#75715e">;message length
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ecx</span>,<span style="color:#66d9ef">sum</span>	        <span style="color:#75715e">;message to write
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ebx</span>,<span style="color:#ae81ff">1</span>	        <span style="color:#75715e">;file descriptor (stdout)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">4</span>	        <span style="color:#75715e">;system call number (sys_write)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>	        <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span>	
-   <span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">1</span>	        <span style="color:#75715e">;system call number (sys_exit)
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>	        <span style="color:#75715e">;call kernel
-</span><span style="color:#75715e"></span>
-<span style="color:#a6e22e">section</span>	<span style="color:#66d9ef">.data</span>
-<span style="color:#a6e22e">msg</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">The</span> <span style="color:#66d9ef">Sum</span> <span style="color:#66d9ef">is</span>:<span style="color:#960050;background-color:#1e0010">&#39;</span>,<span style="color:#ae81ff">0xa</span>	
-<span style="color:#66d9ef">len</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">msg</span>			
-<span style="color:#66d9ef">num1</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">12345</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-<span style="color:#a6e22e">num2</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">23456</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-<span style="color:#a6e22e">sum</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>     <span style="color:#960050;background-color:#1e0010">&#39;</span>
-</code></pre></div>
+   mov  al, [num1 + esi]
+   adc  al, [num2 + esi]
+   aaa
+   pushf
+   or   al, 30h
+   popf
+    
+   mov  [sum + esi], al
+   dec  esi
+   loop add_loop
+    
+   mov  edx,len         ;message length
+   mov  ecx,msg         ;message to write
+   mov  ebx,1           ;file descriptor (stdout)
+   mov  eax,4           ;system call number (sys_write)
+   int  0x80            ;call kernel
+    
+   mov  edx,5           ;message length
+   mov  ecx,sum         ;message to write
+   mov  ebx,1           ;file descriptor (stdout)
+   mov  eax,4           ;system call number (sys_write)
+   int  0x80            ;call kernel
+    
+   mov  eax,1           ;system call number (sys_exit)
+   int  0x80            ;call kernel
+
+section .data
+msg db 'The Sum is:',0xa    
+len equ $ - msg         
+num1 db '12345'
+num2 db '23456'
+sum db '     '
+</code></pre>
+
         </div>
         <div id="disqus_thread"></div>
 <script>
