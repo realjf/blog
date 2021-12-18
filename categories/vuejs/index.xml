@@ -1,24 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vuejs on Realjf&#39;s blog</title>
+    <title>vuejs on Realjf&#39;s blog</title>
     <link>https://realjf.io/categories/vuejs/</link>
-    <description>Recent content in Vuejs on Realjf&#39;s blog</description>
+    <description>Recent content in vuejs on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Jun 2021 23:50:36 +0800</lastBuildDate>
-    
-	<atom:link href="https://realjf.io/categories/vuejs/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 06 Jun 2021 23:50:36 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/vuejs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>golang和vue3全栈开发之三 clean架构 Full Stack  With Vue and Golang 3</title>
       <link>https://realjf.io/golang/full-stack-with-vue-and-golang-3/</link>
       <pubDate>Sun, 06 Jun 2021 23:50:36 +0800</pubDate>
       
       <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-3/</guid>
-      <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ ├── main.go │ └── model │ ├── errors.go │ ├── interfaces.go │ └── user.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore  clean architecture entity数据层的model 执行go get -u github.com/google/uuid， 创建account/model/user.go文件，其内容如下：
-package model import &amp;quot;github.com/google/uuid&amp;quot; type User struct { UID uuid.UUID `db:&amp;quot;uid&amp;quot; json:&amp;quot;uid&amp;quot;` Email string `db:&amp;quot;email&amp;quot; json:&amp;quot;email&amp;quot;` Password string `db:&amp;quot;password&amp;quot; json:&amp;quot;-&amp;quot;` Name string `db:&amp;quot;name&amp;quot; json:&amp;quot;name&amp;quot;` ImageURL string `db:&amp;quot;image_url&amp;quot; json:&amp;quot;imageUrl&amp;quot;` Website string `db:&amp;quot;website&amp;quot; json:&amp;quot;website&amp;quot;` }  创建account/model/interfaces.</description>
+      <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ ├── main.go │ └── model │ ├── errors.go │ ├── interfaces.go │ └── user.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore clean architecture entity数据层的model 执行go get -u github.com/google/uuid， 创建account/model/user.go文件，其内容如下：
+package model import &amp;#34;github.com/google/uuid&amp;#34; type User struct { UID uuid.UUID `db:&amp;#34;uid&amp;#34; json:&amp;#34;uid&amp;#34;` Email string `db:&amp;#34;email&amp;#34; json:&amp;#34;email&amp;#34;` Password string `db:&amp;#34;password&amp;#34; json:&amp;#34;-&amp;#34;` Name string `db:&amp;#34;name&amp;#34; json:&amp;#34;name&amp;#34;` ImageURL string `db:&amp;#34;image_url&amp;#34; json:&amp;#34;imageUrl&amp;#34;` Website string `db:&amp;#34;website&amp;#34; json:&amp;#34;website&amp;#34;` } 创建account/model/interfaces.</description>
     </item>
     
     <item>
@@ -27,8 +23,8 @@ package model import &amp;quot;github.com/google/uuid&amp;quot; type User struct
       <pubDate>Sun, 06 Jun 2021 23:21:02 +0800</pubDate>
       
       <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-2/</guid>
-      <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ └── main.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore  创建路由处理程序 创建account/handler/handler.go文件，其内容如下：
-package handler import ( &amp;quot;net/http&amp;quot; &amp;quot;os&amp;quot; &amp;quot;github.com/gin-gonic/gin&amp;quot; ) type Handler struct{} type Config struct { R *gin.Engine } func NewHandler(c *Config) { h := &amp;amp;Handler{} g := c.R.Group(os.Getenv(&amp;quot;ACCOUNT_API_URL&amp;quot;)) g.GET(&amp;quot;/me&amp;quot;, h.Me) g.POST(&amp;quot;/signup&amp;quot;, h.Signup) g.POST(&amp;quot;/signin&amp;quot;, h.Signin) g.POST(&amp;quot;/signout&amp;quot;, h.</description>
+      <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ └── main.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore 创建路由处理程序 创建account/handler/handler.go文件，其内容如下：
+package handler import ( &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#34;github.com/gin-gonic/gin&amp;#34; ) type Handler struct{} type Config struct { R *gin.Engine } func NewHandler(c *Config) { h := &amp;amp;Handler{} g := c.R.Group(os.Getenv(&amp;#34;ACCOUNT_API_URL&amp;#34;)) g.GET(&amp;#34;/me&amp;#34;, h.Me) g.POST(&amp;#34;/signup&amp;#34;, h.Signup) g.POST(&amp;#34;/signin&amp;#34;, h.Signin) g.POST(&amp;#34;/signout&amp;#34;, h.Signout) g.POST(&amp;#34;/tokens&amp;#34;, h.</description>
     </item>
     
     <item>
@@ -37,10 +33,10 @@ package handler import ( &amp;quot;net/http&amp;quot; &amp;quot;os&amp;quot; &am
       <pubDate>Sun, 06 Jun 2021 23:04:00 +0800</pubDate>
       
       <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-1/</guid>
-      <description>准备  ubuntu 20.04 go v1.16 docker and docker-compose  项目目录 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ └── main.go ├── docker-compose.yml └── echo.code-workspace  echo.code-workspace内容 cat echo.code-workspace { &amp;quot;folders&amp;quot;: [ { &amp;quot;path&amp;quot;: &amp;quot;account&amp;quot; }, { &amp;quot;path&amp;quot;: &amp;quot;.&amp;quot; } ] }  运行
-# 打开编辑项目 code echo.code-workspace  初始化项目 在项目account目录下运行
-go mod init github.com/realjf/echo  执行go get -u github.com/gin-gonic/gin， 然后创建account/main.go文件，其内容如下：
-package main import ( &amp;quot;context&amp;quot; &amp;quot;log&amp;quot; &amp;quot;net/http&amp;quot; &amp;quot;os&amp;quot; &amp;quot;os/signal&amp;quot; &amp;quot;syscall&amp;quot; &amp;quot;time&amp;quot; &amp;quot;github.</description>
+      <description>准备  ubuntu 20.04 go v1.16 docker and docker-compose  项目目录 .├── account│ ├── Dockerfile│ ├── go.mod│ ├── go.sum│ └── main.go├── docker-compose.yml└── echo.code-workspaceecho.code-workspace内容 cat echo.code-workspace { &amp;#34;folders&amp;#34;: [ { &amp;#34;path&amp;#34;: &amp;#34;account&amp;#34; }, { &amp;#34;path&amp;#34;: &amp;#34;.&amp;#34; } ] } 运行
+# 打开编辑项目 code echo.code-workspace 初始化项目 在项目account目录下运行
+go mod init github.com/realjf/echo 执行go get -u github.com/gin-gonic/gin， 然后创建account/main.go文件，其内容如下：
+package main import ( &amp;#34;context&amp;#34; &amp;#34;log&amp;#34; &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#34;os/signal&amp;#34; &amp;#34;syscall&amp;#34; &amp;#34;time&amp;#34; &amp;#34;github.</description>
     </item>
     
     <item>
@@ -53,13 +49,13 @@ package main import ( &amp;quot;context&amp;quot; &amp;quot;log&amp;quot; &amp;q
  为一个项目添加组件 使用props特性 使用自定义事件特性 使用slots（插槽）特性  理解组件作为构建块 组件是Vue.js应用的构建块，并且在一个应用中允许使用多个组件作为更小的功能单元，这些单元更易于编写、维护和重用整个应用程序
 使用组件构建应用程序时，其效果是父子关系，其中组件（父组件）将其模板的一部分委托给另一个组件（子组件）。 最好的办法要了解这是如何工作的，需要创建一个示例来演示这种关系。组件是通常在src/components文件夹中扩展名为.vue的文件中定义， 并添加了一个叫Child.vue的文件在那个文件夹里
 理解子组件命名和元素 我使用import语句中的名称来设置子组件，这导致了这个问题外观笨拙的自定义HTML元素
-&amp;lt;ChildComponent&amp;gt;&amp;lt;/ChildComponent&amp;gt;  这是一种有用的方法，可以证明父组件命名其子组件，但是Vue.js有一个更复杂的名称处理方法，这可以让其html更优雅。 当它查找要使用的子组件，第一命名的特点是Vue.js会自动格式化定义的html，
-&amp;lt;child-component&amp;gt;&amp;lt;/child-component&amp;gt; ... import ChildComponent from &amp;quot;./components/Child&amp;quot;; components: { ChildComponent } ...  全局注册组件 在main.js中添加
-import ChildComponent from &amp;quot;./components/Child&amp;quot;; Vue.component(&amp;quot;child-component&amp;quot;, ChildComponent);  在子组件中使用组件特性 子组件也支持template元素，script元素，以及style元素。
+&amp;lt;ChildComponent&amp;gt;&amp;lt;/ChildComponent&amp;gt; 这是一种有用的方法，可以证明父组件命名其子组件，但是Vue.js有一个更复杂的名称处理方法，这可以让其html更优雅。 当它查找要使用的子组件，第一命名的特点是Vue.js会自动格式化定义的html，
+&amp;lt;child-component&amp;gt;&amp;lt;/child-component&amp;gt; ... import ChildComponent from &amp;#34;./components/Child&amp;#34;; components: { ChildComponent } ... 全局注册组件 在main.js中添加
+import ChildComponent from &amp;#34;./components/Child&amp;#34;; Vue.component(&amp;#34;child-component&amp;#34;, ChildComponent); 在子组件中使用组件特性 子组件也支持template元素，script元素，以及style元素。
 理解组件隔离 组件之间是相互隔离的，这意味着您不必担心选择唯一的组件属性和方法名称，或绑定到由其他组件拥有的值。
-理解css的作用域 &amp;lt;style scoped&amp;gt; &amp;lt;/style&amp;gt;  该scoped属性告诉Vue.js，样式应该纸杯应用在当前组件的template元素里的元素，而非其他组件里的元素。
+理解css的作用域 &amp;lt;style scoped&amp;gt; &amp;lt;/style&amp;gt; 该scoped属性告诉Vue.js，样式应该纸杯应用在当前组件的template元素里的元素，而非其他组件里的元素。
 使用组件props 保持组件隔离是一个很好的默认策略，因为它可以避免意外的交互。如果组件之间没有隔离，更改一个消息属性将影响所有部件。 另一方面，在大多数应用程序中，组件必须协同工作才能交付面向用户的特性，这意味着要突破分离组件的障碍。 对于组件协作来说有一个特点是，prop允许父级为子级提供数据值
-&amp;lt;script&amp;gt; export default { props: [&amp;quot;labelText&amp;quot;], data: function() { return { message: &amp;quot;this is a child component&amp;quot; } } } &amp;lt;/script&amp;gt;  Props是使用分配给组件脚本中的Props属性的字符串数组定义的元素。在本例中，prop名称为labelText。一旦定义了prop， 就可以在组件中其他地方使用它，如在文本内插绑定。如果需要修改从父组件接收的值，则必须使用data或computed初始化从prop上获得的值</description>
+&amp;lt;script&amp;gt; export default { props: [&amp;#34;labelText&amp;#34;], data: function() { return { message: &amp;#34;this is a child component&amp;#34; } } } &amp;lt;/script&amp;gt; Props是使用分配给组件脚本中的Props属性的字符串数组定义的元素。在本例中，prop名称为labelText。一旦定义了prop， 就可以在组件中其他地方使用它，如在文本内插绑定。如果需要修改从父组件接收的值，则必须使用data或computed初始化从prop上获得的值</description>
     </item>
     
     <item>
@@ -70,14 +66,14 @@ import ChildComponent from &amp;quot;./components/Child&amp;quot;; Vue.component
       <guid>https://realjf.io/vuejs/working-with-form-elements/</guid>
       <description>本节将学习：
  使用v-model指令 使用number修饰符 使用lazy修饰符 使用trim修饰符 使用v-model指令绑定数组 使用v-model指令自定义数值 使用v-model指令验证收集的表单数据  创建双向模型绑定  到目前为止，我所创建的所有数据绑定是单向的，其意味着数据流从组件的script元素到template元素都能对用户展示。 当表单元素是应用程序唯一改变源时双向数据绑定能正常工作。当用户有其他方法进行更改（如重置）时，它们的效果会降低， 其v-on指令调用reset方法，该方法将dataValue设置为false。这个文本插值绑定正确地反映了新值，但是输入元素没有意识到这个变化变得不同步  添加一个双向绑定 表单元素需要数据流的双向的，数据必须在用户操纵元素时，从表单流向数据模型。 如当输入一个域值或勾选复选框时。当数据模型被其他有意义的修改时，数据也必须从反向流动。以确保始终向用户提供一致的数据。
-&amp;lt;input class=&amp;quot;form-check-input&amp;quot; type=&amp;quot;checkbox&amp;quot; v-on:change=&amp;quot;handleChange&amp;quot; v-bind:checked=&amp;quot;dataValue&amp;quot; /&amp;gt;  使用v-bind指令设置元素的checked属性值，确保点击按钮能影响到checkbox
+&amp;lt;input class=&amp;#34;form-check-input&amp;#34; type=&amp;#34;checkbox&amp;#34; v-on:change=&amp;#34;handleChange&amp;#34; v-bind:checked=&amp;#34;dataValue&amp;#34; /&amp;gt; 使用v-bind指令设置元素的checked属性值，确保点击按钮能影响到checkbox
 现在有双向绑定在dataValue属性和checkbox间形成
 添加另外一个input元素 表单元素的HTML和DOM规范不一致，并且在方式上存在差异必须在用于创建的v-on和v-bind指令中反映不同的元素类型双向数据绑定
-&amp;lt;div class=&amp;quot;bg-primary m-2 p-2&amp;quot;&amp;gt; &amp;lt;input type=&amp;quot;text&amp;quot; class=&amp;quot;form-control&amp;quot; v-on:input=&amp;quot;handleChange&amp;quot; v-bind:value=&amp;quot;otherValue&amp;quot;/&amp;gt; &amp;lt;/div&amp;gt;  这个例子显示了为不同类型元素创建双向绑定的要求不同。当处理checkbox时，我们必须监听change事件，并绑定到checked属性， 但是对于text input元素，我们监听的是input时间，并绑定value属性。
+&amp;lt;div class=&amp;#34;bg-primary m-2 p-2&amp;#34;&amp;gt; &amp;lt;input type=&amp;#34;text&amp;#34; class=&amp;#34;form-control&amp;#34; v-on:input=&amp;#34;handleChange&amp;#34; v-bind:value=&amp;#34;otherValue&amp;#34;/&amp;gt; &amp;lt;/div&amp;gt; 这个例子显示了为不同类型元素创建双向绑定的要求不同。当处理checkbox时，我们必须监听change事件，并绑定到checked属性， 但是对于text input元素，我们监听的是input时间，并绑定value属性。
 简化双向绑定 创建绑定所需的差异使设置绑定的过程复杂化，并且很容易混淆不同元素类型的需求，最终使用错误的事件、属性或自有属性
 Vue.js提供了v-model指令，它简化了双向绑定，自动处理不同元素的不同要求，其能处理如：input,select,textarea等元素
-&amp;lt;input class=&amp;quot;form-check-input&amp;quot; type=&amp;quot;checkbox&amp;quot; v-model=&amp;quot;dataValue&amp;quot; /&amp;gt;  绑定表单元素 绑定text域 最简单的绑定是为配置为允许用户输入文本的输入元素创建的。我使用了为纯文本和密码设置的输入元素，以及使用v-model的双向绑定 指令
-&amp;lt;div&amp;gt;Name: {{ name }}&amp;lt;/div&amp;gt; &amp;lt;div&amp;gt;Password: {{ password }}&amp;lt;/div&amp;gt; &amp;lt;input type=&amp;quot;text&amp;quot; v-model=&amp;quot;name&amp;quot;&amp;gt; &amp;lt;input type=&amp;quot;password&amp;quot; v-model=&amp;quot;password&amp;quot;&amp;gt;  绑定单选按钮和复选框 &amp;lt;div&amp;gt;Name: {{ name }}&amp;lt;/div&amp;gt; &amp;lt;div&amp;gt;Password: {{ password }}&amp;lt;/div&amp;gt; &amp;lt;input type=&amp;quot;radio&amp;quot; v-model=&amp;quot;name&amp;quot; value=&amp;quot;Bob&amp;quot;&amp;gt; &amp;lt;input type=&amp;quot;radio&amp;quot; v-model=&amp;quot;name&amp;quot; value=&amp;quot;Alice&amp;quot;&amp;gt; &amp;lt;input type=&amp;quot;checkbox&amp;quot; v-model=&amp;quot;hasAdminAccess&amp;quot;&amp;gt;  绑定select元素 &amp;lt;select v-model=&amp;quot;name&amp;quot;&amp;gt; &amp;lt;/select&amp;gt;  使用v-model修饰符 v-model指令提供了3种绑定，这些修饰符如下：</description>
+&amp;lt;input class=&amp;#34;form-check-input&amp;#34; type=&amp;#34;checkbox&amp;#34; v-model=&amp;#34;dataValue&amp;#34; /&amp;gt; 绑定表单元素 绑定text域 最简单的绑定是为配置为允许用户输入文本的输入元素创建的。我使用了为纯文本和密码设置的输入元素，以及使用v-model的双向绑定 指令
+&amp;lt;div&amp;gt;Name: {{ name }}&amp;lt;/div&amp;gt; &amp;lt;div&amp;gt;Password: {{ password }}&amp;lt;/div&amp;gt; &amp;lt;input type=&amp;#34;text&amp;#34; v-model=&amp;#34;name&amp;#34;&amp;gt; &amp;lt;input type=&amp;#34;password&amp;#34; v-model=&amp;#34;password&amp;#34;&amp;gt; 绑定单选按钮和复选框 &amp;lt;div&amp;gt;Name: {{ name }}&amp;lt;/div&amp;gt; &amp;lt;div&amp;gt;Password: {{ password }}&amp;lt;/div&amp;gt; &amp;lt;input type=&amp;#34;radio&amp;#34; v-model=&amp;#34;name&amp;#34; value=&amp;#34;Bob&amp;#34;&amp;gt; &amp;lt;input type=&amp;#34;radio&amp;#34; v-model=&amp;#34;name&amp;#34; value=&amp;#34;Alice&amp;#34;&amp;gt; &amp;lt;input type=&amp;#34;checkbox&amp;#34; v-model=&amp;#34;hasAdminAccess&amp;#34;&amp;gt; 绑定select元素 &amp;lt;select v-model=&amp;#34;name&amp;#34;&amp;gt; &amp;lt;/select&amp;gt; 使用v-model修饰符 v-model指令提供了3种绑定，这些修饰符如下：</description>
     </item>
     
     <item>
@@ -88,9 +84,10 @@ Vue.js提供了v-model指令，它简化了双向绑定，自动处理不同元�
       <guid>https://realjf.io/vuejs/handling-events/</guid>
       <description>本节将学习:
  使用v-on指令 使用事件对象 用一个方法处理事件以及接收事件对象作为参数值 对您想要的每个事件应用v-on指令，使用事件对象接收或检测事件类型 使用事件传播修饰符 使用鼠标和键盘修饰符  处理事件 v-on指令被用于处理事件,其格式如下：
-&amp;lt;h3 v-on:click=&amp;quot;name=&#39;Clicked!&#39;&amp;quot;&amp;gt;&amp;lt;/h3&amp;gt;  其中：
+&amp;lt;h3 v-on:click=&amp;#34;name=&amp;#39;Clicked!&amp;#39;&amp;#34;&amp;gt;&amp;lt;/h3&amp;gt; 其中：
  v-on是指令 click是事件参数 name=&amp;lsquo;Clicked!&amp;rsquo; 是表达式  理解事件和事件对象 有许多可用的事件类型，如下：
-   事件类型 描述     click 当鼠标在一个元素边界内部被按下并释放时触发   mousedown 鼠标按钮在元素边界内被按下时触发   mousemove 鼠标在元素边界内移动时触发   mouseleave 鼠标离开元素边界时触发   keydown 一个按键按下时触发    有用的事件对象自有属性 | 自有属性| 描述| |:&amp;mdash;:|:&amp;mdash;:| | target | 该属性返回当前事件触发的html元素的DOM对象 | | currentTarget | 该属性返回当前正在被处理事件的HTML元素的DOM对象，不同于target | | type | 该属性返回事件类型 | | key | 对于键盘事件，该属性返回事件关联的key |</description>
+   事件类型 描述     click 当鼠标在一个元素边界内部被按下并释放时触发   mousedown 鼠标按钮在元素边界内被按下时触发   mousemove 鼠标在元素边界内移动时触发   mouseleave 鼠标离开元素边界时触发   keydown 一个按键按下时触发    有用的事件对象自有属性
+   自有属性 描述     target 该属性返回当前事件触发的html元素的DOM对象   currentTarget 该属性返回当前正在被处理事件的HTML元素的DOM对象，不同于target   type 该属性返回事件类型   key 对于键盘事件，该属性返回事件关联的key    v-on指令可以通过$event变量访问事件对象。</description>
     </item>
     
     <item>
@@ -100,7 +97,7 @@ Vue.js提供了v-model指令，它简化了双向绑定，自动处理不同元�
       
       <guid>https://realjf.io/vuejs/using-the-repeater-directive/</guid>
       <description>本节将介绍
- v-for指令 v-for指令的alias特性 用v-bind指令定义一个key属性 使用v-for指令的index特性 使用Vue.set方法 在v-for指令的表达式中使用data中预置的一个数值  v-for指令，枚举一个数组 ... &amp;lt;h2 class=&amp;quot;bg-primary text-white text-center p-3&amp;quot;&amp;gt;Products&amp;lt;/h2&amp;gt; &amp;lt;table class=&amp;quot;table table-sm table-bordered table-striped text-left&amp;quot;&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;th&amp;gt;Name&amp;lt;/th&amp;gt; &amp;lt;th&amp;gt;Price&amp;lt;/th&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;tbody&amp;gt; &amp;lt;tr v-for=&amp;quot;p in products&amp;quot;&amp;gt; &amp;lt;td&amp;gt;Name&amp;lt;/td&amp;gt; &amp;lt;td&amp;gt;Category&amp;lt;/td&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;/tbody&amp;gt; &amp;lt;/table&amp;gt; ... ... data: function() { return { products: [ {name: &amp;quot;Kayak&amp;quot;, price: 275} ] } } ...  v-for指令的alias &amp;lt;h2 class=&amp;quot;bg-primary text-white text-center p-3&amp;quot;&amp;gt;Products&amp;lt;/h2&amp;gt; &amp;lt;table class=&amp;quot;table table-sm table-bordered table-striped text-left&amp;quot;&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;th&amp;gt;Name&amp;lt;/th&amp;gt; &amp;lt;th&amp;gt;Price&amp;lt;/th&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;tbody&amp;gt; &amp;lt;tr v-for=&amp;quot;p in products&amp;quot; v-bind:key=&amp;quot;p.</description>
+ v-for指令 v-for指令的alias特性 用v-bind指令定义一个key属性 使用v-for指令的index特性 使用Vue.set方法 在v-for指令的表达式中使用data中预置的一个数值  v-for指令，枚举一个数组 ... &amp;lt;h2 class=&amp;#34;bg-primary text-white text-center p-3&amp;#34;&amp;gt;Products&amp;lt;/h2&amp;gt; &amp;lt;table class=&amp;#34;table table-sm table-bordered table-striped text-left&amp;#34;&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;th&amp;gt;Name&amp;lt;/th&amp;gt; &amp;lt;th&amp;gt;Price&amp;lt;/th&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;tbody&amp;gt; &amp;lt;tr v-for=&amp;#34;p in products&amp;#34;&amp;gt; &amp;lt;td&amp;gt;Name&amp;lt;/td&amp;gt; &amp;lt;td&amp;gt;Category&amp;lt;/td&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;/tbody&amp;gt; &amp;lt;/table&amp;gt; ... ... data: function() { return { products: [ {name: &amp;#34;Kayak&amp;#34;, price: 275} ] } } ... v-for指令的alias &amp;lt;h2 class=&amp;#34;bg-primary text-white text-center p-3&amp;#34;&amp;gt;Products&amp;lt;/h2&amp;gt; &amp;lt;table class=&amp;#34;table table-sm table-bordered table-striped text-left&amp;#34;&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;th&amp;gt;Name&amp;lt;/th&amp;gt; &amp;lt;th&amp;gt;Price&amp;lt;/th&amp;gt; &amp;lt;/tr&amp;gt; &amp;lt;tbody&amp;gt; &amp;lt;tr v-for=&amp;#34;p in products&amp;#34; v-bind:key=&amp;#34;p.</description>
     </item>
     
     <item>
@@ -109,11 +106,11 @@ Vue.js提供了v-model指令，它简化了双向绑定，自动处理不同元�
       <pubDate>Sun, 29 Nov 2020 12:38:13 +0800</pubDate>
       
       <guid>https://realjf.io/vuejs/using-the-basic-directives/</guid>
-      <description>v-on指令，处理事件 &amp;lt;a v-on:click=&amp;quot;handleClick&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;  v-on指令用于处理事件。此指令已配置通过click点击事件调用方法称为handleClick。在组件脚本的methods部分定义了这个方法元素。
-v-text指令，设置元素的文本内容 &amp;lt;span v-text=&amp;quot;name&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;  这是v-text指令，用于设置元素的文本内容，该指令将完整的替换元素的内容。 如上，span元素的内容将是name变量的内容。
-v-html指令，以html方式解析显示内容 &amp;lt;span v-html=&amp;quot;fragment&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;  该指令将fragment变量的内容作为html数据显示。
-v-if指令，可选的显示元素 &amp;lt;h4 v-if=&amp;quot;showElements&amp;quot;&amp;gt;{{ price }}&amp;lt;/h4&amp;gt;  该指令判断showElements变量是否为真，如果为真，则h4标签可见，如果为假，则不可见。 这里的不可见表示不是隐藏，而是不生成标签，也不占空间。
-v-else,v-else-if指令，与v-if指令联合使用，功能相似 &amp;lt;h3 v-if=&amp;quot;counter % 3 == 0&amp;quot;&amp;gt;1&amp;lt;/h3&amp;gt; &amp;lt;h3 v-else-if=&amp;quot;counter % 3 == 1&amp;quot;&amp;gt;2&amp;lt;/h3&amp;gt; &amp;lt;h3 v-else=&amp;quot;counter % 3 == 2&amp;quot;&amp;gt;3&amp;lt;/h3&amp;gt;  v-bind指令，设置一个元素的属性和自带属性值 &amp;lt;h3 v-bind:class=&amp;quot;class1&amp;quot; class=&amp;quot;display-5&amp;quot;&amp;gt;&amp;lt;/h3&amp;gt; ... computed: { class1(){ return this.highlight ? [&amp;quot;bg-light&amp;quot;, &amp;quot;text-dark&amp;quot;,&amp;quot;display-4&amp;quot;] : [&amp;quot;bg-dark&amp;quot;, &amp;quot;text-light&amp;quot;, &amp;quot;p-2&amp;quot;]; } } ...   该指令可以配置为一个变量或表达式。 当然也可以用对象或者数组配置class属性。 同时，其还会合并直接在元素上设置的class属性  &amp;lt;h3 v-bind:style=&amp;quot;elemStyles&amp;quot;&amp;gt;&amp;lt;/h3&amp;gt; .</description>
+      <description>v-on指令，处理事件 &amp;lt;a v-on:click=&amp;#34;handleClick&amp;#34;&amp;gt;&amp;lt;/a&amp;gt; v-on指令用于处理事件。此指令已配置通过click点击事件调用方法称为handleClick。在组件脚本的methods部分定义了这个方法元素。
+v-text指令，设置元素的文本内容 &amp;lt;span v-text=&amp;#34;name&amp;#34;&amp;gt;&amp;lt;/span&amp;gt; 这是v-text指令，用于设置元素的文本内容，该指令将完整的替换元素的内容。 如上，span元素的内容将是name变量的内容。
+v-html指令，以html方式解析显示内容 &amp;lt;span v-html=&amp;#34;fragment&amp;#34;&amp;gt;&amp;lt;/span&amp;gt; 该指令将fragment变量的内容作为html数据显示。
+v-if指令，可选的显示元素 &amp;lt;h4 v-if=&amp;#34;showElements&amp;#34;&amp;gt;{{ price }}&amp;lt;/h4&amp;gt; 该指令判断showElements变量是否为真，如果为真，则h4标签可见，如果为假，则不可见。 这里的不可见表示不是隐藏，而是不生成标签，也不占空间。
+v-else,v-else-if指令，与v-if指令联合使用，功能相似 &amp;lt;h3 v-if=&amp;#34;counter % 3 == 0&amp;#34;&amp;gt;1&amp;lt;/h3&amp;gt; &amp;lt;h3 v-else-if=&amp;#34;counter % 3 == 1&amp;#34;&amp;gt;2&amp;lt;/h3&amp;gt; &amp;lt;h3 v-else=&amp;#34;counter % 3 == 2&amp;#34;&amp;gt;3&amp;lt;/h3&amp;gt; v-bind指令，设置一个元素的属性和自带属性值 &amp;lt;h3 v-bind:class=&amp;#34;class1&amp;#34; class=&amp;#34;display-5&amp;#34;&amp;gt;&amp;lt;/h3&amp;gt; ... computed: { class1(){ return this.highlight ? [&amp;#34;bg-light&amp;#34;, &amp;#34;text-dark&amp;#34;,&amp;#34;display-4&amp;#34;] : [&amp;#34;bg-dark&amp;#34;, &amp;#34;text-light&amp;#34;, &amp;#34;p-2&amp;#34;]; } } ...  该指令可以配置为一个变量或表达式。 当然也可以用对象或者数组配置class属性。 同时，其还会合并直接在元素上设置的class属性  &amp;lt;h3 v-bind:style=&amp;#34;elemStyles&amp;#34;&amp;gt;&amp;lt;/h3&amp;gt; ... computed: { elemStyles(){ return { &amp;#34;border&amp;#34;: &amp;#34;5px solid red&amp;#34;, &amp;#34;background-color&amp;#34;: this.</description>
     </item>
     
     <item>
@@ -123,12 +120,12 @@ v-else,v-else-if指令，与v-if指令联合使用，功能相似 &amp;lt;h3 v-i
       
       <guid>https://realjf.io/vuejs/understanding-vuejs-2/</guid>
       <description>准备 创建项目
-vue create nomagic  在项目根目录下添加新文件vue.config.js
-module.exports = { runtimeCompiler: true }  在项目根目录下运行
-npm install bootstrap@4.0.0  在main.js里添加bootstrap.min.css如下内容
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot;; Vue.config.productionTip = false new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  运行例子
-npm run serve  使用DOM API创建应用 在main.js中添加如下内容：
-require(&#39;../node_modules/bootstrap/dist/css/bootstrap.min.css&#39;) let counter = 1; let container = document.createElement(&amp;quot;div&amp;quot;); container.classList.add(&amp;quot;text-center&amp;quot;, &amp;quot;p-3&amp;quot;); let msg = document.createElement(&amp;quot;h1&amp;quot;); msg.classList.add(&amp;quot;bg-primary&amp;quot;, &amp;quot;text-white&amp;quot;, &amp;quot;p-3&amp;quot;); msg.textContent = &amp;quot;Button Not Pressed&amp;quot;; let button = document.</description>
+vue create nomagic 在项目根目录下添加新文件vue.config.js
+module.exports = { runtimeCompiler: true } 在项目根目录下运行
+npm install bootstrap@4.0.0 在main.js里添加bootstrap.min.css如下内容
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34;; Vue.config.productionTip = false new Vue({ render: h =&amp;gt; h(App), }).$mount(&amp;#39;#app&amp;#39;) 运行例子
+npm run serve 使用DOM API创建应用 在main.js中添加如下内容：
+require(&amp;#39;../node_modules/bootstrap/dist/css/bootstrap.min.css&amp;#39;) let counter = 1; let container = document.createElement(&amp;#34;div&amp;#34;); container.classList.add(&amp;#34;text-center&amp;#34;, &amp;#34;p-3&amp;#34;); let msg = document.createElement(&amp;#34;h1&amp;#34;); msg.classList.add(&amp;#34;bg-primary&amp;#34;, &amp;#34;text-white&amp;#34;, &amp;#34;p-3&amp;#34;); msg.textContent = &amp;#34;Button Not Pressed&amp;#34;; let button = document.</description>
     </item>
     
     <item>
@@ -139,9 +136,9 @@ require(&#39;../node_modules/bootstrap/dist/css/bootstrap.min.css&#39;) let coun
       <guid>https://realjf.io/vuejs/a-real-app-4/</guid>
       <description>基于之前一篇基础之上进行构建 /vuejs/a-real-app-3/
 首先，运行json web服务
-npm run json  然后运行运动商店http服务器
-npm run serve  添加商品管理功能 在src/store文件夹中的index.js文件中添加如下内容
-import Vue from &amp;quot;vue&amp;quot;; import Vuex from &amp;quot;vuex&amp;quot;; import Axios from &amp;quot;axios&amp;quot;; import CartModule from &amp;quot;./cart&amp;quot;; import OrdersModule from &amp;quot;./orders&amp;quot;; import AuthModule from &amp;quot;./auth&amp;quot;; Vue.use(Vuex); const baseUrl = &amp;quot;http://localhost:3500&amp;quot;; const productsUrl = `${baseUrl}/products`; const categoriesUrl = `${baseUrl}/categories`; const testData = []; for(let i = 1; i &amp;lt;= 10; i++){ testData.push({ id: i, name: `Product #${i}`, category: `Category ${i % 3}`, description: `This is Product #${i}`, price: i * 50 }) } export default new Vuex.</description>
+npm run json 然后运行运动商店http服务器
+npm run serve 添加商品管理功能 在src/store文件夹中的index.js文件中添加如下内容
+import Vue from &amp;#34;vue&amp;#34;; import Vuex from &amp;#34;vuex&amp;#34;; import Axios from &amp;#34;axios&amp;#34;; import CartModule from &amp;#34;./cart&amp;#34;; import OrdersModule from &amp;#34;./orders&amp;#34;; import AuthModule from &amp;#34;./auth&amp;#34;; Vue.use(Vuex); const baseUrl = &amp;#34;http://localhost:3500&amp;#34;; const productsUrl = `${baseUrl}/products`; const categoriesUrl = `${baseUrl}/categories`; const testData = []; for(let i = 1; i &amp;lt;= 10; i++){ testData.push({ id: i, name: `Product #${i}`, category: `Category ${i % 3}`, description: `This is Product #${i}`, price: i * 50 }) } export default new Vuex.</description>
     </item>
     
     <item>
@@ -152,9 +149,10 @@ import Vue from &amp;quot;vue&amp;quot;; import Vuex from &amp;quot;vuex&amp;quo
       <guid>https://realjf.io/vuejs/a-real-app-3/</guid>
       <description>基于之前一篇基础之上进行构建 /vuejs/a-real-app-2/
 准备 在data.js文件中添加如下内容：
-var faker = require(&amp;quot;faker&amp;quot;); var data = []; var categories = [&amp;quot;Watersports&amp;quot;, &amp;quot;Soccer&amp;quot;,&amp;quot;Chess&amp;quot;, &amp;quot;Running&amp;quot;]; faker.seed(100); for(let i=1; i&amp;lt;=500; i++){ var category = faker.helpers.randomize(categories); data.push({ id: i, name: faker.commerce.productName(), category: category, description: `${category}: ${faker.lorem.sentence(3)}`, price: faker.commerce.price() }) } module.exports = function() { return { products: data, categories: categories, orders: [], }; };  然后执行如下命令：
-npm run json  在另外一个终端执行如下命令：
-npm run serve  处理大量数据 改进分页导航 在src/components文件夹的PageControls.vue文件中添加如下内容：</description>
+var faker = require(&amp;#34;faker&amp;#34;); var data = []; var categories = [&amp;#34;Watersports&amp;#34;, &amp;#34;Soccer&amp;#34;,&amp;#34;Chess&amp;#34;, &amp;#34;Running&amp;#34;]; faker.seed(100); for(let i=1; i&amp;lt;=500; i++){ var category = faker.helpers.randomize(categories); data.push({ id: i, name: faker.commerce.productName(), category: category, description: `${category}: ${faker.lorem.sentence(3)}`, price: faker.commerce.price() }) } module.exports = function() { return { products: data, categories: categories, orders: [], }; }; 然后执行如下命令：
+npm run json 在另外一个终端执行如下命令：
+npm run serve 处理大量数据 改进分页导航 在src/components文件夹的PageControls.vue文件中添加如下内容：
+&amp;lt;template&amp;gt; &amp;lt;div class=&amp;#34;row mt-2&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;col-3 form-group&amp;#34;&amp;gt; &amp;lt;select class=&amp;#34;form-control&amp;#34; v-on:change=&amp;#34;changePageSize&amp;#34;&amp;gt; &amp;lt;option value=&amp;#34;4&amp;#34;&amp;gt;4 per page&amp;lt;/option&amp;gt; &amp;lt;option value=&amp;#34;8&amp;#34;&amp;gt;8 per page&amp;lt;/option&amp;gt; &amp;lt;option value=&amp;#34;12&amp;#34;&amp;gt;12 per page&amp;lt;/option&amp;gt; &amp;lt;/select&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;text-right col&amp;#34;&amp;gt; &amp;lt;button v-bind:disabled=&amp;#34;currentPage==1&amp;#34; v-on:click=&amp;#34;setCurrentPage(currentPage-1)&amp;#34; class=&amp;#34;btn btn-secondary mx-1&amp;#34;&amp;gt; Previous &amp;lt;/button&amp;gt; &amp;lt;span v-if=&amp;#34;currentPage &amp;gt; 4&amp;#34;&amp;gt; &amp;lt;button v-on:click=&amp;#34;setCurrentPage(1)&amp;#34; class=&amp;#34;btn btn-secondary mx-1&amp;#34;&amp;gt;1&amp;lt;/button&amp;gt; &amp;lt;span class=&amp;#34;h4&amp;#34;&amp;gt;.</description>
     </item>
     
     <item>
@@ -165,9 +163,9 @@ npm run serve  处理大量数据 改进分页导航 在src/components文件夹�
       <guid>https://realjf.io/vuejs/a-real-app-2/</guid>
       <description>下单 基于之前一篇基础之上进行构建 /vuejs/a-real-app/
 创建购物车预置 在src/components文件夹下新建ShoppingCart.vue文件，其内容如下：
-&amp;lt;template&amp;gt; &amp;lt;h4 class=&amp;quot;bg-primary text-white text-center p-2&amp;quot;&amp;gt; placeholder for Cart &amp;lt;/h4&amp;gt; &amp;lt;/template&amp;gt;  配置url路由 在src/router文件夹中添加index.js文件中添加如下内容：
-import Vue from &amp;quot;vue&amp;quot;; import VueRouter from &amp;quot;vue-router&amp;quot;; import Store from &amp;quot;../components/Store&amp;quot;; import ShoppingCart from &amp;quot;../components/ShoppingCart&amp;quot;; Vue.use(VueRouter); export default new VueRouter({ mode: &amp;quot;history&amp;quot;, routes: [ {path:&amp;quot;/&amp;quot;, component: Store}, {path: &amp;quot;/cart&amp;quot;, component: ShoppingCart}, {path: &amp;quot;*&amp;quot;, redirect: &amp;quot;/&amp;quot;} ] })  将上面的路由文件添加到main.js中
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.</description>
+&amp;lt;template&amp;gt; &amp;lt;h4 class=&amp;#34;bg-primary text-white text-center p-2&amp;#34;&amp;gt; placeholder for Cart &amp;lt;/h4&amp;gt; &amp;lt;/template&amp;gt; 配置url路由 在src/router文件夹中添加index.js文件中添加如下内容：
+import Vue from &amp;#34;vue&amp;#34;; import VueRouter from &amp;#34;vue-router&amp;#34;; import Store from &amp;#34;../components/Store&amp;#34;; import ShoppingCart from &amp;#34;../components/ShoppingCart&amp;#34;; Vue.use(VueRouter); export default new VueRouter({ mode: &amp;#34;history&amp;#34;, routes: [ {path:&amp;#34;/&amp;#34;, component: Store}, {path: &amp;#34;/cart&amp;#34;, component: ShoppingCart}, {path: &amp;#34;*&amp;#34;, redirect: &amp;#34;/&amp;#34;} ] }) 将上面的路由文件添加到main.js中
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; // 引入jquery import $ from &amp;#39;jquery&amp;#39; Vue.</description>
     </item>
     
     <item>
@@ -177,11 +175,11 @@ import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquer
       
       <guid>https://realjf.io/vuejs/a-real-app/</guid>
       <description>准备 首先创建项目
-vue create sportsstore --default  安装jquery，bootstrap，popper.js
-cd sportsstore npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  配置package.json的eslintConfig里的rules
-&amp;quot;rules&amp;quot;: { &amp;quot;no-unused-vars&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-console&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-declare&amp;quot;: &amp;quot;off&amp;quot; },  运行项目
-npm run serve  添加附加包 cd sportsstore npm install axios@0.</description>
+vue create sportsstore --default 安装jquery，bootstrap，popper.js
+cd sportsstore npm install jquery npm install bootstrap@4.0.0 npm install popper 在 main.js文件中引入jquery和bootstrap
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; // 引入jquery import $ from &amp;#39;jquery&amp;#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34; new Vue({ render: h =&amp;gt; h(App), }).$mount(&amp;#39;#app&amp;#39;) 配置package.json的eslintConfig里的rules
+&amp;#34;rules&amp;#34;: { &amp;#34;no-unused-vars&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-console&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-declare&amp;#34;: &amp;#34;off&amp;#34; }, 运行项目
+npm run serve 添加附加包 cd sportsstore npm install axios@0.18.0 npm install vue-router@3.0.1 npm install vuex@3.</description>
     </item>
     
     <item>
@@ -191,12 +189,12 @@ npm run serve  添加附加包 cd sportsstore npm install axios@0.</description>
       
       <guid>https://realjf.io/vuejs/js-primer/</guid>
       <description>准备 首先创建项目
-vue create jsprimer --default  安装jquery，bootstrap，popper.js
-cd jsprimer npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  配置package.json的eslintConfig里的rules
-&amp;quot;rules&amp;quot;: { &amp;quot;no-unused-vars&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-console&amp;quot;:&amp;quot;off&amp;quot;, &amp;quot;no-declare&amp;quot;: &amp;quot;off&amp;quot; },  运行项目
-npm run serve  函数 定义函数，包括缺省值，函数返回值， 在main.js中添加如下代码
-func myFunc(name, age = 18) { return &amp;quot;Hello &amp;quot; + name + &amp;quot;, your age is &amp;quot; + age.</description>
+vue create jsprimer --default 安装jquery，bootstrap，popper.js
+cd jsprimer npm install jquery npm install bootstrap@4.0.0 npm install popper 在 main.js文件中引入jquery和bootstrap
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; // 引入jquery import $ from &amp;#39;jquery&amp;#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34; new Vue({ render: h =&amp;gt; h(App), }).$mount(&amp;#39;#app&amp;#39;) 配置package.json的eslintConfig里的rules
+&amp;#34;rules&amp;#34;: { &amp;#34;no-unused-vars&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-console&amp;#34;:&amp;#34;off&amp;#34;, &amp;#34;no-declare&amp;#34;: &amp;#34;off&amp;#34; }, 运行项目
+npm run serve 函数 定义函数，包括缺省值，函数返回值， 在main.js中添加如下代码
+func myFunc(name, age = 18) { return &amp;#34;Hello &amp;#34; + name + &amp;#34;, your age is &amp;#34; + age.</description>
     </item>
     
     <item>
@@ -206,10 +204,10 @@ func myFunc(name, age = 18) { return &amp;quot;Hello &amp;quot; + name + &amp;qu
       
       <guid>https://realjf.io/vuejs/html-css-primer/</guid>
       <description>准备 首先创建项目
-vue create htmlcss --default  安装jquery，bootstrap，popper.js
-cd htmlcss npm install jquery npm install bootstrap@4.0.0 npm install popper  在 main.js文件中引入jquery和bootstrap
-import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquery import $ from &#39;jquery&#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;quot;bootstrap/dist/css/bootstrap.min.css&amp;quot; new Vue({ render: h =&amp;gt; h(App), }).$mount(&#39;#app&#39;)  eslint配置
-# 进入node_modules目录的.bin目录下，初始化eslint cd node_modules/.bin/ eslint --init # 设置选项，除选择vue.js外，其他都选择默认选项 # 最后，将node_modules目录.bin目录下的.eslintrc.js文件拷贝到项目根目录下 # window下 copy .eslintrc.js ..\..\ # linux下 cp .</description>
+vue create htmlcss --default 安装jquery，bootstrap，popper.js
+cd htmlcss npm install jquery npm install bootstrap@4.0.0 npm install popper 在 main.js文件中引入jquery和bootstrap
+import Vue from &amp;#39;vue&amp;#39; import App from &amp;#39;./App.vue&amp;#39; // 引入jquery import $ from &amp;#39;jquery&amp;#39; Vue.config.productionTip = false // 添加bootstrap框架 import &amp;#34;bootstrap/dist/css/bootstrap.min.css&amp;#34; new Vue({ render: h =&amp;gt; h(App), }).$mount(&amp;#39;#app&amp;#39;) eslint配置
+# 进入node_modules目录的.bin目录下，初始化eslint cd node_modules/.bin/ eslint --init # 设置选项，除选择vue.js外，其他都选择默认选项 # 最后，将node_modules目录.bin目录下的.eslintrc.js文件拷贝到项目根目录下 # window下 copy .eslintrc.js ..\..\  # linux下 cp .eslintrc.js ../../ 配置.</description>
     </item>
     
     <item>
@@ -229,8 +227,8 @@ import Vue from &#39;vue&#39; import App from &#39;./App.vue&#39; // 引入jquer
       
       <guid>https://realjf.io/vuejs/first-vuejs-app/</guid>
       <description>准备开发环境  安装最新版node.js 使用npm安装@vue/cli命令行工具包 安装git 安装开发ide，如vscode，sublime text, atom,vim等 安装浏览器，chrome,firefox等   安装vue命令：npm install -g @vue/cli
- 创建工程项目 vue create todo --default  项目结构解析 执行tree -L 1后得到如下结构
-├── babel.config.js ├── node_modules ├── package.json ├── package-lock.json ├── public | ├── favicon.ico | └── index.html ├── README.md └── src ├── App.vue ├── assets │ └── logo.png ├── components │ └── HelloWorld.vue └── main.js   public/index.html 这是浏览器加载的第一个文件 src/main.js 这个vue.js应用的配置js文件 src/App.vue 这是vue.js组件，包含html文档结构和js代码以及css文档样式 src/assets/logo.png assets文件夹是存放静态资源文件  运行开发工具 cd todo npm run serve # 运行结果如下： App running at: - Local: http://localhost:8080/ - Network: http://192.</description>
+ 创建工程项目 vue create todo --default 项目结构解析 执行tree -L 1后得到如下结构
+├── babel.config.js ├── node_modules ├── package.json ├── package-lock.json ├── public | ├── favicon.ico | └── index.html ├── README.md └── src ├── App.vue ├── assets │ └── logo.png ├── components │ └── HelloWorld.vue └── main.js  public/index.html 这是浏览器加载的第一个文件 src/main.js 这个vue.js应用的配置js文件 src/App.vue 这是vue.js组件，包含html文档结构和js代码以及css文档样式 src/assets/logo.png assets文件夹是存放静态资源文件  运行开发工具 cd todo npm run serve # 运行结果如下： App running at: - Local: http://localhost:8080/ - Network: http://192.</description>
     </item>
     
   </channel>

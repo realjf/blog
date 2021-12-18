@@ -3,7 +3,7 @@
 <head>
     <title>opengl之七 坐标系统 Coordinate System // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -222,7 +222,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-                    May 10, 2021
+                    May 10, 2020
                 </div>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
@@ -233,17 +233,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/opengl/">Opengl</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/opengl/">opengl</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<p>OpenGL希望在每次顶点着色器运行后，所有顶点都为标准化设备坐标(Normalized Device Coordinate, NDC)。也就是说，每个顶点的x，y，z坐标都应该在-1.0到1.0之间，超出这个坐标范围的顶点都将不可见。通常会设定一个坐标的范围，之后再在顶点着色器中将这些坐标变换为标准化设备坐标。然后将这些标准化设备坐标传入光栅器(Rasterizer)，将它们变换为屏幕上的二维坐标或像素。</p>
-
+            <p>OpenGL希望在每次顶点着色器运行后，所有顶点都为标准化设备坐标(Normalized Device Coordinate, NDC)。也就是说，每个顶点的x，y，z坐标都应该在-1.0到1.0之间，超出这个坐标范围的顶点都将不可见。通常会设定一个坐标的范围，之后再在顶点着色器中将这些坐标变换为标准化设备坐标。然后将这些标准化设备坐标传入光栅器(Rasterizer)，将它们变换为屏幕上的二维坐标或像素。</p>
 <p>将坐标变换为标准化设备坐标，接着再转化为屏幕坐标的过程通常是分步进行的，</p>
-
 <p>总共有5个不同的坐标系统：</p>
-
 <ul>
 <li>局部空间(Local Space，或者称为物体空间(Object Space))</li>
 <li>世界空间(World Space)</li>
@@ -251,15 +246,10 @@
 <li>裁剪空间(Clip Space)</li>
 <li>屏幕空间(Screen Space)</li>
 </ul>
-
 <h3 id="概述">概述</h3>
-
 <p>为了将坐标从一个坐标系变换到另一个坐标系，需要用到几个变换矩阵，最重要的几个分别是模型(Model)、观察(View)、投影(Projection)三个矩阵。</p>
-
 <p>顶点坐标起始于局部空间(Local Space)，在这里它称为局部坐标(Local Coordinate)，它在之后会变为世界坐标(World Coordinate)，观察坐标(View Coordinate)，裁剪坐标(Clip Coordinate)，并最后以屏幕坐标(Screen Coordinate)的形式结束。下面的这张图展示了整个流程以及各个变换过程做了什么：</p>
-
-<p><img src="/image/coordinate_systems.png" alt="坐标系统流程图" /></p>
-
+<p><img src="/image/coordinate_systems.png" alt="坐标系统流程图"></p>
 <ul>
 <li>局部坐标是对象相对于局部原点的坐标，也是物体起始的坐标。</li>
 <li>下一步是将局部坐标变换为世界空间坐标，世界空间坐标是处于一个更大的空间范围的。这些坐标相对于世界的全局原点，它们会和其它物体一起相对于世界的原点进行摆放。</li>
@@ -267,181 +257,102 @@
 <li>坐标到达观察空间之后，需要将其投影到裁剪坐标。裁剪坐标会被处理至-1.0到1.0的范围内，并判断哪些顶点将会出现在屏幕上。</li>
 <li>最后，将裁剪坐标变换为屏幕坐标，将使用一个叫做视口变换(Viewport Transform)的过程。视口变换将位于-1.0到1.0范围的坐标变换到由glViewport函数所定义的坐标范围内。最后变换出来的坐标将会送到光栅器，将其转化为片段。</li>
 </ul>
-
 <h3 id="局部空间">局部空间</h3>
-
 <p>局部空间是指物体所在的坐标空间，即对象最开始所在的地方。想象你在一个建模软件（比如说Blender）中创建了一个立方体。你创建的立方体的原点有可能位于(0, 0, 0)，即便它有可能最后在程序中处于完全不同的位置。甚至有可能你创建的所有模型都以(0, 0, 0)为初始位置</p>
-
 <h3 id="世界空间">世界空间</h3>
-
 <p>世界空间中的坐标正如其名：是指顶点相对于（游戏）世界的坐标。如果你希望将物体分散在世界上摆放（特别是非常真实的那样），这就是你希望物体变换到的空间。物体的坐标将会从局部变换到世界空间；该变换是由模型矩阵(Model Matrix)实现的。</p>
-
 <p>模型矩阵是一种变换矩阵，它能通过对物体进行位移、缩放、旋转来将它置于它本应该在的位置或朝向。</p>
-
 <h3 id="观察空间">观察空间</h3>
-
 <p>观察空间经常被人们称之OpenGL的摄像机(Camera)（所以有时也称为摄像机空间(Camera Space)或视觉空间(Eye Space)）。观察空间是将世界空间坐标转化为用户视野前方的坐标而产生的结果。因此观察空间就是从摄像机的视角所观察到的空间。而这通常是由一系列的位移和旋转的组合来完成，平移/旋转场景从而使得特定的对象被变换到摄像机的前方。这些组合在一起的变换通常存储在一个观察矩阵(View Matrix)里，它被用来将世界坐标变换到观察空间。</p>
-
 <h3 id="裁剪空间">裁剪空间</h3>
-
 <p>OpenGL期望所有的坐标都能落在一个特定的范围内，且任何在这个范围之外的点都应该被裁剪掉(Clipped)。被裁剪掉的坐标就会被忽略，所以剩下的坐标就将变为屏幕上可见的片段。这也就是裁剪空间(Clip Space)名字的由来。</p>
-
 <p>为了将顶点坐标从观察变换到裁剪空间，需要定义一个投影矩阵(Projection Matrix)，它指定了一个范围的坐标，比如在每个维度上的-1000到1000。投影矩阵接着会将在这个指定的范围内的坐标变换为标准化设备坐标的范围(-1.0, 1.0)。所有在范围外的坐标不会被映射到在-1.0到1.0的范围之间，所以会被裁剪掉。</p>
-
 <p>由投影矩阵创建的观察箱(Viewing Box)被称为平截头体(Frustum)，每个出现在平截头体范围内的坐标都会最终出现在用户的屏幕上。将特定范围内的坐标转化到标准化设备坐标系的过程（而且它很容易被映射到2D观察空间坐标）被称之为投影(Projection)，因为使用投影矩阵能将3D坐标投影(Project)到很容易映射到2D的标准化设备坐标系中。</p>
-
 <p>一旦所有顶点被变换到裁剪空间，最终的操作——透视除法(Perspective Division)将会执行，在这个过程中将位置向量的x，y，z分量分别除以向量的齐次w分量；透视除法是将4D裁剪空间坐标变换为3D标准化设备坐标的过程。这一步会在每一个顶点着色器运行的最后被自动执行。</p>
-
 <p>在这一阶段之后，最终的坐标将会被映射到屏幕空间中（使用glViewport中的设定），并被变换成片段。</p>
-
 <h4 id="正射投影">正射投影</h4>
-
 <p>正射投影矩阵定义了一个类似立方体的平截头箱，它定义了一个裁剪空间，在这空间之外的顶点都会被裁剪掉。创建一个正射投影矩阵需要指定可见平截头体的宽、高和长度。在使用正射投影矩阵变换至裁剪空间之后处于这个平截头体内的所有坐标将不会被裁剪掉。它的平截头体看起来像一个容器：</p>
-
-<p><img src="/image/orthographic_frustum.png" alt="正射投影" /></p>
-
+<p><img src="/image/orthographic_frustum.png" alt="正射投影"></p>
 <p>上面的平截头体定义了可见的坐标，它由由宽、高、近(Near)平面和远(Far)平面所指定。任何出现在近平面之前或远平面之后的坐标都会被裁剪掉。正射平截头体直接将平截头体内部的所有坐标映射为标准化设备坐标，因为每个向量的w分量都没有进行改变；如果w分量等于1.0，透视除法则不会改变这个坐标。</p>
-
 <p>要创建一个正射投影矩阵，可以使用GLM的内置函数glm::ortho：</p>
-
-<pre><code class="language-cpp">glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
-</code></pre>
-
-<p>前两个参数指定了平截头体的左右坐标，第三和第四参数指定了平截头体的底部和顶部。通过这四个参数定义了近平面和远平面的大小，然后第五和第六个参数则定义了近平面和远平面的距离。这个投影矩阵会将处于这些x，y，z值范围内的坐标变换为标准化设备坐标。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glm<span style="color:#f92672">::</span>ortho(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">800.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">600.0f</span>, <span style="color:#ae81ff">0.1f</span>, <span style="color:#ae81ff">100.0f</span>);
+</code></pre></div><p>前两个参数指定了平截头体的左右坐标，第三和第四参数指定了平截头体的底部和顶部。通过这四个参数定义了近平面和远平面的大小，然后第五和第六个参数则定义了近平面和远平面的距离。这个投影矩阵会将处于这些x，y，z值范围内的坐标变换为标准化设备坐标。</p>
 <p>正射投影矩阵直接将坐标映射到2D平面中，即你的屏幕，但实际上一个直接的投影矩阵会产生不真实的结果，因为这个投影没有将透视(Perspective)考虑进去。所以需要透视投影矩阵来解决这个问题。</p>
-
 <h4 id="透视投影">透视投影</h4>
-
 <p>投影矩阵将给定的平截头体范围映射到裁剪空间，除此之外还修改了每个顶点坐标的w值，从而使得离观察者越远的顶点坐标w分量越大。被变换到裁剪空间的坐标都会在-w到w的范围之间（任何大于这个范围的坐标都会被裁剪掉）。OpenGL要求所有可见的坐标都落在-1.0到1.0范围内，作为顶点着色器最后的输出，因此，一旦坐标在裁剪空间内之后，透视除法就会被应用到裁剪空间坐标上：</p>
-
 <pre><code>out = { x/w y/w z/w}
-</code></pre>
-
-<p>顶点坐标的每个分量都会除以它的w分量，距离观察者越远顶点坐标就会越小。这是也是w分量非常重要的另一个原因，它能够帮助进行透视投影。</p>
-
+</code></pre><p>顶点坐标的每个分量都会除以它的w分量，距离观察者越远顶点坐标就会越小。这是也是w分量非常重要的另一个原因，它能够帮助进行透视投影。</p>
 <p>在GLM中可以这样创建一个透视投影矩阵：</p>
-
-<pre><code class="language-cpp">glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)width/(float)height, 0.1f, 100.0f);
-</code></pre>
-
-<p>glm::perspective所做的其实就是创建了一个定义了可视空间的大平截头体，任何在这个平截头体以外的东西最后都不会出现在裁剪空间体积内，并且将会受到裁剪。一个透视平截头体可以被看作一个不均匀形状的箱子，在这个箱子内部的每个坐标都会被映射到裁剪空间上的一个点。下面是一张透视平截头体的图片：</p>
-
-<p><img src="/image/perspective_frustum.png" alt="透视投影" /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glm<span style="color:#f92672">::</span>mat4 proj <span style="color:#f92672">=</span> glm<span style="color:#f92672">::</span>perspective(glm<span style="color:#f92672">::</span>radians(<span style="color:#ae81ff">45.0f</span>), (<span style="color:#66d9ef">float</span>)width<span style="color:#f92672">/</span>(<span style="color:#66d9ef">float</span>)height, <span style="color:#ae81ff">0.1f</span>, <span style="color:#ae81ff">100.0f</span>);
+</code></pre></div><p>glm::perspective所做的其实就是创建了一个定义了可视空间的大平截头体，任何在这个平截头体以外的东西最后都不会出现在裁剪空间体积内，并且将会受到裁剪。一个透视平截头体可以被看作一个不均匀形状的箱子，在这个箱子内部的每个坐标都会被映射到裁剪空间上的一个点。下面是一张透视平截头体的图片：</p>
+<p><img src="/image/perspective_frustum.png" alt="透视投影"></p>
 <ul>
 <li>第一个参数定义了fov的值，它表示的是视野(Field of View)，并且设置了观察空间的大小。如果想要一个真实的观察效果，它的值通常设置为45.0f，但想要一个末日风格的结果你可以将其设置一个更大的值。</li>
 <li>第二个参数设置了宽高比，由视口的宽除以高所得。</li>
 <li>第三和第四个参数设置了平截头体的近和远平面。通常设置近距离为0.1f，而远距离设为100.0f。</li>
 </ul>
-
 <p>当使用正射投影时，每一个顶点坐标都会直接映射到裁剪空间中而不经过任何精细的透视除法（它仍然会进行透视除法，只是w分量没有被改变（它保持为1），因此没有起作用）。因为正射投影没有使用透视，远处的物体不会显得更小，所以产生奇怪的视觉效果。由于这个原因，正射投影主要用于二维渲染以及一些建筑或工程的程序，在这些场景中更希望顶点不会被透视所干扰。某些如 Blender 等进行三维建模的软件有时在建模时也会使用正射投影，因为它在各个维度下都更准确地描绘了每个物体。</p>
-
 <h3 id="把它们都组合到一起">把它们都组合到一起</h3>
-
 <p>上述的每一个步骤都创建了一个变换矩阵：模型矩阵、观察矩阵和投影矩阵。一个顶点坐标将会根据以下过程被变换到裁剪坐标：</p>
-
-<p><img src="/image/transform_matrix.png" alt="变换矩阵" /></p>
-
+<p><img src="/image/transform_matrix.png" alt="变换矩阵"></p>
 <p>注意矩阵运算的顺序是相反的（记住需要从右往左阅读矩阵的乘法）。最后的顶点应该被赋值到顶点着色器中的gl_Position，OpenGL将会自动进行透视除法和裁剪。</p>
-
 <h3 id="进入3d">进入3D</h3>
-
 <p>在开始进行3D绘图时，首先创建一个模型矩阵。这个模型矩阵包含了位移、缩放与旋转操作，它们会被应用到所有物体的顶点上，以变换它们到全局的世界空间。</p>
-
 <p>变换一下现在的平面图像，将其绕着x轴旋转，使它看起来像放在地上一样。这个模型矩阵看起来是这样的：</p>
-
-<pre><code class="language-cpp">glm::mat4 model;
-model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-</code></pre>
-
-<p>通过将顶点坐标乘以这个模型矩阵，将该顶点坐标变换到世界坐标。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glm<span style="color:#f92672">::</span>mat4 model;
+model <span style="color:#f92672">=</span> glm<span style="color:#f92672">::</span>rotate(model, glm<span style="color:#f92672">::</span>radians(<span style="color:#f92672">-</span><span style="color:#ae81ff">55.0f</span>), glm<span style="color:#f92672">::</span>vec3(<span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>));
+</code></pre></div><p>通过将顶点坐标乘以这个模型矩阵，将该顶点坐标变换到世界坐标。</p>
 <p>接下来需要创建一个观察矩阵。</p>
-
 <p>以相反于摄像机移动的方向移动整个场景。因为想要往后移动，并且OpenGL是一个右手坐标系(Right-handed System)，所以需要沿着z轴的正方向移动。</p>
-
 <p>观察矩阵是这样的：</p>
-
-<pre><code class="language-cpp">glm::mat4 view;
-// 注意，将矩阵向要进行移动场景的反方向移动。
-view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-</code></pre>
-
-<p>最后需要做的是定义一个投影矩阵。所以像这样声明一个投影矩阵：</p>
-
-<pre><code class="language-cpp">glm::mat4 projection;
-projection = glm::perspective(glm::radians(45.0f), screenWidth / screenHeight, 0.1f, 100.0f);
-</code></pre>
-
-<p>既然已经创建了变换矩阵，应该将它们传入着色器。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glm<span style="color:#f92672">::</span>mat4 view;
+<span style="color:#75715e">// 注意，将矩阵向要进行移动场景的反方向移动。
+</span><span style="color:#75715e"></span>view <span style="color:#f92672">=</span> glm<span style="color:#f92672">::</span>translate(view, glm<span style="color:#f92672">::</span>vec3(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">3.0f</span>));
+</code></pre></div><p>最后需要做的是定义一个投影矩阵。所以像这样声明一个投影矩阵：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glm<span style="color:#f92672">::</span>mat4 projection;
+projection <span style="color:#f92672">=</span> glm<span style="color:#f92672">::</span>perspective(glm<span style="color:#f92672">::</span>radians(<span style="color:#ae81ff">45.0f</span>), screenWidth <span style="color:#f92672">/</span> screenHeight, <span style="color:#ae81ff">0.1f</span>, <span style="color:#ae81ff">100.0f</span>);
+</code></pre></div><p>既然已经创建了变换矩阵，应该将它们传入着色器。
 在顶点着色器中声明一个uniform变换矩阵然后将它乘以顶点坐标：</p>
-
-<pre><code class="language-glsl">#version 330 core
-layout (location = 0) in vec3 aPos;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
+layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos;
 ...
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+<span style="color:#66d9ef">uniform</span> mat4 model;
+<span style="color:#66d9ef">uniform</span> mat4 view;
+<span style="color:#66d9ef">uniform</span> mat4 projection;
 
-void main()
+<span style="color:#66d9ef">void</span> main()
 {
-    // 注意乘法要从右向左读
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
+    <span style="color:#75715e">// 注意乘法要从右向左读</span>
+    gl_Position <span style="color:#f92672">=</span> projection <span style="color:#f92672">*</span> view <span style="color:#f92672">*</span> model <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>);
     ...
 }
-</code></pre>
-
-<p>还应该将矩阵传入着色器（这通常在每次的渲染迭代中进行，因为变换矩阵会经常变动）：</p>
-
-<pre><code class="language-cpp">int modelLoc = glGetUniformLocation(ourShader.ID, &quot;model&quot;));
-glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-... // 观察矩阵和投影矩阵与之类似
-</code></pre>
-
-<p>最终的物体应该会：</p>
-
+</code></pre></div><p>还应该将矩阵传入着色器（这通常在每次的渲染迭代中进行，因为变换矩阵会经常变动）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> modelLoc <span style="color:#f92672">=</span> glGetUniformLocation(ourShader.ID, <span style="color:#e6db74">&#34;model&#34;</span>));
+glUniformMatrix4fv(modelLoc, <span style="color:#ae81ff">1</span>, GL_FALSE, glm<span style="color:#f92672">::</span>value_ptr(model));
+... <span style="color:#75715e">// 观察矩阵和投影矩阵与之类似
+</span></code></pre></div><p>最终的物体应该会：</p>
 <ul>
 <li>稍微向后倾斜至地板方向。</li>
 <li>离我们有一些距离。</li>
 <li>有透视效果（顶点越远，变得越小）。</li>
 </ul>
-
 <p>完整代码
 <a href="https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-07">github.com/realjf/opengl/src/getting-started/recipe-07</a></p>
-
 <h3 id="更多的3d">更多的3D</h3>
-
 <p>为了有趣一点，将让立方体随着时间旋转：</p>
-
-<pre><code class="language-cpp">model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-</code></pre>
-
-<p>然后使用glDrawArrays来绘制立方体，但这一次总共有36个顶点。</p>
-
-<pre><code class="language-cpp">glDrawArrays(GL_TRIANGLES, 0, 36);
-</code></pre>
-
-<p>这的确有点像是一个立方体，但又有种说不出的奇怪。立方体的某些本应被遮挡住的面被绘制在了这个立方体其他面之上。之所以这样是因为OpenGL是一个三角形一个三角形地来绘制你的立方体的，所以即便之前那里有东西它也会覆盖之前的像素。因为这个原因，有些三角形会被绘制在其它三角形上面，虽然它们本不应该是被覆盖的。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">model <span style="color:#f92672">=</span> glm<span style="color:#f92672">::</span>rotate(model, (<span style="color:#66d9ef">float</span>)glfwGetTime() <span style="color:#f92672">*</span> glm<span style="color:#f92672">::</span>radians(<span style="color:#ae81ff">50.0f</span>), glm<span style="color:#f92672">::</span>vec3(<span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>));
+</code></pre></div><p>然后使用glDrawArrays来绘制立方体，但这一次总共有36个顶点。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glDrawArrays(GL_TRIANGLES, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">36</span>);
+</code></pre></div><p>这的确有点像是一个立方体，但又有种说不出的奇怪。立方体的某些本应被遮挡住的面被绘制在了这个立方体其他面之上。之所以这样是因为OpenGL是一个三角形一个三角形地来绘制你的立方体的，所以即便之前那里有东西它也会覆盖之前的像素。因为这个原因，有些三角形会被绘制在其它三角形上面，虽然它们本不应该是被覆盖的。</p>
 <p>OpenGL存储深度信息在一个叫做Z缓冲(Z-buffer)的缓冲中，它允许OpenGL决定何时覆盖一个像素而何时不覆盖。通过使用Z缓冲，可以配置OpenGL来进行深度测试。</p>
-
 <h4 id="z缓冲">Z缓冲</h4>
-
 <p>OpenGL存储它的所有深度信息于一个Z缓冲(Z-buffer)中，也被称为深度缓冲(Depth Buffer)。GLFW会自动为你生成这样一个缓冲（就像它也有一个颜色缓冲来存储输出图像的颜色）。深度值存储在每个片段里面（作为片段的z值），当片段想要输出它的颜色时，OpenGL会将它的深度值和z缓冲进行比较，如果当前的片段在其它片段之后，它将会被丢弃，否则将会覆盖。这个过程称为深度测试(Depth Testing)，它是由OpenGL自动完成的。</p>
-
 <p>要启用深度测试；它默认是关闭的。可以通过glEnable函数来开启深度测试。glEnable和glDisable函数允许启用或禁用某个OpenGL功能。
 这个功能会一直保持启用/禁用状态，直到另一个调用来禁用/启用它。</p>
-
-<pre><code class="language-cpp">glEnable(GL_DEPTH_TEST);
-</code></pre>
-
-<p>想要在每次渲染迭代之前清除深度缓冲（否则前一帧的深度信息仍然保存在缓冲中）。就像清除颜色缓冲一样，可以通过在glClear函数中指定DEPTH_BUFFER_BIT位来清除深度缓冲：</p>
-
-<pre><code class="language-cpp">glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-</code></pre>
-
-<p>完整代码：<a href="https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-08">github.com/realjf/opengl/src/getting-started/recipe-08</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glEnable(GL_DEPTH_TEST);
+</code></pre></div><p>想要在每次渲染迭代之前清除深度缓冲（否则前一帧的深度信息仍然保存在缓冲中）。就像清除颜色缓冲一样，可以通过在glClear函数中指定DEPTH_BUFFER_BIT位来清除深度缓冲：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">glClear(GL_COLOR_BUFFER_BIT <span style="color:#f92672">|</span> GL_DEPTH_BUFFER_BIT);
+</code></pre></div><p>完整代码：<a href="https://github.com/realjf/opengl/tree/master/src/getting-started/recipe-08">github.com/realjf/opengl/src/getting-started/recipe-08</a></p>
 
         </div>
         <div id="disqus_thread"></div>

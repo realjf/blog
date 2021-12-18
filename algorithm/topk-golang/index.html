@@ -3,7 +3,7 @@
 <head>
     <title>topk问题golang实现 Topk Golang // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,140 +233,139 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/algorithm/">Algorithm</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/algorithm/">algorithm</a></div></div>
         </header>
         <div class="post-content">
-            <pre><code class="language-golang">package main 
+            <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span> 
 
-import (
-    &quot;fmt&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
 )
 
-// 方法一：堆排序 O(NlogK)
-// 小顶堆（特点：只找到topk，不排序topk）
-func topk_minHeap(nums []int, k int) []int {
-    length := len(nums)
-    // 数组长度小于k，直接返回
-    if length &lt; k {
-        return nums
-    }
+<span style="color:#75715e">// 方法一：堆排序 O(NlogK)
+</span><span style="color:#75715e">// 小顶堆（特点：只找到topk，不排序topk）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">topk_minHeap</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">k</span> <span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#75715e">// 数组长度小于k，直接返回
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> &lt; <span style="color:#a6e22e">k</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>
+	}
 
-    // 数组前k个数据取出，并生成小顶堆
-    minHeap := make([]int, 0)
-    minHeap = append(minHeap, nums[:k]...)
-    CreateMinHeap(minHeap)
+	<span style="color:#75715e">// 数组前k个数据取出，并生成小顶堆
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">minHeap</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">0</span>)
+	<span style="color:#a6e22e">minHeap</span> = append(<span style="color:#a6e22e">minHeap</span>, <span style="color:#a6e22e">nums</span>[:<span style="color:#a6e22e">k</span>]<span style="color:#f92672">...</span>)
+	<span style="color:#a6e22e">CreateMinHeap</span>(<span style="color:#a6e22e">minHeap</span>)
 
-    // 遍历数组剩余数据，大于堆顶数据时，替换堆顶，重新维护小顶堆
-    for i := k; i &lt; length; i++ {
-        if nums[i] &gt; minHeap[0] {
-            minHeap[0] = nums[i]
-            minHeapify(minHeap, 0, k)
-        }
-    }
+	<span style="color:#75715e">// 遍历数组剩余数据，大于堆顶数据时，替换堆顶，重新维护小顶堆
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">k</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] &gt; <span style="color:#a6e22e">minHeap</span>[<span style="color:#ae81ff">0</span>] {
+			<span style="color:#a6e22e">minHeap</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>]
+			<span style="color:#a6e22e">minHeapify</span>(<span style="color:#a6e22e">minHeap</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">k</span>)
+		}
+	}
 
-    return minHeap
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">minHeap</span>
 }
 
-// 自底向上创建小顶堆
-func CreateMinHeap(nums []int) {
-    length := len(nums)
-    for i := length - 1; i &gt;= 0; i-- {
-        minHeapify(nums, i, length)
-    }
+<span style="color:#75715e">// 自底向上创建小顶堆
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CreateMinHeap</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+		<span style="color:#a6e22e">minHeapify</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">length</span>)
+	}
 }
 
-// 维护小顶堆
-func minHeapify(nums []int, posIndex, length int) {
-    // 堆左孩子节点索引
-    leftIndex := 2 * posIndex + 1
-    // 堆右孩子节点索引
-    rightIndex := 2 * posIndex + 2
-    // 当前节点以及左右孩子节点中最小值的索引，初始化为当前节点索引
-    minIndex  := posIndex
-    // 左孩子存在并且小于当前节点值时，最小值索引替换为左孩子索引
-    if leftIndex &lt; length &amp;&amp; nums[leftIndex] &lt; nums[minIndex] {
-        minIndex = leftIndex
-    }
-    // 右孩子存在并且小于当前节点值时，最小值索引替换为右孩子索引
-    if rightIndex &lt; length &amp;&amp; nums[rightIndex] &lt; nums[minIndex] {
-        minIndex = rightIndex
-    }
-    // 最小值节点索引不等于当前节点时，替换当前节点和其中较小孩子节点值
-    if minIndex != posIndex {
-        nums[posIndex], nums[minIndex] = nums[minIndex], nums[posIndex]
-        minHeapify(nums, minIndex, length)
-    }
-}
-
-
-// 方法二：快排 O(N)
-func topk_quickSort(nums []int, k int) []int {
-    length := len(nums)
-    /// 数组长度小于k，直接返回
-    if length &lt; k {
-        return nums
-    }
-
-    // 数组进行快排，左侧边界
-    left := 0
-    // 数据进行快排，右侧边界
-    right := length
-    // 第一次快排后，获取分界点index
-    pivotIndex := partition(nums, left, right)
-
-    // 循环快排，找到分界点index刚好等于k
-    for pivotIndex != k {
-        if pivotIndex &lt; k {
-            // 分界点index小于k，继续对分界点右侧进行快排，重新获取分界点index
-            left = pivotIndex + 1
-        }else {
-            // 分界点index大于k, 缩小快排范围为上次分界点与本次分界点之间数据，重新获取分界点index
-            right = pivotIndex
-        }
-        pivotIndex = partition(nums, left, right)
-    }
-
-    return nums[:k]
-}
-
-func partition(nums []int, left, right int) int {
-    // 初始化分界点为左边界值
-    pivot := nums[left]
-    // 所有大于分界值的数据边界index
-    pos := left
-
-    // 小于分界值时，边界扩展，将数据替换到边界值index位置
-    for i := left; i &lt; right; i++ {
-        if nums[i] &gt; pivot {
-            pos++
-            nums[i], nums[pos] = nums[pos], nums[i]
-        }
-    }
-
-    // 交换分界值的数据边界index和分界点index，使得分界点左侧均大于边界点，右侧均小于分界点
-    nums[pos], nums[left] = nums[left], nums[pos]
-
-    return pos
+<span style="color:#75715e">// 维护小顶堆
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">minHeapify</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">posIndex</span>, <span style="color:#a6e22e">length</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#75715e">// 堆左孩子节点索引
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">leftIndex</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">posIndex</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+	<span style="color:#75715e">// 堆右孩子节点索引
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">rightIndex</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">posIndex</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+	<span style="color:#75715e">// 当前节点以及左右孩子节点中最小值的索引，初始化为当前节点索引
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">minIndex</span>  <span style="color:#f92672">:=</span> <span style="color:#a6e22e">posIndex</span>
+	<span style="color:#75715e">// 左孩子存在并且小于当前节点值时，最小值索引替换为左孩子索引
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">leftIndex</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">leftIndex</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">minIndex</span>] {
+		<span style="color:#a6e22e">minIndex</span> = <span style="color:#a6e22e">leftIndex</span>
+	}
+	<span style="color:#75715e">// 右孩子存在并且小于当前节点值时，最小值索引替换为右孩子索引
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">rightIndex</span> &lt; <span style="color:#a6e22e">length</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">rightIndex</span>] &lt; <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">minIndex</span>] {
+		<span style="color:#a6e22e">minIndex</span> = <span style="color:#a6e22e">rightIndex</span>
+	}
+	<span style="color:#75715e">// 最小值节点索引不等于当前节点时，替换当前节点和其中较小孩子节点值
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">minIndex</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">posIndex</span> {
+		<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">posIndex</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">minIndex</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">minIndex</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">posIndex</span>]
+		<span style="color:#a6e22e">minHeapify</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">minIndex</span>, <span style="color:#a6e22e">length</span>)
+	}
 }
 
 
-func main() {
-    a := []int{5,3,7,1,8,2,9,4,7,2,6,6}
-    b := topk_minHeap(a, 5)
-    for k, v := range b {
-        fmt.Printf(&quot;%d =&gt; %d\n&quot;, k, v)
-    }
+<span style="color:#75715e">// 方法二：快排 O(N)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">topk_quickSort</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">k</span> <span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">nums</span>)
+	<span style="color:#75715e">/// 数组长度小于k，直接返回
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">length</span> &lt; <span style="color:#a6e22e">k</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>
+	}
 
-    fmt.Println();
+	<span style="color:#75715e">// 数组进行快排，左侧边界
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">left</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#75715e">// 数据进行快排，右侧边界
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">length</span>
+	<span style="color:#75715e">// 第一次快排后，获取分界点index
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">pivotIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">partition</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span>)
 
-    c := topk_quickSort(a, 5)
-    for k, v := range c {
-        fmt.Printf(&quot;%d =&gt; %d\n&quot;, k, v)
-    }
+	<span style="color:#75715e">// 循环快排，找到分界点index刚好等于k
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">pivotIndex</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">k</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">pivotIndex</span> &lt; <span style="color:#a6e22e">k</span> {
+			<span style="color:#75715e">// 分界点index小于k，继续对分界点右侧进行快排，重新获取分界点index
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">left</span> = <span style="color:#a6e22e">pivotIndex</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+		}<span style="color:#66d9ef">else</span> {
+			<span style="color:#75715e">// 分界点index大于k, 缩小快排范围为上次分界点与本次分界点之间数据，重新获取分界点index
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">pivotIndex</span>
+		}
+		<span style="color:#a6e22e">pivotIndex</span> = <span style="color:#a6e22e">partition</span>(<span style="color:#a6e22e">nums</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span>)
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nums</span>[:<span style="color:#a6e22e">k</span>]
 }
 
-</code></pre>
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">partition</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#75715e">// 初始化分界点为左边界值
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">pivot</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>]
+	<span style="color:#75715e">// 所有大于分界值的数据边界index
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">pos</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span>
 
+	<span style="color:#75715e">// 小于分界值时，边界扩展，将数据替换到边界值index位置
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">left</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">right</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] &gt; <span style="color:#a6e22e">pivot</span> {
+			<span style="color:#a6e22e">pos</span><span style="color:#f92672">++</span>
+			<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">pos</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">pos</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>]
+		}
+	}
+
+	<span style="color:#75715e">// 交换分界值的数据边界index和分界点index，使得分界点左侧均大于边界点，右侧均小于分界点
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">pos</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>] = <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">pos</span>]
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">pos</span>
+}
+
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">6</span>}
+	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">topk_minHeap</span>(<span style="color:#a6e22e">a</span>, <span style="color:#ae81ff">5</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">b</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d =&gt; %d\n&#34;</span>, <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span>)
+	}
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>();
+
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">topk_quickSort</span>(<span style="color:#a6e22e">a</span>, <span style="color:#ae81ff">5</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">c</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d =&gt; %d\n&#34;</span>, <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span>)
+	}
+}
+
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>

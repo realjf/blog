@@ -3,7 +3,7 @@
 <head>
     <title>linux下的安卓模拟器anbox安装 How to Set Up Anbox in Linux // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,78 +233,56 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/posts/">Posts</a><a class="tag" href="https://realjf.io/tags/anbox/">Anbox</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/posts/">posts</a><a class="tag" href="https://realjf.io/tags/anbox/">anbox</a></div></div>
         </header>
         <div class="post-content">
-            
-
-<h3 id="环境准备">环境准备</h3>
-
+            <h3 id="环境准备">环境准备</h3>
 <ul>
 <li>kali linux 2020</li>
 </ul>
-
 <h3 id="开始">开始</h3>
-
-<pre><code class="language-shell">
-# 使用下面的 PPA 来安装它
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># 使用下面的 PPA 来安装它</span>
 add-apt-repository ppa:morphis/anbox-support
 apt update
 apt install linux-headers-generic anbox-modules-dkms
 
-# 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动
+<span style="color:#75715e"># 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动</span>
 modprobe ashmem_linux
 modprobe binder_linux
 
-# 使用 APT-GET 命令 或 APT 命令 来安装 anbox
+<span style="color:#75715e"># 使用 APT-GET 命令 或 APT 命令 来安装 anbox</span>
 apt install anbox
 
-# 否则，需要通过 snap 来进行安装
+<span style="color:#75715e"># 否则，需要通过 snap 来进行安装</span>
 apt install snapd
-snap install --classic anbox-install &amp;&amp; anbox-installer
+snap install --classic anbox-install <span style="color:#f92672">&amp;&amp;</span> anbox-installer
 snap install --devmode --beta anbox
-</code></pre>
-
-<p>默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它</p>
-
-<pre><code class="language-shell"># 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB
+</code></pre></div><p>默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB</span>
 apt install android-tools-adb
-</code></pre>
-
-<h3 id="启动anbox-container服务">启动anbox container服务</h3>
-
-<pre><code class="language-shell">systemctl enable anbox-container-manager
+</code></pre></div><h3 id="启动anbox-container服务">启动anbox container服务</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl enable anbox-container-manager
 systemctl start anbox-container-manager
 
-# 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.img文件不在/var/lib/anbox/android.img路径下，
-# 可以通过https://build.anbox.io/android-images/2018/07/19/android_amd64.img 进行下载
-# 或者如果安装了snap且安装来anbox，则可以通过复制/snap/anbox/current/android.img到对应目录/var/lib/anbox/下即可
-</code></pre>
-
-<h3 id="通过anbox安装android应用">通过anbox安装android应用</h3>
-
+<span style="color:#75715e"># 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.img文件不在/var/lib/anbox/android.img路径下，</span>
+<span style="color:#75715e"># 可以通过https://build.anbox.io/android-images/2018/07/19/android_amd64.img 进行下载</span>
+<span style="color:#75715e"># 或者如果安装了snap且安装来anbox，则可以通过复制/snap/anbox/current/android.img到对应目录/var/lib/anbox/下即可</span>
+</code></pre></div><h3 id="通过anbox安装android应用">通过anbox安装android应用</h3>
 <p>首先，你需要启动 ADB 服务</p>
-
-<pre><code class="language-shell"># 列出可用模拟器设备
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 列出可用模拟器设备</span>
 adb devices
 
-# 安装语法
+<span style="color:#75715e"># 安装语法</span>
 adb install yourapp.apk
-</code></pre>
-
-<p>需要下载安卓应用，可以通过以下应用市场下载</p>
-
+</code></pre></div><p>需要下载安卓应用，可以通过以下应用市场下载</p>
 <ul>
 <li><a href="https://www.apkmirror.com">https://www.apkmirror.com</a></li>
 <li><a href="https://mobile.baidu.com/item?pid=825114773">https://mobile.baidu.com/item?pid=825114773</a></li>
 </ul>
-
-<h3 id="q-a">Q&amp;A</h3>
-
-<h4 id="安装应用可能遇到install-failed-no-matching-abis-failed-to-extract-native-libraries-res-113-错误">安装应用可能遇到INSTALL_FAILED_NO_MATCHING_ABIS: Failed to extract native libraries, res=-113 错误</h4>
-
+<h3 id="qa">Q&amp;A</h3>
+<h4 id="安装应用可能遇到install_failed_no_matching_abis-failed-to-extract-native-libraries-res-113-错误">安装应用可能遇到INSTALL_FAILED_NO_MATCHING_ABIS: Failed to extract native libraries, res=-113 错误</h4>
 <p>这个是由于模拟器的安卓镜像支持的架构不支持arm架构导致，只要更换支持的镜像即可，</p>
-
 <p>可用的安卓镜像下载地址是： <a href="https://github.com/AkihiroSuda/anbox-android-images-mirror/releases">https://github.com/AkihiroSuda/anbox-android-images-mirror/releases</a></p>
 
         </div>

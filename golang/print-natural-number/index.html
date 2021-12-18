@@ -3,7 +3,7 @@
 <head>
     <title>按顺序打印自然数字 Print Natural Number // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.83.1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
     <meta name="description" content="" />
@@ -233,44 +233,40 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-                        <a class="tag" href="https://realjf.io/tags/golang/">Golang</a></div></div>
+                        <a class="tag" href="https://realjf.io/tags/golang/">golang</a></div></div>
         </header>
         <div class="post-content">
-            
+            <h3 id="题目按照顺序打印自然数字">题目：按照顺序打印自然数字</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<h3 id="题目-按照顺序打印自然数字">题目：按照顺序打印自然数字</h3>
-
-<pre><code class="language-golang">package main
-
-import (
-    &quot;fmt&quot;
-    &quot;sync&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;sync&#34;</span>
 )
 
-var (
-    wg sync.WaitGroup
+<span style="color:#66d9ef">var</span> (
+	<span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
 )
 
-func print(ch *chan int, i int) {
-    defer wg.Done()
-    *ch &lt;- i
+<span style="color:#66d9ef">func</span> print(<span style="color:#a6e22e">ch</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+	<span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
 }
 
-func main() {
-  maxInt := 7
-    wg.Add(maxInt)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+  <span style="color:#a6e22e">maxInt</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">7</span>
+	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">maxInt</span>)
 
-    ch := make(chan int)
-    for i := 0; i &lt; maxInt; i++ {
-        go print(&amp;ch, i)
-        fmt.Println(&lt;-ch) // 这里卡住等待第i个goroutine运行，然后打印
-    }
-    
-    wg.Wait()
-    fmt.Println(&quot;done&quot;)
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">maxInt</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">go</span> print(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ch</span>, <span style="color:#a6e22e">i</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>) <span style="color:#75715e">// 这里卡住等待第i个goroutine运行，然后打印
+</span><span style="color:#75715e"></span>	}
+	
+	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;done&#34;</span>)
 }
-</code></pre>
-
+</code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
