@@ -1,6 +1,6 @@
 ---
 title: "opengl之八 摄像机 Camera"
-date: 2021-05-10T17:01:49+08:00
+date: 2020-05-10T17:01:49+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

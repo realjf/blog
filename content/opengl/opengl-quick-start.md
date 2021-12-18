@@ -1,6 +1,6 @@
 ---
 title: "opengl之一 快速开始 Opengl Quick Start"
-date: 2021-05-07T19:45:37+08:00
+date: 2020-05-07T19:45:37+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

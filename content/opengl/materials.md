@@ -1,6 +1,6 @@
 ---
 title: "opengl光照之三 材质 Materials"
-date: 2021-05-13T10:14:28+08:00
+date: 2020-05-13T10:14:28+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

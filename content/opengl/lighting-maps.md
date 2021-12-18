@@ -1,6 +1,6 @@
 ---
 title: "opengl光照之四 光照贴图 Lighting Maps"
-date: 2021-05-13T12:19:53+08:00
+date: 2020-05-13T12:19:53+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

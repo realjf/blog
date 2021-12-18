@@ -1,6 +1,6 @@
 ---
 title: "opengl光照之二 基础光照 Base Lighting"
-date: 2021-05-11T15:28:51+08:00
+date: 2020-05-11T15:28:51+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

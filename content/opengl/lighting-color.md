@@ -1,6 +1,6 @@
 ---
 title: "opengl光照之一 颜色 Lighting Color"
-date: 2021-05-11T13:46:57+08:00
+date: 2020-05-11T13:46:57+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

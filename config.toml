@@ -2,7 +2,7 @@ baseURL = "https://realjf.io/"
 languageCode = "en-us"
 title = "Realjf's blog"
 theme = "m10c"
-paginate = "10"
+paginate = "20"
 
 [taxonomies]
   tag = "tags"

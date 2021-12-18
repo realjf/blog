@@ -1,6 +1,6 @@
 ---
 title: "opengl之四 着色器和uniform Shader and Uniform"
-date: 2021-05-10T10:11:54+08:00
+date: 2020-05-10T10:11:54+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

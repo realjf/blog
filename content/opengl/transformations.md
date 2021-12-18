@@ -1,6 +1,6 @@
 ---
 title: "opengl之六 变换 Transformations"
-date: 2021-05-10T13:52:15+08:00
+date: 2020-05-10T13:52:15+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

@@ -1,6 +1,6 @@
 ---
 title: "如何从源码构建GLFW How to Compile Glfw From Source"
-date: 2021-01-23T00:47:53+08:00
+date: 2020-01-23T00:47:53+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

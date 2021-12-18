@@ -1,6 +1,6 @@
 ---
 title: "opengl进阶之一 深度测试 Depth Testing"
-date: 2021-05-14T13:49:47+08:00
+date: 2020-05-14T13:49:47+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

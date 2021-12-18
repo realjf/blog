@@ -1,6 +1,6 @@
 ---
 title: "着色器 Shader and Glsl"
-date: 2021-05-09T14:24:16+08:00
+date: 2020-05-09T14:24:16+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

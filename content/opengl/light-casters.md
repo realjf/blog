@@ -1,6 +1,6 @@
 ---
 title: "opengl光照之五 投光物 Light Casters"
-date: 2021-05-13T14:26:17+08:00
+date: 2020-05-13T14:26:17+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]

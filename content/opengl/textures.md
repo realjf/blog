@@ -1,6 +1,6 @@
 ---
 title: "opengl之五 纹理 Textures"
-date: 2021-05-10T11:30:39+08:00
+date: 2020-05-10T11:30:39+08:00
 keywords: ["opengl"]
 categories: ["opengl"]
 tags: ["opengl"]
