@@ -1,50 +1,57 @@
 <!doctype html>
 <html>
+
 <head>
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} // {{ .Site.Title }}{{ end }}</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo {{ .Hugo.Version }}" />
+    <meta name="generator" content="Hugo {{ hugo.Version }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="{{ .Site.Params.author | default "John Doe" }}" />
-    <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
+    <meta name="author" content="{{ .Site.Params.author | default " John Doe" }}" />
+    <meta name="description"
+        content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
     <base href="{{ .Site.BaseURL }}" />
-    {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
+    {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS |
+    resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <!-- Highlight.js and css -->
     <script src="./js/highlight.pack.js"> </script>
-{{/*    <link rel="stylesheet" href="./css/vs2015.css">*/}}
+    {{/*
+    <link rel="stylesheet" href="./css/vs2015.css">*/}}
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
+
 <body>
-{{/*<iframe src="./si-sprite.svg"></iframe>*/}}
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>{{ .Site.Title }}</h1>
-    <p>{{ .Site.Params.description | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>
-    <div class="app-header-social">
-        {{ range .Site.Params.social }}
+    {{/*<iframe src="./si-sprite.svg"></iframe>*/}}
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>{{ .Site.Title }}</h1>
+        <p>{{ .Site.Params.description | default
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehiculaturpis sit amet elit pretium." }}</p>
+        <div class="app-header-social">
+            {{ range .Site.Params.social }}
             <a target="_blank" href="{{ .url }}">{{ partial "icon.html" (dict "ctx" $ "name" .name ) }}</a>
-        {{ end }}
-    </div>
-    <div>
-        {{ partial "revolvermap.html" . }}
-    </div>
-</header>
-<main class="app-container">
-    {{ partial "navigator.html" $ }}
-    {{ partial "search.html" $ }}
-    {{ block "main" . }}
+            {{ end }}
+        </div>
+        <div>
+            {{ partial "revolvermap.html" . }}
+        </div>
+    </header>
+    <main class="app-container">
+        {{ partial "navigator.html" $ }}
+        {{ partial "search.html" $ }}
+        {{ block "main" . }}
         {{ .Content }}
-    {{ end }}
-</main>
+        {{ end }}
+    </main>
     {{ partial "sider.html" . }}
-<div class="app-footer">
-    {{ partial "footer.html" $ }}
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    <div class="app-footer">
+        {{ partial "footer.html" $ }}
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>
