@@ -14,7 +14,7 @@
       
       <guid>https://realjf.io/golang/golang-concurrency-timeout/</guid>
       <description>并发编程中的超时处理 在并发编程中，要放弃运行时间太长的同步调用，请使用带有time.After的select语句，如下：
-import ( &amp;#34;errors&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main() { var timeoutNanoseconds time.Duration = 5 * time.Second c := make(chan error, 1) go func() { time.Sleep(20 * time.Second) c &amp;lt;- errors.New(&amp;#34;error&amp;#34;) } () select { case err := &amp;lt;-c: // use err and reply 	fmt.Println(err) case &amp;lt;-time.After(timeoutNanoseconds): // call timed out 	fmt.Println(&amp;#34;timeout...&amp;#34;) } } 以上代码在超时5秒后退出</description>
+import ( 	&amp;#34;errors&amp;#34; 	&amp;#34;fmt&amp;#34; 	&amp;#34;time&amp;#34; )  func main() { 	var timeoutNanoseconds time.Duration = 5 * time.Second 	c := make(chan error, 1) 	go func() { 	time.Sleep(20 * time.Second) 	c &amp;lt;- errors.New(&amp;#34;error&amp;#34;) 	} () 	select { 	case err := &amp;lt;-c: 	// use err and reply 	fmt.Println(err) 	case &amp;lt;-time.After(timeoutNanoseconds): 	// call timed out 	fmt.Println(&amp;#34;timeout...&amp;#34;) 	} } 以上代码在超时5秒后退出</description>
     </item>
     
   </channel>

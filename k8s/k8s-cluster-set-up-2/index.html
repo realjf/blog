@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>Kubernetes集群搭建二 之 k8s集群 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">Kubernetes集群搭建二 之 k8s集群</h1>
@@ -245,15 +248,15 @@
 </ul>
 <h5 id="1-设置kube-apiserver的ca证书相关的文件和启动参数">1). 设置kube-apiserver的CA证书相关的文件和启动参数</h5>
 <p>使用openssl工具在master服务器上创建CA证书和私钥相关的文件：</p>
-<pre><code>openssl genrsa -out ca.key 2048
-openssl req -x509 -new -nodes -key ca.key -subj &quot;/CN=k8s-master&quot; -days 5000 -out ca.crt
+<pre tabindex="0"><code>openssl genrsa -out ca.key 2048
+openssl req -x509 -new -nodes -key ca.key -subj &#34;/CN=k8s-master&#34; -days 5000 -out ca.crt
 openssl genrsa -out server.key 2048
 </code></pre><p>注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名</p>
 <blockquote>
 <p>509是一种通用的证书格式</p>
 </blockquote>
 <p>准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：</p>
-<pre><code>[ req ]
+<pre tabindex="0"><code>[ req ]
 req_extensions = v3_req
 distinguished_name = req_distinguished_name
 [ req_distinguished_name ]
@@ -315,94 +318,90 @@ IP.1 = 169.169.0.1
 <p>主要需要设置Master服务器的hostname（k8s-master）、ip地址（192.168.37.150），以及kubernetes master service的虚拟服务名称（kubernetes.default等）和该虚拟服务的ClusterIP地址（169.169.0.1）</p>
 </blockquote>
 <p>接下来，基于master_ssl.cnf文件创建server.csr和server.crt文件。在生成server.csr时，-subj参数中“/CN”的值需要为master的主机名：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">openssl req -new -key server.key -subj <span style="color:#e6db74">&#34;/CN=k8s-master&#34;</span> -config master_ssl.cnf -out server.csr
-<span style="color:#75715e"># 如果运行上述命令，报错：Error Loading request extension section v3_req，则需要检查.cnf文件是否书写正确</span>
-
-openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -days <span style="color:#ae81ff">5000</span> -extensions v3_req -extfile master_ssl.cnf -out server.crt
-</code></pre></div><p>全部执行完，生成6个文件：ca.crt、ca.key、ca.srl、server.crt、server.csr、server.key</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>openssl req -new -key server.key -subj <span style="color:#e6db74">&#34;/CN=k8s-master&#34;</span> -config master_ssl.cnf -out server.csr
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果运行上述命令，报错：Error Loading request extension section v3_req，则需要检查.cnf文件是否书写正确</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -days <span style="color:#ae81ff">5000</span> -extensions v3_req -extfile master_ssl.cnf -out server.crt
+</span></span></code></pre></div><p>全部执行完，生成6个文件：ca.crt、ca.key、ca.srl、server.crt、server.csr、server.key</p>
 <p>将这些文件复制到一个目录(/etc/kubernetes/ssl_keys/)，然后设置kube-apiserver启动参数：</p>
-<pre><code># ca根证书
+<pre tabindex="0"><code># ca根证书
 --client-ca-file=/etc/kubernetes/ssl_keys/ca.crt
 # 服务端私钥文件
 --tls-private-key-file=/etc/kubernetes/ssl_keys/server.key
 # 服务端证书文件
 --tls-cert-file=/etc/kubernetes/ssl_keys/server.crt
 </code></pre><p>同时，可以关闭非安全端口8080，设置安全端口为6443（默认值）：</p>
-<pre><code>--insecure-port=0
+<pre tabindex="0"><code>--insecure-port=0
 --secure-port=6443
 </code></pre><p>最后重启kube-apiserver</p>
 <h5 id="2-设置kube-controller-manager的客户端证书私钥和启动参数">2) 设置kube-controller-manager的客户端证书、私钥和启动参数</h5>
-<pre><code>openssl genrsa -out cs_client.key 2048
-openssl req -new -key cs_client.key -subj &quot;/CN=k8s-master&quot; -out cs_client.csr
+<pre tabindex="0"><code>openssl genrsa -out cs_client.key 2048
+openssl req -new -key cs_client.key -subj &#34;/CN=k8s-master&#34; -out cs_client.csr
 openssl x509 -req -in cs_client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out cs_client.crt -days 5000
-
 </code></pre><p>复制这些文件到/etc/kubernetes/ssl_keys/</p>
-<pre><code>cp cs_client.* /etc/kubernetes/ssl_keys/
+<pre tabindex="0"><code>cp cs_client.* /etc/kubernetes/ssl_keys/
 </code></pre><p>接下来创建/etc/kubernetes/kubeconfig文件（kube-controller-manager与kube-scheduler公用），配置如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
-<span style="color:#f92672">users</span>:
-- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">controllermanager</span>
-  <span style="color:#f92672">user</span>:
-    <span style="color:#f92672">client-certificate</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/cs_client.crt</span>
-    <span style="color:#f92672">client-key</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/cs_client.key</span>
-<span style="color:#f92672">clusters</span>:
-- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local</span>
-  <span style="color:#f92672">cluster</span>:
-    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://192.168.37.150:6443</span>
-    <span style="color:#f92672">certificate-authority</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/ca.crt</span>
-<span style="color:#f92672">contexts</span>:
-- <span style="color:#f92672">context</span>:
-    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">local</span>
-    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">controllermanager</span>
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-context</span>
-<span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">my-context</span>
-</code></pre></div><p>然后，设置kube-controlller-manager服务的启动参数，注意，&ndash;master的地址为https安全服务地址，敷使用非安全地址http://192.168.37.150:8080：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">--master<span style="color:#f92672">=</span>https://192.168.37.150:6443
---service-account-private-key-file<span style="color:#f92672">=</span>/etc/kubernetes/ssl_keys/server.key
---root-ca-file<span style="color:#f92672">=</span>/etc/kubernetes/ssl_keys/ca.crt
---kuberconfig<span style="color:#f92672">=</span>/etc/kubernetes/kubeconfig
-
-</code></pre></div><p>重启kube-controller-manager服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">controllermanager</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">user</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">client-certificate</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/cs_client.crt</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">client-key</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/cs_client.key</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">clusters</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">cluster</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://192.168.37.150:6443</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">certificate-authority</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/ca.crt</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">contexts</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">context</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">local</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">controllermanager</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-context</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">my-context</span>
+</span></span></code></pre></div><p>然后，设置kube-controlller-manager服务的启动参数，注意，&ndash;master的地址为https安全服务地址，敷使用非安全地址http://192.168.37.150:8080：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>--master<span style="color:#f92672">=</span>https://192.168.37.150:6443
+</span></span><span style="display:flex;"><span>--service-account-private-key-file<span style="color:#f92672">=</span>/etc/kubernetes/ssl_keys/server.key
+</span></span><span style="display:flex;"><span>--root-ca-file<span style="color:#f92672">=</span>/etc/kubernetes/ssl_keys/ca.crt
+</span></span><span style="display:flex;"><span>--kuberconfig<span style="color:#f92672">=</span>/etc/kubernetes/kubeconfig
+</span></span></code></pre></div><p>重启kube-controller-manager服务</p>
 <h5 id="3-设置kube-scheduler启动参数">3) 设置kube-scheduler启动参数</h5>
 <p>复用kube-controller-manager创建的客户端证书，配置启动参数：</p>
-<pre><code>--master=https://192.168.37.150:6443
+<pre tabindex="0"><code>--master=https://192.168.37.150:6443
 --kuberconfig=/etc/kubernetes/kubeconfig
 </code></pre><p>重启kube-scheduler服务</p>
 <h5 id="4-设置每台node上kubelet的客户端证书私钥和启动参数">4) 设置每台node上kubelet的客户端证书、私钥和启动参数</h5>
 <p>复制kube-apiserver的ca.crt和ca.key文件到node节点上</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">openssl genrsa -out kubelet_client.key <span style="color:#ae81ff">2048</span>
-openssl req -new -key kubelet_client.key -subj <span style="color:#e6db74">&#34;/CN=192.168.37.152&#34;</span> -out kubelet_client.csr
-openssl x509 -req -in kubelet_client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out kubelet_client.crt -days <span style="color:#ae81ff">5000</span>
-
-</code></pre></div><p>将上面这些文件复制到一个目录中（如：/etc/）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>openssl genrsa -out kubelet_client.key <span style="color:#ae81ff">2048</span>
+</span></span><span style="display:flex;"><span>openssl req -new -key kubelet_client.key -subj <span style="color:#e6db74">&#34;/CN=192.168.37.152&#34;</span> -out kubelet_client.csr
+</span></span><span style="display:flex;"><span>openssl x509 -req -in kubelet_client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out kubelet_client.crt -days <span style="color:#ae81ff">5000</span>
+</span></span></code></pre></div><p>将上面这些文件复制到一个目录中（如：/etc/）</p>
 <p>接下来创建/etc/kubernetes/kubeconfig（kubelet和kube-proxy进程共用），配置如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
-<span style="color:#f92672">users</span>:
-- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">controllermanager</span>
-  <span style="color:#f92672">user</span>:
-    <span style="color:#f92672">client-certificate</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/kubelet_client.crt</span>
-    <span style="color:#f92672">client-key</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/kubelet_client.key</span>
-<span style="color:#f92672">clusters</span>:
-- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local</span>
-  <span style="color:#f92672">cluster</span>:
-    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://192.168.37.150:6443</span>
-    <span style="color:#f92672">certificate-authority</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/ca.crt</span>
-<span style="color:#f92672">contexts</span>:
-- <span style="color:#f92672">context</span>:
-    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">local</span>
-    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">controllermanager</span>
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-context</span>
-<span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">my-context</span>
-
-</code></pre></div><p>设置kubelet启动参数：</p>
-<pre><code>--api-servers=https://192.168.37.150:6443
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">controllermanager</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">user</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">client-certificate</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/kubelet_client.crt</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">client-key</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/kubelet_client.key</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">clusters</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">local</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">cluster</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://192.168.37.150:6443</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">certificate-authority</span>: <span style="color:#ae81ff">/etc/kubernetes/ssl_keys/ca.crt</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">contexts</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">context</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">local</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">controllermanager</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-context</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">my-context</span>
+</span></span></code></pre></div><p>设置kubelet启动参数：</p>
+<pre tabindex="0"><code>--api-servers=https://192.168.37.150:6443
 --kubeconfig=/etc/kubernetes/kubeconfig
 </code></pre><p>重启kubelet服务</p>
 <h5 id="5-设置kube-proxy启动参数">5) 设置kube-proxy启动参数</h5>
 <p>复用上面创建的kubelet证书</p>
-<pre><code>--master=https://192.168.37.150:6443
+<pre tabindex="0"><code>--master=https://192.168.37.150:6443
 --kubeconfig=/etc/kubernetes/kubeconfig
 </code></pre><p>重启kube-proxy服务</p>
 
@@ -487,7 +486,7 @@ openssl x509 -req -in kubelet_client.csr -CA ca.crt -CAkey ca.key -CAcreateseria
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -516,13 +515,14 @@ openssl x509 -req -in kubelet_client.csr -CA ca.crt -CAkey ca.key -CAcreateseria
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

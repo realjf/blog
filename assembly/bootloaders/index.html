@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>汇编语言之引导加载程序 Bootloaders // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">汇编语言之引导加载程序 Bootloaders</h1>
@@ -287,60 +290,60 @@ MS-DOS引导加载程序（放置在所有 MS-DOS格式的软盘上）仅检查�
 汇编程序在计算指令和数据地址时会考虑到这一点。如果不考虑这一点，则汇编程序将假定代码已加载到地址0，并且必须在代码中手动对其进行补偿。</p>
 <p>通常，引导程序会将内核加载到内存中，然后跳转到内核。然后，内核将能够回收引导加载程序使用的内存（因为它已经执行了其工作）。但是，可以在引导扇区中包含OS代码，并在OS启动后将其保留在驻留位置。</p>
 <p>这是为NASM设计的简单引导程序演示：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">org</span> <span style="color:#ae81ff">7</span><span style="color:#66d9ef">C00h</span>
- 
-         <span style="color:#a6e22e">jmp</span> <span style="color:#66d9ef">short</span> <span style="color:#66d9ef">Start</span> <span style="color:#75715e">;Jump over the data (the &#39;short&#39; keyword makes the jmp instruction smaller)
-</span><span style="color:#75715e"></span> 
- <span style="color:#66d9ef">Msg</span>:    <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#66d9ef">Hello</span> <span style="color:#66d9ef">World</span>! <span style="color:#960050;background-color:#1e0010">&#34;</span>
- EndMsg:
- 
- Start:  <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">bx</span>, <span style="color:#ae81ff">000</span><span style="color:#66d9ef">Fh</span>   <span style="color:#75715e">;Page 0, colour attribute 15 (white) for the int 10 calls below
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">cx</span>, <span style="color:#ae81ff">1</span>       <span style="color:#75715e">;We will want to write 1 character
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">xor</span> <span style="color:#66d9ef">dx</span>, <span style="color:#66d9ef">dx</span>      <span style="color:#75715e">;Start at top left corner
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ds</span>, <span style="color:#66d9ef">dx</span>      <span style="color:#75715e">;Ensure ds = 0 (to let us load the message)
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">cld</span>             <span style="color:#75715e">;Ensure direction flag is cleared (for LODSB)
-</span><span style="color:#75715e"></span> 
- <span style="color:#66d9ef">Print</span>:  <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">si</span>, <span style="color:#66d9ef">Msg</span>     <span style="color:#75715e">;Loads the address of the first byte of the message, 7C02h in this case
-</span><span style="color:#75715e"></span> 
-                         <span style="color:#75715e">;PC BIOS Interrupt 10 Subfunction 2 - Set cursor position
-</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;AH = 2
-</span><span style="color:#75715e"></span> <span style="color:#66d9ef">Char</span>:   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ah</span>, <span style="color:#ae81ff">2</span>       <span style="color:#75715e">;BH = page, DH = row, DL = column
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">10</span><span style="color:#66d9ef">h</span>
-         <span style="color:#a6e22e">lodsb</span>           <span style="color:#75715e">;Load a byte of the message into AL.
-</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;Remember that DS is 0 and SI holds the
-</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;offset of one of the bytes of the message.
-</span><span style="color:#75715e"></span> 
-                         <span style="color:#75715e">;PC BIOS Interrupt 10 Subfunction 9 - Write character and colour
-</span><span style="color:#75715e"></span>                         <span style="color:#75715e">;AH = 9
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ah</span>, <span style="color:#ae81ff">9</span>       <span style="color:#75715e">;BH = page, AL = character, BL = attribute, CX = character count
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">10</span><span style="color:#66d9ef">h</span>
- 
-         <span style="color:#a6e22e">inc</span> <span style="color:#66d9ef">dl</span>          <span style="color:#75715e">;Advance cursor
-</span><span style="color:#75715e"></span> 
-         <span style="color:#66d9ef">cmp</span> <span style="color:#66d9ef">dl</span>, <span style="color:#ae81ff">80</span>      <span style="color:#75715e">;Wrap around edge of screen if necessary
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Skip</span>
-         <span style="color:#a6e22e">xor</span> <span style="color:#66d9ef">dl</span>, <span style="color:#66d9ef">dl</span>
-         <span style="color:#a6e22e">inc</span> <span style="color:#66d9ef">dh</span>
- 
-         <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">dh</span>, <span style="color:#ae81ff">25</span>      <span style="color:#75715e">;Wrap around bottom of screen if necessary
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Skip</span>
-         <span style="color:#a6e22e">xor</span> <span style="color:#66d9ef">dh</span>, <span style="color:#66d9ef">dh</span>
- 
- Skip:   <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">si</span>, <span style="color:#66d9ef">EndMsg</span>  <span style="color:#75715e">;If we&#39;re not at end of message,
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Char</span>        <span style="color:#75715e">;continue loading characters
-</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jmp</span> <span style="color:#66d9ef">Print</span>       <span style="color:#75715e">;otherwise restart from the beginning of the message
-</span><span style="color:#75715e"></span> 
- 
- <span style="color:#66d9ef">times</span> <span style="color:#ae81ff">0200</span><span style="color:#66d9ef">h</span> - <span style="color:#ae81ff">2</span> - (<span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">$$</span>)  <span style="color:#66d9ef">db</span> <span style="color:#ae81ff">0</span>    <span style="color:#75715e">;Zerofill up to 510 bytes
-</span><span style="color:#75715e"></span> 
-         <span style="color:#66d9ef">dw</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">AA55h</span>       <span style="color:#75715e">;Boot Sector signature
-</span><span style="color:#75715e"></span> 
- <span style="color:#75715e">;OPTIONAL:
-</span><span style="color:#75715e"></span> <span style="color:#75715e">;To zerofill up to the size of a standard 1.44MB, 3.5&#34; floppy disk
-</span><span style="color:#75715e"></span> <span style="color:#75715e">;times 1474560 - ($ - $$) db 0
-</span></code></pre></div><p>要编译上面的文件，假设它名为“ floppy.asm”，则可以使用以下命令：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">nasm -f bin -o floppy.img floppy.asm
-</code></pre></div><p>虽然严格来说这不是引导程序，但它是可引导的，并演示了以下几点：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">org</span> <span style="color:#ae81ff">7</span><span style="color:#66d9ef">C00h</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">jmp</span> <span style="color:#66d9ef">short</span> <span style="color:#66d9ef">Start</span> <span style="color:#75715e">;Jump over the data (the &#39;short&#39; keyword makes the jmp instruction smaller)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">Msg</span>:    <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#66d9ef">Hello</span> <span style="color:#66d9ef">World</span>! <span style="color:#960050;background-color:#1e0010">&#34;</span>
+</span></span><span style="display:flex;"><span> EndMsg:
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> Start:  <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">bx</span>, <span style="color:#ae81ff">000</span><span style="color:#66d9ef">Fh</span>   <span style="color:#75715e">;Page 0, colour attribute 15 (white) for the int 10 calls below
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">cx</span>, <span style="color:#ae81ff">1</span>       <span style="color:#75715e">;We will want to write 1 character
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">xor</span> <span style="color:#66d9ef">dx</span>, <span style="color:#66d9ef">dx</span>      <span style="color:#75715e">;Start at top left corner
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ds</span>, <span style="color:#66d9ef">dx</span>      <span style="color:#75715e">;Ensure ds = 0 (to let us load the message)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">cld</span>             <span style="color:#75715e">;Ensure direction flag is cleared (for LODSB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">Print</span>:  <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">si</span>, <span style="color:#66d9ef">Msg</span>     <span style="color:#75715e">;Loads the address of the first byte of the message, 7C02h in this case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span>                         <span style="color:#75715e">;PC BIOS Interrupt 10 Subfunction 2 - Set cursor position
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                         <span style="color:#75715e">;AH = 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#66d9ef">Char</span>:   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ah</span>, <span style="color:#ae81ff">2</span>       <span style="color:#75715e">;BH = page, DH = row, DL = column
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">10</span><span style="color:#66d9ef">h</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">lodsb</span>           <span style="color:#75715e">;Load a byte of the message into AL.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                         <span style="color:#75715e">;Remember that DS is 0 and SI holds the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                         <span style="color:#75715e">;offset of one of the bytes of the message.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span>                         <span style="color:#75715e">;PC BIOS Interrupt 10 Subfunction 9 - Write character and colour
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                         <span style="color:#75715e">;AH = 9
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">ah</span>, <span style="color:#ae81ff">9</span>       <span style="color:#75715e">;BH = page, AL = character, BL = attribute, CX = character count
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">10</span><span style="color:#66d9ef">h</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">inc</span> <span style="color:#66d9ef">dl</span>          <span style="color:#75715e">;Advance cursor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">cmp</span> <span style="color:#66d9ef">dl</span>, <span style="color:#ae81ff">80</span>      <span style="color:#75715e">;Wrap around edge of screen if necessary
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Skip</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">xor</span> <span style="color:#66d9ef">dl</span>, <span style="color:#66d9ef">dl</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">inc</span> <span style="color:#66d9ef">dh</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">dh</span>, <span style="color:#ae81ff">25</span>      <span style="color:#75715e">;Wrap around bottom of screen if necessary
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Skip</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">xor</span> <span style="color:#66d9ef">dh</span>, <span style="color:#66d9ef">dh</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> Skip:   <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">si</span>, <span style="color:#66d9ef">EndMsg</span>  <span style="color:#75715e">;If we&#39;re not at end of message,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jne</span> <span style="color:#66d9ef">Char</span>        <span style="color:#75715e">;continue loading characters
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>         <span style="color:#66d9ef">jmp</span> <span style="color:#66d9ef">Print</span>       <span style="color:#75715e">;otherwise restart from the beginning of the message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">times</span> <span style="color:#ae81ff">0200</span><span style="color:#66d9ef">h</span> - <span style="color:#ae81ff">2</span> - (<span style="color:#66d9ef">$</span> - <span style="color:#66d9ef">$$</span>)  <span style="color:#66d9ef">db</span> <span style="color:#ae81ff">0</span>    <span style="color:#75715e">;Zerofill up to 510 bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">dw</span> <span style="color:#ae81ff">0</span><span style="color:#66d9ef">AA55h</span>       <span style="color:#75715e">;Boot Sector signature
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">;OPTIONAL:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">;To zerofill up to the size of a standard 1.44MB, 3.5&#34; floppy disk
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">;times 1474560 - ($ - $$) db 0
+</span></span></span></code></pre></div><p>要编译上面的文件，假设它名为“ floppy.asm”，则可以使用以下命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nasm -f bin -o floppy.img floppy.asm
+</span></span></code></pre></div><p>虽然严格来说这不是引导程序，但它是可引导的，并演示了以下几点：</p>
 <ul>
 <li>如何在引导扇区中包括和访问数据</li>
 <li>如何跳过包含的数据（BIOS参数块必需）</li>
@@ -348,10 +351,10 @@ MS-DOS引导加载程序（放置在所有 MS-DOS格式的软盘上）仅检查�
 <li>使用BIOS中断</li>
 </ul>
 <p>在Linux上，您可以发出如下命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat floppy.img &gt; /dev/fd0
-</code></pre></div><p>将映像写入软盘（映像可能小于磁盘的大小，在这种情况下，只会将与映像中一样多的信息写入磁盘）。一个更复杂的选项是使用dd实用程序</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>floppy.img of<span style="color:#f92672">=</span>/dev/fd0
-</code></pre></div><h3 id="硬盘">硬盘</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat floppy.img &gt; /dev/fd0
+</span></span></code></pre></div><p>将映像写入软盘（映像可能小于磁盘的大小，在这种情况下，只会将与映像中一样多的信息写入磁盘）。一个更复杂的选项是使用dd实用程序</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>floppy.img of<span style="color:#f92672">=</span>/dev/fd0
+</span></span></code></pre></div><h3 id="硬盘">硬盘</h3>
 <p>硬盘通常会在此过程中添加额外的一层，因为它们可能已分区。硬盘的第一个扇区称为主启动记录（MBR）。常规上，硬盘的分区信息包含在MBR的末尾，即0xAA55签名之前。</p>
 <p>BIOS的作用与以前没有什么不同：将磁盘的第一个扇区（即MBR）读入RAM，并将执行转移到该扇区的第一个字节。BIOS忽略了分区方案-它检查的只是存在0xAA55签名。</p>
 <p>尽管这意味着人们可以按自己想要的任何方式使用MBR（例如，省略或扩展分区表），但这很少完成。尽管分区表的设计非常陈旧且受限制-它仅限于四个分区-实际上，
@@ -470,7 +473,7 @@ MS-DOS引导加载程序（放置在所有 MS-DOS格式的软盘上）仅检查�
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -499,13 +502,14 @@ MS-DOS引导加载程序（放置在所有 MS-DOS格式的软盘上）仅检查�
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

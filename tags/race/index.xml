@@ -16,8 +16,8 @@
       <description>什么是数据争用或竞态 数据争用是并发系统中最常见且最难调试的错误类型之一。当两个goroutine并发访问同一变量并且至少其中之一是写操作时，就会发生数据争用。
 下面让我们来实际模拟一下数据争用问题。
 以下示例可能导致内存崩溃和损坏的数据争用
-func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&amp;#34;1&amp;#34;] = &amp;#34;a&amp;#34; c &amp;lt;- true }() m[&amp;#34;2&amp;#34;] = &amp;#34;b&amp;#34; &amp;lt;-c for k, v := range m { fmt.Println(k, v) } } 运行go run -race main.go进行竞争检测，得到的结果如下：
-#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main.func1() /root/go_project/src/test/race.go:9 +0x5d Previous write at 0x00c00008e150 by main goroutine: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main() /root/go_project/src/test/race.</description>
+func main() { 	c := make(chan bool) 	m := make(map[string]string) 	go func() { 	m[&amp;#34;1&amp;#34;] = &amp;#34;a&amp;#34; 	c &amp;lt;- true 	}() 	m[&amp;#34;2&amp;#34;] = &amp;#34;b&amp;#34; 	&amp;lt;-c 	for k, v := range m { 	fmt.Println(k, v) 	} } 运行go run -race main.go进行竞争检测，得到的结果如下：
+#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6:  runtime.mapassign_faststr()  /usr/local/go/src/runtime/map_faststr.go:202 +0x0  main.</description>
     </item>
     
   </channel>

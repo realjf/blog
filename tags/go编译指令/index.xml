@@ -23,10 +23,10 @@ go语言的编译指令 c语言使用#pragma编写预处理编译指令，但是
 //go:noinline 禁止内联
 内联通过将内联函数的代码复制到其调用方中，从而改善了堆栈检查前同步码的成本以及实际上所有函数调用的开销。 通过避免函数调用开销，可以在增加程序大小和减少运行时间之间进行很小的折衷。 内联是编译器优化的关键，因为它可以解锁许多其他优化。
 //go:nowritebarrier 意思很明显，让编译器禁用内存写屏障
-import _ &amp;#34;unsafe&amp;#34; //go:linkname localname github.com/xxx/xxx/xxx.xxx 引导编译器将当前(私有)方法或者变量在编译时链接到指定的位置的方法或者变量，第一个参数表示当前方法或变量，第二个参数表示目标方法或变量，因为这关指令会破坏系统和包的模块化，因此在使用时必须导入unsafe， 如：
+import _ &amp;#34;unsafe&amp;#34;  //go:linkname localname github.com/xxx/xxx/xxx.xxx 引导编译器将当前(私有)方法或者变量在编译时链接到指定的位置的方法或者变量，第一个参数表示当前方法或变量，第二个参数表示目标方法或变量，因为这关指令会破坏系统和包的模块化，因此在使用时必须导入unsafe， 如：
 time/time.go
 ... func now() (sec int64, nsec int32, mono int64) runtime/timestub.go文件里的代码
-import _ &amp;#34;unsafe&amp;#34; // for go:linkname  //go:linkname time_now time.now func time_now() (sec int64, nsec int32, mono int64) { sec, nsec = walltime() return sec, nsec, nanotime() - startNano } 可以看到 time.</description>
+import _ &amp;#34;unsafe&amp;#34; // for go:linkname  //go:linkname time_now time.</description>
     </item>
     
   </channel>

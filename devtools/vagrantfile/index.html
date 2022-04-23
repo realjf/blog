@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>Vagrantfile // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">Vagrantfile</h1>
@@ -239,49 +242,48 @@
             <h3 id="配置版本">配置版本</h3>
 <p>配置版本是一种机制，通过该机制，Vagrant 1.1+可以 与Vagrant 1.0.x Vagrantfiles保持向后兼容，同时引入了许多新功能和配置选项</p>
 <p>现在运行vagrant init，其格式如下：</p>
-<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.configure(&quot;2&quot;) do |config|
+<pre tabindex="0"><code class="language-vagrant" data-lang="vagrant">Vagrant.configure(&#34;2&#34;) do |config|
   # ...
 end
 </code></pre><p>其中的2代表配置的版本的号</p>
 <p>可以同时使用版本1和版本2的特性，最终它们将合并在一起使用</p>
-<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.configure(&quot;1&quot;) do |config|
+<pre tabindex="0"><code class="language-vagrant" data-lang="vagrant">Vagrant.configure(&#34;1&#34;) do |config|
   # v1 configs...
 end
 
-Vagrant.configure(&quot;2&quot;) do |config|
+Vagrant.configure(&#34;2&#34;) do |config|
   # v2 configs...
 end
 </code></pre><h3 id="最小版本">最小版本</h3>
 <p>这个可以限制太新或者太旧的版本，但是此版本限制必须放在vagrantfile文件最前面，
 并通过vagrant.require_version 指定</p>
-<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.require_version &quot;&gt;= 1.3.5&quot;
+<pre tabindex="0"><code class="language-vagrant" data-lang="vagrant">Vagrant.require_version &#34;&gt;= 1.3.5&#34;
 </code></pre><p>上述限制将让vagrantfile文件只在 大于等于vagrant 1.3.5版本时加载</p>
 <p>也可以指定多版本限制</p>
-<pre><code class="language-vagrant" data-lang="vagrant">Vagrant.require_version &quot;&gt;= 1.3.5&quot;, &quot;&lt; 1.4.0&quot;
+<pre tabindex="0"><code class="language-vagrant" data-lang="vagrant">Vagrant.require_version &#34;&gt;= 1.3.5&#34;, &#34;&lt; 1.4.0&#34;
 </code></pre><h3 id="循环vm定义">循环vm定义</h3>
-<pre><code class="language-vagrant" data-lang="vagrant">(1..3).each do |i|
-  config.vm.define &quot;node-#{i}&quot; do |node|
-    node.vm.provision &quot;shell&quot;,
-      inline: &quot;echo hello from node #{i}&quot;
+<pre tabindex="0"><code class="language-vagrant" data-lang="vagrant">(1..3).each do |i|
+  config.vm.define &#34;node-#{i}&#34; do |node|
+    node.vm.provision &#34;shell&#34;,
+      inline: &#34;echo hello from node #{i}&#34;
   end
 end
 </code></pre><p>以上的each结构时使用副本进行迭代，所以不会出错，但是如果使用以下结构，将会使所有node的text相同</p>
-<pre><code class="language-vagrant" data-lang="vagrant">
+<pre tabindex="0"><code class="language-vagrant" data-lang="vagrant">
 # THIS DOES NOT WORK!
 for i in 1..3 do
-  config.vm.define &quot;node-#{i}&quot; do |node|
-    node.vm.provision &quot;shell&quot;,
-      inline: &quot;echo hello from node #{i}&quot;
+  config.vm.define &#34;node-#{i}&#34; do |node|
+    node.vm.provision &#34;shell&#34;,
+      inline: &#34;echo hello from node #{i}&#34;
   end
 end
 </code></pre><h3 id="重写ssh会话中的host-locale变量">重写ssh会话中的host locale变量</h3>
 <p>通常，host locale环境变量传递给客户机，但是可能客户机不支持，所以可以使用以下解决方法</p>
-<pre><code class="language-vagrant" data-lang="vagrant">ENV[&quot;LC_ALL&quot;] = &quot;en_US.UTF-8&quot;
+<pre tabindex="0"><code class="language-vagrant" data-lang="vagrant">ENV[&#34;LC_ALL&#34;] = &#34;en_US.UTF-8&#34;
 
-Vagrant.configure(&quot;2&quot;) do |config|
+Vagrant.configure(&#34;2&#34;) do |config|
   # ...
 end
-
 </code></pre><p>该变量只在Vagrantfile中可见</p>
 <h3 id="配置空间-configvm">配置空间 config.vm</h3>
 <h4 id="可用配置">可用配置</h4>
@@ -388,7 +390,7 @@ end
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -417,13 +419,14 @@ end
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

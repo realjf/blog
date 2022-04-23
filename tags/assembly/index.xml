@@ -29,7 +29,7 @@
  驱动器的第一个扇区包含其引导加载程序。 一个扇区为512字节-最后两个字节必须为0xAA55（即0x55后跟0xAA），否则BIOS将驱动器视为不可引导。 如果一切正常，则所述第一个扇区将放置在RAM地址0000：7C00上，并且BIOS的角色已经结束，因为它将控制权转移到0000：7C00（即，将JMP传递到该地址）。 DL寄存器将包含正在从中引导的驱动器号，如果您想从驱动器上的其他位置读取更多数据，则很有用。 BIOS留下了大量代码，既可以处理硬件中断（例如按键），又可以为Bootloader和OS提供服务（例如键盘输入，磁盘读取和写入屏幕）。 您必须了解中断向量表（IVT）的用途，并注意不要干扰您所依赖的BIOS部分。大多数操作系统用自己的代码替换BIOS代码，但是引导加载程序只能使用自己的代码以及BIOS提供的内容来使用。 有用的BIOS服务包括int 10h（用于显示文本/图形），int 13h（磁盘功能）和int 16h（键盘输入）。 这意味着引导加载程序需要的任何代码或数据都必须包含在第一个扇区中（请注意不要意外执行数据），或者必须将其从磁盘的另一个扇区手动加载到RAM中的某个位置。 由于操作系统尚未运行，因此大部分RAM将不使用。但是，您必须注意不要干扰上述BIOS中断处理程序和服务所需的RAM。 操作系统代码本身（或下一个引导程序）也需要加载到RAM中。 BIOS将堆栈指针放在引导扇区末尾之外的512个字节中，这意味着堆栈不能超过512个字节。可能有必要将堆栈移动到更大的区域。 如果要在主流操作系统下读取磁盘，则需要遵守一些约定。例如，您可能希望在软盘上包括BIOS参数块，以使该盘在大多数PC操作系统下均可读。  大多数汇编器都会具有ORG 7C00h与之类似的命令或指令，以通知汇编器将从偏移量7C00h开始加载代码。 汇编程序在计算指令和数据地址时会考虑到这一点。如果不考虑这一点，则汇编程序将假定代码已加载到地址0，并且必须在代码中手动对其进行补偿。
 通常，引导程序会将内核加载到内存中，然后跳转到内核。然后，内核将能够回收引导加载程序使用的内存（因为它已经执行了其工作）。但是，可以在引导扇区中包含OS代码，并在OS启动后将其保留在驻留位置。
 这是为NASM设计的简单引导程序演示：
-org 7C00h jmp short Start ;Jump over the data (the &amp;#39;short&amp;#39; keyword makes the jmp instruction smaller)  Msg: db &amp;#34;Hello World!</description>
+org 7C00h   jmp short Start ;Jump over the data (the &amp;#39;short&amp;#39; keyword makes the jmp instruction smaller)   Msg: db &amp;#34;Hello World!</description>
     </item>
     
     <item>
@@ -64,7 +64,7 @@ org 7C00h jmp short Start ;Jump over the data (the &amp;#39;short&amp;#39; keywo
 mov	edx,len	;message length mov	ecx,msg	;message to write mov	ebx,1 ;file descriptor (stdout) mov	eax,4 ;system call number (sys_write) int	0x80 ;call kernel 在以上显示字符串的示例中，INT 80H函数调用已使用寄存器EAX，EBX，ECX和EDX。 因此，每次需要在屏幕上显示时，都需要将这些寄存器保存在堆栈中，调用INT 80H，然后从堆栈中恢复寄存器的原始值。因此，编写两个用于保存和还原数据的宏可能会很有用
 我们已经观察到，某些指令（如IMUL，IDIV，INT等）需要将某些信息存储在某些特定的寄存器中，甚至返回某些特定寄存器中的值。 如果程序已经使用这些寄存器来保存重要数据，则应将这些寄存器中的现有数据保存在堆栈中，并在执行指令后将其恢复。
 示例
-; A macro with two parameters ; Implements the write system call  %macro write_string 2 mov eax, 4 mov ebx, 1 mov ecx, %1 mov edx, %2 int 80h %endmacro section	.</description>
+; A macro with two parameters ; Implements the write system call  %macro write_string 2  mov eax, 4  mov ebx, 1  mov ecx, %1  mov edx, %2  int 80h  %endmacro  section	.</description>
     </item>
     
     <item>
@@ -75,7 +75,7 @@ mov	edx,len	;message length mov	ecx,msg	;message to write mov	ebx,1 ;file descri
       <guid>https://realjf.io/assembly/recursion/</guid>
       <description>递归过程是一个可以自我调用的过程。递归有两种：直接和间接。 在直接递归中，该过程调用自身，在间接递归中，第一个过程调用第二个过程，第二个过程依次调用第一个过程。
 以下程序显示了如何使用汇编语言实现阶乘n。为了简化程序，我们将计算阶乘3
-section	.text global _start ;must be declared for using gcc 	_start: ;tell linker entry point  mov bx, 3 ;for calculating factorial 3  call proc_fact add ax, 30h mov [fact], ax mov	edx,len ;message length  mov	ecx,msg ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel  mov edx,1 ;message length  mov	ecx,fact ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel  mov	eax,1 ;system call number (sys_exit)  int	0x80 ;call kernel 	proc_fact: cmp bl, 1 jg do_calculation mov ax, 1 ret do_calculation: dec bl call proc_fact inc bl mul bl ;ax = al * bl  ret section	.</description>
+section	.text  global _start ;must be declared for using gcc 	_start: ;tell linker entry point   mov bx, 3 ;for calculating factorial 3  call proc_fact  add ax, 30h  mov [fact], ax   mov	edx,len ;message length  mov	ecx,msg ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel   mov edx,1 ;message length  mov	ecx,fact ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel   mov	eax,1 ;system call number (sys_exit)  int	0x80 ;call kernel 	proc_fact:  cmp bl, 1  jg do_calculation  mov ax, 1  ret 	do_calculation:  dec bl  call proc_fact  inc bl  mul bl ;ax = al * bl  ret  section	.</description>
     </item>
     
     <item>
@@ -86,9 +86,9 @@ section	.text global _start ;must be declared for using gcc 	_start: ;tell linke
       <guid>https://realjf.io/assembly/procedures/</guid>
       <description>过程或子例程在汇编语言中非常重要，因为汇编语言程序往往会很大。程序由名称标识。 在此名称之后，将描述执行明确定义的作业的过程主体。该过程的结束由return语句指示。
 语法
-proc_name: procedure body ... ret 通过使用CALL指令从另一个函数调用该过程。 CALL指令应将被调用过程的名称作为参数，如下所示
+proc_name:  procedure body  ...  ret 通过使用CALL指令从另一个函数调用该过程。 CALL指令应将被调用过程的名称作为参数，如下所示
 CALL proc_name 示例
-Live Demo section	.text global _start ;must be declared for using gcc 	_start:	;tell linker entry point  mov	ecx,&amp;#39;4&amp;#39; sub ecx, &amp;#39;0&amp;#39; mov edx, &amp;#39;5&amp;#39; sub edx, &amp;#39;0&amp;#39; call sum ;call sum procedure  mov [res], eax mov	ecx, msg	mov	edx, len mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	mov	ecx, res mov	edx, 1 mov	ebx, 1	;file descriptor (stdout)  mov	eax, 4	;system call number (sys_write)  int	0x80	;call kernel 	mov	eax,1	;system call number (sys_exit)  int	0x80	;call kernel sum: mov eax, ecx add eax, edx add eax, &amp;#39;0&amp;#39; ret section .</description>
+Live Demo section	.text  global _start ;must be declared for using gcc 	_start:	;tell linker entry point  mov	ecx,&amp;#39;4&amp;#39;  sub ecx, &amp;#39;0&amp;#39; 	 mov edx, &amp;#39;5&amp;#39;  sub edx, &amp;#39;0&amp;#39; 	 call sum ;call sum procedure  mov [res], eax  mov	ecx, msg	 mov	edx, len  mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	 mov	ecx, res  mov	edx, 1  mov	ebx, 1	;file descriptor (stdout)  mov	eax, 4	;system call number (sys_write)  int	0x80	;call kernel 	 mov	eax,1	;system call number (sys_exit)  int	0x80	;call kernel sum:  mov eax, ecx  add eax, edx  add eax, &amp;#39;0&amp;#39;  ret 	section .</description>
     </item>
     
     <item>
@@ -102,9 +102,8 @@ Live Demo section	.text global _start ;must be declared for using gcc 	_start:	;
 MONTHS	DW	12 MONTHS	DW	0CH MONTHS	DW	0110B 数据定义指令还可用于定义一维数组。让我们定义一维数字数组
 NUMBERS	DW 34, 45, 56, 67, 75, 89 上面的定义声明了一个六个字的数组，每个字都用数字34、45、56、67、75、89初始化。这分配了2x6 = 12个字节的连续存储空间。 第一个数字的符号地址为NUMBERS，第二个数字的符号地址为NUMBERS + 2，依此类推
 您可以定义一个大小为8的名为清单的数组，并将所有值初始化为零，如下所示：
-INVENTORY DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 DW 0 可以缩写为
-INVENTORY DW 0, 0 , 0 , 0 , 0 , 0 , 0 , 0 TIMES指令还可用于将多个初始化为相同的值。使用TIMES，可以将INVENTORY数组定义为
-INVENTORY TIMES 8 DW 0 示例</description>
+INVENTORY DW 0  DW 0  DW 0  DW 0  DW 0  DW 0  DW 0  DW 0 可以缩写为
+INVENTORY DW 0, 0 , 0 , 0 , 0 , 0 , 0 , 0 TIMES指令还可用于将多个初始化为相同的值。使用TIMES，可以将INVENTORY数组定义为</description>
     </item>
     
     <item>
@@ -139,7 +138,7 @@ DS：SI（或ESI）和ES：DI（或EDI）寄存器分别指向源和目标操作
 有四条指令以ASCII表示形式处理数字
  AAA ASCII Adjust After Addition AAS ASCII Adjust After Subtraction AAM ASCII Adjust After Multiplication AAD ASCII Adjust Before Division  这些指令不使用任何操作数，并假定所需的操作数位于AL寄存器中
 示例
-section	.text global _start ;must be declared for using gcc 	_start:	;tell linker entry point  sub ah, ah mov al, &amp;#39;9&amp;#39; sub al, &amp;#39;3&amp;#39; aas or al, 30h mov [res], ax mov	edx,len	;message length  mov	ecx,msg	;message to write  mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	mov	edx,1	;message length  mov	ecx,res	;message to write  mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	mov	eax,1	;system call number (sys_exit)  int	0x80	;call kernel 	section	.</description>
+section	.text  global _start ;must be declared for using gcc 	_start:	;tell linker entry point  sub ah, ah  mov al, &amp;#39;9&amp;#39;  sub al, &amp;#39;3&amp;#39;  aas  or al, 30h  mov [res], ax 	 mov	edx,len	;message length  mov	ecx,msg	;message to write  mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	 mov	edx,1	;message length  mov	ecx,res	;message to write  mov	ebx,1	;file descriptor (stdout)  mov	eax,4	;system call number (sys_write)  int	0x80	;call kernel 	 mov	eax,1	;system call number (sys_exit)  int	0x80	;call kernel 	section	.</description>
     </item>
     
     <item>
@@ -152,7 +151,7 @@ section	.text global _start ;must be declared for using gcc 	_start:	;tell linke
 MOV	CL, 10 L1: &amp;lt;LOOP-BODY&amp;gt; DEC	CL JNZ	L1 但是，处理器指令集包括一组用于实现迭代的循环指令。基本的LOOP指令具有以下语法
 LOOP label 其中，label是标识目标指令的目标标签，如跳转指令中所述。 LOOP指令假定ECX寄存器包含循环计数。 当执行循环指令时，ECX寄存器递减，并且控制跳至目标标签，直到ECX寄存器的值（即计数器达到零）为止。
 示例
-Live Demo section	.text global _start ;must be declared for using gcc 	_start:	;tell linker entry point  mov ecx,10 mov eax, &amp;#39;1&amp;#39; l1: mov [num], eax mov eax, 4 mov ebx, 1 push ecx mov ecx, num mov edx, 1 int 0x80 mov eax, [num] sub eax, &amp;#39;0&amp;#39; inc eax add eax, &amp;#39;0&amp;#39; pop ecx loop l1 mov eax,1 ;system call number (sys_exit)  int 0x80 ;call kernel section	.</description>
+Live Demo section	.text  global _start ;must be declared for using gcc 	_start:	;tell linker entry point  mov ecx,10  mov eax, &amp;#39;1&amp;#39; 	l1:  mov [num], eax  mov eax, 4  mov ebx, 1  push ecx 	 mov ecx, num  mov edx, 1  int 0x80 	 mov eax, [num]  sub eax, &amp;#39;0&amp;#39;  inc eax  add eax, &amp;#39;0&amp;#39;  pop ecx  loop l1 	 mov eax,1 ;system call number (sys_exit)  int 0x80 ;call kernel section	.</description>
     </item>
     
     <item>
@@ -198,10 +197,7 @@ INC EBX	; Increments 32-bit register INC DL ; Increments 8-bit register INC [cou
 语法
 DEC destination 操作数目的地可以是8位，16位或32位操作数。
 示例
-segment .data count dw 0 value db 15 segment .text inc [count] dec [value] mov ebx, count inc word [ebx] mov esi, value dec byte [esi] add和sub指令 ADD和SUB指令用于对字节，字和双字大小的二进制数据进行简单的加/减，即分别用于添加或减去8位，16位或32位操作数
-语法
-ADD/SUB	destination, source ADD / SUB指令可以在
- 寄存器到寄存器 内存到寄存器 寄存器到内存 寄存器到常量 内存到常量  与其他指令一样，使用ADD/SUB指令也无法进行存储器到存储器的操作。 ADD或SUB操作设置或清除溢出和进位标志。</description>
+segment .data  count dw 0  value db 15 	segment .text  inc [count]  dec [value] 	 mov ebx, count  inc word [ebx] 	 mov esi, value  dec byte [esi] add和sub指令 ADD和SUB指令用于对字节，字和双字大小的二进制数据进行简单的加/减，即分别用于添加或减去8位，16位或32位操作数</description>
     </item>
     
     <item>
@@ -215,7 +211,7 @@ ADD/SUB	destination, source ADD / SUB指令可以在
 CONSTANT_NAME EQU expression 示例
 TOTAL_STUDENTS equ 50 EQU语句的操作数可以是表达式
 LENGTH equ 20 WIDTH equ 10 AREA equ length * width 示例
-Live Demo SYS_EXIT equ 1 SYS_WRITE equ 4 STDIN equ 0 STDOUT equ 1 section	.text global _start ;must be declared for using gcc 	_start: ;tell linker entry point  mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg1 mov edx, len1 int 0x80 mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg2 mov edx, len2 int 0x80 mov eax, SYS_WRITE mov ebx, STDOUT mov ecx, msg3 mov edx, len3 int 0x80 mov eax,SYS_EXIT ;system call number (sys_exit)  int 0x80 ;call kernel  section	.</description>
+Live Demo SYS_EXIT equ 1 SYS_WRITE equ 4 STDIN equ 0 STDOUT equ 1 section	.text  global _start ;must be declared for using gcc 	_start: ;tell linker entry point  mov eax, SYS_WRITE  mov ebx, STDOUT  mov ecx, msg1  mov edx, len1  int 0x80 	 mov eax, SYS_WRITE  mov ebx, STDOUT  mov ecx, msg2  mov edx, len2  int 0x80 	 mov eax, SYS_WRITE  mov ebx, STDOUT  mov ecx, msg3  mov edx, len3  int 0x80   mov eax,SYS_EXIT ;system call number (sys_exit)  int 0x80 ;call kernel  section	.</description>
     </item>
     
     <item>
@@ -292,7 +288,7 @@ mov	edx,4	; message length mov	ecx,msg	; message to write mov	ebx,1	; file descr
       <guid>https://realjf.io/assembly/memory-segments/</guid>
       <description>汇编程序的三个节.data、.bss、.text。这些部分也代表各种内存段。
 如果将section关键字替换为segment，则会得到相同的结果。试试下面的代码
-segment .text	;code segment  global _start ;must be declared for linker 	_start:	;tell linker entry point  mov edx,len	;message length  mov ecx,msg ;message to write  mov ebx,1	;file descriptor (stdout)  mov eax,4	;system call number (sys_write)  int 0x80	;call kernel  mov eax,1 ;system call number (sys_exit)  int 0x80	;call kernel  segment .data ;data segment msg	db &amp;#39;Hello, world!&amp;#39;,0xa ;our dear string len	equ	$ - msg ;length of our dear string 内存段 分段存储器模型将系统存储器分为独立的分段组，这些分段由位于分段寄存器中的指针引用。每个细分用于包含特定类型的数据。 一个段用于包含指令代码，另一段用于存储数据元素，第三段用于保留程序堆栈。</description>
+segment .text	;code segment  global _start ;must be declared for linker 	_start:	;tell linker entry point  mov edx,len	;message length  mov ecx,msg ;message to write  mov ebx,1	;file descriptor (stdout)  mov eax,4	;system call number (sys_write)  int 0x80	;call kernel   mov eax,1 ;system call number (sys_exit)  int 0x80	;call kernel  segment .data ;data segment msg	db &amp;#39;Hello, world!</description>
     </item>
     
     <item>
@@ -305,7 +301,7 @@ segment .text	;code segment  global _start ;must be declared for linker 	_start:
  data section bss section text section  data section data 部分用于声明初始化的数据或常量。该数据在运行时不会更改。您可以在本节中声明各种常量值，文件名或缓冲区大小等
 section .data bss section bss部分用于声明变量。声明bss部分的语法是
 section .bss text section text部分用于保留实际代码。此section必须以全局声明_start开头，该声明告诉内核程序从何处开始执行。
-section .text global _start _start: 注释 ; this is a comment  mov a, b ; move b to a statements [label] mnemonic [operands] [;comment] hello world示例 section	.text global _start ;must be declared for linker (ld) 	_start:	;tells linker entry point  mov	edx,len ;message length  mov	ecx,msg ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel 	mov	eax,1 ;system call number (sys_exit)  int	0x80 ;call kernel  section	.</description>
+section .text  global _start _start: 注释 ; this is a comment  mov a, b ; move b to a statements [label] mnemonic [operands] [;comment] hello world示例 section	.text  global _start ;must be declared for linker (ld) 	_start:	;tells linker entry point  mov	edx,len ;message length  mov	ecx,msg ;message to write  mov	ebx,1 ;file descriptor (stdout)  mov	eax,4 ;system call number (sys_write)  int	0x80 ;call kernel 	 mov	eax,1 ;system call number (sys_exit)  int	0x80 ;call kernel  section	.</description>
     </item>
     
     <item>

@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>Windows下 Vscode Cpp开发环境配置 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">Windows下 Vscode Cpp开发环境配置</h1>
@@ -261,136 +264,136 @@
 c/c++ edit Configurations(JSON)，打开
 c_cpp_properties.json文件</p>
 <h4 id="开始编辑c_cpp_propertiesjson文件">开始编辑c_cpp_properties.json文件</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;configurations&#34;</span>: [
-        {
-            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;GCC&#34;</span>,
-            <span style="color:#f92672">&#34;includePath&#34;</span>: [
-                <span style="color:#e6db74">&#34;${workspaceFolder}/**&#34;</span>,
-                <span style="color:#e6db74">&#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&#34;</span> <span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">这里添加第三方库目录</span>
-            ],
-            <span style="color:#f92672">&#34;defines&#34;</span>: [
-                <span style="color:#e6db74">&#34;_DEBUG&#34;</span>,
-                <span style="color:#e6db74">&#34;UNICODE&#34;</span>,
-                <span style="color:#e6db74">&#34;_UNICODE&#34;</span>
-            ],
-            <span style="color:#f92672">&#34;windowsSdkVersion&#34;</span>: <span style="color:#e6db74">&#34;10.0.15063.0&#34;</span>,
-            <span style="color:#f92672">&#34;compilerPath&#34;</span>: <span style="color:#e6db74">&#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&#34;</span>, <span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">这里改成你安装mingw64下的g++.exe文件路径</span>
-            <span style="color:#f92672">&#34;cStandard&#34;</span>: <span style="color:#e6db74">&#34;c11&#34;</span>,
-            <span style="color:#f92672">&#34;cppStandard&#34;</span>: <span style="color:#e6db74">&#34;c++17&#34;</span>,
-            <span style="color:#f92672">&#34;intelliSenseMode&#34;</span>: <span style="color:#e6db74">&#34;gcc-x64&#34;</span> <span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#960050;background-color:#1e0010">这里是模式选择</span>
-        }
-    ],
-    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#ae81ff">4</span>
-}
-</code></pre></div><p>配置完成后，在vscode的工作目录下有个.vscode文件夹
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;configurations&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;GCC&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;includePath&#34;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;${workspaceFolder}/**&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&#34;</span> <span style="color:#75715e">// 这里添加第三方库目录
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            ],
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;defines&#34;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;_DEBUG&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;UNICODE&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;_UNICODE&#34;</span>
+</span></span><span style="display:flex;"><span>            ],
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;windowsSdkVersion&#34;</span>: <span style="color:#e6db74">&#34;10.0.15063.0&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;compilerPath&#34;</span>: <span style="color:#e6db74">&#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&#34;</span>, <span style="color:#75715e">// 这里改成你安装mingw64下的g++.exe文件路径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">&#34;cStandard&#34;</span>: <span style="color:#e6db74">&#34;c11&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;cppStandard&#34;</span>: <span style="color:#e6db74">&#34;c++17&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;intelliSenseMode&#34;</span>: <span style="color:#e6db74">&#34;gcc-x64&#34;</span> <span style="color:#75715e">// 这里是模式选择
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>配置完成后，在vscode的工作目录下有个.vscode文件夹
 里面会有c_cpp_properties.json文件</p>
 <h4 id="开始编写代码">开始编写代码</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 新建目录</span>
-make test 
-cd test
-<span style="color:#75715e"># 新建文件</span>
-type null &gt; src/main.cpp
-type null &gt; CMakeLists.txt
-</code></pre></div><p>写代码，然后写CMakeLists.txt，内容如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 写CMakeLists.txt文件，其内容如下</span>
-cmake_minimum_required<span style="color:#f92672">(</span>VERSION 3.1<span style="color:#f92672">)</span>
-
-set<span style="color:#f92672">(</span>project_name oatpp_example<span style="color:#f92672">)</span> <span style="color:#75715e">## rename your project here</span>
-
-project<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span><span style="color:#f92672">)</span>
-
-set<span style="color:#f92672">(</span>CMAKE_CXX_STANDARD 11<span style="color:#f92672">)</span>
-
-add_library<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib
-        src/main.cpp
-<span style="color:#f92672">)</span>
-
-<span style="color:#75715e">## link libs</span>
-find_package<span style="color:#f92672">(</span>oatpp 1.1.0 REQUIRED<span style="color:#f92672">)</span>
-
-target_link_libraries<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib
-        PUBLIC oatpp::oatpp
-        PUBLIC oatpp::oatpp-test
-<span style="color:#f92672">)</span>
-
-target_include_directories<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib PUBLIC src<span style="color:#f92672">)</span>
-
-<span style="color:#75715e">## add executables</span>
-
-add_executable<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-exe
-        src/main.cpp<span style="color:#f92672">)</span>
-
-target_link_libraries<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-exe <span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib<span style="color:#f92672">)</span>
-add_dependencies<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-exe <span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib<span style="color:#f92672">)</span>
-</code></pre></div><p>以上都准备完毕，开始编译代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 新建目录</span>
+</span></span><span style="display:flex;"><span>make test 
+</span></span><span style="display:flex;"><span>cd test
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建文件</span>
+</span></span><span style="display:flex;"><span>type null &gt; src/main.cpp
+</span></span><span style="display:flex;"><span>type null &gt; CMakeLists.txt
+</span></span></code></pre></div><p>写代码，然后写CMakeLists.txt，内容如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 写CMakeLists.txt文件，其内容如下</span>
+</span></span><span style="display:flex;"><span>cmake_minimum_required<span style="color:#f92672">(</span>VERSION 3.1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>set<span style="color:#f92672">(</span>project_name oatpp_example<span style="color:#f92672">)</span> <span style="color:#75715e">## rename your project here</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>project<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>set<span style="color:#f92672">(</span>CMAKE_CXX_STANDARD 11<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>add_library<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib
+</span></span><span style="display:flex;"><span>        src/main.cpp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## link libs</span>
+</span></span><span style="display:flex;"><span>find_package<span style="color:#f92672">(</span>oatpp 1.1.0 REQUIRED<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>target_link_libraries<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib
+</span></span><span style="display:flex;"><span>        PUBLIC oatpp::oatpp
+</span></span><span style="display:flex;"><span>        PUBLIC oatpp::oatpp-test
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>target_include_directories<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib PUBLIC src<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## add executables</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>add_executable<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-exe
+</span></span><span style="display:flex;"><span>        src/main.cpp<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>target_link_libraries<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-exe <span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>add_dependencies<span style="color:#f92672">(</span><span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-exe <span style="color:#e6db74">${</span>project_name<span style="color:#e6db74">}</span>-lib<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>以上都准备完毕，开始编译代码</p>
 <h4 id="编译代码非cmake方式">编译代码：非cmake方式</h4>
 <p>如果不使用cmake，可以直接忽略CMakeLists.txt文件编写，直接选中入口文件，然后按f5运行code running，进行编译，
 首次运行会出现配置launch.json，其配置如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">{</span>
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid<span style="color:#f92672">=</span><span style="color:#ae81ff">830387</span>
-    <span style="color:#e6db74">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
-    <span style="color:#e6db74">&#34;configurations&#34;</span>: <span style="color:#f92672">[</span>
-        <span style="color:#f92672">{</span>
-            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;g++.exe - 生成和调试活动文件&#34;</span>,
-            <span style="color:#e6db74">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;cppdbg&#34;</span>,
-            <span style="color:#e6db74">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
-            <span style="color:#e6db74">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>fileDirname<span style="color:#e6db74">}</span><span style="color:#e6db74">\\</span><span style="color:#e6db74">${</span>fileBasenameNoExtension<span style="color:#e6db74">}</span><span style="color:#e6db74">.exe&#34;</span>,
-            <span style="color:#e6db74">&#34;args&#34;</span>: <span style="color:#f92672">[]</span>,
-            <span style="color:#e6db74">&#34;stopAtEntry&#34;</span>: false,
-            <span style="color:#e6db74">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>workspaceFolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
-            <span style="color:#e6db74">&#34;environment&#34;</span>: <span style="color:#f92672">[]</span>,
-            <span style="color:#e6db74">&#34;externalConsole&#34;</span>: true,
-            <span style="color:#e6db74">&#34;MIMode&#34;</span>: <span style="color:#e6db74">&#34;gdb&#34;</span>,
-            <span style="color:#e6db74">&#34;miDebuggerPath&#34;</span>: <span style="color:#e6db74">&#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\gdb.exe&#34;</span>, // 改成你自己的gdb路径
-            <span style="color:#e6db74">&#34;setupCommands&#34;</span>: <span style="color:#f92672">[</span>
-                <span style="color:#f92672">{</span>
-                    <span style="color:#e6db74">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;为 gdb 启用整齐打印&#34;</span>,
-                    <span style="color:#e6db74">&#34;text&#34;</span>: <span style="color:#e6db74">&#34;-enable-pretty-printing&#34;</span>,
-                    <span style="color:#e6db74">&#34;ignoreFailures&#34;</span>: true
-                <span style="color:#f92672">}</span>
-            <span style="color:#f92672">]</span>,
-            <span style="color:#e6db74">&#34;preLaunchTask&#34;</span>: <span style="color:#e6db74">&#34;g++.exe&#34;</span> // 该名称需要与后面task.json中的label属性名称一致
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>接下来是配置task.json文件，内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">{</span>
-    // See https://go.microsoft.com/fwlink/?LinkId<span style="color:#f92672">=</span><span style="color:#ae81ff">733558</span>
-    // <span style="color:#66d9ef">for</span> the documentation about the tasks.json format
-    <span style="color:#e6db74">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;2.0.0&#34;</span>,
-    <span style="color:#e6db74">&#34;tasks&#34;</span>: <span style="color:#f92672">[</span>
-        <span style="color:#f92672">{</span>
-            <span style="color:#e6db74">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;shell&#34;</span>,
-            <span style="color:#e6db74">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;g++.exe&#34;</span>, // 该名称需要与launch.json里的preLaunchTask里的名称一致
-            <span style="color:#e6db74">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&#34;</span>, // 改成你自己的g++路径
-            <span style="color:#e6db74">&#34;args&#34;</span>: <span style="color:#f92672">[</span>
-                <span style="color:#e6db74">&#34;-Wall&#34;</span>,
-                <span style="color:#e6db74">&#34;-g&#34;</span>,
-                <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
-                <span style="color:#e6db74">&#34;-I&#39;C:/Program Files (x86)/oatpp/include/oatpp-1.1.0/oatpp&#39;&#34;</span>, // 这里是库文件查找目录
-                <span style="color:#e6db74">&#34;-o&#34;</span>,
-                <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>fileDirname<span style="color:#e6db74">}</span><span style="color:#e6db74">\\</span><span style="color:#e6db74">${</span>fileBasenameNoExtension<span style="color:#e6db74">}</span><span style="color:#e6db74">.exe&#34;</span>
-            <span style="color:#f92672">]</span>,
-            <span style="color:#e6db74">&#34;options&#34;</span>: <span style="color:#f92672">{</span>
-                <span style="color:#e6db74">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;F:\\shared\\vscode_projects&#34;</span>
-            <span style="color:#f92672">}</span>,
-            <span style="color:#e6db74">&#34;problemMatcher&#34;</span>: <span style="color:#f92672">[</span>
-                <span style="color:#e6db74">&#34;</span>$gcc<span style="color:#e6db74">&#34;</span>
-            <span style="color:#f92672">]</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>配置好后，就可以编译运行了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    // Use IntelliSense to learn about possible attributes.
+</span></span><span style="display:flex;"><span>    // Hover to view descriptions of existing attributes.
+</span></span><span style="display:flex;"><span>    // For more information, visit: https://go.microsoft.com/fwlink/?linkid<span style="color:#f92672">=</span><span style="color:#ae81ff">830387</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;configurations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;g++.exe - 生成和调试活动文件&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;cppdbg&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>fileDirname<span style="color:#e6db74">}</span><span style="color:#e6db74">\\</span><span style="color:#e6db74">${</span>fileBasenameNoExtension<span style="color:#e6db74">}</span><span style="color:#e6db74">.exe&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;args&#34;</span>: <span style="color:#f92672">[]</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;stopAtEntry&#34;</span>: false,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>workspaceFolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;environment&#34;</span>: <span style="color:#f92672">[]</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;externalConsole&#34;</span>: true,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;MIMode&#34;</span>: <span style="color:#e6db74">&#34;gdb&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;miDebuggerPath&#34;</span>: <span style="color:#e6db74">&#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\gdb.exe&#34;</span>, // 改成你自己的gdb路径
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;setupCommands&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;为 gdb 启用整齐打印&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;text&#34;</span>: <span style="color:#e6db74">&#34;-enable-pretty-printing&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;ignoreFailures&#34;</span>: true
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">]</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;preLaunchTask&#34;</span>: <span style="color:#e6db74">&#34;g++.exe&#34;</span> // 该名称需要与后面task.json中的label属性名称一致
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>接下来是配置task.json文件，内容如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    // See https://go.microsoft.com/fwlink/?LinkId<span style="color:#f92672">=</span><span style="color:#ae81ff">733558</span>
+</span></span><span style="display:flex;"><span>    // <span style="color:#66d9ef">for</span> the documentation about the tasks.json format
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;2.0.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;tasks&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;shell&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;g++.exe&#34;</span>, // 该名称需要与launch.json里的preLaunchTask里的名称一致
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&#34;</span>, // 改成你自己的g++路径
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;args&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-Wall&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-g&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-I&#39;C:/Program Files (x86)/oatpp/include/oatpp-1.1.0/oatpp&#39;&#34;</span>, // 这里是库文件查找目录
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-o&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>fileDirname<span style="color:#e6db74">}</span><span style="color:#e6db74">\\</span><span style="color:#e6db74">${</span>fileBasenameNoExtension<span style="color:#e6db74">}</span><span style="color:#e6db74">.exe&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">]</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;options&#34;</span>: <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;F:\\shared\\vscode_projects&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;problemMatcher&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;</span>$gcc<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>配置好后，就可以编译运行了</p>
 <h4 id="编译代码cmake方式">编译代码：cmake方式</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 在项目目录下新建build文件</span>
-mkdir build
-cd build
-<span style="color:#75715e"># 运行cmake</span>
-cmake ..
-</code></pre></div><p>运行结束后，使用visual studio 2019/2017打开build目录下的sln文件，
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 在项目目录下新建build文件</span>
+</span></span><span style="display:flex;"><span>mkdir build
+</span></span><span style="display:flex;"><span>cd build
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 运行cmake</span>
+</span></span><span style="display:flex;"><span>cmake ..
+</span></span></code></pre></div><p>运行结束后，使用visual studio 2019/2017打开build目录下的sln文件，
 打开后，在ALL BUILD文件夹上右击，选择生成，编译完成后，在build/Debug/下可以看到生成的可执行文件</p>
 
         </div>
@@ -482,7 +485,7 @@ cmake ..
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -511,13 +514,14 @@ cmake ..
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

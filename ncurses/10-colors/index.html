@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>NCURSES编程 之 10.颜色 10 Colors // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">NCURSES编程 之 10.颜色 10 Colors</h1>
@@ -239,62 +242,62 @@
             <h2 id="10-颜色">10. 颜色</h2>
 <h3 id="101-基础知识">10.1. 基础知识</h3>
 <p>没有色彩的生活似乎单调乏味。诅咒有一个很好的机制来处理颜色。让我们用一个小程序来深入了解这些事情。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string);
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
-{	initscr();			<span style="color:#75715e">/* Start curses mode 		*/</span>
-	<span style="color:#66d9ef">if</span>(has_colors() <span style="color:#f92672">==</span> FALSE)
-	{	endwin();
-		printf(<span style="color:#e6db74">&#34;Your terminal does not support color</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-		exit(<span style="color:#ae81ff">1</span>);
-	}
-	start_color();			<span style="color:#75715e">/* Start color 			*/</span>
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-
-	attron(COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-	print_in_middle(stdscr, LINES <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Viola !!! In color ...&#34;</span>);
-	attroff(COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-    	getch();
-	endwin();
-}
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string)
-{	<span style="color:#66d9ef">int</span> length, x, y;
-	<span style="color:#66d9ef">float</span> temp;
-
-	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
-		win <span style="color:#f92672">=</span> stdscr;
-	getyx(win, y, x);
-	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		x <span style="color:#f92672">=</span> startx;
-	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		y <span style="color:#f92672">=</span> starty;
-	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
-
-	length <span style="color:#f92672">=</span> strlen(string);
-	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
-	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
-	refresh();
-}
-</code></pre></div><p>如您所见，要开始使用color，应该首先调用函数start_color（）。之后，您可以使用各种功能使用终端的颜色功能。若要确定终端是否具有颜色功能，可以使用has_colors（）函数，如果终端不支持颜色，该函数将返回FALSE。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
+</span></span><span style="display:flex;"><span>{	initscr();			<span style="color:#75715e">/* Start curses mode 		*/</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(has_colors() <span style="color:#f92672">==</span> FALSE)
+</span></span><span style="display:flex;"><span>	{	endwin();
+</span></span><span style="display:flex;"><span>		printf(<span style="color:#e6db74">&#34;Your terminal does not support color</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>		exit(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	start_color();			<span style="color:#75715e">/* Start color 			*/</span>
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	attron(COLOR_PAIR(<span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>	print_in_middle(stdscr, LINES <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Viola !!! In color ...&#34;</span>);
+</span></span><span style="display:flex;"><span>	attroff(COLOR_PAIR(<span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>    	getch();
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string)
+</span></span><span style="display:flex;"><span>{	<span style="color:#66d9ef">int</span> length, x, y;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
+</span></span><span style="display:flex;"><span>		win <span style="color:#f92672">=</span> stdscr;
+</span></span><span style="display:flex;"><span>	getyx(win, y, x);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		x <span style="color:#f92672">=</span> startx;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		y <span style="color:#f92672">=</span> starty;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	length <span style="color:#f92672">=</span> strlen(string);
+</span></span><span style="display:flex;"><span>	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
+</span></span><span style="display:flex;"><span>	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如您所见，要开始使用color，应该首先调用函数start_color（）。之后，您可以使用各种功能使用终端的颜色功能。若要确定终端是否具有颜色功能，可以使用has_colors（）函数，如果终端不支持颜色，该函数将返回FALSE。</p>
 <p>当调用start_color（）时，Curses初始化终端支持的所有颜色。这些可以通过define常量来访问，比如COLOR_BLACK等。现在要真正开始使用颜色，必须定义颜色对。颜色总是成对使用。这意味着您必须使用函数init_pair（）为给定的配对号定义前景和背景。之后，可以使用COLOR_PAIR()函数将该对编号用作普通属性。一开始这似乎很麻烦。但这种优雅的解决方案使我们能够非常轻松地管理颜色对。要理解它，您必须查看“dialog”的源代码，dialog是一个用于从shell脚本显示对话框的实用程序。开发人员已经为他们可能需要的所有颜色定义了前景和背景组合，并在开始时进行了初始化。这使得通过访问一个我们已经定义为常量的对来设置属性变得非常容易。</p>
 <p>以下颜色是在curses.h中定义的。您可以将它们用作各种颜色函数的参数。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">        COLOR_BLACK   0
-        COLOR_RED     1
-        COLOR_GREEN   2
-        COLOR_YELLOW  3
-        COLOR_BLUE    4
-        COLOR_MAGENTA 5
-        COLOR_CYAN    6
-        COLOR_WHITE   7
-</code></pre></div><h3 id="102-更改颜色定义">10.2. 更改颜色定义</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>        COLOR_BLACK   0
+</span></span><span style="display:flex;"><span>        COLOR_RED     1
+</span></span><span style="display:flex;"><span>        COLOR_GREEN   2
+</span></span><span style="display:flex;"><span>        COLOR_YELLOW  3
+</span></span><span style="display:flex;"><span>        COLOR_BLUE    4
+</span></span><span style="display:flex;"><span>        COLOR_MAGENTA 5
+</span></span><span style="display:flex;"><span>        COLOR_CYAN    6
+</span></span><span style="display:flex;"><span>        COLOR_WHITE   7
+</span></span></code></pre></div><h3 id="102-更改颜色定义">10.2. 更改颜色定义</h3>
 <p>函数init_color（）可用于更改最初由curses定义的颜色的rgb值。假设你想把红色的强度减轻一点点。然后你可以用这个函数</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">init_color(COLOR_RED, <span style="color:#ae81ff">700</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-    <span style="color:#75715e">/* param 1     : color name
-</span><span style="color:#75715e">     * param 2, 3, 4 : rgb content min = 0, max = 1000 */</span>
-</code></pre></div><p>如果终端无法更改颜色定义，则函数返回ERR。函数can_change_color（）可用于确定终端是否具有更改颜色内容的功能。rgb内容从0缩放到1000。最初，红色的定义为含量1000（r）、0（g）、0（b）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>init_color(COLOR_RED, <span style="color:#ae81ff">700</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* param 1     : color name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * param 2, 3, 4 : rgb content min = 0, max = 1000 */</span>
+</span></span></code></pre></div><p>如果终端无法更改颜色定义，则函数返回ERR。函数can_change_color（）可用于确定终端是否具有更改颜色内容的功能。rgb内容从0缩放到1000。最初，红色的定义为含量1000（r）、0（g）、0（b）。</p>
 <h3 id="103-颜色含量">10.3. 颜色含量</h3>
 <p>函数color_content（）和pair_content（）可用于查找颜色内容和该对的前景、背景组合。</p>
 
@@ -387,7 +390,7 @@
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -416,13 +419,14 @@
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

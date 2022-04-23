@@ -17,7 +17,7 @@
 语言语法仅用于分析文档并为该文档的子集分配名称。然后，范围选择器可以用于样式设置、 首选项以及决定键和选项卡触发器应该如何展开。
 有关这个概念的更全面的介绍，请参阅scopes简介博客文章
 语法示例 先来看下以下示例
-{scopeName = &#39;source.untitled&#39;;fileTypes = ();foldingStartMarker = &#39;\{\s*$&#39;;foldingStopMarker = &#39;^\s*\}&#39;;patterns = ({name = &#39;keyword.control.untitled&#39;;match = &#39;\b(if|while|for|return)\b&#39;;}, {name = &#39;string.quoted.double.untitled&#39;;begin = &#39;&amp;quot;&#39;;end = &#39;&amp;quot;&#39;;patterns = ({name = &#39;constant.character.escape.untitled&#39;;match = &#39;\\.&#39;;});},);}格式是属性列表格式，在根级别有五个键/值对：
+{ scopeName = &amp;#39;source.untitled&amp;#39;; fileTypes = (); foldingStartMarker = &amp;#39;\{\s*$&amp;#39;; foldingStopMarker = &amp;#39;^\s*\}&amp;#39;; patterns = ({ name = &amp;#39;keyword.control.untitled&amp;#39;; match = &amp;#39;\b(if|while|for|return)\b&amp;#39;; }, { name = &amp;#39;string.quoted.double.untitled&amp;#39;; begin = &amp;#39;&amp;#34;&amp;#39;; end = &amp;#39;&amp;#34;&amp;#39;; patterns = ({ name = &amp;#39;constant.character.escape.untitled&amp;#39;; match = &amp;#39;\\.&amp;#39;; }); }, ); } 格式是属性列表格式，在根级别有五个键/值对：
   scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例， 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source， 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails. 从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。
   fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项， 那么TextMate就会记住用户选择。</description>
     </item>
@@ -66,7 +66,7 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
 父范围信息也用于创建主题。当主题以某个范围为目标时，所有具有该父作用域的标记都将被着色， 除非该主题还为其各自的作用域提供了更具体的着色
 添加 基本语法 VS代码支持json TextMate语法。这些都是通过grammars贡献点贡献的。
 每个语法贡献都指定：语法应用于的语言的标识符、语法标记的顶级作用域名称以及语法文件的相对路径。 下面的示例显示了虚构的abc语言的语法贡献：
-{ &amp;#34;contributes&amp;#34;: { &amp;#34;languages&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;extensions&amp;#34;: [&amp;#34;.abc&amp;#34;] } ], &amp;#34;grammars&amp;#34;: [ { &amp;#34;language&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;scopeName&amp;#34;: &amp;#34;source.</description>
+{  &amp;#34;contributes&amp;#34;: {  &amp;#34;languages&amp;#34;: [  {  &amp;#34;id&amp;#34;: &amp;#34;abc&amp;#34;,  &amp;#34;extensions&amp;#34;: [&amp;#34;.abc&amp;#34;]  }  ],  &amp;#34;grammars&amp;#34;: [  {  &amp;#34;language&amp;#34;: &amp;#34;abc&amp;#34;,  &amp;#34;scopeName&amp;#34;: &amp;#34;source.</description>
     </item>
     
     <item>
@@ -97,7 +97,7 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
       
       <guid>https://realjf.io/vscode/your-first-vscode-extension/</guid>
       <description>准备  node.js git  安装yeoman和vscode扩展生成器 npm install -g yo generator-code 用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
-yo code ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
+yo code  ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
     </item>
     
     <item>
@@ -129,7 +129,7 @@ vscode下载安装 下载vscode：https://code.visualstudio.com/
       <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
       <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
  开始配置vscode 首先打开vscode，安装一下插件  ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;quot;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
-开始编辑c_cpp_properties.json文件 { &amp;#34;configurations&amp;#34;: [ { &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;, &amp;#34;includePath&amp;#34;: [ &amp;#34;${workspaceFolder}/**&amp;#34;, &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录 ], &amp;#34;defines&amp;#34;: [ &amp;#34;_DEBUG&amp;#34;, &amp;#34;UNICODE&amp;#34;, &amp;#34;_UNICODE&amp;#34; ], &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.0.15063.0&amp;#34;, &amp;#34;compilerPath&amp;#34;: &amp;#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;#34;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;#34;cStandard&amp;#34;: &amp;#34;c11&amp;#34;, &amp;#34;cppStandard&amp;#34;: &amp;#34;c++17&amp;#34;, &amp;#34;intelliSenseMode&amp;#34;: &amp;#34;gcc-x64&amp;#34; // 这里是模式选择 } ], &amp;#34;version&amp;#34;: 4 } 配置完成后，在vscode的工作目录下有个.</description>
+开始编辑c_cpp_properties.json文件 {  &amp;#34;configurations&amp;#34;: [  {  &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;,  &amp;#34;includePath&amp;#34;: [  &amp;#34;${workspaceFolder}/**&amp;#34;,  &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录  ],  &amp;#34;defines&amp;#34;: [  &amp;#34;_DEBUG&amp;#34;,  &amp;#34;UNICODE&amp;#34;,  &amp;#34;_UNICODE&amp;#34;  ],  &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.</description>
     </item>
     
   </channel>

@@ -14,7 +14,7 @@
       
       <guid>https://realjf.io/k8s/kubeadm-install-k8s/</guid>
       <description>环境准备  centos-7 x86_64 2009 vmware 16 虚拟机 kubernetes: v1.21.0 docker-ce: 20.10.5 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB  请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
-# 关闭防火墙 sed -ri &amp;#39;s#(SELINUX=).*#\1disabled#&amp;#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功 docker-ce安装
+# 关闭防火墙 sed -ri &amp;#39;s#(SELINUX=).*#\1disabled#&amp;#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld  # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功 docker-ce安装
 # 安装yum源 yum install -y wget &amp;amp;&amp;amp; wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo # 安装docker yum install docker-ce # 设置开机自启 systemctl enable docker &amp;amp;&amp;amp; systemctl start docker docker version 第一步：安装kubeadm和相关工具 官网yum源：https://packages.</description>
     </item>
     
@@ -45,8 +45,8 @@ Operator 是 Kubernetes API 的客户端，充当定制资源的控制器。
 实验环境  CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2  什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
 Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！
 minikube安装 可以参考minikube 安装的网站minikube安装
-# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
-安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
+# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm  # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb  # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
+安装docker yum update yum install docker -y systemctl enable docker systemctl start docker  # 检查docker版本 docker version  # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
     </item>
     
     <item>
@@ -58,7 +58,7 @@ minikube安装 可以参考minikube 安装的网站minikube安装
       <description>前提：安装好kubernetes集群情况下
   run traefik and let it do the work for you!
  traefik官方地址：http://traefik.cn/
-方法一：使用k8s安装 准备 # 创建目录 mkdir traefik cd traefik # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git # 检查traefik配置  ll traefik/example/k8s/ -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.yaml -rw-r--r-- 1 root root 509 Sep 11 16:53 cheese-services.</description>
+方法一：使用k8s安装 准备  # 创建目录 mkdir traefik cd traefik  # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik  # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git  # 检查traefik配置  ll traefik/example/k8s/  -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.</description>
     </item>
     
     <item>
@@ -123,7 +123,7 @@ service类型为NodePort kube-proxy在iptables中除了添加上面提及的规�
 Pod管理 kubelet通过以下几种方式获取自身node上所要运行的pod清单：
  文件：同过启动参数“&amp;ndash;config”指定的配置文件目录下的文件（默认/etc/kubernetes/manifests/） http断电：通过“&amp;ndash;manifest-url”参数设置 api server：通过api server监听etcd目录，同步pod列表  kubelet去读监听到的信息，如果是创建和修改pod任务，则  为该pod创建一个数据目录 从api server读取该pod清单 为该pod挂载外部卷 下载pod用到的secret 检查已经运行在节点中的pod，如果该pod没有容器或pause容器（kubernetes/pause镜像创建的容器）没有启动，则先停止pod里所有容器的进程。如果在pod中有需要删除的容器，则删除这些容器。 用&amp;quot;kubernetes/pause&amp;quot;镜像为每个pod创建一个容器，该pause容器用于接管pod中所有其他容器的网络。每创建一个新的pod，kubelet都会先创建一个pause容器，然后创建其他容器。 为pod中的每个容器做如下处理：   为容器计算一个hash值，然后用容器的名字去查询对应docker容器的hash值。若找到容器，且两者的hash值不同，则停止docker中容器的进程，并停止与之关联的pause容器的进程，若两者相同，则不做任何处理。 如果容器被终止了，且容器没有指定的restartPolicy（重启策略），则不做任何处理。 调用docker client下载容器镜像，调用docker client运行容器。  容器健康检查 检查容器健康状态的两种探针
  LivenessProbe探针：判断容器是否健康，如果不健康，则删除Pod，根据其重启策略做相应处理。 ReadinessProbe探针：判断容器是否完成启动，且准备接受请求。如果失败，pod的状态将被修改，Endpoint Controller将从Service的Endpoint中删除包含该容器所在pod的ip地址的endpoint条目。  LivenessProbe实现方式  ExecAction：在容器内部执行一个命令，如果该命令的退出状态码为0，则表明容器健康 TCPSocketAction：通过容器的ip地址和端口号执行TCP检查，如果端口能被访问，则表明容器健康 HTTPGetAction：通过容器的ip地址和端口号即路径调用http get方法，如果响应的状态码大于等于200且小于400，则认为容器状态健康  LivenessProbe探针包含在pod定义的spec.containers.{某个容器}中
-# 容器命令检查 livenessProbe: exec: command: - cat - /tmp/health initialDelaySeconds: 15 timeoutSeconds: 1 # http检查 livenessProbe: httpGet: path: /healthz port: 8080 initialDelaySeconds: 15 timeoutSeconds: 1 cAdvisor资源监控 监控级别包括：容器、pod、service和整个集群</description>
+# 容器命令检查 livenessProbe:  exec:  command:  - cat  - /tmp/health  initialDelaySeconds: 15  timeoutSeconds: 1 # http检查 livenessProbe:  httpGet:  path: /healthz  port: 8080  initialDelaySeconds: 15  timeoutSeconds: 1 cAdvisor资源监控 监控级别包括：容器、pod、service和整个集群</description>
     </item>
     
     <item>
@@ -185,13 +185,13 @@ k8s支持一下三个层次的资源配额管理  容器级别，可以对cpu和
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-3/</guid>
       <description>1. 使用docker提供的registry镜像创建一个私有镜像仓库 具体可以参考 https://docs.docker.com/registry/deploying
 运行以下命令，启动一个本地镜像仓库 docker 1.6以上版本可以直接运行以下命令
-docker run -d -p 5000:5000 --restart=always --name registry registry:2停止本地仓库
-docker container stop registry &amp;amp;&amp;amp; docker container rm -v registry镜像仓库操作
-docker pull ubuntudocker image tag ubuntu localhost:5000/myfirstimagedocker push localhost:5000/myfirstimagedocker pull localhost:5000/myfirstimage2. kubelet配置 k8s中docker以pod启动，在kubelet创建pod时，还通过启动一个名为gcr.io/google_containers/pause的镜像来实现pod的概念。
+docker run -d -p 5000:5000 --restart=always --name registry registry:2 停止本地仓库
+docker container stop registry &amp;amp;&amp;amp; docker container rm -v registry 镜像仓库操作
+docker pull ubuntu docker image tag ubuntu localhost:5000/myfirstimage docker push localhost:5000/myfirstimage docker pull localhost:5000/myfirstimage 2. kubelet配置 k8s中docker以pod启动，在kubelet创建pod时，还通过启动一个名为gcr.io/google_containers/pause的镜像来实现pod的概念。
 需要从gcr.io中将该镜像下载，导出文件，再push到私有docker registry中。之后，可以给每台node的kubelet服务加上启动参数&amp;ndash;pod-infra-container-image，指定为私有仓库中pause镜像的地址。
---pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0如果镜像无法下载，可以从docker hub上进行下载：
-docker pull kubeguide/pause-amd64:3.0然后在kubelet启动参数加上该配置，重启kubelet服务即可
-systemctl restart kubelet</description>
+--pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0 如果镜像无法下载，可以从docker hub上进行下载：
+docker pull kubeguide/pause-amd64:3.0 然后在kubelet启动参数加上该配置，重启kubelet服务即可
+systemctl restart kubelet </description>
     </item>
     
     <item>
@@ -202,10 +202,10 @@ systemctl restart kubelet</description>
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-2/</guid>
       <description>方式1：基于CA签名的双向数字证书认证方式 过程如下：
  为kube-apiserver生成一个数字证书，并用CA证书进行签名 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数  1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
-openssl genrsa -out ca.key 2048openssl req -x509 -new -nodes -key ca.key -subj &amp;quot;/CN=k8s-master&amp;quot; -days 5000 -out ca.crtopenssl genrsa -out server.key 2048注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
+openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj &amp;#34;/CN=k8s-master&amp;#34; -days 5000 -out ca.crt openssl genrsa -out server.key 2048 注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
  509是一种通用的证书格式
  准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：
-[ req ]req_extensions = v3_reqdistinguished_name = req_distinguished_name[ req_distinguished_name ][ v3_req ]basicConstraints = CA:FALSEkeyUsage = nonRepudiation, digitalSignature, keyEnciphermentsubjectAltName = @alt_names[alt_names]DNS.1 = kubernetesDNS.</description>
+[ req ] req_extensions = v3_req distinguished_name = req_distinguished_name [ req_distinguished_name ] [ v3_req ] basicConstraints = CA:FALSE keyUsage = nonRepudiation, digitalSignature, keyEncipherment subjectAltName = @alt_names [alt_names] DNS.1 = kubernetes DNS.</description>
     </item>
     
     <item>

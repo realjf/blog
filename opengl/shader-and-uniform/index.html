@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>opengl之四 着色器和uniform Shader and Uniform // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">opengl之四 着色器和uniform Shader and Uniform</h1>
@@ -241,27 +244,27 @@
 <p>着色器是使用一种叫GLSL的类C语言写成的</p>
 <p>着色器的开头总是要声明版本，接着是输入和输出变量、uniform和main函数。每个着色器的入口点都是main函数，在这个函数中我们处理所有的输入变量，并将结果输出到输出变量中。</p>
 <p>一个典型的着色器程序：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version version_number</span>
-<span style="color:#66d9ef">in</span> type in_variable_name;
-<span style="color:#66d9ef">in</span> type in_variable_name;
-
-<span style="color:#66d9ef">out</span> type out_variable_name;
-
-<span style="color:#66d9ef">uniform</span> type uniform_name;
-
-<span style="color:#66d9ef">int</span> main()
-{
-  <span style="color:#75715e">// 处理输入并进行一些图形操作</span>
-  ...
-  <span style="color:#75715e">// 输出处理过的结果到输出变量</span>
-  out_variable_name <span style="color:#f92672">=</span> weird_stuff_we_processed;
-}
-</code></pre></div><p>在顶点着色器上，每个输入变量也叫顶点属性，能声明的顶点属性是有上限的，由硬件决定。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#75715e">#version version_number</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">in</span> type in_variable_name;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">in</span> type in_variable_name;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">out</span> type out_variable_name;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uniform</span> type uniform_name;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> main()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 处理输入并进行一些图形操作</span>
+</span></span><span style="display:flex;"><span>  ...
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 输出处理过的结果到输出变量</span>
+</span></span><span style="display:flex;"><span>  out_variable_name <span style="color:#f92672">=</span> weird_stuff_we_processed;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在顶点着色器上，每个输入变量也叫顶点属性，能声明的顶点属性是有上限的，由硬件决定。
 opengl至少有16个包含4分量的顶点属性可用，可以通过查询GL_MAX_VERTEX_ATTRIBS来获取具体上限。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> nrAttributes;
-glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, <span style="color:#f92672">&amp;</span>nrAttributes);
-std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Maximum nr of vertex attributes supported: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> nrAttributes <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</code></pre></div><h3 id="数据类型">数据类型</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> nrAttributes;
+</span></span><span style="display:flex;"><span>glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, <span style="color:#f92672">&amp;</span>nrAttributes);
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Maximum nr of vertex attributes supported: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> nrAttributes <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span></code></pre></div><h3 id="数据类型">数据类型</h3>
 <p>glsl中包含C等其他语言大部分的默认基础类型：int、float、double、uint和bool。
 glsl也有两种容器，分别是向量（Vector）和矩阵（Matrix）</p>
 <h4 id="向量">向量</h4>
@@ -308,52 +311,52 @@ glsl也有两种容器，分别是向量（Vector）和矩阵（Matrix）</p>
 <p>另一个是片段着色器，它需要一个vec4颜色输出变量，因为片段着色器需要生成一个最终输出的颜色。如果在片段着色器没有定义输出的颜色，opengl会把物体渲染为黑色或者白色。</p>
 <p>当从一个着色器向另一个着色器发送数据时，输入和输出的类型和名字一样的时候，opengl就会把两个变量链接到一起，它们之间就能发送数据了。</p>
 <p><strong>顶点着色器</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
-layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos; <span style="color:#75715e">// 位置变量的属性位置值为0</span>
-
-<span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> vertexColor; <span style="color:#75715e">// 为片段着色器指定一个颜色输出</span>
-
-<span style="color:#66d9ef">void</span> main()
-{
-    gl_Position <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>); <span style="color:#75715e">// 注意我们如何把一个vec3作为vec4的构造器的参数</span>
-    vertexColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>); <span style="color:#75715e">// 把输出变量设置为暗红色</span>
-}
-</code></pre></div><p>片段着色器</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
-<span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> FragColor;
-
-<span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec4</span> vertexColor; <span style="color:#75715e">// 从顶点着色器传来的输入变量（名称相同、类型相同）</span>
-
-<span style="color:#66d9ef">void</span> main()
-{
-    FragColor <span style="color:#f92672">=</span> vertexColor;
-}
-</code></pre></div><h3 id="uniform">Uniform</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#75715e">#version 330 core</span>
+</span></span><span style="display:flex;"><span>layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos; <span style="color:#75715e">// 位置变量的属性位置值为0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> vertexColor; <span style="color:#75715e">// 为片段着色器指定一个颜色输出</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    gl_Position <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>); <span style="color:#75715e">// 注意我们如何把一个vec3作为vec4的构造器的参数</span>
+</span></span><span style="display:flex;"><span>    vertexColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>); <span style="color:#75715e">// 把输出变量设置为暗红色</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>片段着色器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#75715e">#version 330 core</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> FragColor;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec4</span> vertexColor; <span style="color:#75715e">// 从顶点着色器传来的输入变量（名称相同、类型相同）</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    FragColor <span style="color:#f92672">=</span> vertexColor;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="uniform">Uniform</h3>
 <p>Uniform是一种从CPU中的应用向GPU中的着色器发送数据的方式，但uniform和顶点属性有些不同。</p>
 <ul>
 <li>uniform是全局的，全局意味着uniform变量必须在每个着色器程序对象中都是独一无二的，而且它可以被着色器程序的任意着色器在任意阶段访问</li>
 <li>无论把uniform值设置成什么，uniform会一直保存它们的数据，直到它们被重置或更新。</li>
 </ul>
 <p>uniform使用示例：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
-<span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> FragColor;
-
-<span style="color:#66d9ef">uniform</span> <span style="color:#66d9ef">vec4</span> ourColor; <span style="color:#75715e">// 在OpenGL程序代码中设定这个变量</span>
-
-<span style="color:#66d9ef">void</span> main()
-{
-    FragColor <span style="color:#f92672">=</span> ourColor;
-}
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#75715e">#version 330 core</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> FragColor;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uniform</span> <span style="color:#66d9ef">vec4</span> ourColor; <span style="color:#75715e">// 在OpenGL程序代码中设定这个变量</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    FragColor <span style="color:#f92672">=</span> ourColor;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
 <p>如果你声明了一个uniform却在GLSL代码中没用过，编译器会静默移除这个变量，导致最后编译出的版本中并不会包含它，这可能导致几个非常麻烦的错误，记住这点！</p>
 </blockquote>
 <p>这个uniform目前还是空的，所以我们需要找到着色器中uniform属性的索引值或位置值，然后更新它的值，如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">float</span> timeValue <span style="color:#f92672">=</span> glfwGetTime();
-<span style="color:#66d9ef">float</span> greenValue <span style="color:#f92672">=</span> (sin(timeValue)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0f</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">0.5f</span>;
-<span style="color:#66d9ef">int</span> vertexColorLocation <span style="color:#f92672">=</span> glGetUniformLocation(shaderProgram, <span style="color:#e6db74">&#34;ourColor&#34;</span>);
-glUseProgram(shaderProgram);
-glUniform4f(vertexColorLocation, <span style="color:#ae81ff">0.0f</span>, greenValue, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>);
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> timeValue <span style="color:#f92672">=</span> glfwGetTime();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> greenValue <span style="color:#f92672">=</span> (sin(timeValue)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0f</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">0.5f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> vertexColorLocation <span style="color:#f92672">=</span> glGetUniformLocation(shaderProgram, <span style="color:#e6db74">&#34;ourColor&#34;</span>);
+</span></span><span style="display:flex;"><span>glUseProgram(shaderProgram);
+</span></span><span style="display:flex;"><span>glUniform4f(vertexColorLocation, <span style="color:#ae81ff">0.0f</span>, greenValue, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>);
+</span></span></code></pre></div><ul>
 <li>首先，通过glfwGetTime()获取运行的秒数，</li>
 <li>然后使用sin函数让颜色在0.0到1.0之间改变，</li>
 <li>最后将结果存储到greenValue里。</li>
@@ -393,202 +396,202 @@ glUniform4f(vertexColorLocation, <span style="color:#ae81ff">0.0f</span>, greenV
 </tbody>
 </table>
 <p>现在代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">...
-<span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>glfwWindowShouldClose(window))
-{
-    <span style="color:#75715e">// 输入
-</span><span style="color:#75715e"></span>    processInput(window);
-
-    <span style="color:#75715e">// 渲染
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 清除颜色缓冲
-</span><span style="color:#75715e"></span>    glClearColor(<span style="color:#ae81ff">0.2f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">1.0f</span>);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    <span style="color:#75715e">// 记得激活着色器
-</span><span style="color:#75715e"></span>    glUseProgram(shaderProgram);
-
-    <span style="color:#75715e">// 更新uniform颜色
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> timeValue <span style="color:#f92672">=</span> glfwGetTime();
-    <span style="color:#66d9ef">float</span> greenValue <span style="color:#f92672">=</span> sin(timeValue) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0f</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5f</span>;
-    <span style="color:#66d9ef">int</span> vertexColorLocation <span style="color:#f92672">=</span> glGetUniformLocation(shaderProgram, <span style="color:#e6db74">&#34;ourColor&#34;</span>);
-    glUniform4f(vertexColorLocation, <span style="color:#ae81ff">0.0f</span>, greenValue, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>);
-
-    <span style="color:#75715e">// 绘制三角形
-</span><span style="color:#75715e"></span>    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>);
-
-    <span style="color:#75715e">// 交换缓冲并查询IO事件
-</span><span style="color:#75715e"></span>    glfwSwapBuffers(window);
-    glfwPollEvents();
-}
-...
-</code></pre></div><p>可以看到，uniform对于设置一个在渲染迭代中会改变的属性是一个非常有用的工具，它也是一个在程序和着色器间数据交互的很好工具</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>glfwWindowShouldClose(window))
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 输入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    processInput(window);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 渲染
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 清除颜色缓冲
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    glClearColor(<span style="color:#ae81ff">0.2f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">0.3f</span>, <span style="color:#ae81ff">1.0f</span>);
+</span></span><span style="display:flex;"><span>    glClear(GL_COLOR_BUFFER_BIT);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 记得激活着色器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    glUseProgram(shaderProgram);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 更新uniform颜色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> timeValue <span style="color:#f92672">=</span> glfwGetTime();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> greenValue <span style="color:#f92672">=</span> sin(timeValue) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0f</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5f</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> vertexColorLocation <span style="color:#f92672">=</span> glGetUniformLocation(shaderProgram, <span style="color:#e6db74">&#34;ourColor&#34;</span>);
+</span></span><span style="display:flex;"><span>    glUniform4f(vertexColorLocation, <span style="color:#ae81ff">0.0f</span>, greenValue, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 绘制三角形
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    glBindVertexArray(VAO);
+</span></span><span style="display:flex;"><span>    glDrawArrays(GL_TRIANGLES, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 交换缓冲并查询IO事件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    glfwSwapBuffers(window);
+</span></span><span style="display:flex;"><span>    glfwPollEvents();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>可以看到，uniform对于设置一个在渲染迭代中会改变的属性是一个非常有用的工具，它也是一个在程序和着色器间数据交互的很好工具</p>
 <h3 id="更多属性">更多属性</h3>
 <p>算把颜色数据加进顶点数据中。将把颜色数据添加为3个float值至vertices数组。将把三角形的三个角分别指定为红色、绿色和蓝色：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">float</span> vertices[] <span style="color:#f92672">=</span> {
-    <span style="color:#75715e">// 位置              // 颜色
-</span><span style="color:#75715e"></span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,   <span style="color:#75715e">// 右下
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,   <span style="color:#75715e">// 左下
-</span><span style="color:#75715e"></span>     <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>    <span style="color:#75715e">// 顶部
-</span><span style="color:#75715e"></span>};
-</code></pre></div><p>由于现在更多数据要发送到顶点着色器，需要调整下顶点着色器，使它能够接收颜色值作为一个顶点属性输入。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> vertices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 位置              // 颜色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,   <span style="color:#75715e">// 右下
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,   <span style="color:#75715e">// 左下
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>    <span style="color:#75715e">// 顶部
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>由于现在更多数据要发送到顶点着色器，需要调整下顶点着色器，使它能够接收颜色值作为一个顶点属性输入。
 要注意，用layout标识符来把aColor属性的位置值设置为1：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
-layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos;   <span style="color:#75715e">// 位置变量的属性位置值为 0 </span>
-layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aColor; <span style="color:#75715e">// 颜色变量的属性位置值为 1</span>
-
-<span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec3</span> ourColor; <span style="color:#75715e">// 向片段着色器输出一个颜色</span>
-
-<span style="color:#66d9ef">void</span> main()
-{
-    gl_Position <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>);
-    ourColor <span style="color:#f92672">=</span> aColor; <span style="color:#75715e">// 将ourColor设置为我们从顶点数据那里得到的输入颜色</span>
-}
-</code></pre></div><p>由于不再使用uniform来传递片段的颜色，现在使用ourColor输出变量，必须改下片段着色器：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
-<span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> FragColor;  
-<span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> ourColor;
-
-<span style="color:#66d9ef">void</span> main()
-{
-    FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(ourColor, <span style="color:#ae81ff">1.0</span>);
-}
-</code></pre></div><p>因为添加了另一个顶点属性，并且更新了VBO的内存，就必须重新配置顶点属性指针。更新后的VBO内存中的数据现在看起来像这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#75715e">#version 330 core</span>
+</span></span><span style="display:flex;"><span>layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos;   <span style="color:#75715e">// 位置变量的属性位置值为 0 </span>
+</span></span><span style="display:flex;"><span>layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aColor; <span style="color:#75715e">// 颜色变量的属性位置值为 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec3</span> ourColor; <span style="color:#75715e">// 向片段着色器输出一个颜色</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    gl_Position <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(aPos, <span style="color:#ae81ff">1.0</span>);
+</span></span><span style="display:flex;"><span>    ourColor <span style="color:#f92672">=</span> aColor; <span style="color:#75715e">// 将ourColor设置为我们从顶点数据那里得到的输入颜色</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>由于不再使用uniform来传递片段的颜色，现在使用ourColor输出变量，必须改下片段着色器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#75715e">#version 330 core</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec4</span> FragColor;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> ourColor;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(ourColor, <span style="color:#ae81ff">1.0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因为添加了另一个顶点属性，并且更新了VBO的内存，就必须重新配置顶点属性指针。更新后的VBO内存中的数据现在看起来像这样：</p>
 <p><img src="/image/vertex_attribute_pointer_interleaved.png" alt="VBO内存"></p>
 <p>知道了现在使用的布局，就可以使用glVertexAttribPointer函数更新顶点格式，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// 位置属性
-</span><span style="color:#75715e"></span>glVertexAttribPointer(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">6</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)<span style="color:#ae81ff">0</span>);
-glEnableVertexAttribArray(<span style="color:#ae81ff">0</span>);
-<span style="color:#75715e">// 颜色属性
-</span><span style="color:#75715e"></span>glVertexAttribPointer(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">6</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)(<span style="color:#ae81ff">3</span><span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>)));
-glEnableVertexAttribArray(<span style="color:#ae81ff">1</span>);
-</code></pre></div><p>这次配置属性位置值为1的顶点属性。颜色值有3个float那么大，不去标准化这些值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// 位置属性
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>glVertexAttribPointer(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">6</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>glEnableVertexAttribArray(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 颜色属性
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>glVertexAttribPointer(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, GL_FLOAT, GL_FALSE, <span style="color:#ae81ff">6</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)(<span style="color:#ae81ff">3</span><span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>)));
+</span></span><span style="display:flex;"><span>glEnableVertexAttribArray(<span style="color:#ae81ff">1</span>);
+</span></span></code></pre></div><p>这次配置属性位置值为1的顶点属性。颜色值有3个float那么大，不去标准化这些值。</p>
 <p>为获得数据队列中下一个属性值（比如位置向量的下个x分量）必须向右移动6个float，其中3个是位置值，另外3个是颜色值。这使的步长值为6乘以float的字节数（=24字节）。</p>
 <p>同样，这次必须指定一个偏移量。对于每个顶点来说，位置顶点属性在前，所以它的偏移量是0。颜色属性紧随位置数据之后，所以偏移量就是3 * sizeof(float)，用字节来计算就是12字节。</p>
 <h3 id="着色器类">着色器类</h3>
 <p>完整的着色器类定义如下:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#ifndef __SHADER_H__
-</span><span style="color:#75715e">#define __SHADER_H__
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;glad/glad.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fstream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sstream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Shader</span>
-{
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> ID;
-    <span style="color:#75715e">// constructor generates the shader on the fly
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>    Shader(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> vertexPath, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> fragmentPath)
-    {
-        <span style="color:#75715e">// 1. retrieve the vertex/fragment source code from filePath
-</span><span style="color:#75715e"></span>        std<span style="color:#f92672">::</span>string vertexCode;
-        std<span style="color:#f92672">::</span>string fragmentCode;
-        std<span style="color:#f92672">::</span>ifstream vShaderFile;
-        std<span style="color:#f92672">::</span>ifstream fShaderFile;
-        <span style="color:#75715e">// ensure ifstream objects can throw exceptions:
-</span><span style="color:#75715e"></span>        vShaderFile.exceptions (std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>failbit <span style="color:#f92672">|</span> std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>badbit);
-        fShaderFile.exceptions (std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>failbit <span style="color:#f92672">|</span> std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>badbit);
-        <span style="color:#66d9ef">try</span> 
-        {
-            <span style="color:#75715e">// open files
-</span><span style="color:#75715e"></span>            vShaderFile.open(vertexPath);
-            fShaderFile.open(fragmentPath);
-            std<span style="color:#f92672">::</span>stringstream vShaderStream, fShaderStream;
-            <span style="color:#75715e">// read file&#39;s buffer contents into streams
-</span><span style="color:#75715e"></span>            vShaderStream <span style="color:#f92672">&lt;&lt;</span> vShaderFile.rdbuf();
-            fShaderStream <span style="color:#f92672">&lt;&lt;</span> fShaderFile.rdbuf();
-            <span style="color:#75715e">// close file handlers
-</span><span style="color:#75715e"></span>            vShaderFile.close();
-            fShaderFile.close();
-            <span style="color:#75715e">// convert stream into string
-</span><span style="color:#75715e"></span>            vertexCode   <span style="color:#f92672">=</span> vShaderStream.str();
-            fragmentCode <span style="color:#f92672">=</span> fShaderStream.str();
-        }
-        <span style="color:#66d9ef">catch</span> (std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>failure<span style="color:#f92672">&amp;</span> e)
-        {
-            std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-        }
-        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> vShaderCode <span style="color:#f92672">=</span> vertexCode.c_str();
-        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> fShaderCode <span style="color:#f92672">=</span> fragmentCode.c_str();
-        <span style="color:#75715e">// 2. compile shaders
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> vertex, fragment;
-        <span style="color:#75715e">// vertex shader
-</span><span style="color:#75715e"></span>        vertex <span style="color:#f92672">=</span> glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertex, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>vShaderCode, NULL);
-        glCompileShader(vertex);
-        checkCompileErrors(vertex, <span style="color:#e6db74">&#34;VERTEX&#34;</span>);
-        <span style="color:#75715e">// fragment Shader
-</span><span style="color:#75715e"></span>        fragment <span style="color:#f92672">=</span> glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragment, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>fShaderCode, NULL);
-        glCompileShader(fragment);
-        checkCompileErrors(fragment, <span style="color:#e6db74">&#34;FRAGMENT&#34;</span>);
-        <span style="color:#75715e">// shader Program
-</span><span style="color:#75715e"></span>        ID <span style="color:#f92672">=</span> glCreateProgram();
-        glAttachShader(ID, vertex);
-        glAttachShader(ID, fragment);
-        glLinkProgram(ID);
-        checkCompileErrors(ID, <span style="color:#e6db74">&#34;PROGRAM&#34;</span>);
-        <span style="color:#75715e">// delete the shaders as they&#39;re linked into our program now and no longer necessary
-</span><span style="color:#75715e"></span>        glDeleteShader(vertex);
-        glDeleteShader(fragment);
-    }
-    <span style="color:#75715e">// activate the shader
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">use</span>() 
-    { 
-        glUseProgram(ID); 
-    }
-    <span style="color:#75715e">// utility uniform functions
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setBool</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string <span style="color:#f92672">&amp;</span>name, <span style="color:#66d9ef">bool</span> value) <span style="color:#66d9ef">const</span>
-    {         
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), (<span style="color:#66d9ef">int</span>)value); 
-    }
-    <span style="color:#75715e">// ------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setInt</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string <span style="color:#f92672">&amp;</span>name, <span style="color:#66d9ef">int</span> value) <span style="color:#66d9ef">const</span>
-    { 
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
-    }
-    <span style="color:#75715e">// ------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setFloat</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string <span style="color:#f92672">&amp;</span>name, <span style="color:#66d9ef">float</span> value) <span style="color:#66d9ef">const</span>
-    { 
-        glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
-    }
-
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    <span style="color:#75715e">// utility function for checking shader compilation/linking errors.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> checkCompileErrors(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> shader, std<span style="color:#f92672">::</span>string type)
-    {
-        <span style="color:#66d9ef">int</span> success;
-        <span style="color:#66d9ef">char</span> infoLog[<span style="color:#ae81ff">1024</span>];
-        <span style="color:#66d9ef">if</span> (type <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;PROGRAM&#34;</span>)
-        {
-            glGetShaderiv(shader, GL_COMPILE_STATUS, <span style="color:#f92672">&amp;</span>success);
-            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>success)
-            {
-                glGetShaderInfoLog(shader, <span style="color:#ae81ff">1024</span>, NULL, infoLog);
-                std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::SHADER_COMPILATION_ERROR of type: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> type <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> infoLog <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> -- --------------------------------------------------- -- &#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-            }
-        }
-        <span style="color:#66d9ef">else</span>
-        {
-            glGetProgramiv(shader, GL_LINK_STATUS, <span style="color:#f92672">&amp;</span>success);
-            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>success)
-            {
-                glGetProgramInfoLog(shader, <span style="color:#ae81ff">1024</span>, NULL, infoLog);
-                std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::PROGRAM_LINKING_ERROR of type: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> type <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> infoLog <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> -- --------------------------------------------------- -- &#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-            }
-        }
-    }
-};
-<span style="color:#75715e">#endif
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#ifndef __SHADER_H__
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define __SHADER_H__
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;glad/glad.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fstream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sstream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Shader</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> ID;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// constructor generates the shader on the fly
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Shader(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> vertexPath, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> fragmentPath)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1. retrieve the vertex/fragment source code from filePath
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        std<span style="color:#f92672">::</span>string vertexCode;
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>string fragmentCode;
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>ifstream vShaderFile;
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>ifstream fShaderFile;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ensure ifstream objects can throw exceptions:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        vShaderFile.exceptions (std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>failbit <span style="color:#f92672">|</span> std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>badbit);
+</span></span><span style="display:flex;"><span>        fShaderFile.exceptions (std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>failbit <span style="color:#f92672">|</span> std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>badbit);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> 
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// open files
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            vShaderFile.open(vertexPath);
+</span></span><span style="display:flex;"><span>            fShaderFile.open(fragmentPath);
+</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>stringstream vShaderStream, fShaderStream;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// read file&#39;s buffer contents into streams
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            vShaderStream <span style="color:#f92672">&lt;&lt;</span> vShaderFile.rdbuf();
+</span></span><span style="display:flex;"><span>            fShaderStream <span style="color:#f92672">&lt;&lt;</span> fShaderFile.rdbuf();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// close file handlers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            vShaderFile.close();
+</span></span><span style="display:flex;"><span>            fShaderFile.close();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// convert stream into string
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            vertexCode   <span style="color:#f92672">=</span> vShaderStream.str();
+</span></span><span style="display:flex;"><span>            fragmentCode <span style="color:#f92672">=</span> fShaderStream.str();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">catch</span> (std<span style="color:#f92672">::</span>ifstream<span style="color:#f92672">::</span>failure<span style="color:#f92672">&amp;</span> e)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> vShaderCode <span style="color:#f92672">=</span> vertexCode.c_str();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> fShaderCode <span style="color:#f92672">=</span> fragmentCode.c_str();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2. compile shaders
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> vertex, fragment;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// vertex shader
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        vertex <span style="color:#f92672">=</span> glCreateShader(GL_VERTEX_SHADER);
+</span></span><span style="display:flex;"><span>        glShaderSource(vertex, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>vShaderCode, NULL);
+</span></span><span style="display:flex;"><span>        glCompileShader(vertex);
+</span></span><span style="display:flex;"><span>        checkCompileErrors(vertex, <span style="color:#e6db74">&#34;VERTEX&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// fragment Shader
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        fragment <span style="color:#f92672">=</span> glCreateShader(GL_FRAGMENT_SHADER);
+</span></span><span style="display:flex;"><span>        glShaderSource(fragment, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>fShaderCode, NULL);
+</span></span><span style="display:flex;"><span>        glCompileShader(fragment);
+</span></span><span style="display:flex;"><span>        checkCompileErrors(fragment, <span style="color:#e6db74">&#34;FRAGMENT&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// shader Program
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ID <span style="color:#f92672">=</span> glCreateProgram();
+</span></span><span style="display:flex;"><span>        glAttachShader(ID, vertex);
+</span></span><span style="display:flex;"><span>        glAttachShader(ID, fragment);
+</span></span><span style="display:flex;"><span>        glLinkProgram(ID);
+</span></span><span style="display:flex;"><span>        checkCompileErrors(ID, <span style="color:#e6db74">&#34;PROGRAM&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// delete the shaders as they&#39;re linked into our program now and no longer necessary
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        glDeleteShader(vertex);
+</span></span><span style="display:flex;"><span>        glDeleteShader(fragment);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// activate the shader
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">use</span>() 
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>        glUseProgram(ID); 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// utility uniform functions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setBool</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string <span style="color:#f92672">&amp;</span>name, <span style="color:#66d9ef">bool</span> value) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>    {         
+</span></span><span style="display:flex;"><span>        glUniform1i(glGetUniformLocation(ID, name.c_str()), (<span style="color:#66d9ef">int</span>)value); 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setInt</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string <span style="color:#f92672">&amp;</span>name, <span style="color:#66d9ef">int</span> value) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>        glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setFloat</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string <span style="color:#f92672">&amp;</span>name, <span style="color:#66d9ef">float</span> value) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>        glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// utility function for checking shader compilation/linking errors.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> checkCompileErrors(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> shader, std<span style="color:#f92672">::</span>string type)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> success;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> infoLog[<span style="color:#ae81ff">1024</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (type <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;PROGRAM&#34;</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            glGetShaderiv(shader, GL_COMPILE_STATUS, <span style="color:#f92672">&amp;</span>success);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>success)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                glGetShaderInfoLog(shader, <span style="color:#ae81ff">1024</span>, NULL, infoLog);
+</span></span><span style="display:flex;"><span>                std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::SHADER_COMPILATION_ERROR of type: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> type <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> infoLog <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> -- --------------------------------------------------- -- &#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            glGetProgramiv(shader, GL_LINK_STATUS, <span style="color:#f92672">&amp;</span>success);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>success)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                glGetProgramInfoLog(shader, <span style="color:#ae81ff">1024</span>, NULL, infoLog);
+</span></span><span style="display:flex;"><span>                std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;ERROR::PROGRAM_LINKING_ERROR of type: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> type <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> infoLog <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74"> -- --------------------------------------------------- -- &#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -676,7 +679,7 @@ glEnableVertexAttribArray(<span style="color:#ae81ff">1</span>);
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -705,13 +708,14 @@ glEnableVertexAttribArray(<span style="color:#ae81ff">1</span>);
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>MySQL 5.7 源码安装 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">MySQL 5.7 源码安装</h1>
@@ -239,37 +242,37 @@
             <h4 id="源码安装">源码安装</h4>
 <p>源码下载地址:<a href="http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz">http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz</a></p>
 <p>先检查已有的mysql</p>
-<pre><code>rpm -qa | grep mysql
+<pre tabindex="0"><code>rpm -qa | grep mysql
 rpm -e mysql-libs-5.1.73-3.el6_5.x86_64 --nodeps
 </code></pre><h4 id="1-安装依赖的包">1. 安装依赖的包</h4>
 <p>由于从mysql5.5开始弃用了常规的configure编译方法，所以需要下载cmake编译器、boost库、ncurses库和gnu分析器生成器bison这4种工具。</p>
-<pre><code>yum -y install make gcc-c++  ncurses-devel
+<pre tabindex="0"><code>yum -y install make gcc-c++  ncurses-devel
 </code></pre><p>安装cmake</p>
-<pre><code>wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
+<pre tabindex="0"><code>wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
 tar zxvf cmake-3.6.2.tar.gz
 cd cmake-3.6.2
 ./configure
 make &amp;&amp; make install
 </code></pre><p>安装bison</p>
-<pre><code>wget -c http://git.typecodes.com/libs/ccpp/bison-3.0.tar.gz
+<pre tabindex="0"><code>wget -c http://git.typecodes.com/libs/ccpp/bison-3.0.tar.gz
 tar zxvf bison-3.0.tar.gz &amp;&amp; cd bison-3.0/ &amp;&amp; ./configure
 make &amp;&amp; make install
 </code></pre><p>安装boost</p>
-<pre><code>wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
+<pre tabindex="0"><code>wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gz
 tar zxvf boost_1_59_0.tar.gz
 cd boost_1_59_0
 ./bootstrap.sh
 ./b2 stage threading=multi link=shared
 ./b2 install threading=multi link=shared
 </code></pre><p>或者</p>
-<pre><code>wget http://sourceforge.mirrorservice.org/b/bo/boost/boost/1.59.0/boost_1_59_0.tar.bz2
+<pre tabindex="0"><code>wget http://sourceforge.mirrorservice.org/b/bo/boost/boost/1.59.0/boost_1_59_0.tar.bz2
 tar jxvf boost_1_59_0.tar.bz2
 // 其他的同上
 </code></pre><blockquote>
 <p>附：卸载boost很简单，只需要删除/usr/local/include目录下和/usr/local/lib目录下有关boost的库文件就可以</p>
 </blockquote>
 <h4 id="2-下载编译安装mysql">2. 下载编译安装mysql</h4>
-<pre><code>mkdir /usr/local/mysql
+<pre tabindex="0"><code>mkdir /usr/local/mysql
 mkdir /usr/local/mysql/data
 
 wget http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz
@@ -305,23 +308,23 @@ make &amp;&amp; make install
 </blockquote>
 <h4 id="3-设置权限">3. 设置权限</h4>
 <p>使用下面的命令查看是否有mysql用户及用户组</p>
-<pre><code>cat /etc/passwd // 查看用户列表
+<pre tabindex="0"><code>cat /etc/passwd // 查看用户列表
 cat /etc/group // 查看用户组列表
 </code></pre><p>如果没有就创建</p>
-<pre><code>groupadd mysql
+<pre tabindex="0"><code>groupadd mysql
 useradd -s /sbin/nologin -g mysql -M mysql // 创建一个用户，不允许登录和不创建主目录
 tail -1 /etc/passwd // 检查创建的用户
 </code></pre><p>修改/usr/local/mysql权限</p>
-<pre><code>chown -R mysql:mysql /usr/local/mysql
+<pre tabindex="0"><code>chown -R mysql:mysql /usr/local/mysql
 </code></pre><h4 id="4-初始化配置">4. 初始化配置</h4>
 <p>进入安装路径</p>
-<pre><code>cd /usr/local/mysql
+<pre tabindex="0"><code>cd /usr/local/mysql
 </code></pre><p>进入安装路径，执行 初始化配置脚本，表</p>
-<pre><code>scripts/mysql_install_db --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
+<pre tabindex="0"><code>scripts/mysql_install_db --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
 </code></pre><blockquote>
 <p>注意5.7.17版本使用</p>
 </blockquote>
-<pre><code>./mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
+<pre tabindex="0"><code>./mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql
 </code></pre><blockquote>
 <p>注意：初始化后会生成默认密码，请记录下来
 ==2016-10-14T17:36:51.794435Z 1 [Note] A temporary password is generated for root@localhost: W=XlQVLf/7Ra==</p>
@@ -336,23 +339,23 @@ tail -1 /etc/passwd // 检查创建的用户
 </blockquote>
 <h5 id="调整配置文件和环境变量">调整配置文件和环境变量</h5>
 <p>将默认生成的my.cnf备份</p>
-<pre><code>mv /etc/my.cnf /etc/my.cnf.bak
+<pre tabindex="0"><code>mv /etc/my.cnf /etc/my.cnf.bak
 cd /usr/local/mysql/support-files
 </code></pre><p>拷贝配置文件模板为新的mysql配置文件</p>
-<pre><code>cp my-default.cnf /etc/my.cnf
+<pre tabindex="0"><code>cp my-default.cnf /etc/my.cnf
 </code></pre><p>可按需修改新的配置文件选项， 不修改配置选项， mysql则按默认配置参数运行.</p>
 <p>如下是我修改配置文件/etc/my.cnf， 用于设置编码为utf8以防乱码</p>
-<pre><code>[mysqld]
+<pre tabindex="0"><code>[mysqld]
 character_set_server=utf8
-init_connect='SET NAMES utf8'
+init_connect=&#39;SET NAMES utf8&#39;
 [client]
 default-character-set=utf8
 </code></pre><p>创建mysql命令文件</p>
-<pre><code>ln -s /mysql/bin/mysql /usr/bin/
+<pre tabindex="0"><code>ln -s /mysql/bin/mysql /usr/bin/
 </code></pre><p>注：没有这个文件就没有mysql命令，不能在任意位置使用mysql 访问数据库</p>
 <h4 id="5启动mysql">5.启动mysql</h4>
 <p>添加服务，拷贝服务脚本到init.d目录，并设置开机启动</p>
-<pre><code>cp support-files/mysql.server /etc/init.d/mysqld
+<pre tabindex="0"><code>cp support-files/mysql.server /etc/init.d/mysqld
 chmod +x /etc/init.d/mysqld
 chkconfig mysql on
 service mysqld start
@@ -360,33 +363,33 @@ service mysqld start
 <p>mysql启动成功后，root默认没有密码，我们需要设置root密码
 设置之前，我们需要先设置path，要不不能直接调用mysql<br>
 修改/etc/profile文件，在文件末尾加入</p>
-<pre><code>PATH=/usr/local/mysql/bin:$PATH
+<pre tabindex="0"><code>PATH=/usr/local/mysql/bin:$PATH
 export PATH
 </code></pre><p>关闭文件，运行下面的命令，</p>
-<pre><code>source /etc/profile
+<pre tabindex="0"><code>source /etc/profile
 </code></pre><p>现在，我们就可以直接在终端输入mysql了，执行</p>
-<pre><code>mysql -u root
-mysql &gt; SET PASSWORD = PASSWORD('123456');
+<pre tabindex="0"><code>mysql -u root
+mysql &gt; SET PASSWORD = PASSWORD(&#39;123456&#39;);
 mysql &gt; exit
 </code></pre><p>修改root密码</p>
-<pre><code>alter user 'root'@'localhost' identified by 'wenti@456.COM';
+<pre tabindex="0"><code>alter user &#39;root&#39;@&#39;localhost&#39; identified by &#39;wenti@456.COM&#39;;
 </code></pre><p>若要配置远程访问，执行</p>
-<pre><code>mysql &gt; GRANT ALL PRIVILEGES ON *.* TO 'root'@'172.16.%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+<pre tabindex="0"><code>mysql &gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;172.16.%&#39; IDENTIFIED BY &#39;password&#39; WITH GRANT OPTION;
 </code></pre><blockquote>
 <p>password 为远程访问时的root密码，可以和本地的不同</p>
 </blockquote>
 <h4 id="7-配置防火墙">7. 配置防火墙</h4>
 <p>防火墙的3306端口默认没有开启，若要远程访问，需要开启这个端口<br>
 打开/etc/sysconfig/iptables，添加如下内容：</p>
-<pre><code>-A INPUT -m state --state NEW -m tcp -p -dport 3306 -j ACCEPT
+<pre tabindex="0"><code>-A INPUT -m state --state NEW -m tcp -p -dport 3306 -j ACCEPT
 </code></pre><p>然后保存，关闭文件，在终端运行如下命令，刷新防火墙配置：</p>
-<pre><code>service iptables restart
+<pre tabindex="0"><code>service iptables restart
 </code></pre><p>配置成功</p>
 <blockquote>
 <p>CentOS 7中默认使用Firewalld做防火墙，所以修改iptables后，在重启系统后，根本不管用。</p>
 </blockquote>
 <p>Firewalld中添加端口方法如下：</p>
-<pre><code>firewall-cmd --zone=public --add-port=3306/tcp --permanent 
+<pre tabindex="0"><code>firewall-cmd --zone=public --add-port=3306/tcp --permanent 
 firewall-cmd --reload
 </code></pre><blockquote>
 <p>注意：
@@ -413,15 +416,15 @@ firewall-cmd --reload
 <p>7.selinux惹的祸，如果是centos系统，默认会开启selinux
 解决方法：关闭它，打开/etc/selinux/config，把SELINUX=enforcing改为SELINUX=disabled后存盘退出重启机器试试。</p>
 <h5 id="在丢失root密码的时候可以这样">在丢失root密码的时候，可以这样</h5>
-<pre><code>　　mysqld_safe --skip-grant-tables&amp;
+<pre tabindex="0"><code>　　mysqld_safe --skip-grant-tables&amp;
 
 　　mysql -u root mysql
 
-　　mysql&gt; UPDATE user SET authentication_string=PASSWORD(&quot;new password&quot;) WHERE user='root';
+　　mysql&gt; UPDATE user SET authentication_string=PASSWORD(&#34;new password&#34;) WHERE user=&#39;root&#39;;
 
 　　mysql&gt; FLUSH PRIVILEGES;收起
 </code></pre><p>修改完毕。重启</p>
-<pre><code>killall -TERM mysqld。
+<pre tabindex="0"><code>killall -TERM mysqld。
 </code></pre>
         </div>
         <div id="disqus_thread"></div>
@@ -492,7 +495,7 @@ firewall-cmd --reload
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -521,13 +524,14 @@ firewall-cmd --reload
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

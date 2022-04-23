@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>Django后端 &#43; Vue前端 构建Web开发框架 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">Django后端 &#43; Vue前端 构建Web开发框架</h1>
@@ -249,52 +252,48 @@
 </blockquote>
 <h2 id="二安装">二、安装</h2>
 <h4 id="1-安装node">1. 安装node</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz
-xz -d node-v10.16.3-linux-x64.tar.xz
-tar xvf node-v10.16.3-linux-x64.tar
-
-<span style="color:#75715e"># 然后将文件夹移动到你需要的地方，设置环境变量PATH即可</span>
-mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3
-<span style="color:#75715e"># 这里使用软链进行设置l</span>
-ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/
-ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/
-
-<span style="color:#75715e"># 设置好后进行测试</span>
-node --version
-npm --version
-
-</code></pre></div><h4 id="2-安装python3pip">2. 安装python3，pip</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 打开下载地址 https://www.python.org/downloads/source/</span>
-<span style="color:#75715e"># 选择适合自己的包下载</span>
-wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz
-xz -d Python-3.7.4.tar.xz
-tar xvf Python-3.7.4.tar
-
-<span style="color:#75715e"># 进入目录进行安装</span>
-cd Python-3.7.4
-./configure <span style="color:#75715e"># 这里可以通过--prefix来指定安装目录</span>
-make <span style="color:#f92672">&amp;&amp;</span> make install
-
-<span style="color:#75715e"># 确认是否安装成功</span>
-python3 -V
-
-<span style="color:#75715e"># 确认安装成功后，安装pip</span>
-curl https://bootstrap.pypa.io/get-pip.py | sudo python3
-
-<span style="color:#75715e"># 确认是否安装成功</span>
-pip --version
-
-</code></pre></div><h4 id="3-安装django">3. 安装django</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install django
-<span style="color:#75715e"># 或者通过指定版本进行安装</span>
-pip install django<span style="color:#f92672">==</span>1.11.13
-
-</code></pre></div><h4 id="4-安装vue-cli">4. 安装vue-cli</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm install -g @vue/cli
-<span style="color:#75715e"># 确认是否安装成功</span>
-vue --version
-
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz
+</span></span><span style="display:flex;"><span>xz -d node-v10.16.3-linux-x64.tar.xz
+</span></span><span style="display:flex;"><span>tar xvf node-v10.16.3-linux-x64.tar
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 然后将文件夹移动到你需要的地方，设置环境变量PATH即可</span>
+</span></span><span style="display:flex;"><span>mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 这里使用软链进行设置l</span>
+</span></span><span style="display:flex;"><span>ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/
+</span></span><span style="display:flex;"><span>ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置好后进行测试</span>
+</span></span><span style="display:flex;"><span>node --version
+</span></span><span style="display:flex;"><span>npm --version
+</span></span></code></pre></div><h4 id="2-安装python3pip">2. 安装python3，pip</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 打开下载地址 https://www.python.org/downloads/source/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 选择适合自己的包下载</span>
+</span></span><span style="display:flex;"><span>wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz
+</span></span><span style="display:flex;"><span>xz -d Python-3.7.4.tar.xz
+</span></span><span style="display:flex;"><span>tar xvf Python-3.7.4.tar
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入目录进行安装</span>
+</span></span><span style="display:flex;"><span>cd Python-3.7.4
+</span></span><span style="display:flex;"><span>./configure <span style="color:#75715e"># 这里可以通过--prefix来指定安装目录</span>
+</span></span><span style="display:flex;"><span>make <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 确认是否安装成功</span>
+</span></span><span style="display:flex;"><span>python3 -V
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 确认安装成功后，安装pip</span>
+</span></span><span style="display:flex;"><span>curl https://bootstrap.pypa.io/get-pip.py | sudo python3
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 确认是否安装成功</span>
+</span></span><span style="display:flex;"><span>pip --version
+</span></span></code></pre></div><h4 id="3-安装django">3. 安装django</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install django
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者通过指定版本进行安装</span>
+</span></span><span style="display:flex;"><span>pip install django<span style="color:#f92672">==</span>1.11.13
+</span></span></code></pre></div><h4 id="4-安装vue-cli">4. 安装vue-cli</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install -g @vue/cli
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 确认是否安装成功</span>
+</span></span><span style="display:flex;"><span>vue --version
+</span></span></code></pre></div><blockquote>
 <p>具体安装方法可见<a href="https://cli.vuejs.org/zh/guide/installation.html">https://cli.vuejs.org/zh/guide/installation.html</a></p>
 </blockquote>
 <h4 id="5-安装mysql">5. 安装mysql</h4>
@@ -312,313 +311,302 @@ vue --version
 <p>在安装完mysql后，安装相应的驱动mysqlclient</p>
 </li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip3 install mysqlclient
-
-</code></pre></div><h2 id="三开始">三、开始</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip3 install mysqlclient
+</span></span></code></pre></div><h2 id="三开始">三、开始</h2>
 <h3 id="1-构建python后端框架">1. 构建python后端框架</h3>
 <h4 id="1-使用如下命令构建项目">1. 使用如下命令构建项目</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">django-admin startproject myproject
-</code></pre></div><h4 id="2-进入项目根目录创建app这里app名称叫backend意思是后端">2. 进入项目根目录，创建app，这里app名称叫backend，意思是后端</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 manage.py startapp backend
-</code></pre></div><h4 id="3-在myproject下的settingspy中将sqlite3数据库配置替换成我们的mysql配置">3. 在myproject下的settings.py中，将sqlite3数据库配置替换成我们的mysql配置</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>django-admin startproject myproject
+</span></span></code></pre></div><h4 id="2-进入项目根目录创建app这里app名称叫backend意思是后端">2. 进入项目根目录，创建app，这里app名称叫backend，意思是后端</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py startapp backend
+</span></span></code></pre></div><h4 id="3-在myproject下的settingspy中将sqlite3数据库配置替换成我们的mysql配置">3. 在myproject下的settings.py中，将sqlite3数据库配置替换成我们的mysql配置</h4>
 <h1 id="相关配置可以参考地址httpsdocsdjangoprojectcomen22refsettingsstdsetting-databaseshttpsdocsdjangoprojectcomen22refsettingsstdsetting-databases">相关配置可以参考地址<a href="https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES">https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-DATABASES</a></h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">DATABASES <span style="color:#f92672">=</span> {
-    <span style="color:#e6db74">&#39;default&#39;</span>: {
-        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
-        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;mydatabase&#39;</span>,
-        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;mydatabaseuser&#39;</span>,
-        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;mypassword&#39;</span>,
-        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;127.0.0.1&#39;</span>,
-        <span style="color:#e6db74">&#39;PORT&#39;</span>: <span style="color:#e6db74">&#39;5432&#39;</span>,
-    }
-}
-
-<span style="color:#75715e"># 并将我们的app，即backend加入到installed_apps列表中</span>
-INSTALLED_APPS <span style="color:#f92672">=</span> [
-    <span style="color:#e6db74">&#39;django.contrib.admin&#39;</span>,
-    <span style="color:#e6db74">&#39;django.contrib.auth&#39;</span>,
-    <span style="color:#e6db74">&#39;django.contrib.contenttypes&#39;</span>,
-    <span style="color:#e6db74">&#39;django.contrib.sessions&#39;</span>,
-    <span style="color:#e6db74">&#39;django.contrib.messages&#39;</span>,
-    <span style="color:#e6db74">&#39;django.contrib.staticfiles&#39;</span>,
-     <span style="color:#e6db74">&#39;backend&#39;</span>,
-]
-
-<span style="color:#75715e"># 将时区修改为你需要的时区，默认是UTC</span>
-TIME_ZONE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Asia/Shanghai&#39;</span>
-
-</code></pre></div><h4 id="4-在backend目录下的modelspy里我们简单写一个model作为测试">4. 在backend目录下的models.py里我们简单写一个model，作为测试:</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: utf-8 -*-</span>
-<span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> unicode_literals
-<span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
-
-<span style="color:#75715e"># Create your models here.</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ChinaCities</span>(models<span style="color:#f92672">.</span>Model):
-    city_name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">255</span>)
-    city_code <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>IntegerField(default<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
-    create_time <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(auto_now_add<span style="color:#f92672">=</span>True)
-
-    <span style="color:#66d9ef">def</span> __unicode__(self):
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>city_name
-</code></pre></div><p>有三个字段，城市名称、城市代码和添加时间，如果没有指定主键的话django会自动新增id作为主键。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>DATABASES <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;default&#39;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;mydatabase&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;mydatabaseuser&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;mypassword&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;127.0.0.1&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PORT&#39;</span>: <span style="color:#e6db74">&#39;5432&#39;</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 并将我们的app，即backend加入到installed_apps列表中</span>
+</span></span><span style="display:flex;"><span>INSTALLED_APPS <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.admin&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.auth&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.contenttypes&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.sessions&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.messages&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.staticfiles&#39;</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#e6db74">&#39;backend&#39;</span>,
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将时区修改为你需要的时区，默认是UTC</span>
+</span></span><span style="display:flex;"><span>TIME_ZONE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Asia/Shanghai&#39;</span>
+</span></span></code></pre></div><h4 id="4-在backend目录下的modelspy里我们简单写一个model作为测试">4. 在backend目录下的models.py里我们简单写一个model，作为测试:</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># -*- coding: utf-8 -*-</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> unicode_literals
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create your models here.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ChinaCities</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    city_name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">255</span>)
+</span></span><span style="display:flex;"><span>    city_code <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>IntegerField(default<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    create_time <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(auto_now_add<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__unicode__</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>city_name
+</span></span></code></pre></div><p>有三个字段，城市名称、城市代码和添加时间，如果没有指定主键的话django会自动新增id作为主键。</p>
 <h4 id="5-接口">5. 接口</h4>
 <p>在backend目录下的views里我们新增两个接口，
 一个是city_list返回所有城市列表（通过jsonResponse返回能被前端标识的json格式数据），
 二是add_city，接收一个get请求，往数据库里添加一条city数据：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render
-<span style="color:#f92672">from</span> django.views.decorators.http <span style="color:#f92672">import</span> require_http_methods
-<span style="color:#f92672">from</span> django.core <span style="color:#f92672">import</span> serializers
-<span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> JsonResponse
-<span style="color:#f92672">import</span> json
-
-<span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> ChinaCities
-<span style="color:#75715e"># Create your views here.</span>
-
-<span style="color:#a6e22e">@require_http_methods</span>([<span style="color:#e6db74">&#34;GET&#34;</span>])
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_city</span>(request):
-    response <span style="color:#f92672">=</span> {}
-    <span style="color:#66d9ef">try</span>:
-        city <span style="color:#f92672">=</span> ChinaCities(city_name<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;city_name&#39;</span>), city_code<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;city_code&#39;</span>))
-        city<span style="color:#f92672">.</span>save()
-        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;success&#39;</span>
-        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
-    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> str(e)
-        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">99</span>
-
-    <span style="color:#66d9ef">return</span> JsonResponse(response) <span style="color:#75715e"># 注意这里要对齐</span>
-
-<span style="color:#a6e22e">@require_http_methods</span>([<span style="color:#e6db74">&#34;GET&#34;</span>])
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">city_list</span>(request):
-    response <span style="color:#f92672">=</span> {}
-    <span style="color:#66d9ef">try</span>:
-        cities <span style="color:#f92672">=</span> ChinaCities<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>filter()
-        response[<span style="color:#e6db74">&#39;data&#39;</span>] <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(serializers<span style="color:#f92672">.</span>serialize(<span style="color:#e6db74">&#34;json&#34;</span>, cities))
-        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;success&#39;</span>
-        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
-
-    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> str(e)
-        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">99</span>
-
-    <span style="color:#66d9ef">return</span> JsonResponse(response) <span style="color:#75715e"># 注意这里要对齐</span>
-
-</code></pre></div><p>以上是ORM的使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.views.decorators.http <span style="color:#f92672">import</span> require_http_methods
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.core <span style="color:#f92672">import</span> serializers
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> JsonResponse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> ChinaCities
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create your views here.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@require_http_methods</span>([<span style="color:#e6db74">&#34;GET&#34;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_city</span>(request):
+</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        city <span style="color:#f92672">=</span> ChinaCities(city_name<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;city_name&#39;</span>), city_code<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;city_code&#39;</span>))
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;success&#39;</span>
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> str(e)
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">99</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> JsonResponse(response) <span style="color:#75715e"># 注意这里要对齐</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@require_http_methods</span>([<span style="color:#e6db74">&#34;GET&#34;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">city_list</span>(request):
+</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        cities <span style="color:#f92672">=</span> ChinaCities<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>filter()
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;data&#39;</span>] <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(serializers<span style="color:#f92672">.</span>serialize(<span style="color:#e6db74">&#34;json&#34;</span>, cities))
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;success&#39;</span>
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;message&#39;</span>] <span style="color:#f92672">=</span> str(e)
+</span></span><span style="display:flex;"><span>        response[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">99</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> JsonResponse(response) <span style="color:#75715e"># 注意这里要对齐</span>
+</span></span></code></pre></div><p>以上是ORM的使用</p>
 <h4 id="6-在backend目录下新增一个urlspy文件用于添加路由">6. 在backend目录下，新增一个urls.py文件，用于添加路由：</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> url, include
-<span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
-
-urlpatterns <span style="color:#f92672">=</span> [
-    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;add_city$&#39;</span>, views<span style="color:#f92672">.</span>add_city, ),
-    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;city_list$&#39;</span>, views<span style="color:#f92672">.</span>city_list, ),
-]
-</code></pre></div><p>最后将上面的路由添加到myproject项目下的urls中</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> backend.urls <span style="color:#75715e"># 导入</span>
-
-urlpatterns <span style="color:#f92672">=</span> [
-    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^admin/&#39;</span>, admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>urls),
-    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;api/&#39;</span>, include(backend<span style="color:#f92672">.</span>urls)), <span style="color:#75715e"># 添加路由</span>
-    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;&#39;</span>, TemplateView<span style="color:#f92672">.</span>as_view(template_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index.html&#34;</span>)),
-]
-
-</code></pre></div><p>到此路由配置完毕，运行如下初始化数据库命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 manage.py makemigrations backend
-
-python3 manage.py migrate
-
-</code></pre></div><p>查询数据库，发现已经初始化好了数据表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> url, include
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;add_city$&#39;</span>, views<span style="color:#f92672">.</span>add_city, ),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;city_list$&#39;</span>, views<span style="color:#f92672">.</span>city_list, ),
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>最后将上面的路由添加到myproject项目下的urls中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> backend.urls <span style="color:#75715e"># 导入</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^admin/&#39;</span>, admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>urls),
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;api/&#39;</span>, include(backend<span style="color:#f92672">.</span>urls)), <span style="color:#75715e"># 添加路由</span>
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;&#39;</span>, TemplateView<span style="color:#f92672">.</span>as_view(template_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index.html&#34;</span>)),
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>到此路由配置完毕，运行如下初始化数据库命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py makemigrations backend
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>python3 manage.py migrate
+</span></span></code></pre></div><p>查询数据库，发现已经初始化好了数据表</p>
 <h3 id="2-构建vuejs前端框架">2. 构建vue.js前端框架</h3>
 <p>首先确认是否安装vue-cli脚手架，通过如下命令确认</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vue --version
-</code></pre></div><p>如果未安装可以通过如下命令安装</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm install -g @vue/cli
-</code></pre></div><h4 id="首先在整个项目根目录即backend同级目录下新建一个vue项目叫frontend">首先在整个项目根目录，即backend同级目录下，新建一个vue项目叫frontend</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># vue-cli 2.x的使用如下命令创建项目</span>
-vue-init webpack frontend <span style="color:#75715e"># 安装过程中，可选手动选择安装组件，有些可选组件如vue-router，vuex等可以根据自己需要确定是否安装</span>
-
-<span style="color:#75715e"># vue-cli 3.x的使用如下命令创建项目</span>
-vue create frontend
-
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vue --version
+</span></span></code></pre></div><p>如果未安装可以通过如下命令安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install -g @vue/cli
+</span></span></code></pre></div><h4 id="首先在整个项目根目录即backend同级目录下新建一个vue项目叫frontend">首先在整个项目根目录，即backend同级目录下，新建一个vue项目叫frontend</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># vue-cli 2.x的使用如下命令创建项目</span>
+</span></span><span style="display:flex;"><span>vue-init webpack frontend <span style="color:#75715e"># 安装过程中，可选手动选择安装组件，有些可选组件如vue-router，vuex等可以根据自己需要确定是否安装</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># vue-cli 3.x的使用如下命令创建项目</span>
+</span></span><span style="display:flex;"><span>vue create frontend
+</span></span></code></pre></div><blockquote>
 <p>具体更多命令可见<a href="https://cli.vuejs.org/zh/guide/creating-a-project.html#vue-create">https://cli.vuejs.org/zh/guide/creating-a-project.html#vue-create</a></p>
 </blockquote>
 <h4 id="安装element-ui框架和vue-resourcehttp请求等相关包相关依赖包">安装element-ui框架和vue-resource(http请求等相关包)相关依赖包</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd frontend
-npm install
-npm install element-ui
-npm install vue-resource
-
-</code></pre></div><h4 id="在srcmainjs下配置vue加载组件">在src/main.js下配置vue加载组件</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">VueResource</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue-resource&#34;</span>
-<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ElementUI</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;element-ui&#34;</span>
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;element-ui/lib/theme-chalk/index.css&#34;</span>
-
-<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">VueResource</span>);
-<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">ElementUI</span>);
-
-</code></pre></div><h4 id="在srccomponent文件夹下新建一个组件叫homevue然后写上用于添加城市信息的代码">在src/component文件夹下新建一个组件叫Home.vue，然后写上用于添加城市信息的代码</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">template</span>&gt;
-  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;home&#34;</span>&gt;
-    &lt;<span style="color:#f92672">el-row</span> <span style="color:#a6e22e">display</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;margin-top:10px&#34;</span>&gt;
-      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4&#34;</span>&gt;&lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入城市名称&#34;</span>&gt;&lt;/<span style="color:#f92672">el-input</span>&gt;&lt;/<span style="color:#f92672">el-col</span>&gt;
-      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4&#34;</span>&gt;&lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;code&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入城市代码&#34;</span>&gt;&lt;/<span style="color:#f92672">el-input</span>&gt;&lt;/<span style="color:#f92672">el-col</span>&gt;
-      &lt;<span style="color:#f92672">el-button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;primary&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;addCity(name, code)&#34;</span>&gt;新增城市&lt;/<span style="color:#f92672">el-button</span>&gt;
-    &lt;/<span style="color:#f92672">el-row</span>&gt;
-    &lt;<span style="color:#f92672">el-row</span>&gt;
-      &lt;<span style="color:#f92672">el-table</span> <span style="color:#a6e22e">:data</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cityList&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width: 100%&#34;</span> <span style="color:#a6e22e">border</span>&gt;
-        &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;编号&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
-          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.pk }}&lt;/<span style="color:#f92672">template</span>&gt;
-        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
-        &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;city_name&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;城市名称&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
-          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.fields.city_name }}&lt;/<span style="color:#f92672">template</span>&gt;
-        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
-         &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;city_code&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;城市代码&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
-          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.fields.city_code }}&lt;/<span style="color:#f92672">template</span>&gt;
-        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
-         &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;create_time&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;创建时间&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
-          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.fields.create_time }}&lt;/<span style="color:#f92672">template</span>&gt;
-        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
-      &lt;/<span style="color:#f92672">el-table</span>&gt;
-    &lt;/<span style="color:#f92672">el-row</span>&gt;
-  &lt;/<span style="color:#f92672">div</span>&gt;
-&lt;/<span style="color:#f92672">template</span>&gt;
-
-&lt;<span style="color:#f92672">script</span>&gt;
-<span style="color:#75715e">// @ is an alias to /src
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;home&#39;</span>,
-  <span style="color:#a6e22e">data</span>(){
-    <span style="color:#66d9ef">return</span> {
-      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
-      <span style="color:#a6e22e">code</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
-      <span style="color:#a6e22e">cityList</span><span style="color:#f92672">:</span> [],
-    }
-  },
-  <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
-    <span style="color:#a6e22e">fetchList</span>(){
-      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;/api/city_list&#34;</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; {
-        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>);
-          <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">100</span>){
-              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
-                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;success&#34;</span>,
-                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;加载成功&#34;</span>,
-              });
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">cityList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">data</span>;
-          }<span style="color:#66d9ef">else</span>{
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
-                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;error&#34;</span>,
-                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;加载失败&#34;</span>,
-              });
-          }
-      })
-    },
-    <span style="color:#a6e22e">addCity</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">code</span>){
-      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {
-        <span style="color:#a6e22e">params</span><span style="color:#f92672">:</span> {
-          <span style="color:#e6db74">&#34;city_name&#34;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">name</span>,
-          <span style="color:#e6db74">&#34;city_code&#34;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">code</span>
-        },
-        <span style="color:#a6e22e">emulateJSON</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-      };
-      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;/api/add_city&#34;</span>, <span style="color:#a6e22e">options</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; {
-          <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>);
-          <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">100</span>){
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
-                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;success&#34;</span>,
-                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;添加成功&#34;</span>,
-              });
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fetchList</span>();
-          }<span style="color:#66d9ef">else</span>{
-            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
-                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;error&#34;</span>,
-                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;添加失败&#34;</span>,
-              });
-          }
-      })
-    }
-  },
-  <span style="color:#a6e22e">mounted</span>() {
-    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fetchList</span>();
-  }
-}
-&lt;/<span style="color:#f92672">script</span>&gt;
-
-</code></pre></div><h4 id="添加路由">添加路由</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd frontend
+</span></span><span style="display:flex;"><span>npm install
+</span></span><span style="display:flex;"><span>npm install element-ui
+</span></span><span style="display:flex;"><span>npm install vue-resource
+</span></span></code></pre></div><h4 id="在srcmainjs下配置vue加载组件">在src/main.js下配置vue加载组件</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">VueResource</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue-resource&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ElementUI</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;element-ui&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;element-ui/lib/theme-chalk/index.css&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">VueResource</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">ElementUI</span>);
+</span></span></code></pre></div><h4 id="在srccomponent文件夹下新建一个组件叫homevue然后写上用于添加城市信息的代码">在src/component文件夹下新建一个组件叫Home.vue，然后写上用于添加城市信息的代码</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;home&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">el-row</span> <span style="color:#a6e22e">display</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;margin-top:10px&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4&#34;</span>&gt;&lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入城市名称&#34;</span>&gt;&lt;/<span style="color:#f92672">el-input</span>&gt;&lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-col</span> <span style="color:#a6e22e">:span</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4&#34;</span>&gt;&lt;<span style="color:#f92672">el-input</span> <span style="color:#a6e22e">v-model</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;code&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;请输入城市代码&#34;</span>&gt;&lt;/<span style="color:#f92672">el-input</span>&gt;&lt;/<span style="color:#f92672">el-col</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;primary&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;addCity(name, code)&#34;</span>&gt;新增城市&lt;/<span style="color:#f92672">el-button</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">el-row</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">el-row</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">el-table</span> <span style="color:#a6e22e">:data</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cityList&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width: 100%&#34;</span> <span style="color:#a6e22e">border</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;编号&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.pk }}&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;city_name&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;城市名称&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.fields.city_name }}&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>         &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;city_code&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;城市代码&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.fields.city_code }}&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>         &lt;<span style="color:#f92672">el-table-column</span> <span style="color:#a6e22e">prop</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;create_time&#34;</span> <span style="color:#a6e22e">label</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;创建时间&#34;</span> <span style="color:#a6e22e">min-width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">template</span> <span style="color:#a6e22e">scope</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scope&#34;</span>&gt;{{ scope.row.fields.create_time }}&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">el-table-column</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">el-table</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">el-row</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// @ is an alias to /src
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;home&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">code</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">cityList</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fetchList</span>(){
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;/api/city_list&#34;</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">100</span>){
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;success&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;加载成功&#34;</span>,
+</span></span><span style="display:flex;"><span>              });
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">cityList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">data</span>;
+</span></span><span style="display:flex;"><span>          }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;error&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;加载失败&#34;</span>,
+</span></span><span style="display:flex;"><span>              });
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">addCity</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">code</span>){
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">params</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;city_name&#34;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">name</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;city_code&#34;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">code</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">emulateJSON</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      };
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;/api/add_city&#34;</span>, <span style="color:#a6e22e">options</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">100</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;success&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;添加成功&#34;</span>,
+</span></span><span style="display:flex;"><span>              });
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fetchList</span>();
+</span></span><span style="display:flex;"><span>          }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$message</span>({
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;error&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">showClose</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;添加失败&#34;</span>,
+</span></span><span style="display:flex;"><span>              });
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mounted</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fetchList</span>();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><h4 id="添加路由">添加路由</h4>
 <p>在src/router.js下新增路由</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Home</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./views/Home.vue&#39;</span>
-
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Router</span>({
-  <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;history&#39;</span>,
-  <span style="color:#a6e22e">base</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">BASE_URL</span>,
-  <span style="color:#a6e22e">routes</span><span style="color:#f92672">:</span> [
-    {
-      <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/&#39;</span>,
-      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;home&#39;</span>,
-      <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Home</span>
-    },
-  ]
-})
-</code></pre></div><p>路由添加好了，可以运行下是否正常了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Home</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./views/Home.vue&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Router</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;history&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">base</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">BASE_URL</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">routes</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;home&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Home</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>路由添加好了，可以运行下是否正常了</p>
 <h4 id="在frontend目录下运行npm-run-dev启动node服务器在浏览器中打开地址">在frontend目录下运行npm run dev启动node服务器，在浏览器中打开地址</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm run dev
-</code></pre></div><h4 id="如果一切正常我们可以使用如下命令构建打包所有资源到dist目录下">如果一切正常，我们可以使用如下命令构建打包所有资源到dist目录下</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run dev
+</span></span></code></pre></div><h4 id="如果一切正常我们可以使用如下命令构建打包所有资源到dist目录下">如果一切正常，我们可以使用如下命令构建打包所有资源到dist目录下</h4>
 <p>因为我们下面配置静态资源路径多路一个static前缀，所以我们在运行下面的命令时候，先配置frontend/vue.config.js，
 以使打包的静态资源放到static目录下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
-  <span style="color:#a6e22e">lintOnSave</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
-  <span style="color:#a6e22e">assetsDir</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;static&#39;</span>,  <span style="color:#75715e">// 指定`build`时,在静态文件上一层添加static目录
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>然后运行打包命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm run build
-</code></pre></div><h2 id="四整合前后端">四、整合前后端</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">lintOnSave</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">assetsDir</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;static&#39;</span>,  <span style="color:#75715e">// 指定`build`时,在静态文件上一层添加static目录
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>然后运行打包命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run build
+</span></span></code></pre></div><h2 id="四整合前后端">四、整合前后端</h2>
 <p>前面构建好的前后端框架实际上都是各自运行在自己的服务器中，如果我们向通过python解析运行前后端代码，
 则需要将Django的TemplateView指向我们刚才生成的前端dist文件即可，具体配置如下：</p>
 <h4 id="1-找到myproject目录下的urlspy使用通用试图创建最简单的模板控制器访问根目录直接返回indexhtml">1. 找到myproject目录下的urls.py，使用通用试图创建最简单的模板控制器，访问根目录直接返回index.html</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
-<span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path
-<span style="color:#f92672">from</span> django.views.generic.base <span style="color:#f92672">import</span> TemplateView <span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">注意加上这句</span>
-
-urlpatterns <span style="color:#f92672">=</span> [
-    path(<span style="color:#e6db74">&#39;admin/&#39;</span>, admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>urls),
-    path(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;&#39;</span>, TemplateView<span style="color:#f92672">.</span>as_view(template_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index.html&#34;</span>)), <span style="color:#75715e"># 添加这行</span>
-]
-
-</code></pre></div><h4 id="2-使用django进行模板解析需要配置一下django具体要在哪里找到indexhtml">2. 使用django进行模板解析，需要配置一下django具体要在哪里找到index.html。</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.views.generic.base <span style="color:#f92672">import</span> TemplateView <span style="color:#f92672">//</span>注意加上这句
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;admin/&#39;</span>, admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>urls),
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;&#39;</span>, TemplateView<span style="color:#f92672">.</span>as_view(template_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index.html&#34;</span>)), <span style="color:#75715e"># 添加这行</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h4 id="2-使用django进行模板解析需要配置一下django具体要在哪里找到indexhtml">2. 使用django进行模板解析，需要配置一下django具体要在哪里找到index.html。</h4>
 <p>因为前面vue项目打包的时候已经配置了静态资源的路径在dist/static目录下，所以直接进行如下配置即可</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 在myproject目录的settings.py下</span>
-TEMPLATES <span style="color:#f92672">=</span> [
-    {
-        <span style="color:#e6db74">&#39;BACKEND&#39;</span>: <span style="color:#e6db74">&#39;django.template.backends.django.DjangoTemplates&#39;</span>,
-        <span style="color:#e6db74">&#39;DIRS&#39;</span>: [<span style="color:#e6db74">&#39;frontend/dist&#39;</span>], <span style="color:#75715e"># 修改这句</span>
-        <span style="color:#e6db74">&#39;APP_DIRS&#39;</span>: True,
-        <span style="color:#e6db74">&#39;OPTIONS&#39;</span>: {
-            <span style="color:#e6db74">&#39;context_processors&#39;</span>: [
-                <span style="color:#e6db74">&#39;django.template.context_processors.debug&#39;</span>,
-                <span style="color:#e6db74">&#39;django.template.context_processors.request&#39;</span>,
-                <span style="color:#e6db74">&#39;django.contrib.auth.context_processors.auth&#39;</span>,
-                <span style="color:#e6db74">&#39;django.contrib.messages.context_processors.messages&#39;</span>,
-            ],
-        },
-    },
-]
-
-<span style="color:#75715e"># 配置静态文件搜索路径，在同时myproject下的settings.py添加如下整段内容：</span>
-STATICFILES_DIRS <span style="color:#f92672">=</span> [
-    os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(BASE_DIR, <span style="color:#e6db74">&#34;frontend/dist/static/&#34;</span>),
-]
-
-
-<span style="color:#75715e"># 在myproject/settings.py下确认静态路径配置是否如下</span>
-STATIC_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/static/&#39;</span>
-</code></pre></div><h4 id="3-到这里我们基本配置完成可以运行如下命令查看整个项目">3. 到这里我们基本配置完成，可以运行如下命令查看整个项目</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 manage.py runserver <span style="color:#ae81ff">8080</span>
-
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 在myproject目录的settings.py下</span>
+</span></span><span style="display:flex;"><span>TEMPLATES <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;BACKEND&#39;</span>: <span style="color:#e6db74">&#39;django.template.backends.django.DjangoTemplates&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;DIRS&#39;</span>: [<span style="color:#e6db74">&#39;frontend/dist&#39;</span>], <span style="color:#75715e"># 修改这句</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;APP_DIRS&#39;</span>: <span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;OPTIONS&#39;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;context_processors&#39;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;django.template.context_processors.debug&#39;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;django.template.context_processors.request&#39;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;django.contrib.auth.context_processors.auth&#39;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;django.contrib.messages.context_processors.messages&#39;</span>,
+</span></span><span style="display:flex;"><span>            ],
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置静态文件搜索路径，在同时myproject下的settings.py添加如下整段内容：</span>
+</span></span><span style="display:flex;"><span>STATICFILES_DIRS <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(BASE_DIR, <span style="color:#e6db74">&#34;frontend/dist/static/&#34;</span>),
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在myproject/settings.py下确认静态路径配置是否如下</span>
+</span></span><span style="display:flex;"><span>STATIC_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/static/&#39;</span>
+</span></span></code></pre></div><h4 id="3-到这里我们基本配置完成可以运行如下命令查看整个项目">3. 到这里我们基本配置完成，可以运行如下命令查看整个项目</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 manage.py runserver <span style="color:#ae81ff">8080</span>
+</span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -688,7 +676,7 @@ STATIC_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -717,13 +705,14 @@ STATIC_URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

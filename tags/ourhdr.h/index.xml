@@ -14,7 +14,7 @@
       
       <guid>https://realjf.io/files/ourhdr-h/</guid>
       <description>unix网络编程 之 ourhdr.h文件 ourhdr.h
-// ourhdr.h  #ifndef __ourhdr_h #define __ourhdr_h  #include &amp;lt;errno.h&amp;gt; /*for definition of errno */#include &amp;lt;stdarg.h&amp;gt; /*ANSI C header file */#include &amp;lt;sys/types.h&amp;gt; /* required for some of our prototypes */ #include &amp;lt;stdio.h&amp;gt; /* for convenience */ #include &amp;lt;stdlib.h&amp;gt; /* for convenience */ #include &amp;lt;string.h&amp;gt; /* for convenience */ #include &amp;lt;unistd.h&amp;gt; /* for convenience */  #define MAXLINE 4096 /* max line length */#define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)  /* default file access permissions for new files */ #define DIR_MODE (FILE_MODE | S_IXUSR | S_IXGRP | S_IXOTH)  /* default permissions for new directoris */ typedef void Sigfunc(int); /* for signal handlers */ /* 4.</description>
+// ourhdr.h  #ifndef __ourhdr_h #define __ourhdr_h  #include &amp;lt;errno.h&amp;gt; /*for definition of errno */#include &amp;lt;stdarg.h&amp;gt; /*ANSI C header file */#include &amp;lt;sys/types.h&amp;gt; /* required for some of our prototypes */ #include &amp;lt;stdio.h&amp;gt; /* for convenience */ #include &amp;lt;stdlib.h&amp;gt; /* for convenience */ #include &amp;lt;string.h&amp;gt; /* for convenience */ #include &amp;lt;unistd.h&amp;gt; /* for convenience */  #define MAXLINE 4096 /* max line length */#define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)  /* default file access permissions for new files */ #define DIR_MODE (FILE_MODE | S_IXUSR | S_IXGRP | S_IXOTH)  /* default permissions for new directoris */ typedef void Sigfunc(int); /* for signal handlers */  /* 4.</description>
     </item>
     
   </channel>

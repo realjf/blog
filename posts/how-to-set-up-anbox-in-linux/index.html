@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>linux下的安卓模拟器anbox安装 How to Set Up Anbox in Linux // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">linux下的安卓模拟器anbox安装 How to Set Up Anbox in Linux</h1>
@@ -241,41 +244,41 @@
 <li>kali linux 2020</li>
 </ul>
 <h3 id="开始">开始</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-<span style="color:#75715e"># 使用下面的 PPA 来安装它</span>
-add-apt-repository ppa:morphis/anbox-support
-apt update
-apt install linux-headers-generic anbox-modules-dkms
-
-<span style="color:#75715e"># 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动</span>
-modprobe ashmem_linux
-modprobe binder_linux
-
-<span style="color:#75715e"># 使用 APT-GET 命令 或 APT 命令 来安装 anbox</span>
-apt install anbox
-
-<span style="color:#75715e"># 否则，需要通过 snap 来进行安装</span>
-apt install snapd
-snap install --classic anbox-install <span style="color:#f92672">&amp;&amp;</span> anbox-installer
-snap install --devmode --beta anbox
-</code></pre></div><p>默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB</span>
-apt install android-tools-adb
-</code></pre></div><h3 id="启动anbox-container服务">启动anbox container服务</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl enable anbox-container-manager
-systemctl start anbox-container-manager
-
-<span style="color:#75715e"># 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.img文件不在/var/lib/anbox/android.img路径下，</span>
-<span style="color:#75715e"># 可以通过https://build.anbox.io/android-images/2018/07/19/android_amd64.img 进行下载</span>
-<span style="color:#75715e"># 或者如果安装了snap且安装来anbox，则可以通过复制/snap/anbox/current/android.img到对应目录/var/lib/anbox/下即可</span>
-</code></pre></div><h3 id="通过anbox安装android应用">通过anbox安装android应用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用下面的 PPA 来安装它</span>
+</span></span><span style="display:flex;"><span>add-apt-repository ppa:morphis/anbox-support
+</span></span><span style="display:flex;"><span>apt update
+</span></span><span style="display:flex;"><span>apt install linux-headers-generic anbox-modules-dkms
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动</span>
+</span></span><span style="display:flex;"><span>modprobe ashmem_linux
+</span></span><span style="display:flex;"><span>modprobe binder_linux
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 APT-GET 命令 或 APT 命令 来安装 anbox</span>
+</span></span><span style="display:flex;"><span>apt install anbox
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 否则，需要通过 snap 来进行安装</span>
+</span></span><span style="display:flex;"><span>apt install snapd
+</span></span><span style="display:flex;"><span>snap install --classic anbox-install <span style="color:#f92672">&amp;&amp;</span> anbox-installer
+</span></span><span style="display:flex;"><span>snap install --devmode --beta anbox
+</span></span></code></pre></div><p>默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB</span>
+</span></span><span style="display:flex;"><span>apt install android-tools-adb
+</span></span></code></pre></div><h3 id="启动anbox-container服务">启动anbox container服务</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>systemctl enable anbox-container-manager
+</span></span><span style="display:flex;"><span>systemctl start anbox-container-manager
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.img文件不在/var/lib/anbox/android.img路径下，</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 可以通过https://build.anbox.io/android-images/2018/07/19/android_amd64.img 进行下载</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者如果安装了snap且安装来anbox，则可以通过复制/snap/anbox/current/android.img到对应目录/var/lib/anbox/下即可</span>
+</span></span></code></pre></div><h3 id="通过anbox安装android应用">通过anbox安装android应用</h3>
 <p>首先，你需要启动 ADB 服务</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 列出可用模拟器设备</span>
-adb devices
-
-<span style="color:#75715e"># 安装语法</span>
-adb install yourapp.apk
-</code></pre></div><p>需要下载安卓应用，可以通过以下应用市场下载</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 列出可用模拟器设备</span>
+</span></span><span style="display:flex;"><span>adb devices
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装语法</span>
+</span></span><span style="display:flex;"><span>adb install yourapp.apk
+</span></span></code></pre></div><p>需要下载安卓应用，可以通过以下应用市场下载</p>
 <ul>
 <li><a href="https://www.apkmirror.com">https://www.apkmirror.com</a></li>
 <li><a href="https://mobile.baidu.com/item?pid=825114773">https://mobile.baidu.com/item?pid=825114773</a></li>
@@ -354,7 +357,7 @@ adb install yourapp.apk
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -383,13 +386,14 @@ adb install yourapp.apk
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>NCURSES编程 之 12.鼠标接口 12 Interfacing With the Mouse // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">NCURSES编程 之 12.鼠标接口 12 Interfacing With the Mouse</h1>
@@ -240,169 +243,169 @@
 <p>现在您已经了解了如何获取键，让我们从鼠标执行相同的操作。通常每个UI都允许用户与键盘和鼠标进行交互。</p>
 <h3 id="121-基础知识">12.1. 基础知识</h3>
 <p>在执行任何其他操作之前，必须使用mousemask（）启用要接收的事件。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">mousemask(  mmask_t newmask,    <span style="color:#75715e">/* The events you want to listen to */</span>
-                mmask_t <span style="color:#f92672">*</span>oldmask)    <span style="color:#75715e">/* The old events mask                */</span>
-</code></pre></div><p>上面函数的第一个参数是您想要监听的事件的位掩码。默认情况下，将关闭所有事件。位掩码ALL_MOUSE_EVENTS 可用于获取所有事件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>mousemask(  mmask_t newmask,    <span style="color:#75715e">/* The events you want to listen to */</span>
+</span></span><span style="display:flex;"><span>                mmask_t <span style="color:#f92672">*</span>oldmask)    <span style="color:#75715e">/* The old events mask                */</span>
+</span></span></code></pre></div><p>上面函数的第一个参数是您想要监听的事件的位掩码。默认情况下，将关闭所有事件。位掩码ALL_MOUSE_EVENTS 可用于获取所有事件。</p>
 <p>以下是所有事件掩码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Name            Description
-       ---------------------------------------------------------------------
-       BUTTON1_PRESSED          mouse button 1 down
-       BUTTON1_RELEASED         mouse button 1 up
-       BUTTON1_CLICKED          mouse button 1 clicked
-       BUTTON1_DOUBLE_CLICKED   mouse button 1 double clicked
-       BUTTON1_TRIPLE_CLICKED   mouse button 1 triple clicked
-       BUTTON2_PRESSED          mouse button 2 down
-       BUTTON2_RELEASED         mouse button 2 up
-       BUTTON2_CLICKED          mouse button 2 clicked
-       BUTTON2_DOUBLE_CLICKED   mouse button 2 double clicked
-       BUTTON2_TRIPLE_CLICKED   mouse button 2 triple clicked
-       BUTTON3_PRESSED          mouse button 3 down
-       BUTTON3_RELEASED         mouse button 3 up
-       BUTTON3_CLICKED          mouse button 3 clicked
-       BUTTON3_DOUBLE_CLICKED   mouse button 3 double clicked
-       BUTTON3_TRIPLE_CLICKED   mouse button 3 triple clicked
-       BUTTON4_PRESSED          mouse button 4 down
-       BUTTON4_RELEASED         mouse button 4 up
-       BUTTON4_CLICKED          mouse button 4 clicked
-       BUTTON4_DOUBLE_CLICKED   mouse button 4 double clicked
-       BUTTON4_TRIPLE_CLICKED   mouse button 4 triple clicked
-       BUTTON_SHIFT             shift was down during button state change
-       BUTTON_CTRL              control was down during button state change
-       BUTTON_ALT               alt was down during button state change
-       ALL_MOUSE_EVENTS         report all button state changes
-       REPORT_MOUSE_POSITION    report mouse movement
-</code></pre></div><h3 id="122-获取事件">12.2. 获取事件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Name            Description
+</span></span><span style="display:flex;"><span>       ---------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>       BUTTON1_PRESSED          mouse button 1 down
+</span></span><span style="display:flex;"><span>       BUTTON1_RELEASED         mouse button 1 up
+</span></span><span style="display:flex;"><span>       BUTTON1_CLICKED          mouse button 1 clicked
+</span></span><span style="display:flex;"><span>       BUTTON1_DOUBLE_CLICKED   mouse button 1 double clicked
+</span></span><span style="display:flex;"><span>       BUTTON1_TRIPLE_CLICKED   mouse button 1 triple clicked
+</span></span><span style="display:flex;"><span>       BUTTON2_PRESSED          mouse button 2 down
+</span></span><span style="display:flex;"><span>       BUTTON2_RELEASED         mouse button 2 up
+</span></span><span style="display:flex;"><span>       BUTTON2_CLICKED          mouse button 2 clicked
+</span></span><span style="display:flex;"><span>       BUTTON2_DOUBLE_CLICKED   mouse button 2 double clicked
+</span></span><span style="display:flex;"><span>       BUTTON2_TRIPLE_CLICKED   mouse button 2 triple clicked
+</span></span><span style="display:flex;"><span>       BUTTON3_PRESSED          mouse button 3 down
+</span></span><span style="display:flex;"><span>       BUTTON3_RELEASED         mouse button 3 up
+</span></span><span style="display:flex;"><span>       BUTTON3_CLICKED          mouse button 3 clicked
+</span></span><span style="display:flex;"><span>       BUTTON3_DOUBLE_CLICKED   mouse button 3 double clicked
+</span></span><span style="display:flex;"><span>       BUTTON3_TRIPLE_CLICKED   mouse button 3 triple clicked
+</span></span><span style="display:flex;"><span>       BUTTON4_PRESSED          mouse button 4 down
+</span></span><span style="display:flex;"><span>       BUTTON4_RELEASED         mouse button 4 up
+</span></span><span style="display:flex;"><span>       BUTTON4_CLICKED          mouse button 4 clicked
+</span></span><span style="display:flex;"><span>       BUTTON4_DOUBLE_CLICKED   mouse button 4 double clicked
+</span></span><span style="display:flex;"><span>       BUTTON4_TRIPLE_CLICKED   mouse button 4 triple clicked
+</span></span><span style="display:flex;"><span>       BUTTON_SHIFT             shift was down during button state change
+</span></span><span style="display:flex;"><span>       BUTTON_CTRL              control was down during button state change
+</span></span><span style="display:flex;"><span>       BUTTON_ALT               alt was down during button state change
+</span></span><span style="display:flex;"><span>       ALL_MOUSE_EVENTS         report all button state changes
+</span></span><span style="display:flex;"><span>       REPORT_MOUSE_POSITION    report mouse movement
+</span></span></code></pre></div><h3 id="122-获取事件">12.2. 获取事件</h3>
 <p>一旦一类鼠标事件被启用，getch（）函数类会在每次鼠标事件发生时返回KEY_MOUSE。然后可以使用getmouse（）检索鼠标事件。</p>
 <p>代码大致如下所示：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">MEVENT event;
-
-    ch <span style="color:#f92672">=</span> getch();
-    <span style="color:#66d9ef">if</span>(ch <span style="color:#f92672">==</span> KEY_MOUSE)
-        <span style="color:#66d9ef">if</span>(getmouse(<span style="color:#f92672">&amp;</span>event) <span style="color:#f92672">==</span> OK)
-            .    <span style="color:#75715e">/* Do some thing with the event */</span>
-            .
-            .
-</code></pre></div><p>getmouse（）将事件返回给它的指针。这是一个包含</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
-    {
-        <span style="color:#66d9ef">short</span> id;         <span style="color:#75715e">/* ID to distinguish multiple devices */</span>
-        <span style="color:#66d9ef">int</span> x, y, z;      <span style="color:#75715e">/* event coordinates */</span>
-        mmask_t bstate;   <span style="color:#75715e">/* button state bits */</span>
-    }    
-</code></pre></div><p>bstate是我们感兴趣的主要变量。它告诉鼠标的按键状态。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>MEVENT event;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ch <span style="color:#f92672">=</span> getch();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(ch <span style="color:#f92672">==</span> KEY_MOUSE)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(getmouse(<span style="color:#f92672">&amp;</span>event) <span style="color:#f92672">==</span> OK)
+</span></span><span style="display:flex;"><span>            .    <span style="color:#75715e">/* Do some thing with the event */</span>
+</span></span><span style="display:flex;"><span>            .
+</span></span><span style="display:flex;"><span>            .
+</span></span></code></pre></div><p>getmouse（）将事件返回给它的指针。这是一个包含</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">short</span> id;         <span style="color:#75715e">/* ID to distinguish multiple devices */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x, y, z;      <span style="color:#75715e">/* event coordinates */</span>
+</span></span><span style="display:flex;"><span>        mmask_t bstate;   <span style="color:#75715e">/* button state bits */</span>
+</span></span><span style="display:flex;"><span>    }    
+</span></span></code></pre></div><p>bstate是我们感兴趣的主要变量。它告诉鼠标的按键状态。</p>
 <p>然后通过下面的代码片段，我们可以找出发生了什么。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">if</span>(event.bstate <span style="color:#f92672">&amp;</span> BUTTON1_PRESSED)
-        printw(<span style="color:#e6db74">&#34;Left Button Pressed&#34;</span>);
-</code></pre></div><h3 id="123-把它们放在一起">12.3. 把它们放在一起</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(event.bstate <span style="color:#f92672">&amp;</span> BUTTON1_PRESSED)
+</span></span><span style="display:flex;"><span>        printw(<span style="color:#e6db74">&#34;Left Button Pressed&#34;</span>);
+</span></span></code></pre></div><h3 id="123-把它们放在一起">12.3. 把它们放在一起</h3>
 <p>这和鼠标有很大的关系。让我们创建相同的菜单并启用鼠标交互。为了简化操作，删除了按键处理。</p>
 <p>例11。用鼠标进入菜单！！！</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define WIDTH 30
-</span><span style="color:#75715e">#define HEIGHT 10 
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> startx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-<span style="color:#66d9ef">int</span> starty <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> { 	<span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Exit&#34;</span>,
-		  };
-
-<span style="color:#66d9ef">int</span> n_choices <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(choices) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_menu</span>(WINDOW <span style="color:#f92672">*</span>menu_win, <span style="color:#66d9ef">int</span> highlight);
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">report_choice</span>(<span style="color:#66d9ef">int</span> mouse_x, <span style="color:#66d9ef">int</span> mouse_y, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p_choice);
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	<span style="color:#66d9ef">int</span> c, choice <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-	WINDOW <span style="color:#f92672">*</span>menu_win;
-	MEVENT event;
-
-	<span style="color:#75715e">/* Initialize curses */</span>
-	initscr();
-	clear();
-	noecho();
-	cbreak();	<span style="color:#75715e">//Line buffering disabled. pass on everything
-</span><span style="color:#75715e"></span>
-	<span style="color:#75715e">/* Try to put the window in the middle of screen */</span>
-	startx <span style="color:#f92672">=</span> (<span style="color:#ae81ff">80</span> <span style="color:#f92672">-</span> WIDTH) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	starty <span style="color:#f92672">=</span> (<span style="color:#ae81ff">24</span> <span style="color:#f92672">-</span> HEIGHT) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	
-	attron(A_REVERSE);
-	mvprintw(<span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Click on Exit to quit (Works best in a virtual console)&#34;</span>);
-	refresh();
-	attroff(A_REVERSE);
-
-	<span style="color:#75715e">/* Print the menu for the first time */</span>
-	menu_win <span style="color:#f92672">=</span> newwin(HEIGHT, WIDTH, starty, startx);
-	print_menu(menu_win, <span style="color:#ae81ff">1</span>);
-	<span style="color:#75715e">/* Get all the mouse events */</span>
-	mousemask(ALL_MOUSE_EVENTS, NULL);
-	
-	<span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
-	{	c <span style="color:#f92672">=</span> wgetch(menu_win);
-		<span style="color:#66d9ef">switch</span>(c)
-		{	<span style="color:#66d9ef">case</span> KEY_MOUSE:
-			<span style="color:#66d9ef">if</span>(getmouse(<span style="color:#f92672">&amp;</span>event) <span style="color:#f92672">==</span> OK)
-			{	<span style="color:#75715e">/* When the user clicks left mouse button */</span>
-				<span style="color:#66d9ef">if</span>(event.bstate <span style="color:#f92672">&amp;</span> BUTTON1_PRESSED)
-				{	report_choice(event.x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, event.y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>choice);
-					<span style="color:#66d9ef">if</span>(choice <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e">//Exit chosen
-</span><span style="color:#75715e"></span>						<span style="color:#66d9ef">goto</span> end;
-					mvprintw(<span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Choice made is : %d String Chosen is </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">%10s</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">&#34;</span>, choice, choices[choice <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
-					refresh(); 
-				}
-			}
-			print_menu(menu_win, choice);
-			<span style="color:#66d9ef">break</span>;
-		}
-	}		
-end:
-	endwin();
-	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_menu</span>(WINDOW <span style="color:#f92672">*</span>menu_win, <span style="color:#66d9ef">int</span> highlight)
-{
-	<span style="color:#66d9ef">int</span> x, y, i;	
-
-	x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
-	y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
-	box(menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-	{	<span style="color:#66d9ef">if</span>(highlight <span style="color:#f92672">==</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
-		{	wattron(menu_win, A_REVERSE); 
-			mvwprintw(menu_win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, choices[i]);
-			wattroff(menu_win, A_REVERSE);
-		}
-		<span style="color:#66d9ef">else</span>
-			mvwprintw(menu_win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, choices[i]);
-		<span style="color:#f92672">++</span>y;
-	}
-	wrefresh(menu_win);
-}
-
-<span style="color:#75715e">/* Report the choice according to mouse position */</span>
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">report_choice</span>(<span style="color:#66d9ef">int</span> mouse_x, <span style="color:#66d9ef">int</span> mouse_y, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p_choice)
-{	<span style="color:#66d9ef">int</span> i,j, choice;
-
-	i <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
-	j <span style="color:#f92672">=</span> starty <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>;
-	
-	<span style="color:#66d9ef">for</span>(choice <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; choice <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>choice)
-		<span style="color:#66d9ef">if</span>(mouse_y <span style="color:#f92672">==</span> j <span style="color:#f92672">+</span> choice <span style="color:#f92672">&amp;&amp;</span> mouse_x <span style="color:#f92672">&gt;=</span> i <span style="color:#f92672">&amp;&amp;</span> mouse_x <span style="color:#f92672">&lt;=</span> i <span style="color:#f92672">+</span> strlen(choices[choice]))
-		{	<span style="color:#66d9ef">if</span>(choice <span style="color:#f92672">==</span> n_choices <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
-				<span style="color:#f92672">*</span>p_choice <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;		
-			<span style="color:#66d9ef">else</span>
-				<span style="color:#f92672">*</span>p_choice <span style="color:#f92672">=</span> choice <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;	
-			<span style="color:#66d9ef">break</span>;
-		}
-}
-</code></pre></div><p>12.4. 其他函数
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ncurses.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define WIDTH 30
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define HEIGHT 10 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> startx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> starty <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> { 	<span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>		  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n_choices <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(choices) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_menu</span>(WINDOW <span style="color:#f92672">*</span>menu_win, <span style="color:#66d9ef">int</span> highlight);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">report_choice</span>(<span style="color:#66d9ef">int</span> mouse_x, <span style="color:#66d9ef">int</span> mouse_y, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p_choice);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	<span style="color:#66d9ef">int</span> c, choice <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	WINDOW <span style="color:#f92672">*</span>menu_win;
+</span></span><span style="display:flex;"><span>	MEVENT event;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>	clear();
+</span></span><span style="display:flex;"><span>	noecho();
+</span></span><span style="display:flex;"><span>	cbreak();	<span style="color:#75715e">//Line buffering disabled. pass on everything
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Try to put the window in the middle of screen */</span>
+</span></span><span style="display:flex;"><span>	startx <span style="color:#f92672">=</span> (<span style="color:#ae81ff">80</span> <span style="color:#f92672">-</span> WIDTH) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	starty <span style="color:#f92672">=</span> (<span style="color:#ae81ff">24</span> <span style="color:#f92672">-</span> HEIGHT) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	attron(A_REVERSE);
+</span></span><span style="display:flex;"><span>	mvprintw(<span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Click on Exit to quit (Works best in a virtual console)&#34;</span>);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>	attroff(A_REVERSE);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Print the menu for the first time */</span>
+</span></span><span style="display:flex;"><span>	menu_win <span style="color:#f92672">=</span> newwin(HEIGHT, WIDTH, starty, startx);
+</span></span><span style="display:flex;"><span>	print_menu(menu_win, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Get all the mouse events */</span>
+</span></span><span style="display:flex;"><span>	mousemask(ALL_MOUSE_EVENTS, NULL);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	{	c <span style="color:#f92672">=</span> wgetch(menu_win);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>		{	<span style="color:#66d9ef">case</span> KEY_MOUSE:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(getmouse(<span style="color:#f92672">&amp;</span>event) <span style="color:#f92672">==</span> OK)
+</span></span><span style="display:flex;"><span>			{	<span style="color:#75715e">/* When the user clicks left mouse button */</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span>(event.bstate <span style="color:#f92672">&amp;</span> BUTTON1_PRESSED)
+</span></span><span style="display:flex;"><span>				{	report_choice(event.x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, event.y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>choice);
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span>(choice <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e">//Exit chosen
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>						<span style="color:#66d9ef">goto</span> end;
+</span></span><span style="display:flex;"><span>					mvprintw(<span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Choice made is : %d String Chosen is </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">%10s</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">&#34;</span>, choice, choices[choice <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>					refresh(); 
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			print_menu(menu_win, choice);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}		
+</span></span><span style="display:flex;"><span>end:
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_menu</span>(WINDOW <span style="color:#f92672">*</span>menu_win, <span style="color:#66d9ef">int</span> highlight)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> x, y, i;	
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	box(menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>	{	<span style="color:#66d9ef">if</span>(highlight <span style="color:#f92672">==</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		{	wattron(menu_win, A_REVERSE); 
+</span></span><span style="display:flex;"><span>			mvwprintw(menu_win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, choices[i]);
+</span></span><span style="display:flex;"><span>			wattroff(menu_win, A_REVERSE);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>			mvwprintw(menu_win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, choices[i]);
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">++</span>y;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	wrefresh(menu_win);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Report the choice according to mouse position */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">report_choice</span>(<span style="color:#66d9ef">int</span> mouse_x, <span style="color:#66d9ef">int</span> mouse_y, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>p_choice)
+</span></span><span style="display:flex;"><span>{	<span style="color:#66d9ef">int</span> i,j, choice;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	i <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	j <span style="color:#f92672">=</span> starty <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(choice <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; choice <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>choice)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(mouse_y <span style="color:#f92672">==</span> j <span style="color:#f92672">+</span> choice <span style="color:#f92672">&amp;&amp;</span> mouse_x <span style="color:#f92672">&gt;=</span> i <span style="color:#f92672">&amp;&amp;</span> mouse_x <span style="color:#f92672">&lt;=</span> i <span style="color:#f92672">+</span> strlen(choices[choice]))
+</span></span><span style="display:flex;"><span>		{	<span style="color:#66d9ef">if</span>(choice <span style="color:#f92672">==</span> n_choices <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">*</span>p_choice <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;		
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">*</span>p_choice <span style="color:#f92672">=</span> choice <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;	
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>12.4. 其他函数
 函数mouse_trafo（）和wmouse_trafo（）可用于将鼠标坐标转换为屏幕相对坐标。有关详细信息，请参阅curs_mouse(3X) 手册页。</p>
 <p>mouseinterval函数设置在按下和释放事件之间可以经过的最长时间（以千秒为单位），以便将它们识别为单击。此函数返回上一个间隔值。默认值为五分之一秒。</p>
 
@@ -495,7 +498,7 @@ end:
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -524,13 +527,14 @@ end:
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

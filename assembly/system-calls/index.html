@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>nasm汇编之系统调用 System Calls // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">nasm汇编之系统调用 System Calls</h1>
@@ -248,15 +251,15 @@
 <p>有六个寄存器，用于存储所用系统调用的参数。这些是EBX，ECX，EDX，ESI，EDI和EBP。
 这些寄存器采用从EBX寄存器开始的连续参数。如果有六个以上的自变量，则第一个自变量的存储位置将存储在EBX寄存器中</p>
 <p>以下代码段显示了系统调用sys_exit的使用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">1</span>		<span style="color:#75715e">; system call number (sys_exit)
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>		<span style="color:#75715e">; call kernel
-</span></code></pre></div><p>以下代码段显示了系统调用sys_write的使用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">mov</span>	<span style="color:#66d9ef">edx</span>,<span style="color:#ae81ff">4</span>		<span style="color:#75715e">; message length
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ecx</span>,<span style="color:#66d9ef">msg</span>		<span style="color:#75715e">; message to write
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ebx</span>,<span style="color:#ae81ff">1</span>		<span style="color:#75715e">; file descriptor (stdout)
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">4</span>		<span style="color:#75715e">; system call number (sys_write)
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>		<span style="color:#75715e">; call kernel
-</span></code></pre></div><p>所有系统调用及其编号（在调用int 80h之前放入EAX的值）都列在/usr/include/asm/unistd.h中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">1</span>		<span style="color:#75715e">; system call number (sys_exit)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>		<span style="color:#75715e">; call kernel
+</span></span></span></code></pre></div><p>以下代码段显示了系统调用sys_write的使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span>	<span style="color:#66d9ef">edx</span>,<span style="color:#ae81ff">4</span>		<span style="color:#75715e">; message length
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ecx</span>,<span style="color:#66d9ef">msg</span>		<span style="color:#75715e">; message to write
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">ebx</span>,<span style="color:#ae81ff">1</span>		<span style="color:#75715e">; file descriptor (stdout)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">mov</span>	<span style="color:#66d9ef">eax</span>,<span style="color:#ae81ff">4</span>		<span style="color:#75715e">; system call number (sys_write)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span>	<span style="color:#ae81ff">0x80</span>		<span style="color:#75715e">; call kernel
+</span></span></span></code></pre></div><p>所有系统调用及其编号（在调用int 80h之前放入EAX的值）都列在/usr/include/asm/unistd.h中</p>
 <p>下表显示了使用的一些系统调用</p>
 <table>
 <thead>
@@ -310,51 +313,51 @@
 </tbody>
 </table>
 <h3 id="示例">示例</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.data</span>                           <span style="color:#75715e">;Data segment
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">userMsg</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Please</span> <span style="color:#66d9ef">enter</span> <span style="color:#66d9ef">a</span> <span style="color:#66d9ef">number</span>: <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#75715e">;Ask the user to enter a number
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">lenUserMsg</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$-userMsg</span>             <span style="color:#75715e">;The length of the message
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">dispMsg</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">You</span> <span style="color:#66d9ef">have</span> <span style="color:#66d9ef">entered</span>: <span style="color:#960050;background-color:#1e0010">&#39;</span>
-   <span style="color:#a6e22e">lenDispMsg</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$-dispMsg</span>                 
-
-<span style="color:#66d9ef">section</span> <span style="color:#66d9ef">.bss</span>           <span style="color:#75715e">;Uninitialized data
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">num</span> <span style="color:#66d9ef">resb</span> <span style="color:#ae81ff">5</span>
-	
-<span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span>          <span style="color:#75715e">;Code Segment
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">global</span> <span style="color:#66d9ef">_start</span>
-	
-_start:                <span style="color:#75715e">;User prompt
-</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">4</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">1</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">userMsg</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">lenUserMsg</span>
-   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>
-
-   <span style="color:#75715e">;Read and store the user input
-</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">3</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">2</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">num</span>  
-   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#ae81ff">5</span>          <span style="color:#75715e">;5 bytes (numeric, 1 for sign) of that information
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>
-	
-   <span style="color:#75715e">;Output the message &#39;The entered number is: &#39;
-</span><span style="color:#75715e"></span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">4</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">1</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">dispMsg</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">lenDispMsg</span>
-   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>  
-
-   <span style="color:#75715e">;Output the number entered
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">4</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">1</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">num</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#ae81ff">5</span>
-   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>  
-    
-   <span style="color:#75715e">; Exit code
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">1</span>
-   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">0</span>
-   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.data</span>                           <span style="color:#75715e">;Data segment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">userMsg</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">Please</span> <span style="color:#66d9ef">enter</span> <span style="color:#66d9ef">a</span> <span style="color:#66d9ef">number</span>: <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#75715e">;Ask the user to enter a number
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">lenUserMsg</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$-userMsg</span>             <span style="color:#75715e">;The length of the message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">dispMsg</span> <span style="color:#66d9ef">db</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">You</span> <span style="color:#66d9ef">have</span> <span style="color:#66d9ef">entered</span>: <span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">lenDispMsg</span> <span style="color:#66d9ef">equ</span> <span style="color:#66d9ef">$-dispMsg</span>                 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> <span style="color:#66d9ef">.bss</span>           <span style="color:#75715e">;Uninitialized data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">num</span> <span style="color:#66d9ef">resb</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">section</span> <span style="color:#66d9ef">.text</span>          <span style="color:#75715e">;Code Segment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">global</span> <span style="color:#66d9ef">_start</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>_start:                <span style="color:#75715e">;User prompt
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">userMsg</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">lenUserMsg</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">;Read and store the user input
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">num</span>  
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#ae81ff">5</span>          <span style="color:#75715e">;5 bytes (numeric, 1 for sign) of that information
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">;Output the message &#39;The entered number is: &#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">dispMsg</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">lenDispMsg</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">;Output the number entered
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">num</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>  
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">; Exit code
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">mov</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">ebx</span>, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">int</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">h</span>
+</span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -444,7 +447,7 @@ _start:                <span style="color:#75715e">;User prompt
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -473,13 +476,14 @@ _start:                <span style="color:#75715e">;User prompt
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

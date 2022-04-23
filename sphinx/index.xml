@@ -20,7 +20,7 @@
 二进制地址：http://sphinxsearch.com/files/sphinx-3.0.2-2592786-linux-amd64.tar.gz
 源码包地址：http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz
 中文文档地址：http://www.sphinxsearch.org/archives/category/php
-sphinx在mysql上的应用有两种方式：  采用api调用，如php、java等的api函数或方法查询。优点是可不必对mysql重新编译，服务端进程“低耦合”，且程序灵活度高、方便调用。 使用插件方式 sphinxSE把sphinx编译成一个mysql插件并使用特定的sql语句进行检索。 通过安装相关编程语言的扩展插件  准备  mysql mysql-devel 编译软件gcc gcc-c++ autoconf automake sphinx  # 安装工具yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-develsphinx安装 # 下载wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz# 解压tar zxvf sphinx-2.2.11-release.tar.gz# 安装./configure --prefix=/usr/local/sphinxmake &amp;amp;&amp;amp; make install# 备份配置文件cd /usr/local/sphinx/etccp sphinx.</description>
+sphinx在mysql上的应用有两种方式：  采用api调用，如php、java等的api函数或方法查询。优点是可不必对mysql重新编译，服务端进程“低耦合”，且程序灵活度高、方便调用。 使用插件方式 sphinxSE把sphinx编译成一个mysql插件并使用特定的sql语句进行检索。 通过安装相关编程语言的扩展插件  准备  mysql mysql-devel 编译软件gcc gcc-c++ autoconf automake sphinx  # 安装工具yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-devel sphinx安装 # 下载wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz# 解压tar zxvf sphinx-2.2.11-release.tar.gz# 安装./configure --prefix=/usr/local/sphinxmake &amp;amp;&amp;amp; make install# 备份配置文件cd /usr/local/sphinx/etccp sphinx.</description>
     </item>
     
     <item>

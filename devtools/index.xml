@@ -31,12 +31,12 @@ cmake命令行选项 指定构建系统生成器： -G 使用-G可以指定编�
       <guid>https://realjf.io/devtools/vagrantfile/</guid>
       <description>配置版本 配置版本是一种机制，通过该机制，Vagrant 1.1+可以 与Vagrant 1.0.x Vagrantfiles保持向后兼容，同时引入了许多新功能和配置选项
 现在运行vagrant init，其格式如下：
-Vagrant.configure(&amp;quot;2&amp;quot;) do |config|# ...end其中的2代表配置的版本的号
+Vagrant.configure(&amp;#34;2&amp;#34;) do |config|# ...end 其中的2代表配置的版本的号
 可以同时使用版本1和版本2的特性，最终它们将合并在一起使用
-Vagrant.configure(&amp;quot;1&amp;quot;) do |config|# v1 configs...endVagrant.configure(&amp;quot;2&amp;quot;) do |config|# v2 configs...end最小版本 这个可以限制太新或者太旧的版本，但是此版本限制必须放在vagrantfile文件最前面， 并通过vagrant.require_version 指定
-Vagrant.require_version &amp;quot;&amp;gt;= 1.3.5&amp;quot;上述限制将让vagrantfile文件只在 大于等于vagrant 1.3.5版本时加载
+Vagrant.configure(&amp;#34;1&amp;#34;) do |config|# v1 configs...endVagrant.configure(&amp;#34;2&amp;#34;) do |config|# v2 configs...end 最小版本 这个可以限制太新或者太旧的版本，但是此版本限制必须放在vagrantfile文件最前面， 并通过vagrant.require_version 指定
+Vagrant.require_version &amp;#34;&amp;gt;= 1.3.5&amp;#34; 上述限制将让vagrantfile文件只在 大于等于vagrant 1.3.5版本时加载
 也可以指定多版本限制
-Vagrant.require_version &amp;quot;&amp;gt;= 1.3.5&amp;quot;, &amp;quot;&amp;lt; 1.4.0&amp;quot;循环vm定义 (1..3).each do |i|config.vm.define &amp;quot;node-#{i}&amp;quot; do |node|node.vm.provision &amp;quot;shell&amp;quot;,inline: &amp;quot;echo hello from node #{i}&amp;quot;endend以上的each结构时使用副本进行迭代，所以不会出错，但是如果使用以下结构，将会使所有node的text相同
+Vagrant.require_version &amp;#34;&amp;gt;= 1.3.5&amp;#34;, &amp;#34;&amp;lt; 1.4.0&amp;#34; 循环vm定义 (1..3).each do |i|config.vm.define &amp;#34;node-#{i}&amp;#34; do |node|node.vm.provision &amp;#34;shell&amp;#34;,inline: &amp;#34;echo hello from node #{i}&amp;#34;endend 以上的each结构时使用副本进行迭代，所以不会出错，但是如果使用以下结构，将会使所有node的text相同
 # THIS DOES NOT WORK!for i in 1.</description>
     </item>
     
@@ -46,7 +46,7 @@ Vagrant.require_version &amp;quot;&amp;gt;= 1.3.5&amp;quot;, &amp;quot;&amp;lt; 
       <pubDate>Tue, 29 Sep 2020 05:29:26 +0800</pubDate>
       
       <guid>https://realjf.io/devtools/install-vagrant/</guid>
-      <description>准备环境  kali 2020  安装 apt update apt install vagrant # 测试是否安装成功 vagrant --version </description>
+      <description>准备环境  kali 2020  安装 apt update apt install vagrant  # 测试是否安装成功 vagrant --version </description>
     </item>
     
     <item>
@@ -58,14 +58,14 @@ Vagrant.require_version &amp;quot;&amp;gt;= 1.3.5&amp;quot;, &amp;quot;&amp;lt; 
       <description>首先创建一个项目
 mkdir Tutorial cd Tutorial touch tutorial.cxx tutorial.cxx内容如下：
 第一步：从最基础开始 最简单的应用是在项目根目录下创建一个CMakeLists.txt文件，内容如下：
-# 设置cmake最小要求版本 cmake_minimum_required(VERSION 3.10) # 设置项目名称 project(Tutorial) # 添加可执行文件 add_executable(Tutorial tutorial.cxx) CMake支持大写，小写和大小写混合命令，上述示例使用小写方式。
+# 设置cmake最小要求版本 cmake_minimum_required(VERSION 3.10)  # 设置项目名称 project(Tutorial)  # 添加可执行文件 add_executable(Tutorial tutorial.cxx) CMake支持大写，小写和大小写混合命令，上述示例使用小写方式。
 添加版本号和配置头文件 第一个功能cmake_minimum_required是为我们的可执行文件和项目提供版本号。 虽然我们可以仅在源代码中执行此操作，但是使用CMakeLists.txt可提供更大的灵活性
-cmake_minimum_required(VERSION 3.10) # 设置项目版本号 project(Tutorial VERSION 1.0) 配置头文件以将版本号传递给源代码
+cmake_minimum_required(VERSION 3.10)  # 设置项目版本号 project(Tutorial VERSION 1.0) 配置头文件以将版本号传递给源代码
 configure_file(TutorialConfig.h.in TutorialConfig.h) 由于已配置的文件将被写入二进制树，因此我们必须将该目录添加到路径列表中以搜索包含文件。 将以下行添加到CMakeLists.txt文件的末尾
-target_include_directories(Tutorial PUBLIC &amp;#34;${PROJECT_BINARY_DIR}&amp;#34; ) 在源目录中使用以下内容创建TutorialConfig.h.in
+target_include_directories(Tutorial PUBLIC  &amp;#34;${PROJECT_BINARY_DIR}&amp;#34;  ) 在源目录中使用以下内容创建TutorialConfig.h.in
 // 配置选项和设置项目配置 #define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@ #define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@ 当CMake配置此头文件时，@Tutorial_VERSION_MAJOR@和@Tutorial_VERSION_MINOR@的值将被替换。 接下来，修改tutorial.cxx以包括配置的头文件TutorialConfig.h
 最后，通过更新tutorial.cxx来打印出版本号
-if (argc &amp;lt; 2) { // report version  std::cout &amp;lt;&amp;lt; argv[0] &amp;lt;&amp;lt; &amp;#34; Version &amp;#34; &amp;lt;&amp;lt; Tutorial_VERSION_MAJOR &amp;lt;&amp;lt; &amp;#34;.</description>
+if (argc &amp;lt; 2) {  // report version  std::cout &amp;lt;&amp;lt; argv[0] &amp;lt;&amp;lt; &amp;#34; Version &amp;#34; &amp;lt;&amp;lt; Tutorial_VERSION_MAJOR &amp;lt;&amp;lt; &amp;#34;.</description>
     </item>
     
     <item>
@@ -74,7 +74,7 @@ if (argc &amp;lt; 2) { // report version  std::cout &amp;lt;&amp;lt; argv[0] &am
       <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
       
       <guid>https://realjf.io/devtools/makefile-rule/</guid>
-      <description>基本语法 target1 target2 target3: prerequisite1 prerequisite2 command1 command2 command3 冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
+      <description>基本语法 target1 target2 target3: prerequisite1 prerequisite2  command1  command2  command3 冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
 每个命令必须以跳格符开头，这个语法用来要求make将紧跟在跳格符之后的内容传给subshell来执行。
 make会将#号视为注释字符，从井号开始到该行结束之间的所有文字都会被make忽略。你可以使用反斜线，来延续过长的文本行。
 规则 </description>

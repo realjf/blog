@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>kubernetes 基本概念和术语 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">kubernetes 基本概念和术语</h1>
@@ -290,32 +293,32 @@
 <blockquote>
 <p>默认情况下：当pod里的某个容器停止时，k8s会自动检测到这个问题并重新启动这个pod（重启pod里的所有容器），如果pod所在node宕机，则会将这个Node上的所有pod重新调度到其他节点上。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># pod资源定义文件</span>
-<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
-<span style="color:#f92672">metadata</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myweb</span>
-    <span style="color:#f92672">labels</span>: 
-        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myweb</span>
-<span style="color:#f92672">spec</span>:
-    <span style="color:#f92672">containers</span>:
-    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myweb</span>
-      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">kubeguide/tomcat-app:v1</span>
-      <span style="color:#f92672">resources</span>:
-        <span style="color:#f92672">requests</span>:
-         <span style="color:#f92672">memory</span>: <span style="color:#e6db74">&#34;64Mi&#34;</span>
-         <span style="color:#f92672">cpu</span>: <span style="color:#e6db74">&#34;250m&#34;</span>
-        <span style="color:#f92672">limits</span>:
-         <span style="color:#f92672">memory</span>: <span style="color:#e6db74">&#34;128Mi&#34;</span>
-         <span style="color:#f92672">cpu</span>: <span style="color:#e6db74">&#34;500m&#34;</span>
-      <span style="color:#f92672">ports</span>:
-      - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">8080</span>
-      <span style="color:#f92672">env</span>:
-      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_SERVICE_HOST</span>
-        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;mysql&#39;</span>
-      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_SERVICE_PORT</span>
-        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;3306&#39;</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># pod资源定义文件</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myweb</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>: 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myweb</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myweb</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">kubeguide/tomcat-app:v1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">memory</span>: <span style="color:#e6db74">&#34;64Mi&#34;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">cpu</span>: <span style="color:#e6db74">&#34;250m&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">limits</span>:
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">memory</span>: <span style="color:#e6db74">&#34;128Mi&#34;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">cpu</span>: <span style="color:#e6db74">&#34;500m&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_SERVICE_HOST</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;mysql&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MYSQL_SERVICE_PORT</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;3306&#39;</span>
+</span></span></code></pre></div><ul>
 <li>metadata.name：pod的名字</li>
 <li>metadata.labels：标签对象</li>
 <li>spec：pod所包含的容器组</li>
@@ -366,9 +369,8 @@
 </ul>
 <p>创建好RC后，kubernetes会通过RC中定义的label筛选出对应的pod实例并实时监控其状态和数量，如果实例数量少于定义的副本数量（replicas），则会根据RC中定义的pod目标来创建一个新的pod，然后将此pod调度到合适的node上启动运行，直到pod的数量达到replicas定义的数量。</p>
 <h5 id="扩容rc命令">扩容RC命令：</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl scale rc &lt;LABEL_NAME&gt; --replicas<span style="color:#f92672">=</span>NUM
-
-</code></pre></div><h5 id="补充">补充</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl scale rc &lt;LABEL_NAME&gt; --replicas<span style="color:#f92672">=</span>NUM
+</span></span></code></pre></div><h5 id="补充">补充</h5>
 <ul>
 <li>删除RC并不会影响通过该RC已创建好的Pod。</li>
 <li>为了删除所有的Pod，可以设置replicas的值为0，然后更新RC。</li>
@@ -403,17 +405,17 @@
 <blockquote>
 <p>Deployment的定义与Replica Set的定义很类似，除了API声明和Kind类型有所区别</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Deployment</span>
-<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
-<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
-<span style="color:#f92672">metadata</span>:
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># Replica Set</span>
-<span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ReplicaSet</span>
-<span style="color:#f92672">metadata</span>:
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-repset</span>
-</code></pre></div><h4 id="7-horizontal-pod-autoscaler">7. Horizontal Pod Autoscaler</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">extensions/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Replica Set</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ReplicaSet</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-repset</span>
+</span></span></code></pre></div><h4 id="7-horizontal-pod-autoscaler">7. Horizontal Pod Autoscaler</h4>
 <h4 id="8-statefulset">8. StatefulSet</h4>
 <p>在K8s中，Pod的管理对象RC、Deployment、DaemonSet和Job都是面向无状态的服务。</p>
 <h4 id="service服务">Service（服务）</h4>
@@ -461,10 +463,9 @@
 <h4 id="namespace命名空间">Namespace（命名空间）</h4>
 <p>命名空间是kubernetes系统中的用于实现多租户的资源隔离。namespace通过将集群内部的资源对象“分配”到不同的namespace中，形成逻辑上的分组的不同项目、小组或用户组，便于不同的分组在共享使用整个集群的资源的同时还能被分别管理。</p>
 <p>可以通过如下命令获取namespaces</p>
-<pre><code>kubectl get namespaces
+<pre tabindex="0"><code>kubectl get namespaces
 </code></pre><p>可以使用以下命令获取某个命名空间的对象</p>
-<pre><code>kubectl get pods --namespace=development
-
+<pre tabindex="0"><code>kubectl get pods --namespace=development
 </code></pre><h4 id="volume存储卷">Volume（存储卷）</h4>
 <p>用于pod中多个容器访问的共享目录，生命周期与pod相同。当容器终止或者重启时，volume中的数据也不会丢失。</p>
 <p>kubernetes支持多种类型的volume，例如GlusterFS、Ceph等。</p>
@@ -503,11 +504,11 @@
 <h6 id="nfs">NFS</h6>
 <p>使用NFS网络文件系统提供的共享目录存储数据，需要部署一个NFS Server。</p>
 <p>示例如下：</p>
-<pre><code>volumes:
+<pre tabindex="0"><code>volumes:
  - name: nfs
   nfs:
   server: nfs-server.localhost
-  path: &quot;/&quot;
+  path: &#34;/&#34;
 </code></pre><h4 id="persistent-volume">Persistent Volume</h4>
 <p>pv可以理解成kubernetes集群中的某个网络存储中对应的一块存储，他与volume类似，但有区别：</p>
 <ul>
@@ -601,7 +602,7 @@
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -630,13 +631,14 @@
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>VS Code扩展开发 之 发布扩展 Publishing Vscode Extensions // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">VS Code扩展开发 之 发布扩展 Publishing Vscode Extensions</h1>
@@ -248,14 +251,14 @@
 <p>vsce，是Visual Studio Code Extensions的简称，是一个打包，发布和管理vscode扩展的命令行工具</p>
 <h4 id="安装">安装</h4>
 <p>请确保你已经安装了node.js</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">npm install -g vsce
-</code></pre></div><h4 id="使用">使用</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd myExtension
-vsce package
-<span style="color:#75715e"># myExtension.vsix generated</span>
-vsce publish
-<span style="color:#75715e"># &lt;publisherID&gt;.myExtension published to VS Code MarketPlace</span>
-</code></pre></div><p>更多的命令请使用vsce &ndash;help查看</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>npm install -g vsce
+</span></span></code></pre></div><h4 id="使用">使用</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd myExtension
+</span></span><span style="display:flex;"><span>vsce package
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># myExtension.vsix generated</span>
+</span></span><span style="display:flex;"><span>vsce publish
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &lt;publisherID&gt;.myExtension published to VS Code MarketPlace</span>
+</span></span></code></pre></div><p>更多的命令请使用vsce &ndash;help查看</p>
 <h2 id="发布扩展">发布扩展</h2>
 <blockquote>
 <p>由于安全考虑，vsce不会发布包含用户提供的svg图片的扩展</p>
@@ -293,18 +296,18 @@ vsce publish
 <h3 id="创建一个发布者">创建一个发布者</h3>
 <p>每一个扩展需要在package.json文件中包含发布者名字</p>
 <p>一旦你有Personal Access Token，你就能创建一个新的发布者使用vsce</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vsce create-publisher <span style="color:#f92672">(</span>publisher name<span style="color:#f92672">)</span>
-</code></pre></div><p>vsce会记住当前提供的Personal Access Token作为未来这个发布者使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vsce create-publisher <span style="color:#f92672">(</span>publisher name<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>vsce会记住当前提供的Personal Access Token作为未来这个发布者使用</p>
 <blockquote>
 <p>或者，在Marketplace发布者管理页面中创建发布者，并通过vsce登录，如下一节所述。</p>
 </blockquote>
 <h3 id="登录发布者">登录发布者</h3>
 <p>如果你已经创建了一个发布者，并想通过vsce使用它</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vsce login <span style="color:#f92672">(</span>publisher name<span style="color:#f92672">)</span>
-</code></pre></div><p>与create-publisher命令相似，vsce会问你Personal Access Token以及记住它作为之后命令使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vsce login <span style="color:#f92672">(</span>publisher name<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>与create-publisher命令相似，vsce会问你Personal Access Token以及记住它作为之后命令使用</p>
 <p>你也可以输入你的Personal Access Token，通过参数-p <!-- raw HTML omitted -->指定一个</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vsce publish -p &lt;token&gt;
-</code></pre></div><h2 id="查看扩展安装和分级">查看扩展安装和分级</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vsce publish -p &lt;token&gt;
+</span></span></code></pre></div><h2 id="查看扩展安装和分级">查看扩展安装和分级</h2>
 <p>您可以访问管理发布者和扩展页面，查看您的扩展在市场上的表现
 <a href="https://marketplace.visualstudio.com/manage/publisher/%7Bpublisher-ID%7D">https://marketplace.visualstudio.com/manage/publisher/{publisher-ID}</a>，
 在URL中提供您的publisher-ID。在这里，您将看到在您的publisher ID下发布的所有扩展，
@@ -312,11 +315,11 @@ vsce publish
 <h2 id="扩展版本的自增">扩展版本的自增</h2>
 <p>发布时，可以通过指定要递增的<a href="https://semver.org/">SemVer</a>兼容号：major、minor或patch来自动递增扩展的版本号</p>
 <p>例如，你想更新扩展的版本从1.0.0到1.1.0，你可以指定minor：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vsce publish minor
-</code></pre></div><p>这个会在发布扩展之前修改扩展的package.json版本属性</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vsce publish minor
+</span></span></code></pre></div><p>这个会在发布扩展之前修改扩展的package.json版本属性</p>
 <p>你也可以在命令行中指定一个完整的SemVer兼容版本</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vsce publish 2.0.1
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vsce publish 2.0.1
+</span></span></code></pre></div><blockquote>
 <p>如果vsce publish在一个git仓库运行，它也会创建一个版本commit和tag甚至npm-version，
 默认commit信息是扩展的版本，但是你可以提供自定义信息，使用-m标志指定</p>
 </blockquote>
@@ -336,25 +339,25 @@ vsce可以打包你的扩展为VSIX文件，你可以通过它很简单的安装
 </ul>
 <h2 id="vscode-兼容性">VSCode 兼容性</h2>
 <p>当命名一个扩展，你需要描述这个扩展的VSCode兼容性，这个通过package.json指定engines.vscode来处理</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;engines&#34;</span>: {
-    <span style="color:#f92672">&#34;vscode&#34;</span>: <span style="color:#e6db74">&#34;^1.8.0&#34;</span>
-  }
-}
-</code></pre></div><h2 id="预发布阶段">预发布阶段</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;engines&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;vscode&#34;</span>: <span style="color:#e6db74">&#34;^1.8.0&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="预发布阶段">预发布阶段</h2>
 <p>可以将预发布步骤添加到清单文件中。每次打包扩展时都会调用该命令</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;uuid&#34;</span>,
-  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.0.1&#34;</span>,
-  <span style="color:#f92672">&#34;publisher&#34;</span>: <span style="color:#e6db74">&#34;someone&#34;</span>,
-  <span style="color:#f92672">&#34;engines&#34;</span>: {
-    <span style="color:#f92672">&#34;vscode&#34;</span>: <span style="color:#e6db74">&#34;0.10.x&#34;</span>
-  },
-  <span style="color:#f92672">&#34;scripts&#34;</span>: {
-    <span style="color:#f92672">&#34;vscode:prepublish&#34;</span>: <span style="color:#e6db74">&#34;tsc&#34;</span>
-  }
-}
-</code></pre></div><p>每当打包扩展时，这将始终调用TypeScript编译器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;uuid&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.0.1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;publisher&#34;</span>: <span style="color:#e6db74">&#34;someone&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;engines&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;vscode&#34;</span>: <span style="color:#e6db74">&#34;0.10.x&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;scripts&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;vscode:prepublish&#34;</span>: <span style="color:#e6db74">&#34;tsc&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>每当打包扩展时，这将始终调用TypeScript编译器。</p>
 
         </div>
         <div id="disqus_thread"></div>
@@ -445,7 +448,7 @@ vsce可以打包你的扩展为VSIX文件，你可以通过它很简单的安装
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -474,13 +477,14 @@ vsce可以打包你的扩展为VSIX文件，你可以通过它很简单的安装
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

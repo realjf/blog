@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubesphere on Realjf&#39;s blog</title>
+    <link>https://realjf.io/tags/kubesphere/</link>
+    <description>Recent content in kubesphere on Realjf&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Apr 2022 21:24:13 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/kubesphere/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kubesphere devops流水线go项目使用示例 Kubesphere Devops Pipeline</title>
+      <link>https://realjf.io/kubesphere/devops-pipeline/</link>
+      <pubDate>Sat, 23 Apr 2022 21:24:13 +0800</pubDate>
+      
+      <guid>https://realjf.io/kubesphere/devops-pipeline/</guid>
+      <description>准备  一个已经开启devops插件的kubesphere系统 一个go项目代码（在这里项目代码放在码云上） 一个阿里云容器镜像仓库账号  开始 创建devops项目 输入项目名称，然后进入项目 创建凭证 要让流水线正常运行，需要几个凭证，一个是代码拉取凭证（这里使用码云的访问令牌），一个阿里云容器镜像仓库空间，用于存放镜像， 然后需要一个可以操作kubectl的凭证
+创建码云凭证 需要开启几个权限，projects、hook、emails，然后输入描述，提交后会得到token字符串，需要妥善保管好这个字符串，因为只会显示一次，等会创建凭证需要用到这个字符串 创建码云的凭证 创建阿里云容器镜像仓库凭证 首先创建命名空间 然后创建镜像仓库，仓库名称即项目的名称即可，这里会有一个设置镜像仓库访问密码，密码等会创建凭证的时候要用 镜像仓库创建完毕，进入镜像仓库，可以看到镜像仓库的基本信息，这公网地址、阿里云账号名称，空间名称，仓库名称后面会用到
+现在开始创建凭证 这里的用户名填写阿里云账号名称，密码填写镜像仓库访问密码
+最后再创建当前账号的kubeconfig凭证 创建流水线 凭证创建完毕，可以开始创建流水线了
+这里代码仓库选择git，然后填写项目代码仓库地址，凭证选择码云的凭证 高级设置基本默认就可以，这里扫描触发器可以选择定时扫描，时间自定就可以 这里需要注意一下脚本路径这项，路径默认是Jenkinsfile，即在项目代码仓库的根目录下需要有个Jenkinsfile文件
+设置jenkins脚本 流水线创建成功后，开始在项目代码根目录下新增一个文件，名字叫Jenkinsfile，内容如下：
+pipeline {  agent {  label &amp;#39;go&amp;#39;  }   environment {  // 镜像仓库的地址  REGISTRY = &amp;#39;&amp;#39;  // 镜像仓库空间名  NAMESPACE = &amp;#39;&amp;#39;  // 镜像仓库用户名  DOCKERHUB_CREDENTIAL_USR = &amp;#39;&amp;#39;  // Docker 镜像名称  APP_NAME = &amp;#39;&amp;#39;  // &amp;#39;dockerhubid&amp;#39; 是您在 KubeSphere 用 Docker Hub 访问令牌创建的凭证 ID  DOCKERHUB_CREDENTIAL = credentials(&amp;#39;&amp;#39;)  // 您在 KubeSphere 创建的 kubeconfig 凭证 ID  KUBECONFIG_CREDENTIAL_ID = &amp;#39;&amp;#39;  // 您在 KubeSphere 创建的项目名称，不是 DevOps 项目名称  PROJECT_NAME = &amp;#39;&amp;#39;  // gitee 访问令牌 id  GITEE_CREDENTIAL = credentials(&amp;#39;&amp;#39;)  // gitee 用户名  GITEE_USERNAME = &amp;#39;&amp;#39;  // 镜像版本  IMAGE_VERSION = &amp;#39;&amp;#39;  // git clone 后的目录  GITCLONE_DIR = &amp;#39;&amp;#39;  // gitee地址  GITEE_ADDRESS = &amp;#39;gitee.</description>
+    </item>
+    
+  </channel>
+</rss>

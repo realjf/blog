@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>Ceph 集群搭建二 之 预检 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">Ceph 集群搭建二 之 预检</h1>
@@ -242,13 +245,13 @@
 <h4 id="安装ceph部署工具">安装ceph部署工具</h4>
 <p>在 Red Hat （rhel6、rhel7）、CentOS （el6、el7）和 Fedora 19-20 （f19 - f20） 上执行下列步骤：</p>
 <h5 id="用subscription-manager注册你的目标机器确认你的订阅并启用安装依赖包的extras软件仓库例如">用subscription-manager注册你的目标机器，确认你的订阅，并启用安装依赖包的extras软件仓库。例如：</h5>
-<pre><code>sudo subscription-manager repos --enable=el-7-server-extras-rpms
+<pre tabindex="0"><code>sudo subscription-manager repos --enable=el-7-server-extras-rpms
 </code></pre><h5 id="在centos上执行以下命令">在centos上执行以下命令</h5>
-<pre><code>sudo yum install -y yum-utils &amp;&amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;&amp; sudo yum install --nogpgcheck -y epel-release &amp;&amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;&amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*
+<pre tabindex="0"><code>sudo yum install -y yum-utils &amp;&amp; sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ &amp;&amp; sudo yum install --nogpgcheck -y epel-release &amp;&amp; sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 &amp;&amp; sudo rm /etc/yum.repos.d/dl.fedoraproject.org*
 </code></pre><h5 id="把软件包源加入软件仓库用文本编辑器创建一个-yum-yellowdog-updater-modified-库文件其路径为-etcyumreposdcephrepo">把软件包源加入软件仓库。用文本编辑器创建一个 YUM (Yellowdog Updater, Modified) 库文件，其路径为 /etc/yum.repos.d/ceph.repo</h5>
-<pre><code>sudo vim /etc/yum.repos.d/ceph.repo
+<pre tabindex="0"><code>sudo vim /etc/yum.repos.d/ceph.repo
 </code></pre><p>把如下内容粘帖进去，用 Ceph 的最新主稳定版名字替换 {ceph-stable-release} （如 firefly，hammer, infernalis ），用你的Linux发行版名字替换 {distro} （如 el6 为 CentOS 6 、 el7 为 CentOS 7 、 rhel6 为 Red Hat 6.5 、 rhel7 为 Red Hat 7 、 fc19 是 Fedora 19 、 fc20 是 Fedora 20 ）。最后保存到 /etc/yum.repos.d/ceph.repo 文件中。</p>
-<pre><code>[ceph-noarch]
+<pre tabindex="0"><code>[ceph-noarch]
 name=Ceph noarch packages
 baseurl=http://download.ceph.com/rpm-{ceph-release}/{distro}/noarch
 enabled=1
@@ -284,43 +287,43 @@ type=rpm-md
 gpgkey=https://mirrors.163.com/ceph/keys/release.asc
 priority=1
 </code></pre><h5 id="更新软件库并安装ceph-deploy">更新软件库并安装ceph-deploy</h5>
-<pre><code>sudo yum update &amp;&amp; sudo yum install ceph-deploy -y
+<pre tabindex="0"><code>sudo yum update &amp;&amp; sudo yum install ceph-deploy -y
 </code></pre><h4 id="ceph节点安装">ceph节点安装</h4>
 <h5 id="配置hosts文件">配置hosts文件</h5>
 <p>cat /etc/hosts</p>
-<pre><code>192.168.1.1 node1
+<pre tabindex="0"><code>192.168.1.1 node1
 192.168.1.2 node2
 192.168.1.3 node3
 </code></pre><p>修改hostname</p>
-<pre><code>hostnamectl set-hostname node1
+<pre tabindex="0"><code>hostnamectl set-hostname node1
 </code></pre><p>你的管理节点必须能够通过 SSH 无密码地访问各 Ceph 节点。如果 ceph-deploy 以某个普通用户登录，那么这个用户必须有无密码使用 sudo 的权限。</p>
 <h5 id="安装ntp">安装NTP</h5>
-<pre><code>yum install ntp ntpdate ntp-doc
+<pre tabindex="0"><code>yum install ntp ntpdate ntp-doc
 </code></pre><h5 id="安装ssh服务器">安装ssh服务器</h5>
-<pre><code>yum install openssh-server
+<pre tabindex="0"><code>yum install openssh-server
 </code></pre><h5 id="创建部署ceph的用户">创建部署ceph的用户</h5>
 <p>较新版的 ceph-deploy 支持用 &ndash;username 选项提供可无密码使用 sudo 的用户名（包括 root ，虽然不建议这样做）。使用 ceph-deploy &ndash;username {username} 命令时，指定的用户必须能够通过无密码 SSH 连接到 Ceph 节点，因为 ceph-deploy 中途不会提示输入密码。</p>
-<pre><code>useradd -d /home/{username} -m {username}
+<pre tabindex="0"><code>useradd -d /home/{username} -m {username}
 passwd {username}
 
 # 确保ceph节点上新创建用户的sudo权限
-echo &quot;{username} ALL = (root) NOPASSWD:ALL&quot; | sudo tee /etc/sudoers.d/{username}
+echo &#34;{username} ALL = (root) NOPASSWD:ALL&#34; | sudo tee /etc/sudoers.d/{username}
 chmod 0440 /etc/sudoers.d/{username}
 
-echo &quot;ceph ALL = (root) NOPASSWD:ALL&quot; | sudo tee /etc/sudoers.d/ceph
+echo &#34;ceph ALL = (root) NOPASSWD:ALL&#34; | sudo tee /etc/sudoers.d/ceph
 chmod 0440 /etc/sudoers.d/ceph
 </code></pre><h5 id="允许无密码ssh登录">允许无密码ssh登录</h5>
 <p>正因为 ceph-deploy 不支持输入密码，你必须在 <strong>管理节点</strong> 上生成 SSH 密钥并把其公钥分发到各 Ceph 节点。ceph-deploy 会尝试给初始 monitors 生成 SSH 密钥对。</p>
 <p>生成ssh密钥对，但不要sudo或root用户。</p>
-<pre><code>ssh-keygen
+<pre tabindex="0"><code>ssh-keygen
 </code></pre><p>把公钥拷贝到各ceph节点，把下列命令中的{username}替换成前面创建的用户名</p>
-<pre><code>ssh-copy-id {username}@node1
+<pre tabindex="0"><code>ssh-copy-id {username}@node1
 ssh-copy-id {username}@node2
 ssh-copy-id {username}@node3
 </code></pre><h5 id="确保连通性">确保连通性</h5>
 <h5 id="开放所需端口">开放所需端口</h5>
 <p>若使用iptables，要开放ceph monitors使用的6789端口和osd使用的6800:7300端口范围。</p>
-<pre><code>iptables -A INPUT -i {iface} -p tcp -s {ip-address}/{netmask} --dport 6789 -j ACCEPT
+<pre tabindex="0"><code>iptables -A INPUT -i {iface} -p tcp -s {ip-address}/{netmask} --dport 6789 -j ACCEPT
 </code></pre>
         </div>
         <div id="disqus_thread"></div>
@@ -405,7 +408,7 @@ ssh-copy-id {username}@node3
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -434,13 +437,14 @@ ssh-copy-id {username}@node3
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

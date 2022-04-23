@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>C&#43;&#43;如何在对象创建过程中使用this指针指向自己？ Enable Shared From This // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">C&#43;&#43;如何在对象创建过程中使用this指针指向自己？ Enable Shared From This</h1>
@@ -238,50 +241,50 @@
         <div class="post-content">
             <p>weak_ptr处理的是循环依赖造成的空荡指针问题，另一个问题是：必须保证某对象只被一组shared pointer拥有。</p>
 <p>下面代码是错的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>;
-shared_ptr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sp1(p);
-shared_ptr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sp2(p);
-</code></pre></div><p>两组拥有权意味着相应资源的释放会被执行两次。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>;
+</span></span><span style="display:flex;"><span>shared_ptr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sp1(p);
+</span></span><span style="display:flex;"><span>shared_ptr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sp2(p);
+</span></span></code></pre></div><p>两组拥有权意味着相应资源的释放会被执行两次。</p>
 <p>除了上述情况外，也可能间接出现该问题：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mom(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s mom&#34;</span>));
-shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> dad(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s dad&#34;</span>));
-shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> kid(<span style="color:#66d9ef">new</span> Person(name));
-kid<span style="color:#f92672">-&gt;</span>setParentsAndTheirKids(mom, dad);
-</code></pre></div><p>修改Person类，如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>{
-  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-  ...
-  <span style="color:#66d9ef">void</span> setParentsAndTheirKids(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>){
-    mother <span style="color:#f92672">=</span> m;
-    father <span style="color:#f92672">=</span> f;
-    <span style="color:#66d9ef">if</span>(m <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
-      m<span style="color:#f92672">-&gt;</span>kids.push_back(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">this</span>)); <span style="color:#75715e">// ERROR
-</span><span style="color:#75715e"></span>    }
-    <span style="color:#66d9ef">if</span>(f <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
-      f<span style="color:#f92672">-&gt;</span>kids.push_back(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">this</span>)); <span style="color:#75715e">// ERROR
-</span><span style="color:#75715e"></span>    }
-  }
-  ...
-};
-</code></pre></div><p>问题出在 “this的那个shared pointer”的建立。之所以这么做，是因为我们想设置mother和father这两个成员的kids。但为了保持创建的kid和mother以及father设置的kid为同一个指针对象，所以需要一个shared pointer指向这个kid，这样就能解决问题，但是我们目前没有，而通过this指针创建将会开启一个新的拥有者，即开启一个新的shared pointer。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mom(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s mom&#34;</span>));
+</span></span><span style="display:flex;"><span>shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> dad(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s dad&#34;</span>));
+</span></span><span style="display:flex;"><span>shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> kid(<span style="color:#66d9ef">new</span> Person(name));
+</span></span><span style="display:flex;"><span>kid<span style="color:#f92672">-&gt;</span>setParentsAndTheirKids(mom, dad);
+</span></span></code></pre></div><p>修改Person类，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  ...
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> setParentsAndTheirKids(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>    mother <span style="color:#f92672">=</span> m;
+</span></span><span style="display:flex;"><span>    father <span style="color:#f92672">=</span> f;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(m <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>      m<span style="color:#f92672">-&gt;</span>kids.push_back(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">this</span>)); <span style="color:#75715e">// ERROR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(f <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>      f<span style="color:#f92672">-&gt;</span>kids.push_back(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">this</span>)); <span style="color:#75715e">// ERROR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  ...
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>问题出在 “this的那个shared pointer”的建立。之所以这么做，是因为我们想设置mother和father这两个成员的kids。但为了保持创建的kid和mother以及father设置的kid为同一个指针对象，所以需要一个shared pointer指向这个kid，这样就能解决问题，但是我们目前没有，而通过this指针创建将会开启一个新的拥有者，即开启一个新的shared pointer。</p>
 <p>为了解决该问题，一种是将指向kid的shared pointer传递为第三个实参。另一种是c++标准库提供的：class std::enable_shared_from_this&lt;&gt;。</p>
 <p>你可以从class std::enable_shared_from_this&lt;&gt;派生你自己的class，表现出“被sahred pointer管理”的对象。做法是将class名称当作template实参传入。然后你就可以使用一个派生的成员函数shared_from_this()建立起一个源自this的正确shared_ptr。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> std<span style="color:#f92672">::</span>enable_shared_from_this<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span>{
-  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-  ...
-  <span style="color:#66d9ef">void</span> setParentsAndTheirKids(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>){
-    mother <span style="color:#f92672">=</span> m;
-    father <span style="color:#f92672">=</span> f;
-    <span style="color:#66d9ef">if</span>(m <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
-      m<span style="color:#f92672">-&gt;</span>kids.push_back(shared_from_this()); <span style="color:#75715e">// ERROR
-</span><span style="color:#75715e"></span>    }
-    <span style="color:#66d9ef">if</span>(f <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
-      f<span style="color:#f92672">-&gt;</span>kids.push_back(shared_from_this()); <span style="color:#75715e">// ERROR
-</span><span style="color:#75715e"></span>    }
-  }
-  ...
-};
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> std<span style="color:#f92672">::</span>enable_shared_from_this<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  ...
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> setParentsAndTheirKids(shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>    mother <span style="color:#f92672">=</span> m;
+</span></span><span style="display:flex;"><span>    father <span style="color:#f92672">=</span> f;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(m <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>      m<span style="color:#f92672">-&gt;</span>kids.push_back(shared_from_this()); <span style="color:#75715e">// ERROR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(f <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>      f<span style="color:#f92672">-&gt;</span>kids.push_back(shared_from_this()); <span style="color:#75715e">// ERROR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  ...
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><blockquote>
 <p>注意，不能在构造函数内调用shared_from_this()。</p>
 </blockquote>
 <p>其问题在于shared_ptr本身被存放于Person的base class，也就是enable_shared_from_this&lt;&gt;内部的一个private成员中，在Person构造结束之前。</p>
@@ -376,7 +379,7 @@ kid<span style="color:#f92672">-&gt;</span>setParentsAndTheirKids(mom, dad);
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -405,13 +408,14 @@ kid<span style="color:#f92672">-&gt;</span>setParentsAndTheirKids(mom, dad);
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

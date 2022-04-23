@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>安装 Sphinx // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">安装 Sphinx</h1>
@@ -271,11 +274,10 @@
 <li>编译软件gcc gcc-c++ autoconf automake</li>
 <li>sphinx</li>
 </ul>
-<pre><code># 安装工具
+<pre tabindex="0"><code># 安装工具
 yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-devel
-
 </code></pre><h4 id="sphinx安装">sphinx安装</h4>
-<pre><code># 下载
+<pre tabindex="0"><code># 下载
 wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz
 
 # 解压
@@ -288,19 +290,18 @@ make &amp;&amp; make install
 # 备份配置文件
 cd /usr/local/sphinx/etc
 cp sphinx.conf.dist sphinx.conf
-
 </code></pre><h4 id="coreseek下载地址">coreseek下载地址</h4>
 <p>coreseek下载地址：<a href="http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz">http://blog.realjf.com/wp-content/uploads/2018/03/coreseek-3.2.14.tar.gz</a></p>
 <p>百度分享地址：<a href="https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw">https://pan.baidu.com/s/1wwk5gEx4atyBHxCiwXsZtw</a></p>
-<pre><code># 准备
+<pre tabindex="0"><code># 准备
 locale
 LANG=zh_CN.UTF-8
-LC_ALL=&quot;zh_CN.UTF-8&quot;
+LC_ALL=&#34;zh_CN.UTF-8&#34;
 
 # 以下核心项，locale为zh_CN.UTF-8，就可以正常显示和输入中文，locale设置功能由操作系统自身支持，BSD/Linux均可开启；该功能，不是coreseek提供的。
 # 如果需要修改，可以使用export LANG=zh_CN.UTF-8进行修改
 </code></pre><h4 id="安装coreseek开发的mmseg为coreseek提供中文分词功能">安装coreseek开发的mmseg，为coreseek提供中文分词功能</h4>
-<pre><code>tar zxvf coreseek-3.2.14.tar.gz
+<pre tabindex="0"><code>tar zxvf coreseek-3.2.14.tar.gz
 cd mmseg-3.2.14
 ./bootstrap
 ./configure --prefix=/usr/local/mmseg3
@@ -315,9 +316,8 @@ make &amp;&amp; make install
 中国人/x 上海市/x 
 
 Word Splite took: 0 ms.
-
 </code></pre><h4 id="安装coreseek">安装coreseek</h4>
-<pre><code>cd ..
+<pre tabindex="0"><code>cd ..
 cd csft-3.2.14
 # 执行并配置
 sh buildconf.sh
@@ -330,13 +330,13 @@ sh buildconf.sh
 make &amp;&amp; make install
 </code></pre><p>如果编译报错，由于是gcc版本问题，所以需要手动修改以下内容</p>
 <p>vim  /usr/local/src/coreseek-4.1-beta/csft-4.1/src/sphinxexpr.cpp</p>
-<pre><code>error: ‘ExprEval’ was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
-   T val = ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
+<pre tabindex="0"><code>error: ‘ExprEval’ was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
+   T val = ExprEval ( this-&gt;m_pArg, tMatch ); // &#39;this&#39; fixes gcc braindamage
    
 # 解决办法：
-1013 T val = ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
+1013 T val = ExprEval ( this-&gt;m_pArg, tMatch ); // &#39;this&#39; fixes gcc braindamage
 # 修改为
-T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch ); // 'this' fixes gcc braindamage
+T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch ); // &#39;this&#39; fixes gcc braindamage
 
 1047 T val = ExprEval ( this-&gt;m_pArg, tMatch );
 # 修改为
@@ -344,56 +344,52 @@ T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );
 1080 T val = ExprEval ( this-&gt;m_pArg, tMatch );
 # 修改为
 T val = this-&gt;ExprEval ( this-&gt;m_pArg, tMatch );
-
 </code></pre><p>如果缺少python环境的devel支持包，则</p>
-<pre><code>yum install -y python-devel
+<pre tabindex="0"><code>yum install -y python-devel
 </code></pre><h4 id="测试mmseg分词和coreseek检索">测试mmseg分词和coreseek检索</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd coreseek-3.2.14/testpack
-cat var/test/test.xml
-<span style="color:#75715e"># 测试mmseg分词</span>
-/usr/local/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc var/test/test.xml
-
-<span style="color:#75715e"># 建立索引</span>
-/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/example.conf --all
-<span style="color:#75715e"># 如果运行报错</span>
-<span style="color:#75715e"># /usr/local/coreseek/bin/indexer: error while loading shared libraries: libmysqlclient.so.20: cannot open shared object file: No such file or directory</span>
-<span style="color:#75715e"># 解决办法是</span>
-locate libmysqlclient.so.20
-
-/usr/local/mysql/lib/libmysqlclient.so.20
-/usr/local/mysql/lib/libmysqlclient.so.20.3.4
-/usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20
-/usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20.3.4
-
-<span style="color:#75715e"># 以上输出内容可以看出，/usr/local/mysql/lib/libmysqlclient.so.20</span>
-
-vim /etc/ld.so.conf
-<span style="color:#75715e"># 新增一行 /usr/local/mysql/lib/</span>
-<span style="color:#75715e"># 然后执行ldconfig生效</span>
-
-/usr/local/coreseek/bin/search -c etc/csft.conf <span style="color:#75715e"># 网络搜索</span>
-
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd coreseek-3.2.14/testpack
+</span></span><span style="display:flex;"><span>cat var/test/test.xml
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 测试mmseg分词</span>
+</span></span><span style="display:flex;"><span>/usr/local/mmseg3/bin/mmseg -d /usr/local/mmseg3/etc var/test/test.xml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立索引</span>
+</span></span><span style="display:flex;"><span>/usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/example.conf --all
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果运行报错</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /usr/local/coreseek/bin/indexer: error while loading shared libraries: libmysqlclient.so.20: cannot open shared object file: No such file or directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解决办法是</span>
+</span></span><span style="display:flex;"><span>locate libmysqlclient.so.20
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>/usr/local/mysql/lib/libmysqlclient.so.20
+</span></span><span style="display:flex;"><span>/usr/local/mysql/lib/libmysqlclient.so.20.3.4
+</span></span><span style="display:flex;"><span>/usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20
+</span></span><span style="display:flex;"><span>/usr/local/src/mysql-5.7.17/libmysql/libmysqlclient.so.20.3.4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以上输出内容可以看出，/usr/local/mysql/lib/libmysqlclient.so.20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vim /etc/ld.so.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新增一行 /usr/local/mysql/lib/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 然后执行ldconfig生效</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>/usr/local/coreseek/bin/search -c etc/csft.conf <span style="color:#75715e"># 网络搜索</span>
+</span></span></code></pre></div><blockquote>
 <p>如果没有locate命令，则运行以下命令安装</p>
 </blockquote>
-<pre><code>yum install mlocate
+<pre tabindex="0"><code>yum install mlocate
 updatedb
 # 现在可以使用locate了
 </code></pre><h4 id="一些常用命令">一些常用命令</h4>
-<pre><code># 开启搜索服务
+<pre tabindex="0"><code># 开启搜索服务
 /usr/local/coreseek/bin/searchd -c etc/csft.conf
 # 停止搜索服务
 /usr/local/coreseek/bin/searchd -c etc/csft.conf --stop
 
 # 如已启动服务，要更新索引
 /usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/example.conf --all --rotate
-
-
 </code></pre><h4 id="配置">配置</h4>
 <blockquote>
 <p>mysql数据源的配置可参考testpack/etc/csft_mysql.conf文件</p>
 </blockquote>
-<pre><code># 修改sphinx配置
+<pre tabindex="0"><code># 修改sphinx配置
 vim /usr/local/sphinx/etc/sphinx.conf
 # sql_host = localhost // 主机地址
 # sql_user = root // 数据库账户
@@ -521,7 +517,7 @@ rotating index &lsquo;mysql&rsquo;: success</p>
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -550,13 +546,14 @@ rotating index &lsquo;mysql&rsquo;: success</p>
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>如何使用weak_ptr? How to Use Weak Pointer // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">如何使用weak_ptr? How to Use Weak Pointer</h1>
@@ -253,118 +256,117 @@
 <p>基于以上理由，weak_ptr只提供小量操作，只够用来创建、复制、赋值weak pointer。以及转换为一个shared pointer，或检查自己是否指向某对象。</p>
 <h3 id="weak_ptr使用示例">weak_ptr使用示例</h3>
 <p>首先是使用shared_ptr构建环形指向引用。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
-    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    string name;
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mother;
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> father;
-    vector<span style="color:#f92672">&lt;</span>shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;&gt;</span> kids;
-
-    Person(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> n, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m<span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span><span style="color:#66d9ef">nullptr</span>)
-    <span style="color:#f92672">:</span> name(n), mother(m), father(f)
-    {
-
-    }
-    <span style="color:#f92672">~</span>Person(){
-        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;delete &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> endl;
-    }
-};
-
-shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> initFamily(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> name)
-{
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mom(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s mom&#34;</span>));
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> dad(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s dad&#34;</span>));
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> kid(<span style="color:#66d9ef">new</span> Person(name, mom, dad));
-    mom<span style="color:#f92672">-&gt;</span>kids.push_back(kid);
-    dad<span style="color:#f92672">-&gt;</span>kids.push_back(kid);
-    <span style="color:#66d9ef">return</span> kid;
-}
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;nico&#34;</span>);
-
-    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;nico&#39;s family exists&#34;</span><span style="color:#f92672">&lt;&lt;</span> endl;
-    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- nico is shared &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p.use_count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; times&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- name of 1st kid of nico&#39;s mom: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p<span style="color:#f92672">-&gt;</span>mother<span style="color:#f92672">-&gt;</span>kids[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-&gt;</span>name <span style="color:#f92672">&lt;&lt;</span> endl;
-
-    p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;jim&#34;</span>);
-    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;jim&#39;s family exists&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-
-</code></pre></div><p>如上，p是指向上述家庭的最末一个handle。而在内部，每个person对象都有着reference从kid指向其父母以及反向指向。因此，在p被赋值之前，nico被共享三次，现在，如果我们释放手上最末一个指向该家庭的handle——也许是对p指派一个新person或一个nullptr，也许是main()结束时离开了p作用域——没有任何person会被释放，因为它们都至少被一个shared pointer指向，于是每个person的析构函数从未被调用：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">nico<span style="color:#e6db74">&#39;s family exists
-</span><span style="color:#e6db74">- nico is shared 3 times
-</span><span style="color:#e6db74">- name of 1st kid of nico&#39;</span>s mom: nico
-jim<span style="color:#960050;background-color:#1e0010">&#39;</span>s family exists
-</code></pre></div><p><img src="/image/only_shared_pointer.png" alt="一个只使用shared_ptr的家庭"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    string name;
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mother;
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> father;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;&gt;</span> kids;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Person(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> n, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m<span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span><span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">:</span> name(n), mother(m), father(f)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Person(){
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;delete &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> initFamily(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> name)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mom(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s mom&#34;</span>));
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> dad(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s dad&#34;</span>));
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> kid(<span style="color:#66d9ef">new</span> Person(name, mom, dad));
+</span></span><span style="display:flex;"><span>    mom<span style="color:#f92672">-&gt;</span>kids.push_back(kid);
+</span></span><span style="display:flex;"><span>    dad<span style="color:#f92672">-&gt;</span>kids.push_back(kid);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> kid;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;nico&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;nico&#39;s family exists&#34;</span><span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- nico is shared &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p.use_count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; times&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- name of 1st kid of nico&#39;s mom: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p<span style="color:#f92672">-&gt;</span>mother<span style="color:#f92672">-&gt;</span>kids[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-&gt;</span>name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;jim&#34;</span>);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;jim&#39;s family exists&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如上，p是指向上述家庭的最末一个handle。而在内部，每个person对象都有着reference从kid指向其父母以及反向指向。因此，在p被赋值之前，nico被共享三次，现在，如果我们释放手上最末一个指向该家庭的handle——也许是对p指派一个新person或一个nullptr，也许是main()结束时离开了p作用域——没有任何person会被释放，因为它们都至少被一个shared pointer指向，于是每个person的析构函数从未被调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>nico<span style="color:#e6db74">&#39;s family exists
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">- nico is shared 3 times
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">- name of 1st kid of nico&#39;</span>s mom: nico
+</span></span><span style="display:flex;"><span>jim<span style="color:#960050;background-color:#1e0010">&#39;</span>s family exists
+</span></span></code></pre></div><p><img src="/image/only_shared_pointer.png" alt="一个只使用shared_ptr的家庭"></p>
 <h4 id="现在使用weak_ptr代替其中的部分shared_ptr使其环形指向去除">现在使用weak_ptr代替其中的部分shared_ptr，使其环形指向去除</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
-    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    string name;
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mother;
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> father;
-    vector<span style="color:#f92672">&lt;</span>weak_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;&gt;</span> kids; <span style="color:#75715e">// 使用 weak_ptr
-</span><span style="color:#75715e"></span>
-    Person(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> n, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m<span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span><span style="color:#66d9ef">nullptr</span>)
-    <span style="color:#f92672">:</span> name(n), mother(m), father(f)
-    {
-
-    }
-    <span style="color:#f92672">~</span>Person(){
-        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;delete &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> endl;
-    }
-};
-
-shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> initFamily(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> name)
-{
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mom(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s mom&#34;</span>));
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> dad(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s dad&#34;</span>));
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> kid(<span style="color:#66d9ef">new</span> Person(name, mom, dad));
-    weak_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> wkid(kid);
-    mom<span style="color:#f92672">-&gt;</span>kids.push_back(wkid);
-    dad<span style="color:#f92672">-&gt;</span>kids.push_back(wkid);
-    <span style="color:#66d9ef">return</span> kid;
-}
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{
-    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;nico&#34;</span>);
-
-    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;nico&#39;s family exists&#34;</span><span style="color:#f92672">&lt;&lt;</span> endl;
-    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- nico is shared &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p.use_count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; times&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-    <span style="color:#75715e">// weak_ptr改变访问方式，使用lock()函数
-</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- name of 1st kid of nico&#39;s mom: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p<span style="color:#f92672">-&gt;</span>mother<span style="color:#f92672">-&gt;</span>kids[<span style="color:#ae81ff">0</span>].lock()<span style="color:#f92672">-&gt;</span>name <span style="color:#f92672">&lt;&lt;</span> endl;
-
-    p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;jim&#34;</span>);
-    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;jim&#39;s family exists&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-</code></pre></div><p>这样处理后，使得在一个方向上（从kid到parent）用的是shared pointer，而从parent到kids则使用weak pointer</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    string name;
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mother;
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> father;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>weak_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;&gt;</span> kids; <span style="color:#75715e">// 使用 weak_ptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    Person(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> n, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> m<span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>, shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> f <span style="color:#f92672">=</span><span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">:</span> name(n), mother(m), father(f)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Person(){
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;delete &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> initFamily(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> name)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> mom(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s mom&#34;</span>));
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> dad(<span style="color:#66d9ef">new</span> Person(name<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&#39;s dad&#34;</span>));
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> kid(<span style="color:#66d9ef">new</span> Person(name, mom, dad));
+</span></span><span style="display:flex;"><span>    weak_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> wkid(kid);
+</span></span><span style="display:flex;"><span>    mom<span style="color:#f92672">-&gt;</span>kids.push_back(wkid);
+</span></span><span style="display:flex;"><span>    dad<span style="color:#f92672">-&gt;</span>kids.push_back(wkid);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> kid;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    shared_ptr<span style="color:#f92672">&lt;</span>Person<span style="color:#f92672">&gt;</span> p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;nico&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;nico&#39;s family exists&#34;</span><span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- nico is shared &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p.use_count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; times&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// weak_ptr改变访问方式，使用lock()函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;- name of 1st kid of nico&#39;s mom: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> p<span style="color:#f92672">-&gt;</span>mother<span style="color:#f92672">-&gt;</span>kids[<span style="color:#ae81ff">0</span>].lock()<span style="color:#f92672">-&gt;</span>name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    p <span style="color:#f92672">=</span> initFamily(<span style="color:#e6db74">&#34;jim&#34;</span>);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;jim&#39;s family exists&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这样处理后，使得在一个方向上（从kid到parent）用的是shared pointer，而从parent到kids则使用weak pointer</p>
 <p><img src="/image/shared_and_weak_pointer.png" alt="一个同时使用shared_ptr和weak_ptr的家庭"></p>
 <p>经过改造后，程序输出如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">nico<span style="color:#e6db74">&#39;s family exists
-</span><span style="color:#e6db74">- nico is shared 1 times
-</span><span style="color:#e6db74">- name of 1st kid of nico&#39;</span>s mom: nico
-delete nico
-delete nico<span style="color:#e6db74">&#39;s dad
-</span><span style="color:#e6db74">delete nico&#39;</span>s mom
-jim<span style="color:#e6db74">&#39;s family exists
-</span><span style="color:#e6db74">delete jim
-</span><span style="color:#e6db74">delete jim&#39;</span>s dad
-delete jim<span style="color:#960050;background-color:#1e0010">&#39;</span>s mom
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>nico<span style="color:#e6db74">&#39;s family exists
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">- nico is shared 1 times
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">- name of 1st kid of nico&#39;</span>s mom: nico
+</span></span><span style="display:flex;"><span>delete nico
+</span></span><span style="display:flex;"><span>delete nico<span style="color:#e6db74">&#39;s dad
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">delete nico&#39;</span>s mom
+</span></span><span style="display:flex;"><span>jim<span style="color:#e6db74">&#39;s family exists
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">delete jim
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">delete jim&#39;</span>s dad
+</span></span><span style="display:flex;"><span>delete jim<span style="color:#960050;background-color:#1e0010">&#39;</span>s mom
+</span></span></code></pre></div><blockquote>
 <p>注意：使用weak pointer时，调用方式改成p-&gt;mother-&gt;kids[0].lock()-&gt;name</p>
 </blockquote>
 <p>这会导致新产生一个来自于kids容器内含之weak_ptr的shared_ptr，如果无法进行这样的改动——例如由于对象的最末拥有者也在此时释放了对象——lock()会产生一个empty shared_ptr。这种情况下调用*或-&gt;操作符会引发不明确行为。</p>
@@ -383,17 +385,17 @@ delete jim<span style="color:#960050;background-color:#1e0010">&#39;</span>s mom
 </li>
 </ul>
 <p>举例：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">try</span>{
-  shared_ptr<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> sp(<span style="color:#66d9ef">new</span> string(<span style="color:#e6db74">&#34;hi&#34;</span>));
-  weak_ptr<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> wp <span style="color:#f92672">=</span> sp;  <span style="color:#75715e">// create weak pointer out of it
-</span><span style="color:#75715e"></span>  sp.reset(); <span style="color:#75715e">// release object of shared pointer
-</span><span style="color:#75715e"></span>  count <span style="color:#f92672">&lt;&lt;</span> wp.use_count() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// prints: 0
-</span><span style="color:#75715e"></span>  cout <span style="color:#f92672">&lt;&lt;</span> boolalpha <span style="color:#f92672">&lt;&lt;</span> wp.expired() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// prints: true
-</span><span style="color:#75715e"></span>  shared_ptr<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> p(wp); <span style="color:#75715e">// throws std::bad_weak_ptr
-</span><span style="color:#75715e"></span>}<span style="color:#66d9ef">catch</span>( <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>exception<span style="color:#f92672">&amp;</span> e){
-  cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;exception: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> e.what() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// prints: bad_weak_ptr
-</span><span style="color:#75715e"></span>}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>  shared_ptr<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> sp(<span style="color:#66d9ef">new</span> string(<span style="color:#e6db74">&#34;hi&#34;</span>));
+</span></span><span style="display:flex;"><span>  weak_ptr<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> wp <span style="color:#f92672">=</span> sp;  <span style="color:#75715e">// create weak pointer out of it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  sp.reset(); <span style="color:#75715e">// release object of shared pointer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  count <span style="color:#f92672">&lt;&lt;</span> wp.use_count() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// prints: 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  cout <span style="color:#f92672">&lt;&lt;</span> boolalpha <span style="color:#f92672">&lt;&lt;</span> wp.expired() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// prints: true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  shared_ptr<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> p(wp); <span style="color:#75715e">// throws std::bad_weak_ptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}<span style="color:#66d9ef">catch</span>( <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>exception<span style="color:#f92672">&amp;</span> e){
+</span></span><span style="display:flex;"><span>  cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;exception: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> e.what() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// prints: bad_weak_ptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -483,7 +485,7 @@ delete jim<span style="color:#960050;background-color:#1e0010">&#39;</span>s mom
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -512,13 +514,14 @@ delete jim<span style="color:#960050;background-color:#1e0010">&#39;</span>s mom
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

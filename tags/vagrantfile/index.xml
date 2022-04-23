@@ -15,12 +15,12 @@
       <guid>https://realjf.io/devtools/vagrantfile/</guid>
       <description>配置版本 配置版本是一种机制，通过该机制，Vagrant 1.1+可以 与Vagrant 1.0.x Vagrantfiles保持向后兼容，同时引入了许多新功能和配置选项
 现在运行vagrant init，其格式如下：
-Vagrant.configure(&amp;quot;2&amp;quot;) do |config|# ...end其中的2代表配置的版本的号
+Vagrant.configure(&amp;#34;2&amp;#34;) do |config|# ...end 其中的2代表配置的版本的号
 可以同时使用版本1和版本2的特性，最终它们将合并在一起使用
-Vagrant.configure(&amp;quot;1&amp;quot;) do |config|# v1 configs...endVagrant.configure(&amp;quot;2&amp;quot;) do |config|# v2 configs...end最小版本 这个可以限制太新或者太旧的版本，但是此版本限制必须放在vagrantfile文件最前面， 并通过vagrant.require_version 指定
-Vagrant.require_version &amp;quot;&amp;gt;= 1.3.5&amp;quot;上述限制将让vagrantfile文件只在 大于等于vagrant 1.3.5版本时加载
+Vagrant.configure(&amp;#34;1&amp;#34;) do |config|# v1 configs...endVagrant.configure(&amp;#34;2&amp;#34;) do |config|# v2 configs...end 最小版本 这个可以限制太新或者太旧的版本，但是此版本限制必须放在vagrantfile文件最前面， 并通过vagrant.require_version 指定
+Vagrant.require_version &amp;#34;&amp;gt;= 1.3.5&amp;#34; 上述限制将让vagrantfile文件只在 大于等于vagrant 1.3.5版本时加载
 也可以指定多版本限制
-Vagrant.require_version &amp;quot;&amp;gt;= 1.3.5&amp;quot;, &amp;quot;&amp;lt; 1.4.0&amp;quot;循环vm定义 (1..3).each do |i|config.vm.define &amp;quot;node-#{i}&amp;quot; do |node|node.vm.provision &amp;quot;shell&amp;quot;,inline: &amp;quot;echo hello from node #{i}&amp;quot;endend以上的each结构时使用副本进行迭代，所以不会出错，但是如果使用以下结构，将会使所有node的text相同
+Vagrant.require_version &amp;#34;&amp;gt;= 1.3.5&amp;#34;, &amp;#34;&amp;lt; 1.4.0&amp;#34; 循环vm定义 (1..3).each do |i|config.vm.define &amp;#34;node-#{i}&amp;#34; do |node|node.vm.provision &amp;#34;shell&amp;#34;,inline: &amp;#34;echo hello from node #{i}&amp;#34;endend 以上的each结构时使用副本进行迭代，所以不会出错，但是如果使用以下结构，将会使所有node的text相同
 # THIS DOES NOT WORK!for i in 1.</description>
     </item>
     

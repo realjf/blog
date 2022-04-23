@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>如何写go语言的基准测试？ // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">如何写go语言的基准测试？</h1>
@@ -241,20 +244,20 @@
 接下来将介绍如何使用测试包编写一个简单的基准测试。</p>
 <h3 id="一个基准测试示例">一个基准测试示例</h3>
 <p>我们以斐波那契数列计算来做测试</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span> &lt; <span style="color:#ae81ff">2</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>
-	}
-	
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)
-}
-</code></pre></div><p>创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib20</span>(<span style="color:#a6e22e">b</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span> {
-    	<span style="color:#a6e22e">Fib</span>(<span style="color:#ae81ff">20</span>)
-    }
-}
-</code></pre></div><p>编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span> &lt; <span style="color:#ae81ff">2</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib20</span>(<span style="color:#a6e22e">b</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>    	<span style="color:#a6e22e">Fib</span>(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是</p>
 <ul>
 <li>基准测试功能以Benchmark而不是Test开头</li>
 <li>基准功能由测试包运行多次。 b.N的值每次都会增加，直到基准运行者对基准的稳定性感到满意为止。</li>
@@ -262,76 +265,73 @@
 </ul>
 <h3 id="运行基准测试">运行基准测试</h3>
 <p>我们可以使用go test -bench=. 调用基准测试</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go test -bench<span style="color:#f92672">=</span>.
-
-<span style="color:#75715e"># 运行结果如下</span>
-goos: linux
-goarch: amd64
-pkg: test/benchmark
-BenchmarkFib-4             <span style="color:#ae81ff">30000</span>             <span style="color:#ae81ff">44684</span> ns/op
-PASS
-ok      test/benchmark  1.796s
-
-</code></pre></div><p>您必须将有效的正则表达式传递给-bench，仅传递-bench是语法错误。您可以使用此属性来运行基准测试的子集</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go test -bench<span style="color:#f92672">=</span>.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 运行结果如下</span>
+</span></span><span style="display:flex;"><span>goos: linux
+</span></span><span style="display:flex;"><span>goarch: amd64
+</span></span><span style="display:flex;"><span>pkg: test/benchmark
+</span></span><span style="display:flex;"><span>BenchmarkFib-4             <span style="color:#ae81ff">30000</span>             <span style="color:#ae81ff">44684</span> ns/op
+</span></span><span style="display:flex;"><span>PASS
+</span></span><span style="display:flex;"><span>ok      test/benchmark  1.796s
+</span></span></code></pre></div><p>您必须将有效的正则表达式传递给-bench，仅传递-bench是语法错误。您可以使用此属性来运行基准测试的子集</p>
 <p>如果要跳过测试，可以通过将正则表达式传递给不匹配任何内容的-run标志来实现。我通常使用</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go test -run<span style="color:#f92672">=</span>XXX -bench<span style="color:#f92672">=</span>.
-</code></pre></div><p>第四行BenchmarkFib-4是迭代b.N次的最终值的平均运行时间。我这里是执行Fib(20)运行时间在44684 ns</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go test -run<span style="color:#f92672">=</span>XXX -bench<span style="color:#f92672">=</span>.
+</span></span></code></pre></div><p>第四行BenchmarkFib-4是迭代b.N次的最终值的平均运行时间。我这里是执行Fib(20)运行时间在44684 ns</p>
 <h3 id="各种输入的基准测试">各种输入的基准测试</h3>
 <p>由于原始的Fib函数是经典的递归实现，因此我们希望它会随着输入的增长而呈现指数行为。
 我们可以通过使用Go标准库中非常常见的模式稍微重写基准来探索这一点</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt;<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span>{
-    	<span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">i</span>)
-    }
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib1</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>)  { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">b</span>) }
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib2</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>)  { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">b</span>) }
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib3</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>)  { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">3</span>, <span style="color:#a6e22e">b</span>) }
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib10</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">10</span>, <span style="color:#a6e22e">b</span>) }
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib20</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">20</span>, <span style="color:#a6e22e">b</span>) }
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib40</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">40</span>, <span style="color:#a6e22e">b</span>) }
-</code></pre></div><p>将benchmarkFib设置为private可避免测试驱动程序尝试直接调用它，因为其签名与func（* testing.B）不匹配将失败。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt;<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span>{
+</span></span><span style="display:flex;"><span>    	<span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib1</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>)  { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">b</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib2</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>)  { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">b</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib3</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>)  { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">3</span>, <span style="color:#a6e22e">b</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib10</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">10</span>, <span style="color:#a6e22e">b</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib20</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">20</span>, <span style="color:#a6e22e">b</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFib40</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) { <span style="color:#a6e22e">benchmarkFib</span>(<span style="color:#ae81ff">40</span>, <span style="color:#a6e22e">b</span>) }
+</span></span></code></pre></div><p>将benchmarkFib设置为private可避免测试驱动程序尝试直接调用它，因为其签名与func（* testing.B）不匹配将失败。
 运行这套新的基准测试获得如下结果：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">goos: linux
-goarch: amd64
-pkg: test/benchmark
-BenchmarkFib-4           <span style="color:#ae81ff">5000000</span>               <span style="color:#ae81ff">362</span> ns/op
-BenchmarkFib1-4         <span style="color:#ae81ff">1000000000</span>               2.11 ns/op
-BenchmarkFib2-4         <span style="color:#ae81ff">300000000</span>                5.86 ns/op
-BenchmarkFib3-4         <span style="color:#ae81ff">200000000</span>                9.86 ns/op
-BenchmarkFib10-4         <span style="color:#ae81ff">5000000</span>               <span style="color:#ae81ff">358</span> ns/op
-BenchmarkFib20-4           <span style="color:#ae81ff">30000</span>             <span style="color:#ae81ff">44751</span> ns/op
-BenchmarkFib40-4               <span style="color:#ae81ff">2</span>         <span style="color:#ae81ff">674276614</span> ns/op
-PASS
-ok      test/benchmark  15.811s
-
-</code></pre></div><p>除了确认我们简单的Fib函数的指数行为外，在此基准测试运行中还需要观察其他一些内容。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>goos: linux
+</span></span><span style="display:flex;"><span>goarch: amd64
+</span></span><span style="display:flex;"><span>pkg: test/benchmark
+</span></span><span style="display:flex;"><span>BenchmarkFib-4           <span style="color:#ae81ff">5000000</span>               <span style="color:#ae81ff">362</span> ns/op
+</span></span><span style="display:flex;"><span>BenchmarkFib1-4         <span style="color:#ae81ff">1000000000</span>               2.11 ns/op
+</span></span><span style="display:flex;"><span>BenchmarkFib2-4         <span style="color:#ae81ff">300000000</span>                5.86 ns/op
+</span></span><span style="display:flex;"><span>BenchmarkFib3-4         <span style="color:#ae81ff">200000000</span>                9.86 ns/op
+</span></span><span style="display:flex;"><span>BenchmarkFib10-4         <span style="color:#ae81ff">5000000</span>               <span style="color:#ae81ff">358</span> ns/op
+</span></span><span style="display:flex;"><span>BenchmarkFib20-4           <span style="color:#ae81ff">30000</span>             <span style="color:#ae81ff">44751</span> ns/op
+</span></span><span style="display:flex;"><span>BenchmarkFib40-4               <span style="color:#ae81ff">2</span>         <span style="color:#ae81ff">674276614</span> ns/op
+</span></span><span style="display:flex;"><span>PASS
+</span></span><span style="display:flex;"><span>ok      test/benchmark  15.811s
+</span></span></code></pre></div><p>除了确认我们简单的Fib函数的指数行为外，在此基准测试运行中还需要观察其他一些内容。</p>
 <ul>
 <li>默认情况下，每个基准测试运行至少1秒。如果Benchmark函数返回时第二秒还没有过去，则b.N的值将按顺序1、2、5、10、20、50，…增加，然后函数再次运行</li>
 <li>最终的BenchmarkFib40只运行了两次，每次运行的平均值不到一秒钟。由于测试程序包使用简单的平均值（在b.N上运行基准函数的总时间），因此该结果在统计上较弱。您可以使用-benchtime标志增加最短​​基准时间，以产生更准确的结果。</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go test -bench<span style="color:#f92672">=</span>Fib40 -benchtime<span style="color:#f92672">=</span>20s
-<span style="color:#75715e"># 结果如下</span>
-goos: linux
-goarch: amd64
-pkg: test/benchmark
-BenchmarkFib40-4              <span style="color:#ae81ff">50</span>         <span style="color:#ae81ff">680114858</span> ns/op
-PASS
-ok      test/benchmark  34.681s
-
-</code></pre></div><h3 id="误区">误区</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go test -bench<span style="color:#f92672">=</span>Fib40 -benchtime<span style="color:#f92672">=</span>20s
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 结果如下</span>
+</span></span><span style="display:flex;"><span>goos: linux
+</span></span><span style="display:flex;"><span>goarch: amd64
+</span></span><span style="display:flex;"><span>pkg: test/benchmark
+</span></span><span style="display:flex;"><span>BenchmarkFib40-4              <span style="color:#ae81ff">50</span>         <span style="color:#ae81ff">680114858</span> ns/op
+</span></span><span style="display:flex;"><span>PASS
+</span></span><span style="display:flex;"><span>ok      test/benchmark  34.681s
+</span></span></code></pre></div><h3 id="误区">误区</h3>
 <p>上面我提到了for循环对于基准驱动程序的运行至关重要。这是错误的基准测试的两个示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFibWrong</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span> {
-                <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span>)
-        }
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFibWrong2</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-        <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>)
-}
-</code></pre></div><p>BenchmarkFibWrong无法完成。这是因为基准测试的运行时间会随着b.N的增加而增加，而永远不会收敛于稳定值。 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFibWrong</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">n</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkFibWrong2</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Fib</span>(<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>BenchmarkFibWrong无法完成。这是因为基准测试的运行时间会随着b.N的增加而增加，而永远不会收敛于稳定值。 
 BenchmarkFibWrong2同样受到影响，并且永远不会完成</p>
 
         </div>
@@ -423,7 +423,7 @@ BenchmarkFibWrong2同样受到影响，并且永远不会完成</p>
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -452,13 +452,14 @@ BenchmarkFibWrong2同样受到影响，并且永远不会完成</p>
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

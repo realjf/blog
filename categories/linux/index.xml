@@ -13,7 +13,7 @@
       <pubDate>Sun, 07 Mar 2021 11:16:03 +0800</pubDate>
       
       <guid>https://realjf.io/linux/how-to-force-mdadm-resync-when-resync-pending/</guid>
-      <description>查看情况 cat /proc/mdstat ersonalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] md0 : active raid10 sdb1[0] sdf1[4](S) sde1[3] sdd1[2] sdc1[1] 3906762752 blocks super 1.2 512K chunks 2 near-copies [4/4] [UUUU] resync=PENDING bitmap: 10/30 pages [40KB], 65536KB chunk unused devices: &amp;lt;none&amp;gt; 解决方案时强制repair或resync
+      <description>查看情况 cat /proc/mdstat  ersonalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] md0 : active raid10 sdb1[0] sdf1[4](S) sde1[3] sdd1[2] sdc1[1]  3906762752 blocks super 1.2 512K chunks 2 near-copies [4/4] [UUUU]  resync=PENDING  bitmap: 10/30 pages [40KB], 65536KB chunk  unused devices: &amp;lt;none&amp;gt; 解决方案时强制repair或resync
 echo &amp;#34;repair&amp;#34; &amp;gt; /sys/block/md0/md/sync_action </description>
     </item>
     
@@ -24,7 +24,7 @@ echo &amp;#34;repair&amp;#34; &amp;gt; /sys/block/md0/md/sync_action </descripti
       
       <guid>https://realjf.io/linux/fix-initramfs-uuid-does-not-exist/</guid>
       <description>背景 我的系统是安装在raid10的磁盘阵列上的，由于之前磁盘写保护的问题，导致系统无法关机，于是我直接关电源，重启后， 能进入引导程序，之后却无法进入系统，停留在initramfs界面上，输入exit，提示是uuid &amp;lsquo;xxxxx&amp;rsquo; does not exist
-# 查看磁盘阵列的情况 mdadm -D /dev/md0 # 显示的是磁盘阵列的所有工作设备全部状态显示为removed # 我的磁盘工作设备包括：sdb1,sdc1,sdd1,sde1 # 空闲设备：sdf1 显示正在rebuilding 解决 # 停止 mdadm --stop /dev/md0 # 重新恢复磁盘阵列 mdadm --assemble --run /dev/md0 /dev/{sdb1,sdc1,sdd1,sde1} # 之后显示所有设备添加成功，重新查看磁盘阵列情况 mdadm -D /dev/md0 # 显示磁盘阵列已在工作中 exit # 退出initramfs，并进入系统命令行模式，直接运行startx可以进入图形界面，或者直接运行cat /proc/mdstat可以查看当前的磁盘阵列同步情况 # 直到resync同步完成后，方可重启系统，一切恢复正常 </description>
+# 查看磁盘阵列的情况 mdadm -D /dev/md0 # 显示的是磁盘阵列的所有工作设备全部状态显示为removed # 我的磁盘工作设备包括：sdb1,sdc1,sdd1,sde1 # 空闲设备：sdf1 显示正在rebuilding 解决 # 停止 mdadm --stop /dev/md0  # 重新恢复磁盘阵列 mdadm --assemble --run /dev/md0 /dev/{sdb1,sdc1,sdd1,sde1} # 之后显示所有设备添加成功，重新查看磁盘阵列情况 mdadm -D /dev/md0 # 显示磁盘阵列已在工作中 exit # 退出initramfs，并进入系统命令行模式，直接运行startx可以进入图形界面，或者直接运行cat /proc/mdstat可以查看当前的磁盘阵列同步情况 # 直到resync同步完成后，方可重启系统，一切恢复正常 </description>
     </item>
     
     <item>
@@ -35,7 +35,7 @@ echo &amp;#34;repair&amp;#34; &amp;gt; /sys/block/md0/md/sync_action </descripti
       <guid>https://realjf.io/linux/remove-disk-writing-protected/</guid>
       <description>背景介绍 最近新安装的磁盘阵列上的系统，老是出现写保护（writing protected）。
 解决方法 使用hdparm命令可以解除写保护
-# 移除 hdparm -r0 &amp;lt;设备名&amp;gt; # 如 hdparm -r0 /dev/sda1 /dev/sda1: setting readonly to 0 (off) readonly = 0 (off) # 更多命令 hdparm -h </description>
+# 移除 hdparm -r0 &amp;lt;设备名&amp;gt; # 如 hdparm -r0 /dev/sda1  /dev/sda1:  setting readonly to 0 (off)  readonly = 0 (off)   # 更多命令 hdparm -h </description>
     </item>
     
     <item>
@@ -47,7 +47,7 @@ echo &amp;#34;repair&amp;#34; &amp;gt; /sys/block/md0/md/sync_action </descripti
       <description>背景 我自己的系统是安装在5块磁盘组成的RAID5的磁盘阵列中的，其基本的组成如下：
  4块激活磁盘 1块空闲磁盘  然后，今天突然想扩容下磁盘阵列，所以使用mdadm的&amp;ndash;grow命令，把空闲磁盘加入到了激活磁盘数组里， 但是，没有重建数据，直接重启了，导致无法进入系统引导，并进入了grub rescue的界面，提示是：no such partition。
 解决 准备一个u盘可引导设备，进入系统，然后进行数据重建，以便让空闲磁盘真正加入到磁盘阵列的工作设备数组中。
-# 查看当前设备 lsblk # 确认之前都是raid成员设备的设备号，我这里是sdb1,sdc1,sdd1,sde1,sdf1 # 然后重建磁盘阵列数据 mdadm --create /dev/md0 --verbose --raid-devices=5 --level=5 /dev/sd{b,c,d,e,f}1 # 然后查看构建进度 cat /proc/mdstat # 查看当前磁盘阵列状态 mdadm -D /dev/md0 # 等待rebuiding完成后即可重启进入系统  &amp;ndash;create：创建模式 &amp;ndash;verbose: 显示信息 &amp;ndash;raid-devices：设置active devices设备数 &amp;ndash;level: 设置RAID级别，如raid0,0,raid1,1,raid5,5,raid10,10等 &amp;ndash;space-devices: 设置空闲设备数  </description>
+# 查看当前设备 lsblk  # 确认之前都是raid成员设备的设备号，我这里是sdb1,sdc1,sdd1,sde1,sdf1 # 然后重建磁盘阵列数据 mdadm --create /dev/md0 --verbose --raid-devices=5 --level=5 /dev/sd{b,c,d,e,f}1  # 然后查看构建进度 cat /proc/mdstat  # 查看当前磁盘阵列状态 mdadm -D /dev/md0  # 等待rebuiding完成后即可重启进入系统  &amp;ndash;create：创建模式 &amp;ndash;verbose: 显示信息 &amp;ndash;raid-devices：设置active devices设备数 &amp;ndash;level: 设置RAID级别，如raid0,0,raid1,1,raid5,5,raid10,10等 &amp;ndash;space-devices: 设置空闲设备数  </description>
     </item>
     
     <item>
@@ -95,9 +95,9 @@ apt-get install qemu-system QEMU官网</description>
       
       <guid>https://realjf.io/linux/ssh-login-nopassword/</guid>
       <description>方法一 在一个节点生成公钥，然后利用ssh-copy-id复制到各节点
-ssh-keygen -t rsa -b 4096 -P &amp;#39;&amp;#39; -f ~/.ssh/id_rsa -C &amp;#34;备注&amp;#34; # 复制到各节点 ssh-copy-id node2 ssh-copy-id node3 ssh-copy-id node4 # 其他节点重复上述操作，实现各节点之间可以相互免密登录 方法二 也可以使用shell脚本，需要提前安装好expect
+ssh-keygen -t rsa -b 4096 -P &amp;#39;&amp;#39; -f ~/.ssh/id_rsa -C &amp;#34;备注&amp;#34;  # 复制到各节点 ssh-copy-id node2 ssh-copy-id node3 ssh-copy-id node4  # 其他节点重复上述操作，实现各节点之间可以相互免密登录 方法二 也可以使用shell脚本，需要提前安装好expect
 yum install expect -y autoSSH.sh
-#!/bin/bash  ## 脚本接收的参数，也就是要互相配置 SSH 免密登录的服务器列表参数 BASE_HOST_LIST=$* ## 密码，默认用户是当前运行脚本的用户，比如 root 用户 ## 这里改成你的用户对应的密码 BASE_PASSWORD=&amp;#34;root&amp;#34; ## shell 函数：模拟 SSH 公钥私钥文件生成的人机交互过程 sshkeygen(){ expect -c &amp;#34; spawn ssh-keygen expect { \&amp;#34;ssh/id_rsa):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;passphrase):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;again:\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} } &amp;#34; } ## shell 函数：模拟配置 SSH 免密登录过程的人机交互过程 sshcopyid(){ expect -c &amp;#34; spawn ssh-copy-id $1expect { \&amp;#34;(yes/no)?</description>
+#!/bin/bash  ## 脚本接收的参数，也就是要互相配置 SSH 免密登录的服务器列表参数 BASE_HOST_LIST=$*  ## 密码，默认用户是当前运行脚本的用户，比如 root 用户 ## 这里改成你的用户对应的密码 BASE_PASSWORD=&amp;#34;root&amp;#34;  ## shell 函数：模拟 SSH 公钥私钥文件生成的人机交互过程 sshkeygen(){  expect -c &amp;#34; spawn ssh-keygen expect { \&amp;#34;ssh/id_rsa):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;passphrase):\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} \&amp;#34;again:\&amp;#34; {send \&amp;#34;\r\&amp;#34;;exp_continue} } &amp;#34; }  ## shell 函数：模拟配置 SSH 免密登录过程的人机交互过程 sshcopyid(){  expect -c &amp;#34; spawn ssh-copy-id $1expect { \&amp;#34;(yes/no)?</description>
     </item>
     
     <item>
@@ -109,7 +109,7 @@ yum install expect -y autoSSH.sh
       <description>jdk下载地址： https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
 或者：https://www.oracle.com/java/technologies/oracle-java-archive-downloads.html
 这里提供百度云下载：链接: https://pan.baidu.com/s/1_fSe_nkdoZ_QhidbQyZ1ig 提取码: ttpw
-准备环境  centos7 虚拟机  手动安装 检查系统是否已经安装了jdk，有就卸载默认的jdk rpm -qa | grep jdk ava-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 下载安装jdk wget https://download.oracle.com/otn/java/jdk/8u251-b08/3d5a2bb8f8d4428bbe94aed7ec7ae784/jdk-8u251-linux-x64.tar.gz tar zxvf jdk-8u251-linux-x64.tar.gz -C /usr/local # 配置环境变量 vi /etc/profile export JAVA_HOME=/usr/local/jdk1.8.0_251 export PATH=$PATH:$JAVA_HOME/bin # 保存退出 :wq source /etc/profile # 验证 java -version </description>
+准备环境  centos7 虚拟机  手动安装 检查系统是否已经安装了jdk，有就卸载默认的jdk rpm -qa | grep jdk ava-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.x86_64 [root@node1 ~]# rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.x86_64 下载安装jdk wget https://download.oracle.com/otn/java/jdk/8u251-b08/3d5a2bb8f8d4428bbe94aed7ec7ae784/jdk-8u251-linux-x64.tar.gz  tar zxvf jdk-8u251-linux-x64.tar.gz -C /usr/local  # 配置环境变量 vi /etc/profile  export JAVA_HOME=/usr/local/jdk1.8.0_251 export PATH=$PATH:$JAVA_HOME/bin  # 保存退出 :wq  source /etc/profile  # 验证 java -version </description>
     </item>
     
     <item>
@@ -122,7 +122,7 @@ yum install expect -y autoSSH.sh
 所以重新启动，之后进入了busybox界面的Initramfs界面，输入help可以查看相应命令。 我使用exit直接退出看能否重新进入，发现还是提示错误，无法进入
  busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。
  解决 在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&amp;ndash;vg-root的文件系统， 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&amp;ndash;vg-root， 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&amp;rsquo;y&amp;rsquo;后，提示文件系统修复完成， 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。
-问题描述2 Gave up waiting for root device. Common problems: - Boot args (cat /proc/cmdline) - Check rootdelay=(did the system wait for the right device ?) - Missing modules (cat /proc/modules; ls /dev) ALERT! /dev/mapper/realjf--vg-root does not exist. Dropping to a shell! BusyBox v.1.23.2 (Debian xxx. xxx) built-in shell (ash) Enter &amp;#39;help&amp;#39; for list of built-in commands.</description>
+问题描述2 Gave up waiting for root device. Common problems:  - Boot args (cat /proc/cmdline)  - Check rootdelay=(did the system wait for the right device ?)  - Missing modules (cat /proc/modules; ls /dev)  ALERT! /dev/mapper/realjf--vg-root does not exist.  Dropping to a shell!  BusyBox v.1.23.2 (Debian xxx.</description>
     </item>
     
     <item>
@@ -176,7 +176,7 @@ subsystem 是一组资源控制的模块，包括
       <description>资源隔离 - linux有个chroot命令，可以实现资源隔离 主机隔离 网络隔离 进程间通信隔离 用户和用户组权限隔离 进程PID隔离  namespace 6项隔离    namespace 系统调用参数 隔离内容     UTS CLONE_NEWUTS 主机名与域名   IPC CLONE_NEWIPC 信号量、消息队列和共享内存   PID CLONE_NEWPID 进程编号   Network CLONE_NEWNET 网络设备、网络栈、端口等   Mount CLONE_NEWNS 挂载点（文件系统）   User CLONE_NEWUSER 用户和用户组     同一namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。此处的namespace是指Linux内核3.8及以后版本。
  1. namespace api 4种操作方式 namespace的api包括clone()、setns()以及unshare()，还有/proc下的部分文件，
 通过clone()在创建新进程的同时创建namespace 使用clone()来创建一个独立namespace的进程是常见方法，也是docker使用namespace最基本的方法：
-int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg);查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
+int clone(int (*child_func)(void *), void *child_stack, int flags, void *arg); 查看/proc/[pid]/ns文件 用户就可以在/proc/[pid]/ns文件下看到指向不同namespace号的文件，形如[4034532445]者即为namespace号。</description>
     </item>
     
   </channel>

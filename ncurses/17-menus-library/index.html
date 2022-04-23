@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>NCURSES编程 之 17.菜单库 17 Menus Library // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">NCURSES编程 之 17.菜单库 17 Menus Library</h1>
@@ -256,88 +259,88 @@
 <p>让我们看看一个程序，它打印一个简单的菜单，并用上下箭头更新当前选择。</p>
 <h3 id="172-使用菜单库编译">17.2. 使用菜单库编译</h3>
 <p>要使用菜单库函数，您必须包括menu.h，并且要将程序与菜单库链接，则应按此顺序添加标记-lmenu和-lncurs。</p>
-<pre><code>#include &lt;menu.h&gt;
+<pre tabindex="0"><code>#include &lt;menu.h&gt;
     .
     .
     .
 
     compile and link: gcc &lt;program file&gt; -lmenu -lncurses
 </code></pre><p>菜单基础</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                  };
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-	<span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	
-	initscr();
-	cbreak();
-	noecho();
-	keypad(stdscr, TRUE);
-	
-	n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-	my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-
-	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-	        my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
-
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;F1 to Exit&#34;</span>);
-	post_menu(my_menu);
-	refresh();
-
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{   <span style="color:#66d9ef">switch</span>(c)
-	    {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-		        menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-		}
-	}	
-
-	free_item(my_items[<span style="color:#ae81ff">0</span>]);
-	free_item(my_items[<span style="color:#ae81ff">1</span>]);
-	free_menu(my_menu);
-	endwin();
-}
-</code></pre></div><p>此程序演示了使用菜单库创建菜单所涉及的基本概念。首先，我们使用new_item（）创建项目，然后使用new_menu（）函数将它们附加到菜单中。在张贴菜单并刷新屏幕后，主处理循环开始。它读取用户输入并采取相应的操作。函数menu_driver（）是菜单系统的主要工作马。此函数的第二个参数告诉您要对菜单执行什么操作。根据参数,menu_driver（）执行相应的任务。该值可以是菜单导航请求、ascii字符或与鼠标事件关联的KEY_MOUSE专用键。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CTRLD 	4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>                  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	ITEM <span style="color:#f92672">**</span>my_items;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> c;				
+</span></span><span style="display:flex;"><span>	MENU <span style="color:#f92672">*</span>my_menu;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> n_choices, i;
+</span></span><span style="display:flex;"><span>	ITEM <span style="color:#f92672">*</span>cur_item;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>	cbreak();
+</span></span><span style="display:flex;"><span>	noecho();
+</span></span><span style="display:flex;"><span>	keypad(stdscr, TRUE);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
+</span></span><span style="display:flex;"><span>	my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>	        my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+</span></span><span style="display:flex;"><span>	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;F1 to Exit&#34;</span>);
+</span></span><span style="display:flex;"><span>	post_menu(my_menu);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{   <span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>	    {	<span style="color:#66d9ef">case</span> KEY_DOWN:
+</span></span><span style="display:flex;"><span>		        menu_driver(my_menu, REQ_DOWN_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_UP:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_UP_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	free_item(my_items[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>	free_item(my_items[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>	free_menu(my_menu);
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>此程序演示了使用菜单库创建菜单所涉及的基本概念。首先，我们使用new_item（）创建项目，然后使用new_menu（）函数将它们附加到菜单中。在张贴菜单并刷新屏幕后，主处理循环开始。它读取用户输入并采取相应的操作。函数menu_driver（）是菜单系统的主要工作马。此函数的第二个参数告诉您要对菜单执行什么操作。根据参数,menu_driver（）执行相应的任务。该值可以是菜单导航请求、ascii字符或与鼠标事件关联的KEY_MOUSE专用键。</p>
 <p>menu_driver接受以下导航请求。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">     REQ_LEFT_ITEM         Move left to an item.
-     REQ_RIGHT_ITEM      Move right to an item.
-     REQ_UP_ITEM         Move up to an item.
-     REQ_DOWN_ITEM       Move down to an item.
-     REQ_SCR_ULINE       Scroll up a line.
-     REQ_SCR_DLINE          Scroll down a line.
-     REQ_SCR_DPAGE          Scroll down a page.
-     REQ_SCR_UPAGE         Scroll up a page.
-     REQ_FIRST_ITEM     Move to the first item.
-     REQ_LAST_ITEM         Move to the last item.
-     REQ_NEXT_ITEM         Move to the next item.
-     REQ_PREV_ITEM         Move to the previous item. 
-     REQ_TOGGLE_ITEM     Select/deselect an item.
-     REQ_CLEAR_PATTERN     Clear the menu pattern buffer.
-     REQ_BACK_PATTERN      Delete the previous character from the pattern buffer.
-     REQ_NEXT_MATCH     Move to the next item matching the pattern match.
-     REQ_PREV_MATCH     Move to the previous item matching the pattern match.
-</code></pre></div><p>别被这么多选择弄得不知所措。我们将一个接一个地慢慢地看到他们。本例中感兴趣的选项是REQ_UP_ITEM和REQ_DOWN_ITEM。这两个选项传递给菜单驱动程序时，菜单驱动程序将分别向上或向下更新当前项。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>     REQ_LEFT_ITEM         Move left to an item.
+</span></span><span style="display:flex;"><span>     REQ_RIGHT_ITEM      Move right to an item.
+</span></span><span style="display:flex;"><span>     REQ_UP_ITEM         Move up to an item.
+</span></span><span style="display:flex;"><span>     REQ_DOWN_ITEM       Move down to an item.
+</span></span><span style="display:flex;"><span>     REQ_SCR_ULINE       Scroll up a line.
+</span></span><span style="display:flex;"><span>     REQ_SCR_DLINE          Scroll down a line.
+</span></span><span style="display:flex;"><span>     REQ_SCR_DPAGE          Scroll down a page.
+</span></span><span style="display:flex;"><span>     REQ_SCR_UPAGE         Scroll up a page.
+</span></span><span style="display:flex;"><span>     REQ_FIRST_ITEM     Move to the first item.
+</span></span><span style="display:flex;"><span>     REQ_LAST_ITEM         Move to the last item.
+</span></span><span style="display:flex;"><span>     REQ_NEXT_ITEM         Move to the next item.
+</span></span><span style="display:flex;"><span>     REQ_PREV_ITEM         Move to the previous item. 
+</span></span><span style="display:flex;"><span>     REQ_TOGGLE_ITEM     Select/deselect an item.
+</span></span><span style="display:flex;"><span>     REQ_CLEAR_PATTERN     Clear the menu pattern buffer.
+</span></span><span style="display:flex;"><span>     REQ_BACK_PATTERN      Delete the previous character from the pattern buffer.
+</span></span><span style="display:flex;"><span>     REQ_NEXT_MATCH     Move to the next item matching the pattern match.
+</span></span><span style="display:flex;"><span>     REQ_PREV_MATCH     Move to the previous item matching the pattern match.
+</span></span></code></pre></div><p>别被这么多选择弄得不知所措。我们将一个接一个地慢慢地看到他们。本例中感兴趣的选项是REQ_UP_ITEM和REQ_DOWN_ITEM。这两个选项传递给菜单驱动程序时，菜单驱动程序将分别向上或向下更新当前项。</p>
 <h3 id="173-菜单驱动程序菜单系统的工作马">17.3. 菜单驱动程序：菜单系统的工作马</h3>
 <p>正如您在上面的示例中所看到的，菜单驱动程序在更新菜单中起着重要的作用。这是非常重要的，了解各种选择，它需要和他们做什么。如上所述，menu_driver（）的第二个参数可以是导航请求、可打印字符或KEY_MOUSE 键。让我们分析一下不同的导航请求。</p>
 <ul>
@@ -370,7 +373,7 @@
 </li>
 </ul>
 <p>在按键鼠标请求的情况下，根据鼠标位置采取相应的操作。手册页中解释了要采取的措施：，</p>
-<pre><code>If  the  second argument is the KEY_MOUSE special key, the
+<pre tabindex="0"><code>If  the  second argument is the KEY_MOUSE special key, the
        associated mouse event is translated into one of the above
        pre-defined  requests.   Currently only clicks in the user
        window (e.g. inside the menu display area or  the  decora­
@@ -387,619 +390,619 @@
 <h3 id="174-菜单窗口">17.4. 菜单窗口</h3>
 <p>创建的每个菜单都与一个窗口和一个子窗口相关联。菜单窗口显示与菜单关联的任何标题或边框。菜单子窗口显示当前可供选择的菜单项。但在这个简单的示例中，我们没有指定任何窗口或子窗口。如果没有指定窗口，则将stdscr作为主窗口，然后菜单系统计算显示项目所需的子窗口大小。然后项目将显示在计算子窗口中。所以让我们玩这些窗口，并显示一个带有边框和标题的菜单。</p>
 <p>例19。菜单窗口使用示例</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
-                  };
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color);
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        WINDOW <span style="color:#f92672">*</span>my_menu_win;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>
-	initscr();
-	start_color();
-        cbreak();
-        noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-
-	<span style="color:#75715e">/* Create items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-
-	<span style="color:#75715e">/* Crate menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-
-	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
-        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
-        keypad(my_menu_win, TRUE);
-     
-	<span style="color:#75715e">/* Set main window and sub window */</span>
-        set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
-
-	<span style="color:#75715e">/* Set menu mark to the string &#34; * &#34; */</span>
-        set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
-
-	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
-        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-	print_in_middle(my_menu_win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">40</span>, <span style="color:#e6db74">&#34;My Menu&#34;</span>, COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
-	mvwhline(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, <span style="color:#ae81ff">38</span>);
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">39</span>, ACS_RTEE);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;F1 to exit&#34;</span>);
-	refresh();
-        
-	<span style="color:#75715e">/* Post the menu */</span>
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
-
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-		}
-                wrefresh(my_menu_win);
-	}	
-
-	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
-        unpost_menu(my_menu);
-        free_menu(my_menu);
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                free_item(my_items[i]);
-	endwin();
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color)
-{	<span style="color:#66d9ef">int</span> length, x, y;
-	<span style="color:#66d9ef">float</span> temp;
-
-	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
-		win <span style="color:#f92672">=</span> stdscr;
-	getyx(win, y, x);
-	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		x <span style="color:#f92672">=</span> startx;
-	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		y <span style="color:#f92672">=</span> starty;
-	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
-
-	length <span style="color:#f92672">=</span> strlen(string);
-	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
-	wattron(win, color);
-	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
-	wattroff(win, color);
-	refresh();
-}
-</code></pre></div><p>本示例创建一个菜单，其中包含标题、边框、分隔标题和项目的花哨行。如您所见，为了将窗口附加到菜单，必须使用函数set_menu_win（）。然后我们还附加了子窗口。这将显示子窗口中的项目。您还可以设置标记字符串，该字符串将显示在所选项目的左侧，并设置为set_menu_mark（）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CTRLD 	4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
+</span></span><span style="display:flex;"><span>                  };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	ITEM <span style="color:#f92672">**</span>my_items;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> c;				
+</span></span><span style="display:flex;"><span>	MENU <span style="color:#f92672">*</span>my_menu;
+</span></span><span style="display:flex;"><span>        WINDOW <span style="color:#f92672">*</span>my_menu_win;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n_choices, i;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>	start_color();
+</span></span><span style="display:flex;"><span>        cbreak();
+</span></span><span style="display:flex;"><span>        noecho();
+</span></span><span style="display:flex;"><span>	keypad(stdscr, TRUE);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create items */</span>
+</span></span><span style="display:flex;"><span>        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
+</span></span><span style="display:flex;"><span>        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Crate menu */</span>
+</span></span><span style="display:flex;"><span>	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
+</span></span><span style="display:flex;"><span>        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>        keypad(my_menu_win, TRUE);
+</span></span><span style="display:flex;"><span>     
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set main window and sub window */</span>
+</span></span><span style="display:flex;"><span>        set_menu_win(my_menu, my_menu_win);
+</span></span><span style="display:flex;"><span>        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set menu mark to the string &#34; * &#34; */</span>
+</span></span><span style="display:flex;"><span>        set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
+</span></span><span style="display:flex;"><span>        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	print_in_middle(my_menu_win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">40</span>, <span style="color:#e6db74">&#34;My Menu&#34;</span>, COLOR_PAIR(<span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
+</span></span><span style="display:flex;"><span>	mvwhline(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, <span style="color:#ae81ff">38</span>);
+</span></span><span style="display:flex;"><span>	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">39</span>, ACS_RTEE);
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;F1 to exit&#34;</span>);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Post the menu */</span>
+</span></span><span style="display:flex;"><span>	post_menu(my_menu);
+</span></span><span style="display:flex;"><span>	wrefresh(my_menu_win);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{       <span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_DOWN_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_UP:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_UP_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>                wrefresh(my_menu_win);
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
+</span></span><span style="display:flex;"><span>        unpost_menu(my_menu);
+</span></span><span style="display:flex;"><span>        free_menu(my_menu);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                free_item(my_items[i]);
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color)
+</span></span><span style="display:flex;"><span>{	<span style="color:#66d9ef">int</span> length, x, y;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
+</span></span><span style="display:flex;"><span>		win <span style="color:#f92672">=</span> stdscr;
+</span></span><span style="display:flex;"><span>	getyx(win, y, x);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		x <span style="color:#f92672">=</span> startx;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		y <span style="color:#f92672">=</span> starty;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	length <span style="color:#f92672">=</span> strlen(string);
+</span></span><span style="display:flex;"><span>	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
+</span></span><span style="display:flex;"><span>	wattron(win, color);
+</span></span><span style="display:flex;"><span>	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
+</span></span><span style="display:flex;"><span>	wattroff(win, color);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>本示例创建一个菜单，其中包含标题、边框、分隔标题和项目的花哨行。如您所见，为了将窗口附加到菜单，必须使用函数set_menu_win（）。然后我们还附加了子窗口。这将显示子窗口中的项目。您还可以设置标记字符串，该字符串将显示在所选项目的左侧，并设置为set_menu_mark（）。</p>
 <h3 id="175-滚动菜单">17.5. 滚动菜单</h3>
 <p>如果为窗口指定的子窗口不够大，无法显示所有项目，则该菜单将可滚动。当您处于当前列表中的最后一个项目时，如果您将REQ_DOWN_ITEM发送，则它将转换为REQ_SCR_DLINE，菜单按一个项目滚动。您可以手动执行REQ_SCR_ 操作来执行滚动。让我们看看怎么做。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 8&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 9&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 10&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
-                  };
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color);
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        WINDOW <span style="color:#f92672">*</span>my_menu_win;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>
-	initscr();
-	start_color();
-        cbreak();
-        noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_CYAN, COLOR_BLACK);
-
-	<span style="color:#75715e">/* Create items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-
-	<span style="color:#75715e">/* Crate menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-
-	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
-        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
-        keypad(my_menu_win, TRUE);
-     
-	<span style="color:#75715e">/* Set main window and sub window */</span>
-        set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
-	set_menu_format(my_menu, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">1</span>);
-			
-	<span style="color:#75715e">/* Set menu mark to the string &#34; * &#34; */</span>
-        set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
-
-	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
-        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-	print_in_middle(my_menu_win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">40</span>, <span style="color:#e6db74">&#34;My Menu&#34;</span>, COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
-	mvwhline(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, <span style="color:#ae81ff">38</span>);
-	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">39</span>, ACS_RTEE);
-        
-	<span style="color:#75715e">/* Post the menu */</span>
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
-	
-	attron(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use PageUp and PageDown to scoll down or up a page of items&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Arrow Keys to navigate (F1 to Exit)&#34;</span>);
-	attroff(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	refresh();
-
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_NPAGE:
-				menu_driver(my_menu, REQ_SCR_DPAGE);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_PPAGE:
-				menu_driver(my_menu, REQ_SCR_UPAGE);
-				<span style="color:#66d9ef">break</span>;
-		}
-                wrefresh(my_menu_win);
-	}	
-
-	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
-        unpost_menu(my_menu);
-        free_menu(my_menu);
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                free_item(my_items[i]);
-	endwin();
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color)
-{	<span style="color:#66d9ef">int</span> length, x, y;
-	<span style="color:#66d9ef">float</span> temp;
-
-	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
-		win <span style="color:#f92672">=</span> stdscr;
-	getyx(win, y, x);
-	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		x <span style="color:#f92672">=</span> startx;
-	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
-		y <span style="color:#f92672">=</span> starty;
-	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
-
-	length <span style="color:#f92672">=</span> strlen(string);
-	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
-	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
-	wattron(win, color);
-	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
-	wattroff(win, color);
-	refresh();
-}
-</code></pre></div><p>这个程序是不言自明的。在这个例子中，选择的数量增加到了10个，这比我们的子窗口大，子窗口可以容纳6个项目。必须使用功能set_menu_format（）将此消息显式传送到菜单系统。在这里，我们指定要为单个页面显示的行数和列数。我们可以在rows变量中指定要显示的任意数量的项，如果它小于子窗口的高度。如果用户按下的键是PAGE UP（向上翻页）或PAGE DOWN（向下翻页），则菜单会根据向菜单驱动程序（）发出的请求（REQ_SCR_DPAGE 和REQ_SCR_UPAGE）滚动一页。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CTRLD 	4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 8&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 9&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 10&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
+</span></span><span style="display:flex;"><span>                  };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	ITEM <span style="color:#f92672">**</span>my_items;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> c;				
+</span></span><span style="display:flex;"><span>	MENU <span style="color:#f92672">*</span>my_menu;
+</span></span><span style="display:flex;"><span>        WINDOW <span style="color:#f92672">*</span>my_menu_win;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n_choices, i;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>	start_color();
+</span></span><span style="display:flex;"><span>        cbreak();
+</span></span><span style="display:flex;"><span>        noecho();
+</span></span><span style="display:flex;"><span>	keypad(stdscr, TRUE);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">2</span>, COLOR_CYAN, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create items */</span>
+</span></span><span style="display:flex;"><span>        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
+</span></span><span style="display:flex;"><span>        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Crate menu */</span>
+</span></span><span style="display:flex;"><span>	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
+</span></span><span style="display:flex;"><span>        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>        keypad(my_menu_win, TRUE);
+</span></span><span style="display:flex;"><span>     
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set main window and sub window */</span>
+</span></span><span style="display:flex;"><span>        set_menu_win(my_menu, my_menu_win);
+</span></span><span style="display:flex;"><span>        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>	set_menu_format(my_menu, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>			
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set menu mark to the string &#34; * &#34; */</span>
+</span></span><span style="display:flex;"><span>        set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
+</span></span><span style="display:flex;"><span>        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	print_in_middle(my_menu_win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">40</span>, <span style="color:#e6db74">&#34;My Menu&#34;</span>, COLOR_PAIR(<span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
+</span></span><span style="display:flex;"><span>	mvwhline(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, <span style="color:#ae81ff">38</span>);
+</span></span><span style="display:flex;"><span>	mvwaddch(my_menu_win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">39</span>, ACS_RTEE);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Post the menu */</span>
+</span></span><span style="display:flex;"><span>	post_menu(my_menu);
+</span></span><span style="display:flex;"><span>	wrefresh(my_menu_win);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	attron(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use PageUp and PageDown to scoll down or up a page of items&#34;</span>);
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Arrow Keys to navigate (F1 to Exit)&#34;</span>);
+</span></span><span style="display:flex;"><span>	attroff(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{       <span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_DOWN_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_UP:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_UP_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_NPAGE:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_SCR_DPAGE);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_PPAGE:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_SCR_UPAGE);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>                wrefresh(my_menu_win);
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
+</span></span><span style="display:flex;"><span>        unpost_menu(my_menu);
+</span></span><span style="display:flex;"><span>        free_menu(my_menu);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                free_item(my_items[i]);
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_in_middle</span>(WINDOW <span style="color:#f92672">*</span>win, <span style="color:#66d9ef">int</span> starty, <span style="color:#66d9ef">int</span> startx, <span style="color:#66d9ef">int</span> width, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>string, chtype color)
+</span></span><span style="display:flex;"><span>{	<span style="color:#66d9ef">int</span> length, x, y;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(win <span style="color:#f92672">==</span> NULL)
+</span></span><span style="display:flex;"><span>		win <span style="color:#f92672">=</span> stdscr;
+</span></span><span style="display:flex;"><span>	getyx(win, y, x);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(startx <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		x <span style="color:#f92672">=</span> startx;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(starty <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		y <span style="color:#f92672">=</span> starty;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(width <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		width <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	length <span style="color:#f92672">=</span> strlen(string);
+</span></span><span style="display:flex;"><span>	temp <span style="color:#f92672">=</span> (width <span style="color:#f92672">-</span> length)<span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>	x <span style="color:#f92672">=</span> startx <span style="color:#f92672">+</span> (<span style="color:#66d9ef">int</span>)temp;
+</span></span><span style="display:flex;"><span>	wattron(win, color);
+</span></span><span style="display:flex;"><span>	mvwprintw(win, y, x, <span style="color:#e6db74">&#34;%s&#34;</span>, string);
+</span></span><span style="display:flex;"><span>	wattroff(win, color);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个程序是不言自明的。在这个例子中，选择的数量增加到了10个，这比我们的子窗口大，子窗口可以容纳6个项目。必须使用功能set_menu_format（）将此消息显式传送到菜单系统。在这里，我们指定要为单个页面显示的行数和列数。我们可以在rows变量中指定要显示的任意数量的项，如果它小于子窗口的高度。如果用户按下的键是PAGE UP（向上翻页）或PAGE DOWN（向下翻页），则菜单会根据向菜单驱动程序（）发出的请求（REQ_SCR_DPAGE 和REQ_SCR_UPAGE）滚动一页。</p>
 <h3 id="176-多列菜单">17.6. 多列菜单</h3>
 <p>在上面的示例中，您已经了解了如何使用函数set_menu_format（）。我没有提到cols变量（第三个参数）的作用。如果子窗口足够宽，可以选择每行显示多个项。这可以在cols变量中指定。为了使事情更简单，下面的示例不显示这些项的描述。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>, <span style="color:#e6db74">&#34;Choice 2&#34;</span>, <span style="color:#e6db74">&#34;Choice 3&#34;</span>, <span style="color:#e6db74">&#34;Choice 4&#34;</span>, <span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>, <span style="color:#e6db74">&#34;Choice 7&#34;</span>, <span style="color:#e6db74">&#34;Choice 8&#34;</span>, <span style="color:#e6db74">&#34;Choice 9&#34;</span>, <span style="color:#e6db74">&#34;Choice 10&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 11&#34;</span>, <span style="color:#e6db74">&#34;Choice 12&#34;</span>, <span style="color:#e6db74">&#34;Choice 13&#34;</span>, <span style="color:#e6db74">&#34;Choice 14&#34;</span>, <span style="color:#e6db74">&#34;Choice 15&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 16&#34;</span>, <span style="color:#e6db74">&#34;Choice 17&#34;</span>, <span style="color:#e6db74">&#34;Choice 18&#34;</span>, <span style="color:#e6db74">&#34;Choice 19&#34;</span>, <span style="color:#e6db74">&#34;Choice 20&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
-                  };
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        WINDOW <span style="color:#f92672">*</span>my_menu_win;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>
-	initscr();
-	start_color();
-        cbreak();
-        noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_CYAN, COLOR_BLACK);
-
-	<span style="color:#75715e">/* Create items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-
-	<span style="color:#75715e">/* Crate menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-
-	<span style="color:#75715e">/* Set menu option not to show the description */</span>
-	menu_opts_off(my_menu, O_SHOWDESC);
-
-	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
-        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">70</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
-        keypad(my_menu_win, TRUE);
-     
-	<span style="color:#75715e">/* Set main window and sub window */</span>
-        set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">68</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
-	set_menu_format(my_menu, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>);
-	set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
-
-	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
-        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-	
-	attron(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use PageUp and PageDown to scroll&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use Arrow Keys to navigate (F1 to Exit)&#34;</span>);
-	attroff(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	refresh();
-
-	<span style="color:#75715e">/* Post the menu */</span>
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
-	
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_LEFT:
-				menu_driver(my_menu, REQ_LEFT_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_RIGHT:
-				menu_driver(my_menu, REQ_RIGHT_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_NPAGE:
-				menu_driver(my_menu, REQ_SCR_DPAGE);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_PPAGE:
-				menu_driver(my_menu, REQ_SCR_UPAGE);
-				<span style="color:#66d9ef">break</span>;
-		}
-                wrefresh(my_menu_win);
-	}	
-
-	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
-        unpost_menu(my_menu);
-        free_menu(my_menu);
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                free_item(my_items[i]);
-	endwin();
-}
-</code></pre></div><p>观察函数调用以set_menu_format（）。它将列数指定为3，因此每行显示3项。我们还关闭了功能menu_opts_off（）的显示说明。有两个函数set_menu_opts（）、menu_opts_on（）和menu_opts（），可用于操作菜单选项。可以指定以下菜单选项。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">      O_ONEVALUE
-            Only one item can be selected <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">this</span> menu.
-
-       O_SHOWDESC
-            Display  the  item  descriptions  when  the  menu  is
-            posted.
-
-       O_ROWMAJOR
-            Display the menu in row<span style="color:#f92672">-</span>major order.
-
-       O_IGNORECASE
-            Ignore the <span style="color:#66d9ef">case</span> when pattern<span style="color:#f92672">-</span>matching.
-
-       O_SHOWMATCH
-            Move the cursor to within the item  name  <span style="color:#66d9ef">while</span>  pat<span style="color:#960050;background-color:#1e0010">­</span>
-            tern<span style="color:#f92672">-</span>matching.
-
-       O_NONCYCLIC
-            Don<span style="color:#960050;background-color:#1e0010">&#39;</span>t   wrap   around  next<span style="color:#f92672">-</span>item  and  previous<span style="color:#f92672">-</span>item,
-            requests to the other end of the menu.
-</code></pre></div><p>默认情况下，所有选项都处于启用状态。可以使用menu_opts_on（）和menu_opts_off（）函数打开或关闭特定属性。您还可以使用set_menu_opts（）直接指定选项。此函数的参数应该是上述某些常量的OR ed值。函数menu_opts（）可用于查找菜单的当前选项。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CTRLD 	4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>, <span style="color:#e6db74">&#34;Choice 2&#34;</span>, <span style="color:#e6db74">&#34;Choice 3&#34;</span>, <span style="color:#e6db74">&#34;Choice 4&#34;</span>, <span style="color:#e6db74">&#34;Choice 5&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 6&#34;</span>, <span style="color:#e6db74">&#34;Choice 7&#34;</span>, <span style="color:#e6db74">&#34;Choice 8&#34;</span>, <span style="color:#e6db74">&#34;Choice 9&#34;</span>, <span style="color:#e6db74">&#34;Choice 10&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 11&#34;</span>, <span style="color:#e6db74">&#34;Choice 12&#34;</span>, <span style="color:#e6db74">&#34;Choice 13&#34;</span>, <span style="color:#e6db74">&#34;Choice 14&#34;</span>, <span style="color:#e6db74">&#34;Choice 15&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 16&#34;</span>, <span style="color:#e6db74">&#34;Choice 17&#34;</span>, <span style="color:#e6db74">&#34;Choice 18&#34;</span>, <span style="color:#e6db74">&#34;Choice 19&#34;</span>, <span style="color:#e6db74">&#34;Choice 20&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>                        (<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)NULL,
+</span></span><span style="display:flex;"><span>                  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	ITEM <span style="color:#f92672">**</span>my_items;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> c;				
+</span></span><span style="display:flex;"><span>	MENU <span style="color:#f92672">*</span>my_menu;
+</span></span><span style="display:flex;"><span>        WINDOW <span style="color:#f92672">*</span>my_menu_win;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n_choices, i;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>	start_color();
+</span></span><span style="display:flex;"><span>        cbreak();
+</span></span><span style="display:flex;"><span>        noecho();
+</span></span><span style="display:flex;"><span>	keypad(stdscr, TRUE);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">2</span>, COLOR_CYAN, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create items */</span>
+</span></span><span style="display:flex;"><span>        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
+</span></span><span style="display:flex;"><span>        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Crate menu */</span>
+</span></span><span style="display:flex;"><span>	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set menu option not to show the description */</span>
+</span></span><span style="display:flex;"><span>	menu_opts_off(my_menu, O_SHOWDESC);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create the window to be associated with the menu */</span>
+</span></span><span style="display:flex;"><span>        my_menu_win <span style="color:#f92672">=</span> newwin(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">70</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>        keypad(my_menu_win, TRUE);
+</span></span><span style="display:flex;"><span>     
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set main window and sub window */</span>
+</span></span><span style="display:flex;"><span>        set_menu_win(my_menu, my_menu_win);
+</span></span><span style="display:flex;"><span>        set_menu_sub(my_menu, derwin(my_menu_win, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">68</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>	set_menu_format(my_menu, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>	set_menu_mark(my_menu, <span style="color:#e6db74">&#34; * &#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
+</span></span><span style="display:flex;"><span>        box(my_menu_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	attron(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use PageUp and PageDown to scroll&#34;</span>);
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use Arrow Keys to navigate (F1 to Exit)&#34;</span>);
+</span></span><span style="display:flex;"><span>	attroff(COLOR_PAIR(<span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Post the menu */</span>
+</span></span><span style="display:flex;"><span>	post_menu(my_menu);
+</span></span><span style="display:flex;"><span>	wrefresh(my_menu_win);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> wgetch(my_menu_win)) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{       <span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_DOWN_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_UP:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_UP_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_LEFT:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_LEFT_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_RIGHT:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_RIGHT_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_NPAGE:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_SCR_DPAGE);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_PPAGE:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_SCR_UPAGE);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>                wrefresh(my_menu_win);
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Unpost and free all the memory taken up */</span>
+</span></span><span style="display:flex;"><span>        unpost_menu(my_menu);
+</span></span><span style="display:flex;"><span>        free_menu(my_menu);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                free_item(my_items[i]);
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>观察函数调用以set_menu_format（）。它将列数指定为3，因此每行显示3项。我们还关闭了功能menu_opts_off（）的显示说明。有两个函数set_menu_opts（）、menu_opts_on（）和menu_opts（），可用于操作菜单选项。可以指定以下菜单选项。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>      O_ONEVALUE
+</span></span><span style="display:flex;"><span>            Only one item can be selected <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">this</span> menu.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       O_SHOWDESC
+</span></span><span style="display:flex;"><span>            Display  the  item  descriptions  when  the  menu  is
+</span></span><span style="display:flex;"><span>            posted.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       O_ROWMAJOR
+</span></span><span style="display:flex;"><span>            Display the menu in row<span style="color:#f92672">-</span>major order.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       O_IGNORECASE
+</span></span><span style="display:flex;"><span>            Ignore the <span style="color:#66d9ef">case</span> when pattern<span style="color:#f92672">-</span>matching.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       O_SHOWMATCH
+</span></span><span style="display:flex;"><span>            Move the cursor to within the item  name  <span style="color:#66d9ef">while</span>  pat<span style="color:#960050;background-color:#1e0010">­</span>
+</span></span><span style="display:flex;"><span>            tern<span style="color:#f92672">-</span>matching.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       O_NONCYCLIC
+</span></span><span style="display:flex;"><span>            Don<span style="color:#960050;background-color:#1e0010">&#39;</span>t   wrap   around  next<span style="color:#f92672">-</span>item  and  previous<span style="color:#f92672">-</span>item,
+</span></span><span style="display:flex;"><span>            requests to the other end of the menu.
+</span></span></code></pre></div><p>默认情况下，所有选项都处于启用状态。可以使用menu_opts_on（）和menu_opts_off（）函数打开或关闭特定属性。您还可以使用set_menu_opts（）直接指定选项。此函数的参数应该是上述某些常量的OR ed值。函数menu_opts（）可用于查找菜单的当前选项。</p>
 <h3 id="177-多值菜单">17.7. 多值菜单</h3>
 <p>您可能想知道，如果您关闭了O_ONEVALUE选项会怎么样。然后菜单变为多值菜单。这意味着您可以选择多个项目。这将带我们到请求REQ_TOGGLE_ITEM。让我们看看它的实际效果。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                  };
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>	
-	initscr();
-        cbreak();
-        noecho();
-	keypad(stdscr, TRUE);
-
-	<span style="color:#75715e">/* Initialize items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
-
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-
-	<span style="color:#75715e">/* Make the menu multi valued */</span>
-	menu_opts_off(my_menu, O_ONEVALUE);
-
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use &lt;SPACE&gt; to select or unselect an item.&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;&lt;ENTER&gt; to see presently selected items(F1 to Exit)&#34;</span>);
-	post_menu(my_menu);
-	refresh();
-
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">:</span>
-				menu_driver(my_menu, REQ_TOGGLE_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span>	<span style="color:#75715e">/* Enter */</span>
-			{	<span style="color:#66d9ef">char</span> temp[<span style="color:#ae81ff">200</span>];
-				ITEM <span style="color:#f92672">**</span>items;
-
-				items <span style="color:#f92672">=</span> menu_items(my_menu);
-				temp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
-				<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> item_count(my_menu); <span style="color:#f92672">++</span>i)
-					<span style="color:#66d9ef">if</span>(item_value(items[i]) <span style="color:#f92672">==</span> TRUE)
-					{	strcat(temp, item_name(items[i]));
-						strcat(temp, <span style="color:#e6db74">&#34; &#34;</span>);
-					}
-				move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
-				clrtoeol();
-				mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, temp);
-				refresh();
-			}
-			<span style="color:#66d9ef">break</span>;
-		}
-	}	
-
-	free_item(my_items[<span style="color:#ae81ff">0</span>]);
-        free_item(my_items[<span style="color:#ae81ff">1</span>]);
-	free_menu(my_menu);
-	endwin();
-}
-	
-</code></pre></div><p>哇，很多新功能。让我们一个接一个地吃吧。首先，REQ_TOGGLE_ITEM。在多值菜单中，应允许用户选择或取消选择多个项目。请求 REQ_TOGGLE_ITEM 用于切换当前选择。在这种情况下，当按下空格时，请求REQ_TOGGLE_ITEM 请求被发送到menu_driver以实现结果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CTRLD 	4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>                  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	ITEM <span style="color:#f92672">**</span>my_items;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> c;				
+</span></span><span style="display:flex;"><span>	MENU <span style="color:#f92672">*</span>my_menu;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n_choices, i;
+</span></span><span style="display:flex;"><span>	ITEM <span style="color:#f92672">*</span>cur_item;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>	
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>        cbreak();
+</span></span><span style="display:flex;"><span>        noecho();
+</span></span><span style="display:flex;"><span>	keypad(stdscr, TRUE);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize items */</span>
+</span></span><span style="display:flex;"><span>        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
+</span></span><span style="display:flex;"><span>        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+</span></span><span style="display:flex;"><span>	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Make the menu multi valued */</span>
+</span></span><span style="display:flex;"><span>	menu_opts_off(my_menu, O_ONEVALUE);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use &lt;SPACE&gt; to select or unselect an item.&#34;</span>);
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;&lt;ENTER&gt; to see presently selected items(F1 to Exit)&#34;</span>);
+</span></span><span style="display:flex;"><span>	post_menu(my_menu);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{       <span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_DOWN_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_UP:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_UP_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_TOGGLE_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span>	<span style="color:#75715e">/* Enter */</span>
+</span></span><span style="display:flex;"><span>			{	<span style="color:#66d9ef">char</span> temp[<span style="color:#ae81ff">200</span>];
+</span></span><span style="display:flex;"><span>				ITEM <span style="color:#f92672">**</span>items;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				items <span style="color:#f92672">=</span> menu_items(my_menu);
+</span></span><span style="display:flex;"><span>				temp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> item_count(my_menu); <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span>(item_value(items[i]) <span style="color:#f92672">==</span> TRUE)
+</span></span><span style="display:flex;"><span>					{	strcat(temp, item_name(items[i]));
+</span></span><span style="display:flex;"><span>						strcat(temp, <span style="color:#e6db74">&#34; &#34;</span>);
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>				clrtoeol();
+</span></span><span style="display:flex;"><span>				mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, temp);
+</span></span><span style="display:flex;"><span>				refresh();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	free_item(my_items[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>        free_item(my_items[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>	free_menu(my_menu);
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>	
+</span></span></code></pre></div><p>哇，很多新功能。让我们一个接一个地吃吧。首先，REQ_TOGGLE_ITEM。在多值菜单中，应允许用户选择或取消选择多个项目。请求 REQ_TOGGLE_ITEM 用于切换当前选择。在这种情况下，当按下空格时，请求REQ_TOGGLE_ITEM 请求被发送到menu_driver以实现结果。</p>
 <p>现在，当用户按下<!-- raw HTML omitted -->时，我们显示他当前选择的项目。首先，我们使用函数menu_items（）找出与菜单关联的项。然后我们循环遍历这些项，以确定是否选中了该项。如果选择了项，函数item_value（）将返回TRUE。函数item_count（）返回菜单中的项数。可以使用item_name（）找到项名称。您还可以使用item_description（）查找与项关联的描述。</p>
 <h3 id="178-菜单选项">17.8. 菜单选项</h3>
 <p>嗯，这个时候你一定很想在菜单上有所不同，有很多功能。我知道。你想要颜色！！！。你想创建类似于那些文本模式dos游戏的漂亮菜单。函数set_menu_fore（）和set_menu_back（）可用于更改选定项和未选定项的属性。这些名字有误导性。他们不会改变菜单的前景或背景，这将是无用的。
 函数set_menu_grey（）可用于设置菜单中不可选择项的显示属性。这就给我们带来了一个有趣的选项，它是唯一一个O_SELECTABLE的选项。我们可以通过函数item_opts_off（）将其关闭，然后该项就不可选择了。就像那些花哨的窗口菜单中的灰色项目。让我们用这个例子来实践这些概念</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                  };
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>	
-	initscr();
-	start_color();
-        cbreak();
-        noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_GREEN, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">3</span>, COLOR_MAGENTA, COLOR_BLACK);
-
-	<span style="color:#75715e">/* Initialize items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
-	item_opts_off(my_items[<span style="color:#ae81ff">3</span>], O_SELECTABLE);
-	item_opts_off(my_items[<span style="color:#ae81ff">6</span>], O_SELECTABLE);
-
-	<span style="color:#75715e">/* Create menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-
-	<span style="color:#75715e">/* Set fore ground and back ground of the menu */</span>
-	set_menu_fore(my_menu, COLOR_PAIR(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">|</span> A_REVERSE);
-	set_menu_back(my_menu, COLOR_PAIR(<span style="color:#ae81ff">2</span>));
-	set_menu_grey(my_menu, COLOR_PAIR(<span style="color:#ae81ff">3</span>));
-
-	<span style="color:#75715e">/* Post the menu */</span>
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Press &lt;ENTER&gt; to see the option selected&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Up and Down arrow keys to naviage (F1 to Exit)&#34;</span>);
-	post_menu(my_menu);
-	refresh();
-
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span> <span style="color:#75715e">/* Enter */</span>
-				move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
-				clrtoeol();
-				mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Item selected is : %s&#34;</span>, 
-						item_name(current_item(my_menu)));
-				pos_menu_cursor(my_menu);
-				<span style="color:#66d9ef">break</span>;
-		}
-	}	
-	unpost_menu(my_menu);
-	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-		free_item(my_items[i]);
-	free_menu(my_menu);
-	endwin();
-}
-</code></pre></div><h3 id="179-有用的用户指针">17.9. 有用的用户指针</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CTRLD 	4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>                  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	ITEM <span style="color:#f92672">**</span>my_items;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> c;				
+</span></span><span style="display:flex;"><span>	MENU <span style="color:#f92672">*</span>my_menu;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n_choices, i;
+</span></span><span style="display:flex;"><span>	ITEM <span style="color:#f92672">*</span>cur_item;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>	
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>	start_color();
+</span></span><span style="display:flex;"><span>        cbreak();
+</span></span><span style="display:flex;"><span>        noecho();
+</span></span><span style="display:flex;"><span>	keypad(stdscr, TRUE);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">2</span>, COLOR_GREEN, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">3</span>, COLOR_MAGENTA, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize items */</span>
+</span></span><span style="display:flex;"><span>        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
+</span></span><span style="display:flex;"><span>        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+</span></span><span style="display:flex;"><span>	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
+</span></span><span style="display:flex;"><span>	item_opts_off(my_items[<span style="color:#ae81ff">3</span>], O_SELECTABLE);
+</span></span><span style="display:flex;"><span>	item_opts_off(my_items[<span style="color:#ae81ff">6</span>], O_SELECTABLE);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create menu */</span>
+</span></span><span style="display:flex;"><span>	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set fore ground and back ground of the menu */</span>
+</span></span><span style="display:flex;"><span>	set_menu_fore(my_menu, COLOR_PAIR(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">|</span> A_REVERSE);
+</span></span><span style="display:flex;"><span>	set_menu_back(my_menu, COLOR_PAIR(<span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>	set_menu_grey(my_menu, COLOR_PAIR(<span style="color:#ae81ff">3</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Post the menu */</span>
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Press &lt;ENTER&gt; to see the option selected&#34;</span>);
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Up and Down arrow keys to naviage (F1 to Exit)&#34;</span>);
+</span></span><span style="display:flex;"><span>	post_menu(my_menu);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{       <span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_DOWN_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_UP:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_UP_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span> <span style="color:#75715e">/* Enter */</span>
+</span></span><span style="display:flex;"><span>				move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>				clrtoeol();
+</span></span><span style="display:flex;"><span>				mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Item selected is : %s&#34;</span>, 
+</span></span><span style="display:flex;"><span>						item_name(current_item(my_menu)));
+</span></span><span style="display:flex;"><span>				pos_menu_cursor(my_menu);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span>	unpost_menu(my_menu);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>		free_item(my_items[i]);
+</span></span><span style="display:flex;"><span>	free_menu(my_menu);
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="179-有用的用户指针">17.9. 有用的用户指针</h3>
 <p>我们可以将用户指针与菜单中的每个项目相关联。它的工作方式与面板中的用户指针相同。菜单系统不会碰它。你可以在里面存放任何你喜欢的东西。我通常使用它来存储在选择菜单选项时要执行的功能（它被选中，可能是用户按下的<!-- raw HTML omitted -->）；</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-</span><span style="color:#75715e">#define CTRLD 	4
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
-                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
-                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
-			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
-                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
-                  };
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name);
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-{	ITEM <span style="color:#f92672">**</span>my_items;
-	<span style="color:#66d9ef">int</span> c;				
-	MENU <span style="color:#f92672">*</span>my_menu;
-        <span style="color:#66d9ef">int</span> n_choices, i;
-	ITEM <span style="color:#f92672">*</span>cur_item;
-	
-	<span style="color:#75715e">/* Initialize curses */</span>	
-	initscr();
-	start_color();
-        cbreak();
-        noecho();
-	keypad(stdscr, TRUE);
-	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">2</span>, COLOR_GREEN, COLOR_BLACK);
-	init_pair(<span style="color:#ae81ff">3</span>, COLOR_MAGENTA, COLOR_BLACK);
-
-	<span style="color:#75715e">/* Initialize items */</span>
-        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
-        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
-        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-	{       my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
-		<span style="color:#75715e">/* Set the user pointer */</span>
-		set_item_userptr(my_items[i], func);
-	}
-	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
-
-	<span style="color:#75715e">/* Create menu */</span>
-	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
-
-	<span style="color:#75715e">/* Post the menu */</span>
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Press &lt;ENTER&gt; to see the option selected&#34;</span>);
-	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Up and Down arrow keys to naviage (F1 to Exit)&#34;</span>);
-	post_menu(my_menu);
-	refresh();
-
-	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
-	{       <span style="color:#66d9ef">switch</span>(c)
-	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> KEY_UP:
-				menu_driver(my_menu, REQ_UP_ITEM);
-				<span style="color:#66d9ef">break</span>;
-			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span> <span style="color:#75715e">/* Enter */</span>
-			{	ITEM <span style="color:#f92672">*</span>cur;
-				<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>p)(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
-
-				cur <span style="color:#f92672">=</span> current_item(my_menu);
-				p <span style="color:#f92672">=</span> item_userptr(cur);
-				p((<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)item_name(cur));
-				pos_menu_cursor(my_menu);
-				<span style="color:#66d9ef">break</span>;
-			}
-			<span style="color:#66d9ef">break</span>;
-		}
-	}	
-	unpost_menu(my_menu);
-	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
-		free_item(my_items[i]);
-	free_menu(my_menu);
-	endwin();
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name)
-{	move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
-	clrtoeol();
-	mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Item selected is : %s&#34;</span>, name);
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;curses.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;menu.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define CTRLD 	4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>choices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 1&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 2&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 3&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Choice 4&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 5&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 6&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;Choice 7&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#34;Exit&#34;</span>,
+</span></span><span style="display:flex;"><span>                  };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{	ITEM <span style="color:#f92672">**</span>my_items;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> c;				
+</span></span><span style="display:flex;"><span>	MENU <span style="color:#f92672">*</span>my_menu;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n_choices, i;
+</span></span><span style="display:flex;"><span>	ITEM <span style="color:#f92672">*</span>cur_item;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>	
+</span></span><span style="display:flex;"><span>	initscr();
+</span></span><span style="display:flex;"><span>	start_color();
+</span></span><span style="display:flex;"><span>        cbreak();
+</span></span><span style="display:flex;"><span>        noecho();
+</span></span><span style="display:flex;"><span>	keypad(stdscr, TRUE);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">1</span>, COLOR_RED, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">2</span>, COLOR_GREEN, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">3</span>, COLOR_MAGENTA, COLOR_BLACK);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize items */</span>
+</span></span><span style="display:flex;"><span>        n_choices <span style="color:#f92672">=</span> ARRAY_SIZE(choices);
+</span></span><span style="display:flex;"><span>        my_items <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">**</span>)calloc(n_choices <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(ITEM <span style="color:#f92672">*</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>	{       my_items[i] <span style="color:#f92672">=</span> new_item(choices[i], choices[i]);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/* Set the user pointer */</span>
+</span></span><span style="display:flex;"><span>		set_item_userptr(my_items[i], func);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	my_items[n_choices] <span style="color:#f92672">=</span> (ITEM <span style="color:#f92672">*</span>)NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create menu */</span>
+</span></span><span style="display:flex;"><span>	my_menu <span style="color:#f92672">=</span> new_menu((ITEM <span style="color:#f92672">**</span>)my_items);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Post the menu */</span>
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Press &lt;ENTER&gt; to see the option selected&#34;</span>);
+</span></span><span style="display:flex;"><span>	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Up and Down arrow keys to naviage (F1 to Exit)&#34;</span>);
+</span></span><span style="display:flex;"><span>	post_menu(my_menu);
+</span></span><span style="display:flex;"><span>	refresh();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((c <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>	{       <span style="color:#66d9ef">switch</span>(c)
+</span></span><span style="display:flex;"><span>	        {	<span style="color:#66d9ef">case</span> KEY_DOWN:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_DOWN_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> KEY_UP:
+</span></span><span style="display:flex;"><span>				menu_driver(my_menu, REQ_UP_ITEM);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span> <span style="color:#75715e">/* Enter */</span>
+</span></span><span style="display:flex;"><span>			{	ITEM <span style="color:#f92672">*</span>cur;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>p)(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				cur <span style="color:#f92672">=</span> current_item(my_menu);
+</span></span><span style="display:flex;"><span>				p <span style="color:#f92672">=</span> item_userptr(cur);
+</span></span><span style="display:flex;"><span>				p((<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)item_name(cur));
+</span></span><span style="display:flex;"><span>				pos_menu_cursor(my_menu);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span>	unpost_menu(my_menu);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n_choices; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>		free_item(my_items[i]);
+</span></span><span style="display:flex;"><span>	free_menu(my_menu);
+</span></span><span style="display:flex;"><span>	endwin();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name)
+</span></span><span style="display:flex;"><span>{	move(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	clrtoeol();
+</span></span><span style="display:flex;"><span>	mvprintw(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Item selected is : %s&#34;</span>, name);
+</span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -1089,7 +1092,7 @@
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -1118,13 +1121,14 @@
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

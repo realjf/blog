@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>opengl光照之四 光照贴图 Lighting Maps // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">opengl光照之四 光照贴图 Lighting Maps</h1>
@@ -244,82 +247,82 @@
 <p>注意sampler2D是所谓的不透明类型(Opaque Type)，也就是说不能将它实例化，只能通过uniform来定义它。如果使用除uniform以外的方法（比如函数的参数）实例化这个结构体，GLSL会抛出一些奇怪的错误。</p>
 </blockquote>
 <p>也移除了环境光材质颜色向量，因为环境光颜色在几乎所有情况下都等于漫反射颜色，所以不需要将它们分开储存：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">struct</span> Material {
-    <span style="color:#66d9ef">sampler2D</span> diffuse;
-    <span style="color:#66d9ef">vec3</span>      specular;
-    <span style="color:#66d9ef">float</span>     shininess;
-}; 
-...
-<span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec2</span> TexCoords;
-</code></pre></div><p>在片段着色器中再次需要纹理坐标，所以声明一个额外的输入变量。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> Material {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">sampler2D</span> diffuse;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">vec3</span>      specular;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>     shininess;
+</span></span><span style="display:flex;"><span>}; 
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec2</span> TexCoords;
+</span></span></code></pre></div><p>在片段着色器中再次需要纹理坐标，所以声明一个额外的输入变量。
 接下来只需要从纹理中采样片段的漫反射颜色值即可：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> diffuse <span style="color:#f92672">=</span> light.diffuse <span style="color:#f92672">*</span> diff <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));
-</code></pre></div><p>不要忘记将环境光得材质颜色设置为漫反射材质颜色同样的值。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> ambient <span style="color:#f92672">=</span> light.ambient <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));
-</code></pre></div><p>为了让它正常工作，还需要使用纹理坐标更新顶点数据，将它们作为顶点属性传递到片段着色器，加载材质并绑定材质到合适的纹理单元。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">float</span> vertices[] <span style="color:#f92672">=</span> {
-    <span style="color:#75715e">// positions          // normals           // texture coords
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>
-};
-</code></pre></div><p>顶点数据现在包含了顶点位置、法向量和立方体顶点处的纹理坐标。让我们更新顶点着色器来以顶点属性的形式接受纹理坐标，并将它们传递到片段着色器中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#75715e">#version 330 core</span>
-layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos;
-layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aNormal;
-layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec2</span> aTexCoords;
-...
-<span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec2</span> TexCoords;
-
-<span style="color:#66d9ef">void</span> main()
-{
-    ...
-    TexCoords <span style="color:#f92672">=</span> aTexCoords;
-}
-</code></pre></div><p>记得去更新两个VAO的顶点属性指针来匹配新的顶点数据，并加载箱子图像为一个纹理。在绘制箱子之前，我们希望将要用的纹理单元赋值到material.diffuse这个uniform采样器，并绑定箱子的纹理到这个纹理单元：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">lightingShader.setInt(<span style="color:#e6db74">&#34;material.diffuse&#34;</span>, <span style="color:#ae81ff">0</span>);
-...
-glActiveTexture(GL_TEXTURE0);
-glBindTexture(GL_TEXTURE_2D, diffuseMap);
-</code></pre></div><p>完整代码：
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">vec3</span> diffuse <span style="color:#f92672">=</span> light.diffuse <span style="color:#f92672">*</span> diff <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));
+</span></span></code></pre></div><p>不要忘记将环境光得材质颜色设置为漫反射材质颜色同样的值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">vec3</span> ambient <span style="color:#f92672">=</span> light.ambient <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));
+</span></span></code></pre></div><p>为了让它正常工作，还需要使用纹理坐标更新顶点数据，将它们作为顶点属性传递到片段着色器，加载材质并绑定材质到合适的纹理单元。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> vertices[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// positions          // normals           // texture coords
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,   <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">1.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.5f</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.5f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">1.0f</span>,  <span style="color:#ae81ff">0.0f</span>,  <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>顶点数据现在包含了顶点位置、法向量和立方体顶点处的纹理坐标。让我们更新顶点着色器来以顶点属性的形式接受纹理坐标，并将它们传递到片段着色器中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#75715e">#version 330 core</span>
+</span></span><span style="display:flex;"><span>layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aPos;
+</span></span><span style="display:flex;"><span>layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec3</span> aNormal;
+</span></span><span style="display:flex;"><span>layout (location <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">in</span> <span style="color:#66d9ef">vec2</span> aTexCoords;
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">out</span> <span style="color:#66d9ef">vec2</span> TexCoords;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>    TexCoords <span style="color:#f92672">=</span> aTexCoords;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>记得去更新两个VAO的顶点属性指针来匹配新的顶点数据，并加载箱子图像为一个纹理。在绘制箱子之前，我们希望将要用的纹理单元赋值到material.diffuse这个uniform采样器，并绑定箱子的纹理到这个纹理单元：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>lightingShader.setInt(<span style="color:#e6db74">&#34;material.diffuse&#34;</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>glActiveTexture(GL_TEXTURE0);
+</span></span><span style="display:flex;"><span>glBindTexture(GL_TEXTURE_2D, diffuseMap);
+</span></span></code></pre></div><p>完整代码：
 <a href="https://github.com/realjf/opengl/tree/master/src/lighting/04">github.com/realjf/opengl/src/lighting/04</a></p>
 <h3 id="镜面光贴图">镜面光贴图</h3>
 <p>镜面高光的强度可以通过图像每个像素的亮度来获取。镜面光贴图上的每个像素都可以由一个颜色向量来表示，比如说黑色代表颜色向量vec3(0.0)，灰色代表颜色向量vec3(0.5)。在片段着色器中，接下来会取样对应的颜色值并将它乘以光源的镜面强度。一个像素越「白」，乘积就会越大，物体的镜面光分量就会越亮。</p>
@@ -327,22 +330,22 @@ glBindTexture(GL_TEXTURE_2D, diffuseMap);
 <p>使用Photoshop或Gimp之类的工具，将漫反射纹理转换为镜面光纹理还是比较容易的，只需要剪切掉一些部分，将图像转换为黑白的，并增加亮度/对比度就好了。</p>
 <h4 id="采样镜面光贴图">采样镜面光贴图</h4>
 <p>镜面光贴图和其它的纹理非常类似，所以代码也和漫反射贴图的代码很类似。记得要保证正确地加载图像并生成一个纹理对象。由于在同一个片段着色器中使用另一个纹理采样器，必须要对镜面光贴图使用一个不同的纹理单元</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">lightingShader.setInt(<span style="color:#e6db74">&#34;material.specular&#34;</span>, <span style="color:#ae81ff">1</span>);
-...
-glActiveTexture(GL_TEXTURE1);
-glBindTexture(GL_TEXTURE_2D, specularMap);
-</code></pre></div><p>接下来更新片段着色器的材质属性，让其接受一个sampler2D而不是vec3作为镜面光分量：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">struct</span> Material {
-    <span style="color:#66d9ef">sampler2D</span> diffuse;
-    <span style="color:#66d9ef">sampler2D</span> specular;
-    <span style="color:#66d9ef">float</span>     shininess;
-};
-</code></pre></div><p>最后采样镜面光贴图，来获取片段所对应的镜面光强度：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-glsl" data-lang="glsl"><span style="color:#66d9ef">vec3</span> ambient  <span style="color:#f92672">=</span> light.ambient  <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));
-<span style="color:#66d9ef">vec3</span> diffuse  <span style="color:#f92672">=</span> light.diffuse  <span style="color:#f92672">*</span> diff <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));  
-<span style="color:#66d9ef">vec3</span> specular <span style="color:#f92672">=</span> light.specular <span style="color:#f92672">*</span> spec <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.specular, TexCoords));
-FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(ambient <span style="color:#f92672">+</span> diffuse <span style="color:#f92672">+</span> specular, <span style="color:#ae81ff">1.0</span>);
-</code></pre></div><p>通过使用镜面光贴图我们可以可以对物体设置大量的细节，比如物体的哪些部分需要有闪闪发光的属性，甚至可以设置它们对应的强度。镜面光贴图能够在漫反射贴图之上给予更高一层的控制。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>lightingShader.setInt(<span style="color:#e6db74">&#34;material.specular&#34;</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>glActiveTexture(GL_TEXTURE1);
+</span></span><span style="display:flex;"><span>glBindTexture(GL_TEXTURE_2D, specularMap);
+</span></span></code></pre></div><p>接下来更新片段着色器的材质属性，让其接受一个sampler2D而不是vec3作为镜面光分量：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> Material {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">sampler2D</span> diffuse;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">sampler2D</span> specular;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>     shininess;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>最后采样镜面光贴图，来获取片段所对应的镜面光强度：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">vec3</span> ambient  <span style="color:#f92672">=</span> light.ambient  <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">vec3</span> diffuse  <span style="color:#f92672">=</span> light.diffuse  <span style="color:#f92672">*</span> diff <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.diffuse, TexCoords));  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">vec3</span> specular <span style="color:#f92672">=</span> light.specular <span style="color:#f92672">*</span> spec <span style="color:#f92672">*</span> <span style="color:#66d9ef">vec3</span>(texture(material.specular, TexCoords));
+</span></span><span style="display:flex;"><span>FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4</span>(ambient <span style="color:#f92672">+</span> diffuse <span style="color:#f92672">+</span> specular, <span style="color:#ae81ff">1.0</span>);
+</span></span></code></pre></div><p>通过使用镜面光贴图我们可以可以对物体设置大量的细节，比如物体的哪些部分需要有闪闪发光的属性，甚至可以设置它们对应的强度。镜面光贴图能够在漫反射贴图之上给予更高一层的控制。</p>
 
         </div>
         <div id="disqus_thread"></div>
@@ -433,7 +436,7 @@ FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4<
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -462,13 +465,14 @@ FragColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">vec4<
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

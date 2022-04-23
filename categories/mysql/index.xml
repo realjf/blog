@@ -92,14 +92,14 @@ BCNF：如果关系模式R（U，F）的所有属性（包括主属性和非主�
       
       <guid>https://realjf.io/mysql/remote-login-mysql/</guid>
       <description>原文地址:http://blog.chinaunix.net/uid-25806228-id-371815.html
-Mysql默认关闭远程登录权限，如下操作允许用户在任意地点登录：  进入mysql，  GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;&#39; WITH GRANT OPTION;IDENTIFIED BY后跟的是密码，可设为空。 2. FLUSH privileges;
+Mysql默认关闭远程登录权限，如下操作允许用户在任意地点登录：  进入mysql，  GRANT ALL PRIVILEGES ON *.* TO &amp;#39;root&amp;#39;@&amp;#39;%&amp;#39; IDENTIFIED BY &amp;#39;&amp;#39; WITH GRANT OPTION; IDENTIFIED BY后跟的是密码，可设为空。 2. FLUSH privileges;
 更新Mysql为了安全性，在默认情况下用户只允许在本地登录，可是在有此情况下，还是需要使用用户进行远程连接，因此为了使其可以远程需要进行如下操作：
 一、允许root用户在任何地方进行远程登录，并具有所有库任何操作权限，具体操作如下： 在本机先使用root用户登录mysql： mysql -u root -p&amp;quot;youpassword&amp;quot; 进行授权操作：
-mysql&amp;gt;GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;youpassword&#39; WITH GRANT OPTION;重载授权表：
-FLUSH PRIVILEGES;退出mysql数据库： exit
+mysql&amp;gt;GRANT ALL PRIVILEGES ON *.* TO &amp;#39;root&amp;#39;@&amp;#39;%&amp;#39; IDENTIFIED BY &amp;#39;youpassword&amp;#39; WITH GRANT OPTION; 重载授权表：
+FLUSH PRIVILEGES; 退出mysql数据库： exit
 二、允许root用户在一个特定的IP进行远程登录，并具有所有库任何操作权限，具体操作如下： 在本机先使用root用户登录mysql：
-mysql -u root -p&amp;quot;youpassword&amp;quot;进行授权操作：
-GRANT ALL PRIVILEGES ON *.* TO root@&amp;quot;172.16.16.152&amp;quot; IDENTIFIED BY &amp;quot;youpassword&amp;quot; WITH GRANT OPTION;重载授权表：</description>
+mysql -u root -p&amp;#34;youpassword&amp;#34; 进行授权操作：
+GRANT ALL PRIVILEGES ON *.* TO root@&amp;#34;172.16.16.152&amp;#34; IDENTIFIED BY &amp;#34;youpassword&amp;#34; WITH GRANT OPTION; 重载授权表：</description>
     </item>
     
     <item>
@@ -110,11 +110,11 @@ GRANT ALL PRIVILEGES ON *.* TO root@&amp;quot;172.16.16.152&amp;quot; IDENTIFIED
       <guid>https://realjf.io/mysql/set-up-mysql-57/</guid>
       <description>源码安装 源码下载地址:http://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.15.tar.gz
 先检查已有的mysql
-rpm -qa | grep mysqlrpm -e mysql-libs-5.1.73-3.el6_5.x86_64 --nodeps1. 安装依赖的包 由于从mysql5.5开始弃用了常规的configure编译方法，所以需要下载cmake编译器、boost库、ncurses库和gnu分析器生成器bison这4种工具。
-yum -y install make gcc-c++ ncurses-devel安装cmake
-wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gztar zxvf cmake-3.6.2.tar.gzcd cmake-3.6.2./configuremake &amp;amp;&amp;amp; make install安装bison
-wget -c http://git.typecodes.com/libs/ccpp/bison-3.0.tar.gztar zxvf bison-3.0.tar.gz &amp;amp;&amp;amp; cd bison-3.0/ &amp;amp;&amp;amp; ./configuremake &amp;amp;&amp;amp; make install安装boost
-wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gztar zxvf boost_1_59_0.tar.gzcd boost_1_59_0./bootstrap.sh./b2 stage threading=multi link=shared./b2 install threading=multi link=shared或者
+rpm -qa | grep mysqlrpm -e mysql-libs-5.1.73-3.el6_5.x86_64 --nodeps 1. 安装依赖的包 由于从mysql5.5开始弃用了常规的configure编译方法，所以需要下载cmake编译器、boost库、ncurses库和gnu分析器生成器bison这4种工具。
+yum -y install make gcc-c++ ncurses-devel 安装cmake
+wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gztar zxvf cmake-3.6.2.tar.gzcd cmake-3.6.2./configuremake &amp;amp;&amp;amp; make install 安装bison
+wget -c http://git.typecodes.com/libs/ccpp/bison-3.0.tar.gztar zxvf bison-3.0.tar.gz &amp;amp;&amp;amp; cd bison-3.0/ &amp;amp;&amp;amp; ./configuremake &amp;amp;&amp;amp; make install 安装boost
+wget http://nchc.dl.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.tar.gztar zxvf boost_1_59_0.tar.gzcd boost_1_59_0./bootstrap.sh./b2 stage threading=multi link=shared./b2 install threading=multi link=shared 或者
 wget http://sourceforge.mirrorservice.org/b/bo/boost/boost/1.59.0/boost_1_59_0.tar.bz2tar jxvf boost_1_59_0.</description>
     </item>
     

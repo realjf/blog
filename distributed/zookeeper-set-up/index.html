@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>zookeeper集群搭建 Zookeeper cluster Set Up // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">zookeeper集群搭建 Zookeeper cluster Set Up</h1>
@@ -256,124 +259,120 @@ follower：能接收所有的读写请求，但是读数据请求自己处理，
 observer：跟follower的唯一的区别就是没有选举权和被选举权</p>
 </blockquote>
 <h3 id="下载安装">下载安装</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz
-
-tar zxvf apache-zookeeper-3.5.7-bin.tar.gz
-
-<span style="color:#75715e"># 加入环境变量path中</span>
-vim ~/.bash_profile
-
-export ZOOKEEPER_HOME<span style="color:#f92672">=</span>/home/hadoop/apps/zookeeper
-export PATH<span style="color:#f92672">=</span>$PATH:$ZOOKEEPER_HOME/bin
-
-<span style="color:#75715e"># 保存退出，然后source使其生效</span>
-source ~/.bash_profile
-
-</code></pre></div><h3 id="配置zoocfg文件">配置zoo.cfg文件</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 进入ZOOKEEPER_HOME/conf目录</span>
-<span style="color:#75715e"># 复制zoo_sample.cfg为zoo.cfg</span>
-cp zoo_sample.cfg zoo.cfg
-<span style="color:#75715e"># 编辑zoo.cfg</span>
-vi zoo.cfg
-
-<span style="color:#75715e"># 集群各节点的心跳时间间隔，保持默认即可(2s)</span>
-tickTime<span style="color:#f92672">=</span><span style="color:#ae81ff">2000</span>
-
-<span style="color:#75715e"># 此配置表示，允许follower连接并同步到leader的初始化连接时间</span>
-<span style="color:#75715e"># 它以tickTime的倍数来表示</span>
-<span style="color:#75715e"># 当超过设置倍数的tickTime时间，则连接失败</span>
-<span style="color:#75715e"># 保持默认即可(10次心跳的时间，即20s)</span>
-initLimit<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
-
-<span style="color:#75715e"># follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s</span>
-<span style="color:#75715e"># 如果10s内没有收到响应，本次请求就失败</span>
-syncLimit<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
-
-<span style="color:#75715e"># zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空</span>
-dataDir<span style="color:#f92672">=</span>/root/hadoop/zkdata
-
-<span style="color:#75715e"># 客户端连接的端口号，保持默认即可</span>
-clientPort<span style="color:#f92672">=</span><span style="color:#ae81ff">2181</span>
-
-<span style="color:#75715e"># 以下内容手动添加</span>
-<span style="color:#75715e"># server.id=主机名:心跳端口:选举端口</span>
-<span style="color:#75715e"># 注意：这里给每个节点定义了id，这些id写到配置文件中</span>
-<span style="color:#75715e"># id为1-255之间的任意的不重复的数字，一定要记得每个节点的id的对应关系</span>
-server.1<span style="color:#f92672">=</span>node1:2888:3888
-server.2<span style="color:#f92672">=</span>node2:2888:3888
-server.3<span style="color:#f92672">=</span>node3:2888:3888
-server.4<span style="color:#f92672">=</span>node4:2888:3888:observer
-</code></pre></div><h3 id="hosts配置">hosts配置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tar zxvf apache-zookeeper-3.5.7-bin.tar.gz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 加入环境变量path中</span>
+</span></span><span style="display:flex;"><span>vim ~/.bash_profile
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export ZOOKEEPER_HOME<span style="color:#f92672">=</span>/home/hadoop/apps/zookeeper
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$PATH:$ZOOKEEPER_HOME/bin
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 保存退出，然后source使其生效</span>
+</span></span><span style="display:flex;"><span>source ~/.bash_profile
+</span></span></code></pre></div><h3 id="配置zoocfg文件">配置zoo.cfg文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 进入ZOOKEEPER_HOME/conf目录</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 复制zoo_sample.cfg为zoo.cfg</span>
+</span></span><span style="display:flex;"><span>cp zoo_sample.cfg zoo.cfg
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 编辑zoo.cfg</span>
+</span></span><span style="display:flex;"><span>vi zoo.cfg
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 集群各节点的心跳时间间隔，保持默认即可(2s)</span>
+</span></span><span style="display:flex;"><span>tickTime<span style="color:#f92672">=</span><span style="color:#ae81ff">2000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 此配置表示，允许follower连接并同步到leader的初始化连接时间</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 它以tickTime的倍数来表示</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 当超过设置倍数的tickTime时间，则连接失败</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 保持默认即可(10次心跳的时间，即20s)</span>
+</span></span><span style="display:flex;"><span>initLimit<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果10s内没有收到响应，本次请求就失败</span>
+</span></span><span style="display:flex;"><span>syncLimit<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空</span>
+</span></span><span style="display:flex;"><span>dataDir<span style="color:#f92672">=</span>/root/hadoop/zkdata
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 客户端连接的端口号，保持默认即可</span>
+</span></span><span style="display:flex;"><span>clientPort<span style="color:#f92672">=</span><span style="color:#ae81ff">2181</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以下内容手动添加</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># server.id=主机名:心跳端口:选举端口</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意：这里给每个节点定义了id，这些id写到配置文件中</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># id为1-255之间的任意的不重复的数字，一定要记得每个节点的id的对应关系</span>
+</span></span><span style="display:flex;"><span>server.1<span style="color:#f92672">=</span>node1:2888:3888
+</span></span><span style="display:flex;"><span>server.2<span style="color:#f92672">=</span>node2:2888:3888
+</span></span><span style="display:flex;"><span>server.3<span style="color:#f92672">=</span>node3:2888:3888
+</span></span><span style="display:flex;"><span>server.4<span style="color:#f92672">=</span>node4:2888:3888:observer
+</span></span></code></pre></div><h3 id="hosts配置">hosts配置</h3>
 <p>为每个虚拟机配置hosts，以便后续根据主机名操作
 如node1配置如下</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">192.168.37.200 node1
-192.168.37.201 node2
-192.168.37.202 node3
-192.168.37.203 node4
-
-</code></pre></div><p>其他节点依次配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>192.168.37.200 node1
+</span></span><span style="display:flex;"><span>192.168.37.201 node2
+</span></span><span style="display:flex;"><span>192.168.37.202 node3
+</span></span><span style="display:flex;"><span>192.168.37.203 node4
+</span></span></code></pre></div><p>其他节点依次配置</p>
 <h3 id="同步配置">同步配置</h3>
 <p>其他虚拟机按同样配置设置好，或者直接复制到相应机器</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp -r /home/hadoop/apps/zookeeper node2:/home/hadoop/apps/
-scp -r /home/hadoop/apps/zookeeper node3:/home/hadoop/apps/
-scp -r /home/hadoop/apps/zookeeper node4:/home/hadoop/apps/
-
-</code></pre></div><h3 id="在配置的datadir目录下新建myid文件并写入id">在配置的dataDir目录下新建myid文件，并写入id</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /home/hadoop/zkdata
-cd /home/hadoop/zkdata
-
-echo <span style="color:#ae81ff">1</span> &gt; myid <span style="color:#75715e"># 这里的id根据上面的配置server.1这个确定相应节点的id</span>
-
-</code></pre></div><h3 id="启动集群">启动集群</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>scp -r /home/hadoop/apps/zookeeper node2:/home/hadoop/apps/
+</span></span><span style="display:flex;"><span>scp -r /home/hadoop/apps/zookeeper node3:/home/hadoop/apps/
+</span></span><span style="display:flex;"><span>scp -r /home/hadoop/apps/zookeeper node4:/home/hadoop/apps/
+</span></span></code></pre></div><h3 id="在配置的datadir目录下新建myid文件并写入id">在配置的dataDir目录下新建myid文件，并写入id</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /home/hadoop/zkdata
+</span></span><span style="display:flex;"><span>cd /home/hadoop/zkdata
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#ae81ff">1</span> &gt; myid <span style="color:#75715e"># 这里的id根据上面的配置server.1这个确定相应节点的id</span>
+</span></span></code></pre></div><h3 id="启动集群">启动集群</h3>
 <p>每个节点都需要操作</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zkServer.sh start
-</code></pre></div><p>查看每个节点状态</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zkServer.sh status
-</code></pre></div><p>至此，zookeeper集群安装配置成功</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>zkServer.sh start
+</span></span></code></pre></div><p>查看每个节点状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>zkServer.sh status
+</span></span></code></pre></div><p>至此，zookeeper集群安装配置成功</p>
 <h3 id="修改zookeeper日志文件的保存路径">修改zookeeper日志文件的保存路径</h3>
 <p>修改$ZOOKEEPER/bin/zkEnv.sh文件</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 在这里定义存放日志文件的目录</span>
-ZOO_LOG_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/opt/beh/logs/zookeeper&#34;</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;x</span><span style="color:#e6db74">${</span>ZOO_LOG_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;x&#34;</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-    ZOO_LOG_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.&#34;</span>
-<span style="color:#66d9ef">fi</span>
-
-<span style="color:#75715e"># 将</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;x</span><span style="color:#e6db74">${</span>ZOO_LOG4J_PROP<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;x&#34;</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-    ZOO_LOG4J_PROP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO,CONSOLE&#34;</span>
-<span style="color:#66d9ef">fi</span>
-
-<span style="color:#75715e"># 改为：</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;x</span><span style="color:#e6db74">${</span>ZOO_LOG4J_PROP<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;x&#34;</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-    ZOO_LOG4J_PROP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO,ROLLINGFILE&#34;</span>
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><p>修改$ZOOKEEPER_HOME/conf/log4j.properties文件</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zookeeper.root.logger<span style="color:#f92672">=</span>INFO, ROLLINGFILE
-zookeeper.console.threshold<span style="color:#f92672">=</span>INFO
-zookeeper.log.dir<span style="color:#f92672">=</span>/opt/beh/logs/zookeeper
-zookeeper.log.file<span style="color:#f92672">=</span>zookeeper.log
-zookeeper.log.threshold<span style="color:#f92672">=</span>DEBUG
-zookeeper.tracelog.dir<span style="color:#f92672">=</span>/opt/beh/logs/zookeeper
-zookeeper.tracelog.file<span style="color:#f92672">=</span>zookeeper_trace.log
-
-log4j.appender.ROLLINGFILE<span style="color:#f92672">=</span>org.apache.log4j.DailyRollingFileAppender
-log4j.appender.ROLLINGFILE.Threshold<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>zookeeper.log.threshold<span style="color:#e6db74">}</span>
-log4j.appender.ROLLINGFILE.File<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>zookeeper.log.dir<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>zookeeper.log.file<span style="color:#e6db74">}</span>
-log4j.appender.ROLLINGFILE.MaxFileSize<span style="color:#f92672">=</span>512MB
-log4j.appender.ROLLINGFILE.DataPattern<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;.&#39;</span>yyyy-MM-dd
-log4j.appender.ROLLINGFILE.Threshold<span style="color:#f92672">=</span>info
-log4j.appender.ROLLINGFILE.encoding<span style="color:#f92672">=</span>UTF-8
-log4j.appender.ROLLINGFILE.layout.ConversionPattern<span style="color:#f92672">=[</span>%d<span style="color:#f92672">{</span>yyyy-MM-dd HH<span style="color:#ae81ff">\:</span>mm<span style="color:#ae81ff">\:</span>ss<span style="color:#f92672">}]</span>%-5p %c<span style="color:#f92672">(</span>line<span style="color:#ae81ff">\:</span>%L<span style="color:#f92672">)</span> %x-%m%n
-<span style="color:#75715e">#log4j.appender.ROLLINGFILE.MaxBackupIndex=10</span>
-log4j.appender.ROLLINGFILE.layout<span style="color:#f92672">=</span>org.apache.log4j.PatternLayout
-</code></pre></div><p>修改$ZOOKEEPER_HOME/bin/zkServer.sh文件</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">_ZOO_DAEMON_OUT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ZOO_LOG_DIR<span style="color:#e6db74">/zookeeper.out&#34;</span>
-修改为：
-_ZOO_DAEMON_OUT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ZOO_LOG_DIR<span style="color:#e6db74">/zookeeper.log&#34;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 在这里定义存放日志文件的目录</span>
+</span></span><span style="display:flex;"><span>ZOO_LOG_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/opt/beh/logs/zookeeper&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;x</span><span style="color:#e6db74">${</span>ZOO_LOG_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;x&#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    ZOO_LOG_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;x</span><span style="color:#e6db74">${</span>ZOO_LOG4J_PROP<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;x&#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    ZOO_LOG4J_PROP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO,CONSOLE&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 改为：</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;x</span><span style="color:#e6db74">${</span>ZOO_LOG4J_PROP<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;x&#34;</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    ZOO_LOG4J_PROP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;INFO,ROLLINGFILE&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>修改$ZOOKEEPER_HOME/conf/log4j.properties文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>zookeeper.root.logger<span style="color:#f92672">=</span>INFO, ROLLINGFILE
+</span></span><span style="display:flex;"><span>zookeeper.console.threshold<span style="color:#f92672">=</span>INFO
+</span></span><span style="display:flex;"><span>zookeeper.log.dir<span style="color:#f92672">=</span>/opt/beh/logs/zookeeper
+</span></span><span style="display:flex;"><span>zookeeper.log.file<span style="color:#f92672">=</span>zookeeper.log
+</span></span><span style="display:flex;"><span>zookeeper.log.threshold<span style="color:#f92672">=</span>DEBUG
+</span></span><span style="display:flex;"><span>zookeeper.tracelog.dir<span style="color:#f92672">=</span>/opt/beh/logs/zookeeper
+</span></span><span style="display:flex;"><span>zookeeper.tracelog.file<span style="color:#f92672">=</span>zookeeper_trace.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE<span style="color:#f92672">=</span>org.apache.log4j.DailyRollingFileAppender
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.Threshold<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>zookeeper.log.threshold<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.File<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>zookeeper.log.dir<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>zookeeper.log.file<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.MaxFileSize<span style="color:#f92672">=</span>512MB
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.DataPattern<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;.&#39;</span>yyyy-MM-dd
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.Threshold<span style="color:#f92672">=</span>info
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.encoding<span style="color:#f92672">=</span>UTF-8
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.layout.ConversionPattern<span style="color:#f92672">=[</span>%d<span style="color:#f92672">{</span>yyyy-MM-dd HH<span style="color:#ae81ff">\:</span>mm<span style="color:#ae81ff">\:</span>ss<span style="color:#f92672">}]</span>%-5p %c<span style="color:#f92672">(</span>line<span style="color:#ae81ff">\:</span>%L<span style="color:#f92672">)</span> %x-%m%n
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#log4j.appender.ROLLINGFILE.MaxBackupIndex=10</span>
+</span></span><span style="display:flex;"><span>log4j.appender.ROLLINGFILE.layout<span style="color:#f92672">=</span>org.apache.log4j.PatternLayout
+</span></span></code></pre></div><p>修改$ZOOKEEPER_HOME/bin/zkServer.sh文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>_ZOO_DAEMON_OUT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ZOO_LOG_DIR<span style="color:#e6db74">/zookeeper.out&#34;</span>
+</span></span><span style="display:flex;"><span>修改为：
+</span></span><span style="display:flex;"><span>_ZOO_DAEMON_OUT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ZOO_LOG_DIR<span style="color:#e6db74">/zookeeper.log&#34;</span>
+</span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -455,7 +454,7 @@ _ZOO_DAEMON_OUT<span style="color:#f92672">=</span><span style="color:#e6db74">&
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -484,13 +483,14 @@ _ZOO_DAEMON_OUT<span style="color:#f92672">=</span><span style="color:#e6db74">&
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

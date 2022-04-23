@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>grpc应用之一 使用protobuf Protobuf Quick Start // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">grpc应用之一 使用protobuf Protobuf Quick Start</h1>
@@ -238,172 +241,171 @@
         <div class="post-content">
             <p>protoc 是 Protobuf 的编译器，是用 C++ 所编写的，其主要功能是用于编译.proto 文件</p>
 <h3 id="下载安装protobuf编译器protoc">下载安装protobuf编译器protoc</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protobuf-all-3.15.8.zip
-unzip protobuf-all-3.15.8.zip <span style="color:#f92672">&amp;&amp;</span> cd protobuf-3.15.8/
-./configure
-make
-make install
-
-<span style="color:#75715e"># 检查是否安装成功</span>
-protoc --version
-
-</code></pre></div><p>Protocol Buffers Libraries 的默认安装路径在 /usr/local/lib 下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>wget https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protobuf-all-3.15.8.zip
+</span></span><span style="display:flex;"><span>unzip protobuf-all-3.15.8.zip <span style="color:#f92672">&amp;&amp;</span> cd protobuf-3.15.8/
+</span></span><span style="display:flex;"><span>./configure
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>make install
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查是否安装成功</span>
+</span></span><span style="display:flex;"><span>protoc --version
+</span></span></code></pre></div><p>Protocol Buffers Libraries 的默认安装路径在 /usr/local/lib 下</p>
 <h3 id="protoc插件安装">protoc插件安装</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go get -u github.com/golang/protobuf/protoc-gen-go@latest
-
-<span style="color:#75715e"># 将所编译安装的 Protoc Plugin 的可执行文件中移动到相应的 bin 目录下，让其可以直接运行protoc-gen-go</span>
-export PATH<span style="color:#f92672">=</span>$PATH:$GOPATH/bin
-</code></pre></div><h3 id="初始化项目">初始化项目</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p $GOPATH/src/grpc-demo
-cd $GOPATH/src/grpc-demo
-go mod init github.com/realjf/grpc-demo
-</code></pre></div><p>初始化后，新建server、client、proto目录，最终目录结构如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">.
-├── client
-├── go.mod
-├── proto
-└── server
-</code></pre></div><h3 id="编译和生成proto文件">编译和生成proto文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go get -u github.com/golang/protobuf/protoc-gen-go@latest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将所编译安装的 Protoc Plugin 的可执行文件中移动到相应的 bin 目录下，让其可以直接运行protoc-gen-go</span>
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$PATH:$GOPATH/bin
+</span></span></code></pre></div><h3 id="初始化项目">初始化项目</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mkdir -p $GOPATH/src/grpc-demo
+</span></span><span style="display:flex;"><span>cd $GOPATH/src/grpc-demo
+</span></span><span style="display:flex;"><span>go mod init github.com/realjf/grpc-demo
+</span></span></code></pre></div><p>初始化后，新建server、client、proto目录，最终目录结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── client
+</span></span><span style="display:flex;"><span>├── go.mod
+</span></span><span style="display:flex;"><span>├── proto
+</span></span><span style="display:flex;"><span>└── server
+</span></span></code></pre></div><h3 id="编译和生成proto文件">编译和生成proto文件</h3>
 <h4 id="创建proto文件">创建proto文件</h4>
 <p>在项目的proto文件夹下新建helloworld.proto文件，其内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto">syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">package</span> helloworld;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">service</span> Greeter {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">rpc</span> SayHello (HelloRequest) <span style="color:#66d9ef">returns</span> (HelloResponse) {}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloResponse</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">int64</span> code <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> <span style="color:#66d9ef">message</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="生成proto文件">生成proto文件</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span>syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#f92672">package</span> helloworld;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">service</span> Greeter {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">rpc</span> SayHello (HelloRequest) <span style="color:#66d9ef">returns</span> (HelloResponse) {}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloResponse</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">int64</span> code <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> <span style="color:#66d9ef">message</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="生成proto文件">生成proto文件</h4>
 <p>在项目根目录下执行如下命令，生成对应.pb.go文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">protoc --go_out<span style="color:#f92672">=</span>plugins<span style="color:#f92672">=</span>grpc:. ./proto/*.proto
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>protoc --go_out<span style="color:#f92672">=</span>plugins<span style="color:#f92672">=</span>grpc:. ./proto/*.proto
+</span></span></code></pre></div><ul>
 <li>&ndash;go_out: 设置生成的go代码的输出目录，该指令通过加载protoc-gen-go插件达到生成go代码的目的，生成的文件以.pb.go为文件后缀，在这里冒号充当分隔符作用，后面跟命令所需的参数集，在这里代表要将所生成的go代码输出到所指向的protoc编译的当前目录</li>
 <li>plugins=plugin1+plugin2: 指定要加载的子插件列表，我们定义的 proto 文件是涉及了 RPC 服务的，而默认是不会生成 RPC 代码的，因此需要在 go_out 中给出 plugins 参数传递给 protoc-gen-go，告诉编译器，请支持 RPC</li>
 </ul>
 <p>执行结束后，就会生成proto文件对应的.pb.go文件</p>
 <h4 id="生成的pbgo文件">生成的.pb.go文件</h4>
 <p>查看生成的helloworld.pb.go文件，代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">...</span>
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">HelloRequest</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">Name</span>                 <span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`protobuf:&#34;bytes,1,opt,name=name,proto3&#34; json:&#34;name,omitempty&#34;`</span>
-	<span style="color:#a6e22e">XXX_NoUnkeyedLiteral</span> <span style="color:#66d9ef">struct</span>{} <span style="color:#e6db74">`json:&#34;-&#34;`</span>
-	<span style="color:#a6e22e">XXX_unrecognized</span>     []<span style="color:#66d9ef">byte</span>   <span style="color:#e6db74">`json:&#34;-&#34;`</span>
-	<span style="color:#a6e22e">XXX_sizecache</span>        <span style="color:#66d9ef">int32</span>    <span style="color:#e6db74">`json:&#34;-&#34;`</span>
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">Reset</span>()         { <span style="color:#f92672">*</span><span style="color:#a6e22e">m</span> = <span style="color:#a6e22e">HelloRequest</span>{} }
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">CompactTextString</span>(<span style="color:#a6e22e">m</span>) }
-<span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">ProtoMessage</span>()    {}
-<span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">Descriptor</span>() ([]<span style="color:#66d9ef">byte</span>, []<span style="color:#66d9ef">int</span>) {
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fileDescriptor_4d53fe9c48eadaad</span>, []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">0</span>}
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Unmarshal</span>(<span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">error</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">b</span>)
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Marshal</span>(<span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">deterministic</span> <span style="color:#66d9ef">bool</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">deterministic</span>)
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Merge</span>(<span style="color:#a6e22e">src</span> <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">Message</span>) {
-	<span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Merge</span>(<span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">src</span>)
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Size</span>() <span style="color:#66d9ef">int</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Size</span>(<span style="color:#a6e22e">m</span>)
-}
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_DiscardUnknown</span>() {
-	<span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">DiscardUnknown</span>(<span style="color:#a6e22e">m</span>)
-}
-
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span> <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">InternalMessageInfo</span>
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">GetName</span>() <span style="color:#66d9ef">string</span> {
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Name</span>
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>
-}
-<span style="color:#f92672">...</span>
-</code></pre></div><p>HelloRequest其包含了一组Getters方法，能提供取值的方式，并处理了一些空指针取值的情况，还能通过Reset方法重置该参数，而通过ProtoMessage方法，表示这是一个实现了proto.Message的接口，HelloResponse类型也类似。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">HelloRequest</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Name</span>                 <span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`protobuf:&#34;bytes,1,opt,name=name,proto3&#34; json:&#34;name,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">XXX_NoUnkeyedLiteral</span> <span style="color:#66d9ef">struct</span>{} <span style="color:#e6db74">`json:&#34;-&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">XXX_unrecognized</span>     []<span style="color:#66d9ef">byte</span>   <span style="color:#e6db74">`json:&#34;-&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">XXX_sizecache</span>        <span style="color:#66d9ef">int32</span>    <span style="color:#e6db74">`json:&#34;-&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">Reset</span>()         { <span style="color:#f92672">*</span><span style="color:#a6e22e">m</span> = <span style="color:#a6e22e">HelloRequest</span>{} }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">String</span>() <span style="color:#66d9ef">string</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">CompactTextString</span>(<span style="color:#a6e22e">m</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">ProtoMessage</span>()    {}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">Descriptor</span>() ([]<span style="color:#66d9ef">byte</span>, []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fileDescriptor_4d53fe9c48eadaad</span>, []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">0</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Unmarshal</span>(<span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">b</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Marshal</span>(<span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">deterministic</span> <span style="color:#66d9ef">bool</span>) ([]<span style="color:#66d9ef">byte</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">deterministic</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Merge</span>(<span style="color:#a6e22e">src</span> <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">Message</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Merge</span>(<span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">src</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_Size</span>() <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">Size</span>(<span style="color:#a6e22e">m</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">XXX_DiscardUnknown</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span>.<span style="color:#a6e22e">DiscardUnknown</span>(<span style="color:#a6e22e">m</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">xxx_messageInfo_HelloRequest</span> <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">InternalMessageInfo</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) <span style="color:#a6e22e">GetName</span>() <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Name</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span></code></pre></div><p>HelloRequest其包含了一组Getters方法，能提供取值的方式，并处理了一些空指针取值的情况，还能通过Reset方法重置该参数，而通过ProtoMessage方法，表示这是一个实现了proto.Message的接口，HelloResponse类型也类似。</p>
 <p>接下来我们看到.pb.go 文件的初始化方法，其中比较特殊的就是 fileDescriptor 的相关语句，如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
-	<span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">RegisterType</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>)(<span style="color:#66d9ef">nil</span>), <span style="color:#e6db74">&#34;helloworld.HelloRequest&#34;</span>)
-	<span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">RegisterType</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>)(<span style="color:#66d9ef">nil</span>), <span style="color:#e6db74">&#34;helloworld.HelloResponse&#34;</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() { <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">RegisterFile</span>(<span style="color:#e6db74">&#34;proto/helloworld.proto&#34;</span>, <span style="color:#a6e22e">fileDescriptor_4d53fe9c48eadaad</span>) }
-
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fileDescriptor_4d53fe9c48eadaad</span> = []<span style="color:#66d9ef">byte</span>{
-	<span style="color:#75715e">// 160 bytes of a gzipped FileDescriptorProto
-</span><span style="color:#75715e"></span>	<span style="color:#ae81ff">0x1f</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x02</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xe2</span>, <span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x2b</span>, <span style="color:#ae81ff">0x28</span>, <span style="color:#ae81ff">0xca</span>, <span style="color:#ae81ff">0x2f</span>,
-	<span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0xd7</span>, <span style="color:#ae81ff">0xcf</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0xcd</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0xcf</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0xca</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0xd1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0x0b</span>, <span style="color:#ae81ff">0x08</span>,
-	<span style="color:#ae81ff">0x71</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x44</span>, <span style="color:#ae81ff">0x94</span>, <span style="color:#ae81ff">0x94</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0x78</span>, <span style="color:#ae81ff">0x3c</span>, <span style="color:#ae81ff">0x40</span>, <span style="color:#ae81ff">0xbc</span>, <span style="color:#ae81ff">0xa0</span>, <span style="color:#ae81ff">0xd4</span>, <span style="color:#ae81ff">0xc2</span>, <span style="color:#ae81ff">0xd2</span>, <span style="color:#ae81ff">0xd4</span>, <span style="color:#ae81ff">0xe2</span>,
-	<span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x2e</span>, <span style="color:#ae81ff">0x96</span>, <span style="color:#ae81ff">0xbc</span>, <span style="color:#ae81ff">0xc4</span>, <span style="color:#ae81ff">0xdc</span>, <span style="color:#ae81ff">0x54</span>, <span style="color:#ae81ff">0x09</span>, <span style="color:#ae81ff">0x46</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x46</span>, <span style="color:#ae81ff">0x0d</span>, <span style="color:#ae81ff">0xce</span>, <span style="color:#ae81ff">0x20</span>,
-	<span style="color:#ae81ff">0x30</span>, <span style="color:#ae81ff">0x5b</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x96</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x17</span>, <span style="color:#ae81ff">0xaa</span>, <span style="color:#ae81ff">0xa6</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x3f</span>, <span style="color:#ae81ff">0xaf</span>, <span style="color:#ae81ff">0x38</span>, <span style="color:#ae81ff">0x15</span>, <span style="color:#ae81ff">0xa4</span>, <span style="color:#ae81ff">0x28</span>,
-	<span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x3f</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0xa2</span>, <span style="color:#ae81ff">0x88</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0xcc</span>, <span style="color:#ae81ff">0x16</span>, <span style="color:#ae81ff">0x92</span>, <span style="color:#ae81ff">0xe0</span>, <span style="color:#ae81ff">0x62</span>, <span style="color:#ae81ff">0xcf</span>, <span style="color:#ae81ff">0x4d</span>, <span style="color:#ae81ff">0x2d</span>, <span style="color:#ae81ff">0x2e</span>,
-	<span style="color:#ae81ff">0x4e</span>, <span style="color:#ae81ff">0x4c</span>, <span style="color:#ae81ff">0x4f</span>, <span style="color:#ae81ff">0x95</span>, <span style="color:#ae81ff">0x60</span>, <span style="color:#ae81ff">0x02</span>, <span style="color:#ae81ff">0xeb</span>, <span style="color:#ae81ff">0x85</span>, <span style="color:#ae81ff">0x71</span>, <span style="color:#ae81ff">0x8d</span>, <span style="color:#ae81ff">0x7c</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0xd8</span>, <span style="color:#ae81ff">0xdd</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x52</span>,
-	<span style="color:#ae81ff">0x53</span>, <span style="color:#ae81ff">0x4b</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x84</span>, <span style="color:#ae81ff">0x1c</span>, <span style="color:#ae81ff">0xb9</span>, <span style="color:#ae81ff">0x38</span>, <span style="color:#ae81ff">0x82</span>, <span style="color:#ae81ff">0x13</span>, <span style="color:#ae81ff">0x2b</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0x86</span>, <span style="color:#ae81ff">0x09</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0xe8</span>,
-	<span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x0c</span>, <span style="color:#ae81ff">0xd9</span>, <span style="color:#ae81ff">0x0d</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x92</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x64</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x36</span>, <span style="color:#ae81ff">0x2b</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0xb1</span>, <span style="color:#ae81ff">0x81</span>,
-	<span style="color:#ae81ff">0xfd</span>, <span style="color:#ae81ff">0x60</span>, <span style="color:#ae81ff">0x0c</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xe6</span>, <span style="color:#ae81ff">0x1d</span>, <span style="color:#ae81ff">0xd3</span>, <span style="color:#ae81ff">0xd5</span>, <span style="color:#ae81ff">0xdd</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>,
-}
-</code></pre></div><p>实际上我们所看到的 fileDescriptor_4d53fe9c48eadaad 表示的是一个经过编译后的 proto 文件，是对 proto 文件的整体描述，其包含了 proto 文件名、引用（import）内容、包（package）名、选项设置、所有定义的消息体（message）、所有定义的枚举（enum）、所有定义的服务（ service）、所有定义的方法（rpc method）等等内容，可以认为就是整个 proto 文件的信息你都能够取到</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">RegisterType</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>)(<span style="color:#66d9ef">nil</span>), <span style="color:#e6db74">&#34;helloworld.HelloRequest&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">RegisterType</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>)(<span style="color:#66d9ef">nil</span>), <span style="color:#e6db74">&#34;helloworld.HelloResponse&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() { <span style="color:#a6e22e">proto</span>.<span style="color:#a6e22e">RegisterFile</span>(<span style="color:#e6db74">&#34;proto/helloworld.proto&#34;</span>, <span style="color:#a6e22e">fileDescriptor_4d53fe9c48eadaad</span>) }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fileDescriptor_4d53fe9c48eadaad</span> = []<span style="color:#66d9ef">byte</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 160 bytes of a gzipped FileDescriptorProto
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#ae81ff">0x1f</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x02</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xe2</span>, <span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x2b</span>, <span style="color:#ae81ff">0x28</span>, <span style="color:#ae81ff">0xca</span>, <span style="color:#ae81ff">0x2f</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0xd7</span>, <span style="color:#ae81ff">0xcf</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0xcd</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0xcf</span>, <span style="color:#ae81ff">0x2f</span>, <span style="color:#ae81ff">0xca</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0xd1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0x0b</span>, <span style="color:#ae81ff">0x08</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0x71</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x44</span>, <span style="color:#ae81ff">0x94</span>, <span style="color:#ae81ff">0x94</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0x78</span>, <span style="color:#ae81ff">0x3c</span>, <span style="color:#ae81ff">0x40</span>, <span style="color:#ae81ff">0xbc</span>, <span style="color:#ae81ff">0xa0</span>, <span style="color:#ae81ff">0xd4</span>, <span style="color:#ae81ff">0xc2</span>, <span style="color:#ae81ff">0xd2</span>, <span style="color:#ae81ff">0xd4</span>, <span style="color:#ae81ff">0xe2</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x2e</span>, <span style="color:#ae81ff">0x96</span>, <span style="color:#ae81ff">0xbc</span>, <span style="color:#ae81ff">0xc4</span>, <span style="color:#ae81ff">0xdc</span>, <span style="color:#ae81ff">0x54</span>, <span style="color:#ae81ff">0x09</span>, <span style="color:#ae81ff">0x46</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x46</span>, <span style="color:#ae81ff">0x0d</span>, <span style="color:#ae81ff">0xce</span>, <span style="color:#ae81ff">0x20</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0x30</span>, <span style="color:#ae81ff">0x5b</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x96</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x17</span>, <span style="color:#ae81ff">0xaa</span>, <span style="color:#ae81ff">0xa6</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x3f</span>, <span style="color:#ae81ff">0xaf</span>, <span style="color:#ae81ff">0x38</span>, <span style="color:#ae81ff">0x15</span>, <span style="color:#ae81ff">0xa4</span>, <span style="color:#ae81ff">0x28</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x3f</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0xa2</span>, <span style="color:#ae81ff">0x88</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0xcc</span>, <span style="color:#ae81ff">0x16</span>, <span style="color:#ae81ff">0x92</span>, <span style="color:#ae81ff">0xe0</span>, <span style="color:#ae81ff">0x62</span>, <span style="color:#ae81ff">0xcf</span>, <span style="color:#ae81ff">0x4d</span>, <span style="color:#ae81ff">0x2d</span>, <span style="color:#ae81ff">0x2e</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0x4e</span>, <span style="color:#ae81ff">0x4c</span>, <span style="color:#ae81ff">0x4f</span>, <span style="color:#ae81ff">0x95</span>, <span style="color:#ae81ff">0x60</span>, <span style="color:#ae81ff">0x02</span>, <span style="color:#ae81ff">0xeb</span>, <span style="color:#ae81ff">0x85</span>, <span style="color:#ae81ff">0x71</span>, <span style="color:#ae81ff">0x8d</span>, <span style="color:#ae81ff">0x7c</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0xd8</span>, <span style="color:#ae81ff">0xdd</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x52</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0x53</span>, <span style="color:#ae81ff">0x4b</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x84</span>, <span style="color:#ae81ff">0x1c</span>, <span style="color:#ae81ff">0xb9</span>, <span style="color:#ae81ff">0x38</span>, <span style="color:#ae81ff">0x82</span>, <span style="color:#ae81ff">0x13</span>, <span style="color:#ae81ff">0x2b</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0x86</span>, <span style="color:#ae81ff">0x09</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0xe8</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x0c</span>, <span style="color:#ae81ff">0xd9</span>, <span style="color:#ae81ff">0x0d</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x92</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x64</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x36</span>, <span style="color:#ae81ff">0x2b</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0xb1</span>, <span style="color:#ae81ff">0x81</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">0xfd</span>, <span style="color:#ae81ff">0x60</span>, <span style="color:#ae81ff">0x0c</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xe6</span>, <span style="color:#ae81ff">0x1d</span>, <span style="color:#ae81ff">0xd3</span>, <span style="color:#ae81ff">0xd5</span>, <span style="color:#ae81ff">0xdd</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>实际上我们所看到的 fileDescriptor_4d53fe9c48eadaad 表示的是一个经过编译后的 proto 文件，是对 proto 文件的整体描述，其包含了 proto 文件名、引用（import）内容、包（package）名、选项设置、所有定义的消息体（message）、所有定义的枚举（enum）、所有定义的服务（ service）、所有定义的方法（rpc method）等等内容，可以认为就是整个 proto 文件的信息你都能够取到</p>
 <p>接下来我们再往下看可以看到 GreeterClient 接口，因为 Protobuf 是客户端和服务端可共用一份.proto 文件的，因此除了存在数据描述的信息以外，还会存在客户端和服务端的相关内部调用的接口约束和调用方式的实现，在后续我们在多服务内部调用的时候会经常用到，如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// 客户端接口
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">GreeterClient</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">in</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>, <span style="color:#a6e22e">opts</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">CallOption</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>, <span style="color:#66d9ef">error</span>)
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">greeterClient</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">cc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">ClientConn</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewGreeterClient</span>(<span style="color:#a6e22e">cc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">ClientConn</span>) <span style="color:#a6e22e">GreeterClient</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">greeterClient</span>{<span style="color:#a6e22e">cc</span>}
-}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">greeterClient</span>) <span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">in</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>, <span style="color:#a6e22e">opts</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">CallOption</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#a6e22e">out</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">HelloResponse</span>)
-	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">cc</span>.<span style="color:#a6e22e">Invoke</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#e6db74">&#34;/helloworld.Greeter/SayHello&#34;</span>, <span style="color:#a6e22e">in</span>, <span style="color:#a6e22e">out</span>, <span style="color:#a6e22e">opts</span><span style="color:#f92672">...</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">out</span>, <span style="color:#66d9ef">nil</span>
-}
-<span style="color:#75715e">// 服务端注册接口
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">GreeterServer</span> <span style="color:#66d9ef">interface</span> {
-	<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>, <span style="color:#66d9ef">error</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">RegisterGreeterServer</span>(<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">Server</span>, <span style="color:#a6e22e">srv</span> <span style="color:#a6e22e">GreeterServer</span>) {
-	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">RegisterService</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">_Greeter_serviceDesc</span>, <span style="color:#a6e22e">srv</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">_Greeter_SayHello_Handler</span>(<span style="color:#a6e22e">srv</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">dec</span> <span style="color:#66d9ef">func</span>(<span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span>, <span style="color:#a6e22e">interceptor</span> <span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">UnaryServerInterceptor</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
-	<span style="color:#a6e22e">in</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">HelloRequest</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">dec</span>(<span style="color:#a6e22e">in</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-	}
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">interceptor</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">srv</span>.(<span style="color:#a6e22e">GreeterServer</span>).<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">in</span>)
-	}
-	<span style="color:#a6e22e">info</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">UnaryServerInfo</span>{
-		<span style="color:#a6e22e">Server</span>:     <span style="color:#a6e22e">srv</span>,
-		<span style="color:#a6e22e">FullMethod</span>: <span style="color:#e6db74">&#34;/helloworld.Greeter/SayHello&#34;</span>,
-	}
-	<span style="color:#a6e22e">handler</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#66d9ef">interface</span>{}) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
-		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">srv</span>.(<span style="color:#a6e22e">GreeterServer</span>).<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">req</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>))
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">interceptor</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">in</span>, <span style="color:#a6e22e">info</span>, <span style="color:#a6e22e">handler</span>)
-}
-</code></pre></div><h3 id="更多数据类型支持">更多数据类型支持</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#75715e">// 客户端接口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">GreeterClient</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">in</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>, <span style="color:#a6e22e">opts</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">CallOption</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>, <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">greeterClient</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">cc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">ClientConn</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewGreeterClient</span>(<span style="color:#a6e22e">cc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">ClientConn</span>) <span style="color:#a6e22e">GreeterClient</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">greeterClient</span>{<span style="color:#a6e22e">cc</span>}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">greeterClient</span>) <span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">in</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>, <span style="color:#a6e22e">opts</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">CallOption</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">out</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">HelloResponse</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">cc</span>.<span style="color:#a6e22e">Invoke</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#e6db74">&#34;/helloworld.Greeter/SayHello&#34;</span>, <span style="color:#a6e22e">in</span>, <span style="color:#a6e22e">out</span>, <span style="color:#a6e22e">opts</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">out</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 服务端注册接口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">GreeterServer</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloResponse</span>, <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">RegisterGreeterServer</span>(<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">Server</span>, <span style="color:#a6e22e">srv</span> <span style="color:#a6e22e">GreeterServer</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">RegisterService</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">_Greeter_serviceDesc</span>, <span style="color:#a6e22e">srv</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">_Greeter_SayHello_Handler</span>(<span style="color:#a6e22e">srv</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">dec</span> <span style="color:#66d9ef">func</span>(<span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span>, <span style="color:#a6e22e">interceptor</span> <span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">UnaryServerInterceptor</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">in</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">HelloRequest</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">dec</span>(<span style="color:#a6e22e">in</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">interceptor</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">srv</span>.(<span style="color:#a6e22e">GreeterServer</span>).<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">in</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">info</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">UnaryServerInfo</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Server</span>:     <span style="color:#a6e22e">srv</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">FullMethod</span>: <span style="color:#e6db74">&#34;/helloworld.Greeter/SayHello&#34;</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">handler</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#66d9ef">interface</span>{}) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">srv</span>.(<span style="color:#a6e22e">GreeterServer</span>).<span style="color:#a6e22e">SayHello</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">req</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">HelloRequest</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">interceptor</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">in</span>, <span style="color:#a6e22e">info</span>, <span style="color:#a6e22e">handler</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="更多数据类型支持">更多数据类型支持</h3>
 <h4 id="通用类型">通用类型</h4>
 <p>在 Protobuf 中一共支持 double、float、int32、int64、uint32、uint64、sint32、sint64、fixed32、fixed64、sfixed32、sfixed64、bool、string、bytes 类型</p>
 <table>
@@ -525,19 +527,19 @@ go mod init github.com/realjf/grpc-demo
 </tbody>
 </table>
 <p>常常会遇到需要传递动态数组的情况，在 protobuf 中，我们可以使用 repeated 关键字，如果一个字段被声明为 repeated，那么该字段可以重复任意次（包括零次），重复值的顺序将保留在 protobuf 中，将重复字段视为动态大小的数组，如下:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto"><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">repeated</span> <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="嵌套类型">嵌套类型</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#66d9ef">repeated</span> <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="嵌套类型">嵌套类型</h4>
 <p>嵌套类型，一共有两种模式，如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto"><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">message</span> <span style="color:#a6e22e">World</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>        <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> World worlds <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">message</span> <span style="color:#a6e22e">World</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> World worlds <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><ul>
 <li>
 <p>第一种是将 World 消息体定义在 HelloRequest 消息体中，也就是其归属在消息体 HelloRequest 下，若要调用则需要使用 HelloRequest.World 的方式，外部才能引用成功。</p>
 </li>
@@ -545,38 +547,38 @@ go mod init github.com/realjf/grpc-demo
 <p>第二种是将 World 消息体定义在外部，一般比较推荐使用这种方式，清晰、方便，如下：</p>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto"><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">World</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> World worlds <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="oneof-类似union">oneof 类似union</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">World</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> World worlds <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="oneof-类似union">oneof 类似union</h4>
 <p>如果你希望你的消息体可以包含多个字段，但前提条件是最多同时只允许设置一个字段，那么就可以使用 oneof 关键字来实现这个功能，如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto"><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">oneof</span> name {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>        <span style="color:#66d9ef">string</span> nick_name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>        <span style="color:#66d9ef">string</span> true_name <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="enum枚举类型">Enum枚举类型</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">oneof</span> name {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        <span style="color:#66d9ef">string</span> nick_name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        <span style="color:#66d9ef">string</span> true_name <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="enum枚举类型">Enum枚举类型</h4>
 <p>枚举类型，限定你所传入的字段值必须是预定义的值列表之一，如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto"><span style="color:#66d9ef">enum</span> NameType {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    NickName <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    TrueName <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    NameType nameType <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h4 id="map类型">Map类型</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> NameType {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    NickName <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    TrueName <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    NameType nameType <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="map类型">Map类型</h4>
 <p>map 类型，需要设置键和值的类型，格式为 map&lt;key_type, value_type&gt; map_field = N;，示例如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-proto" data-lang="proto"><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>    map&lt;<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">string</span>&gt; names <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    map&lt;<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">string</span>&gt; names <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -666,7 +668,7 @@ go mod init github.com/realjf/grpc-demo
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -695,13 +697,14 @@ go mod init github.com/realjf/grpc-demo
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

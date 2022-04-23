@@ -1,45 +1,48 @@
 <!doctype html>
 <html>
+
 <head>
     <title>k8s集群 之一 创建集群 minikube安装使用 Minikube Start // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.83.1" />
+    <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="realjf" />
-    <meta name="description" content="" />
+    <meta name="description"
+        content="" />
     <base href="https://realjf.io/" />
     <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     
     <script src="./js/highlight.pack.js"> </script>
-
+    
     <link rel="stylesheet" href="./css/monokai-sublime.css">
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<body>
 
-<header class="app-header">
-    <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
-    <h1>Realjf&#39;s blog</h1>
-    <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
-    <div class="app-header-social">
-        
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
             <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
 </svg></a>
-        
+            
             <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
   <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
 </svg></a>
-        
-    </div>
-    <div>
-        <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-    </div>
-</header>
-<main class="app-container">
-    <nav class="sidebar-nav">
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
     
     
             <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
@@ -59,7 +62,7 @@
 </svg> 分类</a>
     
 </nav>
-    <style>
+        <style>
     @media screen and (max-width: 500px) {
         .search{
              
@@ -213,7 +216,7 @@
 
     }
 </script>
-    
+        
     <article class="post">
         <header class="post-header">
             <h1 class ="post-title">k8s集群 之一 创建集群 minikube安装使用 Minikube Start</h1>
@@ -249,36 +252,36 @@
 <p>Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！</p>
 <h3 id="minikube安装">minikube安装</h3>
 <p>可以参考minikube 安装的网站<a href="https://minikube.sigs.k8s.io/docs/start/">minikube安装</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># RPM package</span>
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
-sudo rpm -ivh minikube-latest.x86_64.rpm
-
-<span style="color:#75715e"># Debian package</span>
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-sudo dpkg -i minikube_latest_amd64.deb
-
-<span style="color:#75715e"># Binary download/amd64/x86_64</span>
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-</code></pre></div><p>minikube二进制下载地址：<a href="https://github.com/kubernetes/minikube/releases">https://github.com/kubernetes/minikube/releases</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># RPM package</span>
+</span></span><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
+</span></span><span style="display:flex;"><span>sudo rpm -ivh minikube-latest.x86_64.rpm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Debian package</span>
+</span></span><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+</span></span><span style="display:flex;"><span>sudo dpkg -i minikube_latest_amd64.deb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Binary download/amd64/x86_64</span>
+</span></span><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+</span></span><span style="display:flex;"><span>sudo install minikube-linux-amd64 /usr/local/bin/minikube
+</span></span></code></pre></div><p>minikube二进制下载地址：<a href="https://github.com/kubernetes/minikube/releases">https://github.com/kubernetes/minikube/releases</a></p>
 <h3 id="安装docker">安装docker</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">yum update
-yum install docker -y
-systemctl enable docker 
-systemctl start docker 
-
-<span style="color:#75715e"># 检查docker版本</span>
-docker version
-
-<span style="color:#75715e"># 添加docker组，将当前用户加入该组（需要在非root用户下执行）</span>
-sudo groupadd docker
-sudo usermod -aG docker <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
-sudo systemctl restart docker
-su root <span style="color:#75715e"># 需要切换下用户，让配置生效</span>
-su <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
-</code></pre></div><h3 id="minikube开始">minikube开始</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --memory<span style="color:#f92672">=</span><span style="color:#ae81ff">4096</span>
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>yum update
+</span></span><span style="display:flex;"><span>yum install docker -y
+</span></span><span style="display:flex;"><span>systemctl enable docker 
+</span></span><span style="display:flex;"><span>systemctl start docker 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查docker版本</span>
+</span></span><span style="display:flex;"><span>docker version
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加docker组，将当前用户加入该组（需要在非root用户下执行）</span>
+</span></span><span style="display:flex;"><span>sudo groupadd docker
+</span></span><span style="display:flex;"><span>sudo usermod -aG docker <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>sudo systemctl restart docker
+</span></span><span style="display:flex;"><span>su root <span style="color:#75715e"># 需要切换下用户，让配置生效</span>
+</span></span><span style="display:flex;"><span>su <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><h3 id="minikube开始">minikube开始</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --memory<span style="color:#f92672">=</span><span style="color:#ae81ff">4096</span>
+</span></span></code></pre></div><ul>
 <li>&ndash;registry-mirror参数用于设置镜像服务地址，这里设置为国内镜像服务地址。</li>
 <li>&ndash;vm-driver参数设置了虚拟机类型，这里我们使用Docker，默认是VirtualBox。参数–vm-driver=none表示minikube运行在宿主机，不需要提前安装VirtualBox或者KVM</li>
 <li>&ndash;memory参数设置了虚拟机内存大小。</li>
@@ -288,61 +291,61 @@ su <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
 <blockquote>
 <p>在中国，由于网络和防火墙的原因，通常会无法拉取k8s相关镜像或者下载速度过于缓慢，因此，我们可以通过参数&ndash;image-repository来设置Minikube使用阿里云镜像。</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers
+</span></span></code></pre></div><blockquote>
 <p>记住，运行上面的命令不应该在root权限下运行</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 需要添加当前用户到docker group中</span>
-sudo usermod -aG docker $USER <span style="color:#f92672">&amp;&amp;</span> newgrp docker
-</code></pre></div><p>成功之后，我们就可以使用kubectl来操作集群了，比如查看当前所有pod的状态</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube kubectl -- get pods -A
-minikube kubectl get deployment
-minikube kubectl get nodes
-minikube kubectl get services
-<span style="color:#75715e"># 查看nodes信息</span>
-minikube kubectl describe nodes 
-minikube kubectl describe services
-</code></pre></div><p>刚才我们使用Minikube创建了默认的集群，我们还可以使用Minikube创建新的集群，比如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube start -p mycluster
-</code></pre></div><h3 id="打开minikube可视化面板">打开minikube可视化面板</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube dashboard
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># 需要添加当前用户到docker group中</span>
+</span></span><span style="display:flex;"><span>sudo usermod -aG docker $USER <span style="color:#f92672">&amp;&amp;</span> newgrp docker
+</span></span></code></pre></div><p>成功之后，我们就可以使用kubectl来操作集群了，比如查看当前所有pod的状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube kubectl -- get pods -A
+</span></span><span style="display:flex;"><span>minikube kubectl get deployment
+</span></span><span style="display:flex;"><span>minikube kubectl get nodes
+</span></span><span style="display:flex;"><span>minikube kubectl get services
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看nodes信息</span>
+</span></span><span style="display:flex;"><span>minikube kubectl describe nodes 
+</span></span><span style="display:flex;"><span>minikube kubectl describe services
+</span></span></code></pre></div><p>刚才我们使用Minikube创建了默认的集群，我们还可以使用Minikube创建新的集群，比如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube start -p mycluster
+</span></span></code></pre></div><h3 id="打开minikube可视化面板">打开minikube可视化面板</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube dashboard
+</span></span></code></pre></div><blockquote>
 <p>安装过程中如出现问题，可以执行以下命令之后再重新尝试：</p>
 </blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube delete
-rm ~/.minikube
-minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers --docker-env HTTP_PROXY<span style="color:#f92672">=</span>http://myproxy.com:8080 --docker-env HTTPS_PROXY<span style="color:#f92672">=</span>http://myproxy.com:8080 --docker-env NO_PROXY<span style="color:#f92672">=</span>127.0.0.1
-</code></pre></div><h3 id="部署应用">部署应用</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube delete
+</span></span><span style="display:flex;"><span>rm ~/.minikube
+</span></span><span style="display:flex;"><span>minikube start --registry-mirror<span style="color:#f92672">=</span>https://registry.docker-cn.com --vm-driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;docker&#34;</span> --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers --docker-env HTTP_PROXY<span style="color:#f92672">=</span>http://myproxy.com:8080 --docker-env HTTPS_PROXY<span style="color:#f92672">=</span>http://myproxy.com:8080 --docker-env NO_PROXY<span style="color:#f92672">=</span>127.0.0.1
+</span></span></code></pre></div><h3 id="部署应用">部署应用</h3>
 <p>创建一个应用，并暴露端口于8080</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create deployment hello-minikube --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4
-kubectl expose deployment hello-minikube --type<span style="color:#f92672">=</span>NodePort --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
-</code></pre></div><p>获取服务</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl get services hello-minikube
-</code></pre></div><p>提供web服务</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube service hello-minikube
-</code></pre></div><p>设置端口转发</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl port-forward service/hello-minikube 7080:8080
-</code></pre></div><p>然后就可以用浏览器浏览地址 http://localhost:7080/</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create deployment hello-minikube --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4
+</span></span><span style="display:flex;"><span>kubectl expose deployment hello-minikube --type<span style="color:#f92672">=</span>NodePort --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
+</span></span></code></pre></div><p>获取服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get services hello-minikube
+</span></span></code></pre></div><p>提供web服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube service hello-minikube
+</span></span></code></pre></div><p>设置端口转发</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl port-forward service/hello-minikube 7080:8080
+</span></span></code></pre></div><p>然后就可以用浏览器浏览地址 http://localhost:7080/</p>
 <h4 id="负载均衡部署">负载均衡部署</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl create deployment balanced --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4  
-kubectl expose deployment balanced --type<span style="color:#f92672">=</span>LoadBalancer --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
-</code></pre></div><p>在另外一个窗口运行tunnel，创建一个可路由的ip负载均衡器：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minikube tunnel
-</code></pre></div><p>可以使用如下命令查看负载均衡器</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl get services balanced
-</code></pre></div><p>现在你的deployment在<!-- raw HTML omitted -->:8080上可用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create deployment balanced --image<span style="color:#f92672">=</span>k8s.gcr.io/echoserver:1.4  
+</span></span><span style="display:flex;"><span>kubectl expose deployment balanced --type<span style="color:#f92672">=</span>LoadBalancer --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>
+</span></span></code></pre></div><p>在另外一个窗口运行tunnel，创建一个可路由的ip负载均衡器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube tunnel
+</span></span></code></pre></div><p>可以使用如下命令查看负载均衡器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get services balanced
+</span></span></code></pre></div><p>现在你的deployment在<!-- raw HTML omitted -->:8080上可用</p>
 <h3 id="管理你的集群">管理你的集群</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 暂停集群</span>
-minikube pause
-<span style="color:#75715e">#停止集群</span>
-minikube stop
-
-<span style="color:#75715e"># 查看安装的服务</span>
-minikube addons list
-
-<span style="color:#75715e"># 删除所有minikube集群</span>
-minikube delete --all
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># 暂停集群</span>
+</span></span><span style="display:flex;"><span>minikube pause
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#停止集群</span>
+</span></span><span style="display:flex;"><span>minikube stop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看安装的服务</span>
+</span></span><span style="display:flex;"><span>minikube addons list
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除所有minikube集群</span>
+</span></span><span style="display:flex;"><span>minikube delete --all
+</span></span></code></pre></div>
         </div>
         <div id="disqus_thread"></div>
 <script>
@@ -432,7 +435,7 @@ minikube delete --all
 
     
 
-</main>
+    </main>
     <aside class="sider">
     <div>
         <h2>书籍</h2>
@@ -461,13 +464,14 @@ minikube delete --all
     </ul>
 </aside>
 
-<div class="app-footer">
-    <span>
+    <div class="app-footer">
+        <span>
   powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
    &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
 </span>
-</div>
-<script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
-<script type="text/javascript" src="./js/highlight.min.js"></script>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
 </body>
+
 </html>

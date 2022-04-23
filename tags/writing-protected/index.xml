@@ -15,7 +15,7 @@
       <guid>https://realjf.io/linux/remove-disk-writing-protected/</guid>
       <description>背景介绍 最近新安装的磁盘阵列上的系统，老是出现写保护（writing protected）。
 解决方法 使用hdparm命令可以解除写保护
-# 移除 hdparm -r0 &amp;lt;设备名&amp;gt; # 如 hdparm -r0 /dev/sda1 /dev/sda1: setting readonly to 0 (off) readonly = 0 (off) # 更多命令 hdparm -h </description>
+# 移除 hdparm -r0 &amp;lt;设备名&amp;gt; # 如 hdparm -r0 /dev/sda1  /dev/sda1:  setting readonly to 0 (off)  readonly = 0 (off)   # 更多命令 hdparm -h </description>
     </item>
     
   </channel>
