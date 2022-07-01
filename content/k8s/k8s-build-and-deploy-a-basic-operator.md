@@ -40,6 +40,7 @@ related:
 - 2GB以上内存
 - 20GB以上的磁盘空间
 - docker
+- 安装conntrack
 
 #### 下载安装
 需要提前关闭swap分区
@@ -80,7 +81,7 @@ make install
 首先，运行minikube start运行本地集群
 ```sh
 mkdir -p $GOPATH/src/operators && cd $GOPATH/src/operators
-minikube start init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country=cn
+minikube start init --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country=cn --vm-driver=none
 ```
 然后运行operator-sdk init生成我们示例应用的样板代码
 ```sh
