@@ -275,7 +275,7 @@
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 </span></span><span style="display:flex;"><span>sudo install minikube-linux-amd64 /usr/local/bin/minikube
 </span></span></code></pre></div><h4 id="运行集群">运行集群</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube start
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube start --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country<span style="color:#f92672">=</span>cn
 </span></span></code></pre></div><p>参考<a href="https://minikube.sigs.k8s.io/docs/start/">minikube安装</a></p>
 <h3 id="operator-sdk-安装">operator sdk 安装</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">git</span> <span style="color:#a6e22e">clone</span> <span style="color:#a6e22e">https</span>:<span style="color:#75715e">//github.com/operator-framework/operator-sdk
@@ -287,7 +287,7 @@
 <h4 id="第一步生成样板代码">第一步：生成样板代码</h4>
 <p>首先，运行minikube start运行本地集群</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mkdir -p $GOPATH/src/operators <span style="color:#f92672">&amp;&amp;</span> cd $GOPATH/src/operators
-</span></span><span style="display:flex;"><span>minikube start init
+</span></span><span style="display:flex;"><span>minikube start init --image-repository<span style="color:#f92672">=</span>registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country<span style="color:#f92672">=</span>cn
 </span></span></code></pre></div><p>然后运行operator-sdk init生成我们示例应用的样板代码</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>operator-sdk init
 </span></span></code></pre></div><h4 id="第二步创建api和自定义资源">第二步：创建API和自定义资源</h4>
