@@ -62,7 +62,7 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 #### 运行集群
 ```sh
-minikube start --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country=cn
+minikube start
 ```
 
 参考[minikube安装](https://minikube.sigs.k8s.io/docs/start/)
