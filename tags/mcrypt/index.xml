@@ -13,7 +13,7 @@
       <pubDate>Tue, 15 Sep 2020 14:34:59 +0800</pubDate>
       
       <guid>https://realjf.io/php/php-mcrypt-install-in-win/</guid>
-      <description>准备  xampp环境 mcrypt扩展下载地址https://windows.php.net/downloads/pecl/releases/mcrypt/  解压安装 解压后，直接复制php_mcrypt.dll到php/ext目录下， 然后在php.ini中添加一行extension=php_mcrypt.dll，重启apache即可</description>
+      <description>准备 xampp环境 mcrypt扩展下载地址https://windows.php.net/downloads/pecl/releases/mcrypt/ 解压安装 解压后，直接复制php_mcrypt.dll到php/ext目录下， 然后在php.ini中添加一行extension=php_mcrypt.dll，重启apache即可</description>
     </item>
     
   </channel>

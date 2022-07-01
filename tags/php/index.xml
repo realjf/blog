@@ -15,9 +15,11 @@
       <guid>https://realjf.io/php/php-excel-memory-overflow/</guid>
       <description>背景 今天在使用phpexcel导出数据为excel格式的时候，遇到一个问题，由于数据量比较大，所以，一次性缓存在内存中导致超出php的内存限制，Excel中一个单元格在不启用缓存的情况下大概占用内存是1K。我的数据是大概31万行、9列的表格（大概279万个单元格），需要2.66GB的内存。启用缓存的话，则会降到900MB，感觉还是太大。先试下看看
 解决 phpexcel的内存优化参数并不在phpexcel对象中，需要在phpexcel实例化之前设置
-$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp; $cacheSettings = array( &amp;#39;memoryCacheSize&amp;#39; =&amp;gt; &amp;#39;950MB&amp;#39;); PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings);  $oExcel = new PHPExcel(); PHPExcel_Settings::setCacheStorageMethod() 的几个参数
- 将单元格数据序列化后保存到内存中  PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized;  将单元格序列化后再进行gzip压缩，然后保存到内存中  PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip;  缓存在临时的磁盘文件中，速度可能会慢一些  PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;  保存在php://temp  PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;  保存在memcache中  $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_memcache; $cacheSettings = array( &amp;#39;memcacheServer&amp;#39; =&amp;gt; &amp;#39;localhost&amp;#39;,  &amp;#39;memcachePort&amp;#39; =&amp;gt; 11211,  &amp;#39;cacheTime&amp;#39; =&amp;gt; 600 ); PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings); 其它降低内存使用的方法 如果不需要读取Excel单元格格式，可以设置为只读取数据。
-$objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setReadDataOnly(true); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.xlsx”); 如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。</description>
+$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp; $cacheSettings = array( &amp;#39;memoryCacheSize&amp;#39; =&amp;gt; &amp;#39;950MB&amp;#39;); PHPExcel_Settings::setCacheStorageMethod($cacheMethod,$cacheSettings); $oExcel = new PHPExcel(); PHPExcel_Settings::setCacheStorageMethod() 的几个参数
+将单元格数据序列化后保存到内存中 PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized; 将单元格序列化后再进行gzip压缩，然后保存到内存中 PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip; 缓存在临时的磁盘文件中，速度可能会慢一些 PHPExcel_CachedObjectStorageFactory::cache_to_discISAM; 保存在php://temp PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp; 保存在memcache中 $cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_memcache; $cacheSettings = array( &amp;#39;memcacheServer&amp;#39; =&amp;gt; &amp;#39;localhost&amp;#39;, &amp;#39;memcachePort&amp;#39; =&amp;gt; 11211, &amp;#39;cacheTime&amp;#39; =&amp;gt; 600 ); PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings); 其它降低内存使用的方法 如果不需要读取Excel单元格格式，可以设置为只读取数据。
+$objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setReadDataOnly(true); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.xlsx”); 如果Excel中有多个Sheet，但是我们只需要读取其中几个，为了减少内存消耗，也可以设置。
+$objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setLoadSheetsOnly( array(&amp;#34;Worksheet1&amp;#34;, &amp;#34;Worksheet2&amp;#34;) ); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.xlsx”); 如果只需要读取Sheet中一定区域，也可以设置过滤器。
+class MyReadFilter implements PHPExcel_Reader_IReadFilter { public function readCell($column, $row, $worksheetName = &amp;#39;&amp;#39;) { // Read title row and rows 20 - 30 if ($row == 1 || ($row &amp;gt;= 20 &amp;amp;&amp;amp; $row &amp;lt;= 30)) { return true; } return false; } } $objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $objReader-&amp;gt;setReadFilter( new MyReadFilter() ); $objPHPExcel = $objReader-&amp;gt;load(&amp;#34;test.</description>
     </item>
     
     <item>
@@ -26,7 +28,7 @@ $objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $obj
       <pubDate>Tue, 15 Sep 2020 14:34:59 +0800</pubDate>
       
       <guid>https://realjf.io/php/php-mcrypt-install-in-win/</guid>
-      <description>准备  xampp环境 mcrypt扩展下载地址https://windows.php.net/downloads/pecl/releases/mcrypt/  解压安装 解压后，直接复制php_mcrypt.dll到php/ext目录下， 然后在php.ini中添加一行extension=php_mcrypt.dll，重启apache即可</description>
+      <description>准备 xampp环境 mcrypt扩展下载地址https://windows.php.net/downloads/pecl/releases/mcrypt/ 解压安装 解压后，直接复制php_mcrypt.dll到php/ext目录下， 然后在php.ini中添加一行extension=php_mcrypt.dll，重启apache即可</description>
     </item>
     
     <item>
@@ -35,12 +37,13 @@ $objReader = PHPExcel_IOFactory::createReader(&amp;#39;Excel2007&amp;#39;); $obj
       <pubDate>Tue, 15 Sep 2020 14:12:53 +0800</pubDate>
       
       <guid>https://realjf.io/php/memcached-and-php-extension-install-win/</guid>
-      <description>准备  xampp环境 php-memcached扩展，地址https://github.com/lifenglsf/php_memcached_dll php-memcache扩展，地址http://pecl.php.net/package/memcache/4.0.5.2/windows memcached下载地址https://www.runoob.com/memcached/window-install-memcached.html  memcached安装 首先下载对应版本的memcached，我这里使用的是这个http://static.runoob.com/download/memcached-1.4.5-amd64.zip
+      <description>准备 xampp环境 php-memcached扩展，地址https://github.com/lifenglsf/php_memcached_dll php-memcache扩展，地址http://pecl.php.net/package/memcache/4.0.5.2/windows memcached下载地址https://www.runoob.com/memcached/window-install-memcached.html memcached安装 首先下载对应版本的memcached，我这里使用的是这个http://static.runoob.com/download/memcached-1.4.5-amd64.zip
 安装步骤详见：https://www.runoob.com/memcached/window-install-memcached.html
 我这里只写1.4.5版本的安装
 首先下载解压后，用管理员权限运行如下命令：
-schtasks /create /sc onstart /tn memcached /tr &amp;#34;&amp;#39;e:\memcached\memcached.exe&amp;#39; -m 512&amp;#34;  # /tn taskname 指定唯一识别这个计划任务的名称 # /sc schedule 指定计划频率 # /create 创建新计划任务 # /tr taskrun 指定在这个计划运行的程序的路径和文件名  # 如果需要删除，可以运行如下命令 schtasks /delete /tn memcached  # 设置开机启动后如何立马运行 schtasks /run /tn memcached  # 运行后如何终止正在运行的计划任务 schtasks /end /tn memcached  # 查看更多schtasks帮助 schtasks /? memcached的php扩展 首先phpinfo查看php版本， http://localhost:8080/dashboard/phpinfo.php
-然后根据Zend Extension Build和PHP Extension Build可以确定对应的memcached版本， 我这里的信息如下：</description>
+schtasks /create /sc onstart /tn memcached /tr &amp;#34;&amp;#39;e:\memcached\memcached.exe&amp;#39; -m 512&amp;#34; # /tn taskname 指定唯一识别这个计划任务的名称 # /sc schedule 指定计划频率 # /create 创建新计划任务 # /tr taskrun 指定在这个计划运行的程序的路径和文件名 # 如果需要删除，可以运行如下命令 schtasks /delete /tn memcached # 设置开机启动后如何立马运行 schtasks /run /tn memcached # 运行后如何终止正在运行的计划任务 schtasks /end /tn memcached # 查看更多schtasks帮助 schtasks /? memcached的php扩展 首先phpinfo查看php版本， http://localhost:8080/dashboard/phpinfo.php
+然后根据Zend Extension Build和PHP Extension Build可以确定对应的memcached版本， 我这里的信息如下：
+Zend Extension Build	API320190902,TS,VC15 PHP Extension Build	API20190902,TS,VC15 # 注意后面的TS,VC15，找对应的memcached扩展也需要对应这个 根据上面给的github地址下载好对应版本的php_memcached.</description>
     </item>
     
     <item>
@@ -49,7 +52,7 @@ schtasks /create /sc onstart /tn memcached /tr &amp;#34;&amp;#39;e:\memcached\me
       <pubDate>Mon, 14 Sep 2020 17:08:59 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vscode-win-php-setting/</guid>
-      <description>准备  windows10 系统 vscode xampp  首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
+      <description>准备 windows10 系统 vscode xampp 首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
 当然如果你能翻墙，可以直接访问xampp官网下载
 下载完成后安装，安装完成后，将xampp/php/php.exe加入系统路径, 在terminal中执行php -v验证是否成功
 下载xdebug插件 下载地址：https://xdebug.org/download
@@ -58,10 +61,10 @@ schtasks /create /sc onstart /tn memcached /tr &amp;#34;&amp;#39;e:\memcached\me
 将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改 xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
 vscode下载安装 下载vscode：https://code.visualstudio.com/
 下载安装完成后，需要安装一些扩展插件
- bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer  按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
+bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer 按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
 &amp;#34;php.validate.executablePath&amp;#34;: &amp;#34;E:\\xampp\\php\\php.exe&amp;#34; 配置好这些后，启动xampp的apache服务器
 准备好后开始测试 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
-&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt;在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
+&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt; 在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
     </item>
     
     <item>
@@ -81,7 +84,7 @@ strace /usr/local/php/bin/php -i 2&amp;gt; /tmp/ll.log # 然后使用grep查看�
       <pubDate>Sat, 13 Jun 2020 18:14:12 +0800</pubDate>
       
       <guid>https://realjf.io/php/simple-websocket/</guid>
-      <description>环境准备  php 7 linux 系统  服务端 websocket.php 文件 &amp;lt;?php  $address = &amp;#39;0.0.0.0&amp;#39;; $port = 8000;  // 创建socket $server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP); socket_set_option($server, SOL_SOCKET, SO_REUSEADDR, 1); socket_bind($server, $address, $port); socket_listen($server); $client = socket_accept($server);  // 发送websokcet握手 header $request = socket_read($client, 5000); // 读取数据 preg_match(&amp;#39;#Sec-WebSocket-Key: (.*)\r\n#&amp;#39;, $request, $matches); $key = base64_encode(pack(  &amp;#39;H*&amp;#39;,  sha1($matches[1] . &amp;#39;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&amp;#39;) ));  $headers = &amp;#34;HTTP/1.1 101 Switching Protocols\r\n&amp;#34;; $headers .= &amp;#34;Upgrade: websocket\r\n&amp;#34;; $headers .</description>
+      <description>环境准备 php 7 linux 系统 服务端 websocket.php 文件 &amp;lt;?php $address = &amp;#39;0.0.0.0&amp;#39;; $port = 8000; // 创建socket $server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP); socket_set_option($server, SOL_SOCKET, SO_REUSEADDR, 1); socket_bind($server, $address, $port); socket_listen($server); $client = socket_accept($server); // 发送websokcet握手 header $request = socket_read($client, 5000); // 读取数据 preg_match(&amp;#39;#Sec-WebSocket-Key: (.*)\r\n#&amp;#39;, $request, $matches); $key = base64_encode(pack( &amp;#39;H*&amp;#39;, sha1($matches[1] . &amp;#39;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&amp;#39;) )); $headers = &amp;#34;HTTP/1.1 101 Switching Protocols\r\n&amp;#34;; $headers .= &amp;#34;Upgrade: websocket\r\n&amp;#34;; $headers .= &amp;#34;Connection: Upgrade\r\n&amp;#34;; $headers .= &amp;#34;Sec-WebSocket-Version: 13\r\n&amp;#34;; $headers .</description>
     </item>
     
     <item>
@@ -95,10 +98,10 @@ strace /usr/local/php/bin/php -i 2&amp;gt; /tmp/ll.log # 然后使用grep查看�
 wget https://www.php.net/distributions/php-7.4.6.tar.xz xz -d php-7.4.6.tar.xz tar xvf php-7.4.6.tar 我们需要的是源码目录下ext目录下的ext_skel或ext_skel.php文件，它是类unix环境下用于自动生成php扩展框架的脚本工具。
 开发自己的php扩展 可以通过&amp;ndash;help查看ext_skel.php的完整命令
 ext_skel --help 首先，我们需要利用ext_skel.php生成我们需要的框架，只需要提供&amp;ndash;extname的参数即可
-# 5.6.23 ./ext_skel --extname=helloworld  # 7.4.6 ./ext_skel.php --ext helloworld 运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录
+# 5.6.23 ./ext_skel --extname=helloworld # 7.4.6 ./ext_skel.php --ext helloworld 运行之后，在ext目录下将多出一个helloworld的目录，即我们生成的扩展框架目录
 目录下包含以下文件：
- config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。 php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。 helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中  build system配置 这里看下config.m4配置的一些内容，打开config.m4，注意，其使用dnl作为注释符
-dnl config.m4 for extension helloworld  dnl Comments in this file start with the string &amp;#39;dnl&amp;#39;. dnl Remove where necessary.  dnl If your extension references something external, use &amp;#39;with&amp;#39;:  dnl PHP_ARG_WITH([helloworld], dnl [for helloworld support], dnl [AS_HELP_STRING([--with-helloworld], dnl [Include helloworld support])])  dnl Otherwise use &amp;#39;enable&amp;#39;:  PHP_ARG_ENABLE([helloworld],  [whether to enable helloworld support],  [AS_HELP_STRING([--enable-helloworld],  [Enable helloworld support])],  [no])  if test &amp;#34;$PHP_HELLOWORLD&amp;#34; !</description>
+config.m4：这是Unix环境下的Build System配置文件，后面将会通过它生成配置和安装。 php_helloworld.h：这个文件是扩展模块的头文件。遵循C语言一贯的作风，这个里面可以放置一些自定义的结构体、全局变量等等。 helloworld.c：这个就是扩展模块的主程序文件了，最终的扩展模块各个函数入口都在这里。当然，你可以将所有程序代码都塞到这里面，也可以遵循模块化思想，将各个功能模块放到不同文件中 build system配置 这里看下config.m4配置的一些内容，打开config.m4，注意，其使用dnl作为注释符
+dnl config.m4 for extension helloworld dnl Comments in this file start with the string &amp;#39;dnl&amp;#39;. dnl Remove where necessary. dnl If your extension references something external, use &amp;#39;with&amp;#39;: dnl PHP_ARG_WITH([helloworld], dnl [for helloworld support], dnl [AS_HELP_STRING([--with-helloworld], dnl [Include helloworld support])]) dnl Otherwise use &amp;#39;enable&amp;#39;: PHP_ARG_ENABLE([helloworld], [whether to enable helloworld support], [AS_HELP_STRING([--enable-helloworld], [Enable helloworld support])], [no]) if test &amp;#34;$PHP_HELLOWORLD&amp;#34; !</description>
     </item>
     
     <item>
@@ -110,18 +113,21 @@ dnl config.m4 for extension helloworld  dnl Comments in this file start with the
       <description>php是多进程模型，不同请求间互不干涉，保证了一个请求挂掉不会对其他请求造成影响。目前php也支持多线程模型。
 php同时也是弱类型语言，zend引擎+组件（ext）的模式，降低内部耦合，中间层sapi,隔绝web server和php
 php的核心架构 php核心架构如下图，从下到上可以简单分为四层体系：
- zend引擎：是php的内核，它将php代码翻译为可执行opcode的处理并实现相应的处理方法，实现了基本的数据结构、内存分配管理、提供了相应的api方法供外部调用，是一切的核心 Extensions：围绕着zend引擎，extensions通过组件式的方式提供各种基础服务，各种内置函数、标准库等都是通过extensions实现的。 sapi：全称是Server Application Programming Interface服务端应用编程接口，sapi通过一系列钩子函数，使得php可以和外围交互数据，通过sapi成功的将php本身和上层应用解耦隔离，php可以不再考虑如何针对不同应用进行兼容，而应用本身也可以针对自己特点实现不同处理方式。  常见的一些sapi有：apache2handler: 这是以apache作为webserver，采用mod_php模式运行方式也是应用最广泛的一种 cgi：这是webserver和php直接交互的另一种方式，fastcgi+php得到广泛应用，也是异步webserver所唯一支持的方式 cli：命令行调用的应用模式   上层应用：这是我们平时编写的php程序，通过不同的sapi方式得到各种各样的应用模式  php执行流程 php实现了典型动态语言执行过程：将一段代码经过词法解析、语法解析等阶段后，源程序会被翻译成一个个指令（opcodes）， 然后zend虚拟机顺次执行这些指令完成操作。php本身是用c实现的，因此最终调用的也是c的函数。
+zend引擎：是php的内核，它将php代码翻译为可执行opcode的处理并实现相应的处理方法，实现了基本的数据结构、内存分配管理、提供了相应的api方法供外部调用，是一切的核心 Extensions：围绕着zend引擎，extensions通过组件式的方式提供各种基础服务，各种内置函数、标准库等都是通过extensions实现的。 sapi：全称是Server Application Programming Interface服务端应用编程接口，sapi通过一系列钩子函数，使得php可以和外围交互数据，通过sapi成功的将php本身和上层应用解耦隔离，php可以不再考虑如何针对不同应用进行兼容，而应用本身也可以针对自己特点实现不同处理方式。 常见的一些sapi有：apache2handler: 这是以apache作为webserver，采用mod_php模式运行方式也是应用最广泛的一种 cgi：这是webserver和php直接交互的另一种方式，fastcgi+php得到广泛应用，也是异步webserver所唯一支持的方式 cli：命令行调用的应用模式 上层应用：这是我们平时编写的php程序，通过不同的sapi方式得到各种各样的应用模式 php执行流程 php实现了典型动态语言执行过程：将一段代码经过词法解析、语法解析等阶段后，源程序会被翻译成一个个指令（opcodes）， 然后zend虚拟机顺次执行这些指令完成操作。php本身是用c实现的，因此最终调用的也是c的函数。
 php的执行核心是翻译出来的一条条指令，即opcode。
 opcode是php程序执行的最基本单位。一个opcode由两个参数（op1,op2）、返回值和处理函数组成。php程序最终被翻译成一组opcode处理函数的顺序执行。
 zend引擎 zend引擎作为php的内核，有很多经典的设计机制，主要有以下几个：
 实现hashTable数据结构： hashTable是zend的核心数据结构。几乎用来实现所有常见功能。
 zend hash table实现了典型的hash表散列结构,同时通过附加一个双向链表，提供了正向、反向遍历数组的功能。其结构如下：
 在hash table中既有key-&amp;gt;value形式的散列结构，也有双向链表模式，使得它能够非常方便的支持快速查找和线性遍历
-  散列结构：Zend的散列结构是典型的hash表模型，通过链表的方式来解决冲突。需要注意的是zend的hash table是一个自增长的数据结构， 当hash表数目满了之后，其本身会动态以2倍的方式扩容并重新元素位置。初始大小均为8。 另外，在进行 key-&amp;gt;value快速查找时候，zend本身还做了一些优化，通过空间换时间的方式加快速度。 比如在每个元素中都会用一个变量 nKeyLength标识key的长度以作快速判定。
-  双向链表：Zend hash table通过一个链表结构，实现了元素的线性遍历。 理论上，做遍历使用单向链表就够了，之所以使用双向链表，主要目的是为了快速删除，避免遍历。 Zend hash table是一种复合型的结构，作为数组使用时，即支持常见的关联数组也能够作为顺序索引数字来使用，甚至允许2者的混合。
-  PHP关联数组：关联数组是典型的hash_table应用。
-  PHP索引数组：索引数组就是我们常见的数组，通过下标访问。例如 arr[0]，Zend HashTable内部进行了归一化处理，对于index类型key同样分配了hash值和nKeyLength(为0)。内部成员变量 nNextFreeElement就是当前分配到的最大id，每次push后自动加一。正是这种归一化处理，PHP才能够实现关联和非关联的混合。由于 push操作的特殊性，索引key在PHP数组中先后顺序并不是通过下标大小来决定，而是由push的先后决定。
-  php变量实现原理 PHP在变量申明的时候不需要指定类型。PHP在程序运行期间可能进行变量类型的隐示 转换。 和其他强类型语言一样，程序中也可以进行显示的类型转换。PHP变量可以分为简单类型(int、string、bool)、集合类型(array 、resource 、object)和常量(const)。以上所有的变量在底层都是同一种结构 zval</description>
+散列结构：Zend的散列结构是典型的hash表模型，通过链表的方式来解决冲突。需要注意的是zend的hash table是一个自增长的数据结构， 当hash表数目满了之后，其本身会动态以2倍的方式扩容并重新元素位置。初始大小均为8。 另外，在进行 key-&amp;gt;value快速查找时候，zend本身还做了一些优化，通过空间换时间的方式加快速度。 比如在每个元素中都会用一个变量 nKeyLength标识key的长度以作快速判定。
+双向链表：Zend hash table通过一个链表结构，实现了元素的线性遍历。 理论上，做遍历使用单向链表就够了，之所以使用双向链表，主要目的是为了快速删除，避免遍历。 Zend hash table是一种复合型的结构，作为数组使用时，即支持常见的关联数组也能够作为顺序索引数字来使用，甚至允许2者的混合。
+PHP关联数组：关联数组是典型的hash_table应用。
+PHP索引数组：索引数组就是我们常见的数组，通过下标访问。例如 arr[0]，Zend HashTable内部进行了归一化处理，对于index类型key同样分配了hash值和nKeyLength(为0)。内部成员变量 nNextFreeElement就是当前分配到的最大id，每次push后自动加一。正是这种归一化处理，PHP才能够实现关联和非关联的混合。由于 push操作的特殊性，索引key在PHP数组中先后顺序并不是通过下标大小来决定，而是由push的先后决定。
+php变量实现原理 PHP在变量申明的时候不需要指定类型。PHP在程序运行期间可能进行变量类型的隐示 转换。 和其他强类型语言一样，程序中也可以进行显示的类型转换。PHP变量可以分为简单类型(int、string、bool)、集合类型(array 、resource 、object)和常量(const)。以上所有的变量在底层都是同一种结构 zval
+Zval是zend中另一个非常重要的数据结构，用来标识并实现PHP变量，其数据结构如下
+zval结构主要分三部分：
+type ： 指定了变量所述的类型（整数、字符串、数组等） refcount&amp;amp;is_ref：用来实现引用计数 value：核心部分，存储了变量的实际数据 Zvalue：是用来保存一个变量的实际数据的，因为要存储多种类型，所以zvalue是一个union，也由此实现了弱类型。 整数、浮点数变量 整数、浮点数是PHP中的基础类型之一，也是一个简单型变量。对于整数和浮点数，在zvalue中直接存储对应的值。其类型分别是long和double。 从zvalue结构中可以看出，对于整数类型，和c等强类型语言不同，PHP是不区分int、unsigned int、long、long long等类型的，对它来说，整数只有一种类型也就是long。由此，可以看出，在PHP里面，整数的取值范围是由编译器位数来决定而不是固定不变的。 对于浮点数，类似整数，它也不区分float和double而是统一只有double一种类型。</description>
     </item>
     
   </channel>

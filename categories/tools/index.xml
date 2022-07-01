@@ -13,7 +13,7 @@
       <pubDate>Wed, 09 Dec 2020 04:08:48 +0800</pubDate>
       
       <guid>https://realjf.io/tools/multi-delete-remote-branch/</guid>
-      <description>批量删除本地分支 git branch -a| grep -v -E &amp;#39;master|develop&amp;#39; | xargs git branch -D # -v 排除 # -E 使用正则表达式 批量删除远程分支 # 方法一 git branch -r | grep -v -E &amp;#39;master|dev&amp;#39; | sed &amp;#39;s/origin\///g&amp;#39; | xargs -I {} git push origin :{} # -I {} 使用占位符来构造后面的命令 # 保留master和dev远程分支  # 方法二 git branch -r| awk -F &amp;#39;[/]&amp;#39; &amp;#39;/origin\/dev/ {printf &amp;#34;%s\n&amp;#34;, $2}&amp;#39; |xargs -I{} git push origin :{}  # 方法三 git branch -r| grep -E &amp;#39;develop_|fix_&amp;#39; |xargs -I{} git push origin :{} </description>
+      <description>批量删除本地分支 git branch -a| grep -v -E &amp;#39;master|develop&amp;#39; | xargs git branch -D # -v 排除 # -E 使用正则表达式 批量删除远程分支 # 方法一 git branch -r | grep -v -E &amp;#39;master|dev&amp;#39; | sed &amp;#39;s/origin\///g&amp;#39; | xargs -I {} git push origin :{} # -I {} 使用占位符来构造后面的命令 # 保留master和dev远程分支 # 方法二 git branch -r| awk -F &amp;#39;[/]&amp;#39; &amp;#39;/origin\/dev/ {printf &amp;#34;%s\n&amp;#34;, $2}&amp;#39; |xargs -I{} git push origin :{} # 方法三 git branch -r| grep -E &amp;#39;develop_|fix_&amp;#39; |xargs -I{} git push origin :{} </description>
     </item>
     
   </channel>

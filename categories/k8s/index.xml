@@ -6,15 +6,29 @@
     <description>Recent content in k8s on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Apr 2021 10:07:28 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Jul 2022 15:00:11 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>构建一个基础K8s Operator| Build and Deploy a Basic Operator</title>
+      <link>https://realjf.io/k8s/k8s-build-and-deploy-a-basic-operator/</link>
+      <pubDate>Fri, 01 Jul 2022 15:00:11 +0800</pubDate>
+      
+      <guid>https://realjf.io/k8s/k8s-build-and-deploy-a-basic-operator/</guid>
+      <description>准备 linux系统 go开发环境 operator sdk 包括： operator-sdk 命令行界面（CLI）工具和SDK方便了算子的开发。 operator lifecycle manager 这有助于集群内操作员的安装、升级和基于角色的访问控制 (RBAC) kubernetes 集群，可以使用minikube之类的工具在本地安装一个单机集群 镜像仓库 golang开发环境安装 golang下载
+kubernetes集群安装 你需要的配置
+2核以上cpu 2GB以上内存 20GB以上的磁盘空间 docker 下载安装 需要提前关闭swap分区
+# 关闭swap分区 swapoff -a # 修改/etc/fstab挂载的swap，注释swap挂载即可 reboot # 检查swap状态 free -h # 如果swap一行全部为0则为关闭 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube 运行集群 minikube start 参考minikube安装
+operator sdk 安装 git clone https://github.com/operator-framework/operator-sdk cd operator-sdk git checkout master make install 可以参考operator sdk安装
+构建kubernetes operator 第一步：生成样板代码 首先，运行minikube start运行本地集群</description>
+    </item>
+    
     <item>
       <title>使用kubeadm工具安装 kubernetes Use Kubeadm Install K8s</title>
       <link>https://realjf.io/k8s/kubeadm-install-k8s/</link>
       <pubDate>Tue, 20 Apr 2021 10:07:28 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/kubeadm-install-k8s/</guid>
-      <description>环境准备  centos-7 x86_64 2009 vmware 16 虚拟机 kubernetes: v1.21.0 docker-ce: 20.10.5 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB  请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
-# 关闭防火墙 sed -ri &amp;#39;s#(SELINUX=).*#\1disabled#&amp;#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld  # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功 docker-ce安装
+      <description>环境准备 centos-7 x86_64 2009 vmware 16 虚拟机 kubernetes: v1.21.0 docker-ce: 20.10.5 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB 请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
+# 关闭防火墙 sed -ri &amp;#39;s#(SELINUX=).*#\1disabled#&amp;#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功 docker-ce安装
 # 安装yum源 yum install -y wget &amp;amp;&amp;amp; wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo # 安装docker yum install docker-ce # 设置开机自启 systemctl enable docker &amp;amp;&amp;amp; systemctl start docker docker version 第一步：安装kubeadm和相关工具 官网yum源：https://packages.</description>
     </item>
     
@@ -29,10 +43,10 @@ Operator 模式旨在捕获（正在管理一个或一组服务的）运维人�
 在 Kubernetes 上运行工作负载的人们都喜欢通过自动化来处理重复的任务。 Operator 模式会封装你编写的（Kubernetes 本身提供功能以外的）任务自动化代码。
 Operator 是 Kubernetes API 的客户端，充当定制资源的控制器。
 使用operator可以自动化的事情：
- 按需部署应用 获取/还原应用状态的备份 处理应用代码的升级以及相关改动。例如，数据库 schema 或额外的配置设置 发布一个 service，要求不支持 Kubernetes API 的应用也能发现它 模拟整个或部分集群中的故障以测试其稳定性 在没有内部成员选举程序的情况下，为分布式应用选择首领角色  部署 Operator 最常见的方法是将自定义资源及其关联的控制器添加到你的集群中。 跟运行容器化应用一样，控制器通常会运行在 控制平面 之外。
+按需部署应用 获取/还原应用状态的备份 处理应用代码的升级以及相关改动。例如，数据库 schema 或额外的配置设置 发布一个 service，要求不支持 Kubernetes API 的应用也能发现它 模拟整个或部分集群中的故障以测试其稳定性 在没有内部成员选举程序的情况下，为分布式应用选择首领角色 部署 Operator 最常见的方法是将自定义资源及其关联的控制器添加到你的集群中。 跟运行容器化应用一样，控制器通常会运行在 控制平面 之外。
 部署 Operator 后，你可以对 Operator 所使用的资源执行添加、修改或删除操作。
 编写自己的operator 以下是一些库和工具，你可以用于编写自己的云原生operator
- kubebuilder https://book.kubebuilder.io/ KUDO https://kudo.dev/ Metacontroller https://metacontroller.app/ Operator Framework https://operatorframework.io/  当然也可以在OperatorHub.io上找到现成的、适合你的operator</description>
+kubebuilder https://book.kubebuilder.io/ KUDO https://kudo.dev/ Metacontroller https://metacontroller.app/ Operator Framework https://operatorframework.io/ 当然也可以在OperatorHub.io上找到现成的、适合你的operator</description>
     </item>
     
     <item>
@@ -42,11 +56,11 @@ Operator 是 Kubernetes API 的客户端，充当定制资源的控制器。
       
       <guid>https://realjf.io/k8s/minikube-start/</guid>
       <description>使用Minikube部署本地k8s集群相对比较简单，非常推荐将其用于本地k8s开发环境，唯一麻烦点的仅仅是网络问题
-实验环境  CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2  什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
+实验环境 CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2 什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
 Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！
 minikube安装 可以参考minikube 安装的网站minikube安装
-# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm  # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb  # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
-安装docker yum update yum install docker -y systemctl enable docker systemctl start docker  # 检查docker版本 docker version  # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
+# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
+安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
     </item>
     
   </channel>

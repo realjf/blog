@@ -18,8 +18,10 @@
 有关这个概念的更全面的介绍，请参阅scopes简介博客文章
 语法示例 先来看下以下示例
 { scopeName = &amp;#39;source.untitled&amp;#39;; fileTypes = (); foldingStartMarker = &amp;#39;\{\s*$&amp;#39;; foldingStopMarker = &amp;#39;^\s*\}&amp;#39;; patterns = ({ name = &amp;#39;keyword.control.untitled&amp;#39;; match = &amp;#39;\b(if|while|for|return)\b&amp;#39;; }, { name = &amp;#39;string.quoted.double.untitled&amp;#39;; begin = &amp;#39;&amp;#34;&amp;#39;; end = &amp;#39;&amp;#34;&amp;#39;; patterns = ({ name = &amp;#39;constant.character.escape.untitled&amp;#39;; match = &amp;#39;\\.&amp;#39;; }); }, ); } 格式是属性列表格式，在根级别有五个键/值对：
-  scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例， 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source， 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails. 从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。
-  fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项， 那么TextMate就会记住用户选择。</description>
+scopeName(第1行)：这应该是语法的唯一名称，遵循一个点分隔名称的惯例， 其中每个新的（最左边的）部分专门指定名称。通常它是由两部分组成的名称，第一部分是text或source， 第二部分是语言或文档类型的名称。但是，如果要专门化一个现有类型，则可能需要从所专门化的类型派生名称。 例如，Markdown是text.html.markdown而ruby on rails（rhtml文件）则是text.html.rails. 从（在这种情况下）得到它的好处，text.html这就是在text.html域也将在text.html.«something»域（但优先级低于特定目标text.html.«something»）。
+fileTypes(第2行)：这是一个文件类型扩展名的数组，语法应该（默认情况下）与之一起使用。 当TextMate不知道用户打开的文件要使用什么语法时，就会引用它。但是，如果用户在TextMate的状态栏中选择了一个语法选项， 那么TextMate就会记住用户选择。
+foldingStartMarker/foldingStopMarker(第3-4行)：这些是（文档中）行匹配的正则表达式。 如果一行匹配其中一个模式（但不是两个模式），它将成为折叠标记（有关更多信息，请参阅foldings部分）。
+patterns(第5-18行)：这是一个数组，其中包含用于解析文档的实际规则。 在这个例子中有两个规则（第6-8行和第9-17行）。规则将在下一节中解释。</description>
     </item>
     
     <item>
@@ -30,16 +32,17 @@
       <guid>https://realjf.io/vscode/publishing-vscode-extensions/</guid>
       <description>一旦你制作了高质量的扩展，你就能发布到vscode 扩展市场，以便让其他人可以找到并下载使用你的扩展， 你可以打包扩展为可安装的VSIX格式并与其他人分享
 本节将包括以下内容：
- 使用vsce，这个是管理VS Code扩展的CLI工具 打包、发布以及取消发布扩展 注册一个发布者id用于发布扩展  vsce vsce，是Visual Studio Code Extensions的简称，是一个打包，发布和管理vscode扩展的命令行工具
+使用vsce，这个是管理VS Code扩展的CLI工具 打包、发布以及取消发布扩展 注册一个发布者id用于发布扩展 vsce vsce，是Visual Studio Code Extensions的简称，是一个打包，发布和管理vscode扩展的命令行工具
 安装 请确保你已经安装了node.js
 npm install -g vsce 使用 cd myExtension vsce package # myExtension.vsix generated vsce publish # &amp;lt;publisherID&amp;gt;.myExtension published to VS Code MarketPlace 更多的命令请使用vsce &amp;ndash;help查看
-发布扩展  由于安全考虑，vsce不会发布包含用户提供的svg图片的扩展
- 发布工具检查如下内容：
- package.json中提供的icon图标可能不是一个svg package.json中提供的徽章可能不是svg，除非他们来自可信的徽章提供商 README.md和CHANGELOG.md中的图片地址需要处理成https路径 README.md中和CHANGELOG.md中的图片可能不是svg除非他们来自可信的徽章提供商  visualstudio代码利用Azure DevOps提供其Marketplace服务。 这意味着扩展的身份验证、托管和管理是通过azuredevops提供的。
+发布扩展 由于安全考虑，vsce不会发布包含用户提供的svg图片的扩展
+发布工具检查如下内容：
+package.json中提供的icon图标可能不是一个svg package.json中提供的徽章可能不是svg，除非他们来自可信的徽章提供商 README.md和CHANGELOG.md中的图片地址需要处理成https路径 README.md中和CHANGELOG.md中的图片可能不是svg除非他们来自可信的徽章提供商 visualstudio代码利用Azure DevOps提供其Marketplace服务。 这意味着扩展的身份验证、托管和管理是通过azuredevops提供的。
 vsce只能使用Personal access tokens发布扩展。要发布扩展，至少需要创建一个，
 获取个人access token 首先，确保你有Azure DevOps组织
-  在下面的示例中，组织的名称是realjf。从组织的主页（例如：https://dev.azure.com/realjf)下一步， 打开“个人图像设置”下拉菜单，选择Personal access tokens：
-  在Personal Access Tokens页面，点击New Token创建一个新的Personal Access Token</description>
+在下面的示例中，组织的名称是realjf。从组织的主页（例如：https://dev.azure.com/realjf)下一步， 打开“个人图像设置”下拉菜单，选择Personal access tokens：
+在Personal Access Tokens页面，点击New Token创建一个新的Personal Access Token
+给Personal Access Token命名，选择所有organization可用，过期日期自定义选择一年，然后往下选择custom defined域规则，并点击Show all scopes显示所有域</description>
     </item>
     
     <item>
@@ -50,7 +53,7 @@ vsce只能使用Personal access tokens发布扩展。要发布扩展，至少需
       <guid>https://realjf.io/vscode/language-extension-syntax-highlight/</guid>
       <description>简介 语法高亮显示确定在VisualStudio代码编辑器中显示的源代码的颜色和样式。 它负责在JavaScript中为if或for等关键字着色，这与字符串、注释和变量名不同
 语法高亮有两个组件：
- Tokenization：符号化，将文本拆分为符号列表 Theming：支持主题，使用主题或用户设置将符号映射到特定的颜色和样式  在深入讨论细节之前，一个好的开始是使用scopeinspector工具并探索源文件中存在哪些标记以及它们与哪些主题规则匹配。 要同时查看语义和语法标记，请在TypeScript文件中使用内置主题（例如，Dark+）
+Tokenization：符号化，将文本拆分为符号列表 Theming：支持主题，使用主题或用户设置将符号映射到特定的颜色和样式 在深入讨论细节之前，一个好的开始是使用scopeinspector工具并探索源文件中存在哪些标记以及它们与哪些主题规则匹配。 要同时查看语义和语法标记，请在TypeScript文件中使用内置主题（例如，Dark+）
 符号化 文本的符号化是将文本分成若干段，并用标记类型对每个段进行分类。
 VS代码的标记化引擎由TextMate语法驱动。TextMate语法是正则表达式的结构化集合， 以plist（XML）或JSON文件的形式编写。 语法扩展可以通过语法贡献点的贡献。
 TextMate符号化引擎在与呈现器相同的进程中运行，标记会随着用户类型的变化而更新。 标记用于语法高亮显示，但也用于将源代码分类为注释、字符串和正则表达式区域。
@@ -66,7 +69,7 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
 父范围信息也用于创建主题。当主题以某个范围为目标时，所有具有该父作用域的标记都将被着色， 除非该主题还为其各自的作用域提供了更具体的着色
 添加 基本语法 VS代码支持json TextMate语法。这些都是通过grammars贡献点贡献的。
 每个语法贡献都指定：语法应用于的语言的标识符、语法标记的顶级作用域名称以及语法文件的相对路径。 下面的示例显示了虚构的abc语言的语法贡献：
-{  &amp;#34;contributes&amp;#34;: {  &amp;#34;languages&amp;#34;: [  {  &amp;#34;id&amp;#34;: &amp;#34;abc&amp;#34;,  &amp;#34;extensions&amp;#34;: [&amp;#34;.abc&amp;#34;]  }  ],  &amp;#34;grammars&amp;#34;: [  {  &amp;#34;language&amp;#34;: &amp;#34;abc&amp;#34;,  &amp;#34;scopeName&amp;#34;: &amp;#34;source.</description>
+{ &amp;#34;contributes&amp;#34;: { &amp;#34;languages&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;extensions&amp;#34;: [&amp;#34;.abc&amp;#34;] } ], &amp;#34;grammars&amp;#34;: [ { &amp;#34;language&amp;#34;: &amp;#34;abc&amp;#34;, &amp;#34;scopeName&amp;#34;: &amp;#34;source.</description>
     </item>
     
     <item>
@@ -75,8 +78,8 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
       <pubDate>Tue, 24 Nov 2020 11:33:17 +0800</pubDate>
       
       <guid>https://realjf.io/vscode/vscode-extension-wrapping-up/</guid>
-      <description>扩展的能力  VS Code APIs Contribution Points  详见扩展的能力
-指南和例子  Extension Guide Listing vscode-extension-example  测试和发布  如何在你的扩展中添加集成测试 如何发布你的扩展到vs code市场 如何为你的扩展建立持续集成  </description>
+      <description>扩展的能力 VS Code APIs Contribution Points 详见扩展的能力
+指南和例子 Extension Guide Listing vscode-extension-example 测试和发布 如何在你的扩展中添加集成测试 如何发布你的扩展到vs code市场 如何为你的扩展建立持续集成 </description>
     </item>
     
     <item>
@@ -86,8 +89,8 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
       
       <guid>https://realjf.io/vscode/vscode-extension-anatomy/</guid>
       <description>在上一节中我们创建了一个hello world扩展，那么他的工作原理是什么呢？
- 注册onCommand激活事件：onCommand:extension.helloWorld，以便在用户运行Hello World命令时，扩展可激活 使用 contributes.commands Contribution Point使命令Hello World在命令调色板中可用，并且绑定一个命令id:extension.helloWorld 使用commands.registerCommand vscode api去绑定一个已经被extension.helloWorld的命令id注册的函数绑定  这里需要理解以下概念
- Activation Event：设置扩展激活的时机。位于 package.json 中。 Contribution Point：设置在 VSCode 中哪些地方添加新功能，也就是这个扩展增强了哪些功能。位于 package.json 中。 Register：在 extension.ts 中给要写的功能用 vscode.commands.register&amp;hellip; 给 Activation Event 或 Contribution Point 中配置的事件绑定方法或者设置监听器。位于入口文件（默认是 extension.ts）的 activate() 函数中。 VS Code API：你可以在扩展代码中调用的javascript api功能集合  扩展文件结构 . ├── .vscode │ ├── launch.json // Config for launching and debugging the extension │ └── tasks.json // Config for build task that compiles TypeScript ├── .</description>
+注册onCommand激活事件：onCommand:extension.helloWorld，以便在用户运行Hello World命令时，扩展可激活 使用 contributes.commands Contribution Point使命令Hello World在命令调色板中可用，并且绑定一个命令id:extension.helloWorld 使用commands.registerCommand vscode api去绑定一个已经被extension.helloWorld的命令id注册的函数绑定 这里需要理解以下概念
+Activation Event：设置扩展激活的时机。位于 package.json 中。 Contribution Point：设置在 VSCode 中哪些地方添加新功能，也就是这个扩展增强了哪些功能。位于 package.json 中。 Register：在 extension.ts 中给要写的功能用 vscode.commands.register&amp;hellip; 给 Activation Event 或 Contribution Point 中配置的事件绑定方法或者设置监听器。位于入口文件（默认是 extension.ts）的 activate() 函数中。 VS Code API：你可以在扩展代码中调用的javascript api功能集合 扩展文件结构 . ├── .vscode │ ├── launch.json // Config for launching and debugging the extension │ └── tasks.json // Config for build task that compiles TypeScript ├── .gitignore // Ignore build output and node_modules ├── README.</description>
     </item>
     
     <item>
@@ -96,8 +99,8 @@ TextMate标记和作用域 标记是同一程序元素的一个或多个字符�
       <pubDate>Tue, 24 Nov 2020 10:18:41 +0800</pubDate>
       
       <guid>https://realjf.io/vscode/your-first-vscode-extension/</guid>
-      <description>准备  node.js git  安装yeoman和vscode扩展生成器 npm install -g yo generator-code 用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
-yo code  ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
+      <description>准备 node.js git 安装yeoman和vscode扩展生成器 npm install -g yo generator-code 用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
+yo code ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use? npm create helloworld\.</description>
     </item>
     
     <item>
@@ -106,7 +109,7 @@ yo code  ? What type of extension do you want to create? New Extension (TypeScri
       <pubDate>Mon, 14 Sep 2020 17:08:59 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vscode-win-php-setting/</guid>
-      <description>准备  windows10 系统 vscode xampp  首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
+      <description>准备 windows10 系统 vscode xampp 首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
 当然如果你能翻墙，可以直接访问xampp官网下载
 下载完成后安装，安装完成后，将xampp/php/php.exe加入系统路径, 在terminal中执行php -v验证是否成功
 下载xdebug插件 下载地址：https://xdebug.org/download
@@ -115,10 +118,10 @@ yo code  ? What type of extension do you want to create? New Extension (TypeScri
 将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改 xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
 vscode下载安装 下载vscode：https://code.visualstudio.com/
 下载安装完成后，需要安装一些扩展插件
- bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer  按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
+bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer 按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
 &amp;#34;php.validate.executablePath&amp;#34;: &amp;#34;E:\\xampp\\php\\php.exe&amp;#34; 配置好这些后，启动xampp的apache服务器
 准备好后开始测试 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
-&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt;在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
+&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt; 在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
     </item>
     
     <item>
@@ -127,9 +130,9 @@ vscode下载安装 下载vscode：https://code.visualstudio.com/
       <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
-      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
- 开始配置vscode 首先打开vscode，安装一下插件  ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;quot;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
-开始编辑c_cpp_properties.json文件 {  &amp;#34;configurations&amp;#34;: [  {  &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;,  &amp;#34;includePath&amp;#34;: [  &amp;#34;${workspaceFolder}/**&amp;#34;,  &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录  ],  &amp;#34;defines&amp;#34;: [  &amp;#34;_DEBUG&amp;#34;,  &amp;#34;UNICODE&amp;#34;,  &amp;#34;_UNICODE&amp;#34;  ],  &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.</description>
+      <description>前期准备 win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017 本次c++开发项目主要依赖于cmake和visual studio作为编译工具
+开始配置vscode 首先打开vscode，安装一下插件 ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner 然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;quot;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
+开始编辑c_cpp_properties.json文件 { &amp;#34;configurations&amp;#34;: [ { &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;, &amp;#34;includePath&amp;#34;: [ &amp;#34;${workspaceFolder}/**&amp;#34;, &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录 ], &amp;#34;defines&amp;#34;: [ &amp;#34;_DEBUG&amp;#34;, &amp;#34;UNICODE&amp;#34;, &amp;#34;_UNICODE&amp;#34; ], &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.0.15063.0&amp;#34;, &amp;#34;compilerPath&amp;#34;: &amp;#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;#34;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;#34;cStandard&amp;#34;: &amp;#34;c11&amp;#34;, &amp;#34;cppStandard&amp;#34;: &amp;#34;c++17&amp;#34;, &amp;#34;intelliSenseMode&amp;#34;: &amp;#34;gcc-x64&amp;#34; // 这里是模式选择 } ], &amp;#34;version&amp;#34;: 4 } 配置完成后，在vscode的工作目录下有个.vscode文件夹 里面会有c_cpp_properties.</description>
     </item>
     
   </channel>

@@ -13,14 +13,14 @@
       <pubDate>Wed, 04 Nov 2020 09:24:08 +0800</pubDate>
       
       <guid>https://realjf.io/devtools/how-to-use-cmake/</guid>
-      <description>准备  cmake   下载地址：https://cmake.org/download/
- 安装 具体的安装方法参照官网，这里不做赘述
+      <description>准备 cmake 下载地址：https://cmake.org/download/
+安装 具体的安装方法参照官网，这里不做赘述
 建议 cmake每次运行会产生大量中间文件，可以通过在项目根目录下创建build文件，然后运行cmake ../执行项目构建
 cmake命令行选项 指定构建系统生成器： -G 使用-G可以指定编译器，当前平台支持的编译器名称可以通过帮助手册查询cmake &amp;ndash;help，
-# 使用vs2017构建工程 cmake -G &amp;#34;Visual Studio 15 2017&amp;#34; ../ # 使用MinGW  cmake -G &amp;#34;MinGW Makefiles&amp;#34; # 使用unix makefiles cmake -G &amp;#34;Unix Makefiles&amp;#34; CMakeCache.txt文件   当cmake第一次运行一个空的构建的时候，他会创建一个CMakeCache.txt文件， 文件里存放了一些可以用来制定工程的项目，比如：变量、选项等
-  对于同一变量，如果cache文件里面有设置，那么CMakeLists文件里就会优先使用Cache文件里面的同名变量。
-  CMakeLists里面通过设置了一个Cache里面没有的变量，那么就将这个变量的值写入到Cache里面
-  添加变量到cache文件中： -D  注意：-D后面不能有空格，如：cmake -DCMAKE_BUILD_TYPE:STRING=Debug  从Cache文件中删除变量：-U  此选项和-D功能相反，从Cache文件中删除变量，支持使用*和？通配符  cmake命令行模式：-E  cmake提供了很多和平台无关的命令，在任何平台都可以使用：chdir, copy,copy_if_different等 可以使用：cmake -D help进行查询  打印运行的每一行cmake  命令行选项中：&amp;ndash;trace，将打印运行的每一行cmake 命令：&amp;ndash;trace-source=&amp;ldquo;filename&amp;rdquo; 就会打印出有关filename的执行  设置编译参数  add_definitions (-DENABLED)，当在cmake里面添加该定义的时候，如果代码里面定义了#ifdef ENABLED #endif 相关的片段，此时代码里面这一块代码就会生效 //add_definitions(&amp;quot;-Wall -ansi -pedantic -g&amp;quot;) 该命令现已经被取代，使用：add_compile_definitions(WITH_OPENCV2)  设置默认值命令：option  option命令可以帮助我们设置一个自定义的宏，如：option(MY-MESSAGE &amp;ldquo;this is my message&amp;rdquo; ON) 第一个参数就是我们要设置的默认值的名字 第二个参数是对值的解释，类似于注释 第三个值是这个默认值的值，如果没有声明，cmake默认的是OFF 使用：设置好之后我们在命令行去使用的时候，也可以去给他设定值：cmake -DMY-MESSAGE=on .</description>
+# 使用vs2017构建工程 cmake -G &amp;#34;Visual Studio 15 2017&amp;#34; ../ # 使用MinGW cmake -G &amp;#34;MinGW Makefiles&amp;#34; # 使用unix makefiles cmake -G &amp;#34;Unix Makefiles&amp;#34; CMakeCache.txt文件 当cmake第一次运行一个空的构建的时候，他会创建一个CMakeCache.txt文件， 文件里存放了一些可以用来制定工程的项目，比如：变量、选项等
+对于同一变量，如果cache文件里面有设置，那么CMakeLists文件里就会优先使用Cache文件里面的同名变量。
+CMakeLists里面通过设置了一个Cache里面没有的变量，那么就将这个变量的值写入到Cache里面
+添加变量到cache文件中： -D 注意：-D后面不能有空格，如：cmake -DCMAKE_BUILD_TYPE:STRING=Debug 从Cache文件中删除变量：-U 此选项和-D功能相反，从Cache文件中删除变量，支持使用*和？通配符 cmake命令行模式：-E cmake提供了很多和平台无关的命令，在任何平台都可以使用：chdir, copy,copy_if_different等 可以使用：cmake -D help进行查询 打印运行的每一行cmake 命令行选项中：&amp;ndash;trace，将打印运行的每一行cmake 命令：&amp;ndash;trace-source=&amp;ldquo;filename&amp;rdquo; 就会打印出有关filename的执行 设置编译参数 add_definitions (-DENABLED)，当在cmake里面添加该定义的时候，如果代码里面定义了#ifdef ENABLED #endif 相关的片段，此时代码里面这一块代码就会生效 //add_definitions(&amp;quot;-Wall -ansi -pedantic -g&amp;quot;) 该命令现已经被取代，使用：add_compile_definitions(WITH_OPENCV2) 设置默认值命令：option option命令可以帮助我们设置一个自定义的宏，如：option(MY-MESSAGE &amp;ldquo;this is my message&amp;rdquo; ON) 第一个参数就是我们要设置的默认值的名字 第二个参数是对值的解释，类似于注释 第三个值是这个默认值的值，如果没有声明，cmake默认的是OFF 使用：设置好之后我们在命令行去使用的时候，也可以去给他设定值：cmake -DMY-MESSAGE=on .</description>
     </item>
     
     <item>
@@ -46,7 +46,7 @@ Vagrant.require_version &amp;#34;&amp;gt;= 1.3.5&amp;#34;, &amp;#34;&amp;lt; 1.4
       <pubDate>Tue, 29 Sep 2020 05:29:26 +0800</pubDate>
       
       <guid>https://realjf.io/devtools/install-vagrant/</guid>
-      <description>准备环境  kali 2020  安装 apt update apt install vagrant  # 测试是否安装成功 vagrant --version </description>
+      <description>准备环境 kali 2020 安装 apt update apt install vagrant # 测试是否安装成功 vagrant --version </description>
     </item>
     
     <item>
@@ -55,7 +55,7 @@ Vagrant.require_version &amp;#34;&amp;gt;= 1.3.5&amp;#34;, &amp;#34;&amp;lt; 1.4
       <pubDate>Mon, 30 Sep 2019 21:57:15 +0800</pubDate>
       
       <guid>https://realjf.io/devtools/makefile-rule/</guid>
-      <description>基本语法 target1 target2 target3: prerequisite1 prerequisite2  command1  command2  command3 冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
+      <description>基本语法 target1 target2 target3: prerequisite1 prerequisite2 command1 command2 command3 冒号的左边可以出现一个或多个工作目标，而冒号的右边可以出现零个或多个必要条件。 如果冒号的右边没有指定必要条件，那么只有在工作目标所代表的文件不存在时才会进行更新的动作。
 每个命令必须以跳格符开头，这个语法用来要求make将紧跟在跳格符之后的内容传给subshell来执行。
 make会将#号视为注释字符，从井号开始到该行结束之间的所有文字都会被make忽略。你可以使用反斜线，来延续过长的文本行。
 规则 </description>
@@ -68,7 +68,7 @@ make会将#号视为注释字符，从井号开始到该行结束之间的所有
       
       <guid>https://realjf.io/devtools/sublimetext/</guid>
       <description>sublime text官网http://www.sublimetext.com
- 安装 install the GPG key wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add - 确保apt工作在http源 apt-get install apt-transport-https 选择安装渠道 稳定版本
+安装 install the GPG key wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add - 确保apt工作在http源 apt-get install apt-transport-https 选择安装渠道 稳定版本
 echo &amp;#34;deb https://download.sublimetext.com/ apt/stable/&amp;#34; | sudo tee /etc/apt/sources.list.d/sublime-text.list 开发版本
 echo &amp;#34;deb https://download.sublimetext.com/ apt/dev/&amp;#34; | sudo tee /etc/apt/sources.list.d/sublime-text.list 更新源并安装 apt-get update apt-get install sublime-text 安装常用插件 1. 安装Package Control 请参考网址Install Package Control
 2. 常用插件 ConvertToUTF8 功能：能将除UTF8编码之外的其他编码文件在 Sublime Text 中转换成UTF8编码，在打开文件的时候一开始会显示乱码，然后一刹那就自动显示出正常的字体，当然，在保存文件之后原文件的编码格式不会改变

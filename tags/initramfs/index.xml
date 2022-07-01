@@ -14,7 +14,7 @@
       
       <guid>https://realjf.io/linux/fix-initramfs-uuid-does-not-exist/</guid>
       <description>背景 我的系统是安装在raid10的磁盘阵列上的，由于之前磁盘写保护的问题，导致系统无法关机，于是我直接关电源，重启后， 能进入引导程序，之后却无法进入系统，停留在initramfs界面上，输入exit，提示是uuid &amp;lsquo;xxxxx&amp;rsquo; does not exist
-# 查看磁盘阵列的情况 mdadm -D /dev/md0 # 显示的是磁盘阵列的所有工作设备全部状态显示为removed # 我的磁盘工作设备包括：sdb1,sdc1,sdd1,sde1 # 空闲设备：sdf1 显示正在rebuilding 解决 # 停止 mdadm --stop /dev/md0  # 重新恢复磁盘阵列 mdadm --assemble --run /dev/md0 /dev/{sdb1,sdc1,sdd1,sde1} # 之后显示所有设备添加成功，重新查看磁盘阵列情况 mdadm -D /dev/md0 # 显示磁盘阵列已在工作中 exit # 退出initramfs，并进入系统命令行模式，直接运行startx可以进入图形界面，或者直接运行cat /proc/mdstat可以查看当前的磁盘阵列同步情况 # 直到resync同步完成后，方可重启系统，一切恢复正常 </description>
+# 查看磁盘阵列的情况 mdadm -D /dev/md0 # 显示的是磁盘阵列的所有工作设备全部状态显示为removed # 我的磁盘工作设备包括：sdb1,sdc1,sdd1,sde1 # 空闲设备：sdf1 显示正在rebuilding 解决 # 停止 mdadm --stop /dev/md0 # 重新恢复磁盘阵列 mdadm --assemble --run /dev/md0 /dev/{sdb1,sdc1,sdd1,sde1} # 之后显示所有设备添加成功，重新查看磁盘阵列情况 mdadm -D /dev/md0 # 显示磁盘阵列已在工作中 exit # 退出initramfs，并进入系统命令行模式，直接运行startx可以进入图形界面，或者直接运行cat /proc/mdstat可以查看当前的磁盘阵列同步情况 # 直到resync同步完成后，方可重启系统，一切恢复正常 </description>
     </item>
     
     <item>
@@ -23,11 +23,11 @@
       <pubDate>Thu, 20 Feb 2020 22:07:19 +0800</pubDate>
       
       <guid>https://realjf.io/linux/error/boot-into-busybox-initramfs/</guid>
-      <description>首先说下背景  系统环境： debian 9  问题描述1 今天使用vmware workstation的时候，提示操作失败，且提示为文件系统只读。 奇怪？怎么突然进入可读了，猜想可能文件系统哪里损坏导致进入只读保护模式。
+      <description>首先说下背景 系统环境： debian 9 问题描述1 今天使用vmware workstation的时候，提示操作失败，且提示为文件系统只读。 奇怪？怎么突然进入可读了，猜想可能文件系统哪里损坏导致进入只读保护模式。
 所以重新启动，之后进入了busybox界面的Initramfs界面，输入help可以查看相应命令。 我使用exit直接退出看能否重新进入，发现还是提示错误，无法进入
- busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。
- 解决 在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&amp;ndash;vg-root的文件系统， 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&amp;ndash;vg-root， 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&amp;rsquo;y&amp;rsquo;后，提示文件系统修复完成， 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。
-问题描述2 Gave up waiting for root device. Common problems:  - Boot args (cat /proc/cmdline)  - Check rootdelay=(did the system wait for the right device ?)  - Missing modules (cat /proc/modules; ls /dev)  ALERT! /dev/mapper/realjf--vg-root does not exist.  Dropping to a shell!  BusyBox v.1.23.2 (Debian xxx.</description>
+busybox可以提供一个比较完善的shell工具集以及运行环境，同时可以引导程序进入系统。
+解决 在多次尝试重启无果后，重新查看错误提示，提到了/dev/mapper/realjf&amp;ndash;vg-root的文件系统， 可能是文件系统损坏了，所以开始检查修复文件系统：fsck /dev/mapper/realjf&amp;ndash;vg-root， 然后系统开始检查文件系统损坏情况，并尝试进行修复，多次输入&amp;rsquo;y&amp;rsquo;后，提示文件系统修复完成， 然后重新输入exit看是否能重新进入系统，发现已经可以进入系统了。
+问题描述2 Gave up waiting for root device. Common problems: - Boot args (cat /proc/cmdline) - Check rootdelay=(did the system wait for the right device ?) - Missing modules (cat /proc/modules; ls /dev) ALERT! /dev/mapper/realjf--vg-root does not exist. Dropping to a shell! BusyBox v.1.23.2 (Debian xxx. xxx) built-in shell (ash) Enter &amp;#39;help&amp;#39; for list of built-in commands.</description>
     </item>
     
   </channel>

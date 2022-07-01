@@ -1,0 +1,696 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>构建一个基础K8s Operator| Build and Deploy a Basic Operator // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.101.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description"
+        content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    
+    <script src="./js/highlight.pack.js"> </script>
+    
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+            
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+        <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+        
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">构建一个基础K8s Operator| Build and Deploy a Basic Operator</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Jul 1, 2022
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    4 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/k8s/">k8s</a></div></div>
+        </header>
+        <div class="post-content">
+            <h2 id="准备">准备</h2>
+<ul>
+<li>linux系统</li>
+<li>go开发环境</li>
+<li>operator sdk 包括：
+<ul>
+<li>operator-sdk 命令行界面（CLI）工具和SDK方便了算子的开发。</li>
+<li>operator lifecycle manager 这有助于集群内操作员的安装、升级和基于角色的访问控制 (RBAC)</li>
+</ul>
+</li>
+<li>kubernetes 集群，可以使用minikube之类的工具在本地安装一个单机集群</li>
+<li>镜像仓库</li>
+</ul>
+<h3 id="golang开发环境安装">golang开发环境安装</h3>
+<p><a href="https://go.dev/dl/">golang下载</a></p>
+<h3 id="kubernetes集群安装">kubernetes集群安装</h3>
+<p>你需要的配置</p>
+<ul>
+<li>2核以上cpu</li>
+<li>2GB以上内存</li>
+<li>20GB以上的磁盘空间</li>
+<li>docker</li>
+</ul>
+<h4 id="下载安装">下载安装</h4>
+<p>需要提前关闭swap分区</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># 关闭swap分区</span>
+</span></span><span style="display:flex;"><span>swapoff -a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改/etc/fstab挂载的swap，注释swap挂载即可</span>
+</span></span><span style="display:flex;"><span>reboot
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查swap状态</span>
+</span></span><span style="display:flex;"><span>free -h
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果swap一行全部为0则为关闭</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+</span></span><span style="display:flex;"><span>sudo install minikube-linux-amd64 /usr/local/bin/minikube
+</span></span></code></pre></div><h4 id="运行集群">运行集群</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube start
+</span></span></code></pre></div><p>参考<a href="https://minikube.sigs.k8s.io/docs/start/">minikube安装</a></p>
+<h3 id="operator-sdk-安装">operator sdk 安装</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">git</span> <span style="color:#a6e22e">clone</span> <span style="color:#a6e22e">https</span>:<span style="color:#75715e">//github.com/operator-framework/operator-sdk
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">cd</span> <span style="color:#a6e22e">operator</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sdk</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">git</span> <span style="color:#a6e22e">checkout</span> <span style="color:#a6e22e">master</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">make</span> <span style="color:#a6e22e">install</span>
+</span></span></code></pre></div><p>可以参考<a href="https://sdk.operatorframework.io/docs/installation/">operator sdk安装</a></p>
+<h3 id="构建kubernetes-operator">构建kubernetes operator</h3>
+<h4 id="第一步生成样板代码">第一步：生成样板代码</h4>
+<p>首先，运行minikube start运行本地集群</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mkdir -p $GOPATH/src/operators <span style="color:#f92672">&amp;&amp;</span> cd $GOPATH/src/operators
+</span></span><span style="display:flex;"><span>minikube start init
+</span></span></code></pre></div><p>然后运行operator-sdk init生成我们示例应用的样板代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>operator-sdk init
+</span></span></code></pre></div><h4 id="第二步创建api和自定义资源">第二步：创建API和自定义资源</h4>
+<p>在 Kubernetes 中，为您要提供的每个服务公开的功能都组合在一个资源中。因此，当我们为应用程序创建 API 时，我们还通过 CustomResourceDefinition (CRD) 创建它们的资源。
+以下命令创建一个 API 并通过 &ndash;kind 选项将其标记为 Traveler。在该命令创建的 YAML 配置文件中，您可以找到一个标签为 kind 的字段，其值为 Traveller。
+该字段表示在整个开发过程中使用 Traveler 来引用我们的 API：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>operator-sdk create api --version<span style="color:#f92672">=</span>v1alpha1 --kind<span style="color:#f92672">=</span>Traveller
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Create Resource <span style="color:#f92672">[</span>y/n<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>y
+</span></span><span style="display:flex;"><span>Create Controller <span style="color:#f92672">[</span>y/n<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>y
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>我们还要求该命令创建一个控制器来处理与我们的种类相对应的所有操作。定义控制器的文件名为 traveller_controller.go。</p>
+<p>&ndash;version 选项可以采用任何字符串，您可以将其设置为跟踪项目的开发。在这里，我们从一个适度的值开始，表明我们的应用程序处于 alpha 阶段。</p>
+<h4 id="第三步下载依赖">第三步：下载依赖</h4>
+<p>我们的应用程序使用 tidy 模块来删除我们不需要的依赖项，并使用 vendor 模块来整合包。按如下方式安装这些模块：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go mod tidy
+</span></span><span style="display:flex;"><span>go mod vendor
+</span></span></code></pre></div><h4 id="第四步创建deployment">第四步：创建deployment</h4>
+<p>现在我们将在我们的 Kubernetes Operator 保护伞下创建构成容器化应用程序的标准资源
+因为 Kubernetes Operator 会反复运行以协调应用程序的状态，所以将控制器编写为幂等非常重要
+换句话说，控制器可以多次运行代码，而无需创建资源的多个实例
+以下 repo 在文件 controllers/deployment.go 中包含一个用于部署资源的控制器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">controllers</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">appsv1</span> <span style="color:#e6db74">&#34;k8s.io/api/apps/v1&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">corev1</span> <span style="color:#e6db74">&#34;k8s.io/api/core/v1&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/api/errors&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">metav1</span> <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/apis/meta/v1&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/types&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/controller/controllerutil&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/reconcile&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mydomainv1alpha1</span> <span style="color:#e6db74">&#34;operators/api/v1alpha1&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">labels</span>(<span style="color:#a6e22e">v</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">mydomainv1alpha1</span>.<span style="color:#a6e22e">Traveller</span>, <span style="color:#a6e22e">tier</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Fetches and sets labels
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;app&#34;</span>:             <span style="color:#e6db74">&#34;visitors&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;visitorssite_cr&#34;</span>: <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">Name</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;tier&#34;</span>:            <span style="color:#a6e22e">tier</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ensureDeployment ensures Deployment resource presence in given namespace.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TravellerReconciler</span>) <span style="color:#a6e22e">ensureDeployment</span>(<span style="color:#a6e22e">request</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Request</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">instance</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">mydomainv1alpha1</span>.<span style="color:#a6e22e">Traveller</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">dep</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span>,
+</span></span><span style="display:flex;"><span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// See if deployment already exists and create if it doesn&#39;t
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">found</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">NamespacedName</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Name</span>:      <span style="color:#a6e22e">dep</span>.<span style="color:#a6e22e">Name</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Namespace</span>: <span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">Namespace</span>,
+</span></span><span style="display:flex;"><span>	}, <span style="color:#a6e22e">found</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">IsNotFound</span>(<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Create the deployment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">dep</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Deployment failed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Deployment was successful
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Error that isn&#39;t due to the deployment not existing
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// backendDeployment is a code for Creating Deployment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TravellerReconciler</span>) <span style="color:#a6e22e">backendDeployment</span>(<span style="color:#a6e22e">v</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">mydomainv1alpha1</span>.<span style="color:#a6e22e">Traveller</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">labels</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">labels</span>(<span style="color:#a6e22e">v</span>, <span style="color:#e6db74">&#34;backend&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">size</span> <span style="color:#f92672">:=</span> int32(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">dep</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ObjectMeta</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Name</span>:      <span style="color:#e6db74">&#34;hello-pod&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Namespace</span>: <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">Namespace</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Spec</span>: <span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">DeploymentSpec</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Replicas</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">size</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Selector</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">LabelSelector</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">MatchLabels</span>: <span style="color:#a6e22e">labels</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Template</span>: <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">PodTemplateSpec</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ObjectMeta</span>{
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">Labels</span>: <span style="color:#a6e22e">labels</span>,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Spec</span>: <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">PodSpec</span>{
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">Containers</span>: []<span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">Container</span>{{
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">Image</span>:           <span style="color:#e6db74">&#34;paulbouwer/hello-kubernetes:1.10&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">ImagePullPolicy</span>: <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">PullAlways</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">Name</span>:            <span style="color:#e6db74">&#34;hello-pod&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">Ports</span>: []<span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">ContainerPort</span>{{
+</span></span><span style="display:flex;"><span>							<span style="color:#a6e22e">ContainerPort</span>: <span style="color:#ae81ff">8080</span>,
+</span></span><span style="display:flex;"><span>							<span style="color:#a6e22e">Name</span>:          <span style="color:#e6db74">&#34;hello&#34;</span>,
+</span></span><span style="display:flex;"><span>						}},
+</span></span><span style="display:flex;"><span>					}},
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">SetControllerReference</span>(<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">dep</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Scheme</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dep</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="第五步创建service">第五步：创建service</h4>
+<p>因为我们希望我们的部署创建的 pod 可以在我们的系统之外访问，所以我们将一个服务附加到我们刚刚创建的部署。代码在文件 controllers/service.go 中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">controllers</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mydomainv1alpha1</span> <span style="color:#e6db74">&#34;operators/api/v1alpha1&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">appsv1</span> <span style="color:#e6db74">&#34;k8s.io/api/apps/v1&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">corev1</span> <span style="color:#e6db74">&#34;k8s.io/api/core/v1&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/api/errors&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">metav1</span> <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/apis/meta/v1&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/types&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/util/intstr&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/controller/controllerutil&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/reconcile&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ensureService ensures Service is Running in a namespace.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TravellerReconciler</span>) <span style="color:#a6e22e">ensureService</span>(<span style="color:#a6e22e">request</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Request</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">instance</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">mydomainv1alpha1</span>.<span style="color:#a6e22e">Traveller</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">service</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">Service</span>,
+</span></span><span style="display:flex;"><span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// See if service already exists and create if it doesn&#39;t
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">found</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">NamespacedName</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Name</span>:      <span style="color:#a6e22e">service</span>.<span style="color:#a6e22e">Name</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Namespace</span>: <span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">Namespace</span>,
+</span></span><span style="display:flex;"><span>	}, <span style="color:#a6e22e">found</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">IsNotFound</span>(<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Create the service
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">service</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Service creation failed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Service creation was successful
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Error that isn&#39;t due to the service not existing
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// backendService is a code for creating a Service
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TravellerReconciler</span>) <span style="color:#a6e22e">backendService</span>(<span style="color:#a6e22e">v</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">mydomainv1alpha1</span>.<span style="color:#a6e22e">Traveller</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">Service</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">labels</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">labels</span>(<span style="color:#a6e22e">v</span>, <span style="color:#e6db74">&#34;backend&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">service</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">Service</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ObjectMeta</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Name</span>:      <span style="color:#e6db74">&#34;backend-service&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Namespace</span>: <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">Namespace</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Spec</span>: <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">ServiceSpec</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Selector</span>: <span style="color:#a6e22e">labels</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Ports</span>: []<span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">ServicePort</span>{{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Protocol</span>:   <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">ProtocolTCP</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Port</span>:       <span style="color:#ae81ff">80</span>,
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">TargetPort</span>: <span style="color:#a6e22e">intstr</span>.<span style="color:#a6e22e">FromInt</span>(<span style="color:#ae81ff">8080</span>),
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">NodePort</span>:   <span style="color:#ae81ff">30685</span>,
+</span></span><span style="display:flex;"><span>			}},
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">ServiceTypeNodePort</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">SetControllerReference</span>(<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">service</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Scheme</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">service</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="第六步在控制器中添加引用">第六步：在控制器中添加引用</h4>
+<p>这一步让我们的控制器知道部署和服务的存在。它通过编辑 traveller_controller.go 文件的协调循环函数来实现这一点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">appsv1</span> <span style="color:#e6db74">&#34;k8s.io/api/apps/v1&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/api/errors&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/runtime&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/types&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ctrl</span> <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/client&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/log&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/reconcile&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mydomainv1alpha1</span> <span style="color:#e6db74">&#34;operators/api/v1alpha1&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// For more details, check Reconcile and its Result here:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.9.2/pkg/reconcile
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TravellerReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">FromContext</span>(<span style="color:#a6e22e">ctx</span>).<span style="color:#a6e22e">WithValues</span>(<span style="color:#e6db74">&#34;Traveller&#34;</span>, <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">NamespacedName</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Fetch the Traveller instance
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">instance</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">mydomainv1alpha1</span>.<span style="color:#a6e22e">Traveller</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">NamespacedName</span>, <span style="color:#a6e22e">instance</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">IsNotFound</span>(<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Request object not found, could have been deleted after reconcile request.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#75715e">// Owned objects are automatically garbage collected. For additional cleanup logic use finalizers.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#75715e">// Return and don&#39;t requeue
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// Error reading the object - requeue the request.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Check if this Deployment already exists
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">found</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">appsv1</span>.<span style="color:#a6e22e">Deployment</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">TODO</span>(), <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">NamespacedName</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">Namespace</span>: <span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">Namespace</span>}, <span style="color:#a6e22e">found</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">reconcile</span>.<span style="color:#a6e22e">Result</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ensureDeployment</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">instance</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">backendDeployment</span>(<span style="color:#a6e22e">instance</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Deployment Not ready&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Check if this Service already exists
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ensureService</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">instance</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">backendService</span>(<span style="color:#a6e22e">instance</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Service Not ready&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Deployment and Service already exists - don&#39;t requeue
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Skip reconcile: Deployment and service already exists&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;Deployment.Namespace&#34;</span>, <span style="color:#a6e22e">found</span>.<span style="color:#a6e22e">Namespace</span>, <span style="color:#e6db74">&#34;Deployment.Name&#34;</span>, <span style="color:#a6e22e">found</span>.<span style="color:#a6e22e">Name</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="部署这个service">部署这个service</h3>
+<p>有三种方式部署：</p>
+<ul>
+<li>本地运行服务器</li>
+<li>在集群中运行服务器</li>
+<li>通过一个Operator lifecycle Manager（OLM）部署这个服务</li>
+</ul>
+<p>我们使用本地运行这个服务方式</p>
+<h4 id="安装这个crd">安装这个CRD</h4>
+<p>直接运行如下命令进行构建</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>make install
+</span></span></code></pre></div><p>此命令在我们的 Kubernetes 集群中注册我们的自定义种类模式（在本例中为 Traveler）。现在任何指定这种类型的新请求都将在内部转发到我们的 Traveler 控制器。</p>
+<h4 id="部署一个crd实例">部署一个CRD实例</h4>
+<p>我们仍然需要在 Kubernetes 中启用我们的资源。通过以下命令排队创建资源的请求</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kustomize build config/samples | kubectl apply -f -
+</span></span></code></pre></div><p>在这个阶段，我们的 Kubernetes 集群知道我们的 Traveler CRD。启动控制器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>make run
+</span></span></code></pre></div><p>该命令将执行 traveller_controller.go 中的对账功能，进而创建我们的部署和服务资源。</p>
+<h3 id="运行kubernetes-operator">运行kubernetes operator</h3>
+<p>检查状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get all
+</span></span></code></pre></div><p>暴露service</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>minikube service backend-service
+</span></span></code></pre></div><p>在浏览器中打开我们新创建的服务</p>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/k8s/kubeadm-install-k8s/">使用kubeadm工具安装 kubernetes Use Kubeadm Install K8s</a></li>
+                
+                    <li><a href="/k8s/operator-pattern/">k8s 之 Operator模式 Operator Pattern</a></li>
+                
+                    <li><a href="/k8s/minikube-start/">k8s集群 之一 创建集群 minikube安装使用 Minikube Start</a></li>
+                
+                    <li><a href="/k8s/k8s-plugins-traefik/">Kubernetes集群下 Traefik安装和使用</a></li>
+                
+                    <li><a href="/k8s/k8s-core-principle-network-model/">kubernetes 核心原理之 网络模型</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+    </main>
+    <aside class="sider">
+    <div>
+        <h2>书籍</h2>
+    </div>
+    <ul>
+        <li>
+            <a href="https://premake.realjf.io" title="premake" target="_blank">
+                <span>premake 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gltf.realjf.io" title="glTF" target="_blank">
+                <span>glTF 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://box2d.realjf.io" title="Box2D" target="_blank">
+                <span>Box2D 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gdb.realjf.io" title="gdb" target="_blank">
+                <span>gdb 中文手册</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+    <div class="app-footer">
+        <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
+</span>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+
+</html>

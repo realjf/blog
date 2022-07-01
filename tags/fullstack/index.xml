@@ -13,8 +13,8 @@
       <pubDate>Mon, 14 Oct 2019 15:17:48 +0800</pubDate>
       
       <guid>https://realjf.io/posts/django-vue-web/</guid>
-      <description>一、准备  Django &amp;gt;= 1.11 python &amp;gt;= 3.6 mysql &amp;gt;= 5.7 node &amp;gt;= 10.15 vue-cli &amp;gt;= 2.0   本次实验项目基于debian 9系统进行构建，以下涉及到的一些安装命令请根据自己具体环境自行替换
- 二、安装 1. 安装node wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz xz -d node-v10.16.3-linux-x64.tar.xz tar xvf node-v10.16.3-linux-x64.tar  # 然后将文件夹移动到你需要的地方，设置环境变量PATH即可 mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3 # 这里使用软链进行设置l ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/ ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/  # 设置好后进行测试 node --version npm --version 2. 安装python3，pip # 打开下载地址 https://www.python.org/downloads/source/ # 选择适合自己的包下载 wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz xz -d Python-3.7.4.tar.xz tar xvf Python-3.</description>
+      <description>一、准备 Django &amp;gt;= 1.11 python &amp;gt;= 3.6 mysql &amp;gt;= 5.7 node &amp;gt;= 10.15 vue-cli &amp;gt;= 2.0 本次实验项目基于debian 9系统进行构建，以下涉及到的一些安装命令请根据自己具体环境自行替换
+二、安装 1. 安装node wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz xz -d node-v10.16.3-linux-x64.tar.xz tar xvf node-v10.16.3-linux-x64.tar # 然后将文件夹移动到你需要的地方，设置环境变量PATH即可 mv node-v10.16.3-linux-x64 /usr/local/node-v10.16.3 # 这里使用软链进行设置l ln -sf /usr/local/node-v10.16.3/bin/node /usr/local/bin/ ln -sf /usr/local/node-v10.16.3/bin/npm /usr/local/bin/ # 设置好后进行测试 node --version npm --version 2. 安装python3，pip # 打开下载地址 https://www.python.org/downloads/source/ # 选择适合自己的包下载 wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tar.xz xz -d Python-3.7.4.tar.xz tar xvf Python-3.7.4.tar # 进入目录进行安装 cd Python-3.7.4 ./configure # 这里可以通过--prefix来指定安装目录 make &amp;amp;&amp;amp; make install # 确认是否安装成功 python3 -V # 确认安装成功后，安装pip curl https://bootstrap.</description>
     </item>
     
   </channel>

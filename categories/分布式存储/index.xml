@@ -14,9 +14,9 @@
       
       <guid>https://realjf.io/posts/setup-ceph-cluster-3/</guid>
       <description>第一次练习时，我们创建一个 Ceph 存储集群，它有一个 Monitor 和两个 OSD 守护进程。一旦集群达到 active + clean 状态，再扩展它：增加第三个 OSD 、增加元数据服务器和两个 Ceph Monitors。为获得最佳体验，先在管理节点上创建一个目录，用于保存 ceph-deploy 生成的配置文件和密钥对。
- 如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。
- mkdir my-clustercd my-cluster  禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
- 创建集群 如果在某些地方碰到麻烦，想从头再来，可以用下列命令配置：
+如果你是用另一普通用户登录的，不要用 sudo 或在 root 身份运行 ceph-deploy ，因为它不会在远程主机上调用所需的 sudo 命令。
+mkdir my-clustercd my-cluster 禁用 requiretty 在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果你的 Ceph 节点默认设置了 requiretty 那就会遇到报错。可以这样禁用此功能：执行 sudo visudo ，找到 Defaults requiretty 选项，把它改为 Defaults:ceph !requiretty ，这样 ceph-deploy 就能用 ceph 用户登录并使用 sudo 了。
+创建集群 如果在某些地方碰到麻烦，想从头再来，可以用下列命令配置：
 ceph-deploy purgedata {ceph-node} [{ceph-node}]ceph-deploy forgetkeys 用下列命令可以连ceph安装包一起清除：
 ceph-deploy purge {ceph-node} [{ceph-node}] 如果执行了purge，你必须重新安装ceph</description>
     </item>
@@ -48,10 +48,11 @@ ceph-deploy purge {ceph-node} [{ceph-node}] 如果执行了purge，你必须重�
       <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-1/</guid>
-      <description>系统要求    软硬件 最低配置 推荐配置     cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置   linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7   Docker 1.9版本以上 1.12版本   etcd 2.0版本及以上 3.0版本    本次实验选用的是centos7 1804版本
- 需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
- #关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled 这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数
-    - ip etcd节点名称     master节点 192.</description>
+      <description>系统要求 软硬件 最低配置 推荐配置 cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置 linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7 Docker 1.9版本以上 1.12版本 etcd 2.0版本及以上 3.0版本 本次实验选用的是centos7 1804版本
+需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
+#关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled 这里将搭建一个master节点和一个node节点的k8s集群 由于 raft 算法的特性，集群的节点数必须是奇数
+- ip etcd节点名称 master节点 192.168.37.150 etcd1 node1节点 192.168.37.152 etcd2 请确保节点直接可以互相ping通
+1. 安装docker docker版本为1.13.1 yum install docker -y # 由于后面都采用服务方式启动，所以docker启动参数需要加上--exec-opt native.cgroupdriver=systemd vim /usr/lib/systemd/system/docker.service # 在启动项上加上这行就可以 systemctl start docker 创建安装目录 mkdir -p /opt/kubernetes/bin 2.</description>
     </item>
     
   </channel>

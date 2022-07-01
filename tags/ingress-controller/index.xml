@@ -14,9 +14,9 @@
       
       <guid>https://realjf.io/k8s/k8s-plugins-traefik/</guid>
       <description>前提：安装好kubernetes集群情况下
-  run traefik and let it do the work for you!
- traefik官方地址：http://traefik.cn/
-方法一：使用k8s安装 准备  # 创建目录 mkdir traefik cd traefik  # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik  # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git  # 检查traefik配置  ll traefik/example/k8s/  -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.</description>
+run traefik and let it do the work for you!
+traefik官方地址：http://traefik.cn/
+方法一：使用k8s安装 准备 # 创建目录 mkdir traefik cd traefik # 拉取traefik官方docker镜像 docker pull docker.io/traefik # docker hub地址：https://store.docker.com/images/traefik # 拉取traefik相关配置 git clone https://github.com/containous/traefik.git # 检查traefik配置 ll traefik/example/k8s/ -rw-r--r-- 1 root root 140 Sep 11 16:53 cheese-default-ingress.yaml -rw-r--r-- 1 root root 1805 Sep 11 16:53 cheese-deployments.yaml -rw-r--r-- 1 root root 519 Sep 11 16:53 cheese-ingress.yaml -rw-r--r-- 1 root root 509 Sep 11 16:53 cheese-services.</description>
     </item>
     
   </channel>

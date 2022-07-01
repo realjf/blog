@@ -31,11 +31,11 @@ systemctl restart kubelet </description>
       
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-2/</guid>
       <description>方式1：基于CA签名的双向数字证书认证方式 过程如下：
- 为kube-apiserver生成一个数字证书，并用CA证书进行签名 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数  1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
+为kube-apiserver生成一个数字证书，并用CA证书进行签名 为kube-apiserver进程配置证书相关的启动参数，包括CA证书（用于验证客户端证书的签名真伪）、自己的经过CA签名后的证书及私钥 为每个访问K8S API server的客户端进程生成自己的数字证书，也都用CA证书进行签名，在相关程序的启动参数里增加CA证书、自己的证书等相关参数 1). 设置kube-apiserver的CA证书相关的文件和启动参数 使用openssl工具在master服务器上创建CA证书和私钥相关的文件：
 openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj &amp;#34;/CN=k8s-master&amp;#34; -days 5000 -out ca.crt openssl genrsa -out server.key 2048 注：生成ca.crt时，-subj参数中“/CN”的值为Master主机名
- 509是一种通用的证书格式
- 准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：
-[ req ] req_extensions = v3_req distinguished_name = req_distinguished_name [ req_distinguished_name ] [ v3_req ] basicConstraints = CA:FALSE keyUsage = nonRepudiation, digitalSignature, keyEncipherment subjectAltName = @alt_names [alt_names] DNS.1 = kubernetes DNS.</description>
+509是一种通用的证书格式
+准备master_ssl.cnf文件，用于x509 v3版本的证书，示例如下：
+[ req ] req_extensions = v3_req distinguished_name = req_distinguished_name [ req_distinguished_name ] [ v3_req ] basicConstraints = CA:FALSE keyUsage = nonRepudiation, digitalSignature, keyEncipherment subjectAltName = @alt_names [alt_names] DNS.1 = kubernetes DNS.2 = kubernetes.default DNS.</description>
     </item>
     
     <item>
@@ -44,10 +44,11 @@ openssl genrsa -out ca.key 2048 openssl req -x509 -new -nodes -key ca.key -subj 
       <pubDate>Tue, 19 Mar 2019 14:13:46 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-cluster-set-up-1/</guid>
-      <description>系统要求    软硬件 最低配置 推荐配置     cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置   linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7   Docker 1.9版本以上 1.12版本   etcd 2.0版本及以上 3.0版本    本次实验选用的是centos7 1804版本
- 需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
- #关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled 这里将搭建一个master节点和一个node节点的k8s集群  由于 raft 算法的特性，集群的节点数必须是奇数
-    - ip etcd节点名称     master节点 192.</description>
+      <description>系统要求 软硬件 最低配置 推荐配置 cpu和内存 master:至少2core和4GB内存 Node：至少4core和16GB Master:4core和16GB Node: 应根据需要运行的容器数量进行配置 linux操作系统 基于x86_64架构的各种linux发行版本 Red Hat Linux 7 CentOS 7 Docker 1.9版本以上 1.12版本 etcd 2.0版本及以上 3.0版本 本次实验选用的是centos7 1804版本
+需要注意，kubernetes的master和node节点之间会有大量的网络通信，安全的做法是在防火墙上配置各组件需要相互通信的端口号。在一个安全的内网环境中，可以关闭防火墙服务
+#关闭防火墙 systemctl disable firewalld systemctl stop firewalld # 禁用SELinux setenforce 0 # 也可以修改/etc/sysconfig/selinux，将SELINUX=enforcing修改成SELINUX=disabled 这里将搭建一个master节点和一个node节点的k8s集群 由于 raft 算法的特性，集群的节点数必须是奇数
+- ip etcd节点名称 master节点 192.168.37.150 etcd1 node1节点 192.168.37.152 etcd2 请确保节点直接可以互相ping通
+1. 安装docker docker版本为1.13.1 yum install docker -y # 由于后面都采用服务方式启动，所以docker启动参数需要加上--exec-opt native.cgroupdriver=systemd vim /usr/lib/systemd/system/docker.service # 在启动项上加上这行就可以 systemctl start docker 创建安装目录 mkdir -p /opt/kubernetes/bin 2.</description>
     </item>
     
   </channel>
