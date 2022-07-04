@@ -6,7 +6,21 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Jul 2022 15:00:11 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Jul 2022 09:58:20 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K8s CSI插件开发简介 K8s CSI Plugin Development Overview</title>
+      <link>https://realjf.io/k8s/k8s-csi-plugin-development/</link>
+      <pubDate>Mon, 04 Jul 2022 09:58:20 +0800</pubDate>
+      
+      <guid>https://realjf.io/k8s/k8s-csi-plugin-development/</guid>
+      <description>CSI插件开发官方文档
+简介 容器存储接口 (CSI) 是一种标准，用于将任意块和文件存储系统暴露给 Kubernetes 等容器编排系统 (CO) 上的容器化工作负载。使用 CSI 第三方存储提供商可以编写和部署插件，在 Kubernetes 中公开新的存储系统，而无需接触核心 Kubernetes 代码。
+kubernetes版本与CSI兼容版本关系
+kubernetes CSI 兼容版本 版本状态 v1.9 v0.1.0 Alpha v1.10 v0.2.0 Beta v1.11 v0.3.0 Beta v1.13 v0.3.0,v1.0.0 GA 开发和部署 最小要求 唯一的要求是关于 Kubernetes（主节点和节点）组件如何查找 CSI 驱动程序并与之通信
+CSI要求如下：
+Kubelet 到 CSI 驱动程序的通信 Kubelet 通过 Unix Domain Socket 直接向 CSI 驱动程序发出 CSI 调用（如 NodeStageVolume、NodePublishVolume 等）以挂载和卸载卷 Kubelet 通过 kubelet 插件注册机制发现 CSI 驱动程序（以及用于与 CSI 驱动程序交互的 Unix 域套接字）。 因此，部署在 Kubernetes 上的所有 CSI 驱动程序必须在每个支持的节点上使用 kubelet 插件注册机制注册自己。 Master 到CSI驱动程序的通信 Kubernetes 主组件不直接与 CSI 驱动程序通信（通过 Unix 域套接字或其他方式） Kubernetes 主组件仅与 Kubernetes API 交互。 因此，需要依赖于 Kubernetes API 的操作（如卷创建、卷附加、卷快照等）的 CSI 驱动程序必须监视 Kubernetes API 并针对它触发适当的 CSI 操作 因为这些要求是最低限度的规定，所以 CSI 驱动程序开发人员可以自由地实施和部署他们认为合适的驱动程序。</description>
+    </item>
+    
     <item>
       <title>构建一个基础K8s Operator| Build and Deploy a Basic Operator</title>
       <link>https://realjf.io/k8s/k8s-build-and-deploy-a-basic-operator/</link>
@@ -15,7 +29,7 @@
       <guid>https://realjf.io/k8s/k8s-build-and-deploy-a-basic-operator/</guid>
       <description>准备 linux系统 go开发环境 operator sdk 包括： operator-sdk 命令行界面（CLI）工具和SDK方便了算子的开发。 operator lifecycle manager 这有助于集群内操作员的安装、升级和基于角色的访问控制 (RBAC) kubernetes 集群，可以使用minikube之类的工具在本地安装一个单机集群 镜像仓库 golang开发环境安装 golang下载
 kubernetes集群安装 你需要的配置
-2核以上cpu 2GB以上内存 20GB以上的磁盘空间 docker 下载安装 需要提前关闭swap分区
+2核以上cpu 2GB以上内存 20GB以上的磁盘空间 docker 安装conntrack 下载安装 需要提前关闭swap分区
 # 关闭swap分区 swapoff -a # 修改/etc/fstab挂载的swap，注释swap挂载即可 reboot # 检查swap状态 free -h # 如果swap一行全部为0则为关闭 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube 运行集群 minikube start --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country=cn 参考minikube安装
 operator sdk 安装 git clone https://github.com/operator-framework/operator-sdk cd operator-sdk git checkout master make install 可以参考operator sdk安装
 构建kubernetes operator 第一步：生成样板代码 首先，运行minikube start运行本地集群</description>

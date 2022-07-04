@@ -4,42 +4,70 @@
     
     <url>
         <loc>https://realjf.io/categories/</loc>
-        <lastmod>2022-07-01T15:00:11+08:00</lastmod>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/tags/csi/</loc>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/series/csi/</loc>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/tags/k8s/</loc>
-        <lastmod>2022-07-01T15:00:11+08:00</lastmod>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/categories/k8s/</loc>
-        <lastmod>2022-07-01T15:00:11+08:00</lastmod>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/k8s/</loc>
-        <lastmod>2022-07-01T15:00:11+08:00</lastmod>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/k8s/k8s-csi-plugin-development/</loc>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/</loc>
-        <lastmod>2022-07-01T15:00:11+08:00</lastmod>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://realjf.io/series/</loc>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
         <loc>https://realjf.io/tags/</loc>
-        <lastmod>2022-07-01T15:00:11+08:00</lastmod>
+        <lastmod>2022-07-04T09:58:20+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -207,13 +235,6 @@
     
     <url>
         <loc>https://realjf.io/golang/full-stack-with-vue-and-golang-3/</loc>
-        <lastmod>2021-06-06T23:50:36+08:00</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <url>
-        <loc>https://realjf.io/series/</loc>
         <lastmod>2021-06-06T23:50:36+08:00</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
