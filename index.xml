@@ -6,7 +6,24 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 04 Jul 2022 09:58:20 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Jul 2022 11:08:22 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K8s CSI插件开发实战 K8s CSI Plugin Development in Action</title>
+      <link>https://realjf.io/k8s/k8s-csi-plugin-in-action/</link>
+      <pubDate>Mon, 04 Jul 2022 11:08:22 +0800</pubDate>
+      
+      <guid>https://realjf.io/k8s/k8s-csi-plugin-in-action/</guid>
+      <description>准备 kubernetes集群（1.15.5以上版本） go开发环境 开始 项目构建 我们需要开发CSI spec中规定的两个插件程序：
+Node Plugin 在每个节点上运行, 作为一个grpc端点服务于CSI的RPCs,执行具体的挂卷操作。 Controller Plugin 同样为CSI RPCs服务,可以在任何地方运行,一般执行全局性的操作,比如创建/删除网络卷。 按照规范应该是两独立的程序，但这里为了简单会在一个程序里实现spec规定的所有gRPC服务
+CSI有三种RPC：
+身份服务：Node Plugin和Controller Plugin都必须实现这些RPC 控制器服务：Controller Plugin必须实现这些RPC 节点服务：Node Plugin必须实现这些RPC 首先构建程序目录
+mkdir fsd-plugin &amp;amp;&amp;amp; cd fsd-plugin mkdir -p {cmd,bin,pkg/fsd} deploy/{kubernetes,examples} 创建文件：
+touch pkg/fsd/{controllerserver.go,identityserver.go,nodeserver.go} 创建程序主函数和初始化所需要用到的两个文件
+touch cmd/main.go pkg/fsd/driver.go 创建go mod包管理
+go mod init fsd-csi-driver 最后目录结构如下：
+. ├── bin │ ├── controllerplugin.go │ └── nodeplugin.go ├── cmd ├── deploy │ ├── examples │ └── kubernetes ├── go.mod └── pkg └── fsd ├── controllerserver.</description>
+    </item>
+    
     <item>
       <title>K8s CSI插件开发简介 K8s CSI Plugin Development Overview</title>
       <link>https://realjf.io/k8s/k8s-csi-plugin-development/</link>

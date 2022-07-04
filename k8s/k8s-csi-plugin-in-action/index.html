@@ -1,0 +1,1106 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>K8s CSI插件开发实战 K8s CSI Plugin Development in Action // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.101.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description"
+        content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    
+    <script src="./js/highlight.pack.js"> </script>
+    
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+            
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-menu">
+  <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+</svg> 分类</a>
+    
+</nav>
+        <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+        
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">K8s CSI插件开发实战 K8s CSI Plugin Development in Action</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Jul 4, 2022
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    8 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/k8s/">k8s</a><a class="tag" href="https://realjf.io/tags/csi/">csi</a></div></div>
+        </header>
+        <div class="post-content">
+            <h2 id="准备">准备</h2>
+<ul>
+<li>kubernetes集群（1.15.5以上版本）</li>
+<li>go开发环境</li>
+</ul>
+<h2 id="开始">开始</h2>
+<h3 id="项目构建">项目构建</h3>
+<p>我们需要开发CSI spec中规定的两个插件程序：</p>
+<ul>
+<li>Node Plugin
+<ul>
+<li>在每个节点上运行, 作为一个grpc端点服务于CSI的RPCs,执行具体的挂卷操作。</li>
+</ul>
+</li>
+<li>Controller Plugin
+<ul>
+<li>同样为CSI RPCs服务,可以在任何地方运行,一般执行全局性的操作,比如创建/删除网络卷。</li>
+</ul>
+</li>
+</ul>
+<p>按照规范应该是两独立的程序，但这里为了简单会在一个程序里实现spec规定的所有gRPC服务</p>
+<p>CSI有三种RPC：</p>
+<ul>
+<li>身份服务：Node Plugin和Controller Plugin都必须实现这些RPC</li>
+<li>控制器服务：Controller Plugin必须实现这些RPC</li>
+<li>节点服务：Node Plugin必须实现这些RPC</li>
+</ul>
+<p>首先构建程序目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mkdir fsd-plugin <span style="color:#f92672">&amp;&amp;</span> cd fsd-plugin
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#f92672">{</span>cmd,bin,pkg/fsd<span style="color:#f92672">}</span> deploy/<span style="color:#f92672">{</span>kubernetes,examples<span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>创建文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>touch pkg/fsd/<span style="color:#f92672">{</span>controllerserver.go,identityserver.go,nodeserver.go<span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>创建程序主函数和初始化所需要用到的两个文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>touch cmd/main.go pkg/fsd/driver.go
+</span></span></code></pre></div><p>创建go mod包管理</p>
+<pre tabindex="0"><code>go mod init fsd-csi-driver
+</code></pre><p>最后目录结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── bin
+</span></span><span style="display:flex;"><span>│   ├── controllerplugin.go
+</span></span><span style="display:flex;"><span>│   └── nodeplugin.go
+</span></span><span style="display:flex;"><span>├── cmd
+</span></span><span style="display:flex;"><span>├── deploy
+</span></span><span style="display:flex;"><span>│   ├── examples
+</span></span><span style="display:flex;"><span>│   └── kubernetes
+</span></span><span style="display:flex;"><span>├── go.mod
+</span></span><span style="display:flex;"><span>└── pkg
+</span></span><span style="display:flex;"><span>    └── fsd
+</span></span><span style="display:flex;"><span>        ├── controllerserver.go
+</span></span><span style="display:flex;"><span>        ├── driver.go
+</span></span><span style="display:flex;"><span>        ├── identityserver.go
+</span></span><span style="display:flex;"><span>        └── nodeserver.go
+</span></span></code></pre></div><h3 id="编写代码逻辑">编写代码逻辑</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go get github.com/container-storage-interface/spec
+</span></span><span style="display:flex;"><span>go get k8s.io/klog
+</span></span></code></pre></div><p><strong>identityserver.go实现</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">fsd</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/container-storage-interface/spec/lib/go/csi&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/klog&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IdentityServer</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewIdentityServer</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">IdentityServer</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">IdentityServer</span>{}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// GetPluginInfo 返回插件信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ids</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">IdentityServer</span>) <span style="color:#a6e22e">GetPluginInfo</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetPluginInfoRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetPluginInfoResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;GetPluginInfo: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetPluginInfoResponse</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Name</span>:          <span style="color:#a6e22e">driverName</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">VendorVersion</span>: <span style="color:#a6e22e">version</span>,
+</span></span><span style="display:flex;"><span>	}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// GetPluginCapabilities 返回插件支持的功能
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ids</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">IdentityServer</span>) <span style="color:#a6e22e">GetPluginCapabilities</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetPluginCapabilitiesRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetPluginCapabilitiesResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;GetPluginCapabilities: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">resp</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetPluginCapabilitiesResponse</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Capabilities</span>: []<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">PluginCapability</span>{
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Type</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">PluginCapability_Service_</span>{
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">Service</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">PluginCapability_Service</span>{
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">PluginCapability_Service_CONTROLLER_SERVICE</span>,
+</span></span><span style="display:flex;"><span>					},
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Type</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">PluginCapability_Service_</span>{
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">Service</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">PluginCapability_Service</span>{
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">PluginCapability_Service_VOLUME_ACCESSIBILITY_CONSTRAINTS</span>,
+</span></span><span style="display:flex;"><span>					},
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">resp</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Probe 插件健康检测
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ids</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">IdentityServer</span>) <span style="color:#a6e22e">Probe</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ProbeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ProbeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;Probe: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ProbeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>controllerserver.go实现</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go get google.golang.org/grpc
+</span></span></code></pre></div><p>代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">fsd</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/container-storage-interface/spec/lib/go/csi&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;google.golang.org/grpc/codes&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;google.golang.org/grpc/status&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/klog&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// controllerCaps 代表Controller Plugin支持的功能，可选类型见https://github.com/container-storage-interface/spec/blob/4731db0e0bc53238b93850f43ab05d9355df0fd9/lib/go/csi/csi.pb.go#L181:6
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 这里只实现Volume的创建/删除，附加/卸载
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">controllerCaps</span> = []<span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerServiceCapability_RPC_Type</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerServiceCapability_RPC_CREATE_DELETE_VOLUME</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerServiceCapability_RPC_PUBLISH_UNPUBLISH_VOLUME</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ControllerServer</span> <span style="color:#66d9ef">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewControllerServer</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ControllerServer</span>{}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ControllerGetCapabilities 返回Controller Plugin支持的功能
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ControllerGetCapabilities</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerGetCapabilitiesRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerGetCapabilitiesResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;ControllerGetCapabilities: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">caps</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerServiceCapability</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">cap</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">controllerCaps</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerServiceCapability</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerServiceCapability_Rpc</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Rpc</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerServiceCapability_RPC</span>{
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">cap</span>,
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">caps</span> = append(<span style="color:#a6e22e">caps</span>, <span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerGetCapabilitiesResponse</span>{<span style="color:#a6e22e">Capabilities</span>: <span style="color:#a6e22e">caps</span>}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// CreateVolume 创建
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">CreateVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">CreateVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">CreateVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;CreateVolume: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 这里先返回一个假数据，模拟我们创建出了一块id为&#34;qcow-1234567&#34;容量为20G的云盘
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">CreateVolumeResponse</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Volume</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">Volume</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">VolumeId</span>:      <span style="color:#e6db74">&#34;qcow-1234567&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">CapacityBytes</span>: <span style="color:#ae81ff">20</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">30</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">VolumeContext</span>: <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">GetParameters</span>(),
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// DeleteVolume 删除
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">DeleteVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">DeleteVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">DeleteVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;DeleteVolume: called with args: %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">DeleteVolumeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ControllerGetVolume 获取
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ControllerGetVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerGetVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerGetVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;ControllerGetVolume: called with args: %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerGetVolumeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ControllerPublishVolume 附加
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ControllerPublishVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerPublishVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerPublishVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;ControllerPublishVolume: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">pvInfo</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">DevicePathKey</span>: <span style="color:#e6db74">&#34;/dev/sdb&#34;</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerPublishVolumeResponse</span>{<span style="color:#a6e22e">PublishContext</span>: <span style="color:#a6e22e">pvInfo</span>}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ControllerUnpublishVolume 卸载
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ControllerUnpublishVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerUnpublishVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerUnpublishVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;ControllerUnpublishVolume: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerUnpublishVolumeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// TODO(xnile): implement this
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ValidateVolumeCapabilities</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ValidateVolumeCapabilitiesRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ValidateVolumeCapabilitiesResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ListVolumes</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ListVolumesRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ListVolumesResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">GetCapacity</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetCapacityRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">GetCapacityResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">CreateSnapshot</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">CreateSnapshotRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">CreateSnapshotResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">DeleteSnapshot</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">DeleteSnapshotRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">DeleteSnapshotResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ListSnapshots</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ListSnapshotsRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ListSnapshotsResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">cs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ControllerServer</span>) <span style="color:#a6e22e">ControllerExpandVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerExpandVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">ControllerExpandVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>nodeserver.go实现</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go get -u k8s.io/kubernetes
+</span></span></code></pre></div><p>代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">fsd</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// &#34;fmt&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// &#34;os&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/container-storage-interface/spec/lib/go/csi&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;google.golang.org/grpc/codes&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;google.golang.org/grpc/status&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/klog&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/kubernetes/pkg/util/mount&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">nodeServer</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">nodeID</span>  <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mounter</span> <span style="color:#a6e22e">mount</span>.<span style="color:#a6e22e">SafeFormatAndMount</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewNodeServer</span>(<span style="color:#a6e22e">nodeid</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">nodeServer</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">nodeID</span>: <span style="color:#a6e22e">nodeid</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">mounter</span>: <span style="color:#a6e22e">mount</span>.<span style="color:#a6e22e">SafeFormatAndMount</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Interface</span>: <span style="color:#a6e22e">mount</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;&#34;</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Exec</span>:      <span style="color:#a6e22e">mount</span>.<span style="color:#a6e22e">NewOsExec</span>(),
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// NodeStageVolume 格式化硬盘，Mount到全局目录
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodeStageVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeStageVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeStageVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;NodeStageVolume: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeStageVolumeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodeUnstageVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeUnstageVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeUnstageVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;NodeUnstageVolume: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeUnstageVolumeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//NodePublishVolume 从全局目录mount到目标目录(后续将映射到Pod中)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodePublishVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodePublishVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodePublishVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;NodePublishVolume: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodePublishVolumeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodeUnpublishVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeUnpublishVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeUnpublishVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;NodeUnpublishVolume: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeUnpublishVolumeResponse</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// NodeGetInfo 返回节点信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodeGetInfo</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetInfoRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetInfoResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;NodeGetInfo: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetInfoResponse</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">NodeId</span>: <span style="color:#a6e22e">ns</span>.<span style="color:#a6e22e">nodeID</span>,
+</span></span><span style="display:flex;"><span>	}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// NodeGetCapabilities 返回节点支持的功能
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodeGetCapabilities</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetCapabilitiesRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetCapabilitiesResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;NodeGetCapabilities: called with args %+v&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetCapabilitiesResponse</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Capabilities</span>: []<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeServiceCapability</span>{
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">Type</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeServiceCapability_Rpc</span>{
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">Rpc</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeServiceCapability_RPC</span>{
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeServiceCapability_RPC_STAGE_UNSTAGE_VOLUME</span>,
+</span></span><span style="display:flex;"><span>					},
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodeGetVolumeStats</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">in</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetVolumeStatsRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeGetVolumeStatsResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">ns</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">nodeServer</span>) <span style="color:#a6e22e">NodeExpandVolume</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeExpandVolumeRequest</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">NodeExpandVolumeResponse</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">status</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">codes</span>.<span style="color:#a6e22e">Unimplemented</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>driver.go实现</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>go get github.com/container-storage-interface/spec
+</span></span><span style="display:flex;"><span>go get github.com/kubernetes-csi/csi-lib-utils
+</span></span></code></pre></div><p>代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">fsd</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;strings&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/container-storage-interface/spec/lib/go/csi&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/kubernetes-csi/csi-lib-utils/protosanitizer&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;google.golang.org/grpc&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/klog&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Driver</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">nodeID</span>   <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">endpoint</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">version</span>       = <span style="color:#e6db74">&#34;1.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">driverName</span>    = <span style="color:#e6db74">&#34;fsd.csi.realjf.com&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">DevicePathKey</span> = <span style="color:#e6db74">&#34;devicePath&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewDriver</span>(<span style="color:#a6e22e">nodeID</span>, <span style="color:#a6e22e">endpoint</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Driver</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;Driver: %v version: %v&#34;</span>, <span style="color:#a6e22e">driverName</span>, <span style="color:#a6e22e">version</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Driver</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">nodeID</span>:   <span style="color:#a6e22e">nodeID</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">endpoint</span>: <span style="color:#a6e22e">endpoint</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Driver</span>) <span style="color:#a6e22e">Run</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ctl</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewControllerServer</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">identity</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewIdentityServer</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">node</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewNodeServer</span>(<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">nodeID</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">opts</span> <span style="color:#f92672">:=</span> []<span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">ServerOption</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">UnaryInterceptor</span>(<span style="color:#a6e22e">logGRPC</span>),
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">srv</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">NewServer</span>(<span style="color:#a6e22e">opts</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">RegisterControllerServer</span>(<span style="color:#a6e22e">srv</span>, <span style="color:#a6e22e">ctl</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">RegisterIdentityServer</span>(<span style="color:#a6e22e">srv</span>, <span style="color:#a6e22e">identity</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">csi</span>.<span style="color:#a6e22e">RegisterNodeServer</span>(<span style="color:#a6e22e">srv</span>, <span style="color:#a6e22e">node</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">proto</span>, <span style="color:#a6e22e">addr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ParseEndpoint</span>(<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">endpoint</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;protocol: %s,addr: %s&#34;</span>, <span style="color:#a6e22e">proto</span>, <span style="color:#a6e22e">addr</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">proto</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;unix&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">addr</span> = <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">addr</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#a6e22e">addr</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> !<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">IsNotExist</span>(<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to remove %s, error: %s&#34;</span>, <span style="color:#a6e22e">addr</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">listener</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Listen</span>(<span style="color:#a6e22e">proto</span>, <span style="color:#a6e22e">addr</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to listen: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">srv</span>.<span style="color:#a6e22e">Serve</span>(<span style="color:#a6e22e">listener</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">logGRPC</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">info</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">UnaryServerInfo</span>, <span style="color:#a6e22e">handler</span> <span style="color:#a6e22e">grpc</span>.<span style="color:#a6e22e">UnaryHandler</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;GRPC call: %s&#34;</span>, <span style="color:#a6e22e">info</span>.<span style="color:#a6e22e">FullMethod</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;GRPC request: %s&#34;</span>, <span style="color:#a6e22e">protosanitizer</span>.<span style="color:#a6e22e">StripSecrets</span>(<span style="color:#a6e22e">req</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;GRPC error: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">Infof</span>(<span style="color:#e6db74">&#34;GRPC response: %s&#34;</span>, <span style="color:#a6e22e">protosanitizer</span>.<span style="color:#a6e22e">StripSecrets</span>(<span style="color:#a6e22e">resp</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ParseEndpoint</span>(<span style="color:#a6e22e">ep</span> <span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">HasPrefix</span>(<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">ToLower</span>(<span style="color:#a6e22e">ep</span>), <span style="color:#e6db74">&#34;unix://&#34;</span>) <span style="color:#f92672">||</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">HasPrefix</span>(<span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">ToLower</span>(<span style="color:#a6e22e">ep</span>), <span style="color:#e6db74">&#34;tcp://&#34;</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">SplitN</span>(<span style="color:#a6e22e">ep</span>, <span style="color:#e6db74">&#34;://&#34;</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span>[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">s</span>[<span style="color:#ae81ff">0</span>], <span style="color:#a6e22e">s</span>[<span style="color:#ae81ff">1</span>], <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;Invalid endpoint: %v&#34;</span>, <span style="color:#a6e22e">ep</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>main.go实现</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;flag&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fsd-csi-driver/pkg/fsd&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;k8s.io/klog&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">endpoint</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">nodeID</span>   <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">StringVar</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">endpoint</span>, <span style="color:#e6db74">&#34;endpoint&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;CSI Endpoint&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">StringVar</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">nodeID</span>, <span style="color:#e6db74">&#34;nodeid&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;node id&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">InitFlags</span>(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">Parse</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fsd</span>.<span style="color:#a6e22e">NewDriver</span>(<span style="color:#a6e22e">nodeID</span>, <span style="color:#a6e22e">endpoint</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Run</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="编译">编译</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux go build -o ./bin/fsd-csi-driver ./cmd
+</span></span></code></pre></div><h3 id="构建docker镜像">构建docker镜像</h3>
+<p>bin/Dockerfile</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">LABEL</span> maintainers<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;realjf&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">LABEL</span> description<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FSD CSI Driver&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add util-linux e2fsprogs<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> fsd-csi-driver /fsd-csi-driver <span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/fsd-csi-driver&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>构建</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>docker build -t realjf/fsd-csi-driver:v0.1 .
+</span></span><span style="display:flex;"><span>docker push realjf/fsd-csi-driver:v0.1
+</span></span></code></pre></div><h3 id="部署">部署</h3>
+<h4 id="rbac">RBAC</h4>
+<p>授权驱动程序操作相关api的权限
+deploy/kubernetes/rbac.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">csi-dev</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;secrets&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;persistentvolumes&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>, <span style="color:#e6db74">&#34;create&#34;</span>, <span style="color:#e6db74">&#34;delete&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;persistentvolumeclaims&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;storage.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;storageclasses&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;storage.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;csinodes&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;events&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;create&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>, <span style="color:#e6db74">&#34;patch&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;endpoints&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;delete&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>, <span style="color:#e6db74">&#34;create&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;configmaps&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;delete&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>, <span style="color:#e6db74">&#34;create&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;nodes&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;csi.storage.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;csinodeinfos&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;storage.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;volumeattachments&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;snapshot.storage.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;volumesnapshotclasses&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;snapshot.storage.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;volumesnapshotcontents&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;create&#34;</span>, <span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>, <span style="color:#e6db74">&#34;delete&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;snapshot.storage.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;volumesnapshots&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;apiextensions.k8s.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;customresourcedefinitions&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;create&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;delete&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">csi-dev</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl apply -f deploy/kubernetes/rbac.yaml
+</span></span></code></pre></div><h4 id="部署驱动">部署驱动</h4>
+<p>deploy/kubernetes/fsd-csi-driver.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">csi-dev</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">nodeSelector</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kubernetes.io/hostname</span>: <span style="color:#ae81ff">knode02</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">serviceAccount</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#plugin</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-driver</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">realjf/fsd-csi-driver:v0.1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>            - --<span style="color:#ae81ff">endpoint=$(CSI_ENDPOINT)</span>
+</span></span><span style="display:flex;"><span>            - --<span style="color:#ae81ff">nodeid=$(KUBE_NODE_NAME)</span>
+</span></span><span style="display:flex;"><span>            - --<span style="color:#ae81ff">logtostderr</span>
+</span></span><span style="display:flex;"><span>            - --<span style="color:#ae81ff">v=5</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">CSI_ENDPOINT</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">value</span>: <span style="color:#ae81ff">unix:///csi/csi.sock</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">KUBE_NODE_NAME</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">fieldRef</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">fieldPath</span>: <span style="color:#ae81ff">spec.nodeName</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">securityContext</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">privileged</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubelet-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/var/lib/kubelet</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPropagation</span>: <span style="color:#e6db74">&#34;Bidirectional&#34;</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">plugin-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/csi</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">device-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/dev</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#Sidecar:node-driver-registrar</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">node-driver-registrar</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/k8scsi/csi-node-driver-registrar:v1.2.0</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>            - --<span style="color:#ae81ff">csi-address=$(ADDRESS)</span>
+</span></span><span style="display:flex;"><span>            - --<span style="color:#ae81ff">kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)</span>
+</span></span><span style="display:flex;"><span>            - --<span style="color:#ae81ff">v=5</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">lifecycle</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">preStop</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">exec</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#34;/bin/sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#34;rm -rf /registration/fsd.csi.realjf.com-reg.sock /csi/csi.sock&#34;</span>]
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ADDRESS</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">value</span>: <span style="color:#ae81ff">/csi/csi.sock</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">DRIVER_REG_SOCK_PATH</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">value</span>: <span style="color:#ae81ff">/var/lib/kubelet/plugins/fsd.csi.realjf.com/csi.sock</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">plugin-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/csi</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">registration-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/registration</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#Sidecar: livenessprobe</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">liveness-probe</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/k8scsi/livenessprobe:v1.1.0</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;--csi-address=/csi/csi.sock&#34;</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;--v=5&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">plugin-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/csi</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#Sidecar: csi-provisione</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">csi-provisioner</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/k8scsi/csi-provisioner:v1.3.1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;--csi-address=$(ADDRESS)&#34;</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;--v=5&#34;</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;--feature-gates=Topology=True&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ADDRESS</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">value</span>: <span style="color:#ae81ff">unix:///csi/csi.sock</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#e6db74">&#34;IfNotPresent&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">plugin-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/csi</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#Sidecar: csi-attacher</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">csi-attacher</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/k8scsi/csi-attacher:v1.2.1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;--v=5&#34;</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;--csi-address=$(ADDRESS)&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ADDRESS</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">value</span>: <span style="color:#ae81ff">/csi/csi.sock</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#e6db74">&#34;Always&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">plugin-dir</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/csi</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubelet-dir</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">hostPath</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/var/lib/kubelet</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Directory</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">plugin-dir</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">hostPath</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/var/lib/kubelet/plugins/fsd.csi.realjf.com/</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">type</span>: <span style="color:#ae81ff">DirectoryOrCreate</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">registration-dir</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">hostPath</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/var/lib/kubelet/plugins_registry/</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Directory</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">device-dir</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">hostPath</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/dev</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Directory</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl apply -f deploy/kubernetes/fsd-csi-driver.yaml
+</span></span></code></pre></div><h4 id="验证插件运行状态">验证插件运行状态</h4>
+<p>查看pod状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get pods -L app<span style="color:#f92672">=</span>fsd-csi-driver
+</span></span></code></pre></div><p>查看插件log</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl logs -f fsd-csi-driver-xxxxxxxxxx -c fsd-csi-driver
+</span></span></code></pre></div><p>查看CSINode信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get csinodes knode02 -o yaml
+</span></span></code></pre></div><h3 id="测试">测试</h3>
+<p>接下来我们来创建一个测试Pod来验证下驱动程序能否为Pod完成Volume的创建、附加、挂载等操作。当然这里Volume的创建、附加、挂载都只是模拟，其实可以把这些操作做成一个webhook供csi驱动调用，类似公有云提供的相关api一样，这样就可以模拟真实的创建、附加、挂载等操作，有兴趣的朋友可以自己实现。</p>
+<p><strong>StorageClass</strong>
+deploy/examples/storageclass.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">StorageClass</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">storage.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">provisioner</span>: <span style="color:#ae81ff">fsd.csi.realjf.com</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl apply -f deploy/examples/storageclass.yaml
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get sc
+</span></span></code></pre></div><p><strong>PVC</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PersistentVolumeClaim</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fsd-csi-pvc-01</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">csi-dev</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">accessModes</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ReadWriteOnce</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">storage</span>: <span style="color:#ae81ff">20Gi</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storageClassName</span>: <span style="color:#ae81ff">fsd-csi</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl apply -f deploy/examples/pvc.yaml
+</span></span></code></pre></div><p>验证</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get pv
+</span></span><span style="display:flex;"><span>kubectl get pvc
+</span></span></code></pre></div><p>查看程序log</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"></code></pre></div><p>测试使用pvc</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-test-csi-pvc</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">csi-dev</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">nodeSelector</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kubernetes.io/hostname</span>: <span style="color:#ae81ff">knode02</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.17</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">data</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">mountPath</span>: <span style="color:#e6db74">&#34;/data&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">data</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">persistentVolumeClaim</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">claimName</span>: <span style="color:#ae81ff">fsd-csi-pvc-01</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl apply -f deploy/examples/nginx.yaml
+</span></span></code></pre></div><p>查看pod状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get pod -l app<span style="color:#f92672">=</span>nginx
+</span></span></code></pre></div><p>查看pod信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl describe pod nginx-test-csi-pvc-xxxxxxxxxxxxx
+</span></span></code></pre></div><p>查看节点信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get no knode02 -o yaml
+</span></span></code></pre></div><p>查看插件log</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"></code></pre></div><h3 id="调试工具">调试工具</h3>
+<p><strong>CSC</strong></p>
+<p>安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>GO111MODULE<span style="color:#f92672">=</span>off go get -u github.com/rexray/gocsi/csc
+</span></span></code></pre></div>
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/k8s/k8s-csi-plugin-development/">K8s CSI插件开发简介 K8s CSI Plugin Development Overview</a></li>
+                
+                    <li><a href="/k8s/k8s-build-and-deploy-a-basic-operator/">构建一个基础K8s Operator| Build and Deploy a Basic Operator</a></li>
+                
+                    <li><a href="/k8s/kubeadm-install-k8s/">使用kubeadm工具安装 kubernetes Use Kubeadm Install K8s</a></li>
+                
+                    <li><a href="/k8s/operator-pattern/">k8s 之 Operator模式 Operator Pattern</a></li>
+                
+                    <li><a href="/k8s/minikube-start/">k8s集群 之一 创建集群 minikube安装使用 Minikube Start</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+    </main>
+    <aside class="sider">
+    <div>
+        <h2>书籍</h2>
+    </div>
+    <ul>
+        <li>
+            <a href="https://premake.realjf.io" title="premake" target="_blank">
+                <span>premake 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gltf.realjf.io" title="glTF" target="_blank">
+                <span>glTF 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://box2d.realjf.io" title="Box2D" target="_blank">
+                <span>Box2D 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gdb.realjf.io" title="gdb" target="_blank">
+                <span>gdb 中文手册</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+    <div class="app-footer">
+        <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+   &copy; 2019 - 2021 <a href="https://realjf.io">realjf.io</a>
+</span>
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+
+</html>
