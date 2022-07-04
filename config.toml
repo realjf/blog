@@ -1,57 +1,56 @@
 baseURL = "https://realjf.io/"
 languageCode = "en-us"
-title = "Realjf's blog"
+paginate = "50"
 theme = "m10c"
-paginate = "20"
+title = "Realjf's blog"
 
 [taxonomies]
-  tag = "tags"
-  category = "categories"
-  series = "series"
+category = "categories"
+series = "series"
+tag = "tags"
 
 [sitemap]
-  changefreq = "monthly"
-  filename = "sitemap.xml"
-  priority = 0.5
+changefreq = "monthly"
+filename = "sitemap.xml"
+priority = 0.5
 
 [params]
-  author = "realjf"
-  description = "认识自己，接受自己，忘记自己，追随自己的灵魂"
-  toc = true
-  [[params.social]]
-    name = "github"
-    title = "github"
-    url = "https://github.com/realjf"
-  [[params.social]]
-    name = "twitter"
-    url = "https://twitter.com/realjf2"
-  # [[params.social]]
-  #   name = "pen-tool"
-  #   url = "http://bbs.realjf.com"
-
+author = "realjf"
+description = "认识自己，接受自己，忘记自己，追随自己的灵魂"
+toc = true
+[[params.social]]
+name = "github"
+title = "github"
+url = "https://github.com/realjf"
+[[params.social]]
+name = "twitter"
+url = "https://twitter.com/realjf2"
+# [[params.social]]
+#   name = "pen-tool"
+#   url = "http://bbs.realjf.com"
 
 [menu]
-  [[menu.main]]
-    identifier = "home"
-    name = "首页"
-    title = "首页"
-    url = "/"
-    weight = 10
-  [[menu.main]]
-    identifier = "archive"
-    name = "归档"
-    title = "归档"
-    url = "/posts/"
-    weight = 20
-  [[menu.main]]
-    identifier = "tag"
-    name = "标签"
-    title = "标签"
-    url = "/tags/"
-    weight = 30
-  [[menu.main]]
-    identifier = "menu"
-    name = "分类"
-    title = "分类"
-    url = "/categories/"
-    weight = 40
+[[menu.main]]
+identifier = "home"
+name = "首页"
+title = "首页"
+url = "/"
+weight = 10
+[[menu.main]]
+identifier = "archive"
+name = "归档"
+title = "归档"
+url = "/posts/"
+weight = 20
+[[menu.main]]
+identifier = "tag"
+name = "标签"
+title = "标签"
+url = "/tags/"
+weight = 30
+[[menu.main]]
+identifier = "menu"
+name = "分类"
+title = "分类"
+url = "/categories/"
+weight = 40
