@@ -14,21 +14,21 @@
       
       <guid>https://realjf.io/k8s/k8s-basic-concepts-and-terminology-v1.19/</guid>
       <description>kubernetes的基本概念和术语大部分是围绕资源对象来说的，主要分为以下两类：
-某种资源的对象，如：节点（Node）、Pod、服务(Service)、存储卷（Volume） 与资源对象相关的事物与动作，如：标签（Label）、注解（Annotation）、命名空间（Namespace）、部署（Deployment）、HPA、PVC 这里主要按照功能或用途分类，将其分为集群类、应用类、存储类及安全类
+ 某种资源的对象，如：节点（Node）、Pod、服务(Service)、存储卷（Volume） 与资源对象相关的事物与动作，如：标签（Label）、注解（Annotation）、命名空间（Namespace）、部署（Deployment）、HPA、PVC  这里主要按照功能或用途分类，将其分为集群类、应用类、存储类及安全类
 集群类 集群类表示一个由Master和Node组成的kubernetes集群
 Master Master指集群的控制节点，在每个kubernetes集群中都需要一个或一组被称为master的节点，来负责整个集群的管理和控制。 Master通常独占一个服务器（在高可用部署中至少是3台服务器），如果宕机，整个集群内容器应用的管理都将失效
 Master上运行着以下关键进程：
-kubernetes API Server(kube-apiserver)：提供HTTP Restful API接口的主要服务，是kubernetes里对所有资源进行增删改查等操作的唯一入口，也是集群控制的入口进程 kubernetes Controller Manager(kube-controller-manager): kubernetes里所有资源对象的自动化控制中心 kubernetes Scheduler(kube-scheduler): 负责资源调度（Pod调度）的进程 etcd服务 Node kubernetes集群中除了master外其他服务器都被称为Node,Node是kubernetes集群中的工作负载节点，每个Node都会被master分配一些工作负载。当某个node宕机时，其上的工作负载会被master转移到其他Node上。
+ kubernetes API Server(kube-apiserver)：提供HTTP Restful API接口的主要服务，是kubernetes里对所有资源进行增删改查等操作的唯一入口，也是集群控制的入口进程 kubernetes Controller Manager(kube-controller-manager): kubernetes里所有资源对象的自动化控制中心 kubernetes Scheduler(kube-scheduler): 负责资源调度（Pod调度）的进程 etcd服务  Node kubernetes集群中除了master外其他服务器都被称为Node,Node是kubernetes集群中的工作负载节点，每个Node都会被master分配一些工作负载。当某个node宕机时，其上的工作负载会被master转移到其他Node上。
 每个Node上都运行着以下关键进程：
-kubelet: 负责Pod对应容器的创建、启停等任务，同时与Master密切协作，实现集群管理的基本功能 kube-proxy: 实现kubernetes Service的通信与负载均衡机制的服务 容器运行时（如：Docker）:负责本机的容器创建和管理 kubelet进程会定时向Master汇报自身的情报，例如：操作系统、主机cpu和内存使用情况，以及当前有哪些Pod在运行等，这样Master就可以获知每个Node上的资源使用情况，并实现高效均衡的资源调度策略
+ kubelet: 负责Pod对应容器的创建、启停等任务，同时与Master密切协作，实现集群管理的基本功能 kube-proxy: 实现kubernetes Service的通信与负载均衡机制的服务 容器运行时（如：Docker）:负责本机的容器创建和管理  kubelet进程会定时向Master汇报自身的情报，例如：操作系统、主机cpu和内存使用情况，以及当前有哪些Pod在运行等，这样Master就可以获知每个Node上的资源使用情况，并实现高效均衡的资源调度策略
 命名空间 在很多情况下用于实现多租户的资源隔离，典型的一种思路就是给每个租户都分配一个命名空间，每个命名空间都是相互独立的存在，属于不同命名空间的资源对象从逻辑上相互隔离。
 应用类 Service与Pod Service是指无状态服务，通常由多个程序副本提供服务，在特殊情况下，也可以是有状态的单实例服务，如mysql这种数据存储服务。
 kubernetes的Service具有一个全局唯一的虚拟ClusterIP地址，Service一旦创建，kubernetes就会自动为其分配一个可用的ClusterIP地址，而且在Service的整个生命周期中，它的ClusterIP地址都不会改变，客户端可以通过这个虚拟IP地址+服务的端口直接访问该服务，再通过部署kubernetes集群的DNS服务，就可以实现Service Name(域名)到ClusterIP地址的DNS映射功能，我们只要使用服务的名称（DNS名称）即可完成到目标服务的访问请求。
 Pod是最重要的基本概念之一，每个Pod都有一个特殊的被称为根容器的Pause容器，Pause容器对应的镜像属于kubernetes平台的一部分，除了Pause容器，每个Pod都还包含一个或多个紧密相关的用户业务容器。
 Pod特殊结构原因：
-为多进程之间的协作提供抽象模型，使用Pod作为基本调度、复制等管理工作的最小单位，让多个应用进程能一起有效地调度和伸缩 Pod里的多个业务容器共享Pause容器的IP，共享pause容器挂接的volume，这样既简化了密切关联的业务容器之间的通信问题，也很好地解决了它们之间的文件共享问题 kubernetes为每个Pod都分配了唯一的IP地址，称为Pod IP，一个Pod里的多个容器共享Pod IP地址。 kubernetes要求底层网络支持集群内任意两个Pod之间的直接通信，这通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等，因此，在kubernetes里，一个Pod里的容器与另外主机上的Pod容器能够直接通信。
+ 为多进程之间的协作提供抽象模型，使用Pod作为基本调度、复制等管理工作的最小单位，让多个应用进程能一起有效地调度和伸缩 Pod里的多个业务容器共享Pause容器的IP，共享pause容器挂接的volume，这样既简化了密切关联的业务容器之间的通信问题，也很好地解决了它们之间的文件共享问题  kubernetes为每个Pod都分配了唯一的IP地址，称为Pod IP，一个Pod里的多个容器共享Pod IP地址。 kubernetes要求底层网络支持集群内任意两个Pod之间的直接通信，这通常采用虚拟二层网络技术实现，如：flannel、open vSwitch等，因此，在kubernetes里，一个Pod里的容器与另外主机上的Pod容器能够直接通信。
 Pod有两种：
-普通的Pod，一旦创建，就会被放入etcd中存储，随后被master调度到某个具体的Node上并绑定 静态Pod，静态Pod并没有存放在kubernetes中etcd中，而是被存放在某个具体的Node上的一个具体文件中，并且只能在此Node上启动、运行。 apiVersion: v1 kind: Pod metadata: name: myweb labels: name: myweb spec: containers: - name: myweb image: kubeguide/tomcat-app:v1 ports: - containerPort: 8080 Pod的IP加上这里的容器端口组成了一个新的概念——Endpoint，代表此Pod里的一个服务进程的对外通信地址。一个Pod也存在具有多个Endpoint的情况</description>
+ 普通的Pod，一旦创建，就会被放入etcd中存储，随后被master调度到某个具体的Node上并绑定 静态Pod，静态Pod并没有存放在kubernetes中etcd中，而是被存放在某个具体的Node上的一个具体文件中，并且只能在此Node上启动、运行。  apiVersion: v1 kind: Pod metadata:  name: myweb  labels:  name: myweb spec:  containers:  - name: myweb  image: kubeguide/tomcat-app:v1  ports:  - containerPort: 8080 Pod的IP加上这里的容器端口组成了一个新的概念——Endpoint，代表此Pod里的一个服务进程的对外通信地址。一个Pod也存在具有多个Endpoint的情况</description>
     </item>
     
     <item>
@@ -37,15 +37,15 @@ Pod有两种：
       <pubDate>Mon, 04 Jul 2022 11:08:22 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-csi-plugin-in-action/</guid>
-      <description>准备 kubernetes集群（1.15.5以上版本） go开发环境 开始 项目构建 我们需要开发CSI spec中规定的两个插件程序：
-Node Plugin 在每个节点上运行, 作为一个grpc端点服务于CSI的RPCs,执行具体的挂卷操作。 Controller Plugin 同样为CSI RPCs服务,可以在任何地方运行,一般执行全局性的操作,比如创建/删除网络卷。 按照规范应该是两独立的程序，但这里为了简单会在一个程序里实现spec规定的所有gRPC服务
+      <description>准备  kubernetes集群（1.15.5以上版本） go开发环境  开始 项目构建 我们需要开发CSI spec中规定的两个插件程序：
+ Node Plugin  在每个节点上运行, 作为一个grpc端点服务于CSI的RPCs,执行具体的挂卷操作。   Controller Plugin  同样为CSI RPCs服务,可以在任何地方运行,一般执行全局性的操作,比如创建/删除网络卷。    按照规范应该是两独立的程序，但这里为了简单会在一个程序里实现spec规定的所有gRPC服务
 CSI有三种RPC：
-身份服务：Node Plugin和Controller Plugin都必须实现这些RPC 控制器服务：Controller Plugin必须实现这些RPC 节点服务：Node Plugin必须实现这些RPC 首先构建程序目录
+ 身份服务：Node Plugin和Controller Plugin都必须实现这些RPC 控制器服务：Controller Plugin必须实现这些RPC 节点服务：Node Plugin必须实现这些RPC  首先构建程序目录
 mkdir fsd-plugin &amp;amp;&amp;amp; cd fsd-plugin mkdir -p {cmd,bin,pkg/fsd} deploy/{kubernetes,examples} 创建文件：
 touch pkg/fsd/{controllerserver.go,identityserver.go,nodeserver.go} 创建程序主函数和初始化所需要用到的两个文件
 touch cmd/main.go pkg/fsd/driver.go 创建go mod包管理
 go mod init fsd-csi-driver 最后目录结构如下：
-. ├── bin │ ├── controllerplugin.go │ └── nodeplugin.go ├── cmd ├── deploy │ ├── examples │ └── kubernetes ├── go.mod └── pkg └── fsd ├── controllerserver.</description>
+. ├── bin │ ├── controllerplugin.go │ └── nodeplugin.go ├── cmd ├── deploy │ ├── examples │ └── kubernetes ├── go.</description>
     </item>
     
     <item>
@@ -57,9 +57,9 @@ go mod init fsd-csi-driver 最后目录结构如下：
       <description>CSI插件开发官方文档
 简介 容器存储接口 (CSI) 是一种标准，用于将任意块和文件存储系统暴露给 Kubernetes 等容器编排系统 (CO) 上的容器化工作负载。使用 CSI 第三方存储提供商可以编写和部署插件，在 Kubernetes 中公开新的存储系统，而无需接触核心 Kubernetes 代码。
 kubernetes版本与CSI兼容版本关系
-kubernetes CSI 兼容版本 版本状态 v1.9 v0.1.0 Alpha v1.10 v0.2.0 Beta v1.11 v0.3.0 Beta v1.13 v0.3.0,v1.0.0 GA 开发和部署 最小要求 唯一的要求是关于 Kubernetes（主节点和节点）组件如何查找 CSI 驱动程序并与之通信
+   kubernetes CSI 兼容版本 版本状态     v1.9 v0.1.0 Alpha   v1.10 v0.2.0 Beta   v1.11 v0.3.0 Beta   v1.13 v0.3.0,v1.0.0 GA    开发和部署 最小要求 唯一的要求是关于 Kubernetes（主节点和节点）组件如何查找 CSI 驱动程序并与之通信
 CSI要求如下：
-Kubelet 到 CSI 驱动程序的通信 Kubelet 通过 Unix Domain Socket 直接向 CSI 驱动程序发出 CSI 调用（如 NodeStageVolume、NodePublishVolume 等）以挂载和卸载卷 Kubelet 通过 kubelet 插件注册机制发现 CSI 驱动程序（以及用于与 CSI 驱动程序交互的 Unix 域套接字）。 因此，部署在 Kubernetes 上的所有 CSI 驱动程序必须在每个支持的节点上使用 kubelet 插件注册机制注册自己。 Master 到CSI驱动程序的通信 Kubernetes 主组件不直接与 CSI 驱动程序通信（通过 Unix 域套接字或其他方式） Kubernetes 主组件仅与 Kubernetes API 交互。 因此，需要依赖于 Kubernetes API 的操作（如卷创建、卷附加、卷快照等）的 CSI 驱动程序必须监视 Kubernetes API 并针对它触发适当的 CSI 操作 因为这些要求是最低限度的规定，所以 CSI 驱动程序开发人员可以自由地实施和部署他们认为合适的驱动程序。</description>
+ Kubelet 到 CSI 驱动程序的通信  Kubelet 通过 Unix Domain Socket 直接向 CSI 驱动程序发出 CSI 调用（如 NodeStageVolume、NodePublishVolume 等）以挂载和卸载卷 Kubelet 通过 kubelet 插件注册机制发现 CSI 驱动程序（以及用于与 CSI 驱动程序交互的 Unix 域套接字）。 因此，部署在 Kubernetes 上的所有 CSI 驱动程序必须在每个支持的节点上使用 kubelet 插件注册机制注册自己。   Master 到CSI驱动程序的通信  Kubernetes 主组件不直接与 CSI 驱动程序通信（通过 Unix 域套接字或其他方式） Kubernetes 主组件仅与 Kubernetes API 交互。 因此，需要依赖于 Kubernetes API 的操作（如卷创建、卷附加、卷快照等）的 CSI 驱动程序必须监视 Kubernetes API 并针对它触发适当的 CSI 操作    因为这些要求是最低限度的规定，所以 CSI 驱动程序开发人员可以自由地实施和部署他们认为合适的驱动程序。</description>
     </item>
     
     <item>
@@ -68,12 +68,11 @@ Kubelet 到 CSI 驱动程序的通信 Kubelet 通过 Unix Domain Socket 直接�
       <pubDate>Fri, 01 Jul 2022 15:00:11 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-build-and-deploy-a-basic-operator/</guid>
-      <description>准备 linux系统 go开发环境 operator sdk 包括： operator-sdk 命令行界面（CLI）工具和SDK方便了算子的开发。 operator lifecycle manager 这有助于集群内操作员的安装、升级和基于角色的访问控制 (RBAC) kubernetes 集群，可以使用minikube之类的工具在本地安装一个单机集群 镜像仓库 golang开发环境安装 golang下载
+      <description>准备  linux系统 go开发环境 operator sdk 包括：  operator-sdk 命令行界面（CLI）工具和SDK方便了算子的开发。 operator lifecycle manager 这有助于集群内操作员的安装、升级和基于角色的访问控制 (RBAC)   kubernetes 集群，可以使用minikube之类的工具在本地安装一个单机集群 镜像仓库  golang开发环境安装 golang下载
 kubernetes集群安装 你需要的配置
-2核以上cpu 2GB以上内存 20GB以上的磁盘空间 docker 安装conntrack 下载安装 需要提前关闭swap分区
-# 关闭swap分区 swapoff -a # 修改/etc/fstab挂载的swap，注释swap挂载即可 reboot # 检查swap状态 free -h # 如果swap一行全部为0则为关闭 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube 运行集群 minikube start --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country=cn 参考minikube安装
-operator sdk 安装 git clone https://github.com/operator-framework/operator-sdk cd operator-sdk git checkout master make install 可以参考operator sdk安装
-构建kubernetes operator 第一步：生成样板代码 首先，运行minikube start运行本地集群</description>
+ 2核以上cpu 2GB以上内存 20GB以上的磁盘空间 docker 安装conntrack  下载安装 需要提前关闭swap分区
+# 关闭swap分区 swapoff -a  # 修改/etc/fstab挂载的swap，注释swap挂载即可 reboot # 检查swap状态 free -h # 如果swap一行全部为0则为关闭 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube 运行集群 minikube start --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --image-mirror-country=cn 参考minikube安装
+operator sdk 安装 git clone https://github.com/operator-framework/operator-sdk cd operator-sdk git checkout master make install 可以参考operator sdk安装</description>
     </item>
     
     <item>
@@ -82,8 +81,8 @@ operator sdk 安装 git clone https://github.com/operator-framework/operator-sdk
       <pubDate>Tue, 20 Apr 2021 10:07:28 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/kubeadm-install-k8s/</guid>
-      <description>环境准备 centos-7 x86_64 2009 vmware 16 虚拟机 kubernetes: v1.21.0 docker-ce: 20.10.5 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB 请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
-# 关闭防火墙 sed -ri &amp;#39;s#(SELINUX=).*#\1disabled#&amp;#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功 docker-ce安装
+      <description>环境准备  centos-7 x86_64 2009 vmware 16 虚拟机 kubernetes: v1.21.0 docker-ce: 20.10.5 cpu最少：4核 内存最少：4GB swap：禁用 最小磁盘：100GB  请先在vmware虚拟机中安装好centos7,并且关闭防火墙和selinux
+# 关闭防火墙 sed -ri &amp;#39;s#(SELINUX=).*#\1disabled#&amp;#39; /etc/selinux/config setenforce 0 systemctl disable firewalld systemctl stop firewalld  # 禁用swap # 注释/etc/fstab关于swap的配置 # 然后执行如下命令 echo vm.swappiness=0 &amp;gt;&amp;gt; /etc/sysctl.conf # 重启 reboot # 查看是否禁用 free -m # 如果swap全部是0表示成功 docker-ce安装
 # 安装yum源 yum install -y wget &amp;amp;&amp;amp; wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo # 安装docker yum install docker-ce # 设置开机自启 systemctl enable docker &amp;amp;&amp;amp; systemctl start docker docker version 第一步：安装kubeadm和相关工具 官网yum源：https://packages.</description>
     </item>
     
@@ -98,10 +97,10 @@ Operator 模式旨在捕获（正在管理一个或一组服务的）运维人�
 在 Kubernetes 上运行工作负载的人们都喜欢通过自动化来处理重复的任务。 Operator 模式会封装你编写的（Kubernetes 本身提供功能以外的）任务自动化代码。
 Operator 是 Kubernetes API 的客户端，充当定制资源的控制器。
 使用operator可以自动化的事情：
-按需部署应用 获取/还原应用状态的备份 处理应用代码的升级以及相关改动。例如，数据库 schema 或额外的配置设置 发布一个 service，要求不支持 Kubernetes API 的应用也能发现它 模拟整个或部分集群中的故障以测试其稳定性 在没有内部成员选举程序的情况下，为分布式应用选择首领角色 部署 Operator 最常见的方法是将自定义资源及其关联的控制器添加到你的集群中。 跟运行容器化应用一样，控制器通常会运行在 控制平面 之外。
+ 按需部署应用 获取/还原应用状态的备份 处理应用代码的升级以及相关改动。例如，数据库 schema 或额外的配置设置 发布一个 service，要求不支持 Kubernetes API 的应用也能发现它 模拟整个或部分集群中的故障以测试其稳定性 在没有内部成员选举程序的情况下，为分布式应用选择首领角色  部署 Operator 最常见的方法是将自定义资源及其关联的控制器添加到你的集群中。 跟运行容器化应用一样，控制器通常会运行在 控制平面 之外。
 部署 Operator 后，你可以对 Operator 所使用的资源执行添加、修改或删除操作。
 编写自己的operator 以下是一些库和工具，你可以用于编写自己的云原生operator
-kubebuilder https://book.kubebuilder.io/ KUDO https://kudo.dev/ Metacontroller https://metacontroller.app/ Operator Framework https://operatorframework.io/ 当然也可以在OperatorHub.io上找到现成的、适合你的operator</description>
+ kubebuilder https://book.kubebuilder.io/ KUDO https://kudo.dev/ Metacontroller https://metacontroller.app/ Operator Framework https://operatorframework.io/  当然也可以在OperatorHub.io上找到现成的、适合你的operator</description>
     </item>
     
     <item>
@@ -111,11 +110,11 @@ kubebuilder https://book.kubebuilder.io/ KUDO https://kudo.dev/ Metacontroller h
       
       <guid>https://realjf.io/k8s/minikube-start/</guid>
       <description>使用Minikube部署本地k8s集群相对比较简单，非常推荐将其用于本地k8s开发环境，唯一麻烦点的仅仅是网络问题
-实验环境 CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2 什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
+实验环境  CentOS 7.9.2009 minikube v1.18 Docker v1.13.1 Kubernetes v1.20.2  什么是minikube？ Minikube 是一个轻量级的Kubernetes实现，会在本机创建一台虚拟机，并部署一个只包含一个节点的简单集群。 Minikube适用于Linux, Mac OS和Windows系统。Minikube CLI提供了集群的基本引导操作，包括启动、停止、状态和删除。
 Minikube的目标是成为本地Kubernetes应用程序开发的最佳工具，并支持所有适合的Kubernetes功能！
 minikube安装 可以参考minikube 安装的网站minikube安装
-# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
-安装docker yum update yum install docker -y systemctl enable docker systemctl start docker # 检查docker版本 docker version # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
+# RPM package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm sudo rpm -ivh minikube-latest.x86_64.rpm  # Debian package curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb sudo dpkg -i minikube_latest_amd64.deb  # Binary download/amd64/x86_64 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 sudo install minikube-linux-amd64 /usr/local/bin/minikube minikube二进制下载地址：https://github.com/kubernetes/minikube/releases
+安装docker yum update yum install docker -y systemctl enable docker systemctl start docker  # 检查docker版本 docker version  # 添加docker组，将当前用户加入该组（需要在非root用户下执行） sudo groupadd docker sudo usermod -aG docker ${USER} sudo systemctl restart docker su root # 需要切换下用户，让配置生效 su ${USER} minikube开始 minikube start --registry-mirror=https://registry.</description>
     </item>
     
   </channel>

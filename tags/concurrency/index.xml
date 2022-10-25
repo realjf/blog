@@ -17,9 +17,9 @@
 也就是说，Go确实在sync包中提供了传统的锁定机制。大多数锁定问题可以使用通道锁定或传统锁定来解决
 使用锁机制和通道的优劣分析 Go新手常见的错误是仅仅因为可能和/或很有趣而过度使用通道和goroutine。如果最适合您的问题，请不要害怕使用sync.Mutex。 Go务实的做法是让您使用能够最好地解决问题的工具，而不用强迫您使用一种代码风格.
 通常
-channel mutex 相互传递数据，分发工作单元，传递异步结果 缓存，状态 wait-group 另一个重要的同步机制是sync.WaitGroup。 这允许多个协作goroutine在再次独立运行之前共同等待同一个阈值事件。
+   channel mutex     相互传递数据，分发工作单元，传递异步结果 缓存，状态    wait-group 另一个重要的同步机制是sync.WaitGroup。 这允许多个协作goroutine在再次独立运行之前共同等待同一个阈值事件。
 通常在两种情况下很有用。
-在“清理”时，可以使用sync.WaitGroup来确保所有goroutine（包括主要的goroutine）都在完全终止之前等待 更常见的情况是循环算法，其中涉及一组goroutine，这些goroutine全部独立工作一段时间，然后全部等待障碍，然后再次独立进行。此模式可能会重复很多次。障碍事件可能会交换数据。此策略是批量同步并行（BSP）的基础 结语 怎么使用取决于你的应用场景，通道通信，互斥锁和等待组是互补的，可以组合使用。</description>
+ 在“清理”时，可以使用sync.WaitGroup来确保所有goroutine（包括主要的goroutine）都在完全终止之前等待 更常见的情况是循环算法，其中涉及一组goroutine，这些goroutine全部独立工作一段时间，然后全部等待障碍，然后再次独立进行。此模式可能会重复很多次。障碍事件可能会交换数据。此策略是批量同步并行（BSP）的基础  结语 怎么使用取决于你的应用场景，通道通信，互斥锁和等待组是互补的，可以组合使用。</description>
     </item>
     
     <item>
@@ -29,7 +29,7 @@ channel mutex 相互传递数据，分发工作单元，传递异步结果 缓�
       
       <guid>https://realjf.io/golang/golang-concurrency-lockosthread/</guid>
       <description>背景介绍 一些库（尤其是图形框架和库（例如Cocoa，OpenGL和libSDL））使用线程局部状态，并且可能要求仅从特定OS线程（通常是“主”线程）调用函数。 Go为此提供了runtime.LockOSThread函数，接下来通过示例说明如何正确使用它。
-package dl import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) // 安排main.main在主线程上运行 func init() { runtime.LockOSThread() } // 在主线程main.main中调用Main循环 func Main() { for f := range mainfunc { // 取出工作队列中的函数进行调用 f() } } var mainfunc = make(chan func()) func do(f func()) { done := make(chan bool, 1) // 将整个函数加入到工作队列中 mainfunc &amp;lt;- func() { f() fmt.Println(&amp;#34;add queue&amp;#34;) done &amp;lt;- true } &amp;lt;-done } func Beep() { do(func() { // 无论什么时候都运行在主线程 fmt.Println(&amp;#34;beep&amp;#34;) }) } main包示例：</description>
+package dl  import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;runtime&amp;#34; )  // 安排main.main在主线程上运行 func init() { 	runtime.LockOSThread() }  // 在主线程main.main中调用Main循环 func Main() { 	for f := range mainfunc { 	// 取出工作队列中的函数进行调用 	f() 	} }  var mainfunc = make(chan func())  func do(f func()) { 	done := make(chan bool, 1) 	// 将整个函数加入到工作队列中 	mainfunc &amp;lt;- func() { 	f() 	fmt.</description>
     </item>
     
     <item>
@@ -39,7 +39,7 @@ package dl import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) // 安排m
       
       <guid>https://realjf.io/golang/golang-concurrency-timeout/</guid>
       <description>并发编程中的超时处理 在并发编程中，要放弃运行时间太长的同步调用，请使用带有time.After的select语句，如下：
-import ( &amp;#34;errors&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main() { var timeoutNanoseconds time.Duration = 5 * time.Second c := make(chan error, 1) go func() { time.Sleep(20 * time.Second) c &amp;lt;- errors.New(&amp;#34;error&amp;#34;) } () select { case err := &amp;lt;-c: // use err and reply fmt.Println(err) case &amp;lt;-time.After(timeoutNanoseconds): // call timed out fmt.Println(&amp;#34;timeout...&amp;#34;) } } 以上代码在超时5秒后退出</description>
+import ( 	&amp;#34;errors&amp;#34; 	&amp;#34;fmt&amp;#34; 	&amp;#34;time&amp;#34; )  func main() { 	var timeoutNanoseconds time.Duration = 5 * time.Second 	c := make(chan error, 1) 	go func() { 	time.Sleep(20 * time.Second) 	c &amp;lt;- errors.New(&amp;#34;error&amp;#34;) 	} () 	select { 	case err := &amp;lt;-c: 	// use err and reply 	fmt.Println(err) 	case &amp;lt;-time.After(timeoutNanoseconds): 	// call timed out 	fmt.Println(&amp;#34;timeout...&amp;#34;) 	} } 以上代码在超时5秒后退出</description>
     </item>
     
     <item>
@@ -51,8 +51,8 @@ import ( &amp;#34;errors&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; )
       <description>什么是数据争用或竞态 数据争用是并发系统中最常见且最难调试的错误类型之一。当两个goroutine并发访问同一变量并且至少其中之一是写操作时，就会发生数据争用。
 下面让我们来实际模拟一下数据争用问题。
 以下示例可能导致内存崩溃和损坏的数据争用
-func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&amp;#34;1&amp;#34;] = &amp;#34;a&amp;#34; c &amp;lt;- true }() m[&amp;#34;2&amp;#34;] = &amp;#34;b&amp;#34; &amp;lt;-c for k, v := range m { fmt.Println(k, v) } } 运行go run -race main.go进行竞争检测，得到的结果如下：
-#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main.func1() /root/go_project/src/test/race.go:9 +0x5d Previous write at 0x00c00008e150 by main goroutine: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main() /root/go_project/src/test/race.</description>
+func main() { 	c := make(chan bool) 	m := make(map[string]string) 	go func() { 	m[&amp;#34;1&amp;#34;] = &amp;#34;a&amp;#34; 	c &amp;lt;- true 	}() 	m[&amp;#34;2&amp;#34;] = &amp;#34;b&amp;#34; 	&amp;lt;-c 	for k, v := range m { 	fmt.Println(k, v) 	} } 运行go run -race main.go进行竞争检测，得到的结果如下：
+#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6:  runtime.mapassign_faststr()  /usr/local/go/src/runtime/map_faststr.go:202 +0x0  main.</description>
     </item>
     
   </channel>

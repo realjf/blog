@@ -22,9 +22,9 @@
       <pubDate>Mon, 11 May 2020 11:06:43 +0800</pubDate>
       
       <guid>https://realjf.io/distributed/zookeeper-set-up/</guid>
-      <description>准备环境 准备4个centos7虚拟机 下载zookeeper安装包 提前安装好jdk 安装jdk zookeeper下载地址：http://mirrors.hust.edu.cn/apache/zookeeper/
-集群规划 node1： leader或follower node2： leader或follower node3： leader或follower node4： observer leader：能接收所有的读写请求，也可以处理所有的读写请求，而且整个集群中的所有写数据请求都是由leader进行处理 follower：能接收所有的读写请求，但是读数据请求自己处理，写数据请求转发给leader observer：跟follower的唯一的区别就是没有选举权和被选举权
-下载安装 wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz tar zxvf apache-zookeeper-3.5.7-bin.tar.gz # 加入环境变量path中 vim ~/.bash_profile export ZOOKEEPER_HOME=/home/hadoop/apps/zookeeper export PATH=$PATH:$ZOOKEEPER_HOME/bin # 保存退出，然后source使其生效 source ~/.bash_profile 配置zoo.cfg文件 # 进入ZOOKEEPER_HOME/conf目录 # 复制zoo_sample.cfg为zoo.cfg cp zoo_sample.cfg zoo.cfg # 编辑zoo.cfg vi zoo.cfg # 集群各节点的心跳时间间隔，保持默认即可(2s) tickTime=2000 # 此配置表示，允许follower连接并同步到leader的初始化连接时间 # 它以tickTime的倍数来表示 # 当超过设置倍数的tickTime时间，则连接失败 # 保持默认即可(10次心跳的时间，即20s) initLimit=10 # follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s # 如果10s内没有收到响应，本次请求就失败 syncLimit=5 # zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空 dataDir=/root/hadoop/zkdata # 客户端连接的端口号，保持默认即可 clientPort=2181 # 以下内容手动添加 # server.</description>
+      <description>准备环境  准备4个centos7虚拟机 下载zookeeper安装包 提前安装好jdk 安装jdk  zookeeper下载地址：http://mirrors.hust.edu.cn/apache/zookeeper/
+集群规划  node1： leader或follower node2： leader或follower node3： leader或follower node4： observer   leader：能接收所有的读写请求，也可以处理所有的读写请求，而且整个集群中的所有写数据请求都是由leader进行处理 follower：能接收所有的读写请求，但是读数据请求自己处理，写数据请求转发给leader observer：跟follower的唯一的区别就是没有选举权和被选举权
+ 下载安装 wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz  tar zxvf apache-zookeeper-3.5.7-bin.tar.gz  # 加入环境变量path中 vim ~/.bash_profile  export ZOOKEEPER_HOME=/home/hadoop/apps/zookeeper export PATH=$PATH:$ZOOKEEPER_HOME/bin  # 保存退出，然后source使其生效 source ~/.bash_profile 配置zoo.cfg文件 # 进入ZOOKEEPER_HOME/conf目录 # 复制zoo_sample.cfg为zoo.cfg cp zoo_sample.cfg zoo.cfg # 编辑zoo.cfg vi zoo.cfg  # 集群各节点的心跳时间间隔，保持默认即可(2s) tickTime=2000  # 此配置表示，允许follower连接并同步到leader的初始化连接时间 # 它以tickTime的倍数来表示 # 当超过设置倍数的tickTime时间，则连接失败 # 保持默认即可(10次心跳的时间，即20s) initLimit=10  # follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s # 如果10s内没有收到响应，本次请求就失败 syncLimit=5  # zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空 dataDir=/root/hadoop/zkdata  # 客户端连接的端口号，保持默认即可 clientPort=2181  # 以下内容手动添加 # server.</description>
     </item>
     
     <item>
@@ -34,23 +34,17 @@
       
       <guid>https://realjf.io/posts/fault-tolerance/</guid>
       <description>容错性 基本概念 容错与系统可靠性息息相关，可靠系统满足以下特性：
-可用性 可靠性 安全性 可维护性 故障分类 故障通常分为三类
-暂时故障 间歇故障 持久故障 分布式系统中的典型故障模式可分为以下几种：
-崩溃性故障 遗漏性故障 定时性故障 响应性故障 任意性故障 任意性故障是最严重的故障，也称拜占庭故障。
+ 可用性 可靠性 安全性 可维护性  故障分类 故障通常分为三类
+ 暂时故障 间歇故障 持久故障  分布式系统中的典型故障模式可分为以下几种：
+ 崩溃性故障 遗漏性故障 定时性故障 响应性故障 任意性故障  任意性故障是最严重的故障，也称拜占庭故障。
 分布式提交 在分布式系统中，事务往往包含多个参与者的活动，单个参与者的活动是能够保证原子性的， 而保证多个参与者之间原子性则需要通过两阶段提交或者三阶段提交算法实现。
 两阶段提交 两阶段提交协议（2PC）的过程涉及协调者和参与者。协调者可以看做事务的发起者，同时也是事务的一个参与者。 对于一个分布式事务来说，一个事务是涉及多个参与者的。
 第一阶段(准备阶段)
-协调者节点向所有参与者节点询问是否可以执行提交操作，并开始等待各参与者节点的响应。 参与者节点执行所有事务操作，并将undo信息和redo信息写入日志（若成功其实这里每个参与者已经执行了事务操作） 个参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个同意消息，如果参与者节点事务操作实际执行失败，则返回一个终止操作 第二阶段（提交阶段）
+ 协调者节点向所有参与者节点询问是否可以执行提交操作，并开始等待各参与者节点的响应。 参与者节点执行所有事务操作，并将undo信息和redo信息写入日志（若成功其实这里每个参与者已经执行了事务操作） 个参与者节点响应协调者节点发起的询问。如果参与者节点的事务操作实际执行成功，则它返回一个同意消息，如果参与者节点事务操作实际执行失败，则返回一个终止操作  第二阶段（提交阶段）
 如果协调者收到了参与这的失败消息或者超时，直接给每个参与者发送回滚消息，否则，发送提交消息； 参与者根据协调者的指令执行提交或者回滚操作，释放所有事务处理过程中使用的锁资源。
-当协调者节点从所有参与者节点处获得的相应消息都为同意时： 协调者节点向所有参与者节点发送正式提交请求 参与者节点正式完成操作，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送完成消息 如果任一参与者节点在第一阶段返回的消息为终止，或者协调者节点在第一阶段的询问在超时之前无法获取所有参与者节点的响应消息时： 协调者节点向所有参与者节点发送回滚操作请求 参与者节点利用之前写入的undo信息执行回滚，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送回滚完成消息 协调者节点收到所有参与者节点反馈的回滚完成消息后，取消事务 协调者节点收到所有参与者节点返回的完成消息后，完成事务。 缺点
-同步阻塞问题。执行过程中，所有参与者节点都是事务阻塞型的。 单点故障问题。由于协调者的重要性，一旦协调者发生故障，参与者会一直阻塞下去。 数据不一致。在阶段二中，当协调者向参与者发送commit请求后，发生了局域网异常，或者在发送commit请求过程中协调者发生故障， 这会导致只有一部分参与者接收到了commit请求。而在这部分参与者接收到commit请求之后就会执行commit操作。但是其他部分未接收到commit请求的机器无法执行事务提交。于是整个分布式系统便出现了数据不一致性的现象。 两阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了，那么， 即使协调者通过选举产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否已被提交。 为了解决两阶段提交的种种问题，提出了三阶段提交。
-三阶段提交 三阶段提交是两阶段提交的改进版，有 两个改动点：
-引入超时机制，同时在协调者和参与者中都引入超时机制 在第一阶段和第二阶段中插入一个准备阶段，保证了在最后提交阶段之前各参与者节点的状态是一致的。 三阶段提交把两阶段提交的准备阶段一分为二，形成CanCommit， PreCommit,DoCommit三个阶段。
-CanCommit阶段
-该阶段和2PC的准备阶段类似。协调者向参与者发送commit请求，参与者如果可以提交就返回yes，否则返回no
-事务询问 响应反馈 PreCommit阶段
-协调者根据参与者的反应情况来决定是否可以执行事务的PreCommit操作，根据响应情况，有以下两种可能：
-根据协调者从所有的参与者处获得的反馈都是yes响应，那么就会执行事务的预执行。 发送预提交请求：协调者向参与者发送PreCommit请求，并进入prepared阶段 事务预提交：参与者接收到precommit请求后，会执行事务操作，并将undo和redo信息记录到事务日志中。 响应反馈：如果参与者成功执行了事务操作，则返回ack响应，同时开始等待最终指令。 假如有任一一个参与者向协调者发送了no响应，或者等待超时后，协调者都没有接收到参与者的响应，那么就执行事务的中断操作。 发送中断请求：协调者向所有参与者发送abort请求 中断事务 doCommit阶段</description>
+ 当协调者节点从所有参与者节点处获得的相应消息都为同意时：  协调者节点向所有参与者节点发送正式提交请求 参与者节点正式完成操作，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送完成消息   如果任一参与者节点在第一阶段返回的消息为终止，或者协调者节点在第一阶段的询问在超时之前无法获取所有参与者节点的响应消息时：  协调者节点向所有参与者节点发送回滚操作请求 参与者节点利用之前写入的undo信息执行回滚，并释放在整个事务期间内占用的资源 参与者节点向协调者节点发送回滚完成消息 协调者节点收到所有参与者节点反馈的回滚完成消息后，取消事务 协调者节点收到所有参与者节点返回的完成消息后，完成事务。    缺点
+ 同步阻塞问题。执行过程中，所有参与者节点都是事务阻塞型的。 单点故障问题。由于协调者的重要性，一旦协调者发生故障，参与者会一直阻塞下去。 数据不一致。在阶段二中，当协调者向参与者发送commit请求后，发生了局域网异常，或者在发送commit请求过程中协调者发生故障， 这会导致只有一部分参与者接收到了commit请求。而在这部分参与者接收到commit请求之后就会执行commit操作。但是其他部分未接收到commit请求的机器无法执行事务提交。于是整个分布式系统便出现了数据不一致性的现象。 两阶段无法解决的问题：协调者再发出commit消息之后宕机，而唯一接收到这条消息的参与者同时也宕机了，那么， 即使协调者通过选举产生了新的协调者，这条事务的状态也是不确定的，没人知道事务是否已被提交。  为了解决两阶段提交的种种问题，提出了三阶段提交。
+三阶段提交 三阶段提交是两阶段提交的改进版，有 两个改动点：</description>
     </item>
     
   </channel>

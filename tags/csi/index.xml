@@ -13,15 +13,15 @@
       <pubDate>Mon, 04 Jul 2022 11:08:22 +0800</pubDate>
       
       <guid>https://realjf.io/k8s/k8s-csi-plugin-in-action/</guid>
-      <description>准备 kubernetes集群（1.15.5以上版本） go开发环境 开始 项目构建 我们需要开发CSI spec中规定的两个插件程序：
-Node Plugin 在每个节点上运行, 作为一个grpc端点服务于CSI的RPCs,执行具体的挂卷操作。 Controller Plugin 同样为CSI RPCs服务,可以在任何地方运行,一般执行全局性的操作,比如创建/删除网络卷。 按照规范应该是两独立的程序，但这里为了简单会在一个程序里实现spec规定的所有gRPC服务
+      <description>准备  kubernetes集群（1.15.5以上版本） go开发环境  开始 项目构建 我们需要开发CSI spec中规定的两个插件程序：
+ Node Plugin  在每个节点上运行, 作为一个grpc端点服务于CSI的RPCs,执行具体的挂卷操作。   Controller Plugin  同样为CSI RPCs服务,可以在任何地方运行,一般执行全局性的操作,比如创建/删除网络卷。    按照规范应该是两独立的程序，但这里为了简单会在一个程序里实现spec规定的所有gRPC服务
 CSI有三种RPC：
-身份服务：Node Plugin和Controller Plugin都必须实现这些RPC 控制器服务：Controller Plugin必须实现这些RPC 节点服务：Node Plugin必须实现这些RPC 首先构建程序目录
+ 身份服务：Node Plugin和Controller Plugin都必须实现这些RPC 控制器服务：Controller Plugin必须实现这些RPC 节点服务：Node Plugin必须实现这些RPC  首先构建程序目录
 mkdir fsd-plugin &amp;amp;&amp;amp; cd fsd-plugin mkdir -p {cmd,bin,pkg/fsd} deploy/{kubernetes,examples} 创建文件：
 touch pkg/fsd/{controllerserver.go,identityserver.go,nodeserver.go} 创建程序主函数和初始化所需要用到的两个文件
 touch cmd/main.go pkg/fsd/driver.go 创建go mod包管理
 go mod init fsd-csi-driver 最后目录结构如下：
-. ├── bin │ ├── controllerplugin.go │ └── nodeplugin.go ├── cmd ├── deploy │ ├── examples │ └── kubernetes ├── go.mod └── pkg └── fsd ├── controllerserver.</description>
+. ├── bin │ ├── controllerplugin.go │ └── nodeplugin.go ├── cmd ├── deploy │ ├── examples │ └── kubernetes ├── go.</description>
     </item>
     
     <item>
@@ -33,9 +33,9 @@ go mod init fsd-csi-driver 最后目录结构如下：
       <description>CSI插件开发官方文档
 简介 容器存储接口 (CSI) 是一种标准，用于将任意块和文件存储系统暴露给 Kubernetes 等容器编排系统 (CO) 上的容器化工作负载。使用 CSI 第三方存储提供商可以编写和部署插件，在 Kubernetes 中公开新的存储系统，而无需接触核心 Kubernetes 代码。
 kubernetes版本与CSI兼容版本关系
-kubernetes CSI 兼容版本 版本状态 v1.9 v0.1.0 Alpha v1.10 v0.2.0 Beta v1.11 v0.3.0 Beta v1.13 v0.3.0,v1.0.0 GA 开发和部署 最小要求 唯一的要求是关于 Kubernetes（主节点和节点）组件如何查找 CSI 驱动程序并与之通信
+   kubernetes CSI 兼容版本 版本状态     v1.9 v0.1.0 Alpha   v1.10 v0.2.0 Beta   v1.11 v0.3.0 Beta   v1.13 v0.3.0,v1.0.0 GA    开发和部署 最小要求 唯一的要求是关于 Kubernetes（主节点和节点）组件如何查找 CSI 驱动程序并与之通信
 CSI要求如下：
-Kubelet 到 CSI 驱动程序的通信 Kubelet 通过 Unix Domain Socket 直接向 CSI 驱动程序发出 CSI 调用（如 NodeStageVolume、NodePublishVolume 等）以挂载和卸载卷 Kubelet 通过 kubelet 插件注册机制发现 CSI 驱动程序（以及用于与 CSI 驱动程序交互的 Unix 域套接字）。 因此，部署在 Kubernetes 上的所有 CSI 驱动程序必须在每个支持的节点上使用 kubelet 插件注册机制注册自己。 Master 到CSI驱动程序的通信 Kubernetes 主组件不直接与 CSI 驱动程序通信（通过 Unix 域套接字或其他方式） Kubernetes 主组件仅与 Kubernetes API 交互。 因此，需要依赖于 Kubernetes API 的操作（如卷创建、卷附加、卷快照等）的 CSI 驱动程序必须监视 Kubernetes API 并针对它触发适当的 CSI 操作 因为这些要求是最低限度的规定，所以 CSI 驱动程序开发人员可以自由地实施和部署他们认为合适的驱动程序。</description>
+ Kubelet 到 CSI 驱动程序的通信  Kubelet 通过 Unix Domain Socket 直接向 CSI 驱动程序发出 CSI 调用（如 NodeStageVolume、NodePublishVolume 等）以挂载和卸载卷 Kubelet 通过 kubelet 插件注册机制发现 CSI 驱动程序（以及用于与 CSI 驱动程序交互的 Unix 域套接字）。 因此，部署在 Kubernetes 上的所有 CSI 驱动程序必须在每个支持的节点上使用 kubelet 插件注册机制注册自己。   Master 到CSI驱动程序的通信  Kubernetes 主组件不直接与 CSI 驱动程序通信（通过 Unix 域套接字或其他方式） Kubernetes 主组件仅与 Kubernetes API 交互。 因此，需要依赖于 Kubernetes API 的操作（如卷创建、卷附加、卷快照等）的 CSI 驱动程序必须监视 Kubernetes API 并针对它触发适当的 CSI 操作    因为这些要求是最低限度的规定，所以 CSI 驱动程序开发人员可以自由地实施和部署他们认为合适的驱动程序。</description>
     </item>
     
   </channel>

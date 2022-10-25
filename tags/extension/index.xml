@@ -13,8 +13,8 @@
       <pubDate>Tue, 24 Nov 2020 10:18:41 +0800</pubDate>
       
       <guid>https://realjf.io/vscode/your-first-vscode-extension/</guid>
-      <description>准备 node.js git 安装yeoman和vscode扩展生成器 npm install -g yo generator-code 用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
-yo code ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use? npm create helloworld\.</description>
+      <description>准备  node.js git  安装yeoman和vscode扩展生成器 npm install -g yo generator-code 用生成器构建一个TypeScript或JavaScript项目，以备开发。运行生成器并为TypeScript项目填写一些字段：
+yo code  ? What type of extension do you want to create? New Extension (TypeScript) ? What&amp;#39;s the name of your extension? HelloWorld ? What&amp;#39;s the identifier of your extension? helloworld ? What&amp;#39;s the description of your extension? LEAVE BLANK ? Initialize a git repository? Yes ? Bundle the source code with webpack? No ? Which package manager to use?</description>
     </item>
     
   </channel>

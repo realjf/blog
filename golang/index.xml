@@ -14,7 +14,7 @@
       
       <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-3/</guid>
       <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ ├── main.go │ └── model │ ├── errors.go │ ├── interfaces.go │ └── user.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore clean architecture entity数据层的model 执行go get -u github.com/google/uuid， 创建account/model/user.go文件，其内容如下：
-package model import &amp;#34;github.com/google/uuid&amp;#34; type User struct { UID uuid.UUID `db:&amp;#34;uid&amp;#34; json:&amp;#34;uid&amp;#34;` Email string `db:&amp;#34;email&amp;#34; json:&amp;#34;email&amp;#34;` Password string `db:&amp;#34;password&amp;#34; json:&amp;#34;-&amp;#34;` Name string `db:&amp;#34;name&amp;#34; json:&amp;#34;name&amp;#34;` ImageURL string `db:&amp;#34;image_url&amp;#34; json:&amp;#34;imageUrl&amp;#34;` Website string `db:&amp;#34;website&amp;#34; json:&amp;#34;website&amp;#34;` } 创建account/model/interfaces.</description>
+package model  import &amp;#34;github.com/google/uuid&amp;#34;  type User struct { 	UID uuid.UUID `db:&amp;#34;uid&amp;#34; json:&amp;#34;uid&amp;#34;` 	Email string `db:&amp;#34;email&amp;#34; json:&amp;#34;email&amp;#34;` 	Password string `db:&amp;#34;password&amp;#34; json:&amp;#34;-&amp;#34;` 	Name string `db:&amp;#34;name&amp;#34; json:&amp;#34;name&amp;#34;` 	ImageURL string `db:&amp;#34;image_url&amp;#34; json:&amp;#34;imageUrl&amp;#34;` 	Website string `db:&amp;#34;website&amp;#34; json:&amp;#34;website&amp;#34;` } 创建account/model/interfaces.</description>
     </item>
     
     <item>
@@ -24,7 +24,7 @@ package model import &amp;#34;github.com/google/uuid&amp;#34; type User struct {
       
       <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-2/</guid>
       <description>项目结构 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ ├── handler │ │ └── handler.go │ └── main.go ├── docker-compose.yml ├── echo.code-workspace ├── .env.dev └── .gitignore 创建路由处理程序 创建account/handler/handler.go文件，其内容如下：
-package handler import ( &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#34;github.com/gin-gonic/gin&amp;#34; ) type Handler struct{} type Config struct { R *gin.Engine } func NewHandler(c *Config) { h := &amp;amp;Handler{} g := c.R.Group(os.Getenv(&amp;#34;ACCOUNT_API_URL&amp;#34;)) g.GET(&amp;#34;/me&amp;#34;, h.Me) g.POST(&amp;#34;/signup&amp;#34;, h.Signup) g.POST(&amp;#34;/signin&amp;#34;, h.Signin) g.POST(&amp;#34;/signout&amp;#34;, h.Signout) g.POST(&amp;#34;/tokens&amp;#34;, h.</description>
+package handler  import ( 	&amp;#34;net/http&amp;#34; 	&amp;#34;os&amp;#34;  	&amp;#34;github.com/gin-gonic/gin&amp;#34; )  type Handler struct{}  type Config struct { 	R *gin.Engine }  func NewHandler(c *Config) { 	h := &amp;amp;Handler{}  	g := c.</description>
     </item>
     
     <item>
@@ -33,10 +33,9 @@ package handler import ( &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#3
       <pubDate>Sun, 06 Jun 2021 23:04:00 +0800</pubDate>
       
       <guid>https://realjf.io/golang/full-stack-with-vue-and-golang-1/</guid>
-      <description>准备 ubuntu 20.04 go v1.16 docker and docker-compose 项目目录 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ └── main.go ├── docker-compose.yml └── echo.code-workspace echo.code-workspace内容 cat echo.code-workspace { &amp;#34;folders&amp;#34;: [ { &amp;#34;path&amp;#34;: &amp;#34;account&amp;#34; }, { &amp;#34;path&amp;#34;: &amp;#34;.&amp;#34; } ] } 运行
+      <description>准备  ubuntu 20.04 go v1.16 docker and docker-compose  项目目录 . ├── account │ ├── Dockerfile │ ├── go.mod │ ├── go.sum │ └── main.go ├── docker-compose.yml └── echo.code-workspace echo.code-workspace内容 cat echo.code-workspace {  &amp;#34;folders&amp;#34;: [  {  &amp;#34;path&amp;#34;: &amp;#34;account&amp;#34;  },  {  &amp;#34;path&amp;#34;: &amp;#34;.&amp;#34;  }  ] } 运行
 # 打开编辑项目 code echo.code-workspace 初始化项目 在项目account目录下运行
-go mod init github.com/realjf/echo 执行go get -u github.com/gin-gonic/gin， 然后创建account/main.go文件，其内容如下：
-package main import ( &amp;#34;context&amp;#34; &amp;#34;log&amp;#34; &amp;#34;net/http&amp;#34; &amp;#34;os&amp;#34; &amp;#34;os/signal&amp;#34; &amp;#34;syscall&amp;#34; &amp;#34;time&amp;#34; &amp;#34;github.</description>
+go mod init github.com/realjf/echo 执行go get -u github.com/gin-gonic/gin， 然后创建account/main.go文件，其内容如下：</description>
     </item>
     
     <item>
@@ -45,9 +44,9 @@ package main import ( &amp;#34;context&amp;#34; &amp;#34;log&amp;#34; &amp;#34;n
       <pubDate>Sun, 06 Jun 2021 10:23:01 +0800</pubDate>
       
       <guid>https://realjf.io/golang/discover-consul-in-action/</guid>
-      <description>准备 ubuntu v20.04 git go v1.16 项目结构 . ├── config ├── discover ├── endpoint ├── go.mod ├── go.sum ├── main.go ├── service └── transport transport层 项目提供的服务方式 endpoint层 用于接收请求并返回响应 service层 业务代码实现层 discover 服务发现实现 什么是consul？ Consul 是一种服务网格解决方案，提供具有服务发现、配置和分段功能的全功能控制平面。这些功能中的每一个都可以根据需要单独使用，也可以一起使用以构建完整的服务网格。 Consul 需要一个数据平面并支持代理和本地集成模型。 Consul 附带一个简单的内置代理，因此一切都可以开箱即用，而且还支持 第三方方代理集成，例如 Envoy。
+      <description>准备  ubuntu v20.04 git go v1.16  项目结构 . ├── config ├── discover ├── endpoint ├── go.mod ├── go.sum ├── main.go ├── service └── transport  transport层 项目提供的服务方式 endpoint层 用于接收请求并返回响应 service层 业务代码实现层 discover 服务发现实现  什么是consul？ Consul 是一种服务网格解决方案，提供具有服务发现、配置和分段功能的全功能控制平面。这些功能中的每一个都可以根据需要单独使用，也可以一起使用以构建完整的服务网格。 Consul 需要一个数据平面并支持代理和本地集成模型。 Consul 附带一个简单的内置代理，因此一切都可以开箱即用，而且还支持 第三方方代理集成，例如 Envoy。
 Consul 的主要特点是：
-服务发现：Consul 的客户端可以注册一个服务，例如 api 或 mysql，其他客户端可以使用 Consul 来发现给定服务的提供者。使用 DNS 或 HTTP，应用程序可以轻松找到它们所依赖的服务。 健康检查：Consul 客户端可以提供任意数量的健康检查，要么与给定的服务相关（“网络服务器是否返回 200 OK”），要么与本地节点（“内存利用率是否低于 90%”）相关联。操作员可以使用此信息来监控集群健康状况，并且服务发现组件可以使用它来将流量路由到不健康的主机之外。 KV 存储：应用程序可以将 Consul 的分层键/值存储用于多种目的，包括动态配置、功能标记、协调、领导选举等。简单的 HTTP API 使其易于使用。 安全的服务通信：Consul 可以为服务生成和分发 TLS 证书，以建立相互的 TLS 连接。意图可用于定义允许哪些服务进行通信。可以通过实时更改意图轻松管理服务分段，而不是使用复杂的网络拓扑和静态防火墙规则。 多数据中心：Consul 支持开箱即用的多个数据中心。这意味着 Consul 的用户不必担心构建额外的抽象层以扩展到多个区域。 consul的安装和启动 安装方式</description>
+ 服务发现：Consul 的客户端可以注册一个服务，例如 api 或 mysql，其他客户端可以使用 Consul 来发现给定服务的提供者。使用 DNS 或 HTTP，应用程序可以轻松找到它们所依赖的服务。 健康检查：Consul 客户端可以提供任意数量的健康检查，要么与给定的服务相关（“网络服务器是否返回 200 OK”），要么与本地节点（“内存利用率是否低于 90%”）相关联。操作员可以使用此信息来监控集群健康状况，并且服务发现组件可以使用它来将流量路由到不健康的主机之外。 KV 存储：应用程序可以将 Consul 的分层键/值存储用于多种目的，包括动态配置、功能标记、协调、领导选举等。简单的 HTTP API 使其易于使用。 安全的服务通信：Consul 可以为服务生成和分发 TLS 证书，以建立相互的 TLS 连接。意图可用于定义允许哪些服务进行通信。可以通过实时更改意图轻松管理服务分段，而不是使用复杂的网络拓扑和静态防火墙规则。 多数据中心：Consul 支持开箱即用的多个数据中心。这意味着 Consul 的用户不必担心构建额外的抽象层以扩展到多个区域。  consul的安装和启动 安装方式</description>
     </item>
     
     <item>
@@ -57,7 +56,7 @@ Consul 的主要特点是：
       
       <guid>https://realjf.io/golang/golang-hidden-pragmas/</guid>
       <description>说到编译指令，许多语言支持，如rust,c,javascript等，这里必须要提及下c语言的编译指令#pragma，它的作用是设定编译器的状态或者是指示编译器完成一些特定的动作, 如：
-#pragma once 用于保证头文件只被编译一次， #pragma message 用于自定义编译信息 #pragama pack用于指定内存对齐 那么go语言是否有相应的编译指令呢？答案是肯定的。
+ #pragma once 用于保证头文件只被编译一次， #pragma message 用于自定义编译信息 #pragama pack用于指定内存对齐  那么go语言是否有相应的编译指令呢？答案是肯定的。
 go语言的编译指令 c语言使用#pragma编写预处理编译指令，但是go没有这种预处理器或宏， 那go使用什么来制定编译指令呢？
 我们先来看个例子：
 //go:noescape func printf(*s stirng) (err error){ ... } 如上，这是一个go语言的编译指令，意思是让编译器不进行内存逃逸分析
@@ -66,10 +65,10 @@ go语言的编译指令 c语言使用#pragma编写预处理编译指令，但是
 //go:noinline 禁止内联
 内联通过将内联函数的代码复制到其调用方中，从而改善了堆栈检查前同步码的成本以及实际上所有函数调用的开销。 通过避免函数调用开销，可以在增加程序大小和减少运行时间之间进行很小的折衷。 内联是编译器优化的关键，因为它可以解锁许多其他优化。
 //go:nowritebarrier 意思很明显，让编译器禁用内存写屏障
-import _ &amp;#34;unsafe&amp;#34; //go:linkname localname github.com/xxx/xxx/xxx.xxx 引导编译器将当前(私有)方法或者变量在编译时链接到指定的位置的方法或者变量，第一个参数表示当前方法或变量，第二个参数表示目标方法或变量，因为这关指令会破坏系统和包的模块化，因此在使用时必须导入unsafe， 如：
+import _ &amp;#34;unsafe&amp;#34;  //go:linkname localname github.com/xxx/xxx/xxx.xxx 引导编译器将当前(私有)方法或者变量在编译时链接到指定的位置的方法或者变量，第一个参数表示当前方法或变量，第二个参数表示目标方法或变量，因为这关指令会破坏系统和包的模块化，因此在使用时必须导入unsafe， 如：
 time/time.go
 ... func now() (sec int64, nsec int32, mono int64) runtime/timestub.go文件里的代码
-import _ &amp;#34;unsafe&amp;#34; // for go:linkname //go:linkname time_now time.now func time_now() (sec int64, nsec int32, mono int64) { sec, nsec = walltime() return sec, nsec, nanotime() - startNano } 可以看到 time.</description>
+import _ &amp;#34;unsafe&amp;#34; // for go:linkname  //go:linkname time_now time.</description>
     </item>
     
     <item>
@@ -78,12 +77,9 @@ import _ &amp;#34;unsafe&amp;#34; // for go:linkname //go:linkname time_now time
       <pubDate>Wed, 21 Apr 2021 11:23:18 +0800</pubDate>
       
       <guid>https://realjf.io/golang/go-gc-mechanism/</guid>
-      <description>GC三色标记流程说明 1. GC执行扫描(sweep)终止 stop the world（简称STW），这将导致所有P达到GC安全点 扫描所有未清扫的span，只有在以下情况下才会出现未扫描的span：此GC周期在预期时间之前被强制执行 2. GC执行标记(mark)阶段 通过将gcphase设置为_GCmark来准备标记阶段（来自_GCoff），启用写屏障，启用mutator协助和加入根标记作业。不得有物体扫描直到所有P都启用了写屏障，即使用STW完成。 start the world，从这一点来说，GC工作是由调度器启动mark工人完成的，以及作为分配的一部分。写屏障屏蔽了重写指针和任何指针的新指针值写入（请参阅mbarrier.go 详细信息）。新分配的对象立即标记为黑色。 GC执行根标记作业。这包括扫描所有堆栈，着色所有全局变量，着色中的所有堆指针堆外运行时数据结构。扫描堆栈停止goroutine，隐藏堆栈上的指针，然后恢复goroutine。 GC将灰色对象的工作队列清空，扫描每个灰色对象变为黑色，并对对象中找到的所有指针进行着色（这反过来可能会将这些指针添加到工作队列）。 因为GC工作分布在本地缓存中，所以GC使用分布式终止算法，用于检测没有更多根标记作业或灰色对象（请参见gcMarkDone）。在这刻，GC转换到标记终止。 3. GC执行标记终止 STW 将gcphase设置为_GCmarktermination，并禁用worker和辅助 执行像刷新mcaches一样的内务处理 4. GC执行扫描阶段 通过将gcphase设置为_GCoff来准备扫描阶段，设置扫描状态并禁用写屏障 start the world。从这一刻开始，新分配的对象为白色，必要时在使用前分配扫描span GC在后台进行并发清除和在响应中进行分配 5. 完成足够的分配后，从上面的1重新开始清扫标记过程 GC过程图解 从根节点开始遍历对象，包括全局指针和goroutine栈上的指针 标记（mark）阶段 从根节点遍历到的对象标记为灰色，然后遍历灰色对象直至灰色队列为空 re-scan，重新扫描全局指针和栈上指针，因为mark和用户程序是并行的，所以在1过程中，可能会有新对象分配，这时需要写屏障记录下来，re-scan再重新检查一遍 STW有两次，分别是 GC将要开始的时候，这时主要做一些准备工作，比如启用写屏障等 第二次就是在re-scan时候，如果这时没有STW，那么mark将无休止 其中：GCphase状态值在以下几个中转换
-_GCoff：gc关闭阶段 _GCmark: gc标记清扫阶段 _GCmarktermination：mark termination阶段 写屏障 假设开始的引用关系是：
-root-&amp;gt;A-&amp;gt;B , root-&amp;gt;A-&amp;gt;C, root-&amp;gt;D-&amp;gt;E 在进行三色标记阶段，扫描了A对象，并标记A，这时，如果一个goroutine修改了D-&amp;gt;E的引用关系为A-&amp;gt;E， 此时是这样的：
-root-&amp;gt;A-&amp;gt;B, root-&amp;gt;A-&amp;gt;C, root-&amp;gt;A-&amp;gt;E, root-&amp;gt;D 出现这种情况，如何解决E的标记问题？写屏障就是记录下这一过程，并将E标记为存活状态，这样即使后面A-&amp;gt;E的引用 关系解除，E也会在下一轮GC中被回收了。
-参考文献
-http://legendtkl.com/2017/04/28/golang-gc/ https://mp.weixin.qq.com/s?__biz=MzUzMjk0ODI0OA==&amp;amp;mid=2247483727&amp;amp;idx=1&amp;amp;sn=abe1e6896cb398bde2517b469d07afa0&amp;amp;chksm=faaa3538cdddbc2e81e146f74fd7050a6ac9a89a13b024717c9d56888de4a19cb0973f6bbe94&amp;amp;mpshare=1&amp;amp;scene=24&amp;amp;srcid=04105l1DG5QXbS4dfUB6aWeX&amp;amp;key=fb1dd35c5489928a678ed39df498f0d7f7ce5ef29135addb7c0573a4d19220f05d9c2522d44eb6315eaa9b6590d1f3afaaf06a3e96a1abeb1fb22d2870f9185f446a1e704aa2b16bd0775cd7be370a43&amp;amp;ascene=14&amp;amp;uin=Mjg4MTE5ODIzMA%3D%3D&amp;amp;devicetype=Windows+10&amp;amp;version=62060739&amp;amp;lang=zh_CN&amp;amp;pass_ticket=bqbjocTiytbymxqE%2FkEqbcTWuMs1uh6W%2BK2eHz3sKwLI%2BWRx6of4k%2BmAlALLk8iH </description>
+      <description>GC三色标记流程说明 1. GC执行扫描(sweep)终止  stop the world（简称STW），这将导致所有P达到GC安全点 扫描所有未清扫的span，只有在以下情况下才会出现未扫描的span：此GC周期在预期时间之前被强制执行  2. GC执行标记(mark)阶段  通过将gcphase设置为_GCmark来准备标记阶段（来自_GCoff），启用写屏障，启用mutator协助和加入根标记作业。不得有物体扫描直到所有P都启用了写屏障，即使用STW完成。 start the world，从这一点来说，GC工作是由调度器启动mark工人完成的，以及作为分配的一部分。写屏障屏蔽了重写指针和任何指针的新指针值写入（请参阅mbarrier.go 详细信息）。新分配的对象立即标记为黑色。 GC执行根标记作业。这包括扫描所有堆栈，着色所有全局变量，着色中的所有堆指针堆外运行时数据结构。扫描堆栈停止goroutine，隐藏堆栈上的指针，然后恢复goroutine。 GC将灰色对象的工作队列清空，扫描每个灰色对象变为黑色，并对对象中找到的所有指针进行着色（这反过来可能会将这些指针添加到工作队列）。 因为GC工作分布在本地缓存中，所以GC使用分布式终止算法，用于检测没有更多根标记作业或灰色对象（请参见gcMarkDone）。在这刻，GC转换到标记终止。  3. GC执行标记终止  STW 将gcphase设置为_GCmarktermination，并禁用worker和辅助 执行像刷新mcaches一样的内务处理  4. GC执行扫描阶段  通过将gcphase设置为_GCoff来准备扫描阶段，设置扫描状态并禁用写屏障 start the world。从这一刻开始，新分配的对象为白色，必要时在使用前分配扫描span GC在后台进行并发清除和在响应中进行分配  5. 完成足够的分配后，从上面的1重新开始清扫标记过程 GC过程图解  从根节点开始遍历对象，包括全局指针和goroutine栈上的指针 标记（mark）阶段   从根节点遍历到的对象标记为灰色，然后遍历灰色对象直至灰色队列为空 re-scan，重新扫描全局指针和栈上指针，因为mark和用户程序是并行的，所以在1过程中，可能会有新对象分配，这时需要写屏障记录下来，re-scan再重新检查一遍  STW有两次，分别是   GC将要开始的时候，这时主要做一些准备工作，比如启用写屏障等 第二次就是在re-scan时候，如果这时没有STW，那么mark将无休止  其中：GCphase状态值在以下几个中转换
+ _GCoff：gc关闭阶段 _GCmark: gc标记清扫阶段 _GCmarktermination：mark termination阶段  写屏障 假设开始的引用关系是：
+root-&amp;gt;A-&amp;gt;B , root-&amp;gt;A-&amp;gt;C, root-&amp;gt;D-&amp;gt;E 在进行三色标记阶段，扫描了A对象，并标记A，这时，如果一个goroutine修改了D-&amp;gt;E的引用关系为A-&amp;gt;E， 此时是这样的：</description>
     </item>
     
     <item>
@@ -92,11 +88,9 @@ http://legendtkl.com/2017/04/28/golang-gc/ https://mp.weixin.qq.com/s?__biz=MzUz
       <pubDate>Wed, 14 Apr 2021 11:40:54 +0800</pubDate>
       
       <guid>https://realjf.io/golang/golang-memory-allocation-mechanism/</guid>
-      <description>环境 golang v1.16.3 64位系统 分配器描述 golang内存分配器原理与tcmalloc类似，通过维护一块大的全局内存，每个线程（golang中的P）维护一块小的私有内存，私有内存不足再从全局申请。
+      <description>环境  golang v1.16.3 64位系统  分配器描述 golang内存分配器原理与tcmalloc类似，通过维护一块大的全局内存，每个线程（golang中的P）维护一块小的私有内存，私有内存不足再从全局申请。
 主分配器工作在页面运行时，较小的分配大小（_MaxSmallSize = 32 &amp;laquo; 10, 不超过32kb）是四舍五入到大约70个()尺寸的class，每个class有自己的一组大小正好相同的objects，任何空闲的内存都可以分割成一组其中一个class尺寸的objects，然后使用位图(bitmap)进行管理
-虚拟内存布局 堆由一组arenas组成，这些arenas在64位上是64MB，而32位上是4MB，每个arena的起始地址也是与该arena的大小一致（由此可知其地址空间是从高位到低位） 每个arena都有一个关联的heapArena对象来存储该arena的元数据：arena上的所有words的堆bitmap以及arena上所有pages的span映射。heapArena对象是他们自己被分配到堆外。 因为arenas是对齐的，所以地址空间可以被视为一系列arena框架。arena 映射（mheap_.arenas）将从arena帧编号映射到*heapArena，或者对于go堆不支持的地址空间的部分区域，映射为0,。arena 映射是由“L1”arena 映射和许多“L2”arena 映射组成的两级数组；然而，由于arena是巨大的，在许多架构中，arena 映射由一个大的“L2”map组成 arena 映射覆盖了整个可能的地址空间，允许go堆使用地址空间的任何部分。分配器试图保持arena的连续性，以便大spans能穿过arenas 分配器的数据结构 fixalloc: 用于固定大小堆外objects的空闲列表分配器，用于管理分配器使用的存储 mheap: malloc堆，以page(8192字节)粒度管理 mspan: 由mheap管理的一系列正在使用的page mcentral: 收集所有给定尺寸的class的spans mcache: 一个具有可用空间的mspan的per-P(每个线程P)的缓存 mstats: 分配统计信息 分配流程 分配的对象： 微小对象：小于16B 一般小对象：16B ~ 32KB 大对象：大于32KB 分配方式 微小对象：由微型分配器分配 小对象：按照计算尺寸大小，然后使用mcache中mspan对应class大小的块分配 大对象：直接通过mheap分配，申请需要消耗全局锁锁定代价，任何时间点只能有一个P申请 分配一个小object将沿着缓存的层次结构进行 四舍五入到一个小尺寸class，在这个线程P的mcache中查看相应的mspan，扫描mspan的空闲bitmap以查找空闲slot，如果有空闲的slot，则分配给它，这一切都可以在不获取锁的情况下完成 如果mcache中的mspan没有空闲slot，则从mcentral的符合尺寸class要求的有空闲空间的mspan中，获取新的mspan，获得一个完整span将分摊锁定mcentral的成本 如果mcentral的mspan列表为空，则从mheap中获取一个运行时page，用于这个mspan 如果mheap为空，或没有足够大的运行时page，则从操作系统中分配一组新的pages(至少1MB)，分配一个大的运行时page分摊与操作系统通信的成本 扫描一个mspan并释放其上的objects，处理起来的类似层次结构 如果正在扫描mspan以响应分配，则返回到mcache以满足分配 否则，如果mspan中仍有已分配的object，根据mspan的class的大小，将它放在mcentral空闲列表中 否则，如果mspan中的所有objects都是空闲的，则mspan的pages将被返回到mheap，这时这个mspan就结束生命周期了 分配一个大object 分配和释放大object使用mheap，直接绕过mcache和mcentral
-参考文献
-译文：Go 内存分配器可视化指南 Go&amp;rsquo;s Memory Allocator - Overview 图解Go语言内存分配 Go 1.5 源码剖析 图解golang的内存分配 深入理解GO语言之内存详解 探索Go内存管理(分配) </description>
+虚拟内存布局  堆由一组arenas组成，这些arenas在64位上是64MB，而32位上是4MB，每个arena的起始地址也是与该arena的大小一致（由此可知其地址空间是从高位到低位） 每个arena都有一个关联的heapArena对象来存储该arena的元数据：arena上的所有words的堆bitmap以及arena上所有pages的span映射。heapArena对象是他们自己被分配到堆外。 因为arenas是对齐的，所以地址空间可以被视为一系列arena框架。arena 映射（mheap_.arenas）将从arena帧编号映射到*heapArena，或者对于go堆不支持的地址空间的部分区域，映射为0,。arena 映射是由“L1”arena 映射和许多“L2”arena 映射组成的两级数组；然而，由于arena是巨大的，在许多架构中，arena 映射由一个大的“L2”map组成 arena 映射覆盖了整个可能的地址空间，允许go堆使用地址空间的任何部分。分配器试图保持arena的连续性，以便大spans能穿过arenas  分配器的数据结构  fixalloc: 用于固定大小堆外objects的空闲列表分配器，用于管理分配器使用的存储 mheap: malloc堆，以page(8192字节)粒度管理 mspan: 由mheap管理的一系列正在使用的page mcentral: 收集所有给定尺寸的class的spans mcache: 一个具有可用空间的mspan的per-P(每个线程P)的缓存 mstats: 分配统计信息  分配流程 分配的对象：  微小对象：小于16B 一般小对象：16B ~ 32KB 大对象：大于32KB  分配方式  微小对象：由微型分配器分配 小对象：按照计算尺寸大小，然后使用mcache中mspan对应class大小的块分配 大对象：直接通过mheap分配，申请需要消耗全局锁锁定代价，任何时间点只能有一个P申请  分配一个小object将沿着缓存的层次结构进行  四舍五入到一个小尺寸class，在这个线程P的mcache中查看相应的mspan，扫描mspan的空闲bitmap以查找空闲slot，如果有空闲的slot，则分配给它，这一切都可以在不获取锁的情况下完成 如果mcache中的mspan没有空闲slot，则从mcentral的符合尺寸class要求的有空闲空间的mspan中，获取新的mspan，获得一个完整span将分摊锁定mcentral的成本 如果mcentral的mspan列表为空，则从mheap中获取一个运行时page，用于这个mspan 如果mheap为空，或没有足够大的运行时page，则从操作系统中分配一组新的pages(至少1MB)，分配一个大的运行时page分摊与操作系统通信的成本  扫描一个mspan并释放其上的objects，处理起来的类似层次结构  如果正在扫描mspan以响应分配，则返回到mcache以满足分配 否则，如果mspan中仍有已分配的object，根据mspan的class的大小，将它放在mcentral空闲列表中 否则，如果mspan中的所有objects都是空闲的，则mspan的pages将被返回到mheap，这时这个mspan就结束生命周期了  分配一个大object 分配和释放大object使用mheap，直接绕过mcache和mcentral</description>
     </item>
     
     <item>
@@ -105,11 +99,11 @@ http://legendtkl.com/2017/04/28/golang-gc/ https://mp.weixin.qq.com/s?__biz=MzUz
       <pubDate>Fri, 09 Apr 2021 13:57:59 +0800</pubDate>
       
       <guid>https://realjf.io/golang/golang-memory-leak/</guid>
-      <description>环境 go v1.14.4 什么是 Pprof 首先，不得不提的就是go分析利器pprof。pprof记录程序在运行过程中的cpu使用情况、内存使用情况、 goroutine运行情况、阻塞状况等，是定位bug和性能分析的利器。
+      <description>环境  go v1.14.4  什么是 Pprof 首先，不得不提的就是go分析利器pprof。pprof记录程序在运行过程中的cpu使用情况、内存使用情况、 goroutine运行情况、阻塞状况等，是定位bug和性能分析的利器。
 如何开启pprof go中有两个地方有：
-net/http/pprof runtime/pprof 差别只是runtime/pprof通过封装暴露http端口后就是net/http/pprof
+ net/http/pprof runtime/pprof  差别只是runtime/pprof通过封装暴露http端口后就是net/http/pprof
 开启pprof很简单，只需导入net/http/pprof包，并开启一个goroutine去监听http端口6060就可以了，具体代码如下：
-package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; _ &amp;#34;net/http/pprof&amp;#34; &amp;#34;github.com/gorilla/mux&amp;#34; &amp;#34;time&amp;#34; &amp;#34;log&amp;#34; ) func hello(w http.ResponseWriter, r *http.Request) { w.Write([]byte(&amp;#34;hello world&amp;#34;)) } func main() { go func() { ip := &amp;#34;:6060&amp;#34; if err := http.ListenAndServe(ip, nil); err != nil { fmt.Printf(&amp;#34;start pprof failed on %s\n&amp;#34;, ip) } }() r := mux.NewRouter() r.HandleFunc(&amp;#34;/hello&amp;#34;, hello) srv := &amp;amp;http.Server{ Handler: r, Addr: &amp;#34;:8080&amp;#34;, WriteTimeout: 15 * time.</description>
+package main   import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;net/http&amp;#34; 	_ &amp;#34;net/http/pprof&amp;#34; 		&amp;#34;github.com/gorilla/mux&amp;#34; 	&amp;#34;time&amp;#34; 	&amp;#34;log&amp;#34; )  func hello(w http.ResponseWriter, r *http.Request) { 	w.Write([]byte(&amp;#34;hello world&amp;#34;)) }  func main() { 	go func() { 	ip := &amp;#34;:6060&amp;#34; 	if err := http.ListenAndServe(ip, nil); err != nil { 	fmt.</description>
     </item>
     
     <item>
@@ -118,7 +112,7 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; _ &amp;#3
       <pubDate>Mon, 05 Apr 2021 22:32:42 +0800</pubDate>
       
       <guid>https://realjf.io/golang/golang-scheduling-policy/</guid>
-      <description>go运行调度策略 P包含了运行G所需的上下文资源以及部分调度代码 每个P维护一个本地G队列 P需要结合G并绑定到M上才能运行 P最多有GOMAXPROCS个，并且从程序启动开始就创建好并保持不变 当一个P运行的G额外创建一个G时，会进入P的本地G队列中 当一个G运行结束后，根据是否需要运行确定是否进入本地队列进行轮转，等待重新运行 当P运行的本地队列中没有G，且全局队列中也没有可运行的G时，P会随机选择一个运行中的P的本地G队列偷一半G过来运行（也称抢占式调度） 创建的系统线程M多于P的原因是：在M遇到系统中断进入阻塞状态时，会与当前的P解绑，而空闲的M能继续与当前的P绑定并继续提供服务 </description>
+      <description>go运行调度策略  P包含了运行G所需的上下文资源以及部分调度代码 每个P维护一个本地G队列 P需要结合G并绑定到M上才能运行 P最多有GOMAXPROCS个，并且从程序启动开始就创建好并保持不变 当一个P运行的G额外创建一个G时，会进入P的本地G队列中 当一个G运行结束后，根据是否需要运行确定是否进入本地队列进行轮转，等待重新运行 当P运行的本地队列中没有G，且全局队列中也没有可运行的G时，P会随机选择一个运行中的P的本地G队列偷一半G过来运行（也称抢占式调度） 创建的系统线程M多于P的原因是：在M遇到系统中断进入阻塞状态时，会与当前的P解绑，而空闲的M能继续与当前的P绑定并继续提供服务  </description>
     </item>
     
     <item>
@@ -129,7 +123,7 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; _ &amp;#3
       <guid>https://realjf.io/golang/golang-scheduling-model/</guid>
       <description>go实现的是M个用户线程（协程）运行在N个内核线程上的模型，其能充分利用cpu资源的同时，保持高度处理效率。
 golang的调度模型可以用processor(简称P)、machine(简称M)、goroutine(简称G)来描述。
-P (processor)：golang调度模型里的处理器P，包含运行goroutine协程所必须的资源以及相应的调度功能 G (groutine)：即go协程，通过go关键字创建 M (machine)：系统线程或内核线程，由操作系统调度 其中，M必须与P结合才能执行代码（可以理解为运行go协程代码段），同时M也受系统调度影响。 而每个P带有一个go协程待运行队列，同时调度器还保持一个全局go协程待调度队列，供全部处理器共享。
+ P (processor)：golang调度模型里的处理器P，包含运行goroutine协程所必须的资源以及相应的调度功能 G (groutine)：即go协程，通过go关键字创建 M (machine)：系统线程或内核线程，由操作系统调度  其中，M必须与P结合才能执行代码（可以理解为运行go协程代码段），同时M也受系统调度影响。 而每个P带有一个go协程待运行队列，同时调度器还保持一个全局go协程待调度队列，供全部处理器共享。
 当运行中的G再次创建新的协程goroutine时，正常在本地P待运行G队列未满时，会自动加入，当本地队列满了， 则会加入全局G调度队列中。</description>
     </item>
     
@@ -139,7 +133,7 @@ P (processor)：golang调度模型里的处理器P，包含运行goroutine协程
       <pubDate>Fri, 26 Mar 2021 17:49:20 +0800</pubDate>
       
       <guid>https://realjf.io/golang/1-million-concurrency/</guid>
-      <description>// 实现百万并发 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; &amp;#34;runtime&amp;#34; ) type Score struct { Num int } func (s *Score) Do() { fmt.Println(&amp;#34;num:&amp;#34;, s.Num) time.Sleep(1 * 1 * time.Second) } // job type Job interface { Do() } // worker type Worker struct { JobQueue chan Job } func NewWorker() Worker { return Worker{JobQueue: make(chan Job)} } func (w Worker) Run(wq chan chan Job) { go func() { for { wq &amp;lt;- w.</description>
+      <description>// 实现百万并发 package main  import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;time&amp;#34; 	&amp;#34;runtime&amp;#34; )  type Score struct { 	Num int }  func (s *Score) Do() { 	fmt.Println(&amp;#34;num:&amp;#34;, s.Num) 	time.Sleep(1 * 1 * time.Second) }   // job type Job interface { 	Do() }  // worker type Worker struct { 	JobQueue chan Job }  func NewWorker() Worker { 	return Worker{JobQueue: make(chan Job)} }  func (w Worker) Run(wq chan chan Job) { 	go func() { 	for { 	wq &amp;lt;- w.</description>
     </item>
     
     <item>
@@ -148,7 +142,7 @@ P (processor)：golang调度模型里的处理器P，包含运行goroutine协程
       <pubDate>Fri, 26 Mar 2021 17:08:06 +0800</pubDate>
       
       <guid>https://realjf.io/golang/concurrency-pub-and-sub/</guid>
-      <description>package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;strings&amp;#34; ) type ( subscriber chan interface{} // 订阅者 topicFunc func(v interface{}) bool // 主题 ) type Publisher struct { m sync.RWMutex buffer int // 订阅队列缓存大小 timeout time.Duration // 发布超时时间 subscribers map[subscriber]topicFunc // 订阅者信息 } // 构建一个发布者对象，可以设置发布超时时间和缓存队列长度 func NewPublisher(publishTimeout time.Duration, buffer int) *Publisher { return &amp;amp;Publisher{ buffer: buffer, timeout: publishTimeout, subscribers: make(map[subscriber]topicFunc), } } // 添加新订阅者，订阅全部主题 func (p *Publisher) Subscirbe() chan interface{} { return p.</description>
+      <description>package main  import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;time&amp;#34; 	&amp;#34;sync&amp;#34; 	&amp;#34;strings&amp;#34; )  type ( 	subscriber chan interface{} // 订阅者 	topicFunc func(v interface{}) bool // 主题 )   type Publisher struct { 	m sync.RWMutex 	buffer int // 订阅队列缓存大小 	timeout time.Duration // 发布超时时间 	subscribers map[subscriber]topicFunc // 订阅者信息 }  // 构建一个发布者对象，可以设置发布超时时间和缓存队列长度 func NewPublisher(publishTimeout time.Duration, buffer int) *Publisher { 	return &amp;amp;Publisher{ 	buffer: buffer, 	timeout: publishTimeout, 	subscribers: make(map[subscriber]topicFunc), 	} }  // 添加新订阅者，订阅全部主题 func (p *Publisher) Subscirbe() chan interface{} { 	return p.</description>
     </item>
     
     <item>
@@ -157,7 +151,7 @@ P (processor)：golang调度模型里的处理器P，包含运行goroutine协程
       <pubDate>Fri, 26 Mar 2021 17:06:34 +0800</pubDate>
       
       <guid>https://realjf.io/golang/concurrency-producer-and-consumer/</guid>
-      <description>package main import ( &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; &amp;#34;os/signal&amp;#34; &amp;#34;syscall&amp;#34; ) func Producer(factor int, out chan &amp;lt;- int) { for i := 0; ; i++ { out &amp;lt;- i*factor } } func Consumer(in &amp;lt;- chan int) { for v := range in { fmt.Println(v) } } func main() { ch := make(chan int, 64) go Producer(3, ch) go Producer(5, ch) go Consumer(ch) sig := make(chan os.Signal, 1) signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM) fmt.Printf(&amp;#34;quit (%v)\n&amp;#34;, &amp;lt;-sig) } </description>
+      <description>package main  import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;os&amp;#34; 	&amp;#34;os/signal&amp;#34; 	&amp;#34;syscall&amp;#34; )  func Producer(factor int, out chan &amp;lt;- int) { 	for i := 0; ; i++ { 	out &amp;lt;- i*factor 	} }  func Consumer(in &amp;lt;- chan int) { 	for v := range in { 	fmt.Println(v) 	} }  func main() { 	ch := make(chan int, 64)  	go Producer(3, ch) 	go Producer(5, ch) 	go Consumer(ch)  	sig := make(chan os.</description>
     </item>
     
     <item>
@@ -166,7 +160,7 @@ P (processor)：golang调度模型里的处理器P，包含运行goroutine协程
       <pubDate>Fri, 26 Mar 2021 15:25:15 +0800</pubDate>
       
       <guid>https://realjf.io/golang/print-natural-number/</guid>
-      <description>题目：按照顺序打印自然数字 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; ) var ( wg sync.WaitGroup ) func print(ch *chan int, i int) { defer wg.Done() *ch &amp;lt;- i } func main() { maxInt := 7 wg.Add(maxInt) ch := make(chan int) for i := 0; i &amp;lt; maxInt; i++ { go print(&amp;amp;ch, i) fmt.Println(&amp;lt;-ch) // 这里卡住等待第i个goroutine运行，然后打印 } wg.Wait() fmt.Println(&amp;#34;done&amp;#34;) } </description>
+      <description>题目：按照顺序打印自然数字 package main  import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;sync&amp;#34; )  var ( 	wg sync.WaitGroup )  func print(ch *chan int, i int) { 	defer wg.Done() 	*ch &amp;lt;- i }  func main() {  maxInt := 7 	wg.Add(maxInt)  	ch := make(chan int) 	for i := 0; i &amp;lt; maxInt; i++ { 	go print(&amp;amp;ch, i) 	fmt.Println(&amp;lt;-ch) // 这里卡住等待第i个goroutine运行，然后打印 	} 		wg.</description>
     </item>
     
     <item>
@@ -176,7 +170,7 @@ P (processor)：golang调度模型里的处理器P，包含运行goroutine协程
       
       <guid>https://realjf.io/golang/go-mod-module-declares-error/</guid>
       <description>背景 今天在一个新项目文件下执行了go mod init初始化后，进行go build，报如下错误：
-go: example imports github.com/realjf/goframe: github.com/realjf/goframe@v0.0.0-20200908085940-3b9391b761c4: parsing go.mod: module declares its path as: goframe but was required as: github.com/realjf/goframe 意思是，模块声明为goframe，但是却使用github.com/realjf/goframe作为包引入
+go: example imports  github.com/realjf/goframe: github.com/realjf/goframe@v0.0.0-20200908085940-3b9391b761c4: parsing go.mod:  module declares its path as: goframe  but was required as: github.com/realjf/goframe 意思是，模块声明为goframe，但是却使用github.com/realjf/goframe作为包引入
 解决方法 首先确认引入的包的go.mod文件里的module名称是否为github.com/realjf/goframe,
 如果是，则进行下一步，如果不是，则需要修改为module github.com/realjf/goframe
 然后是在新项目的go.mod文件中新增一行如下内容：
@@ -194,12 +188,12 @@ require github.com/realjf/goframe v0.0.0-20200908095551-2f2da0b85d99 </descripti
 数组的slice并不会实际复制一份数据，他只是创建一个新的数据结构，包含了另外的一个指针，一个长度和一个容量数据。如同分割字符串，分割数组也不涉及复制操作：它只是新建了一个结构来放置一个不同的指针，长度和容量。
 由于slice是不同于指针的多字长结构，分割操作并不需要分配内存，甚至没有通常被保存在堆中的slice头部，这种表示方法使slice操作和在c中传递指针、长度对一样廉价。移除间接引用及分配操作可以让slice足够廉价，以避免传递显式索引。
 slice的扩容 在对slice进行append等操作时，可能会造成slice的自动扩容。其扩容时的大小增长规则是：
-如果新的大小是当前大小2倍以上，则大小增长为新大小 否则循环以下操作：如果当前大小小于1024，按每次2倍增长，否则每次按当前大小1/4增长。直到增长的大小超过或等于新大小。 make和new 有两个数据结构创建函数：new和make，基本区别是new（T）返回一个*T，返回的这个指针可以被隐式地消除索引，而make(T, args)返回一个 普通的T，通常情况下，T内部有一些隐式的指针，一句话，new返回一个指向已清零内存的指针，而make返回一个复杂的结构。
+ 如果新的大小是当前大小2倍以上，则大小增长为新大小 否则循环以下操作：如果当前大小小于1024，按每次2倍增长，否则每次按当前大小1/4增长。直到增长的大小超过或等于新大小。  make和new 有两个数据结构创建函数：new和make，基本区别是new（T）返回一个*T，返回的这个指针可以被隐式地消除索引，而make(T, args)返回一个 普通的T，通常情况下，T内部有一些隐式的指针，一句话，new返回一个指向已清零内存的指针，而make返回一个复杂的结构。
 slice与unsafe.Pointer相互转换 有时候可能需要使用一些比较tricky的技巧，比如利用make弄一块内存自己管理，或者用cgo之类的方式得到的内存，转换为Go类型使用。 从slice中得到一块内存地址是很容易的：
-s := make([]byte, 200) ptr := unsafe.Pointer(&amp;amp;s[0]) 从一个内存指针构造出go语言的slice结构相对麻烦些，比如：
+ s := make([]byte, 200) ptr := unsafe.Pointer(&amp;amp;s[0]) 从一个内存指针构造出go语言的slice结构相对麻烦些，比如：
 var ptr unsafe.Pointer s := ((*[1&amp;lt;&amp;lt;10]byte)(ptr))[:200] 先将ptr强制类型转换为另外一种指针，一个指向[1&amp;laquo;10]byte数组的指针，这里数组大小其实是假的，然后用slice操作取出这个数组的前200个，于是s就是一个200个元素的slice
 或者：
-var ptr unsafe.Pointer var s1 = struct { addr uintptr len int cap int }{ptr, length, length} s := *(*[]byte)(unsafe.Pointer(&amp;amp;s1)) 或者使用reflect.SliceHeader的方式构造slice，比较推荐这种：
+var ptr unsafe.Pointer var s1 = struct {  addr uintptr  len int  cap int }{ptr, length, length} s := *(*[]byte)(unsafe.Pointer(&amp;amp;s1)) 或者使用reflect.SliceHeader的方式构造slice，比较推荐这种：
 var o []byte sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&amp;amp;o))) sliceHeader.Cap = length sliceHeader.Len = length sliceHeader.Data = uintptr(ptr) </description>
     </item>
     
@@ -210,9 +204,9 @@ var o []byte sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&amp;amp;o)))
       
       <guid>https://realjf.io/golang/channel-implement/</guid>
       <description>channel是golang的一大特色，golang的goroutine之间的通信也建议通过channel机制实现。 那么我们有必要探讨下，channel的底层实现机制，以便我们更好的应用channel。
-本次探讨版本为go v1.13
-channel的实现原理 go中实现channel的文件包含在/runtime/chan.go中
-type hchan struct { qcount uint // total data in the queue dataqsiz uint // size of the circular queue buf unsafe.Pointer // points to an array of dataqsiz elements elemsize uint16 closed uint32 elemtype *_type // element type sendx uint // send index recvx uint // receive index recvq waitq // list of recv waiters sendq waitq // list of send waiters // lock protects all fields in hchan, as well as several // fields in sudogs blocked on this channel.</description>
+ 本次探讨版本为go v1.13
+ channel的实现原理 go中实现channel的文件包含在/runtime/chan.go中
+type hchan struct { 	qcount uint // total data in the queue 	dataqsiz uint // size of the circular queue 	buf unsafe.Pointer // points to an array of dataqsiz elements 	elemsize uint16 	closed uint32 	elemtype *_type // element type 	sendx uint // send index 	recvx uint // receive index 	recvq waitq // list of recv waiters 	sendq waitq // list of send waiters  	// lock protects all fields in hchan, as well as several 	// fields in sudogs blocked on this channel.</description>
     </item>
     
     <item>
@@ -223,10 +217,10 @@ type hchan struct { qcount uint // total data in the queue dataqsiz uint // size
       <guid>https://realjf.io/golang/how-to-write-benchmarks-in-go/</guid>
       <description>简介 Go标准库中test包包含一个基准测试工具，可用于检查Go代码的性能。 接下来将介绍如何使用测试包编写一个简单的基准测试。
 一个基准测试示例 我们以斐波那契数列计算来做测试
-func Fib(n int) int { if n &amp;lt; 2 { return n } return Fib(n-1) + Fib(n-2) } 创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
-func BenchmarkFib20(b *testing.B) { for n := 0; n &amp;lt; b.N; n++ { Fib(20) } } 编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
-基准测试功能以Benchmark而不是Test开头 基准功能由测试包运行多次。 b.N的值每次都会增加，直到基准运行者对基准的稳定性感到满意为止。 每个基准测试必须执行b.N次测试代码。 BenchmarkFib20中的for循环将出现在每个基准测试函数中。 运行基准测试 我们可以使用go test -bench=. 调用基准测试
-go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchmark BenchmarkFib-4 30000 44684 ns/op PASS ok test/benchmark 1.796s 您必须将有效的正则表达式传递给-bench，仅传递-bench是语法错误。您可以使用此属性来运行基准测试的子集</description>
+func Fib(n int) int { 	if n &amp;lt; 2 { 	return n 	} 		return Fib(n-1) + Fib(n-2) } 创建一个名为*_test.go的测试文件，我们将对计算第20个斐波那契数列值进行性能测试。
+func BenchmarkFib20(b *testing.B) {  for n := 0; n &amp;lt; b.N; n++ {  Fib(20)  } } 编写基准测试与编写测试非常相似，因为它们共享测试包中的基础结构。一些关键区别是
+ 基准测试功能以Benchmark而不是Test开头 基准功能由测试包运行多次。 b.N的值每次都会增加，直到基准运行者对基准的稳定性感到满意为止。 每个基准测试必须执行b.N次测试代码。 BenchmarkFib20中的for循环将出现在每个基准测试函数中。  运行基准测试 我们可以使用go test -bench=. 调用基准测试
+go test -bench=.  # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchmark BenchmarkFib-4 30000 44684 ns/op PASS ok test/benchmark 1.</description>
     </item>
     
     <item>
@@ -239,9 +233,9 @@ go test -bench=. # 运行结果如下 goos: linux goarch: amd64 pkg: test/benchm
 也就是说，Go确实在sync包中提供了传统的锁定机制。大多数锁定问题可以使用通道锁定或传统锁定来解决
 使用锁机制和通道的优劣分析 Go新手常见的错误是仅仅因为可能和/或很有趣而过度使用通道和goroutine。如果最适合您的问题，请不要害怕使用sync.Mutex。 Go务实的做法是让您使用能够最好地解决问题的工具，而不用强迫您使用一种代码风格.
 通常
-channel mutex 相互传递数据，分发工作单元，传递异步结果 缓存，状态 wait-group 另一个重要的同步机制是sync.WaitGroup。 这允许多个协作goroutine在再次独立运行之前共同等待同一个阈值事件。
+   channel mutex     相互传递数据，分发工作单元，传递异步结果 缓存，状态    wait-group 另一个重要的同步机制是sync.WaitGroup。 这允许多个协作goroutine在再次独立运行之前共同等待同一个阈值事件。
 通常在两种情况下很有用。
-在“清理”时，可以使用sync.WaitGroup来确保所有goroutine（包括主要的goroutine）都在完全终止之前等待 更常见的情况是循环算法，其中涉及一组goroutine，这些goroutine全部独立工作一段时间，然后全部等待障碍，然后再次独立进行。此模式可能会重复很多次。障碍事件可能会交换数据。此策略是批量同步并行（BSP）的基础 结语 怎么使用取决于你的应用场景，通道通信，互斥锁和等待组是互补的，可以组合使用。</description>
+ 在“清理”时，可以使用sync.WaitGroup来确保所有goroutine（包括主要的goroutine）都在完全终止之前等待 更常见的情况是循环算法，其中涉及一组goroutine，这些goroutine全部独立工作一段时间，然后全部等待障碍，然后再次独立进行。此模式可能会重复很多次。障碍事件可能会交换数据。此策略是批量同步并行（BSP）的基础  结语 怎么使用取决于你的应用场景，通道通信，互斥锁和等待组是互补的，可以组合使用。</description>
     </item>
     
     <item>
@@ -251,7 +245,7 @@ channel mutex 相互传递数据，分发工作单元，传递异步结果 缓�
       
       <guid>https://realjf.io/golang/golang-concurrency-lockosthread/</guid>
       <description>背景介绍 一些库（尤其是图形框架和库（例如Cocoa，OpenGL和libSDL））使用线程局部状态，并且可能要求仅从特定OS线程（通常是“主”线程）调用函数。 Go为此提供了runtime.LockOSThread函数，接下来通过示例说明如何正确使用它。
-package dl import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) // 安排main.main在主线程上运行 func init() { runtime.LockOSThread() } // 在主线程main.main中调用Main循环 func Main() { for f := range mainfunc { // 取出工作队列中的函数进行调用 f() } } var mainfunc = make(chan func()) func do(f func()) { done := make(chan bool, 1) // 将整个函数加入到工作队列中 mainfunc &amp;lt;- func() { f() fmt.Println(&amp;#34;add queue&amp;#34;) done &amp;lt;- true } &amp;lt;-done } func Beep() { do(func() { // 无论什么时候都运行在主线程 fmt.Println(&amp;#34;beep&amp;#34;) }) } main包示例：</description>
+package dl  import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;runtime&amp;#34; )  // 安排main.main在主线程上运行 func init() { 	runtime.LockOSThread() }  // 在主线程main.main中调用Main循环 func Main() { 	for f := range mainfunc { 	// 取出工作队列中的函数进行调用 	f() 	} }  var mainfunc = make(chan func())  func do(f func()) { 	done := make(chan bool, 1) 	// 将整个函数加入到工作队列中 	mainfunc &amp;lt;- func() { 	f() 	fmt.</description>
     </item>
     
     <item>
@@ -261,7 +255,7 @@ package dl import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) // 安排m
       
       <guid>https://realjf.io/golang/golang-concurrency-timeout/</guid>
       <description>并发编程中的超时处理 在并发编程中，要放弃运行时间太长的同步调用，请使用带有time.After的select语句，如下：
-import ( &amp;#34;errors&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main() { var timeoutNanoseconds time.Duration = 5 * time.Second c := make(chan error, 1) go func() { time.Sleep(20 * time.Second) c &amp;lt;- errors.New(&amp;#34;error&amp;#34;) } () select { case err := &amp;lt;-c: // use err and reply fmt.Println(err) case &amp;lt;-time.After(timeoutNanoseconds): // call timed out fmt.Println(&amp;#34;timeout...&amp;#34;) } } 以上代码在超时5秒后退出</description>
+import ( 	&amp;#34;errors&amp;#34; 	&amp;#34;fmt&amp;#34; 	&amp;#34;time&amp;#34; )  func main() { 	var timeoutNanoseconds time.Duration = 5 * time.Second 	c := make(chan error, 1) 	go func() { 	time.Sleep(20 * time.Second) 	c &amp;lt;- errors.New(&amp;#34;error&amp;#34;) 	} () 	select { 	case err := &amp;lt;-c: 	// use err and reply 	fmt.Println(err) 	case &amp;lt;-time.After(timeoutNanoseconds): 	// call timed out 	fmt.Println(&amp;#34;timeout...&amp;#34;) 	} } 以上代码在超时5秒后退出</description>
     </item>
     
     <item>
@@ -273,8 +267,8 @@ import ( &amp;#34;errors&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; )
       <description>什么是数据争用或竞态 数据争用是并发系统中最常见且最难调试的错误类型之一。当两个goroutine并发访问同一变量并且至少其中之一是写操作时，就会发生数据争用。
 下面让我们来实际模拟一下数据争用问题。
 以下示例可能导致内存崩溃和损坏的数据争用
-func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&amp;#34;1&amp;#34;] = &amp;#34;a&amp;#34; c &amp;lt;- true }() m[&amp;#34;2&amp;#34;] = &amp;#34;b&amp;#34; &amp;lt;-c for k, v := range m { fmt.Println(k, v) } } 运行go run -race main.go进行竞争检测，得到的结果如下：
-#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main.func1() /root/go_project/src/test/race.go:9 +0x5d Previous write at 0x00c00008e150 by main goroutine: runtime.mapassign_faststr() /usr/local/go/src/runtime/map_faststr.go:202 +0x0 main.main() /root/go_project/src/test/race.</description>
+func main() { 	c := make(chan bool) 	m := make(map[string]string) 	go func() { 	m[&amp;#34;1&amp;#34;] = &amp;#34;a&amp;#34; 	c &amp;lt;- true 	}() 	m[&amp;#34;2&amp;#34;] = &amp;#34;b&amp;#34; 	&amp;lt;-c 	for k, v := range m { 	fmt.Println(k, v) 	} } 运行go run -race main.go进行竞争检测，得到的结果如下：
+#================== WARNING: DATA RACE Write at 0x00c00008e150 by goroutine 6:  runtime.mapassign_faststr()  /usr/local/go/src/runtime/map_faststr.go:202 +0x0  main.</description>
     </item>
     
     <item>
@@ -283,16 +277,16 @@ func main() { c := make(chan bool) m := make(map[string]string) go func() { m[&a
       <pubDate>Tue, 22 Oct 2019 09:50:59 +0800</pubDate>
       
       <guid>https://realjf.io/golang/golang-micro-usage/</guid>
-      <description>准备 搭建好golang开发环境 安装git等相关工具 开始 一、安装protobuf protobuf用于生成微服务代码
-go get github.com/micro/protoc-gen-micro # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go 如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
-关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
-二、服务发现 服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件
+      <description>准备  搭建好golang开发环境 安装git等相关工具  开始 一、安装protobuf protobuf用于生成微服务代码
+go get github.com/micro/protoc-gen-micro  # 同时需要安装protoc和protoc-go-gen go get -d -u github.com/golang/protobuf/protoc-gen-go go install github.com/golang/protobuf/protoc-gen-go  如果需要别的语言的代码生成器，请参阅https://github.com/protocolbuffers/protobuf
+  关于protobuf的使用，请参阅https://developers.google.com/protocol-buffers/
+ 二、服务发现 服务发现用于将服务名称解析为地址，服务发现可以使用etcd、zookeeper、consul等组件
 安装etcd etcd下载地址https://github.com/etcd-io/etcd/releases
 三、写一个服务 以下为一个简单的rpc服务例子
 创建服务proto 微服务的关键要求之一是严格定义接口。
 Micro使用protobuf来实现这一目标。 在这里，我们使用Hello方法定义了Greeter处理程序。 它需要一个字符串参数同时使用一个HelloRequest和HelloResponse。
-syntax = &amp;#34;proto3&amp;#34;; service Greeter { rpc Hello(HelloRequest) returns (HelloResponse) {} } message HelloRequest { string name = 1; } message HelloResponse { string greeting = 2; } 生成proto protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. path/to/greeter.proto 写服务业务逻辑 服务需要遵循以下规则：
-实现greeter定义的接口 初始化一个micro.Service 注册greeter处理函数 运行服务 package main import ( &amp;#34;context&amp;#34; &amp;#34;fmt&amp;#34; micro &amp;#34;github.</description>
+syntax = &amp;#34;proto3&amp;#34;;service Greeter { rpc Hello(HelloRequest) returns (HelloResponse) {}}message HelloRequest { string name = 1;}message HelloResponse { string greeting = 2;}生成proto protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. path/to/greeter.proto 写服务业务逻辑 服务需要遵循以下规则：
+ 实现greeter定义的接口 初始化一个micro.</description>
     </item>
     
     <item>
@@ -302,14 +296,14 @@ syntax = &amp;#34;proto3&amp;#34;; service Greeter { rpc Hello(HelloRequest) ret
       
       <guid>https://realjf.io/golang/sync-atomic/</guid>
       <description>原子操作，顾名思义是不可分割的，他可以是一个步骤，也可以是多个步骤，其执行过程不会被线程调度机制打断的操作。
-原子性不可能由软件单独保证，需要硬件的支持，因此和架构有关。在x86架构平台下，cpu提供了在指令执行期间对总线加锁的手段。
+ 原子性不可能由软件单独保证，需要硬件的支持，因此和架构有关。在x86架构平台下，cpu提供了在指令执行期间对总线加锁的手段。
 CPU芯片上有一条引线#HLOCK pin，如果汇编语言的程序中在一条指令前面加上前缀&amp;quot;LOCK&amp;quot;，经过汇编以后的机器代码就使CPU在执行这条指令的时候把#HLOCK pin的电位拉低，
 持续到这条指令结束时放开，从而把总线锁住，这样同一总线上别的CPU就暂时不能通过总线访问内存了，保证了这条指令在多处理器环境中的原子性。
-sync/atomic包的文件结构以及数据结构可以参考这里
+ sync/atomic包的文件结构以及数据结构可以参考这里
 sync/atomic包提供了6中操作数据类型
-int32 uint32 int64 uint64 uintptr unsafe.Pointer 分别为这每种数据类型提供了五种操作
-add 增减 load 载入 store 存储 compareandswap 比较并交换 swap 交换 下面以int32为例，具体使用上面五种操作实现原子操作 AddInt32操作 var val int32 val = 10 atomic.AddInt32(&amp;amp;val, 10) // 对于无符号32位即uint32，则需要使用二进制补码进行操作 var val2 uint32 val2 = 10 atomic.AddUint32(&amp;amp;val2, ^uint32(10 - 1)) // 等价于 val2 - 10 CompareAndSwapInt32 对比并交换是指先判断addr指向的值是否与参数old一致，如果一致就用new值替换addr的值，最后返回成功，具体例子如下
-package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync/atomic&amp;#34; ) func main() { var val int32 wg := sync.</description>
+ int32 uint32 int64 uint64 uintptr unsafe.Pointer  分别为这每种数据类型提供了五种操作
+ add 增减 load 载入 store 存储 compareandswap 比较并交换 swap 交换  下面以int32为例，具体使用上面五种操作实现原子操作 AddInt32操作 var val int32 val = 10 atomic.AddInt32(&amp;amp;val, 10)  // 对于无符号32位即uint32，则需要使用二进制补码进行操作 var val2 uint32 val2 = 10 atomic.AddUint32(&amp;amp;val2, ^uint32(10 - 1)) // 等价于 val2 - 10 CompareAndSwapInt32 对比并交换是指先判断addr指向的值是否与参数old一致，如果一致就用new值替换addr的值，最后返回成功，具体例子如下
+package main import ( 	&amp;#34;fmt&amp;#34; 	&amp;#34;sync&amp;#34; 	&amp;#34;sync/atomic&amp;#34; ) func main() { 	var val int32 	wg := sync.</description>
     </item>
     
     <item>
@@ -322,13 +316,13 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sync&amp;#34; &amp;#34;sync
 pprof有2个包：net/http/pprof以及runtime/pprof
 二者之间的关系：net/http/pprof包只是使用runtime/pprof包来进行封装了一下，并在http端口上暴露出来
 性能分析利器 pprof go本身提供的工具链有：
-runtime/pprof：采集程序的运行数据进行分析 net/http/pprof：采集HTTP Server的运行时数据进行分析 pprof以profile.proto读取分析样本的集合，并生成报告以可视化并帮助分析数据
-profile.proto是一个Protocol Buffer v3的描述文件，它描述了一组callstack和symbolization信息，作用是表示统计分析的一组采样的调用栈，是很常见的stacktrace配置文件格式
-使用方式 Report generation：报告生成 Interactive terminal use：交互式终端使用 Web interface：Web界面 1. web服务器方式 假如你的go呈现的是用http包启动的web服务器，当想要看web服务器的状态时，选择【net/http/pprof】，使用方法如下：
+ runtime/pprof：采集程序的运行数据进行分析 net/http/pprof：采集HTTP Server的运行时数据进行分析  pprof以profile.proto读取分析样本的集合，并生成报告以可视化并帮助分析数据
+ profile.proto是一个Protocol Buffer v3的描述文件，它描述了一组callstack和symbolization信息，作用是表示统计分析的一组采样的调用栈，是很常见的stacktrace配置文件格式
+ 使用方式  Report generation：报告生成 Interactive terminal use：交互式终端使用 Web interface：Web界面  1. web服务器方式 假如你的go呈现的是用http包启动的web服务器，当想要看web服务器的状态时，选择【net/http/pprof】，使用方法如下：
 &amp;#34;net/http&amp;#34; _ &amp;#34;net/http/pprof&amp;#34; 查看结果：通过访问：http://domain:port/debug/pprof查看当前web服务的状态
 2. 服务进程 如果你go程序是一个服务进程，同样可以选择【net/http/pprof】包，然后开启另外一个goroutine来开启端口监听
-// 远程获取pprof数据 go func() { log.Println(http.ListenAndServe(&amp;#34;localhost:8080&amp;#34;, nil)) } 3. 应用程序 如果你的go程序只是一个应用程序，那就直接使用runtime/pprof包，具体用法是用pprof.StartCPUProfile和pprof.StopCPUProfile。
-var cpuprofile = flag.String(&amp;#34;cpuprofile&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;write cpu profile to file&amp;#34;) func main() { flag.Parse() if *cpuprofile != &amp;#34;&amp;#34; { f, err := os.Create(*cpuprofile) if err != nil { log.</description>
+// 远程获取pprof数据 go func() {  log.Println(http.ListenAndServe(&amp;#34;localhost:8080&amp;#34;, nil)) } 3. 应用程序 如果你的go程序只是一个应用程序，那就直接使用runtime/pprof包，具体用法是用pprof.StartCPUProfile和pprof.StopCPUProfile。
+var cpuprofile = flag.String(&amp;#34;cpuprofile&amp;#34;, &amp;#34;&amp;#34;, &amp;#34;write cpu profile to file&amp;#34;)  func main() {  flag.Parse()  if *cpuprofile != &amp;#34;&amp;#34; {  f, err := os.</description>
     </item>
     
     <item>
@@ -348,8 +342,8 @@ spans spans区域用于表示arena区中的某一页(Page)属于哪个span, 什�
 spans区域的一个指针对应arena区域的一页的结构如下, 和bitmap不一样的是对应关系会从开头开始:
 什么时候从heap分配对象 go对自动确定哪些对象应该放在栈上，哪些对象应该放在堆上。 简单说，当一个对象的内容可能在生成该对象的函数结束后被访问，那么这个对象就会分配到堆上
 在堆上分配的对象的情况包括：
-返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new 在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;quot;逃逸分析&amp;quot;.
-GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提到的bitmap区域涵盖了arena区域中的指针信息. 除此之外, GC还需要知道栈空间上哪些地方包含了指针, 因为栈空间不属于arena区域, 栈空间的指针信息将会在函数信息里面. 另外, GC在分配对象时也需要根据对象的类型设置bitmap区域, 来源的指针信息将会在类型信息里面.</description>
+ 返回对象的指针 传递了对象的指针到其他函数 在闭包中是用来对象并且需要修改对象 使用new  在C语言中函数返回在栈上的对象的指针是非常危险的事情, 但在go中却是安全的, 因为这个对象会自动在堆上分配. go决定是否使用堆分配对象的过程也叫&amp;quot;逃逸分析&amp;quot;.
+GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提到的bitmap区域涵盖了arena区域中的指针信息. 除此之外, GC还需要知道栈空间上哪些地方包含了指针, 因为栈空间不属于arena区域, 栈空间的指针信息将会在函数信息里面.</description>
     </item>
     
     <item>
@@ -362,28 +356,21 @@ GC Bitmap GC在标记时需要知道哪些地方包含了指针, 例如上面提
 核心概念 要理解协程的实现，需要理解三个重要概念，P、G和M。
 G（goroutine） G是goroutine的简写，goroutine可以解释为受管理的轻量级线程，goroutine使用go关键字创建。
 main函数是一个主线程，也是一个goroutine。
-goroutine的新建、休眠、回复、停止都受到go运行时的管理 goroutine执行异步操作时会进入休眠状态，待操作完成后在恢复，无需占用系统线程。 goroutine新建或恢复时会添加到运行队列，等待M取出并运行。 M（machine） M是machine的简写，表示系统线程
+ goroutine的新建、休眠、回复、停止都受到go运行时的管理 goroutine执行异步操作时会进入休眠状态，待操作完成后在恢复，无需占用系统线程。 goroutine新建或恢复时会添加到运行队列，等待M取出并运行。  M（machine） M是machine的简写，表示系统线程
 M可以运行两种代码：
-go代码，即goroutine，M运行go代码需要一个P
-原生代码，例如阻塞的syscall，M运行原生代码不需要P
-M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。
-有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。
-go需要保证有足够的M可以运行G，不让CPU闲着，也需要保证M的数量不过多。
+  go代码，即goroutine，M运行go代码需要一个P
+  原生代码，例如阻塞的syscall，M运行原生代码不需要P
+  M运行时，会从G可运行队列中取出一个然后运行，如果G运行完毕或者进入休眠状态，则从可运行队列中取下一个G运行，周而复始。
+  有时候G需要调用一些无法避免阻塞的原生代码，这时M会释放持有的P并进入阻塞状态。其他M会取得这个P并继续运行队列中的G。
+  go需要保证有足够的M可以运行G，不让CPU闲着，也需要保证M的数量不过多。
 P（process） P是process的简写，代表M运行G所需要的资源。
-虽然P的数量默认等于cpu的核心数，但可以通过环境变量 GOMAXPROC 修改，在实际运行时P跟cpu核心并无任何关联。
-P也可以理解为控制go代码的并行度的机制
-如果P的数量等于1，代表当前最多只能有一个线程M执行go代码。 如果P的数量等于2，代表当前最多只能有两个线程M执行go代码。 执行原生代码的线程数不受P控制。
+ 虽然P的数量默认等于cpu的核心数，但可以通过环境变量 GOMAXPROC 修改，在实际运行时P跟cpu核心并无任何关联。
+ P也可以理解为控制go代码的并行度的机制
+ 如果P的数量等于1，代表当前最多只能有一个线程M执行go代码。 如果P的数量等于2，代表当前最多只能有两个线程M执行go代码。  执行原生代码的线程数不受P控制。
 因为同一时间只有一个线程M可以拥有P，P中的数据都是锁自由的，读写这些数据的效率会非常的高。
-数据结构 G的状态 空闲中(_Gidle)：表示G刚刚新建，仍未初始化 待运行(_Grunnable)：表示G在运行队列中，等待M取出并运行 运行中(_Grunning)：表示M正在运行这个G，这时候M会拥有一个P 系统调用中(_Gsyscall)：表示M正在运行这个G发起的系统调用，这时候M并不拥有P 等待中(_Gwaiting)：表示G在等待某些条件完成，这时候G不在运行也不在运行队列中（可能在channel的等待队列中） 已终止(_Gdead)：表示G未被使用，可能已执行完毕（并在freelist中等待下次复用） 栈复制中(_Gcopystack)：表示G正在获取一个新的栈空间并把原来的内容复制过去（用于防止GC扫描） M的状态 M并没有像G和P一样的状态标记，但可以认为一个M有以下的状态：
-自旋中(spinning)：M正在从运行队列获取G，这时候M会拥有一个P 执行go代码中：M正在执行go代码，这时候M会拥有一个P 执行原生代码中：M正在执行原生代码或者阻塞的syscall，这时M并不拥有P 休眠中：M发现没有待运行的G时会进入休眠，并添加到空闲M链表中，这时M并不拥有P 自旋中这个状态非常重要，是否需要唤醒或者创建新的M取决于当前自旋中的M的数量。
-P的状态 空闲中(_Pidle)：当M发现无待运行的G时会进入休眠，这时M拥有的P会变成空闲并加到空闲P链表中 运行中(_Prunning)：当M拥有了一个P后，这个P的状态就会变为运行中，M运行G会使用这个P中的资源。 系统调用中(_Psyscall)：当go调用原生代码，原生代码又反过来调用go代码时，使用的P会变成此状态 GC停止中(_Pgcstop)：当gc停止整个世界(STW)时，P会变为此状态。 已终止(_Pdead)：当P的数量在运行时改变，且数量减少时多余的P会变为此状态。 本地可运行队列G 在go中有多个运行队列可以保存待运行(_Grunnable)的G，他们分别是各个P中的本地运行队列和全局运行队列。
-入队待运行的G时会优先加到当前P的本地运行队列，M获取待运行的G时也会优先从拥有的P的本地运行队列获取。
-本地运行队列有数量限制，当数量达到256个时会入队到全局运行队列 本地运行队列的数据结构是环形队列，由一个256长度的数组和两个序号(head,tail)组成 当M从P的本地运行队列获取G时，如果发现本地队列为空会尝试从其他P盗取一半的G过来，这个机制叫做work stealing
-全局可运行队列G 全局运行队列保存在全局变量sched中，全局运行队列入队和出队需要使用线程锁。
-全局运行队列的数据结构是双向链表，由两个指针(head, tail)组成。
-空闲M链表 当M发现无待运行的G时会进入休眠，并添加到空闲M链表中，空闲M链表保存在全局变量sched。 进入休眠的M会等待一个信号量(m.park)，唤醒休眠的M会使用这个信号量
-go需要保证充足的M可以运行G，是通过以下机制实现的：
-入队运行的G后，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M。 当M离开自旋状态并准备运行出队的G时，如果当前无自旋的M但是有空闲的P，就唤醒或者新建一个M 当M离开自旋状态并准备休眠时，会在离开自旋状态后再次检查所有运行队列，如果有待运行的G则重新进入自旋状态。 因为“入队待运行的G”和“M离开自旋状态”会同时进行，go会使用这样的检查顺序：</description>
+数据结构 G的状态  空闲中(_Gidle)：表示G刚刚新建，仍未初始化 待运行(_Grunnable)：表示G在运行队列中，等待M取出并运行 运行中(_Grunning)：表示M正在运行这个G，这时候M会拥有一个P 系统调用中(_Gsyscall)：表示M正在运行这个G发起的系统调用，这时候M并不拥有P 等待中(_Gwaiting)：表示G在等待某些条件完成，这时候G不在运行也不在运行队列中（可能在channel的等待队列中） 已终止(_Gdead)：表示G未被使用，可能已执行完毕（并在freelist中等待下次复用） 栈复制中(_Gcopystack)：表示G正在获取一个新的栈空间并把原来的内容复制过去（用于防止GC扫描）  M的状态 M并没有像G和P一样的状态标记，但可以认为一个M有以下的状态：
+ 自旋中(spinning)：M正在从运行队列获取G，这时候M会拥有一个P 执行go代码中：M正在执行go代码，这时候M会拥有一个P 执行原生代码中：M正在执行原生代码或者阻塞的syscall，这时M并不拥有P 休眠中：M发现没有待运行的G时会进入休眠，并添加到空闲M链表中，这时M并不拥有P  自旋中这个状态非常重要，是否需要唤醒或者创建新的M取决于当前自旋中的M的数量。
+P的状态  空闲中(_Pidle)：当M发现无待运行的G时会进入休眠，这时M拥有的P会变成空闲并加到空闲P链表中 运行中(_Prunning)：当M拥有了一个P后，这个P的状态就会变为运行中，M运行G会使用这个P中的资源。 系统调用中(_Psyscall)：当go调用原生代码，原生代码又反过来调用go代码时，使用的P会变成此状态 GC停止中(_Pgcstop)：当gc停止整个世界(STW)时，P会变为此状态。 已终止(_Pdead)：当P的数量在运行时改变，且数量减少时多余的P会变为此状态。  本地可运行队列G 在go中有多个运行队列可以保存待运行(_Grunnable)的G，他们分别是各个P中的本地运行队列和全局运行队列。</description>
     </item>
     
   </channel>

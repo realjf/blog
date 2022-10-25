@@ -13,8 +13,8 @@
       <pubDate>Tue, 19 Mar 2019 09:43:09 +0800</pubDate>
       
       <guid>https://realjf.io/posts/how-to-set-up-blog-using-hugo/</guid>
-      <description>github pages有两种方式： 一种是{USERNAME}.github.io/ 另一种是{USERNAME}.github.io/{PROJECT} 我们这里使用第二种方法创建
-前期准备 有一个github账号 创建一个公开的repo 例如：blog
+      <description>github pages有两种方式：  一种是{USERNAME}.github.io/ 另一种是{USERNAME}.github.io/{PROJECT}  我们这里使用第二种方法创建
+前期准备  有一个github账号  创建一个公开的repo 例如：blog
 开通github pages 找到新创建的repo中的settings，往下找到github pages， 如果首次开通，则需要授权一下，授权后，github pages下的source可以选择对应的发布分支。默认为master分支。
 注意 如果一切正常，github pages选项下有个蓝色提示，显示的是您的博客地址，可以先访问看看是否正常。我这里是：https://realjf.github.io/blog/
 配置好后，开始使用hugo构建博客 首先，clone下刚才创建的repo

@@ -13,7 +13,7 @@
       <pubDate>Tue, 02 Mar 2021 21:55:35 +0800</pubDate>
       
       <guid>https://realjf.io/posts/multiple-choice-platform/</guid>
-      <description>多选平台数值之和查询语句优化 /** * * mysql 数据库设计中，存在一个平台字段保存的是多个平台值相加的数值， * 查询的时候需要使用如下方法生成平台查询字段值即可快速查出对应平台的数据， * 而不必使用数据库按位与计算及or条件等降低查询速度的方式 * */ class plat{ const PLAT_ALL = 0; // 全部 0b 0 const PLAT_ANDROID = 1; // 1b 1&amp;lt;&amp;lt;0 const PLAT_IOS = 2; // 10b 1&amp;lt;&amp;lt;1 const PLAT_PC = 4; // 100b 1&amp;lt;&amp;lt;2 const PLAT_WAP = 8; // 1000b 1&amp;lt;&amp;lt;3 const PLAT_BOX_A = 16; // 10000 1&amp;lt;&amp;lt;4 安卓1 const PLAT_BOX_I = 32; // 10 0000 1&amp;lt;&amp;lt;5 ios1 const PLAT_ADMIN = 64; //100 0000 1&amp;lt;&amp;lt;6 后台 const PLAT_OBS = 128; // 1000 0000 1&amp;lt;&amp;lt;7 obs const PLAT_IOS_TOOLS = 256; // 1000 0000 1&amp;lt;&amp;lt;8 助手 static $plats = [ self::PLAT_ALL =&amp;gt; &amp;#39;全部&amp;#39;, self::PLAT_ANDROID =&amp;gt; &amp;#39;安卓&amp;#39;, self::PLAT_IOS =&amp;gt; &amp;#39;IOS&amp;#39;, self::PLAT_PC =&amp;gt; &amp;#39;PC&amp;#39;, self::PLAT_WAP =&amp;gt; &amp;#39;WAP&amp;#39;, self::PLAT_BOX_A =&amp;gt; &amp;#39;安卓1&amp;#39;, self::PLAT_BOX_I =&amp;gt; &amp;#39;ios1&amp;#39;, self::PLAT_ADMIN =&amp;gt; &amp;#34;后台&amp;#34;, self::PLAT_OBS =&amp;gt; &amp;#39;OBS&amp;#39;, self::PLAT_IOS_TOOLS =&amp;gt; &amp;#39;助手&amp;#39; ]; function getPlatformCond($platform, $extCond = []) { $cond = &amp;#34;platform=0&amp;#34;; if (!</description>
+      <description>多选平台数值之和查询语句优化 /** * * mysql 数据库设计中，存在一个平台字段保存的是多个平台值相加的数值， * 查询的时候需要使用如下方法生成平台查询字段值即可快速查出对应平台的数据， * 而不必使用数据库按位与计算及or条件等降低查询速度的方式 * */ class plat{  const PLAT_ALL = 0; // 全部 0b 0  const PLAT_ANDROID = 1; // 1b 1&amp;lt;&amp;lt;0  const PLAT_IOS = 2; // 10b 1&amp;lt;&amp;lt;1  const PLAT_PC = 4; // 100b 1&amp;lt;&amp;lt;2  const PLAT_WAP = 8; // 1000b 1&amp;lt;&amp;lt;3  const PLAT_BOX_A = 16; // 10000 1&amp;lt;&amp;lt;4 安卓1  const PLAT_BOX_I = 32; // 10 0000 1&amp;lt;&amp;lt;5 ios1  const PLAT_ADMIN = 64; //100 0000 1&amp;lt;&amp;lt;6 后台  const PLAT_OBS = 128; // 1000 0000 1&amp;lt;&amp;lt;7 obs  const PLAT_IOS_TOOLS = 256; // 1000 0000 1&amp;lt;&amp;lt;8 助手   static $plats = [  self::PLAT_ALL =&amp;gt; &amp;#39;全部&amp;#39;,  self::PLAT_ANDROID =&amp;gt; &amp;#39;安卓&amp;#39;,  self::PLAT_IOS =&amp;gt; &amp;#39;IOS&amp;#39;,  self::PLAT_PC =&amp;gt; &amp;#39;PC&amp;#39;,  self::PLAT_WAP =&amp;gt; &amp;#39;WAP&amp;#39;,  self::PLAT_BOX_A =&amp;gt; &amp;#39;安卓1&amp;#39;,  self::PLAT_BOX_I =&amp;gt; &amp;#39;ios1&amp;#39;,  self::PLAT_ADMIN =&amp;gt; &amp;#34;后台&amp;#34;,  self::PLAT_OBS =&amp;gt; &amp;#39;OBS&amp;#39;,  self::PLAT_IOS_TOOLS =&amp;gt; &amp;#39;助手&amp;#39;  ];   function getPlatformCond($platform, $extCond = []) {  $cond = &amp;#34;platform=0&amp;#34;;  if (!</description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Sun, 28 Feb 2021 14:44:38 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vim-shortcut/</guid>
-      <description>1. vim 1.1 Vim的几种模式 正常模式：可以使用快捷键命令，或按:输入命令行。插入模式：可以输入文本，在正常模式下，按i、a、o等都可以进入插入模式。可视模式：正常模式下按v可以进入可视模式， 在可视模式下，移动光标可以选择文本。按V进入可视行模式， 总是整行整行的选中。ctrl+v进入可视块模式，之后使用 j/k/h/l键可以选中一块替换模式：正常模式下，按R进入。 2. 启动Vim vim -c cmd file: 在打开文件前，先执行指定的命令；vim -r file: 恢复上次异常退出的文件；vim -R file: 以只读的方式打开文件，但可以强制保存；vim -M file: 以只读的方式打开文件，不可以强制保存；vim -y num file: 将编辑窗口的大小设为num行；vim + file: 从文件的末尾开始；vim +num file: 从第num行开始；vim +/string file: 打开file，并将光标停留在第一个找到的string上。vim --remote file: 用已有的vim进程打开指定的文件。 如果你不想启用多个vim会话，这个很有用。但要注意， 如果你用vim，会寻找名叫VIM的服务器；如果你已经有一个gvim在运行了， 你可以用gvim --remote file在已有的gvim中打开文件。 3. 文档操作 :e file --关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi会警告。:e! file --放弃对当前文件的修改，编辑新的文件。:e+file -- 开始新的文件，并从文件尾开始编辑。:e+n file -- 开始新的文件，并从第n行开始编辑。:enew --编译一个未命名的新文档。(CTRL-W n):e -- 重新加载当前文档。:e!</description>
+      <description>1. vim 1.1 Vim的几种模式  正常模式：可以使用快捷键命令，或按:输入命令行。插入模式：可以输入文本，在正常模式下，按i、a、o等都可以进入插入模式。可视模式：正常模式下按v可以进入可视模式， 在可视模式下，移动光标可以选择文本。按V进入可视行模式， 总是整行整行的选中。ctrl+v进入可视块模式，之后使用 j/k/h/l键可以选中一块替换模式：正常模式下，按R进入。 2. 启动Vim  vim -c cmd file: 在打开文件前，先执行指定的命令；vim -r file: 恢复上次异常退出的文件；vim -R file: 以只读的方式打开文件，但可以强制保存；vim -M file: 以只读的方式打开文件，不可以强制保存；vim -y num file: 将编辑窗口的大小设为num行；vim + file: 从文件的末尾开始；vim +num file: 从第num行开始；vim +/string file: 打开file，并将光标停留在第一个找到的string上。vim --remote file: 用已有的vim进程打开指定的文件。 如果你不想启用多个vim会话，这个很有用。但要注意， 如果你用vim，会寻找名叫VIM的服务器；如果你已经有一个gvim在运行了， 你可以用gvim --remote file在已有的gvim中打开文件。 3. 文档操作  :e file --关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi会警告。:e! file --放弃对当前文件的修改，编辑新的文件。:e+file -- 开始新的文件，并从文件尾开始编辑。:e+n file -- 开始新的文件，并从第n行开始编辑。:enew --编译一个未命名的新文档。(CTRL-W n):e -- 重新加载当前文档。:e!</description>
     </item>
     
     <item>
@@ -32,7 +32,7 @@
       
       <guid>https://realjf.io/posts/how-to-design-order-id/</guid>
       <description>订单号的生成规则 订单号一般具有以下特性
-唯一性（编码不重复） 安全性（可校验，不能随意仿造） 易读性（易于识别） 可扩展性（多业务混合使用，可对新增业务提供支持） 防止并发(分布式机器的时间不统一问题，针对编码中包含时间信息的) 编码规则一般设定在10~20位左右，常见编码规则 业务类型 + 时间戳 + 平台 + 渠道 + 随机码（或自增码）+ 用户id（看情况，可以加入部分）+ 校验码（可选） 年月日时分秒 + 用户id 年月日时分秒微妙 + 随机码 + 流水号 + 随机码 数据库主键自增的id 日期+自增长数字的订单号 产生随机的订单号 字母 + 数字字符串 twitter的雪花算法，php第三方扩展库php-snowflake（推荐） 以下是我自己的已订单生成规则 const TABLE = &amp;#34;order_id&amp;#34;; // 订单id /** * 生成订单号 bigint最大支持19位 * 业务号（2位）+ 日期（ymd 6位） + 毫秒（3位）+ 时间信息（His 6位）+ 用户uid（后1位）+ 校验位（1位） * @param $appId * @param $time * @param $uid4Suffix * @return string */ private function _generateOrderId($appId, $ptUid) { if ($appId &amp;lt; 10) { // 取app加大到2位 $appPre = $appId + 10; } else if ($appId &amp;lt;= 99) { $appPre = $appId; } else { // 取前2位 $appPre = substr(strval($appId), 0, 2); } // uid后1位 $uidSuffix = substr(strval($ptUid), -1); $micro = explode(&amp;#34; &amp;#34;, microtime()); // 故意将年月日和时分秒错开，显得更无规律 $orderId = sprintf(&amp;#34;%02d%06d%03d%06d%01d&amp;#34;, $appPre, date(&amp;#39;ymd&amp;#39;), intval($micro[0] * 1000), date(&amp;#39;His&amp;#39;), $uidSuffix); // 校验位（1位） $crcMod = crc32($orderId) % 10; return sprintf(&amp;#34;%s%01d&amp;#34;, $orderId, $crcMod); } public function createOrderId($appId, $ptUid) { $orderId = $this-&amp;gt;_generateOrderId($appId, $ptUid); $res = $this-&amp;gt;_insertDb($appId, $orderId); if(!</description>
+ 唯一性（编码不重复） 安全性（可校验，不能随意仿造） 易读性（易于识别） 可扩展性（多业务混合使用，可对新增业务提供支持） 防止并发(分布式机器的时间不统一问题，针对编码中包含时间信息的)  编码规则一般设定在10~20位左右，常见编码规则  业务类型 + 时间戳 + 平台 + 渠道 + 随机码（或自增码）+ 用户id（看情况，可以加入部分）+ 校验码（可选） 年月日时分秒 + 用户id 年月日时分秒微妙 + 随机码 + 流水号 + 随机码 数据库主键自增的id 日期+自增长数字的订单号 产生随机的订单号 字母 + 数字字符串 twitter的雪花算法，php第三方扩展库php-snowflake（推荐）  以下是我自己的已订单生成规则 const TABLE = &amp;#34;order_id&amp;#34;; // 订单id   /** * 生成订单号 bigint最大支持19位 * 业务号（2位）+ 日期（ymd 6位） + 毫秒（3位）+ 时间信息（His 6位）+ 用户uid（后1位）+ 校验位（1位） * @param $appId * @param $time * @param $uid4Suffix * @return string */  private function _generateOrderId($appId, $ptUid)  {  if ($appId &amp;lt; 10) {  // 取app加大到2位  $appPre = $appId + 10;  } else if ($appId &amp;lt;= 99) {  $appPre = $appId;  } else {  // 取前2位  $appPre = substr(strval($appId), 0, 2);  }  // uid后1位  $uidSuffix = substr(strval($ptUid), -1);  $micro = explode(&amp;#34; &amp;#34;, microtime());   // 故意将年月日和时分秒错开，显得更无规律  $orderId = sprintf(&amp;#34;%02d%06d%03d%06d%01d&amp;#34;, $appPre, date(&amp;#39;ymd&amp;#39;), intval($micro[0] * 1000), date(&amp;#39;His&amp;#39;), $uidSuffix);  // 校验位（1位）  $crcMod = crc32($orderId) % 10;  return sprintf(&amp;#34;%s%01d&amp;#34;, $orderId, $crcMod);  }   public function createOrderId($appId, $ptUid)  {  $orderId = $this-&amp;gt;_generateOrderId($appId, $ptUid);  $res = $this-&amp;gt;_insertDb($appId, $orderId);  if(!</description>
     </item>
     
     <item>
@@ -41,7 +41,7 @@
       <pubDate>Mon, 14 Sep 2020 17:08:59 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vscode-win-php-setting/</guid>
-      <description>准备 windows10 系统 vscode xampp 首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
+      <description>准备  windows10 系统 vscode xampp  首先下载安装xampp 由于墙的问题，可以使用如下地址：https://sourceforge.net/projects/xampp/
 当然如果你能翻墙，可以直接访问xampp官网下载
 下载完成后安装，安装完成后，将xampp/php/php.exe加入系统路径, 在terminal中执行php -v验证是否成功
 下载xdebug插件 下载地址：https://xdebug.org/download
@@ -50,10 +50,10 @@
 将下载好的拷贝到xampp/php/ext文件夹中 修改php.ini文件，在文件末尾追加以下信息 [xdebug] zend_extension=&amp;ldquo;E:\xampp\php\ext\php_xdebug-2.9.6-7.4-vc15-x86_64.dll&amp;rdquo; xdebug.remote_enable = 1 xdebug.remote_autostart = 1 xdebug.remote_port = 9900 // 默认端口9000，根据自己本机改 xdebug.remote_handler = dbgp xdebug.remote_host = 127.0.0.1
 vscode下载安装 下载vscode：https://code.visualstudio.com/
 下载安装完成后，需要安装一些扩展插件
-bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer 按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
+ bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.php-debug ikappas.composer  按下ctrl+p，然后输入&amp;gt; settings.json，选择preferences: open default settings(JSON), 打开配置文件，配置php执行路径：
 &amp;#34;php.validate.executablePath&amp;#34;: &amp;#34;E:\\xampp\\php\\php.exe&amp;#34; 配置好这些后，启动xampp的apache服务器
 准备好后开始测试 在xampp/htdocs/目录下新建一个php文件夹，然后在用vscode打开php文件夹，新建文件php_test.php，内容如下：
-&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt; 在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
+&amp;lt;?php $a = &amp;#39;hello world&amp;#39;; echo $a; ?&amp;gt;在 &amp;ldquo;$a = &amp;lsquo;hello world&amp;rsquo;&amp;ldquo;这一行设置断点， 然后，按下f5执行，转到run code的界面，如果是首次运行，需要配置configuration，因为左上角显示的是 No Configuration，</description>
     </item>
     
     <item>
@@ -62,9 +62,9 @@ bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.p
       <pubDate>Mon, 14 Sep 2020 15:59:09 +0800</pubDate>
       
       <guid>https://realjf.io/posts/vscode-win-cpp-setting/</guid>
-      <description>前期准备 win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017 本次c++开发项目主要依赖于cmake和visual studio作为编译工具
-开始配置vscode 首先打开vscode，安装一下插件 ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner 然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;quot;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
-开始编辑c_cpp_properties.json文件 { &amp;#34;configurations&amp;#34;: [ { &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;, &amp;#34;includePath&amp;#34;: [ &amp;#34;${workspaceFolder}/**&amp;#34;, &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录 ], &amp;#34;defines&amp;#34;: [ &amp;#34;_DEBUG&amp;#34;, &amp;#34;UNICODE&amp;#34;, &amp;#34;_UNICODE&amp;#34; ], &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.0.15063.0&amp;#34;, &amp;#34;compilerPath&amp;#34;: &amp;#34;E:\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe&amp;#34;, // 这里改成你安装mingw64下的g++.exe文件路径 &amp;#34;cStandard&amp;#34;: &amp;#34;c11&amp;#34;, &amp;#34;cppStandard&amp;#34;: &amp;#34;c++17&amp;#34;, &amp;#34;intelliSenseMode&amp;#34;: &amp;#34;gcc-x64&amp;#34; // 这里是模式选择 } ], &amp;#34;version&amp;#34;: 4 } 配置完成后，在vscode的工作目录下有个.vscode文件夹 里面会有c_cpp_properties.</description>
+      <description>前期准备  win10 系统 安装好vscode 安装好git 安装好cmake for windows 安装好mingw64 安装好visual studio 2019/2017   本次c++开发项目主要依赖于cmake和visual studio作为编译工具
+ 开始配置vscode 首先打开vscode，安装一下插件  ms-vscode.cpptools ms-vscode.cmake-tools formulahendry.code-runner  然后开始c++配置 按住ctrl+p，打开vscode的命令模式, 输入&amp;quot;&amp;gt; edit Configurations&amp;quot;，然后选择 c/c++ edit Configurations(JSON)，打开 c_cpp_properties.json文件
+开始编辑c_cpp_properties.json文件 {  &amp;#34;configurations&amp;#34;: [  {  &amp;#34;name&amp;#34;: &amp;#34;GCC&amp;#34;,  &amp;#34;includePath&amp;#34;: [  &amp;#34;${workspaceFolder}/**&amp;#34;,  &amp;#34;C:\\Program Files (x86)\\oatpp\\include\\oatpp-1.1.0\\oatpp&amp;#34; // 这里添加第三方库目录  ],  &amp;#34;defines&amp;#34;: [  &amp;#34;_DEBUG&amp;#34;,  &amp;#34;UNICODE&amp;#34;,  &amp;#34;_UNICODE&amp;#34;  ],  &amp;#34;windowsSdkVersion&amp;#34;: &amp;#34;10.</description>
     </item>
     
     <item>
@@ -73,8 +73,8 @@ bmewburn.vscode-intelephense-client felixfbecker.php-intellisense felixfbecker.p
       <pubDate>Sat, 13 Jun 2020 16:55:14 +0800</pubDate>
       
       <guid>https://realjf.io/posts/how-to-set-up-anbox-in-linux/</guid>
-      <description>环境准备 kali linux 2020 开始 # 使用下面的 PPA 来安装它 add-apt-repository ppa:morphis/anbox-support apt update apt install linux-headers-generic anbox-modules-dkms # 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动 modprobe ashmem_linux modprobe binder_linux # 使用 APT-GET 命令 或 APT 命令 来安装 anbox apt install anbox # 否则，需要通过 snap 来进行安装 apt install snapd snap install --classic anbox-install &amp;amp;&amp;amp; anbox-installer snap install --devmode --beta anbox 默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它
-# 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB apt install android-tools-adb 启动anbox container服务 systemctl enable anbox-container-manager systemctl start anbox-container-manager # 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.</description>
+      <description>环境准备  kali linux 2020  开始  # 使用下面的 PPA 来安装它 add-apt-repository ppa:morphis/anbox-support apt update apt install linux-headers-generic anbox-modules-dkms  # 在你安装 anbox-modules-dkms 软件包后，你必须手动重新加载内核模块，或需要系统重新启动 modprobe ashmem_linux modprobe binder_linux  # 使用 APT-GET 命令 或 APT 命令 来安装 anbox apt install anbox  # 否则，需要通过 snap 来进行安装 apt install snapd snap install --classic anbox-install &amp;amp;&amp;amp; anbox-installer snap install --devmode --beta anbox 默认情况下，Anbox 并没有带有 Google Play Store。因此，我们需要手动下载每个应用程序（APK），并使用 Android 调试桥（ADB）安装它
+# 对于 Debian/Ubuntu 系统，使用 APT-GET 命令 或 APT 命令 来安装 ADB apt install android-tools-adb 启动anbox container服务 systemctl enable anbox-container-manager systemctl start anbox-container-manager  # 期间如果遇到服务启动失败，可以查看对应的错误日志，可能是因为android.</description>
     </item>
     
   </channel>

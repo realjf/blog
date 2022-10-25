@@ -15,12 +15,12 @@
       <guid>https://realjf.io/sphinx/set-up-sphinx/</guid>
       <description>简介 sphinx是由俄罗斯人开发的一个全文检索引擎。旨在为其他应用提供高速、低空间占用、告诫过相关度的全文搜索功能。
 特性:
-高速的建立索引（在现代cpu上，峰值性能可达到10MB/秒）; 高性能的搜索（在2~4GB的文本数据上，平均每次检索响应时间小于0.1秒） 可处理海量数据（目前已知可以处理超过100GB的文本数据，在单一CPU系统上可处理100M文档） 提供了优秀的相关度算法，基于短语相似度和统计的复合Ranking方法。 支持分布式搜索 支持短语搜索 提供文档摘要生成 可作为mysql的存储引擎提供搜索服务 支持布尔、短语、词语相似度等多种检索模式 文档支持多个全文检索字段（最大不超过32个） 文档支持多个额外的属性信息 支持断词 官网地址：http://sphinxsearch.com/
+ 高速的建立索引（在现代cpu上，峰值性能可达到10MB/秒）; 高性能的搜索（在2~4GB的文本数据上，平均每次检索响应时间小于0.1秒） 可处理海量数据（目前已知可以处理超过100GB的文本数据，在单一CPU系统上可处理100M文档） 提供了优秀的相关度算法，基于短语相似度和统计的复合Ranking方法。 支持分布式搜索 支持短语搜索 提供文档摘要生成 可作为mysql的存储引擎提供搜索服务 支持布尔、短语、词语相似度等多种检索模式 文档支持多个全文检索字段（最大不超过32个） 文档支持多个额外的属性信息 支持断词  官网地址：http://sphinxsearch.com/
 下载地址：http://sphinxsearch.com/downloads/current/
 二进制地址：http://sphinxsearch.com/files/sphinx-3.0.2-2592786-linux-amd64.tar.gz
 源码包地址：http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz
 中文文档地址：http://www.sphinxsearch.org/archives/category/php
-sphinx在mysql上的应用有两种方式： 采用api调用，如php、java等的api函数或方法查询。优点是可不必对mysql重新编译，服务端进程“低耦合”，且程序灵活度高、方便调用。 使用插件方式 sphinxSE把sphinx编译成一个mysql插件并使用特定的sql语句进行检索。 通过安装相关编程语言的扩展插件 准备 mysql mysql-devel 编译软件gcc gcc-c++ autoconf automake sphinx # 安装工具yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-devel sphinx安装 # 下载wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz# 解压tar zxvf sphinx-2.2.11-release.tar.gz# 安装./configure --prefix=/usr/local/sphinxmake &amp;amp;&amp;amp; make install# 备份配置文件cd /usr/local/sphinx/etccp sphinx.</description>
+sphinx在mysql上的应用有两种方式：  采用api调用，如php、java等的api函数或方法查询。优点是可不必对mysql重新编译，服务端进程“低耦合”，且程序灵活度高、方便调用。 使用插件方式 sphinxSE把sphinx编译成一个mysql插件并使用特定的sql语句进行检索。 通过安装相关编程语言的扩展插件  准备  mysql mysql-devel 编译软件gcc gcc-c++ autoconf automake sphinx  # 安装工具yum install -y make gcc libtool gcc-c++ g++ autoconf imake automake mysql-devel libxml2-devel expat-devel sphinx安装 # 下载wget http://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz# 解压tar zxvf sphinx-2.2.11-release.tar.gz# 安装./configure --prefix=/usr/local/sphinxmake &amp;amp;&amp;amp; make install# 备份配置文件cd /usr/local/sphinx/etccp sphinx.</description>
     </item>
     
     <item>

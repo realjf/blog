@@ -13,9 +13,9 @@
       <pubDate>Mon, 11 May 2020 11:06:43 +0800</pubDate>
       
       <guid>https://realjf.io/distributed/zookeeper-set-up/</guid>
-      <description>准备环境 准备4个centos7虚拟机 下载zookeeper安装包 提前安装好jdk 安装jdk zookeeper下载地址：http://mirrors.hust.edu.cn/apache/zookeeper/
-集群规划 node1： leader或follower node2： leader或follower node3： leader或follower node4： observer leader：能接收所有的读写请求，也可以处理所有的读写请求，而且整个集群中的所有写数据请求都是由leader进行处理 follower：能接收所有的读写请求，但是读数据请求自己处理，写数据请求转发给leader observer：跟follower的唯一的区别就是没有选举权和被选举权
-下载安装 wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz tar zxvf apache-zookeeper-3.5.7-bin.tar.gz # 加入环境变量path中 vim ~/.bash_profile export ZOOKEEPER_HOME=/home/hadoop/apps/zookeeper export PATH=$PATH:$ZOOKEEPER_HOME/bin # 保存退出，然后source使其生效 source ~/.bash_profile 配置zoo.cfg文件 # 进入ZOOKEEPER_HOME/conf目录 # 复制zoo_sample.cfg为zoo.cfg cp zoo_sample.cfg zoo.cfg # 编辑zoo.cfg vi zoo.cfg # 集群各节点的心跳时间间隔，保持默认即可(2s) tickTime=2000 # 此配置表示，允许follower连接并同步到leader的初始化连接时间 # 它以tickTime的倍数来表示 # 当超过设置倍数的tickTime时间，则连接失败 # 保持默认即可(10次心跳的时间，即20s) initLimit=10 # follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s # 如果10s内没有收到响应，本次请求就失败 syncLimit=5 # zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空 dataDir=/root/hadoop/zkdata # 客户端连接的端口号，保持默认即可 clientPort=2181 # 以下内容手动添加 # server.</description>
+      <description>准备环境  准备4个centos7虚拟机 下载zookeeper安装包 提前安装好jdk 安装jdk  zookeeper下载地址：http://mirrors.hust.edu.cn/apache/zookeeper/
+集群规划  node1： leader或follower node2： leader或follower node3： leader或follower node4： observer   leader：能接收所有的读写请求，也可以处理所有的读写请求，而且整个集群中的所有写数据请求都是由leader进行处理 follower：能接收所有的读写请求，但是读数据请求自己处理，写数据请求转发给leader observer：跟follower的唯一的区别就是没有选举权和被选举权
+ 下载安装 wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.7-bin.tar.gz  tar zxvf apache-zookeeper-3.5.7-bin.tar.gz  # 加入环境变量path中 vim ~/.bash_profile  export ZOOKEEPER_HOME=/home/hadoop/apps/zookeeper export PATH=$PATH:$ZOOKEEPER_HOME/bin  # 保存退出，然后source使其生效 source ~/.bash_profile 配置zoo.cfg文件 # 进入ZOOKEEPER_HOME/conf目录 # 复制zoo_sample.cfg为zoo.cfg cp zoo_sample.cfg zoo.cfg # 编辑zoo.cfg vi zoo.cfg  # 集群各节点的心跳时间间隔，保持默认即可(2s) tickTime=2000  # 此配置表示，允许follower连接并同步到leader的初始化连接时间 # 它以tickTime的倍数来表示 # 当超过设置倍数的tickTime时间，则连接失败 # 保持默认即可(10次心跳的时间，即20s) initLimit=10  # follower与leader通信，从发送请求到接收到响应的等待时间的最大值，保持默认即可，即10s # 如果10s内没有收到响应，本次请求就失败 syncLimit=5  # zookeeper的数据存放的位置，默认是/tmp/zookeeper，一定要改，因为tmp目录会不定时清空 dataDir=/root/hadoop/zkdata  # 客户端连接的端口号，保持默认即可 clientPort=2181  # 以下内容手动添加 # server.</description>
     </item>
     
   </channel>
