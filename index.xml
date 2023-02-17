@@ -6,7 +6,25 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 09 Jul 2022 10:38:36 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Feb 2023 02:03:44 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Solve the Problem of Sticking Packets for Tcp Network Transmission 如何解决tcp传输粘包问题</title>
+      <link>https://realjf.io/protocol/how-to-solve-the-problem-of-sticking-packets-for-tcp-network-transmission/</link>
+      <pubDate>Sat, 18 Feb 2023 02:03:44 +0800</pubDate>
+      
+      <guid>https://realjf.io/protocol/how-to-solve-the-problem-of-sticking-packets-for-tcp-network-transmission/</guid>
+      <description>什么是粘包？ 多个数据包(当然也可能包含接收到一半的数据包)在接收方缓存中连续存储，粘成一个包
+粘包如何区分把包与包的边界区分出来？ 1. 固定包长的数据包 固定包长，即每个协议包的长度都是固定的，每次解析时取出固定长度的数据进行解析。 这种通信协议格式简单但是灵活性差。如果包的内容长度小于指定的字节数对剩余的空间就需要填充特殊的信息，如\0。 如果包的内容超过指定的字节数，就需要拆分成多个分片，需要增加额外的逻辑进行处理（如发送端分片逻辑及接收端组装分片逻辑）。
+2. 以指定的字符串为包的结束标志 这种协议比较常见，即在字节流中遇到特殊的符号值时就认为包结束。 这种协议一般用于一些包含各种命令控制的应用中，不足之处是如果协议数据包的内容需要使用包结束标志字符，就需要对这些字符做转码或者转义操作， 以免被接收方错误地当成包结束标志导致解析错误
+3. 包头+包体格式 这种格式包含包头和包体两部分， 包头是固定大小的，且包头必须包含一个字段描述接下来的包体大小。 当然，如果包头也可以包含整个包的大小的字段，这样包体可以通过其减去包头大小计算出来
+解包处理 graph TD;A[收到数据] --&amp;gt; B{当前缓存数据是否足够一个包头大小?};B --&amp;gt; |是| C[解析包头中表示包体大小的字段];B --&amp;gt; |否| D[缓存数据并退出];C --&amp;gt; E{剩余的字节数是否够一个包体大小?};E --&amp;gt; |是| F[从缓存中取出一个完整的数据包];E --&amp;gt; |否| D;F --&amp;gt; G[解析该包得到业务数据];G --&amp;gt; B; 处理时需要注意点是：
+ 取包头时应该拷贝一份数据包头大小的数据出来，而不是从缓冲区中直接将数据取出来，因为若接下来根据包头中的字段得到包体大小时，剩余的数据不够一个包体的大小，则我们还得把这个包头数据放回缓冲区。为了避免这种操作，只有在缓冲区中的数据大小够整个包大小时，我们才会从缓冲区中取出整个包 通过包头得到包体的大小时，需要对包体大小的数值进行校验，需要bodysize&amp;gt;0且bodysize &amp;lt;= 10 x 1024 x 1024(即10MB,可以根据实际确定最大值)。对于非法的bodysize，直接关闭连接 3.所有的处理逻辑放在一个while循环里  TLV(type length value) 协议演化 新修改协议导致旧的客户端无法兼容，这时我们升级服务端的协议格式，会导致旧的客户端无法使用，所以在最初设计协议时，需要增加一个版本号字段，针对不同版本做不同处理
+对于字符串类型的字段，我们可以在该字段前面加一个表示字符串长度的标志，这种方法可以解决定义字符串类型时固定长度导致的问题
+为了解决修改协议（新增字段或删除字段）需要兼容众多旧版本的问题，可以通过在每个字段前面加一个type类型来解决，这样，每个字段的类型就是自解释了，这就是TLV。
+TLV类型虽然易于扩展，但是存在以下缺点：
+ TLV格式因为每个字段都增加了一个type类型，所以占用的空间增大 在解析字段时需要额外增加一些判断type的逻辑，根据type类型做相应处理 每个字段的业务含义需要制定文档格式，TLV只是在技术上自解释   有的项目使用一种TTLV格式，即tag-type-length-value，增加一个tag解释</description>
+    </item>
+    
     <item>
       <title>Kubernetes 的基本概念和术语 K8s Basic Concepts and Terminology</title>
       <link>https://realjf.io/k8s/k8s-basic-concepts-and-terminology-v1.19/</link>
