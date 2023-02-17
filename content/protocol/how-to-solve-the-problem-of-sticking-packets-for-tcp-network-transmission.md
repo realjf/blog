@@ -1,5 +1,5 @@
 ---
-title: "How to Solve the Problem of Sticking Packets for Tcp Network Transmission 如何解决tcp传输粘包问题"
+title: "How to Solve the Problem of Sticking Packets for Tcp Network Transmission 如何解决TCP传输粘包问题"
 date: 2023-02-18T02:03:44+08:00
 keywords: ["protocol"]
 categories: ["protocol"]
@@ -59,6 +59,8 @@ graph TD;
     F --> G[解析该包得到业务数据];
     G --> B;
 ```
+
+![sticking-unpacking](image/sticking_unpacking.png)
 
 处理时需要注意点是：
 
