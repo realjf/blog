@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>How to Solve the Problem of Sticking Packets for Tcp Network Transmission 如何解决tcp传输粘包问题 // Realjf&#39;s blog</title>
+    <title>How to Solve the Problem of Sticking Packets for Tcp Network Transmission 如何解决TCP传输粘包问题 // Realjf&#39;s blog</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.97.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -225,7 +225,7 @@
         
     <article class="post">
         <header class="post-header">
-            <h1 class ="post-title">How to Solve the Problem of Sticking Packets for Tcp Network Transmission 如何解决tcp传输粘包问题</h1>
+            <h1 class ="post-title">How to Solve the Problem of Sticking Packets for Tcp Network Transmission 如何解决TCP传输粘包问题</h1>
             <div class="post-meta">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -270,7 +270,8 @@
     E --&gt; |否| D;
     F --&gt; G[解析该包得到业务数据];
     G --&gt; B;
-</code></pre><p>处理时需要注意点是：</p>
+</code></pre><p><img src="image/sticking_unpacking.png" alt="sticking-unpacking"></p>
+<p>处理时需要注意点是：</p>
 <ol>
 <li>取包头时应该拷贝一份数据包头大小的数据出来，而不是从缓冲区中直接将数据取出来，因为若接下来根据包头中的字段得到包体大小时，剩余的数据不够一个包体的大小，则我们还得把这个包头数据放回缓冲区。为了避免这种操作，只有在缓冲区中的数据大小够整个包大小时，我们才会从缓冲区中取出整个包</li>
 <li>通过包头得到包体的大小时，需要对包体大小的数值进行校验，需要bodysize&gt;0且bodysize &lt;= 10 x 1024 x 1024(即10MB,可以根据实际确定最大值)。对于非法的bodysize，直接关闭连接
