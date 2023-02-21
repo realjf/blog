@@ -24,4 +24,4 @@ related:
 
 ### GO语言学习路线图
 
-[go语言学习路线图](https://note.youdao.com/s/cLg5LqE5)
+请点击[go语言学习路线图](https://note.youdao.com/s/cLg5LqE5)进入
