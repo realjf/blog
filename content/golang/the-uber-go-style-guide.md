@@ -3525,3 +3525,4 @@ golangci-lint 有 [various-linters] 可供使用。建议将上述 linters 作�
 ### **See Also**
 
 - <https://github.com/xxjwxc/uber_go_guide_cn>
+- <https://go.dev/ref/spec>
