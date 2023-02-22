@@ -6,7 +6,20 @@
     <description>Recent content in golang on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Feb 2023 02:51:13 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 22 Feb 2023 12:55:02 +0800</lastBuildDate><atom:link href="https://realjf.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Uber Go Style Guide (Uber Go语言编码规范)</title>
+      <link>https://realjf.io/golang/the-uber-go-style-guide/</link>
+      <pubDate>Wed, 22 Feb 2023 12:55:02 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/the-uber-go-style-guide/</guid>
+      <description>所有代码都应该通过golint和go vet的检查并无错误，我们建议您将编译器设置为：
+ 保存时运行goimports 运行golint和go vet检查错误  指导原则  指向interface的指针 您几乎不需要指向接口类型的指针。您应该将接口作为值进行传递，在这样的传递过程中，实质上传递的底层数据仍然可以是指针
+接口底层实现，通过两个字段表示
+ type字段：指向某些特定类型信息的指针 data字段：数据指针，如果存储的数据是指针，则直接存储，如果存储的数据是一个值，则存储指向该值的指针  type F interface {  f() }  type S1 struct{}  func (s S1) f() {}  type S2 struct{}  func (s *S2) f() {}  // f1.f() 无法修改底层数据 // f2.f() 可以修改底层数据，给接口变量 f2 赋值时使用的是对象指针 var f1 F = S1{} var f2 F = &amp;amp;S2{} Interface合理性验证 在编译时验证接口的符合性，包括：
+ 将实现特定接口的导出类型作为接口API的一部分进行检查 实现同一接口的（导出和非导出）类型属于实现类型的集合 任何违反接口合理性检查的场景，都会终止编译，并通知用户   补充：上面 3 条是编译器对接口的检查机制， 大体意思是错误使用接口会在编译期报错。 所以可以利用这个机制让部分问题在编译期暴露。</description>
+    </item>
+    
     <item>
       <title>Go Language Learning Roadmap Go语言学习路线图</title>
       <link>https://realjf.io/golang/go-language-learning-map/</link>
