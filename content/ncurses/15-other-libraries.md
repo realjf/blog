@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 15其他库 15 Other Libraries"
-date: 2021-03-05T11:01:11+08:00
+date: 2019-03-05T11:01:11+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]

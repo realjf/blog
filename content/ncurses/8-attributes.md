@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 8.属性 8 Attributes"
-date: 2021-03-05T09:43:14+08:00
+date: 2019-03-05T09:43:14+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -32,7 +32,7 @@ related:
 #include <stdlib.h>
 
 int main(int argc, char *argv[])
-{ 
+{
   int ch, prev, row, col;
   prev = EOF;
   FILE *fp;
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
       move(0, 0);			/* start at the beginning of the screen */
     }
     if(prev == '/' && ch == '*')    	/* If it is / and * then only
-                                     	 * switch bold on */    
+                                     	 * switch bold on */
     {
       attron(A_BOLD);			/* cut bold on */
       getyx(stdscr, y, x);		/* get the current curser position */
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     A_INVIS         Invisible or blank mode
     A_ALTCHARSET    Alternate character set
     A_CHARTEXT      Bit-mask to extract a character
-    COLOR_PAIR(n)   Color-pair number n 
+    COLOR_PAIR(n)   Color-pair number n
 ```
 最后一个是最丰富多彩的颜色：-）颜色将在下一节中解释。
 
@@ -140,19 +140,19 @@ chgat()使用示例
 int main(int argc, char *argv[])
 {	initscr();			/* Start curses mode 		*/
 	start_color();			/* Start color functionality	*/
-	
+
 	init_pair(1, COLOR_CYAN, COLOR_BLACK);
 	printw("A Big string which i didn't care to type fully ");
-	mvchgat(0, 0, -1, A_BLINK, 1, NULL);	
-	/* 
-	 * First two parameters specify the position at which to start 
-	 * Third parameter number of characters to update. -1 means till 
+	mvchgat(0, 0, -1, A_BLINK, 1, NULL);
+	/*
+	 * First two parameters specify the position at which to start
+	 * Third parameter number of characters to update. -1 means till
 	 * end of line
-	 * Forth parameter is the normal attribute you wanted to give 
+	 * Forth parameter is the normal attribute you wanted to give
 	 * to the charcter
 	 * Fifth is the color index. It is the index given during init_pair()
 	 * use 0 if you didn't want color
-	 * Sixth one is always NULL 
+	 * Sixth one is always NULL
 	 */
 	refresh();
   getch();

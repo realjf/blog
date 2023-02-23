@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 5.关于Windows的一句话 5 a Word About Windows"
-date: 2021-03-05T00:07:39+08:00
+date: 2019-03-05T00:07:39+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]

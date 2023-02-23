@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 13. 屏幕操作 13 Screen Manipulation"
-date: 2021-03-05T10:52:56+08:00
+date: 2019-03-05T10:52:56+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -30,7 +30,7 @@ related:
 ```cpp
  getyx(win, y, x);
     /* win: window pointer
-     *   y, x: y, x co-ordinates will be put into this variables 
+     *   y, x: y, x co-ordinates will be put into this variables
      */
 ```
 函数getparyx（）获取子窗口相对于主窗口的起始坐标。这有时对更新子窗口很有用。在设计诸如编写多个菜单之类的花哨东西时，很难存储菜单位置、它们的第一个选项坐标等。解决这个问题的一个简单方法是在子窗口中创建菜单，然后使用getparyx（）找到菜单的起始坐标。

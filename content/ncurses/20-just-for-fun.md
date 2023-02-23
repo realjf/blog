@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 20 Just for Fun"
-date: 2021-03-05T16:22:04+08:00
+date: 2019-03-05T16:22:04+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]

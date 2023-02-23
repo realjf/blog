@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 4.初始化 4 Initialization"
-date: 2021-03-04T23:49:20+08:00
+date: 2019-03-04T23:49:20+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -49,7 +49,7 @@ related:
 #include <ncurses.h>
 
 int main()
-{	
+{
   int ch;
 
 	initscr();			/* Start curses mode 		*/

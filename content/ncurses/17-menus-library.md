@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 17.菜单库 17 Menus Library"
-date: 2021-03-05T14:35:25+08:00
+date: 2019-03-05T14:35:25+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -72,17 +72,17 @@ char *choices[] = {
 
 int main()
 {	ITEM **my_items;
-	int c;				
+	int c;
 	MENU *my_menu;
 	int n_choices, i;
 	ITEM *cur_item;
-	
-	
+
+
 	initscr();
 	cbreak();
 	noecho();
 	keypad(stdscr, TRUE);
-	
+
 	n_choices = ARRAY_SIZE(choices);
 	my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 
@@ -104,7 +104,7 @@ int main()
 				menu_driver(my_menu, REQ_UP_ITEM);
 				break;
 		}
-	}	
+	}
 
 	free_item(my_items[0]);
 	free_item(my_items[1]);
@@ -127,7 +127,7 @@ menu_driver接受以下导航请求。
      REQ_FIRST_ITEM     Move to the first item.
      REQ_LAST_ITEM         Move to the last item.
      REQ_NEXT_ITEM         Move to the next item.
-     REQ_PREV_ITEM         Move to the previous item. 
+     REQ_PREV_ITEM         Move to the previous item.
      REQ_TOGGLE_ITEM     Select/deselect an item.
      REQ_CLEAR_PATTERN     Clear the menu pattern buffer.
      REQ_BACK_PATTERN      Delete the previous character from the pattern buffer.
@@ -195,11 +195,11 @@ void print_in_middle(WINDOW *win, int starty, int startx, int width, char *strin
 
 int main()
 {	ITEM **my_items;
-	int c;				
+	int c;
 	MENU *my_menu;
         WINDOW *my_menu_win;
         int n_choices, i;
-	
+
 	/* Initialize curses */
 	initscr();
 	start_color();
@@ -220,7 +220,7 @@ int main()
 	/* Create the window to be associated with the menu */
         my_menu_win = newwin(10, 40, 4, 4);
         keypad(my_menu_win, TRUE);
-     
+
 	/* Set main window and sub window */
         set_menu_win(my_menu, my_menu_win);
         set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
@@ -236,7 +236,7 @@ int main()
 	mvwaddch(my_menu_win, 2, 39, ACS_RTEE);
 	mvprintw(LINES - 2, 0, "F1 to exit");
 	refresh();
-        
+
 	/* Post the menu */
 	post_menu(my_menu);
 	wrefresh(my_menu_win);
@@ -251,7 +251,7 @@ int main()
 				break;
 		}
                 wrefresh(my_menu_win);
-	}	
+	}
 
 	/* Unpost and free all the memory taken up */
         unpost_menu(my_menu);
@@ -313,11 +313,11 @@ void print_in_middle(WINDOW *win, int starty, int startx, int width, char *strin
 
 int main()
 {	ITEM **my_items;
-	int c;				
+	int c;
 	MENU *my_menu;
         WINDOW *my_menu_win;
         int n_choices, i;
-	
+
 	/* Initialize curses */
 	initscr();
 	start_color();
@@ -339,12 +339,12 @@ int main()
 	/* Create the window to be associated with the menu */
         my_menu_win = newwin(10, 40, 4, 4);
         keypad(my_menu_win, TRUE);
-     
+
 	/* Set main window and sub window */
         set_menu_win(my_menu, my_menu_win);
         set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
 	set_menu_format(my_menu, 5, 1);
-			
+
 	/* Set menu mark to the string " * " */
         set_menu_mark(my_menu, " * ");
 
@@ -354,11 +354,11 @@ int main()
 	mvwaddch(my_menu_win, 2, 0, ACS_LTEE);
 	mvwhline(my_menu_win, 2, 1, ACS_HLINE, 38);
 	mvwaddch(my_menu_win, 2, 39, ACS_RTEE);
-        
+
 	/* Post the menu */
 	post_menu(my_menu);
 	wrefresh(my_menu_win);
-	
+
 	attron(COLOR_PAIR(2));
 	mvprintw(LINES - 2, 0, "Use PageUp and PageDown to scoll down or up a page of items");
 	mvprintw(LINES - 1, 0, "Arrow Keys to navigate (F1 to Exit)");
@@ -381,7 +381,7 @@ int main()
 				break;
 		}
                 wrefresh(my_menu_win);
-	}	
+	}
 
 	/* Unpost and free all the memory taken up */
         unpost_menu(my_menu);
@@ -437,11 +437,11 @@ char *choices[] = {
 
 int main()
 {	ITEM **my_items;
-	int c;				
+	int c;
 	MENU *my_menu;
         WINDOW *my_menu_win;
         int n_choices, i;
-	
+
 	/* Initialize curses */
 	initscr();
 	start_color();
@@ -466,7 +466,7 @@ int main()
 	/* Create the window to be associated with the menu */
         my_menu_win = newwin(10, 70, 4, 4);
         keypad(my_menu_win, TRUE);
-     
+
 	/* Set main window and sub window */
         set_menu_win(my_menu, my_menu_win);
         set_menu_sub(my_menu, derwin(my_menu_win, 6, 68, 3, 1));
@@ -475,7 +475,7 @@ int main()
 
 	/* Print a border around the main window and print a title */
         box(my_menu_win, 0, 0);
-	
+
 	attron(COLOR_PAIR(2));
 	mvprintw(LINES - 3, 0, "Use PageUp and PageDown to scroll");
 	mvprintw(LINES - 2, 0, "Use Arrow Keys to navigate (F1 to Exit)");
@@ -485,7 +485,7 @@ int main()
 	/* Post the menu */
 	post_menu(my_menu);
 	wrefresh(my_menu_win);
-	
+
 	while((c = wgetch(my_menu_win)) != KEY_F(1))
 	{       switch(c)
 	        {	case KEY_DOWN:
@@ -508,7 +508,7 @@ int main()
 				break;
 		}
                 wrefresh(my_menu_win);
-	}	
+	}
 
 	/* Unpost and free all the memory taken up */
         unpost_menu(my_menu);
@@ -567,12 +567,12 @@ char *choices[] = {
 
 int main()
 {	ITEM **my_items;
-	int c;				
+	int c;
 	MENU *my_menu;
         int n_choices, i;
 	ITEM *cur_item;
-	
-	/* Initialize curses */	
+
+	/* Initialize curses */
 	initscr();
         cbreak();
         noecho();
@@ -624,14 +624,14 @@ int main()
 			}
 			break;
 		}
-	}	
+	}
 
 	free_item(my_items[0]);
         free_item(my_items[1]);
 	free_menu(my_menu);
 	endwin();
 }
-	
+
 ```
 哇，很多新功能。让我们一个接一个地吃吧。首先，REQ_TOGGLE_ITEM。在多值菜单中，应允许用户选择或取消选择多个项目。请求 REQ_TOGGLE_ITEM 用于切换当前选择。在这种情况下，当按下空格时，请求REQ_TOGGLE_ITEM 请求被发送到menu_driver以实现结果。
 
@@ -660,12 +660,12 @@ char *choices[] = {
 
 int main()
 {	ITEM **my_items;
-	int c;				
+	int c;
 	MENU *my_menu;
         int n_choices, i;
 	ITEM *cur_item;
-	
-	/* Initialize curses */	
+
+	/* Initialize curses */
 	initscr();
 	start_color();
         cbreak();
@@ -709,12 +709,12 @@ int main()
 			case 10: /* Enter */
 				move(20, 0);
 				clrtoeol();
-				mvprintw(20, 0, "Item selected is : %s", 
+				mvprintw(20, 0, "Item selected is : %s",
 						item_name(current_item(my_menu)));
 				pos_menu_cursor(my_menu);
 				break;
 		}
-	}	
+	}
 	unpost_menu(my_menu);
 	for(i = 0; i < n_choices; ++i)
 		free_item(my_items[i]);
@@ -745,12 +745,12 @@ void func(char *name);
 
 int main()
 {	ITEM **my_items;
-	int c;				
+	int c;
 	MENU *my_menu;
         int n_choices, i;
 	ITEM *cur_item;
-	
-	/* Initialize curses */	
+
+	/* Initialize curses */
 	initscr();
 	start_color();
         cbreak();
@@ -799,7 +799,7 @@ int main()
 			}
 			break;
 		}
-	}	
+	}
 	unpost_menu(my_menu);
 	for(i = 0; i < n_choices; ++i)
 		free_item(my_items[i]);

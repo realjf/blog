@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 7.输入函数 7 Input Functions"
-date: 2021-03-05T09:14:52+08:00
+date: 2019-03-05T09:14:52+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -49,9 +49,9 @@ related:
 ### 7.4. 一些例子
 例4。一个简单的scanw示例
 ```cpp
-#include <ncurses.h>			/* ncurses.h includes stdio.h */  
-#include <string.h> 
- 
+#include <ncurses.h>			/* ncurses.h includes stdio.h */
+#include <string.h>
+
 int main()
 {
  char mesg[]="Enter a string: ";		/* message to be appeared on the screen */

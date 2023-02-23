@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 10.颜色 10 Colors"
-date: 2021-03-05T10:20:17+08:00
+date: 2019-03-05T10:20:17+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]

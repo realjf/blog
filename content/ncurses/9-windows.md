@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 9.窗口 9 Windows"
-date: 2021-03-05T10:11:03+08:00
+date: 2019-03-05T10:11:03+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -40,7 +40,7 @@ WINDOW *create_newwin(int height, int width, int starty, int startx);
 void destroy_win(WINDOW *local_win);
 
 int main(int argc, char *argv[])
-{	
+{
   WINDOW *my_win;
 	int startx, starty, width, height;
 	int ch;
@@ -75,10 +75,10 @@ int main(int argc, char *argv[])
 			case KEY_DOWN:
 				destroy_win(my_win);
 				my_win = create_newwin(height, width, ++starty,startx);
-				break;	
+				break;
 		}
 	}
-		
+
 	endwin();			/* End curses mode		  */
 	return 0;
 }
@@ -87,7 +87,7 @@ WINDOW *create_newwin(int height, int width, int starty, int startx)
 {	WINDOW *local_win;
 
 	local_win = newwin(height, width, starty, startx);
-	box(local_win, 0 , 0);		/* 0, 0 gives default characters 
+	box(local_win, 0 , 0);		/* 0, 0 gives default characters
 					 * for the vertical and horizontal
 					 * lines			*/
 	wrefresh(local_win);		/* Show that box 		*/
@@ -96,21 +96,21 @@ WINDOW *create_newwin(int height, int width, int starty, int startx)
 }
 
 void destroy_win(WINDOW *local_win)
-{	
+{
 	/* box(local_win, ' ', ' '); : This won't produce the desired
-	 * result of erasing the window. It will leave it's four corners 
-	 * and so an ugly remnant of window. 
+	 * result of erasing the window. It will leave it's four corners
+	 * and so an ugly remnant of window.
 	 */
 	wborder(local_win, ' ', ' ', ' ',' ',' ',' ',' ',' ');
-	/* The parameters taken are 
+	/* The parameters taken are
 	 * 1. win: the window on which to operate
-	 * 2. ls: character to be used for the left side of the window 
-	 * 3. rs: character to be used for the right side of the window 
-	 * 4. ts: character to be used for the top side of the window 
-	 * 5. bs: character to be used for the bottom side of the window 
-	 * 6. tl: character to be used for the top left corner of the window 
-	 * 7. tr: character to be used for the top right corner of the window 
-	 * 8. bl: character to be used for the bottom left corner of the window 
+	 * 2. ls: character to be used for the left side of the window
+	 * 3. rs: character to be used for the right side of the window
+	 * 4. ts: character to be used for the top side of the window
+	 * 5. bs: character to be used for the bottom side of the window
+	 * 6. tl: character to be used for the top left corner of the window
+	 * 7. tr: character to be used for the top right corner of the window
+	 * 8. bl: character to be used for the bottom left corner of the window
 	 * 9. br: character to be used for the bottom right corner of the window
 	 */
 	wrefresh(local_win);
@@ -149,7 +149,7 @@ wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
 #include <ncurses.h>
 
 typedef struct _win_border_struct {
-	chtype 	ls, rs, ts, bs, 
+	chtype 	ls, rs, ts, bs,
 	 	tl, tr, bl, br;
 }WIN_BORDER;
 
@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
 	printw("Press F1 to exit");
 	refresh();
 	attroff(COLOR_PAIR(1));
-	
+
 	create_box(&win, TRUE);
 	while((ch = getch()) != KEY_F(1))
 	{	switch(ch)
@@ -207,7 +207,7 @@ int main(int argc, char *argv[])
 				create_box(&win, FALSE);
 				++win.starty;
 				create_box(&win, TRUE);
-				break;	
+				break;
 		}
 	}
 	endwin();			/* End curses mode		  */
@@ -217,7 +217,7 @@ void init_win_params(WIN *p_win)
 {
 	p_win->height = 3;
 	p_win->width = 10;
-	p_win->starty = (LINES - p_win->height)/2;	
+	p_win->starty = (LINES - p_win->height)/2;
 	p_win->startx = (COLS - p_win->width)/2;
 
 	p_win->border.ls = '|';
@@ -233,7 +233,7 @@ void init_win_params(WIN *p_win)
 void print_win_params(WIN *p_win)
 {
 #ifdef _DEBUG
-	mvprintw(25, 0, "%d %d %d %d", p_win->startx, p_win->starty, 
+	mvprintw(25, 0, "%d %d %d %d", p_win->startx, p_win->starty,
 				p_win->width, p_win->height);
 	refresh();
 #endif
@@ -262,7 +262,7 @@ void create_box(WIN *p_win, bool flag)
 		for(j = y; j <= y + h; ++j)
 			for(i = x; i <= x + w; ++i)
 				mvaddch(j, i, ' ');
-				
+
 	refresh();
 
 }

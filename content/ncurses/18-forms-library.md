@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 18.表单库 18 Forms Library"
-date: 2021-03-05T14:35:46+08:00
+date: 2019-03-05T14:35:46+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -62,7 +62,7 @@ int main()
 {	FIELD *field[3];
 	FORM  *my_form;
 	int ch;
-	
+
 	/* Initialize curses */
 	initscr();
 	cbreak();
@@ -78,14 +78,14 @@ int main()
 	set_field_back(field[0], A_UNDERLINE); 	/* Print a line for the option 	*/
 	field_opts_off(field[0], O_AUTOSKIP);  	/* Don't go to next field when this */
 						/* Field is filled up 		*/
-	set_field_back(field[1], A_UNDERLINE); 
+	set_field_back(field[1], A_UNDERLINE);
 	field_opts_off(field[1], O_AUTOSKIP);
 
 	/* Create the form and post it */
 	my_form = new_form(field);
 	post_form(my_form);
 	refresh();
-	
+
 	mvprintw(4, 10, "Value 1:");
 	mvprintw(6, 10, "Value 2:");
 	refresh();
@@ -107,7 +107,7 @@ int main()
 				break;
 			default:
 				/* If this is a normal character, it gets */
-				/* Printed				  */	
+				/* Printed				  */
 				form_driver(my_form, ch);
 				break;
 		}
@@ -117,7 +117,7 @@ int main()
 	unpost_form(my_form);
 	free_form(my_form);
 	free_field(field[0]);
-	free_field(field[1]); 
+	free_field(field[1]);
 
 	endwin();
 	return 0;
@@ -136,7 +136,7 @@ int main()
 
 ```cpp
 int field_info(     FIELD *field,              /* field from which to fetch */
-                    int *height, *int width,   /* field size */ 
+                    int *height, *int width,   /* field size */
                     int *top, int *left,       /* upper left corner */
                     int *offscreen,            /* number of offscreen rows */
                     int *nbuf);                /* number of working buffers */
@@ -163,21 +163,21 @@ int set_field_just(FIELD *field,          /* field to alter */
 如您所见，在上面的示例中，可以使用set_field_fore（）和set_field_back（）设置字段的display属性。这些函数设置字段的前景和背景属性。还可以指定填充字符，该字符将填充在字段的未填充部分。填充字符是通过调用set_field_pad（）来设置的。默认的填充值是空格。函数field_fore（）、field_back、field_pad（）可用于查询字段的当前前景、背景属性和填充字符。下表给出了函数的用法。
 ```cpp
 int set_field_fore(FIELD *field,        /* field to alter */
-                   chtype attr);        /* attribute to set */ 
+                   chtype attr);        /* attribute to set */
 
 chtype field_fore(FIELD *field);        /* field to query */
                                         /* returns foreground attribute */
 
 int set_field_back(FIELD *field,        /* field to alter */
-                   chtype attr);        /* attribute to set */ 
+                   chtype attr);        /* attribute to set */
 
 chtype field_back(FIELD *field);        /* field to query */
                                         /* returns background attribute */
 
 int set_field_pad(FIELD *field,         /* field to alter */
-                  int pad);             /* pad character to set */ 
+                  int pad);             /* pad character to set */
 
-chtype field_pad(FIELD *field);         /* field to query */  
+chtype field_pad(FIELD *field);         /* field to query */
                                         /* returns present pad character */
 ```
 虽然上面的函数看起来很简单，但在开始时使用set_field_fore（）的颜色可能会令人沮丧。首先让我解释一下字段的前景和背景属性。前景属性与角色相关联。这意味着字段中的字符将使用您使用set_field_fore（）设置的属性打印。背景属性是用于填充字段背景的属性，无论是否有字符。那么颜色呢？既然颜色总是成对定义的，那么显示彩色字段的正确方法是什么？下面是一个说明颜色属性的示例。
@@ -190,7 +190,7 @@ int main()
 {	FIELD *field[3];
 	FORM  *my_form;
 	int ch;
-	
+
 	/* Initialize curses */
 	initscr();
 	start_color();
@@ -213,14 +213,14 @@ int main()
 						/* are printed in white 	*/
 	field_opts_off(field[0], O_AUTOSKIP);  	/* Don't go to next field when this */
 						/* Field is filled up 		*/
-	set_field_back(field[1], A_UNDERLINE); 
+	set_field_back(field[1], A_UNDERLINE);
 	field_opts_off(field[1], O_AUTOSKIP);
 
 	/* Create the form and post it */
 	my_form = new_form(field);
 	post_form(my_form);
 	refresh();
-	
+
 	set_current_field(my_form, field[0]); /* Set focus to the colored field */
 	mvprintw(4, 10, "Value 1:");
 	mvprintw(6, 10, "Value 2:");
@@ -244,7 +244,7 @@ int main()
 				break;
 			default:
 				/* If this is a normal character, it gets */
-				/* Printed				  */	
+				/* Printed				  */
 				form_driver(my_form, ch);
 				break;
 		}
@@ -254,7 +254,7 @@ int main()
 	unpost_form(my_form);
 	free_form(my_form);
 	free_field(field[0]);
-	free_field(field[1]); 
+	free_field(field[1]);
 
 	endwin();
 	return 0;
@@ -266,15 +266,15 @@ int main()
 还有一个大的字段选项位集合，您可以设置为控制表单处理的各个方面。可以使用以下函数操作它们：
 ```cpp
 int set_field_opts(FIELD *field,          /* field to alter */
-                   int attr);             /* attribute to set */ 
+                   int attr);             /* attribute to set */
 
 int field_opts_on(FIELD *field,           /* field to alter */
-                  int attr);              /* attributes to turn on */ 
+                  int attr);              /* attributes to turn on */
 
 int field_opts_off(FIELD *field,          /* field to alter */
-                  int attr);              /* attributes to turn off */ 
+                  int attr);              /* attributes to turn off */
 
-int field_opts(FIELD *field);             /* field to query */ 
+int field_opts(FIELD *field);             /* field to query */
 ```
 
 函数set_field_opts（）可以用来直接设置字段的属性，也可以选择使用field_opts_on（）和field_opts_off（）来打开和关闭一些属性。任何时候都可以使用field_opts（）查询字段的属性。以下是可用选项的列表。默认情况下，所有选项都处于启用状态。
@@ -316,7 +316,7 @@ int main()
 {	FIELD *field[N_FIELDS];
 	FORM  *my_form;
 	int ch, i;
-	
+
 	/* Initialize curses */
 	initscr();
 	cbreak();
@@ -330,19 +330,19 @@ int main()
 
 	/* Set field options */
 	set_field_back(field[1], A_UNDERLINE); 	/* Print a line for the option 	*/
-	
+
 	field_opts_off(field[0], O_ACTIVE); /* This field is a static label */
 	field_opts_off(field[1], O_PUBLIC); /* This filed is like a password field*/
 	field_opts_off(field[1], O_AUTOSKIP); /* To avoid entering the same field */
 					      /* after last character is entered */
-	
+
 	/* Create the form and post it */
 	my_form = new_form(field);
 	post_form(my_form);
 	refresh();
-	
+
 	set_field_just(field[0], JUSTIFY_CENTER); /* Center Justification */
-	set_field_buffer(field[0], 0, "This is a static Field"); 
+	set_field_buffer(field[0], 0, "This is a static Field");
 						  /* Initialize the field  */
 	mvprintw(STARTY, STARTX - 10, "Field 1:");
 	mvprintw(STARTY + 2, STARTX - 10, "Field 2:");
@@ -365,7 +365,7 @@ int main()
 				break;
 			default:
 				/* If this is a normal character, it gets */
-				/* Printed				  */	
+				/* Printed				  */
 				form_driver(my_form, ch);
 				break;
 		}
@@ -375,7 +375,7 @@ int main()
 	unpost_form(my_form);
 	free_form(my_form);
 	free_field(field[0]);
-	free_field(field[1]); 
+	free_field(field[1]);
 
 	endwin();
 	return 0;
@@ -398,7 +398,7 @@ int field_status(FIELD *field);         /* fetch status of field */
 每个字段结构都包含一个指针，用户可以将其用于各种目的。表单库不触及它，用户可以将其用于任何目的。下面的函数设置并获取用户指针。
 
 ```cpp
-int set_field_userptr(FIELD *field,   
+int set_field_userptr(FIELD *field,
            char *userptr);      /* the user pointer you wish to associate */
                                 /* with the field    */
 
@@ -466,7 +466,7 @@ int main()
 	FORM  *my_form;
 	WINDOW *my_form_win;
 	int ch, rows, cols;
-	
+
 	/* Initialize curses */
 	initscr();
 	start_color();
@@ -486,12 +486,12 @@ int main()
 	set_field_back(field[0], A_UNDERLINE);
 	field_opts_off(field[0], O_AUTOSKIP); /* Don't go to next field when this */
 					      /* Field is filled up 		*/
-	set_field_back(field[1], A_UNDERLINE); 
+	set_field_back(field[1], A_UNDERLINE);
 	field_opts_off(field[1], O_AUTOSKIP);
-	
+
 	/* Create the form and post it */
 	my_form = new_form(field);
-	
+
 	/* Calculate the area required for the form */
 	scale_form(my_form, &rows, &cols);
 
@@ -506,7 +506,7 @@ int main()
 	/* Print a border around the main window and print a title */
         box(my_form_win, 0, 0);
 	print_in_middle(my_form_win, 1, 0, cols + 4, "My Form", COLOR_PAIR(1));
-	
+
 	post_form(my_form);
 	wrefresh(my_form_win);
 
@@ -530,7 +530,7 @@ int main()
 				break;
 			default:
 				/* If this is a normal character, it gets */
-				/* Printed				  */	
+				/* Printed				  */
 				form_driver(my_form, ch);
 				break;
 		}
@@ -540,7 +540,7 @@ int main()
 	unpost_form(my_form);
 	free_form(my_form);
 	free_field(field[0]);
-	free_field(field[1]); 
+	free_field(field[1]);
 
 	endwin();
 	return 0;

@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 2.Hell World 2 Hello World"
-date: 2021-03-04T23:34:00+08:00
+date: 2019-03-04T23:34:00+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -40,7 +40,7 @@ related:
 #include <ncurses.h>
 
 int main()
-{	
+{
 	initscr();			/* Start curses mode 		  */
 	printw("Hello World !!!");	/* Print Hello World		  */
 	refresh();			/* Print it on to the real screen */

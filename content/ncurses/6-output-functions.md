@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 6.输出函数 6 Output Functions"
-date: 2021-03-05T00:23:31+08:00
+date: 2019-03-05T00:23:31+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -76,9 +76,9 @@ waddch（）与addch（）类似，只是它将字符添加到给定的窗口中
 #### 6.3.4. 一个简单的printw示例
 
 ```cpp
-#include <ncurses.h>			/* ncurses.h includes stdio.h */  
-#include <string.h> 
- 
+#include <ncurses.h>			/* ncurses.h includes stdio.h */
+#include <string.h>
+
 int main()
 {
  char mesg[]="Just a string";		/* message to be appeared on the screen */

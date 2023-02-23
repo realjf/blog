@@ -1,6 +1,6 @@
 ---
 title: "NCURSES编程 之 14 其他特性 14 Miscellaneous Features"
-date: 2021-03-05T10:56:49+08:00
+date: 2019-03-05T10:56:49+08:00
 keywords: ["ncurses"]
 categories: ["ncurses"]
 tags: ["ncurses"]
@@ -40,7 +40,7 @@ related:
 #include <ncurses.h>
 
 int main()
-{	
+{
 	initscr();			/* Start curses mode 		  */
 	printw("Hello World !!!\n");	/* Print Hello World		  */
 	refresh();			/* Print it on to the real screen */
@@ -69,7 +69,7 @@ int main()
 {
         initscr();
 
-        printw("Upper left corner           "); addch(ACS_ULCORNER); printw("\n"); 
+        printw("Upper left corner           "); addch(ACS_ULCORNER); printw("\n");
         printw("Lower left corner           "); addch(ACS_LLCORNER); printw("\n");
         printw("Lower right corner          "); addch(ACS_LRCORNER); printw("\n");
         printw("Tee pointing right          "); addch(ACS_LTEE); printw("\n");
