@@ -6,11 +6,11 @@
     <description>Recent content in ncurses on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Mar 2021 16:22:04 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/ncurses/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 Mar 2019 16:22:04 +0800</lastBuildDate><atom:link href="https://realjf.io/tags/ncurses/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>NCURSES编程 之 20 Just for Fun</title>
       <link>https://realjf.io/ncurses/20-just-for-fun/</link>
-      <pubDate>Fri, 05 Mar 2021 16:22:04 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 16:22:04 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/20-just-for-fun/</guid>
       <description>20 只是为了好玩！！！ 这一节包含了我写的几个程序只是为了好玩。它们并不意味着更好的编程实践或使用ncurses的最佳方式。他们在这里提供，以便让初学者得到的想法，并添加更多的程序到这一节。如果你已经写了几个漂亮的，简单的诅咒程序，并希望他们包括在这里，联系我。
@@ -28,7 +28,7 @@
     <item>
       <title>NCURSES编程 之 19 工具和小部件库 19 Tools and Widget Libraries</title>
       <link>https://realjf.io/ncurses/19-tools-and-widget-libraries/</link>
-      <pubDate>Fri, 05 Mar 2021 14:36:09 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 14:36:09 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/19-tools-and-widget-libraries/</guid>
       <description>19 工具和小部件库 现在您已经看到了NCURSE及其姊妹库的功能，您将为一个严重操纵屏幕的项目卷起袖子，准备就绪。但是等等。。在普通的NCURSE中，甚至在附加库中编写和维护复杂的GUI小部件可能相当困难。有一些现成的工具和小部件库可以用来代替编写自己的小部件。您可以使用其中的一些，从代码中获取想法，甚至扩展它们。
@@ -42,7 +42,7 @@ Widget Type Quick Description ==================================================
     <item>
       <title>NCURSES编程 之 18.表单库 18 Forms Library</title>
       <link>https://realjf.io/ncurses/18-forms-library/</link>
-      <pubDate>Fri, 05 Mar 2021 14:35:46 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 14:35:46 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/18-forms-library/</guid>
       <description>18 表单库 好。如果您在web页面上看到过这些表单，这些表单从用户那里获取输入并执行各种操作，您可能会想知道，任何人都会如何在文本模式显示中创建这样的表单。用平淡的语言写那些漂亮的表格是相当困难的。表单库试图提供一个基本的框架来轻松地构建和维护表单。它有很多特性（功能）来管理验证、字段的动态扩展等。。让我们看看它的全部流程。
@@ -52,13 +52,13 @@ Widget Type Quick Description ==================================================
  初始化curses 使用new_field（）创建字段。可以指定字段的高度和宽度及其在窗体上的位置。 通过指定要附加的字段，使用new_form（）创建表单。 使用form_Post（）发布表单并刷新屏幕。 使用循环处理用户请求，并使用表单驱动程序对表单进行必要的更新。 使用menu_Unpost（）取消菜单的粘贴 通过Free_form（）释放分配给菜单的内存 使用Free_field（）释放分配给项目的内存 结束curses  如您所见，使用表单库与处理菜单库非常相似。下面的例子将探讨表单处理的各个方面。让我们从一个简单的例子开始。第一。
 18.2. 用表单库编译 要使用表单库函数，必须包含form.h，并且要将程序与表单库链接，标志-lform应按顺序与-lncurs一起添加。
 #include &amp;lt;form.h&amp;gt; .  .  .   compile and link: gcc &amp;lt;program file&amp;gt; -lform -lncurses 表单示例
-#include &amp;lt;form.h&amp;gt; int main() {	FIELD *field[3]; 	FORM *my_form; 	int ch; 		/* Initialize curses */ 	initscr(); 	cbreak(); 	noecho(); 	keypad(stdscr, TRUE);  	/* Initialize the fields */ 	field[0] = new_field(1, 10, 4, 18, 0, 0); 	field[1] = new_field(1, 10, 6, 18, 0, 0); 	field[2] = NULL;  	/* Set field options */ 	set_field_back(field[0], A_UNDERLINE); /* Print a line for the option */ 	field_opts_off(field[0], O_AUTOSKIP); /* Don&amp;#39;t go to next field when this */ 	/* Field is filled up */ 	set_field_back(field[1], A_UNDERLINE); 	field_opts_off(field[1], O_AUTOSKIP);  	/* Create the form and post it */ 	my_form = new_form(field); 	post_form(my_form); 	refresh(); 		mvprintw(4, 10, &amp;#34;Value 1:&amp;#34;); 	mvprintw(6, 10, &amp;#34;Value 2:&amp;#34;); 	refresh();  	/* Loop through to get user requests */ 	while((ch = getch()) !</description>
+#include &amp;lt;form.h&amp;gt; int main() {	FIELD *field[3]; 	FORM *my_form; 	int ch;  	/* Initialize curses */ 	initscr(); 	cbreak(); 	noecho(); 	keypad(stdscr, TRUE);  	/* Initialize the fields */ 	field[0] = new_field(1, 10, 4, 18, 0, 0); 	field[1] = new_field(1, 10, 6, 18, 0, 0); 	field[2] = NULL;  	/* Set field options */ 	set_field_back(field[0], A_UNDERLINE); /* Print a line for the option */ 	field_opts_off(field[0], O_AUTOSKIP); /* Don&amp;#39;t go to next field when this */ 	/* Field is filled up */ 	set_field_back(field[1], A_UNDERLINE); 	field_opts_off(field[1], O_AUTOSKIP);  	/* Create the form and post it */ 	my_form = new_form(field); 	post_form(my_form); 	refresh();  	mvprintw(4, 10, &amp;#34;Value 1:&amp;#34;); 	mvprintw(6, 10, &amp;#34;Value 2:&amp;#34;); 	refresh();  	/* Loop through to get user requests */ 	while((ch = getch()) !</description>
     </item>
     
     <item>
       <title>NCURSES编程 之 17.菜单库 17 Menus Library</title>
       <link>https://realjf.io/ncurses/17-menus-library/</link>
-      <pubDate>Fri, 05 Mar 2021 14:35:25 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 14:35:25 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/17-menus-library/</guid>
       <description>17 菜单库 菜单库提供了基本curses的一个很好的扩展，通过它可以创建菜单。它提供了一组创建菜单的函数。但是，他们必须定制，以提供更好的外观，颜色等。让我们进入细节。
@@ -68,13 +68,13 @@ Widget Type Quick Description ==================================================
  初始化curses 使用new炣item（）创建项目。可以为项目指定名称和说明。 通过指定要附加的项，使用new_menu（）创建菜单。 使用menu_Post（）发布”菜单，然后刷新屏幕。 使用循环处理用户请求，并使用菜单“驱动程序”对菜单进行必要的更新。 用menu_Unpost（）取消对菜单的选中” 释放由free_menu（）分配给菜单的内存 释放分配给项目的内存（使用free_item（） 结束curses  让我们看看一个程序，它打印一个简单的菜单，并用上下箭头更新当前选择。
 17.2. 使用菜单库编译 要使用菜单库函数，您必须包括menu.h，并且要将程序与菜单库链接，则应按此顺序添加标记-lmenu和-lncurs。
 #include &amp;lt;menu.h&amp;gt; . . . compile and link: gcc &amp;lt;program file&amp;gt; -lmenu -lncurses 菜单基础
-#include &amp;lt;curses.h&amp;gt;#include &amp;lt;menu.h&amp;gt; #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0])) #define CTRLD 4  char *choices[] = {  &amp;#34;Choice 1&amp;#34;,  &amp;#34;Choice 2&amp;#34;,  &amp;#34;Choice 3&amp;#34;,  &amp;#34;Choice 4&amp;#34;,  &amp;#34;Exit&amp;#34;,  };  int main() {	ITEM **my_items; 	int c;		MENU *my_menu; 	int n_choices, i; 	ITEM *cur_item; 			initscr(); 	cbreak(); 	noecho(); 	keypad(stdscr, TRUE); 		n_choices = ARRAY_SIZE(choices); 	my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));  	for(i = 0; i &amp;lt; n_choices; ++i) 	my_items[i] = new_item(choices[i], choices[i]); 	my_items[n_choices] = (ITEM *)NULL;  	my_menu = new_menu((ITEM **)my_items); 	mvprintw(LINES - 2, 0, &amp;#34;F1 to Exit&amp;#34;); 	post_menu(my_menu); 	refresh();  	while((c = getch()) !</description>
+#include &amp;lt;curses.h&amp;gt;#include &amp;lt;menu.h&amp;gt; #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0])) #define CTRLD 4  char *choices[] = {  &amp;#34;Choice 1&amp;#34;,  &amp;#34;Choice 2&amp;#34;,  &amp;#34;Choice 3&amp;#34;,  &amp;#34;Choice 4&amp;#34;,  &amp;#34;Exit&amp;#34;,  };  int main() {	ITEM **my_items; 	int c; 	MENU *my_menu; 	int n_choices, i; 	ITEM *cur_item;   	initscr(); 	cbreak(); 	noecho(); 	keypad(stdscr, TRUE);  	n_choices = ARRAY_SIZE(choices); 	my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));  	for(i = 0; i &amp;lt; n_choices; ++i) 	my_items[i] = new_item(choices[i], choices[i]); 	my_items[n_choices] = (ITEM *)NULL;  	my_menu = new_menu((ITEM **)my_items); 	mvprintw(LINES - 2, 0, &amp;#34;F1 to Exit&amp;#34;); 	post_menu(my_menu); 	refresh();  	while((c = getch()) !</description>
     </item>
     
     <item>
       <title>NCURSES编程 之 16 平面库 16 Panel Library</title>
       <link>https://realjf.io/ncurses/16-panel-library/</link>
-      <pubDate>Fri, 05 Mar 2021 11:04:04 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 11:04:04 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/16-panel-library/</guid>
       <description>16 平面库 既然你精通curses，你就想做些大事。您创建了许多重叠的窗口，以提供专业的窗口类型外观。不幸的是，很快就很难管理这些。多次刷新、更新让你陷入噩梦。每当你忘记按正确的顺序刷新窗口时，重叠的窗口就会产生斑点。
@@ -92,7 +92,7 @@ Widget Type Quick Description ==================================================
     <item>
       <title>NCURSES编程 之 15其他库 15 Other Libraries</title>
       <link>https://realjf.io/ncurses/15-other-libraries/</link>
-      <pubDate>Fri, 05 Mar 2021 11:01:11 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 11:01:11 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/15-other-libraries/</guid>
       <description>15 其他库 除了curses库之外，很少有文本模式库提供更多的功能和很多特性。以下部分解释了三个标准库，它们通常与curses一起分发。</description>
@@ -101,20 +101,20 @@ Widget Type Quick Description ==================================================
     <item>
       <title>NCURSES编程 之 14 其他特性 14 Miscellaneous Features</title>
       <link>https://realjf.io/ncurses/14-miscellaneous-features/</link>
-      <pubDate>Fri, 05 Mar 2021 10:56:49 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 10:56:49 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/14-miscellaneous-features/</guid>
       <description>14 其他特性 现在你知道了足够的功能来编写一个好的诅咒程序，所有的钟和口哨。有一些在各种情况下有用的杂项函数。让我们直奔其中一些。
 14.1. 光标集（） 此函数可用于使光标不可见。此函数的参数应为
  0 : invisible or 1 : normal or 2 : very visible. 14.2. 暂时离开curses模式 有时您可能想暂时回到熟食模式（正常行缓冲模式）。在这种情况下，首先需要通过调用def_prog_mode（）保存tty模式，然后调用endwin（）结束curses模式。这将使您处于原来的tty模式。完成后，要返回到curses，请调用reset_prog_mode（）。此函数用于将tty返回到def_prog_mode（）存储的状态。然后执行refresh（），您将返回到诅咒模式。下面是一个例子，展示了要做的事情的顺序。
 例12。暂时离开诅咒模式
-#include &amp;lt;ncurses.h&amp;gt; int main() {		initscr();	/* Start curses mode */ 	printw(&amp;#34;Hello World !!!\n&amp;#34;);	/* Print Hello World	*/ 	refresh();	/* Print it on to the real screen */ 	def_prog_mode();	/* Save the tty modes	*/ 	endwin();	/* End curses mode temporarily	*/ 	system(&amp;#34;/bin/sh&amp;#34;);	/* Do whatever you like in cooked mode */ 	reset_prog_mode();	/* Return to the previous tty mode*/ 	/* stored by def_prog_mode() */ 	refresh();	/* Do refresh() to restore the	*/ 	/* Screen contents	*/ 	printw(&amp;#34;Another String\n&amp;#34;);	/* Back to curses use the full */ 	refresh();	/* capabilities of curses	*/ 	endwin();	/* End curses mode	*/  	return 0; } 14.</description>
+#include &amp;lt;ncurses.h&amp;gt; int main() { 	initscr();	/* Start curses mode */ 	printw(&amp;#34;Hello World !!!\n&amp;#34;);	/* Print Hello World	*/ 	refresh();	/* Print it on to the real screen */ 	def_prog_mode();	/* Save the tty modes	*/ 	endwin();	/* End curses mode temporarily	*/ 	system(&amp;#34;/bin/sh&amp;#34;);	/* Do whatever you like in cooked mode */ 	reset_prog_mode();	/* Return to the previous tty mode*/ 	/* stored by def_prog_mode() */ 	refresh();	/* Do refresh() to restore the	*/ 	/* Screen contents	*/ 	printw(&amp;#34;Another String\n&amp;#34;);	/* Back to curses use the full */ 	refresh();	/* capabilities of curses	*/ 	endwin();	/* End curses mode	*/  	return 0; } 14.</description>
     </item>
     
     <item>
       <title>NCURSES编程 之 13. 屏幕操作 13 Screen Manipulation</title>
       <link>https://realjf.io/ncurses/13-screen-manipulation/</link>
-      <pubDate>Fri, 05 Mar 2021 10:52:56 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 10:52:56 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/13-screen-manipulation/</guid>
       <description>13 屏幕操作 在本节中，我们将研究一些函数，这些函数允许我们高效地管理屏幕并编写一些奇特的程序。这在编写游戏时尤其重要。
@@ -129,7 +129,7 @@ Widget Type Quick Description ==================================================
     <item>
       <title>NCURSES编程 之 12.鼠标接口 12 Interfacing With the Mouse</title>
       <link>https://realjf.io/ncurses/12-interfacing-with-the-mouse/</link>
-      <pubDate>Fri, 05 Mar 2021 10:44:02 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 10:44:02 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/12-interfacing-with-the-mouse/</guid>
       <description>12 鼠标接口 现在您已经了解了如何获取键，让我们从鼠标执行相同的操作。通常每个UI都允许用户与键盘和鼠标进行交互。
@@ -142,7 +142,7 @@ Name Description  --------------------------------------------------------------
     <item>
       <title>NCURSES编程 之 11.键盘接口 11 Interfacing With the Keyboard</title>
       <link>https://realjf.io/ncurses/11-interfacing-with-the-keyboard/</link>
-      <pubDate>Fri, 05 Mar 2021 10:39:16 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 10:39:16 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/11-interfacing-with-the-keyboard/</guid>
       <description>11. 键盘接口 11.1. 基础知识 没有强大的用户界面就没有完整的GUI，要与用户交互，curses程序应该对用户的按键或鼠标动作敏感。我们先来处理按键吧。
@@ -157,7 +157,7 @@ int ch;  ch = getch(); getch（）将等待用户按键（除非指定了超时�
     <item>
       <title>NCURSES编程 之 10.颜色 10 Colors</title>
       <link>https://realjf.io/ncurses/10-colors/</link>
-      <pubDate>Fri, 05 Mar 2021 10:20:17 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 10:20:17 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/10-colors/</guid>
       <description>10. 颜色 10.1. 基础知识 没有色彩的生活似乎单调乏味。诅咒有一个很好的机制来处理颜色。让我们用一个小程序来深入了解这些事情。
@@ -167,20 +167,20 @@ int ch;  ch = getch(); getch（）将等待用户按键（除非指定了超时�
     <item>
       <title>NCURSES编程 之 9.窗口 9 Windows</title>
       <link>https://realjf.io/ncurses/9-windows/</link>
-      <pubDate>Fri, 05 Mar 2021 10:11:03 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 10:11:03 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/9-windows/</guid>
       <description>9. 窗口 窗口是curses中最重要的概念。您已经看到了上面的标准窗口stdscr，其中所有函数都隐式地操作这个窗口。现在要使设计成为一个最简单的GUI，您需要借助windows。使用windows的主要原因可能是为了提高效率，通过只更新需要更改的窗口和更好的设计来分别操作部分屏幕。我想说，最后一个原因是最重要的，在去windows。你应该一直努力在你的程序中有一个更好的，易于管理的设计。如果您正在编写大型、复杂的gui，那么在开始做任何事情之前，这一点至关重要。
 9.1. 基础知识 可以通过调用函数newwin（）来创建窗口。实际上，它不会在屏幕上产生任何东西。它为一个结构分配内存来操作窗口，并用有关窗口的数据（如大小、beginy、beginx等）更新结构。。因此，在curses中，窗口只是一个虚构窗口的抽象，可以独立于屏幕的其他部分进行操作。函数newwin（）返回指向结构窗口的指针，该指针可以传递给与窗口相关的函数，如wprintw（）等。。最后，可以使用delwin（）销毁窗口。它将释放与窗口结构关联的内存。
 9.2. 让这里有一扇窗户！！！ 如果创建了一个窗口而我们看不到它，那有什么好玩的呢。所以有趣的部分从展示窗口开始。函数box（）可用于在窗口周围绘制边框。让我们在本例中更详细地探讨这些函数。
 例7。窗口边框示例
-#include &amp;lt;ncurses.h&amp;gt;  WINDOW *create_newwin(int height, int width, int starty, int startx); void destroy_win(WINDOW *local_win);  int main(int argc, char *argv[]) {	 WINDOW *my_win; 	int startx, starty, width, height; 	int ch;  	initscr();	/* Start curses mode */ 	cbreak();	/* Line buffering disabled, Pass on * everty thing to me */ 	keypad(stdscr, TRUE);	/* I need that nifty F1 */  	height = 3; 	width = 10; 	starty = (LINES - height) / 2;	/* Calculating for a center placement */ 	startx = (COLS - width) / 2;	/* of the window	*/ 	printw(&amp;#34;Press F1 to exit&amp;#34;); 	refresh(); 	my_win = create_newwin(height, width, starty, startx);  	while((ch = getch()) !</description>
+#include &amp;lt;ncurses.h&amp;gt;  WINDOW *create_newwin(int height, int width, int starty, int startx); void destroy_win(WINDOW *local_win);  int main(int argc, char *argv[]) {  WINDOW *my_win; 	int startx, starty, width, height; 	int ch;  	initscr();	/* Start curses mode */ 	cbreak();	/* Line buffering disabled, Pass on * everty thing to me */ 	keypad(stdscr, TRUE);	/* I need that nifty F1 */  	height = 3; 	width = 10; 	starty = (LINES - height) / 2;	/* Calculating for a center placement */ 	startx = (COLS - width) / 2;	/* of the window	*/ 	printw(&amp;#34;Press F1 to exit&amp;#34;); 	refresh(); 	my_win = create_newwin(height, width, starty, startx);  	while((ch = getch()) !</description>
     </item>
     
     <item>
       <title>NCURSES编程 之 8.属性 8 Attributes</title>
       <link>https://realjf.io/ncurses/8-attributes/</link>
-      <pubDate>Fri, 05 Mar 2021 09:43:14 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 09:43:14 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/8-attributes/</guid>
       <description>8. 属性 我们已经看到了如何使用属性打印具有某些特殊效果的字符的示例。如果谨慎地设置属性，可以以简单易懂的方式呈现信息。下面的程序将一个C文件作为输入并打印带有粗体注释的文件。扫描代码。
@@ -191,7 +191,7 @@ int ch;  ch = getch(); getch（）将等待用户按键（除非指定了超时�
     <item>
       <title>NCURSES编程 之 7.输入函数 7 Input Functions</title>
       <link>https://realjf.io/ncurses/7-input-functions/</link>
-      <pubDate>Fri, 05 Mar 2021 09:14:52 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 09:14:52 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/7-input-functions/</guid>
       <description>7. 输入函数 好吧，不用输入就打印，很无聊。让我们看看允许我们从用户那里获取输入的函数。这些功能也可以分为三类。
@@ -202,13 +202,13 @@ int ch;  ch = getch(); getch（）将等待用户按键（除非指定了超时�
 7.2.3. vwscanw（） 此函数类似于vscanf（）。当要扫描的参数数目可变时，可以使用此选项。
 7.3. getstr（）函数类 这些函数用于从终端获取字符串。本质上，此函数执行的任务与对getch（）的一系列调用相同，直到收到换行符、回车符或文件结尾。结果字符串由str指向，str是用户提供的字符指针。
 7.4. 一些例子 例4。一个简单的scanw示例
-#include &amp;lt;ncurses.h&amp;gt;	/* ncurses.h includes stdio.h */ #include &amp;lt;string.h&amp;gt;  int main() {  char mesg[]=&amp;#34;Enter a string: &amp;#34;;	/* message to be appeared on the screen */  char str[80];  int row,col;	/* to store the number of rows and * * the number of colums of the screen */  initscr();	/* start the curses mode */  getmaxyx(stdscr,row,col);	/* get the number of rows and columns */  mvprintw(row/2,(col-strlen(mesg))/2,&amp;#34;%s&amp;#34;,mesg);  /* print the message at the center of the screen */  getstr(str);  mvprintw(LINES - 2, 0, &amp;#34;You Entered: %s&amp;#34;, str);  getch();  endwin();   return 0; } </description>
+#include &amp;lt;ncurses.h&amp;gt;	/* ncurses.h includes stdio.h */#include &amp;lt;string.h&amp;gt; int main() {  char mesg[]=&amp;#34;Enter a string: &amp;#34;;	/* message to be appeared on the screen */  char str[80];  int row,col;	/* to store the number of rows and * * the number of colums of the screen */  initscr();	/* start the curses mode */  getmaxyx(stdscr,row,col);	/* get the number of rows and columns */  mvprintw(row/2,(col-strlen(mesg))/2,&amp;#34;%s&amp;#34;,mesg);  /* print the message at the center of the screen */  getstr(str);  mvprintw(LINES - 2, 0, &amp;#34;You Entered: %s&amp;#34;, str);  getch();  endwin();   return 0; } </description>
     </item>
     
     <item>
       <title>NCURSES编程 之 6.输出函数 6 Output Functions</title>
       <link>https://realjf.io/ncurses/6-output-functions/</link>
-      <pubDate>Fri, 05 Mar 2021 00:23:31 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:23:31 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/6-output-functions/</guid>
       <description>6. 输出函数 我想你已经等不及要看一些行动了。回到我们的curses之旅。现在curses已经初始化，让我们和世界互动。
@@ -225,13 +225,13 @@ mvaddch(row,col,ch); waddch（）与addch（）类似，只是它将字符添加
 6.3.1. printw（）和mvprintw 这两个函数的工作方式与printf（）非常相似。mvprintw（）可用于将光标移动到某个位置，然后打印。如果要先移动光标，然后使用printw（）函数打印，请先使用move（），然后使用printw（），尽管我看不出为什么要避免使用mvprintw（），但您可以灵活地进行操作。
 6.3.2. wprintw（）和mvwprintw 这两个函数与上述两个函数类似，只是它们打印在作为参数给出的相应窗口中。
 6.3.3. vwprintw（） 此函数类似于vprintf（）。当要打印可变数量的参数时，可以使用此选项。
-6.3.4. 一个简单的printw示例 #include &amp;lt;ncurses.h&amp;gt;	/* ncurses.h includes stdio.h */ #include &amp;lt;string.</description>
+6.3.4. 一个简单的printw示例 #include &amp;lt;ncurses.h&amp;gt;	/* ncurses.h includes stdio.h */#include &amp;lt;string.</description>
     </item>
     
     <item>
       <title>NCURSES编程 之 5.关于Windows的一句话 5 a Word About Windows</title>
       <link>https://realjf.io/ncurses/5-a-word-about-windows/</link>
-      <pubDate>Fri, 05 Mar 2021 00:07:39 +0800</pubDate>
+      <pubDate>Tue, 05 Mar 2019 00:07:39 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/5-a-word-about-windows/</guid>
       <description>5. 关于Windows的一句话 在我们深入讨论无数的ncurses函数之前，让我先澄清一下windows的一些问题。窗口将在以下部分中详细说明
@@ -245,7 +245,7 @@ wprintw(win, &amp;#34;Hi There !!!&amp;#34;); wrefresh(win); 正如您将在文�
     <item>
       <title>NCURSES编程 之 4.初始化 4 Initialization</title>
       <link>https://realjf.io/ncurses/4-initialization/</link>
-      <pubDate>Thu, 04 Mar 2021 23:49:20 +0800</pubDate>
+      <pubDate>Mon, 04 Mar 2019 23:49:20 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/4-initialization/</guid>
       <description>4. 初始化 我们现在知道，要初始化curses系统，必须调用initscr（）函数。在初始化之后可以调用一些函数来定制curses会话。我们可以要求curses系统将终端设置为原始模式或初始化颜色或初始化鼠标等。。让我们来讨论一些通常在initscr（）之后立即调用的函数；
@@ -256,13 +256,13 @@ wprintw(win, &amp;#34;Hi There !!!&amp;#34;); wrefresh(win); 正如您将在文�
 4.6. 其他初始化函数 初始化时调用的函数很少，可以自定义curses行为。它们没有像上面提到的那样广泛使用。在适当的地方对其中的一些问题进行了解释。
 4.7. 一个例子 让我们写一个程序来阐明这些函数的用法。
 例2。初始化函数用法示例
-#include &amp;lt;ncurses.h&amp;gt; int main() {	 int ch;  	initscr();	/* Start curses mode */ 	raw();	/* Line buffering disabled	*/ 	keypad(stdscr, TRUE);	/* We get F1, F2 etc..	*/ 	noecho();	/* Don&amp;#39;t echo() while we do getch */   printw(&amp;#34;Type any character to see it in bold\n&amp;#34;); 	ch = getch();	/* If raw() hadn&amp;#39;t been called * we have to press enter before it * gets to the program */ 	if(ch == KEY_F(1))	/* Without keypad enabled this will */ 	printw(&amp;#34;F1 Key pressed&amp;#34;);/* not get to us either	*/ 	/* Without noecho() some ugly escape * charachters might have been printed * on screen	*/ 	else 	{	printw(&amp;#34;The pressed key is &amp;#34;); 	attron(A_BOLD); 	printw(&amp;#34;%c&amp;#34;, ch); 	attroff(A_BOLD); 	} 	refresh();	/* Print it on to the real screen */  getch();	/* Wait for user input */ 	endwin();	/* End curses mode	*/  	return 0; } 这个程序是不言自明的。但我使用的函数还没有解释。函数getch（）用于从用户获取字符。它相当于普通的getchar（），只是我们可以禁用行缓冲以避免在输入之后。有关getch（）和读取密钥的更多信息，请参阅密钥管理部分。函数attron和attroff分别用于打开和关闭某些属性。在这个例子中，我用它们以粗体打印字符。这些功能将在后面详细说明。</description>
+#include &amp;lt;ncurses.h&amp;gt; int main() {  int ch;  	initscr();	/* Start curses mode */ 	raw();	/* Line buffering disabled	*/ 	keypad(stdscr, TRUE);	/* We get F1, F2 etc..	*/ 	noecho();	/* Don&amp;#39;t echo() while we do getch */   printw(&amp;#34;Type any character to see it in bold\n&amp;#34;); 	ch = getch();	/* If raw() hadn&amp;#39;t been called * we have to press enter before it * gets to the program */ 	if(ch == KEY_F(1))	/* Without keypad enabled this will */ 	printw(&amp;#34;F1 Key pressed&amp;#34;);/* not get to us either	*/ 	/* Without noecho() some ugly escape * charachters might have been printed * on screen	*/ 	else 	{	printw(&amp;#34;The pressed key is &amp;#34;); 	attron(A_BOLD); 	printw(&amp;#34;%c&amp;#34;, ch); 	attroff(A_BOLD); 	} 	refresh();	/* Print it on to the real screen */  getch();	/* Wait for user input */ 	endwin();	/* End curses mode	*/  	return 0; } 这个程序是不言自明的。但我使用的函数还没有解释。函数getch（）用于从用户获取字符。它相当于普通的getchar（），只是我们可以禁用行缓冲以避免在输入之后。有关getch（）和读取密钥的更多信息，请参阅密钥管理部分。函数attron和attroff分别用于打开和关闭某些属性。在这个例子中，我用它们以粗体打印字符。这些功能将在后面详细说明。</description>
     </item>
     
     <item>
       <title>NCURSES编程 之 3 the Gory Details</title>
       <link>https://realjf.io/ncurses/3-the-gory-details/</link>
-      <pubDate>Thu, 04 Mar 2021 23:48:17 +0800</pubDate>
+      <pubDate>Mon, 04 Mar 2019 23:48:17 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/3-the-gory-details/</guid>
       <description>3. 血淋淋的细节 现在我们已经看到了如何编写一个简单的curses程序，让我们进入细节。有许多功能可以帮助您自定义屏幕上看到的内容，还有许多功能可以充分利用。
@@ -272,19 +272,19 @@ wprintw(win, &amp;#34;Hi There !!!&amp;#34;); wrefresh(win); 正如您将在文�
     <item>
       <title>NCURSES编程 之 2.Hell World 2 Hello World</title>
       <link>https://realjf.io/ncurses/2-hello-world/</link>
-      <pubDate>Thu, 04 Mar 2021 23:34:00 +0800</pubDate>
+      <pubDate>Mon, 04 Mar 2019 23:34:00 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/2-hello-world/</guid>
       <description>2 Hello World!!! 欢迎来到curses的世界。在我们深入到库中并研究它的各种特性之前，让我们编写一个简单的程序并向世界问好。
 2.1 编译NCURSES库 要使用ncurses库函数，必须在程序中包含ncurses.h。要将程序与ncurses链接，应添加标志-lncurses。
 #include &amp;lt;ncurses.h&amp;gt; .  .  .   compile and link: gcc &amp;lt;program file&amp;gt; -lncurses 例子1. Hello World!!!程序
-#include &amp;lt;ncurses.h&amp;gt; int main() {		initscr();	/* Start curses mode */ 	printw(&amp;#34;Hello World !!!&amp;#34;);	/* Print Hello World	*/ 	refresh();	/* Print it on to the real screen */ 	getch();	/* Wait for user input */ 	endwin();	/* End curses mode	*/  	return 0; } 2.</description>
+#include &amp;lt;ncurses.h&amp;gt; int main() { 	initscr();	/* Start curses mode */ 	printw(&amp;#34;Hello World !!!&amp;#34;);	/* Print Hello World	*/ 	refresh();	/* Print it on to the real screen */ 	getch();	/* Wait for user input */ 	endwin();	/* End curses mode	*/  	return 0; } 2.</description>
     </item>
     
     <item>
       <title>NCURSES编程 之 1.简介 1 Introduction</title>
       <link>https://realjf.io/ncurses/1-introduction/</link>
-      <pubDate>Thu, 04 Mar 2021 22:53:29 +0800</pubDate>
+      <pubDate>Mon, 04 Mar 2019 22:53:29 +0800</pubDate>
       
       <guid>https://realjf.io/ncurses/1-introduction/</guid>
       <description>1. 简介 在老式电传终端时代，终端远离计算机，通过串行电缆与计算机相连。终端可以通过发送一系列字节来配置。终端的所有功能（如将光标移动到新位置、擦除部分屏幕、滚动屏幕、更改模式等）都可以通过这些字节序列访问。这些控制序列通常称为转义序列，因为它们以转义（0x1B）字符开头。即使在今天，通过适当的仿真，我们也可以将转义序列发送到仿真器，并在终端窗口上实现相同的效果。

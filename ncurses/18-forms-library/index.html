@@ -231,7 +231,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-                    Mar 5, 2021
+                    Mar 5, 2019
                 </div>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
@@ -278,7 +278,7 @@
 </span></span><span style="display:flex;"><span>{	FIELD <span style="color:#f92672">*</span>field[<span style="color:#ae81ff">3</span>];
 </span></span><span style="display:flex;"><span>	FORM  <span style="color:#f92672">*</span>my_form;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> ch;
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
 </span></span><span style="display:flex;"><span>	initscr();
 </span></span><span style="display:flex;"><span>	cbreak();
@@ -294,14 +294,14 @@
 </span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">0</span>], A_UNDERLINE); 	<span style="color:#75715e">/* Print a line for the option 	*/</span>
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">0</span>], O_AUTOSKIP);  	<span style="color:#75715e">/* Don&#39;t go to next field when this */</span>
 </span></span><span style="display:flex;"><span>						<span style="color:#75715e">/* Field is filled up 		*/</span>
-</span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">1</span>], A_UNDERLINE); 
+</span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">1</span>], A_UNDERLINE);
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">1</span>], O_AUTOSKIP);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create the form and post it */</span>
 </span></span><span style="display:flex;"><span>	my_form <span style="color:#f92672">=</span> new_form(field);
 </span></span><span style="display:flex;"><span>	post_form(my_form);
 </span></span><span style="display:flex;"><span>	refresh();
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	mvprintw(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;Value 1:&#34;</span>);
 </span></span><span style="display:flex;"><span>	mvprintw(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;Value 2:&#34;</span>);
 </span></span><span style="display:flex;"><span>	refresh();
@@ -323,7 +323,7 @@
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* If this is a normal character, it gets */</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>	
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>
 </span></span><span style="display:flex;"><span>				form_driver(my_form, ch);
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>		}
@@ -333,7 +333,7 @@
 </span></span><span style="display:flex;"><span>	unpost_form(my_form);
 </span></span><span style="display:flex;"><span>	free_form(my_form);
 </span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">0</span>]);
-</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]); 
+</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	endwin();
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
@@ -346,7 +346,7 @@
 <h4 id="1831-获取字段的大小和位置">18.3.1. 获取字段的大小和位置</h4>
 <p>我们在创建字段时提供的参数可以通过field_info（）检索。它在给定的参数中返回height、width、starty、startx、屏幕外行数和附加缓冲区数。它是new_field（）的一种逆形式。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">field_info</span>(     FIELD <span style="color:#f92672">*</span>field,              <span style="color:#75715e">/* field from which to fetch */</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>height, <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span> width,   <span style="color:#75715e">/* field size */</span> 
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>height, <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span> width,   <span style="color:#75715e">/* field size */</span>
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>top, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>left,       <span style="color:#75715e">/* upper left corner */</span>
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>offscreen,            <span style="color:#75715e">/* number of offscreen rows */</span>
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>nbuf);                <span style="color:#75715e">/* number of working buffers */</span>
@@ -364,21 +364,21 @@
 <h4 id="1834-字段显示属性">18.3.4. 字段显示属性</h4>
 <p>如您所见，在上面的示例中，可以使用set_field_fore（）和set_field_back（）设置字段的display属性。这些函数设置字段的前景和背景属性。还可以指定填充字符，该字符将填充在字段的未填充部分。填充字符是通过调用set_field_pad（）来设置的。默认的填充值是空格。函数field_fore（）、field_back、field_pad（）可用于查询字段的当前前景、背景属性和填充字符。下表给出了函数的用法。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">set_field_fore</span>(FIELD <span style="color:#f92672">*</span>field,        <span style="color:#75715e">/* field to alter */</span>
-</span></span><span style="display:flex;"><span>                   chtype attr);        <span style="color:#75715e">/* attribute to set */</span> 
+</span></span><span style="display:flex;"><span>                   chtype attr);        <span style="color:#75715e">/* attribute to set */</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>chtype <span style="color:#a6e22e">field_fore</span>(FIELD <span style="color:#f92672">*</span>field);        <span style="color:#75715e">/* field to query */</span>
 </span></span><span style="display:flex;"><span>                                        <span style="color:#75715e">/* returns foreground attribute */</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">set_field_back</span>(FIELD <span style="color:#f92672">*</span>field,        <span style="color:#75715e">/* field to alter */</span>
-</span></span><span style="display:flex;"><span>                   chtype attr);        <span style="color:#75715e">/* attribute to set */</span> 
+</span></span><span style="display:flex;"><span>                   chtype attr);        <span style="color:#75715e">/* attribute to set */</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>chtype <span style="color:#a6e22e">field_back</span>(FIELD <span style="color:#f92672">*</span>field);        <span style="color:#75715e">/* field to query */</span>
 </span></span><span style="display:flex;"><span>                                        <span style="color:#75715e">/* returns background attribute */</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">set_field_pad</span>(FIELD <span style="color:#f92672">*</span>field,         <span style="color:#75715e">/* field to alter */</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">int</span> pad);             <span style="color:#75715e">/* pad character to set */</span> 
+</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">int</span> pad);             <span style="color:#75715e">/* pad character to set */</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>chtype <span style="color:#a6e22e">field_pad</span>(FIELD <span style="color:#f92672">*</span>field);         <span style="color:#75715e">/* field to query */</span>  
+</span></span><span style="display:flex;"><span>chtype <span style="color:#a6e22e">field_pad</span>(FIELD <span style="color:#f92672">*</span>field);         <span style="color:#75715e">/* field to query */</span>
 </span></span><span style="display:flex;"><span>                                        <span style="color:#75715e">/* returns present pad character */</span>
 </span></span></code></pre></div><p>虽然上面的函数看起来很简单，但在开始时使用set_field_fore（）的颜色可能会令人沮丧。首先让我解释一下字段的前景和背景属性。前景属性与角色相关联。这意味着字段中的字符将使用您使用set_field_fore（）设置的属性打印。背景属性是用于填充字段背景的属性，无论是否有字符。那么颜色呢？既然颜色总是成对定义的，那么显示彩色字段的正确方法是什么？下面是一个说明颜色属性的示例。</p>
 <p>表单属性示例</p>
@@ -388,7 +388,7 @@
 </span></span><span style="display:flex;"><span>{	FIELD <span style="color:#f92672">*</span>field[<span style="color:#ae81ff">3</span>];
 </span></span><span style="display:flex;"><span>	FORM  <span style="color:#f92672">*</span>my_form;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> ch;
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
 </span></span><span style="display:flex;"><span>	initscr();
 </span></span><span style="display:flex;"><span>	start_color();
@@ -411,14 +411,14 @@
 </span></span><span style="display:flex;"><span>						<span style="color:#75715e">/* are printed in white 	*/</span>
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">0</span>], O_AUTOSKIP);  	<span style="color:#75715e">/* Don&#39;t go to next field when this */</span>
 </span></span><span style="display:flex;"><span>						<span style="color:#75715e">/* Field is filled up 		*/</span>
-</span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">1</span>], A_UNDERLINE); 
+</span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">1</span>], A_UNDERLINE);
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">1</span>], O_AUTOSKIP);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create the form and post it */</span>
 </span></span><span style="display:flex;"><span>	my_form <span style="color:#f92672">=</span> new_form(field);
 </span></span><span style="display:flex;"><span>	post_form(my_form);
 </span></span><span style="display:flex;"><span>	refresh();
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	set_current_field(my_form, field[<span style="color:#ae81ff">0</span>]); <span style="color:#75715e">/* Set focus to the colored field */</span>
 </span></span><span style="display:flex;"><span>	mvprintw(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;Value 1:&#34;</span>);
 </span></span><span style="display:flex;"><span>	mvprintw(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;Value 2:&#34;</span>);
@@ -442,7 +442,7 @@
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* If this is a normal character, it gets */</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>	
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>
 </span></span><span style="display:flex;"><span>				form_driver(my_form, ch);
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>		}
@@ -452,7 +452,7 @@
 </span></span><span style="display:flex;"><span>	unpost_form(my_form);
 </span></span><span style="display:flex;"><span>	free_form(my_form);
 </span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">0</span>]);
-</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]); 
+</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	endwin();
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
@@ -461,15 +461,15 @@
 <h4 id="1835字段选项位">18.3.5。字段选项位</h4>
 <p>还有一个大的字段选项位集合，您可以设置为控制表单处理的各个方面。可以使用以下函数操作它们：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">set_field_opts</span>(FIELD <span style="color:#f92672">*</span>field,          <span style="color:#75715e">/* field to alter */</span>
-</span></span><span style="display:flex;"><span>                   <span style="color:#66d9ef">int</span> attr);             <span style="color:#75715e">/* attribute to set */</span> 
+</span></span><span style="display:flex;"><span>                   <span style="color:#66d9ef">int</span> attr);             <span style="color:#75715e">/* attribute to set */</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">field_opts_on</span>(FIELD <span style="color:#f92672">*</span>field,           <span style="color:#75715e">/* field to alter */</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">int</span> attr);              <span style="color:#75715e">/* attributes to turn on */</span> 
+</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">int</span> attr);              <span style="color:#75715e">/* attributes to turn on */</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">field_opts_off</span>(FIELD <span style="color:#f92672">*</span>field,          <span style="color:#75715e">/* field to alter */</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">int</span> attr);              <span style="color:#75715e">/* attributes to turn off */</span> 
+</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">int</span> attr);              <span style="color:#75715e">/* attributes to turn off */</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">field_opts</span>(FIELD <span style="color:#f92672">*</span>field);             <span style="color:#75715e">/* field to query */</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">field_opts</span>(FIELD <span style="color:#f92672">*</span>field);             <span style="color:#75715e">/* field to query */</span>
 </span></span></code></pre></div><p>函数set_field_opts（）可以用来直接设置字段的属性，也可以选择使用field_opts_on（）和field_opts_off（）来打开和关闭一些属性。任何时候都可以使用field_opts（）查询字段的属性。以下是可用选项的列表。默认情况下，所有选项都处于启用状态。</p>
 <ul>
 <li>O_VISIBLE
@@ -507,7 +507,7 @@
 </span></span><span style="display:flex;"><span>{	FIELD <span style="color:#f92672">*</span>field[N_FIELDS];
 </span></span><span style="display:flex;"><span>	FORM  <span style="color:#f92672">*</span>my_form;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> ch, i;
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
 </span></span><span style="display:flex;"><span>	initscr();
 </span></span><span style="display:flex;"><span>	cbreak();
@@ -521,19 +521,19 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Set field options */</span>
 </span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">1</span>], A_UNDERLINE); 	<span style="color:#75715e">/* Print a line for the option 	*/</span>
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">0</span>], O_ACTIVE); <span style="color:#75715e">/* This field is a static label */</span>
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">1</span>], O_PUBLIC); <span style="color:#75715e">/* This filed is like a password field*/</span>
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">1</span>], O_AUTOSKIP); <span style="color:#75715e">/* To avoid entering the same field */</span>
 </span></span><span style="display:flex;"><span>					      <span style="color:#75715e">/* after last character is entered */</span>
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create the form and post it */</span>
 </span></span><span style="display:flex;"><span>	my_form <span style="color:#f92672">=</span> new_form(field);
 </span></span><span style="display:flex;"><span>	post_form(my_form);
 </span></span><span style="display:flex;"><span>	refresh();
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	set_field_just(field[<span style="color:#ae81ff">0</span>], JUSTIFY_CENTER); <span style="color:#75715e">/* Center Justification */</span>
-</span></span><span style="display:flex;"><span>	set_field_buffer(field[<span style="color:#ae81ff">0</span>], <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;This is a static Field&#34;</span>); 
+</span></span><span style="display:flex;"><span>	set_field_buffer(field[<span style="color:#ae81ff">0</span>], <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;This is a static Field&#34;</span>);
 </span></span><span style="display:flex;"><span>						  <span style="color:#75715e">/* Initialize the field  */</span>
 </span></span><span style="display:flex;"><span>	mvprintw(STARTY, STARTX <span style="color:#f92672">-</span> <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;Field 1:&#34;</span>);
 </span></span><span style="display:flex;"><span>	mvprintw(STARTY <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, STARTX <span style="color:#f92672">-</span> <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;Field 2:&#34;</span>);
@@ -556,7 +556,7 @@
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* If this is a normal character, it gets */</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>	
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>
 </span></span><span style="display:flex;"><span>				form_driver(my_form, ch);
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>		}
@@ -566,7 +566,7 @@
 </span></span><span style="display:flex;"><span>	unpost_form(my_form);
 </span></span><span style="display:flex;"><span>	free_form(my_form);
 </span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">0</span>]);
-</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]); 
+</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	endwin();
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
@@ -581,7 +581,7 @@
 </span></span></code></pre></div><p>最好在离开字段之后才检查字段的状态，因为数据缓冲区可能还没有更新，因为验证仍然到期。为了保证返回正确的状态，可以（1）在字段的exit validation check例程中，（2）从字段或窗体的初始化或终止挂钩调用field_status（），或者（3）在窗体驱动程序处理REQ_VALIDATION请求之后调用field_status（）</p>
 <h4 id="1837-字段用户指针">18.3.7. 字段用户指针</h4>
 <p>每个字段结构都包含一个指针，用户可以将其用于各种目的。表单库不触及它，用户可以将其用于任何目的。下面的函数设置并获取用户指针。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">set_field_userptr</span>(FIELD <span style="color:#f92672">*</span>field,   
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">set_field_userptr</span>(FIELD <span style="color:#f92672">*</span>field,
 </span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>userptr);      <span style="color:#75715e">/* the user pointer you wish to associate */</span>
 </span></span><span style="display:flex;"><span>                                <span style="color:#75715e">/* with the field    */</span>
 </span></span><span style="display:flex;"><span>
@@ -638,7 +638,7 @@
 </span></span><span style="display:flex;"><span>	FORM  <span style="color:#f92672">*</span>my_form;
 </span></span><span style="display:flex;"><span>	WINDOW <span style="color:#f92672">*</span>my_form_win;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> ch, rows, cols;
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Initialize curses */</span>
 </span></span><span style="display:flex;"><span>	initscr();
 </span></span><span style="display:flex;"><span>	start_color();
@@ -658,12 +658,12 @@
 </span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">0</span>], A_UNDERLINE);
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">0</span>], O_AUTOSKIP); <span style="color:#75715e">/* Don&#39;t go to next field when this */</span>
 </span></span><span style="display:flex;"><span>					      <span style="color:#75715e">/* Field is filled up 		*/</span>
-</span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">1</span>], A_UNDERLINE); 
+</span></span><span style="display:flex;"><span>	set_field_back(field[<span style="color:#ae81ff">1</span>], A_UNDERLINE);
 </span></span><span style="display:flex;"><span>	field_opts_off(field[<span style="color:#ae81ff">1</span>], O_AUTOSKIP);
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Create the form and post it */</span>
 </span></span><span style="display:flex;"><span>	my_form <span style="color:#f92672">=</span> new_form(field);
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Calculate the area required for the form */</span>
 </span></span><span style="display:flex;"><span>	scale_form(my_form, <span style="color:#f92672">&amp;</span>rows, <span style="color:#f92672">&amp;</span>cols);
 </span></span><span style="display:flex;"><span>
@@ -678,7 +678,7 @@
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Print a border around the main window and print a title */</span>
 </span></span><span style="display:flex;"><span>        box(my_form_win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>	print_in_middle(my_form_win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, cols <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>, <span style="color:#e6db74">&#34;My Form&#34;</span>, COLOR_PAIR(<span style="color:#ae81ff">1</span>));
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	post_form(my_form);
 </span></span><span style="display:flex;"><span>	wrefresh(my_form_win);
 </span></span><span style="display:flex;"><span>
@@ -702,7 +702,7 @@
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* If this is a normal character, it gets */</span>
-</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>	
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">/* Printed				  */</span>
 </span></span><span style="display:flex;"><span>				form_driver(my_form, ch);
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
 </span></span><span style="display:flex;"><span>		}
@@ -712,7 +712,7 @@
 </span></span><span style="display:flex;"><span>	unpost_form(my_form);
 </span></span><span style="display:flex;"><span>	free_form(my_form);
 </span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">0</span>]);
-</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]); 
+</span></span><span style="display:flex;"><span>	free_field(field[<span style="color:#ae81ff">1</span>]);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	endwin();
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;

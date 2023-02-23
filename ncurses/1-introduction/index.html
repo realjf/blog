@@ -231,7 +231,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-                    Mar 4, 2021
+                    Mar 4, 2019
                 </div>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
@@ -276,7 +276,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装</span>
 </span></span><span style="display:flex;"><span>make install
 </span></span></code></pre></div><h4 id="使用rpm">使用rpm</h4>
-<p>NCURSES RPM 能在http://rpmfind.net中找到并下载，然后安装它</p>
+<p>NCURSES RPM 能在<a href="http://rpmfind.net%E4%B8%AD%E6%89%BE%E5%88%B0%E5%B9%B6%E4%B8%8B%E8%BD%BD%EF%BC%8C%E7%84%B6%E5%90%8E%E5%AE%89%E8%A3%85%E5%AE%83">http://rpmfind.net中找到并下载，然后安装它</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>rpm -i &lt;downloaded rpm&gt;
 </span></span></code></pre></div><h3 id="14-该文档的目的范围">1.4 该文档的目的/范围</h3>
 <p>本文档旨在成为使用ncurses及其姊妹库进行编程的“一体式”指南。我们从一个简单的“helloworld”程序毕业到更复杂的表单操作。假设没有ncurses的经验。写作是非正式的，但是每一个例子都提供了很多细节。</p>
@@ -304,7 +304,7 @@
 </span></span><span style="display:flex;"><span>    |
 </span></span><span style="display:flex;"><span>    |----&gt; hanoi.c   -- The Towers of Hanoi Solver
 </span></span><span style="display:flex;"><span>    |----&gt; life.c    -- The Game of Life demo
-</span></span><span style="display:flex;"><span>    |----&gt; magic.c   -- An Odd Order Magic Square builder 
+</span></span><span style="display:flex;"><span>    |----&gt; magic.c   -- An Odd Order Magic Square builder
 </span></span><span style="display:flex;"><span>    |----&gt; queens.c  -- The famous N-Queens Solver
 </span></span><span style="display:flex;"><span>    |----&gt; shuffle.c -- A fun game, <span style="color:#66d9ef">if</span> you have time to kill
 </span></span><span style="display:flex;"><span>    |----&gt; tt.c      -- A very trivial typing tutor
@@ -320,23 +320,23 @@
 </span></span><span style="display:flex;"><span>    |                               -- rt from box<span style="color:#f92672">()</span>
 </span></span><span style="display:flex;"><span>    |----&gt; printw_example.c      -- A very simple printw<span style="color:#f92672">()</span> example
 </span></span><span style="display:flex;"><span>    |----&gt; scanw_example.c       -- A very simple getstr<span style="color:#f92672">()</span> example
-</span></span><span style="display:flex;"><span>    |----&gt; simple_attr.c         -- A program that can print a c file with 
+</span></span><span style="display:flex;"><span>    |----&gt; simple_attr.c         -- A program that can print a c file with
 </span></span><span style="display:flex;"><span>    |                               -- comments in attribute
 </span></span><span style="display:flex;"><span>    |----&gt; simple_color.c        -- A simple example demonstrating colors
-</span></span><span style="display:flex;"><span>    |----&gt; simple_key.c          -- A menu accessible with keyboard UP, DOWN 
+</span></span><span style="display:flex;"><span>    |----&gt; simple_key.c          -- A menu accessible with keyboard UP, DOWN
 </span></span><span style="display:flex;"><span>    |                               -- arrows
 </span></span><span style="display:flex;"><span>    |----&gt; temp_leave.c          -- Demonstrates temporarily leaving curses mode
 </span></span><span style="display:flex;"><span>    |----&gt; win_border.c          -- Shows Creation of windows and borders
 </span></span><span style="display:flex;"><span>    |----&gt; with_chgat.c          -- chgat<span style="color:#f92672">()</span> usage example
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  forms 
+</span></span><span style="display:flex;"><span>  forms
 </span></span><span style="display:flex;"><span>    |
 </span></span><span style="display:flex;"><span>    |----&gt; form_attrib.c     -- Usage of field attributes
 </span></span><span style="display:flex;"><span>    |----&gt; form_options.c    -- Usage of field options
 </span></span><span style="display:flex;"><span>    |----&gt; form_simple.c     -- A simple form example
 </span></span><span style="display:flex;"><span>    |----&gt; form_win.c        -- Demo of windows associated with forms
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  menus 
+</span></span><span style="display:flex;"><span>  menus
 </span></span><span style="display:flex;"><span>    |
 </span></span><span style="display:flex;"><span>    |----&gt; menu_attrib.c     -- Usage of menu attributes
 </span></span><span style="display:flex;"><span>    |----&gt; menu_item_data.c  -- Usage of item_name<span style="color:#f92672">()</span> etc.. functions
@@ -348,9 +348,9 @@
 </span></span><span style="display:flex;"><span>    |----&gt; menu_userptr.c    -- Usage of user pointer
 </span></span><span style="display:flex;"><span>    |----&gt; menu_win.c        -- Demo of windows associated with menus
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  panels 
+</span></span><span style="display:flex;"><span>  panels
 </span></span><span style="display:flex;"><span>    |
-</span></span><span style="display:flex;"><span>    |----&gt; panel_browse.c    -- Panel browsing through tab. Usage of user 
+</span></span><span style="display:flex;"><span>    |----&gt; panel_browse.c    -- Panel browsing through tab. Usage of user
 </span></span><span style="display:flex;"><span>    |                           -- pointer
 </span></span><span style="display:flex;"><span>    |----&gt; panel_hide.c      -- Hiding and Un hiding of panels
 </span></span><span style="display:flex;"><span>    |----&gt; panel_resize.c    -- Moving and resizing of panels
@@ -386,7 +386,7 @@
 </span></span><span style="display:flex;"><span>    the multiple html files, you would use
 </span></span><span style="display:flex;"><span>        jade -t sgml -i html -d &lt;path to docbook html stylesheet&gt;
 </span></span><span style="display:flex;"><span>        NCURSES-Programming-HOWTO.sgml
-</span></span><span style="display:flex;"><span>    to get pdf, first create a single html file of the HOWTO with 
+</span></span><span style="display:flex;"><span>    to get pdf, first create a single html file of the HOWTO with
 </span></span><span style="display:flex;"><span>        jade -t sgml -i html -d &lt;path to docbook html stylesheet&gt; -V nochunks
 </span></span><span style="display:flex;"><span>        NCURSES-Programming-HOWTO.sgml &gt; NCURSES-ONE-BIG-FILE.html
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">then</span> use htmldoc to get pdf file with

@@ -231,7 +231,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-                    Mar 5, 2021
+                    Mar 5, 2019
                 </div>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
@@ -286,7 +286,7 @@
 </span></span><span style="display:flex;"><span>	my_wins[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> newwin(lines, cols, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, x <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>);
 </span></span><span style="display:flex;"><span>	my_wins[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> newwin(lines, cols, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, x <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* 
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * Create borders around the windows so that you can see the effect
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 * of panels
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">	 */</span>
@@ -303,7 +303,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Show it on the screen */</span>
 </span></span><span style="display:flex;"><span>	doupdate();
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	getch();
 </span></span><span style="display:flex;"><span>	endwin();
 </span></span><span style="display:flex;"><span>}
@@ -339,7 +339,7 @@
 </span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">4</span>, COLOR_CYAN, COLOR_BLACK);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	init_wins(my_wins, <span style="color:#ae81ff">3</span>);
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Attach a panel to each window */</span> 	<span style="color:#75715e">/* Order is bottom up */</span>
 </span></span><span style="display:flex;"><span>	my_panels[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> new_panel(my_wins[<span style="color:#ae81ff">0</span>]); 	<span style="color:#75715e">/* Push 0, order: stdscr-0 */</span>
 </span></span><span style="display:flex;"><span>	my_panels[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> new_panel(my_wins[<span style="color:#ae81ff">1</span>]); 	<span style="color:#75715e">/* Push 1, order: stdscr-0-1 */</span>
@@ -398,10 +398,10 @@
 </span></span><span style="display:flex;"><span>	getmaxyx(win, height, width);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	box(win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE); 
-</span></span><span style="display:flex;"><span>	mvwhline(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>); 
-</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, ACS_RTEE); 
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
+</span></span><span style="display:flex;"><span>	mvwhline(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, ACS_RTEE);
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	print_in_middle(win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, width, label, COLOR_PAIR(label_color));
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -437,7 +437,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">_PANEL_DATA</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> x, y, w, h;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">char</span> label[<span style="color:#ae81ff">80</span>]; 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">char</span> label[<span style="color:#ae81ff">80</span>];
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> label_color;
 </span></span><span style="display:flex;"><span>	PANEL <span style="color:#f92672">*</span>next;
 </span></span><span style="display:flex;"><span>}PANEL_DATA;
@@ -474,7 +474,7 @@
 </span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">4</span>, COLOR_CYAN, COLOR_BLACK);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	init_wins(my_wins, <span style="color:#ae81ff">3</span>);
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Attach a panel to each window */</span> 	<span style="color:#75715e">/* Order is bottom up */</span>
 </span></span><span style="display:flex;"><span>	my_panels[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> new_panel(my_wins[<span style="color:#ae81ff">0</span>]); 	<span style="color:#75715e">/* Push 0, order: stdscr-0 */</span>
 </span></span><span style="display:flex;"><span>	my_panels[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> new_panel(my_wins[<span style="color:#ae81ff">1</span>]); 	<span style="color:#75715e">/* Push 1, order: stdscr-0-1 */</span>
@@ -563,7 +563,7 @@
 </span></span><span style="display:flex;"><span>				{	old_win <span style="color:#f92672">=</span> panel_window(stack_top);
 </span></span><span style="display:flex;"><span>					temp_win <span style="color:#f92672">=</span> newwin(newh, neww, newy, newx);
 </span></span><span style="display:flex;"><span>					replace_panel(stack_top, temp_win);
-</span></span><span style="display:flex;"><span>					win_show(temp_win, top<span style="color:#f92672">-&gt;</span>label, top<span style="color:#f92672">-&gt;</span>label_color); 
+</span></span><span style="display:flex;"><span>					win_show(temp_win, top<span style="color:#f92672">-&gt;</span>label, top<span style="color:#f92672">-&gt;</span>label_color);
 </span></span><span style="display:flex;"><span>					delwin(old_win);
 </span></span><span style="display:flex;"><span>					size <span style="color:#f92672">=</span> FALSE;
 </span></span><span style="display:flex;"><span>				}
@@ -572,13 +572,13 @@
 </span></span><span style="display:flex;"><span>					move <span style="color:#f92672">=</span> FALSE;
 </span></span><span style="display:flex;"><span>				}
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
-</span></span><span style="display:flex;"><span>			
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		attron(COLOR_PAIR(<span style="color:#ae81ff">4</span>));
 </span></span><span style="display:flex;"><span>		mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use &#39;m&#39; for moving, &#39;r&#39; for resizing&#34;</span>);
 </span></span><span style="display:flex;"><span>	    	mvprintw(LINES <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;Use tab to browse through the windows (F1 to Exit)&#34;</span>);
 </span></span><span style="display:flex;"><span>	    	attroff(COLOR_PAIR(<span style="color:#ae81ff">4</span>));
-</span></span><span style="display:flex;"><span>	        refresh();	
+</span></span><span style="display:flex;"><span>	        refresh();
 </span></span><span style="display:flex;"><span>		update_panels();
 </span></span><span style="display:flex;"><span>		doupdate();
 </span></span><span style="display:flex;"><span>	}
@@ -608,7 +608,7 @@
 </span></span><span style="display:flex;"><span>	WINDOW <span style="color:#f92672">*</span>win;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> x, y, w, h, i;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">char</span> temp[<span style="color:#ae81ff">80</span>];
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	ptrs <span style="color:#f92672">=</span> (PANEL_DATA <span style="color:#f92672">*</span>)calloc(n, <span style="color:#66d9ef">sizeof</span>(PANEL_DATA));
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i)
@@ -638,10 +638,10 @@
 </span></span><span style="display:flex;"><span>	getmaxyx(win, height, width);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	box(win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE); 
-</span></span><span style="display:flex;"><span>	mvwhline(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>); 
-</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, ACS_RTEE); 
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
+</span></span><span style="display:flex;"><span>	mvwhline(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, ACS_RTEE);
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	print_in_middle(win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, width, label, COLOR_PAIR(label_color));
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -707,7 +707,7 @@
 </span></span><span style="display:flex;"><span>	init_pair(<span style="color:#ae81ff">4</span>, COLOR_CYAN, COLOR_BLACK);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	init_wins(my_wins, <span style="color:#ae81ff">3</span>);
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">/* Attach a panel to each window */</span> 	<span style="color:#75715e">/* Order is bottom up */</span>
 </span></span><span style="display:flex;"><span>	my_panels[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> new_panel(my_wins[<span style="color:#ae81ff">0</span>]); 	<span style="color:#75715e">/* Push 0, order: stdscr-0 */</span>
 </span></span><span style="display:flex;"><span>	my_panels[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> new_panel(my_wins[<span style="color:#ae81ff">1</span>]); 	<span style="color:#75715e">/* Push 1, order: stdscr-0-1 */</span>
@@ -732,10 +732,10 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	attroff(COLOR_PAIR(<span style="color:#ae81ff">4</span>));
 </span></span><span style="display:flex;"><span>	doupdate();
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>((ch <span style="color:#f92672">=</span> getch()) <span style="color:#f92672">!=</span> KEY_F(<span style="color:#ae81ff">1</span>))
 </span></span><span style="display:flex;"><span>	{	<span style="color:#66d9ef">switch</span>(ch)
-</span></span><span style="display:flex;"><span>		{	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;a&#39;</span><span style="color:#f92672">:</span>			
+</span></span><span style="display:flex;"><span>		{	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;a&#39;</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>				temp <span style="color:#f92672">=</span> (PANEL_DATA <span style="color:#f92672">*</span>)panel_userptr(my_panels[<span style="color:#ae81ff">0</span>]);
 </span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span>(temp<span style="color:#f92672">-&gt;</span>hide <span style="color:#f92672">==</span> FALSE)
 </span></span><span style="display:flex;"><span>				{	hide_panel(my_panels[<span style="color:#ae81ff">0</span>]);
@@ -800,10 +800,10 @@
 </span></span><span style="display:flex;"><span>	getmaxyx(win, height, width);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	box(win, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE); 
-</span></span><span style="display:flex;"><span>	mvwhline(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>); 
-</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, ACS_RTEE); 
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, ACS_LTEE);
+</span></span><span style="display:flex;"><span>	mvwhline(win, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, ACS_HLINE, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>	mvwaddch(win, <span style="color:#ae81ff">2</span>, width <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, ACS_RTEE);
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	print_in_middle(win, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, width, label, COLOR_PAIR(label_color));
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
