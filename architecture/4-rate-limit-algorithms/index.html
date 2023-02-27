@@ -597,7 +597,9 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>然后使用ab测试</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ab -n <span style="color:#ae81ff">50</span> -c <span style="color:#ae81ff">20</span> http://localhost:8888/
-</span></span></code></pre></div>
+</span></span></code></pre></div><h4 id="分布式限流">分布式限流</h4>
+<p>具体实现是通过redis实现，算法可以上述四种限流算法</p>
+
         </div>
         <div id="disqus_thread"></div>
 <script>
