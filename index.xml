@@ -6,7 +6,20 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Feb 2023 12:55:02 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Feb 2023 23:39:08 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4 Rate Limit Algorithms 4种限流算法</title>
+      <link>https://realjf.io/architecture/4-rate-limit-algorithms/</link>
+      <pubDate>Sat, 25 Feb 2023 23:39:08 +0800</pubDate>
+      
+      <guid>https://realjf.io/architecture/4-rate-limit-algorithms/</guid>
+      <description>限流算法是一种限制瞬时流量的有效手段，它一般被设计在网关层中。
+下面介绍4种常用的限流算法：
+ 固定时间窗口(计数器)算法 滑动时间窗口算法 漏桶算法 令牌桶算法  固定窗口算法（Fixed Window） 基本思想是：在固定时间窗口内对请求数进行统计，然后与阈值比较确定是否进行限流，一旦到了时间临界点，就将计数器清零。
+   时间窗口 请求计数 丢弃     12:01:00 ~ 12:02:00 100 0   12:02:00 ~ 12:03:00 200 100   12:03:00 ~ 12:04:00 150 50   &amp;hellip; &amp;hellip; &amp;hellip;    算法缺陷：
+ 可能存在在某个时间窗口前90%时间里没有请求，所有的请求都集中在最后10%，这个在该算法中是允许的，然后在下一个时间窗口的前10%时间里又有大量请求，这时在第一个窗口的最后10%到第二个窗口的前10%时间内就有大量的请求，如果量大到一定程度，系统可能承受不住，导致系统崩溃     时间窗口 请求计数 丢弃     12:01:00 ~ 12:01:58 0 0   12:01:59 ~ 12:02:00 200 100   12:02:00 ~ 12:02:01 150 50   12:02:01 ~ 12:03:00 100 0   &amp;hellip; &amp;hellip; &amp;hellip;    如上，时间12:01:59~12:02:01 已经发送了200个请求</description>
+    </item>
+    
     <item>
       <title>The Uber Go Style Guide (Uber Go语言编码规范)</title>
       <link>https://realjf.io/golang/the-uber-go-style-guide/</link>
