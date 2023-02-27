@@ -6,7 +6,21 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 25 Feb 2023 23:39:08 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Feb 2023 16:07:15 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Breaker 熔断器原理与实现</title>
+      <link>https://realjf.io/architecture/breaker/</link>
+      <pubDate>Mon, 27 Feb 2023 16:07:15 +0800</pubDate>
+      
+      <guid>https://realjf.io/architecture/breaker/</guid>
+      <description>熔断器一种过载保护方式，是调用方自我保护的机制。 它通过包装对目标服务的调用，来持续监控故障率。一旦故障率达到某个阈值，熔断器将打开，并返回错误。
+google SRE提供了一种自适应熔断算法来计算丢弃请求都概率，具体可以看handling overload
+工作原理 graph TD;A[半开状态]--&amp;gt; |窗口时间内成功次数达到阈值| B[关闭状态];B--&amp;gt; |窗口时间内失败次数达到阈值| C[打开状态];C--&amp;gt; |超时时间重新清零,允许部分请求进行尝试| A;A--&amp;gt; |尝试请求失败| C 熔断器的三个状态：
+ 关闭状态：默认状态，该状态熔断器关闭，请求可以顺利到达下级服务，该状态下需要统计时间窗口内的成功次数和失败次数，如果达到故障率阈值，则进入打开状态 打开状态：该状态下熔断器打开，请求直接返回错误，如果有回调则直接调用回调方法。熔断器会在超时时间后进入半开状态，进行部分请求都尝试 半开状态：在该状态下，会通过部分请求进行尝试，如果尝试成功，则重置熔断器并进入关闭状态，否则进入打开状态  代码实现 可以参考gobreaker实现
+测试代码：
+import (  &amp;#34;errors&amp;#34;  &amp;#34;fmt&amp;#34;  &amp;#34;net/http&amp;#34;  &amp;#34;time&amp;#34;   &amp;#34;github.com/gin-gonic/gin&amp;#34;  &amp;#34;github.com/sony/gobreaker&amp;#34; )  var startTime time.Time = time.Now()  func server() {  e := gin.Default()  e.GET(&amp;#34;/ping&amp;#34;, func(ctx *gin.Context) {  if time.Since(startTime) &amp;lt; 5*time.Second {  ctx.</description>
+    </item>
+    
     <item>
       <title>4 Rate Limit Algorithms 4种限流算法</title>
       <link>https://realjf.io/architecture/4-rate-limit-algorithms/</link>
