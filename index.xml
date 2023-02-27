@@ -6,7 +6,30 @@
     <description>Recent content on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Feb 2023 16:07:15 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Feb 2023 21:59:05 +0800</lastBuildDate><atom:link href="https://realjf.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Index Principle and Optimization 索引的原理和优化</title>
+      <link>https://realjf.io/mysql/index-principle-and-optimization/</link>
+      <pubDate>Mon, 27 Feb 2023 21:59:05 +0800</pubDate>
+      
+      <guid>https://realjf.io/mysql/index-principle-and-optimization/</guid>
+      <description>在数据库查询出现性能瓶颈时，索引是提升查询性能的绝佳手段。它能轻松缩小一个数量级的查询时间。
+索引的原理 索引常用的数据结构：
+ 哈希表 二叉树 多叉树 其他  哈希表索引 哈希表索引的索引存在一些局限性：
+ 只能进行“=” “IN” 和 “&amp;lt;=&amp;gt;” 这类等值查询，而不能进行区间查询，对于需要排序、比较、区间查找并不适合 哈希碰撞会降低系统的查询效率  BTree索引 利用B-树或者B+树来读数据表中的指定属性建立索引。
+ B-树的所有节点都存储数据，B+树只在叶子节点存储数据 MyISAM、InnoDB等都使用B+树来实现索引  BTree数据是排序的，因此支持区间，比较等查询方式。
+位图索引 属性的可选值是有限的。 位图索引基本原理是向量化和位逻辑运算
+位图索引只适合建立在不常发生变动的属性上
+索引分析 为了及时发现索引失效的情况，可以在检索SQL语句前增加EXPLAIN或者DESCRIBE关键字来分析索引的生效过程。
+EXPLAIN给出结果各字段含义如下：
+  id：此次查询到唯一性标识
+  select_type：查询操作的类型，如不含UNION的简单查询操作、最外层的查询操作、子查询操作、UNION查询操作等
+ simple：简单查询 primary：复杂查询中最外层的select subquery：子查询 derived：派生表、临时表 union union result    table：查询所涉及到表名称
+  partitions：查询所涉及到表分区，如果表未分区，为null
+  type：连接类型，这个字段十分重要，依次从最优到最差为：system，const，eq_ref，ref，fulltext，ref_or_null，unique_subquery，index_subquery，range，index_merge，index，ALL
+ null:MySQL不用访问表或者索引，直接就能够得到结果 system：表中只有一行数据或者是空表，且只能用于myisam和memory表。如果是Innodb引擎表，type列在这个情况通常都是all或者index const：根据主键或者唯一二级索引列与常数进行等值匹配, 表最多有一个匹配行，该行在查询开始时读取。const表非常快，因为它们只读取一次。当根据主键索引一条记录时，便是const类型的查询 eq_ref：在关联查询时，如果被驱动表是通过主键或者唯一二级索引列等值匹配的方式进行访问的，则对该被驱动表的访问方法就是eq_ref（唯一索引扫描） ref：通过普通的二级索引列与常量进行等值匹配时来查询某个表（非唯一索引扫描） fulltext：连接使用全文索引执行的 ref_or_null：类似于ref，但是mysql会额外搜索包含空值的行 unique_subquery：用于where中的in形式子查询，子查询返回不重复值唯一值 index_subquery：用于in形式子查询使用到了辅助索引或者in常数列表，子查询可能返回重复值，可以使用索引将子查询去重。 range：在一定范围内查询索引表（索引范围扫描） index_merge：表示查询使用了两个以上的索引，最后取交集或者并集，常见and ，or的条件使用了不同的索引，官方排序这个在ref_or_null之后，但是实际上由于要读取所个索引，性能可能大部分时间都不如range index：对索引表（聚簇索引、非聚簇索引都算）进行整体遍历，虽然用到了索引但效率仍然较低（索引全扫描） ALL：全表扫描，完全没有用到任何索引，效率最低的一种情况    possible_keys：该查询操作可能利用的索引</description>
+    </item>
+    
     <item>
       <title>Breaker 熔断器原理与实现</title>
       <link>https://realjf.io/architecture/breaker/</link>
