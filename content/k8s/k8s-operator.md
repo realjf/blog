@@ -1,11 +1,11 @@
 ---
 title: "K8s Operator"
-date: 2023-03-25T00:38:38+08:00
+date: 2023-03-26T00:38:38+08:00
 keywords: ["k8s"]
 categories: ["k8s"]
 tags: ["k8s"]
 series: [""]
-draft: true
+draft: false
 toc: false
 related:
   threshold: 50
