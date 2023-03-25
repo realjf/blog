@@ -1,0 +1,1295 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>K8s Operator // Realjf&#39;s blog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.97.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="realjf" />
+    <meta name="description"
+        content="" />
+    <base href="https://realjf.io/" />
+    <link rel="stylesheet" href="https://realjf.io/css/main.min.0b68cfbaea60634bb6fd6850a294eb3f8c1a7bd7ff87d5f83e496b6223fe53d8.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    
+    <script src="./js/highlight.pack.js"> </script>
+    
+    <link rel="stylesheet" href="./css/monokai-sublime.css">
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    
+    <header class="app-header">
+        <a href="/"><img class="app-header-avatar" src="./avatar.jpg" /></a>
+        <h1>Realjf&#39;s blog</h1>
+        <p>认识自己，接受自己，忘记自己，追随自己的灵魂</p>
+        <div class="app-header-social">
+            
+            <a target="_blank" href="https://github.com/realjf"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+            
+            <a target="_blank" href="https://twitter.com/realjf2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+            
+        </div>
+        <div>
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56j9sfhb0ei&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+        </div>
+    </header>
+    <main class="app-container">
+        <nav class="sidebar-nav">
+    
+    
+            <a class="sidebar-nav-item" href="/" title="首页"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-home">
+  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg> 首页</a>
+    
+            <a class="sidebar-nav-item" href="/posts/" title="归档"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-archive">
+  <polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line>
+</svg> 归档</a>
+    
+            <a class="sidebar-nav-item" href="/tags/" title="标签"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg> 标签</a>
+    
+            <a class="sidebar-nav-item" href="/categories/" title="分类"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-link">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg> 分类</a>
+    
+            <a class="sidebar-nav-item" href="/series/" title="系列"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-link">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg> 系列</a>
+    
+</nav>
+        <style>
+    @media screen and (max-width: 500px) {
+        .search{
+             
+            text-align: center;
+        }
+
+        .search input{
+            width: 100%;
+        }
+
+        .search button{
+             
+        }
+    }
+     
+    @media screen and (min-width: 320px) {
+        .search{
+            width: 100%;
+            text-align: center;
+        }
+
+        .search input{
+            width: 50%;
+        }
+    }
+
+     
+    .search{
+        margin: auto;
+    }
+
+    .search input{
+        outline: none;
+        border: 2px solid #57cc8a;
+        height: 40px;
+    }
+    .search .button {
+        display: inline-block;
+        position:relative;
+    }
+    .search .button button{
+        outline: none;
+        height: 40px;
+        border: 0;
+        width: 60px;
+        background-color: #57A64A;
+        margin: 0;
+    }
+    .search .icon{
+        width: 22px;
+        height: 22px;
+    }
+</style>
+<div class="search">
+    <input type="text" placeholder="search..." id="search-key" />
+    <div class="button">
+        <button onclick="search()">
+            <svg t="1583982313567" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1271"
+                 width="200" height="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style type="text/css"></style>
+                </defs>
+                <path d="M694.857143 475.428571q0-105.714286-75.142857-180.857142T438.857143 219.428571 258 294.571429 182.857143 475.428571t75.142857 180.857143T438.857143 731.428571t180.857143-75.142857T694.857143 475.428571z m292.571428 475.428572q0 29.714286-21.714285 51.428571t-51.428572 21.714286q-30.857143 0-51.428571-21.714286l-196-195.428571q-102.285714 70.857143-228 70.857143-81.714286 0-156.285714-31.714286t-128.571429-85.714286-85.714286-128.571428T36.571429 475.428571t31.714285-156.285714 85.714286-128.571428 128.571429-85.714286T438.857143 73.142857t156.285714 31.714286 128.571429 85.714286 85.714285 128.571428T841.142857 475.428571q0 125.714286-70.857143 228l196 196q21.142857 21.142857 21.142857 51.428572z"
+                      p-id="1272" fill="#ffffff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+<h1 id="search-tip" style="color: #57A64A;text-align: center;display: none;">搜索中，请稍后 ...</h1>
+<br />
+<div id="result"></div>
+
+<script type="text/javascript">
+    
+    window.onload = function() {
+        document.onkeydown = function(ev) {
+            var event = ev || event
+            if (event.keyCode === 13) {
+                search()
+            }
+        }
+    }
+
+    
+    function search() {
+        var key = document.getElementById("search-key").value;
+        if (key === "") {
+            return;
+        }
+        
+
+        
+        document.getElementById("search-tip").innerText = "搜索中，请稍后 ...";
+        document.getElementById("search-tip").style.display = "block";
+
+        
+        var el = document.getElementById('result');
+        var childs = el.childNodes;
+        for (var i = childs.length - 1; i >= 0; i--) {
+            el.removeChild(childs[i]);
+        }
+
+        
+        var xmltext = new XMLHttpRequest;
+        xmltext.open("GET", "./index.xml", false);
+        xmltext.send();
+        var resp = xmltext.responseXML;
+        var items = resp.getElementsByTagName("item");
+        
+        var i = 0;
+        var haveResult = false;
+        while (i < items.length) {
+            var txt = items[i].getElementsByTagName("title")[0].innerHTML + items[i].getElementsByTagName("description")[0].innerHTML;
+            var reg = new RegExp(key, "gi");
+            if (txt.search(reg) > -1) {
+                haveResult = true;
+                var title = items[i].getElementsByTagName("title")[0].innerHTML;
+                var link = items[i].getElementsByTagName("link")[0].innerHTML;
+                var time = items[i].getElementsByTagName("pubDate")[0].innerHTML;
+                var mark = items[i].getElementsByTagName("description")[0].innerHTML;
+                addItem(title, link, time, mark)
+            }
+            i++;
+        }
+        if (!haveResult) {
+            document.getElementById("search-tip").innerText = "搜索完毕，未发现结果 ...";
+            document.getElementById("search-tip").style.display = "block";
+        }
+    }
+
+    
+    function addItem(title, link, time, mark) {
+        document.getElementById("search-tip").style.display = "none";
+        var tmpl = "<article class=\"post\" style=\"border-bottom: 1px solid #e6e6e6;\" >" +
+            "<header class=\"post-header\">" +
+            "<h1 class=\"post-title\"><a class=\"post-link\" href=\"" + link + "\" target=\"_blank\">" + title + "</a></h1>" +
+            "<div class=\"post-meta\">" +
+            " <span class=\"post-time\">" + time + "</span>" +
+            "</div>" +
+            " </header>" +
+            "<div class=\"post-content\">" +
+            "<div class=\"post-summary\">" + mark + "</div>" +
+            "<div class=\"read-more\">" +
+            "<a href=\"" + link + "\" class=\"read-more-link\" target=\"_blank\">阅读更多</a>" +
+            "</div>" +
+            " </div>" +
+            "</article>"
+        var div = document.createElement("div")
+        div.innerHTML = tmpl;
+        document.getElementById('result').appendChild(div)
+
+    }
+</script>
+        
+    <article class="post">
+        <header class="post-header">
+            <h1 class ="post-title">K8s Operator</h1>
+            <div class="post-meta">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+                    Mar 26, 2023
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+                    16 min read
+                </div><div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+                        <a class="tag" href="https://realjf.io/tags/k8s/">k8s</a></div></div>
+        </header>
+        <div class="post-content">
+            <h3 id="比较流行的k8s-operator-工具集">比较流行的k8s operator 工具集</h3>
+<ul>
+<li>redhat Operator Framework <a href="https://github.com/operator-framework">https://github.com/operator-framework</a></li>
+<li>Kubebuilder <a href="https://github.com/kubernetes-sigs/kubebuilder">https://github.com/kubernetes-sigs/kubebuilder</a> <a href="https://book.kubebuilder.io/">https://book.kubebuilder.io/</a></li>
+<li>Kopf <a href="https://github.com/zalando-incubator/kopf">https://github.com/zalando-incubator/kopf</a></li>
+</ul>
+<p>本次使用kubebuilder进行operator开发</p>
+<h3 id="实验环境">实验环境</h3>
+<ul>
+<li>Debian 10 64-bit</li>
+<li>go v1.19.0</li>
+<li>docker v20.10.21</li>
+<li>kubectl v1.26</li>
+<li>kubernetes</li>
+</ul>
+<h3 id="安装kubectl">安装kubectl</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># 下载最新二进制安装包</span>
+</span></span><span style="display:flex;"><span>curl -LO <span style="color:#e6db74">&#34;https://dl.k8s.io/release/</span><span style="color:#66d9ef">$(</span>curl -L -s https://dl.k8s.io/release/stable.txt<span style="color:#66d9ef">)</span><span style="color:#e6db74">/bin/linux/amd64/kubectl&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证包哈希值</span>
+</span></span><span style="display:flex;"><span>curl -LO <span style="color:#e6db74">&#34;https://dl.k8s.io/</span><span style="color:#66d9ef">$(</span>curl -L -s https://dl.k8s.io/release/stable.txt<span style="color:#66d9ef">)</span><span style="color:#e6db74">/bin/linux/amd64/kubectl.sha256&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cat kubectl.sha256<span style="color:#66d9ef">)</span><span style="color:#e6db74">  kubectl&#34;</span> | sha256sum --check
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果输出如下标识验证通过</span>
+</span></span><span style="display:flex;"><span>kubectl: OK
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装</span>
+</span></span><span style="display:flex;"><span>sudo install -o root -g root -m <span style="color:#ae81ff">0755</span> kubectl /usr/local/bin/kubectl
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 测试</span>
+</span></span><span style="display:flex;"><span>kubectl version --client --output<span style="color:#f92672">=</span>yaml
+</span></span></code></pre></div><h3 id="安装minikube和kubernetes">安装minikube和kubernetes</h3>
+<p>minikube文档<a href="https://minikube.sigs.k8s.io/docs/start/">https://minikube.sigs.k8s.io/docs/start/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># 安装minikube</span>
+</span></span><span style="display:flex;"><span>curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo install minikube-linux-amd64 /usr/local/bin/minikube
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动k8s集群</span>
+</span></span><span style="display:flex;"><span>minikube start
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 停止集群</span>
+</span></span><span style="display:flex;"><span>minikube stop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除所有minikube集群信息</span>
+</span></span><span style="display:flex;"><span>minikube delete --all
+</span></span></code></pre></div><h3 id="安装docker">安装docker</h3>
+<p>具体可以查看<a href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a></p>
+<h3 id="安装kubebuilder">安装kubebuilder</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># download kubebuilder and install locally.</span>
+</span></span><span style="display:flex;"><span>curl -L -o kubebuilder https://go.kubebuilder.io/dl/latest/<span style="color:#66d9ef">$(</span>go env GOOS<span style="color:#66d9ef">)</span>/<span style="color:#66d9ef">$(</span>go env GOARCH<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>chmod +x kubebuilder <span style="color:#f92672">&amp;&amp;</span> mv kubebuilder /usr/local/bin/
+</span></span></code></pre></div><h3 id="创建项目">创建项目</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># 创建项目目录</span>
+</span></span><span style="display:flex;"><span>mkdir &lt;YOUR_PROJECT_NAME&gt;
+</span></span><span style="display:flex;"><span>cd &lt;YOUR_PROJECT_NAME&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># create project</span>
+</span></span><span style="display:flex;"><span>kubebuilder init --plugins go/v3 --domain &lt;YOUR_DOMAIN&gt; --owner <span style="color:#e6db74">&#34;realjf&#34;</span> --repo github.com/&lt;YOUR_ACCOUNT&gt;/&lt;YOUR_PROJECT_NAME&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Writing kustomize manifests <span style="color:#66d9ef">for</span> you to edit...
+</span></span><span style="display:flex;"><span>Writing scaffold <span style="color:#66d9ef">for</span> you to edit...
+</span></span><span style="display:flex;"><span>Get controller runtime:
+</span></span><span style="display:flex;"><span>$ go get sigs.k8s.io/controller-runtime@v0.14.1
+</span></span><span style="display:flex;"><span>Update dependencies:
+</span></span><span style="display:flex;"><span>$ go mod tidy
+</span></span><span style="display:flex;"><span>Next: define a resource with:
+</span></span><span style="display:flex;"><span>$ kubebuilder create api
+</span></span></code></pre></div><p>其中生成的文件中：</p>
+<ul>
+<li>go.mod 已经引入了依赖库</li>
+<li>Makefile 构建targets用于构建和部署</li>
+<li>PROJECT 用于搭建新组件的 Kubebuilder 元数据</li>
+<li>config 主要是一些启动配置和RBAC配置，还有CRD，Webhook配置等</li>
+</ul>
+<p>main.go文件中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">scheme</span>   = <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">NewScheme</span>()
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">setupLog</span> = <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Log</span>.<span style="color:#a6e22e">WithName</span>(<span style="color:#e6db74">&#34;setup&#34;</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">utilruntime</span>.<span style="color:#a6e22e">Must</span>(<span style="color:#a6e22e">clientgoscheme</span>.<span style="color:#a6e22e">AddToScheme</span>(<span style="color:#a6e22e">scheme</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">//+kubebuilder:scaffold:scheme
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>每一组控制器都需要一个Scheme，它提供Kinds和它们对应的Go类型之间的映射。</p>
+<p>修改以下结构：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">namespaces</span> []<span style="color:#66d9ef">string</span> <span style="color:#75715e">// list of namespaces
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mgr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">NewManager</span>(<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">GetConfigOrDie</span>(), <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Options</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Scheme</span>:                 <span style="color:#a6e22e">scheme</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">NewCache</span>:               <span style="color:#a6e22e">cache</span>.<span style="color:#a6e22e">MultiNamespacedCacheBuilder</span>(<span style="color:#a6e22e">namespaces</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">MetricsBindAddress</span>:     <span style="color:#a6e22e">metricsAddr</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Port</span>:                   <span style="color:#ae81ff">9443</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">HealthProbeBindAddress</span>: <span style="color:#a6e22e">probeAddr</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">LeaderElection</span>:         <span style="color:#a6e22e">enableLeaderElection</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">LeaderElectionID</span>:       <span style="color:#e6db74">&#34;3ee42630.realjf.io&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// LeaderElectionReleaseOnCancel defines if the leader should step down voluntarily
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// when the Manager ends. This requires the binary to immediately end when the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// Manager is stopped, otherwise, this setting is unsafe. Setting this significantly
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// speeds up voluntary leader transitions as the new leader don&#39;t have to wait
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// LeaseDuration time first.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// In the default scaffold provided, the program ends immediately after
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// the manager stops, so would be fine to enable this option. However,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// if you are doing or is intended to do any operation such as perform cleanups
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// after the manager stops then its usage might be unsafe.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// LeaderElectionReleaseOnCancel: true,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> })
+</span></span></code></pre></div><h3 id="创建api">创建api</h3>
+<p>这里以实现一个简单的CronJob控制器为例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubebuilder create api --group api --version v1alpha1 --kind CronJob
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Create Resource <span style="color:#f92672">[</span>y/n<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>y
+</span></span><span style="display:flex;"><span>Create Controller <span style="color:#f92672">[</span>y/n<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>y
+</span></span><span style="display:flex;"><span>Writing kustomize manifests <span style="color:#66d9ef">for</span> you to edit...
+</span></span><span style="display:flex;"><span>Writing scaffold <span style="color:#66d9ef">for</span> you to edit...
+</span></span><span style="display:flex;"><span>api/v1alpha1/cronjob_types.go
+</span></span><span style="display:flex;"><span>controllers/cronjob_controller.go
+</span></span><span style="display:flex;"><span>Update dependencies:
+</span></span><span style="display:flex;"><span>$ go mod tidy
+</span></span><span style="display:flex;"><span>Running make:
+</span></span><span style="display:flex;"><span>$ make generate
+</span></span><span style="display:flex;"><span>mkdir -p /home/realjf/go/src/k8s-operator/bin
+</span></span><span style="display:flex;"><span>test -s /home/realjf/go/src/k8s-operator/bin/controller-gen <span style="color:#f92672">&amp;&amp;</span> /home/realjf/go/src/k8s-operator/bin/controller-gen --version | grep -q v0.11.1 <span style="color:#f92672">||</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>GOBIN<span style="color:#f92672">=</span>/home/realjf/go/src/k8s-operator/bin go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.11.1
+</span></span><span style="display:flex;"><span>go: downloading sigs.k8s.io/controller-tools v0.11.1
+</span></span><span style="display:flex;"><span>go: downloading github.com/spf13/cobra v1.6.1
+</span></span><span style="display:flex;"><span>go: downloading golang.org/x/tools v0.4.0
+</span></span><span style="display:flex;"><span>go: downloading github.com/fatih/color v1.13.0
+</span></span><span style="display:flex;"><span>go: downloading github.com/gobuffalo/flect v0.3.0
+</span></span><span style="display:flex;"><span>go: downloading k8s.io/utils v0.0.0-20221107191617-1a15be271d1d
+</span></span><span style="display:flex;"><span>go: downloading golang.org/x/net v0.4.0
+</span></span><span style="display:flex;"><span>go: downloading github.com/mattn/go-colorable v0.1.9
+</span></span><span style="display:flex;"><span>go: downloading golang.org/x/mod v0.7.0
+</span></span><span style="display:flex;"><span>/home/realjf/go/src/k8s-operator/bin/controller-gen object:headerFile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hack/boilerplate.go.txt&#34;</span> paths<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;./...&#34;</span>
+</span></span><span style="display:flex;"><span>Next: implement your new API and generate the manifests <span style="color:#f92672">(</span>e.g. CRDs,CRs<span style="color:#f92672">)</span> with:
+</span></span><span style="display:flex;"><span>$ make manifests
+</span></span></code></pre></div><p>创建成功，可以看下api/v1alpha1/cronjob_types.go文件，里面是我们以后的类型定义文件都会放这里</p>
+<p>kubernetes中，设计API的规则需要遵循：</p>
+<ul>
+<li>所有序列化的字段都必须是驼峰式</li>
+<li>还可以使用omitempty标识省略</li>
+<li>字段可以使用大多数原始类型</li>
+<li>数字例外：出于兼容api目的，只接受三种数字：int32、int64和resource.Quantity标识小数</li>
+</ul>
+<p>首先，让我们看一下我们的规范。正如我们之前讨论的那样，spec 保存了所需的状态，因此我们控制器的任何“输入”都在这里</p>
+<p>CronJob需要以下部分：</p>
+<ul>
+<li>一个时间表</li>
+<li>要运行的作业的目标</li>
+<li>开始工作的截止日期</li>
+<li>如果同时运行多个作业怎么办</li>
+<li>一个暂停CronJob运行的方法</li>
+<li>对旧工作历史的限制</li>
+</ul>
+<p>我们将使用多个标记（// +comment）来指定额外的元数据。这些将在生成我们的 CRD 清单时由控制器工具使用。正如我们稍后将看到的，控制器工具也将使用 GoDoc 来形成字段的描述。</p>
+<blockquote>
+<p>那个小小的 +kubebuilder:object:root 注释被称为标记。稍后我们会看到更多，但要知道它们充当额外的元数据，告诉控制器工具（我们的代码和 YAML 生成器）额外信息。这个特定的类型告诉对象生成器这个类型代表一个种类。然后，对象生成器为我们生成runtime.Object接口的实现，这是所有表示Kinds的类型必须实现的标准接口。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:object:root=true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:subresource:status
+</span></span></span></code></pre></div><h3 id="设计api">设计api</h3>
+<p>打开api/v1alpha1/cronjob_types.go文件，做以下修改</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">apiv1alpha1</span> <span style="color:#e6db74">&#34;k8s.io/api/batch/v1&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">corev1</span> <span style="color:#e6db74">&#34;k8s.io/api/core/v1&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">metav1</span> <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/apis/meta/v1&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>然后修改CronJobSpec和CronJobStatus</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// CronJobSpec defines the desired state of CronJob
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">CronJobSpec</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">//+kubebuilder:validation:MinLength=0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// The schedule in Cron format
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">Schedule</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;schedule&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">//+kubebuilder:validation:Minimum=0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// Optional deadline in seconds for starting the job if it misses scheduled
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// time for any reason
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// +optional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">StartingDeadlineSeconds</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">int64</span> <span style="color:#e6db74">`json:&#34;startingDeadlineSeconds,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// Specifies how to treat concurrent executions of a Job
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// Valid values are:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// - &#34;Allow&#34; (default): allows CronJobs to run concurrently
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// - &#34;Forbid&#34;: forbids concurrent runs, skipping next run if previous run hasn&#39;t finished yes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// - &#34;Replace&#34;: cancels currently running job and replaces it with a new one
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// +optional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">ConcurrencyPolicy</span> <span style="color:#a6e22e">ConcurrencyPolicy</span> <span style="color:#e6db74">`json:&#34;concurrencyPolicy,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// This flag tells the controller to suspend subsequent executions, it does
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// not apply to already started executions. Defaults to false.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// +optional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">Suspend</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">bool</span> <span style="color:#e6db74">`json:&#34;suspend,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// Specifies the job that will be created when executing a CronJob
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">JobTemplate</span> <span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">JobTemplateSpec</span> <span style="color:#e6db74">`json:&#34;jobTemplate&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">//+kubebuilder:validation:Minimum=0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// The number of successful finished jobs to retain.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// This is a pointer to distinguish between explicit zero and not specified.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// +optional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">SuccessfulJobsHistoryLimit</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">int32</span> <span style="color:#e6db74">`json:&#34;successfulJobsHistoryLimit,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">//+kubebuilder:validation:Minimum=0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// The number of failed finished jobs to retain.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// This is a pointer to distinguish between explicit zero and not specified.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// +optional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">FailedJobsHistoryLimit</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">int32</span> <span style="color:#e6db74">`json:&#34;failedJobsHistoryLimit,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>自定义了一个类型保存并发策略</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConcurrencyPolicy</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// AllowConcurrent allows CronJobs to run concurrently.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">AllowConcurrent</span> <span style="color:#a6e22e">ConcurrencyPolicy</span> = <span style="color:#e6db74">&#34;Allow&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// ForbidConcurrent forbids concurrent runs, skipping next run if previous
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// hasn&#39;t finished yet.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">ForbidConcurrent</span> <span style="color:#a6e22e">ConcurrencyPolicy</span> = <span style="color:#e6db74">&#34;Forbid&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// ReplaceConcurrent cancels currently running job and replaces it with a new one.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">ReplaceConcurrent</span> <span style="color:#a6e22e">ConcurrencyPolicy</span> = <span style="color:#e6db74">&#34;Replace&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>接下来，是处理状态，它包含我们希望用户或其他控制者能够轻松获取到任何信息。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// CronJobStatus defines the observed state of CronJob
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">CronJobStatus</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// Important: Run &#34;make&#34; to regenerate code after modifying this file
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// A list of pointers to currently running jobs
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// +optional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">Active</span> []<span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">ObjectReference</span> <span style="color:#e6db74">`json:&#34;active,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// Information when was the last time the job was successfully scheduled.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#75715e">// +optional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#a6e22e">LastScheduleTime</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Time</span> <span style="color:#e6db74">`json:&#34;lastScheduleTime,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>现在api设计完毕，接下来需要编写一个控制器来实际实现该功能。</p>
+<p>题外话：
+api目录下有其他两个文件：groupversion_info.go和zz_generated.deepcopy.go</p>
+<ul>
+<li>groupversion_info.go: 包含有关组版本的公共元数据
+<ul>
+<li>首先，我们有一些包级别的标记，表示这个包中有 Kubernetes 对象，并且这个包代表组 batch.api.realjf.io。对象生成器使用前者，而 CRD 生成器使用后者为它从该包创建的 CRD 生成正确的元数据。</li>
+<li>然后，我们有一些常用的变量来帮助我们设置我们的方案。因为我们需要在我们的控制器中使用这个包中的所有类型，所以有一个方便的方法将所有类型添加到其他一些 Scheme 是有帮助的（和约定）。 SchemeBuilder 使我们很容易做到这一点。</li>
+</ul>
+</li>
+<li>zz_generated.deepcopy.go: 包含上述 runtime.Object 接口的自动生成实现，它将我们所有的根类型标记为代表 Kinds
+<ul>
+<li>runtime.Object 接口的核心是一个深拷贝方法，DeepCopyObject。 controller-tools 中的对象生成器还为每个根类型及其所有子类型生成另外两个方便的方法：DeepCopy 和 DeepCopyInto</li>
+</ul>
+</li>
+</ul>
+<h3 id="了解控制器">了解控制器</h3>
+<p>控制器是kubernetes和任何operator的核心。
+控制器的工作是确保对于任何给定对象，世界的实际状态（包括集群状态，以及潜在的外部状态，例如为 Kubelet 运行容器或为云提供商运行负载均衡器）与对象中的所需状态相匹配。每个控制器专注于一个根 Kind，但可能与其他 Kind 交互。</p>
+<p>在控制器运行时，实现特定种类协调的逻辑称为协调器。协调器采用对象的名称，并返回我们是否需要重试（例如，在出现错误或周期性控制器的情况下，如 Horizo​​ntalPodAutoscaler）</p>
+<p>大多数控制器最终都在集群上运行，因此它们需要 RBAC 权限，我们使用 controller-tools RBAC 标记指定这些权限。这些是运行所需的最低权限。随着我们添加更多功能，我们需要重新审视这些。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api.realjf.io,resources=cronjobs,verbs=get;list;watch;create;update;patch;delete
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api.realjf.io,resources=cronjobs/status,verbs=get;update;patch
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api.realjf.io,resources=cronjobs/finalizers,verbs=update
+</span></span></span></code></pre></div><p>config/rbac/role.yaml 中的 ClusterRole 清单是通过 controller-gen 使用以下命令从上述标记生成的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>make manifests
+</span></span></code></pre></div><p>Reconcile 实际上为单个命名对象执行协调。我们的请求只有一个名称，但我们可以使用客户端从缓存中获取该对象。
+我们返回一个空结果并且没有错误，这向控制器运行时表明我们已经成功地协调了这个对象并且在有一些变化之前不需要重试。
+大多数控制器需要一个日志句柄和一个上下文，所以我们在这里设置它们。
+上下文用于允许取消请求，以及可能的跟踪之类的事情。它是所有客户端方法的第一个参数。后台上下文只是一个基本上下文，没有任何额外的数据或时间限制。</p>
+<p>日志句柄让我们记录。 controller-runtime 通过名为 logr 的库使用结构化日志记录。正如我们很快就会看到的，日志记录通过将键值对附加到静态消息来工作。我们可以在协调方法的顶部预先分配一些对，以将它们附加到此协调器中的所有日志行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJobReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">FromContext</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// TODO(user): your logic here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>最后，我们将这个协调器添加到管理器中，以便在管理器启动时启动它。 现在，我们只注意到这个调节器在 CronJobs 上运行。稍后，我们将使用它来标记我们也关心相关对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJobReconciler</span>) <span style="color:#a6e22e">SetupWithManager</span>(<span style="color:#a6e22e">mgr</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Manager</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">NewControllerManagedBy</span>(<span style="color:#a6e22e">mgr</span>).
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">For</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">CronJob</span>{}).
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Complete</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>现在可以开始填写CronJobs的逻辑</p>
+<h3 id="实现控制器">实现控制器</h3>
+<p>CronJob 控制器的基本逻辑是这样的：</p>
+<ul>
+<li>加载命名的 CronJob</li>
+<li>列出所有活跃的工作，并更新状态</li>
+<li>根据历史限制清理旧作业</li>
+<li>检查我们是否被暂停（如果是，不要做任何其他事情）</li>
+<li>获取下一次预定运行</li>
+<li>如果按计划运行新作业，没有超过截止日期，并且没有被我们的并发策略阻止</li>
+<li>当我们看到正在运行的作业（自动完成）或下一次计划运行的时间时重新排队。</li>
+</ul>
+<p>实现如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sort&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/robfig/cron&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">kbatch</span> <span style="color:#e6db74">&#34;k8s.io/api/batch/v1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">corev1</span> <span style="color:#e6db74">&#34;k8s.io/api/core/v1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">metav1</span> <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/apis/meta/v1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/runtime&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ref</span> <span style="color:#e6db74">&#34;k8s.io/client-go/tools/reference&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctrl</span> <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/client&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/log&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">apiv1alpha1</span> <span style="color:#e6db74">&#34;github.com/realjf/k8s-operator/api/v1alpha1&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>接下来，我们需要一个时钟，它允许我们在测试中伪造计时</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// CronJobReconciler reconciles a CronJob object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">CronJobReconciler</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Client</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Clock</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们将模拟时钟，以便在测试时更容易及时跳转，“真实”时钟只是调用 time.Now。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">realClock</span> <span style="color:#66d9ef">struct</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">realClock</span>) <span style="color:#a6e22e">Now</span>() <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>() }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// clock knows how to get the current time.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// It can be used to fake out timing for testing.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Clock</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Now</span>() <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里需要更多的 RBAC 权限——因为我们现在正在创建和管理作业，所以我们需要这些权限，这意味着要添加更多的标记。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api.realjf.io,resources=cronjobs,verbs=get;list;watch;create;update;patch;delete
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api.realjf.io,resources=cronjobs/status,verbs=get;update;patch
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api.realjf.io,resources=cronjobs/finalizers,verbs=update
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api,resources=jobs,verbs=get;list;watch;create;update;patch;delete
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:rbac:groups=api,resources=jobs/status,verbs=get
+</span></span></span></code></pre></div><p>现在，开始实现控制器核心逻辑——协调器逻辑</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">scheduledTimeAnnotation</span> = <span style="color:#e6db74">&#34;api.realjf.io/scheduled-at&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Reconcile is part of the main kubernetes reconciliation loop which aims to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// move the current state of the cluster closer to the desired state.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// TODO(user): Modify the Reconcile function to compare the state specified by
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// the CronJob object against the actual cluster state, and then
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// perform operations to make the cluster state reflect the state specified by
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// the user.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// For more details, check Reconcile and its Result here:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJobReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">log</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">FromContext</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span></code></pre></div><h4 id="1-按名称加载cronjob">1. 按名称加载CronJob</h4>
+<p>我们将使用我们的客户端获取 CronJob。所有客户端方法都将上下文（以允许取消）作为它们的第一个参数，并将所讨论的对象作为它们的最后一个。 Get 有点特殊，因为它采用 NamespacedName 作为中间参数（大多数没有中间参数，我们将在下面看到）。
+许多客户端方法最后也采用可变参数选项。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cronJob</span> <span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">CronJob</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">NamespacedName</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cronJob</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to fetch CronJob&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// we&#39;ll ignore not-found errors, since they can&#39;t be fixed by an immediate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// requeue (we&#39;ll need to wait for a new notification), and we can get them
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// on deleted requests.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">IgnoreNotFound</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h4 id="2-列出所有活跃的工作并更新状态">2. 列出所有活跃的工作，并更新状态</h4>
+<p>为了完全更新状态，需要列出这个命名空间中属于这个 CronJob 的所有子作业。与 Get 类似，可以使用 List 方法列出子作业。请注意，使用可变选项来设置命名空间和字段匹配（这实际上是在下面设置的索引查找）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">childJobs</span> <span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">JobList</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">List</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">childJobs</span>, <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">InNamespace</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Namespace</span>), <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">MatchingFields</span>{<span style="color:#a6e22e">jobOwnerKey</span>: <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Name</span>}); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to list child Jobs&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>一旦我们拥有我们拥有的所有job，我们将把它们分成活跃的、成功的和失败的作业，跟踪最近的运行，以便我们可以在状态中记录它。请记住，状态应该能够从世界状态中重构，因此从根对象的状态中读取通常不是一个好主意。相反，您应该在每次运行时重建它。这就是我们在这里要做的。</p>
+<p>我们可以使用状态条件检查作业是否“完成”以及它是成功还是失败。我们将把这个逻辑放在一个帮助程序中，以使我们的代码更清晰。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// find the active list of jobs
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">activeJobs</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">successfulJobs</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">failedJobs</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mostRecentTime</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span> <span style="color:#75715e">// find the last run so we can update the status
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">isJobFinished</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">job</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">JobConditionType</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Conditions</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Type</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">JobComplete</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Type</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">JobFailed</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Status</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">corev1</span>.<span style="color:#a6e22e">ConditionTrue</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Type</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>, <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">getScheduledTimeForJob</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">job</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">timeRaw</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">Annotations</span>[<span style="color:#a6e22e">scheduledTimeAnnotation</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">timeRaw</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">timeParsed</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">RFC3339</span>, <span style="color:#a6e22e">timeRaw</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">timeParsed</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">childJobs</span>.<span style="color:#a6e22e">Items</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">finishedType</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">isJobFinished</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">finishedType</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;&#34;</span>: <span style="color:#75715e">// ongoing
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#a6e22e">activeJobs</span> = append(<span style="color:#a6e22e">activeJobs</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">childJobs</span>.<span style="color:#a6e22e">Items</span>[<span style="color:#a6e22e">i</span>])
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">JobFailed</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">failedJobs</span> = append(<span style="color:#a6e22e">failedJobs</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">childJobs</span>.<span style="color:#a6e22e">Items</span>[<span style="color:#a6e22e">i</span>])
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">JobComplete</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">successfulJobs</span> = append(<span style="color:#a6e22e">successfulJobs</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">childJobs</span>.<span style="color:#a6e22e">Items</span>[<span style="color:#a6e22e">i</span>])
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// We&#39;ll store the launch time in an annotation, so we&#39;ll reconstitute that from
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// the active jobs themselves.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">scheduledTimeForJob</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getScheduledTimeForJob</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to parse schedule time for child job&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">scheduledTimeForJob</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mostRecentTime</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mostRecentTime</span> = <span style="color:#a6e22e">scheduledTimeForJob</span>
+</span></span><span style="display:flex;"><span>   } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mostRecentTime</span>.<span style="color:#a6e22e">Before</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">scheduledTimeForJob</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mostRecentTime</span> = <span style="color:#a6e22e">scheduledTimeForJob</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mostRecentTime</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">LastScheduleTime</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Time</span>{<span style="color:#a6e22e">Time</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">mostRecentTime</span>}
+</span></span><span style="display:flex;"><span> } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">LastScheduleTime</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Active</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">activeJob</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">activeJobs</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">jobRef</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ref</span>.<span style="color:#a6e22e">GetReference</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Scheme</span>, <span style="color:#a6e22e">activeJob</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to make reference to active job&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">activeJob</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Active</span> = append(<span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Active</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">jobRef</span>)
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;job count&#34;</span>, <span style="color:#e6db74">&#34;active jobs&#34;</span>, len(<span style="color:#a6e22e">activeJobs</span>), <span style="color:#e6db74">&#34;successful jobs&#34;</span>, len(<span style="color:#a6e22e">successfulJobs</span>), <span style="color:#e6db74">&#34;failed jobs&#34;</span>, len(<span style="color:#a6e22e">failedJobs</span>))
+</span></span></code></pre></div><p>使用我们收集的数据，我们将更新我们的 CRD 的状态。就像以前一样，我们使用我们的客户端。为了专门更新状态子资源，我们将使用客户端的 Status 部分和 Update 方法。 status 子资源忽略了对 spec 的更改，因此它不太可能与任何其他更新发生冲突，并且可以具有单独的权限。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Status</span>().<span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cronJob</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to update CronJob status&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>一旦我们更新了我们的状态，我们就可以继续确保世界的状态与我们在规范中想要的相匹配</p>
+<h4 id="3-根据历史限制清理旧作业">3. 根据历史限制清理旧作业</h4>
+<p>首先，我们将尝试清理旧工作，这样我们就不会遗留太多工作。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// NB: deleting these are &#34;best effort&#34; -- if we fail on a particular one,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// we won&#39;t requeue just to finish the deleting.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">FailedJobsHistoryLimit</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">Slice</span>(<span style="color:#a6e22e">failedJobs</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">failedJobs</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">failedJobs</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">failedJobs</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span>.<span style="color:#a6e22e">Before</span>(<span style="color:#a6e22e">failedJobs</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span>)
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">failedJobs</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> int32(<span style="color:#a6e22e">i</span>) <span style="color:#f92672">&gt;=</span> int32(len(<span style="color:#a6e22e">failedJobs</span>))<span style="color:#f92672">-*</span><span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">FailedJobsHistoryLimit</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">job</span>, <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">PropagationPolicy</span>(<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">DeletePropagationBackground</span>)); <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">IgnoreNotFound</span>(<span style="color:#a6e22e">err</span>) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to delete old failed job&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;deleted old failed job&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">SuccessfulJobsHistoryLimit</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">Slice</span>(<span style="color:#a6e22e">successfulJobs</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">successfulJobs</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">successfulJobs</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">successfulJobs</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span>.<span style="color:#a6e22e">Before</span>(<span style="color:#a6e22e">successfulJobs</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">StartTime</span>)
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">successfulJobs</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> int32(<span style="color:#a6e22e">i</span>) <span style="color:#f92672">&gt;=</span> int32(len(<span style="color:#a6e22e">successfulJobs</span>))<span style="color:#f92672">-*</span><span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">SuccessfulJobsHistoryLimit</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">job</span>, <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">PropagationPolicy</span>(<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">DeletePropagationBackground</span>)); (<span style="color:#a6e22e">err</span>) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to delete old successful job&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;deleted old successful job&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h4 id="4-检查我们是否被暂停">4. 检查我们是否被暂停</h4>
+<p>如果这个对象被挂起，我们不想运行任何作业，所以我们现在就停止。如果我们正在运行的作业出现问题并且我们想暂停运行以调查或使用集群而不删除对象，这将很有用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Suspend</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Suspend</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;cronjob suspended, skipping&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h4 id="5-获取下一次预定运行">5. 获取下一次预定运行</h4>
+<p>如果我们没有暂停，我们将需要计算下一次预定的运行，以及我们是否有尚未处理的运行。</p>
+<p>我们将使用我们有用的 cron 库计算下一个预定时间。我们将从上次运行开始计算适当的时间，或者如果找不到上次运行则创建 CronJob。</p>
+<p>如果有太多错过的运行并且我们没有设置任何截止日期，我们会保释，这样我们就不会导致控制器重启或楔子出现问题。</p>
+<p>否则，我们将只返回错过的运行（其中我们将只使用最新的运行）和下一次运行，这样我们就可以知道什么时候再次协调。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">getNextSchedule</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">cronJob</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">CronJob</span>, <span style="color:#a6e22e">now</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>) (<span style="color:#a6e22e">lastMissed</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>, <span style="color:#a6e22e">next</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sched</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cron</span>.<span style="color:#a6e22e">ParseStandard</span>(<span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Schedule</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>{}, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>{}, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;Unparseable schedule %q: %v&#34;</span>, <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Schedule</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// for optimization purposes, cheat a bit and start from our last observed run time
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// we could reconstitute this here, but there&#39;s not much point, since we&#39;ve
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// just updated it.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">earliestTime</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">LastScheduleTime</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">earliestTime</span> = <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">LastScheduleTime</span>.<span style="color:#a6e22e">Time</span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">earliestTime</span> = <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">ObjectMeta</span>.<span style="color:#a6e22e">CreationTimestamp</span>.<span style="color:#a6e22e">Time</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">StartingDeadlineSeconds</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// controller is not going to schedule anything below this point
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">schedulingDeadline</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">now</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#f92672">-</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">StartingDeadlineSeconds</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">schedulingDeadline</span>.<span style="color:#a6e22e">After</span>(<span style="color:#a6e22e">earliestTime</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">earliestTime</span> = <span style="color:#a6e22e">schedulingDeadline</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">earliestTime</span>.<span style="color:#a6e22e">After</span>(<span style="color:#a6e22e">now</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>{}, <span style="color:#a6e22e">sched</span>.<span style="color:#a6e22e">Next</span>(<span style="color:#a6e22e">now</span>), <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">starts</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sched</span>.<span style="color:#a6e22e">Next</span>(<span style="color:#a6e22e">earliestTime</span>); !<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">After</span>(<span style="color:#a6e22e">now</span>); <span style="color:#a6e22e">t</span> = <span style="color:#a6e22e">sched</span>.<span style="color:#a6e22e">Next</span>(<span style="color:#a6e22e">t</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">lastMissed</span> = <span style="color:#a6e22e">t</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// An object might miss several starts. For example, if
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// controller gets wedged on Friday at 5:01pm when everyone has
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// gone home, and someone comes in on Tuesday AM and discovers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// the problem and restarts the controller, then all the hourly
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// jobs, more than 80 of them for one hourly scheduledJob, should
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// all start running with no further intervention (if the scheduledJob
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// allows concurrency and late starts).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// However, if there is a bug somewhere, or incorrect clock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// on controller&#39;s server or apiservers (for setting creationTimestamp)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// then there could be so many missed start times (it could be off
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// by decades or more), that it would eat up all the CPU and memory
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// of this controller. In that case, we want to not try to list
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// all the missed start times.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">starts</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">starts</span> &gt; <span style="color:#ae81ff">100</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// We can&#39;t get the most recent times so just return an empty slice
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>{}, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>{}, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;Too many missed start times (&gt; 100). Set or decrease .spec.startingDeadlineSeconds or check clock skew.&#34;</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">lastMissed</span>, <span style="color:#a6e22e">sched</span>.<span style="color:#a6e22e">Next</span>(<span style="color:#a6e22e">now</span>), <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// figure out the next times that we need to create
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// jobs at (or anything we missed).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">missedRun</span>, <span style="color:#a6e22e">nextRun</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getNextSchedule</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cronJob</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Now</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to figure out CronJob schedule&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// we don&#39;t really care about requeuing until we get an update that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// fixes the schedule, so don&#39;t return an error
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>我们将准备我们最终的请求以重新排队直到下一个作业，然后确定我们是否真的需要运行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">scheduledResult</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{<span style="color:#a6e22e">RequeueAfter</span>: <span style="color:#a6e22e">nextRun</span>.<span style="color:#a6e22e">Sub</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Now</span>())} <span style="color:#75715e">// save this so we can re-use it elsewhere
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">log</span> = <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">WithValues</span>(<span style="color:#e6db74">&#34;now&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Now</span>(), <span style="color:#e6db74">&#34;next run&#34;</span>, <span style="color:#a6e22e">nextRun</span>)
+</span></span></code></pre></div><h4 id="6-如果按计划运行新作业没有超过截止日期并且没有被我们的并发策略阻止">6. 如果按计划运行新作业，没有超过截止日期，并且没有被我们的并发策略阻止</h4>
+<p>如果我们错过了一次运行，而我们仍在截止日期之内开始运行，我们就需要运行一个作业</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">missedRun</span>.<span style="color:#a6e22e">IsZero</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;no upcoming scheduled times, sleeping until next&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">scheduledResult</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// make sure we&#39;re not too late to start the run
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">log</span> = <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">WithValues</span>(<span style="color:#e6db74">&#34;current run&#34;</span>, <span style="color:#a6e22e">missedRun</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">tooLate</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">StartingDeadlineSeconds</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">tooLate</span> = <span style="color:#a6e22e">missedRun</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">StartingDeadlineSeconds</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>).<span style="color:#a6e22e">Before</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Now</span>())
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">tooLate</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;missed starting deadline for last run, sleeping till next&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// TODO(directxman12): events
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">scheduledResult</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>如果我们真的必须运行一个作业，我们需要等到现有的完成，替换现有的，或者只是添加新的。如果我们的信息由于缓存延迟而过时，我们将在获取最新信息时重新排队。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// figure out how to run this job -- concurrency policy might forbid us from running
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// multiple at the same time...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">ConcurrencyPolicy</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">ForbidConcurrent</span> <span style="color:#f92672">&amp;&amp;</span> len(<span style="color:#a6e22e">activeJobs</span>) &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;concurrency policy blocks concurrent runs, skipping&#34;</span>, <span style="color:#e6db74">&#34;num active&#34;</span>, len(<span style="color:#a6e22e">activeJobs</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">scheduledResult</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...or instruct us to replace existing ones...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">ConcurrencyPolicy</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">ReplaceConcurrent</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">activeJob</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">activeJobs</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// we don&#39;t care if the job was already deleted
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">activeJob</span>, <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">PropagationPolicy</span>(<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">DeletePropagationBackground</span>)); <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">IgnoreNotFound</span>(<span style="color:#a6e22e">err</span>) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to delete active job&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">activeJob</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>一旦我们弄清楚如何处理现有的工作，我们实际上就会创造我们想要的工作</p>
+<p>我们需要根据我们的 CronJob 模板构建一个作业。我们将从模板中复制规范并复制一些基本的对象元数据。
+然后，我们将设置“计划时间”注释，以便我们可以在每次协调时重建我们的 LastScheduleTime 字段。
+最后，我们需要设置所有者引用。这允许 Kubernetes 垃圾收集器在我们删除 CronJob 时清理作业，并允许 controller-runtime 在给定作业更改（添加、删除、完成等）时确定需要协调哪个 cronjob。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">constructJobForCronJob</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">cronJob</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">CronJob</span>, <span style="color:#a6e22e">scheduledTime</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// We want job names for a given nominal start time to have a deterministic name to avoid the same job being created twice
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">name</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s-%d&#34;</span>, <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">scheduledTime</span>.<span style="color:#a6e22e">Unix</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">ObjectMeta</span>: <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ObjectMeta</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Labels</span>:      make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Annotations</span>: make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Name</span>:        <span style="color:#a6e22e">name</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Namespace</span>:   <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Namespace</span>,
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">Spec</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">JobTemplate</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">DeepCopy</span>(),
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">JobTemplate</span>.<span style="color:#a6e22e">Annotations</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">Annotations</span>[<span style="color:#a6e22e">k</span>] = <span style="color:#a6e22e">v</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">Annotations</span>[<span style="color:#a6e22e">scheduledTimeAnnotation</span>] = <span style="color:#a6e22e">scheduledTime</span>.<span style="color:#a6e22e">Format</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">RFC3339</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">cronJob</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">JobTemplate</span>.<span style="color:#a6e22e">Labels</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">job</span>.<span style="color:#a6e22e">Labels</span>[<span style="color:#a6e22e">k</span>] = <span style="color:#a6e22e">v</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">SetControllerReference</span>(<span style="color:#a6e22e">cronJob</span>, <span style="color:#a6e22e">job</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Scheme</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">job</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// actually make the job...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">job</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">constructJobForCronJob</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cronJob</span>, <span style="color:#a6e22e">missedRun</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to construct job from template&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// don&#39;t bother requeuing until we get a change to the spec
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">scheduledResult</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...and create it on the cluster
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">job</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to create Job for CronJob&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;created Job for CronJob run&#34;</span>, <span style="color:#e6db74">&#34;job&#34;</span>, <span style="color:#a6e22e">job</span>)
+</span></span></code></pre></div><h4 id="7-当我们看到正在运行的作业或下一次计划运行的时间时重新排队">7. 当我们看到正在运行的作业或下一次计划运行的时间时重新排队</h4>
+<p>最后，我们将返回我们在上面准备的结果，即我们希望在下一次运行需要发生时重新排队。这被视为最大截止日期——如果中间发生了其他变化，比如我们的工作开始或完成、我们被修改等，我们可能会更快地再次协调。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// we&#39;ll requeue once we see the running job, and update our status
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">scheduledResult</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="编写启动代码">编写启动代码</h3>
+<p>最后，我们将更新我们的设置。为了让我们的核对器能够快速查找其所有者的工作，我们需要一个索引。我们声明一个索引键，稍后我们可以将其作为伪字段名称用于客户端，然后描述如何从 Job 对象中提取索引值。索引器会自动为我们处理命名空间，因此如果作业有 CronJob 所有者，我们只需提取所有者名称。</p>
+<p>此外，我们将通知管理器该控制器拥有一些作业，以便它会在作业更改、删除等时自动调用底层 CronJob 上的 Reconcile。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">jobOwnerKey</span> = <span style="color:#e6db74">&#34;.metadata.controller&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">apiGVStr</span>    = <span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">GroupVersion</span>.<span style="color:#a6e22e">String</span>()
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJobReconciler</span>) <span style="color:#a6e22e">SetupWithManager</span>(<span style="color:#a6e22e">mgr</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Manager</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// set up a real clock, since we&#39;re not in a test
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Clock</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Clock</span> = <span style="color:#a6e22e">realClock</span>{}
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">GetFieldIndexer</span>().<span style="color:#a6e22e">IndexField</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>{}, <span style="color:#a6e22e">jobOwnerKey</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">rawObj</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Object</span>) []<span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// grab the job object, extract the owner...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">job</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rawObj</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">owner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">GetControllerOf</span>(<span style="color:#a6e22e">job</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">owner</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...make sure it&#39;s a CronJob...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">APIVersion</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">apiGVStr</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">Kind</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;CronJob&#34;</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...and if so, return it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> []<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">Name</span>}
+</span></span><span style="display:flex;"><span>    }); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">NewControllerManagedBy</span>(<span style="color:#a6e22e">mgr</span>).
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">For</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">apiv1alpha1</span>.<span style="color:#a6e22e">CronJob</span>{}).
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Owns</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">kbatch</span>.<span style="color:#a6e22e">Job</span>{}).
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Complete</span>(<span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>现在我们有了一个可以工作的控制器。让我们针对集群进行测试，然后，如果我们没有任何问题，请部署它！</p>
+<h3 id="实现默认验证webhook">实现默认验证webhook</h3>
+<p>首先在main.go文件中添加如下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;ENABLE_WEBHOOKS&#34;</span>) <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;false&#34;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = (<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">batchv1</span>.<span style="color:#a6e22e">CronJob</span>{}).<span style="color:#a6e22e">SetupWebhookWithManager</span>(<span style="color:#a6e22e">mgr</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">setupLog</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to create webhook&#34;</span>, <span style="color:#e6db74">&#34;webhook&#34;</span>, <span style="color:#e6db74">&#34;CronJob&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//+kubebuilder:scaffold:builder
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">AddHealthzCheck</span>(<span style="color:#e6db74">&#34;healthz&#34;</span>, <span style="color:#a6e22e">healthz</span>.<span style="color:#a6e22e">Ping</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setupLog</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to set up health check&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">AddReadyzCheck</span>(<span style="color:#e6db74">&#34;readyz&#34;</span>, <span style="color:#a6e22e">healthz</span>.<span style="color:#a6e22e">Ping</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setupLog</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;unable to set up ready check&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">setupLog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;starting manager&#34;</span>)
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">SetupSignalHandler</span>()); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setupLog</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;problem running manager&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div><p>现在我们可以实现我们的控制器了</p>
+<h3 id="实施默认验证-webhook">实施默认/验证 webhook</h3>
+<p>如果你想为你的 CRD 实现 admission webhooks，你唯一需要做的就是实现 Defaulter 和（或）Validator 接口。</p>
+<p>首先，让我们为 CRD (CronJob) 搭建 webhooks 的脚手架。我们需要使用 &ndash;defaulting 和 &ndash;programmatic-validation 标志运行以下命令（因为我们的测试项目将使用默认和验证 webhooks）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubebuilder create webhook --group api --version v1alpha1 --kind CronJob --defaulting --programmatic-validation
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Writing kustomize manifests <span style="color:#66d9ef">for</span> you to edit...
+</span></span><span style="display:flex;"><span>Writing scaffold <span style="color:#66d9ef">for</span> you to edit...
+</span></span><span style="display:flex;"><span>api/v1alpha1/cronjob_webhook.go
+</span></span><span style="display:flex;"><span>Update dependencies:
+</span></span><span style="display:flex;"><span>$ go mod tidy
+</span></span><span style="display:flex;"><span>Running make:
+</span></span><span style="display:flex;"><span>$ make generate
+</span></span><span style="display:flex;"><span>test -s /home/realjf/go/src/k8s-operator/bin/controller-gen <span style="color:#f92672">&amp;&amp;</span> /home/realjf/go/src/k8s-operator/bin/controller-gen --version | grep -q v0.11.1 <span style="color:#f92672">||</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>GOBIN<span style="color:#f92672">=</span>/home/realjf/go/src/k8s-operator/bin go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.11.1
+</span></span><span style="display:flex;"><span>/home/realjf/go/src/k8s-operator/bin/controller-gen object:headerFile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hack/boilerplate.go.txt&#34;</span> paths<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;./...&#34;</span>
+</span></span><span style="display:flex;"><span>Next: implement your new Webhook and generate the manifests with:
+</span></span><span style="display:flex;"><span>$ make manifests
+</span></span></code></pre></div><p>编辑api/v1alpha1/cronjob_webhook.go文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/robfig/cron&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">apierrors</span> <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/api/errors&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/runtime&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/runtime/schema&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">validationutils</span> <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/util/validation&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;k8s.io/apimachinery/pkg/util/validation/field&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctrl</span> <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">logf</span> <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/log&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sigs.k8s.io/controller-runtime/pkg/webhook&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>我们将为 webhook 设置一个记录器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cronjoblog</span> = <span style="color:#a6e22e">logf</span>.<span style="color:#a6e22e">Log</span>.<span style="color:#a6e22e">WithName</span>(<span style="color:#e6db74">&#34;cronjob-resource&#34;</span>)
+</span></span></code></pre></div><p>我们用管理器设置 webhook</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">SetupWebhookWithManager</span>(<span style="color:#a6e22e">mgr</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Manager</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">NewWebhookManagedBy</span>(<span style="color:#a6e22e">mgr</span>).
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">For</span>(<span style="color:#a6e22e">r</span>).
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Complete</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>请注意，我们使用 kubebuilder 标记来生成 webhook 清单。这个标记负责生成一个可变的 webhook 清单。 可以在此处找到每个标记的含义。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:webhook:path=/mutate-api-realjf-io-v1alpha1-cronjob,mutating=true,failurePolicy=fail,sideEffects=None,groups=api.realjf.io,resources=cronjobs,verbs=create;update,versions=v1alpha1,name=mcronjob.kb.io,admissionReviewVersions=v1
+</span></span></span></code></pre></div><p>我们使用 webhook.Defaulter 接口为我们的 CRD 设置默认值。将自动提供调用此默认设置的 webhook。</p>
+<p>Default 方法预计会改变接收器，设置默认值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">webhook</span>.<span style="color:#a6e22e">Defaulter</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">CronJob</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Default implements webhook.Defaulter so a webhook will be registered for the type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">Default</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cronjoblog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;default&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">ConcurrencyPolicy</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">ConcurrencyPolicy</span> = <span style="color:#a6e22e">AllowConcurrent</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Suspend</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Suspend</span> = new(<span style="color:#66d9ef">bool</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">SuccessfulJobsHistoryLimit</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">SuccessfulJobsHistoryLimit</span> = new(<span style="color:#66d9ef">int32</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span><span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">SuccessfulJobsHistoryLimit</span> = <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">FailedJobsHistoryLimit</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">FailedJobsHistoryLimit</span> = new(<span style="color:#66d9ef">int32</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span><span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">FailedJobsHistoryLimit</span> = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>此标记负责生成验证 webhook 清单</p>
+<p>新增了<code>verbs=create;update;delete,</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">//+kubebuilder:webhook:verbs=create;update;delete,path=/validate-api-realjf-io-v1alpha1-cronjob,mutating=false,failurePolicy=fail,sideEffects=None,groups=api.realjf.io,resources=cronjobs,verbs=create;update,versions=v1alpha1,name=vcronjob.kb.io,admissionReviewVersions=v1
+</span></span></span></code></pre></div><p>我们可以在声明式验证之外验证我们的 CRD。通常，声明式验证就足够了，但有时更高级的用例需要复杂的验证。</p>
+<p>例如，我们将在下面看到我们使用它来验证格式良好的 cron 计划，而无需组成长正则表达式。</p>
+<p>如果实现了 webhook.Validator 接口，将自动提供调用验证的 webhook。 ValidateCreate、ValidateUpdate 和 ValidateDelete 方法应分别在创建、更新和删除时验证其接收者。我们将 ValidateCreate 与 ValidateUpdate 分开，以允许诸如使某些字段不可变的行为，以便它们只能在创建时设置。</p>
+<p>ValidateDelete 也与 ValidateUpdate 分开，以允许不同的删除验证行为。然而，在这里，我们只对 ValidateCreate 和 ValidateUpdate 使用相同的共享验证。我们在 ValidateDelete 中什么也不做，因为我们不需要在删除时验证任何内容。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">webhook</span>.<span style="color:#a6e22e">Validator</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">CronJob</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ValidateCreate implements webhook.Validator so a webhook will be registered for the type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">ValidateCreate</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cronjoblog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate create&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">validateCronJob</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">ValidateUpdate</span>(<span style="color:#a6e22e">old</span> <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Object</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cronjoblog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate update&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">validateCronJob</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ValidateDelete implements webhook.Validator so a webhook will be registered for the type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">ValidateDelete</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cronjoblog</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;validate delete&#34;</span>, <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// TODO(user): fill in your validation logic upon object deletion.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>验证了 CronJob 的名称和规格</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">validateCronJob</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">allErrs</span> <span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">ErrorList</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">validateCronJobName</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">allErrs</span> = append(<span style="color:#a6e22e">allErrs</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">validateCronJobSpec</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">allErrs</span> = append(<span style="color:#a6e22e">allErrs</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">allErrs</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">apierrors</span>.<span style="color:#a6e22e">NewInvalid</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupKind</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;batch.tutorial.kubebuilder.io&#34;</span>, <span style="color:#a6e22e">Kind</span>: <span style="color:#e6db74">&#34;CronJob&#34;</span>},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">allErrs</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>某些字段由 OpenAPI 架构以声明方式验证。您可以在设计 API 部分找到 kubebuilder 验证标记（以 // +kubebuilder:validation 为前缀）。您可以通过运行 controller-gen crd -w 或在此处找到所有 kubebuilder 支持的用于声明验证的标记</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">validateCronJobSpec</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// The field helpers from the kubernetes API machinery help us return nicely
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// structured validation errors.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">validateScheduleFormat</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Schedule</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">NewPath</span>(<span style="color:#e6db74">&#34;spec&#34;</span>).<span style="color:#a6e22e">Child</span>(<span style="color:#e6db74">&#34;schedule&#34;</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>需要验证 cron 计划的格式是否正确。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">validateScheduleFormat</span>(<span style="color:#a6e22e">schedule</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">fldPath</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Path</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cron</span>.<span style="color:#a6e22e">ParseStandard</span>(<span style="color:#a6e22e">schedule</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Invalid</span>(<span style="color:#a6e22e">fldPath</span>, <span style="color:#a6e22e">schedule</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>验证字符串字段的长度可以通过验证模式以声明方式完成。 但是 ObjectMeta.Name 字段是在 apimachinery 存储库下的共享包中定义的，因此我们无法使用验证模式以声明方式验证它。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CronJob</span>) <span style="color:#a6e22e">validateCronJobName</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ObjectMeta</span>.<span style="color:#a6e22e">Name</span>) &gt; <span style="color:#a6e22e">validationutils</span>.<span style="color:#a6e22e">DNS1035LabelMaxLength</span><span style="color:#f92672">-</span><span style="color:#ae81ff">11</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// The job name length is 63 character like all Kubernetes objects
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// (which must fit in a DNS subdomain). The cronjob controller appends
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// a 11-character suffix to the cronjob (`-$TIMESTAMP`) when creating
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// a job. The job name length limit is 63 characters. Therefore cronjob
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// names must have length &lt;= 63-11=52. If we don&#39;t validate this here,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// then job creation will fail later.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">Invalid</span>(<span style="color:#a6e22e">field</span>.<span style="color:#a6e22e">NewPath</span>(<span style="color:#e6db74">&#34;metadata&#34;</span>).<span style="color:#a6e22e">Child</span>(<span style="color:#e6db74">&#34;name&#34;</span>), <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#e6db74">&#34;must be no more than 52 characters&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="运行和部署控制器">运行和部署控制器</h3>
+<p>如果选择对 API 定义进行任何更改，则在继续之前，生成 CR 或 CRD 等清单</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>make manifests
+</span></span></code></pre></div><p>为了测试控制器，我们可以在集群本地运行它。不过，在我们这样做之前，我们需要按照快速入门安装我们的 CRD。如果需要，这将使用控制器工具自动更新 YAML 清单：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>make install
+</span></span></code></pre></div><p>在单独的终端中，运行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>export ENABLE_WEBHOOKS<span style="color:#f92672">=</span>false
+</span></span><span style="display:flex;"><span>make run
+</span></span></code></pre></div><p>您应该从控制器中看到有关启动的日志，但它目前还不会执行任何操作。</p>
+<p>此时，我们需要一个 CronJob 来进行测试。让我们将示例写入 config/samples/api_v1alpha1_cronjob.yaml，并使用它：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">api.realjf.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CronJob</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/name</span>: <span style="color:#ae81ff">cronjob</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/instance</span>: <span style="color:#ae81ff">cronjob-sample</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/part-of</span>: <span style="color:#ae81ff">project</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/managed-by</span>: <span style="color:#ae81ff">kustomize</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/created-by</span>: <span style="color:#ae81ff">project</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cronjob-sample</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">schedule</span>: <span style="color:#e6db74">&#34;*/1 * * * *&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">startingDeadlineSeconds</span>: <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">concurrencyPolicy</span>: <span style="color:#ae81ff">Allow</span> <span style="color:#75715e"># explicitly specify, but Allow is also default.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">jobTemplate</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">image</span>: <span style="color:#ae81ff">busybox</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">/bin/sh</span>
+</span></span><span style="display:flex;"><span>            - -<span style="color:#ae81ff">c</span>
+</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">date; echo Hello from the Kubernetes cluster</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">restartPolicy</span>: <span style="color:#ae81ff">OnFailure</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create -f config/samples/api_v1alpha1_cronjob.yaml
+</span></span></code></pre></div><p>此时，您应该会看到一连串的活动。如果你观察变化，你应该看到你的 cronjob 正在运行，并更新状态：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get cronjob.api.realjf.io -o yaml
+</span></span><span style="display:flex;"><span>kubectl get job
+</span></span></code></pre></div><p>现在我们知道它正在工作，我们可以在集群中运行它。停止 make run 调用，然后运行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>make docker-build docker-push IMG<span style="color:#f92672">=</span>&lt;some-registry&gt;/&lt;project-name&gt;:tag
+</span></span><span style="display:flex;"><span>make deploy IMG<span style="color:#f92672">=</span>&lt;some-registry&gt;/&lt;project-name&gt;:tag
+</span></span></code></pre></div><p>如果我们像以前一样再次列出 cronjobs，我们应该会看到控制器再次运行！</p>
+
+        </div>
+        <div id="disqus_thread"></div>
+<script>
+
+    
+
+    
+
+    (function() { 
+        var d = document, s = d.createElement('script');
+        s.src = 'https://realjf.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+    
+
+    <div class="article-related">
+        <hr/>
+        <fieldset>
+            <legend>相关阅读推荐（See Also）</legend>
+            <ul>
+                
+                    <li><a href="/k8s/k8s-basic-concepts-and-terminology-v1.19/">Kubernetes 的基本概念和术语 K8s Basic Concepts and Terminology</a></li>
+                
+                    <li><a href="/k8s/k8s-csi-plugin-in-action/">K8s CSI插件开发实战 K8s CSI Plugin Development in Action</a></li>
+                
+                    <li><a href="/k8s/k8s-csi-plugin-development/">K8s CSI插件开发简介 K8s CSI Plugin Development Overview</a></li>
+                
+                    <li><a href="/k8s/k8s-build-and-deploy-a-basic-operator/">构建一个基础K8s Operator| Build and Deploy a Basic Operator</a></li>
+                
+                    <li><a href="/k8s/kubeadm-install-k8s/">使用kubeadm工具安装 kubernetes Use Kubeadm Install K8s</a></li>
+                
+            </ul>
+        </fieldset>
+    </div>
+
+
+    
+<aside class="aside-menu">
+    <div class="aside-bar-icon">
+        <i class="fa fa-list-alt"></i>
+    </div>
+    <ul>
+        
+        
+            
+                <li>
+                    <a href="/" title="首页">
+                        
+                        <span>首页</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/posts/" title="归档">
+                        
+                        <span>归档</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/tags/" title="标签">
+                        
+                        <span>标签</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/categories/" title="分类">
+                        
+                        <span>分类</span>
+                    </a>
+                </li>
+            
+        
+            
+                <li>
+                    <a href="/series/" title="系列">
+                        
+                        <span>系列</span>
+                    </a>
+                </li>
+            
+        
+    </ul>
+</aside>
+
+    
+
+    </main>
+    <aside class="sider">
+    <div>
+        <h2>书籍</h2>
+    </div>
+    <ul>
+        <li>
+            <a href="https://premake.realjf.io" title="premake" target="_blank">
+                <span>premake 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gltf.realjf.io" title="glTF" target="_blank">
+                <span>glTF 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://box2d.realjf.io" title="Box2D" target="_blank">
+                <span>Box2D 中文手册</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://gdb.realjf.io" title="gdb" target="_blank">
+                <span>gdb 中文手册</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+    <div class="app-footer">
+        <span>
+  powered by <a target="_blank" href="https://gohugo.io">hugo</a> &nbsp;&nbsp;&nbsp;
+  &copy; 2019 - 2023 <a href="https://realjf.io">realjf.io</a>
+</span>
+
+    </div>
+    <script id="dsq-count-scr" src="//realjf.disqus.com/count.js" async></script>
+    <script type="text/javascript" src="./js/highlight.min.js"></script>
+</body>
+
+</html>
