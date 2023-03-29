@@ -6,7 +6,17 @@
     <description>Recent content in Golangs on Realjf&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Mar 2023 19:03:01 +0800</lastBuildDate><atom:link href="https://realjf.io/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Mar 2023 18:54:41 +0800</lastBuildDate><atom:link href="https://realjf.io/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>String Bytes Conversion Without Memory Allocation 字符串和[]byte无内存拷贝转换方法</title>
+      <link>https://realjf.io/golang/string-bytes-conversion-without-memory-allocation/</link>
+      <pubDate>Wed, 29 Mar 2023 18:54:41 +0800</pubDate>
+      
+      <guid>https://realjf.io/golang/string-bytes-conversion-without-memory-allocation/</guid>
+      <description>内存拷贝即把一个内存的东西拷贝到另一个内存中。
+[]byte to string (no-copy conversion) func Bytes2String(bytes []byte) (s string) {  slice := (*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;bytes))  str := (*reflect.StringHeader)(unsafe.Pointer(&amp;amp;s))  str.Data = slice.Data  str.Len = slice.Len  runtime.KeepAlive(&amp;amp;bytes) // this line is essential.  return s }  # 更有效的方式 func Bytes2String(bytes []byte) string {  return *(*string)(unsafe.Pointer(&amp;amp;bytes)) } string to []byte func String2Bytes(s string) (bytes []byte) {  slice := (*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;bytes))  str := (*reflect.StringHeader)(unsafe.Pointer(&amp;amp;s))  slice.Data = str.</description>
+    </item>
+    
     <item>
       <title>Gob Seriallize Error Elliptic.p256Curve Has No Exported Fields(golang v1.20 在gob序列化elliptic.p256Curve结构时出现未导出字段问题)</title>
       <link>https://realjf.io/golang/gob-seriallize-error-elliptic.p256curve-has-no-exported-fields/</link>
